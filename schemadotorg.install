@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Schema.org module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_install() {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
+  $installer = \Drupal::service('schemadotorg.installer');
+  $installer->install();
+}
+
+/**
+ * Implements hook_schema().
+ */
+function schemadotorg_schema() {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
+  $installer = \Drupal::service('schemadotorg.installer');
+  return $installer->schema();
+}

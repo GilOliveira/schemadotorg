@@ -1,0 +1,7 @@
+services:
+  schemadotorg.manager:
+    class: Drupal\schemadotorg\SchemaDotOrgManager
+    arguments: ['@database']
+  schemadotorg.installer:
+    class: Drupal\schemadotorg\SchemaDotOrgInstaller
+    arguments: ['@database']
