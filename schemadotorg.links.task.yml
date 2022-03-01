@@ -1,8 +1,12 @@
+schemadotorg.reports:
+  title: About
+  route_name: schemadotorg.reports
+  base_route: schemadotorg.reports
 schemadotorg.reports.types:
   title: Types
   route_name: schemadotorg.reports.types
-  base_route: schemadotorg.reports.types
+  base_route: schemadotorg.reports
 schemadotorg.reports.properties:
   title: Properties
   route_name: schemadotorg.reports.properties
-  base_route: schemadotorg.reports.types
+  base_route: schemadotorg.reports

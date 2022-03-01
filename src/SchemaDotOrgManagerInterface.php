@@ -7,6 +7,18 @@ namespace Drupal\schemadotorg;
  */
 interface SchemaDotOrgManagerInterface {
 
+  /**
+   * Determine if ID is in a valid Schema.org table.
+   *
+   * @param string $table
+   *   A Schema.org table.
+   * @param string $id
+   *   A Schema.org ID.
+   *
+   * @return bool
+   *   TRUE if ID is a Schema.org type.
+   */
+  public function isId($table, $id);
 
   /**
    * Determine if ID is a Schema.org type.

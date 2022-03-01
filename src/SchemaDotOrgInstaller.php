@@ -11,6 +11,11 @@ use Drupal\schemadotorg\Utilty\SchemaDotOrgStringHelper;
 class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
 
   /**
+   * Schema.org version.
+   */
+  const VERSION = '13.0';
+
+  /**
    * The database connection.
    *
    * @var \Drupal\Core\Database\Connection
@@ -214,7 +219,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    */
   protected function installTable($name){
     $table = 'schemadotorg_' . $name;
-    $filename = __DIR__ . '/../data/schemaorg-current-https-' . $name . '.csv';
+    $filename = __DIR__ . '/../data/' . static::VERSION . '/schemaorg-current-https-' . $name . '.csv';
 
     // Truncate table.
     $this->database->truncate($table)->execute();

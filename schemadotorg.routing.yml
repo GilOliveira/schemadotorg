@@ -9,8 +9,9 @@ schemadotorg.settings:
 schemadotorg.reports:
   path: '/admin/reports/schemadotorg/{id}'
   defaults:
-    _title: 'Schema.org'
-    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgReportsContoller::index'
+    _title: 'Schema.org: About'
+    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgReportsController::index'
+    id: ''
   requirements:
     _permission: 'access site reports'
 
@@ -18,14 +19,24 @@ schemadotorg.reports.types:
   path: '/admin/reports/schemadotorg/docs/types'
   defaults:
     _title: 'Schema.org: Types'
-    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgReportsContoller::types'
+    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgReportsController::docs'
+    table: types
   requirements:
     _permission: 'access site reports'
 
 schemadotorg.reports.properties:
-  path: '/admin/reports/schemadotorg/doc/properties'
+  path: '/admin/reports/schemadotorg/docs/properties'
   defaults:
     _title: 'Schema.org: Properties'
-    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgReportsContoller::properties'
+    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgReportsController::docs'
+    table: properties
   requirements:
     _permission: 'access site reports'
+
+schemadotorg.reports.autocomplete:
+  path: '/admin/reports/schemadotorg/docs/autocomplete/{table}'
+  defaults:
+    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgReportsController::autocomplete'
+  requirements:
+    _permission: 'access site reports'
+

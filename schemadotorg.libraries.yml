@@ -1,0 +1,6 @@
+schemadotorg.autocomplete:
+  js:
+    js/schemadotorg.autocomplete.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal

@@ -4,7 +4,12 @@ Schema.org
 
 Todo
 
-- List Builder for types and properties.
-- https://www.valuebound.com/resources/blog/how-to-create-form-table-pagination-drupal-8
-- Build real relationships.
+- Add count.
 
+- Add help to types and properties reports.
+  - Note version.
+  - Link to source CSV.
+
+- Types tree
+  - Breadcrumb
+  - Sub type

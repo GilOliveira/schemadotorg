@@ -5,3 +5,8 @@ services:
   schemadotorg.installer:
     class: Drupal\schemadotorg\SchemaDotOrgInstaller
     arguments: ['@database']
+
+  schemadotorg.breadcrumb:
+    class: Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder
+    tags:
+      - { name: breadcrumb_builder, priority: 1000 }

@@ -30,34 +30,26 @@ class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
   /**
    * {@inheritdoc}
    */
+  public function isId($table, $id) {
+    return (boolean) $this->database->select('schemadotorg_' . $table, 't')
+      ->fields('t', ['id'])
+      ->condition('label', $id)
+      ->execute()
+      ->fetchField();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function isType($id) {
-    return $this->isValidTableId('types', $id);
+    return $this->isId('types', $id);
   }
 
   /**
    * {@inheritdoc}
    */
   public function isProperty($id) {
-    return $this->isValidTableId('properties', $id);
-  }
-
-  /**
-   * Determine if ID is in a valid Schema.org table.
-   *
-   * @param string $table
-   *   A Schema.org table.
-   * @param string $id
-   *   A Schema.org ID.
-   *
-   * @return bool
-   *   TRUE if ID is a Schema.org type.
-   */
-  protected function isValidTableId($table, $id) {
-    return (boolean) $this->database->select('schemadotorg_' . $table, 't')
-      ->fields('t', ['id'])
-      ->condition('label', $id)
-      ->execute()
-      ->fetchField();
+    return $this->isId('properties', $id);
   }
 
   /**

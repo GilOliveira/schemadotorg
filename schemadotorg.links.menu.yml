@@ -2,4 +2,4 @@ schemadotorg.reports:
   title: 'Schema.org'
   parent: system.admin_reports
   description: 'Overview of Schema.org types and properties.'
-  route_name: schemadotorg.reports.types
+  route_name: schemadotorg.reports
