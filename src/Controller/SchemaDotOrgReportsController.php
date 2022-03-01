@@ -7,6 +7,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Query\PagerSelectExtender;
 use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\schemadotorg\SchemaDotOrgManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -113,6 +114,33 @@ class SchemaDotOrgReportsController extends ControllerBase {
   }
 
   /**
+   * Builds the Schema.org types hierarchy.
+   *
+   * @return array
+   *   A renderable array containing Schema.org types hierarchy.
+   */
+  public function hierarchy() {
+    return $this->buildItemsRecursive(['Thing']);
+  }
+
+  /**
+   * Builds the Schema.org data types.
+   *
+   * @return array
+   *   A renderable array containing Schema.org data types.
+   */
+  public function dataTypes() {
+    $data_types = $this->database->select('schemadotorg_types', 'types')
+      ->fields('types', ['label'])
+      ->condition('sub_type_of', '')
+      ->condition('label', ['True', 'False', 'Thing'], 'NOT IN')
+      ->orderBy('label')
+      ->execute()
+      ->fetchCol();
+    return $this->buildItemsRecursive($data_types);
+  }
+
+  /**
    * Returns response for Schema.org  (types or properties) autocomplete request.
    *
    * @param \Symfony\Component\HttpFoundation\Request $request
@@ -164,7 +192,7 @@ class SchemaDotOrgReportsController extends ControllerBase {
     $build['description'] = ['#markup' => $this->t("The schemas are a set of 'types', each associated with a set of properties.")];
 
     // Types.
-    $build['types'] = $this->formBuilder->getForm('\Drupal\schemadotorg\Form\SchemaDotOrgReportsTypesFilterForm');
+    $build['types'] = $this->getFilterForm('types');
 
     return $build;
   }
@@ -186,12 +214,8 @@ class SchemaDotOrgReportsController extends ControllerBase {
       ? $this->getTypeFields()
       : $this->getPropertyFields();
 
-    // Query.
-    $record = $this->database->select('schemadotorg_' . $table, $table)
-      ->fields($table, array_keys($fields))
-      ->condition('label', $id)
-      ->execute()
-      ->fetchAssoc();
+    // Item.
+    $item = $this->getItem($table, $id);
 
     // Item.
     $t_args = [
@@ -201,9 +225,11 @@ class SchemaDotOrgReportsController extends ControllerBase {
     $build = [];
     $build['#title'] = $this->t('Schema.org: @id (@type)', $t_args);
     foreach ($fields as $name => $label) {
-      if (empty($record[$name])) {
+      $value = $item[$name] ?? NULL;
+      if (empty($value)) {
         continue;
       }
+
       $build[$name] = [
         '#type' => 'item',
         '#title' => $label,
@@ -212,21 +238,36 @@ class SchemaDotOrgReportsController extends ControllerBase {
         case 'id':
           $build[$name]['link'] = [
             '#type' => 'link',
-            '#title' => $record[$name],
-            '#url' => Url::fromUri($record[$name]),
+            '#title' => $value,
+            '#url' => Url::fromUri($value),
           ];
           break;
 
         case 'label':
-          $build[$name]['#plain_text'] = $record[$name];
+          $build[$name]['#plain_text'] = $value;
           break;
 
         case 'comment':
-          $build[$name]['#markup'] = $this->formatComment($record[$name]);
+          $build[$name]['#markup'] = $this->formatComment($value);
+          break;
+
+        case 'sub_types':
+          $types = $this->parseTypes($value);
+          $build[$name]['links'] = $this->getLinks($value);
+          $build[$name]['hierarchy'] = [
+            '#type' => 'details',
+            '#title' => $this->t('Sub types hierarchy'),
+            'items' => $this->buildItemsRecursive($types),
+          ];
+          break;
+
+        case 'sub_type_of':
+          $build[$name]['links'] = $this->getLinks($value);
+          $build[$name]['breadcrumbs'] = $this->buildTypeBreadcrumbs($id);
           break;
 
         default:
-          $build[$name]['links'] = $this->getLinks($record[$name]);
+          $build[$name]['links'] = $this->getLinks($value);
       }
     }
 
@@ -296,7 +337,7 @@ class SchemaDotOrgReportsController extends ControllerBase {
     ];
 
     $build = [];
-    $build['filter'] = $this->formBuilder->getForm('\Drupal\schemadotorg\Form\SchemaDotOrgReports' . ucfirst($table) . 'FilterForm', $id);
+    $build['filter'] = $this->getFilterForm($table, $id);
     $build['table'] = [
       '#type' => 'table',
       '#header' => $header,
@@ -308,6 +349,113 @@ class SchemaDotOrgReportsController extends ControllerBase {
       '#type' => 'pager',
     ];
     return $build;
+  }
+
+  /**
+   * Build Schema.org type as an item list recursively.
+   *
+   * @param array $ids
+   *   An array of Schema.org type ids.
+   *
+   * @return array
+   *   A renderable array containing Schema.org type as an item list.
+   */
+  protected function buildItemsRecursive(array $ids) {
+    if (empty($ids)) {
+      return [];
+    }
+
+    $types = $this->database->select('schemadotorg_types', 'types')
+      ->fields('types', ['label', 'sub_types'])
+      ->condition('label', $ids, 'IN')
+      ->orderBy('label')
+      ->execute()
+      ->fetchAllAssoc('label', \PDO::FETCH_ASSOC);
+
+    $items = [];
+    foreach ($types as $id => $type) {
+      $items[$id] = [
+        '#type' => 'link',
+        '#title' => $id,
+        '#url' => Url::fromRoute('schemadotorg.reports', ['id' => $id]),
+      ];
+      if ($type['sub_types']) {
+        $sub_types = $this->parseTypes($type['sub_types']);
+        $items[$id]['sub_types'] = $this->buildItemsRecursive($sub_types);
+      }
+    }
+
+    return [
+      '#theme' => 'item_list',
+      '#items' => $items,
+    ];
+  }
+
+  /* ************************************************************************ */
+  // Breadcrumb methods.
+  /* ************************************************************************ */
+
+  /**
+   * Build Schema.org type breadcrumbs.
+   *
+   * @param string $type
+   *   The current Schema.org type.
+   *
+   * @return array
+   *   A renderable containing Schema.org type breadcrumbs.
+   */
+  protected function buildTypeBreadcrumbs($type) {
+    $breadcrumbs = [];
+    $breadcrumb_id = $type;
+    $breadcrumbs[$breadcrumb_id] = [];
+    $this->getTypeBreadcrumbsRecursive($breadcrumbs, $breadcrumb_id, $type);
+
+    $build = [];
+    foreach ($breadcrumbs as $links) {
+      $links = array_reverse($links, TRUE);
+      $breadcrumb_path = implode('/', array_keys($links));
+      $build[$breadcrumb_path] = [
+        '#theme' => 'breadcrumb',
+        '#links' => $links,
+      ];
+    }
+    ksort($build);
+    return $build;
+  }
+
+  /**
+   * Build type breadcrumbs recursivley.
+   *
+   * @param array &$breadcrumbs
+   *   The type breadcrumbs.
+   * @param string $breadcrumb_id
+   *   The current breadcrumb id which is Schema.org type.
+   * @param string $type
+   *   The current Schema.org type.
+   */
+  protected function getTypeBreadcrumbsRecursive(array &$breadcrumbs, $breadcrumb_id, $type) {
+    $item = $this->getItem('types', $type);
+    $breadcrumbs[$breadcrumb_id][$type] = Link::createFromRoute($type, 'schemadotorg.reports', ['id' => $type]);
+
+    $parent_types = $this->parseTypes($item['sub_type_of']);
+
+    // Check if there are parents types.
+    if (empty($parent_types)) {
+      return;
+    }
+
+    // Store a reference to the current breadcrumb.
+    $current_breadcrumb = $breadcrumbs[$breadcrumb_id];
+
+    // The first parent type is appended to the current breadcrumb.
+    $parent_type = array_shift($parent_types);
+    $this->getTypeBreadcrumbsRecursive($breadcrumbs, $breadcrumb_id, $parent_type);
+
+    // All additional parent types needs to start a new breadcrumb.
+    foreach ($parent_types as $parent_type) {
+      $breadcrumbs[$parent_type] = $current_breadcrumb;
+      $this->getTypeBreadcrumbsRecursive($breadcrumbs, $parent_type, $parent_type);
+    }
   }
 
   /* ************************************************************************ */
@@ -354,7 +502,7 @@ class SchemaDotOrgReportsController extends ControllerBase {
         'data' => $this->t('Sub type of'),
       ],
       'enumerationtype' => [
-        'data' => $this->t('Enumerationtype'),
+        'data' => $this->t('Enumeration type'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
       'equivalent_class' => [
@@ -464,6 +612,44 @@ class SchemaDotOrgReportsController extends ControllerBase {
   /* ************************************************************************ */
 
   /**
+   * Get Schema.org types or properties filter form.
+   *
+   * @param string $table
+   *   Types or properties table name.
+   * @param string $id
+   *   Type or property to filter by.
+   *
+   * @return array
+   *   The form array.
+   */
+  protected function getFilterForm($table, $id = '') {
+    return $this->formBuilder->getForm('\Drupal\schemadotorg\Form\SchemaDotOrgReportsFilterForm', $table, $id);
+  }
+
+  /**
+   * Get Schema.org type or property item.
+   *
+   * @param string $table
+   *   Types or properties table name.
+   * @param string $id
+   *   Type or property ID.
+   *
+   * @return array
+   *   A Schema.org type or property item.
+   */
+  protected function getItem($table, $id) {
+    $fields = ($table === 'types')
+      ? $this->getTypeFields()
+      : $this->getPropertyFields();
+
+    return $this->database->select('schemadotorg_' . $table, $table)
+      ->fields($table, array_keys($fields))
+      ->condition('label', $id)
+      ->execute()
+      ->fetchAssoc();
+  }
+
+  /**
    * Format Schema.org type or property comment.
    *
    * @param string $comment
@@ -498,24 +684,40 @@ class SchemaDotOrgReportsController extends ControllerBase {
    *   An array of links for Schema.org items (types or properties).
    */
   protected function getLinks($text) {
+    $types = $this->parseTypes($text);
+
     $links = [];
-    $items = explode(', ', $text);
-    foreach ($items as $item) {
+    foreach ($types as $type) {
       $prefix = ($links) ? ', ' : '';
-      $id = str_replace('https://schema.org/', '', $item);
-      if (preg_match('#^[0-9A-Za-z]+$#', $id)) {
+      if (preg_match('#^[0-9A-Za-z]+$#', $type)) {
         $links[] = [
           '#type' => 'link',
-          '#title' => $id,
-          '#url' => Url::fromRoute('schemadotorg.reports', ['id' => $id]),
+          '#title' => $type,
+          '#url' => Url::fromRoute('schemadotorg.reports', ['id' => $type]),
           '#prefix' => $prefix,
         ];
       }
       else {
-        $links[] = ['#plain_text' => $item, '#prefix' => $prefix];
+        $links[] = ['#plain_text' => $type, '#prefix' => $prefix];
       }
     }
     return $links;
+  }
+
+  /**
+   * Parse types from comma delimited list of Schema.org URLs.
+   *
+   * @param string $text
+   *   A comma delimited list of Schema.org URLs.
+   *
+   * @return string[]
+   *   An array of Schema.org types.
+   */
+  protected function parseTypes($text) {
+    $text = trim($text);
+    return $text
+      ? explode(', ', str_replace('https://schema.org/', '', $text))
+      : [];
   }
 
 }

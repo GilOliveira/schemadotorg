@@ -4,7 +4,7 @@ services:
     arguments: ['@database']
   schemadotorg.installer:
     class: Drupal\schemadotorg\SchemaDotOrgInstaller
-    arguments: ['@database']
+    arguments: ['@database', '@entity_type.manager']
 
   schemadotorg.breadcrumb:
     class: Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder

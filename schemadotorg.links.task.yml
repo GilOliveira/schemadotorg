@@ -6,6 +6,22 @@ schemadotorg.reports.types:
   title: Types
   route_name: schemadotorg.reports.types
   base_route: schemadotorg.reports
+
+schemadotorg.reports.types.table:
+  title: Table
+  route_name: schemadotorg.reports.types
+  parent_id: schemadotorg.reports.types
+
+schemadotorg.reports.types.hierarchy:
+  title: Hierarchy
+  route_name: schemadotorg.reports.types.hierarchy
+  parent_id: schemadotorg.reports.types
+
+schemadotorg.reports.types.data_types:
+  title: Data types
+  route_name: schemadotorg.reports.types.data_types
+  parent_id: schemadotorg.reports.types
+
 schemadotorg.reports.properties:
   title: Properties
   route_name: schemadotorg.reports.properties

@@ -7,9 +7,9 @@ use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a Schema.org reports filter form base.
+ * Provides a Schema.org reports filter form.
  */
-abstract class SchemaDotOrgReportsFilterFormBase extends FormBase {
+class SchemaDotOrgReportsFilterForm extends FormBase {
 
   /**
    * The Schema.org manager service.
@@ -26,24 +26,10 @@ abstract class SchemaDotOrgReportsFilterFormBase extends FormBase {
   protected $table;
 
   /**
-   * Name of Schema.org form.
-   *
-   * @var string
-   */
-  protected $name;
-
-  /**
-   * Label for Schema.org form.
-   *
-   * @var string
-   */
-  protected $label;
-
-  /**
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'schemadotorg_reports_' . $this->name . '_form';
+    return 'schemadotorg_reports_filter_form';
   }
 
   /**
@@ -58,20 +44,25 @@ abstract class SchemaDotOrgReportsFilterFormBase extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $id = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, $table = NULL, $id = NULL) {
+    $this->table = $table;
+
+    $t_args = [
+      '@label' => ($table === 'types') ? $this->t('type') : $this->t('properties'),
+    ];
     $form['filter'] = [
       '#type' => 'container',
       '#attributes' => ['class' => ['container-inline']],
     ];
-    $form['filter'][$this->name] = [
+    $form['filter']['id'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Find a @label', ['@label' => $this->label]),
+      '#title' => $this->t('Find a @label', $t_args),
       '#title_display' => 'invisible',
-      '#placeholder' => $this->t('Find a @label', ['@label' => $this->label]),
+      '#placeholder' => $this->t('Find a @label', $t_args),
       '#size' => '20',
       '#default_value' => $id,
       '#autocomplete_route_name' => 'schemadotorg.reports.autocomplete',
-      '#autocomplete_route_parameters' => ['table' => $this->table],
+      '#autocomplete_route_parameters' => ['table' => $table],
       '#attributes' => ['class' => ['schemadotorg-autocomplete']],
       '#attached' => ['library' => ['schemadotorg/schemadotorg.autocomplete']],
     ];
@@ -94,7 +85,7 @@ abstract class SchemaDotOrgReportsFilterFormBase extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $id = $form_state->getValue($this->name);
+    $id = $form_state->getValue('id');
     if ($id && $this->manager->isId($this->table, $id)) {
       $form_state->setRedirect('schemadotorg.reports', ['id' => $id]);
     }

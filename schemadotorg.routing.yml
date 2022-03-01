@@ -24,6 +24,22 @@ schemadotorg.reports.types:
   requirements:
     _permission: 'access site reports'
 
+schemadotorg.reports.types.hierarchy:
+  path: '/admin/reports/schemadotorg/docs/hierarchy'
+  defaults:
+    _title: 'Schema.org: Types'
+    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgReportsController::hierarchy'
+  requirements:
+    _permission: 'access site reports'
+
+schemadotorg.reports.types.data_types:
+  path: '/admin/reports/schemadotorg/docs/data_types'
+  defaults:
+    _title: 'Schema.org: Data types'
+    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgReportsController::dataTypes'
+  requirements:
+    _permission: 'access site reports'
+
 schemadotorg.reports.properties:
   path: '/admin/reports/schemadotorg/docs/properties'
   defaults:

@@ -31,6 +31,11 @@ class SchemaDotOrgBreadcrumbBuilder implements BreadcrumbBuilderInterface {
     $breadcrumb->addLink(Link::createFromRoute($this->t('Administration'), 'system.admin'));
     $breadcrumb->addLink(Link::createFromRoute($this->t('Reports'), 'system.admin_reports'));
     $breadcrumb->addLink(Link::createFromRoute($this->t('Schema.org'), 'schemadotorg.reports'));
+
+    // This breadcrumb builder is based on a route parameter, and hence it
+    // depends on the 'route' cache context.
+    $breadcrumb->addCacheContexts(['route']);
+
     return $breadcrumb;
   }
 

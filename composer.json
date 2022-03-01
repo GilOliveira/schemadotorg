@@ -1,0 +1,26 @@
+{
+    "name": "drupal/schemadotorg",
+    "description": "Uses Schema.org types and properties as the content architecture foundation for Drupal website.",
+    "type": "drupal-module",
+    "license": "GPL-2.0-or-later",
+    "minimum-stability": "dev",
+    "homepage": "https://drupal.org/project/schemadotorg",
+    "authors": [
+        {
+            "name": "Jacob Rockowitz (jrockowitz)",
+            "homepage": "https://www.drupal.org/u/jrockowitz",
+            "role": "Maintainer"
+        }
+    ],
+    "support": {
+        "issues": "https://drupal.org/project/issues/schemadotorg",
+        "source": "https://git.drupalcode.org/project/schemadotorg"
+    },
+    "extra": {
+        "drush": {
+            "services": {
+                "drush.services.yml": "^10"
+            }
+        }
+    }
+}
