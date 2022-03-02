@@ -53,4 +53,29 @@ interface SchemaDotOrgManagerInterface {
    */
   public function getFieldDefinitions($name);
 
+  /**
+   * Parse Schema.org types or properties from a comma delimited list of URLs.
+   *
+   * @param string $text
+   *   A comma delimited list of Schema.org URLs.
+   *
+   * @return string[]
+   *   An array of Schema.org types.
+   */
+  public function parseItems($text);
+
+  /**
+   * Get all Schema.org types below a specified type.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   * @param array $fields
+   *   An array of Schema.org type fields.
+   *
+   * @return array
+   *   An associative array of Schema.org types keyed by type.
+   */
+  public function getTypeChildren($type, $fields = ['label', 'sub_types']);
+
+
 }

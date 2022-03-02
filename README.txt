@@ -3,20 +3,39 @@ Schema.org
 
 
 Todo
+- Names
+  - All
+  - Types
+  - Properties/Fields
 
-- Add count.
+_ schemadotorg_report.module
+
+--------------------------------------------------------------------------------
 
 - Add help to types and properties reports.
   - Note version.
   - Link to source CSV.
 
-- Types tree
-  - Breadcrumb
-  - Sub type
+- Add reports for targeted entity types
+  - node
+  - paragraphs
+  - terms
 
-- Add drush schemadotorg-update soup
+- Research UI hooks
+  - Add Schema.org type
+  - Add Schema.org properties
+
+Tests
+
+Installation
+- Confirm types table.
+- Confirm properties table.
+- Confirm types taxonomy vocabulary.
 
 TBD
+
+- Should we prefix all schema field with schema_* ?
+
 
 - Should machine name be generates during the import?
   - machine_name

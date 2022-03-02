@@ -10,6 +10,7 @@ use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\schemadotorg\SchemaDotOrgManagerInterface;
+use Drupal\schemadotorg\Utilty\SchemaDotOrgStringHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,6 +93,8 @@ class SchemaDotOrgReportsController extends ControllerBase {
   /**
    * Builds the Schema.org types or properties documentation.
    *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The current request.
    * @param string $table
    *   Schema.org types and properties table.
    *
@@ -119,8 +122,8 @@ class SchemaDotOrgReportsController extends ControllerBase {
    * @return array
    *   A renderable array containing Schema.org types hierarchy.
    */
-  public function hierarchy() {
-    return $this->buildItemsRecursive(['Thing']);
+  public function hierarchy($type = 'Thing') {
+    return $this->buildItemsRecursive([$type]);
   }
 
   /**
@@ -138,6 +141,88 @@ class SchemaDotOrgReportsController extends ControllerBase {
       ->execute()
       ->fetchCol();
     return $this->buildItemsRecursive($data_types);
+  }
+
+  /**
+   * Builds the Schema.org names table.
+   *
+   * @return array
+   *   A renderable array containing Schema.org names table.
+   */
+  public function names($table = '', $warnings = FALSE) {
+    $header = [
+      'schema_item' => [
+        'data' => $this->t('Schema.org item'),
+      ],
+      'schema_id' => [
+        'data' => $this->t('Schema.org ID'),
+      ],
+      'schema_label' => [
+        'data' => $this->t('Schema.org label'),
+      ],
+      'original_name' => [
+        'data' => $this->t('Original name'),
+      ],
+      'original_name_length' => [
+        'data' => $this->t('#'),
+      ],
+      'drupal_name' => [
+        'data' => $this->t('Drupal name'),
+      ],
+      'drupal_name_length' => [
+        'data' => $this->t('#'),
+      ],
+    ];
+
+    $tables = $table ? [$table] : ['types', 'properties'];
+    $rows = [];
+    foreach ($tables as $table) {
+      $max_length = ($table === 'types') ? 32 : 26;
+      $schema_ids = $this->database->select('schemadotorg_' . $table, $table)
+        ->fields($table, ['label'])
+        ->orderBy('label')
+        ->execute()
+        ->fetchCol();
+      foreach ($schema_ids as $schema_id) {
+        $schema_item = ($table === 'types') ? $this->t('Type') : $this->t('Properties');
+        $schema_label = SchemaDotOrgStringHelper::toLabel($schema_id);
+        $original_name = SchemaDotOrgStringHelper::camelCaseToSnakeCase($schema_id);
+        $original_name_length = strlen($original_name);
+        $drupal_name = SchemaDotOrgStringHelper::toDrupalName($schema_id);
+        $drupal_name_length = strlen($drupal_name);
+
+        $row = [];
+        $row['schema_item'] = $schema_item;
+        $row['schema_label'] = $schema_label;
+        $row['schema_id'] = $schema_id;
+        $row['original_name'] = $original_name;
+        $row['original_name_length'] = $original_name_length;
+        $row['drupal_name'] = $drupal_name;
+        $row['drupal_name_length'] = $drupal_name_length;
+
+        if ($drupal_name_length > $max_length) {
+          $class = ['color-error'];
+        }
+        elseif ($original_name !== $drupal_name) {
+          $class = ['color-warning'];
+        }
+        else {
+          $class = [];
+        }
+        if (!$warnings || $class) {
+          $rows[$schema_id] = ['data' => $row];
+          $rows[$schema_id]['class'] = $class;
+        }
+      }
+    }
+
+    $build = [];
+    $build['table'] = [
+      '#type' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+    ];
+    return $build;
   }
 
   /**
@@ -244,6 +329,8 @@ class SchemaDotOrgReportsController extends ControllerBase {
           break;
 
         case 'label':
+        case 'drupal_label':
+        case 'drupal_name':
           $build[$name]['#plain_text'] = $value;
           break;
 
@@ -252,7 +339,7 @@ class SchemaDotOrgReportsController extends ControllerBase {
           break;
 
         case 'sub_types':
-          $types = $this->parseTypes($value);
+          $types = $this->manager->parseItems($value);
           $build[$name]['links'] = $this->getLinks($value);
           $build[$name]['hierarchy'] = [
             '#type' => 'details',
@@ -266,12 +353,70 @@ class SchemaDotOrgReportsController extends ControllerBase {
           $build[$name]['breadcrumbs'] = $this->buildTypeBreadcrumbs($id);
           break;
 
+        case 'properties':
+          $properties = $this->manager->parseItems($value);
+          $build[$name]['table'] = $this->buildTypeProperties($properties);
+          break;
+
         default:
           $build[$name]['links'] = $this->getLinks($value);
       }
     }
 
     return $build;
+  }
+
+  /**
+   * Build Schema.org type properties table.
+   *
+   * @param array $properties
+   *   An array of Schema.org properties.
+   *
+   * @return array
+   *   A renderable array containing a Schema.org type properties table.
+   */
+  protected function buildTypeProperties(array $properties) {
+    $header = [
+      'label' => [
+        'data' => $this->t('Schema.org label'),
+      ],
+      'drupal_label' => [
+        'data' => $this->t('Drupal label'),
+      ],
+      'drupal_name' => [
+        'data' => $this->t('Drupal name'),
+      ],
+      'comment' => [
+        'data' => $this->t('Comment'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+      ],
+      'range_includes' => [
+        'data' => $this->t('Range includes'),
+      ],
+    ];
+
+    // Query.
+    $result = $this->database->select('schemadotorg_properties', 'properties')
+      ->fields('properties', array_keys($header))
+      ->condition('label', $properties, 'IN')
+      ->orderBy('label')
+      ->execute();
+
+    // Rows.
+    $rows = [];
+    while ($record = $result->fetchAssoc()) {
+      $row = [];
+      foreach ($record as $name => $value) {
+        $row[$name] = $this->buildTableCell($name, $value);
+      }
+      $rows[] = $row;
+    }
+
+    return [
+      '#type' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+    ];
   }
 
   /**
@@ -307,29 +452,11 @@ class SchemaDotOrgReportsController extends ControllerBase {
     // Rows.
     $rows = [];
     while ($record = $result->fetchAssoc()) {
+      $row = [];
       foreach ($record as $name => $value) {
-        if ($name === 'comment') {
-          $record[$name] = [
-            'data' => ['#markup' => $this->formatComment($value)],
-          ];
-        }
-        else {
-          $links = $this->getLinks($value);
-          if (count($links) > 20) {
-            $record[$name] = [
-              'data' => [
-                '#type' => 'details',
-                '#title' => $this->t('@count items', ['@count' => count($links)]),
-                'content' => $links,
-              ],
-            ];
-          }
-          else {
-            $record[$name] = ['data' => $links];
-          }
-        }
+        $row[$name] = $this->buildTableCell($name, $value);
       }
-      $rows[] = $record;
+      $rows[] = $row;
     }
 
     $t_args = [
@@ -338,6 +465,7 @@ class SchemaDotOrgReportsController extends ControllerBase {
 
     $build = [];
     $build['filter'] = $this->getFilterForm($table, $id);
+    $build['info'] = $this->getInfo($table, $id);
     $build['table'] = [
       '#type' => 'table',
       '#header' => $header,
@@ -345,10 +473,45 @@ class SchemaDotOrgReportsController extends ControllerBase {
       '#sticky' => TRUE,
       '#empty' => $this->t('No @type found.', $t_args),
     ];
-    $build['pager'] = [
-      '#type' => 'pager',
-    ];
+    $build['pager'] = ['#type' => 'pager'];
     return $build;
+  }
+
+  /**
+   * Build a table cell.
+   *
+   * @param string $name
+   *   Table cell name.
+   * @param string $value
+   *   Table cell value.
+   *
+   * @return array[]|string
+   *   A renderable array containing a table cell.
+   */
+  function buildTableCell($name, $value) {
+    switch ($name) {
+      case 'drupal_name':
+      case 'drupal_label':
+        return $value;
+
+      case 'comment':
+        return ['data' => ['#markup' => $this->formatComment($value)]];
+
+      default:
+        $links = $this->getLinks($value);
+        if (count($links) > 20) {
+          return [
+            'data' => [
+              '#type' => 'details',
+              '#title' => $this->t('@count items', ['@count' => count($links)]),
+              'content' => $links,
+            ],
+          ];
+        }
+        else {
+          return ['data' => $links];
+        }
+    }
   }
 
   /**
@@ -377,10 +540,10 @@ class SchemaDotOrgReportsController extends ControllerBase {
       $items[$id] = [
         '#type' => 'link',
         '#title' => $id,
-        '#url' => Url::fromRoute('schemadotorg.reports', ['id' => $id]),
+        '#url' => $this->getItemUrl($id),
       ];
       if ($type['sub_types']) {
-        $sub_types = $this->parseTypes($type['sub_types']);
+        $sub_types = $this->manager->parseItems($type['sub_types']);
         $items[$id]['sub_types'] = $this->buildItemsRecursive($sub_types);
       }
     }
@@ -435,9 +598,10 @@ class SchemaDotOrgReportsController extends ControllerBase {
    */
   protected function getTypeBreadcrumbsRecursive(array &$breadcrumbs, $breadcrumb_id, $type) {
     $item = $this->getItem('types', $type);
-    $breadcrumbs[$breadcrumb_id][$type] = Link::createFromRoute($type, 'schemadotorg.reports', ['id' => $type]);
 
-    $parent_types = $this->parseTypes($item['sub_type_of']);
+    $breadcrumbs[$breadcrumb_id][$type] = Link::fromTextAndUrl($type, $this->getItemUrl($type));
+
+    $parent_types = $this->manager->parseItems($item['sub_type_of']);
 
     // Check if there are parents types.
     if (empty($parent_types)) {
@@ -470,8 +634,10 @@ class SchemaDotOrgReportsController extends ControllerBase {
    */
   protected function getTypeFields() {
     return [
-      'id' => $this->t('ID'),
-      'label' => $this->t('Label'),
+      'id' => $this->t('Schema.org ID'),
+      'label' => $this->t('Schema.org label'),
+      'drupal_label' => $this->t('Drupal label'),
+      'drupal_name' => $this->t('Drupal name'),
       'comment' => $this->t('Comment'),
       'sub_type_of' => $this->t('Sub type of'),
       'enumerationtype' => $this->t('Enumeration type'),
@@ -493,7 +659,15 @@ class SchemaDotOrgReportsController extends ControllerBase {
   public function getTypesHeader() {
     return [
       'label' => [
-        'data' => $this->t('Label'),
+        'data' => $this->t('Schema.org label'),
+      ],
+      'drupal_label' => [
+        'data' => $this->t('Drupal label'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+      ],
+      'drupal_name' => [
+        'data' => $this->t('Drupal name'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
       'comment' => [
         'data' => $this->t('Comment'),
@@ -540,7 +714,9 @@ class SchemaDotOrgReportsController extends ControllerBase {
    */
   protected function getPropertyFields() {
     return [
-      'label' => $this->t('Label'),
+      'label' => $this->t('Schema.org label'),
+      'drupal_label' => $this->t('Drupal label'),
+      'drupal_name' => $this->t('Drupal name'),
       'comment' => $this->t('Comment'),
       'sub_property_of' => $this->t('Sub property of'),
       'equivalent_property' => $this->t('Equivalent property'),
@@ -563,7 +739,15 @@ class SchemaDotOrgReportsController extends ControllerBase {
   public function getPropertiesHeader() {
     return [
       'label' => [
-        'data' => $this->t('Label'),
+        'data' => $this->t('Schema.org label'),
+      ],
+      'drupal_label' => [
+        'data' => $this->t('Drupal label'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+      ],
+      'drupal_name' => [
+        'data' => $this->t('Drupal name'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
       'comment' => [
         'data' => $this->t('Comment'),
@@ -608,22 +792,20 @@ class SchemaDotOrgReportsController extends ControllerBase {
   }
 
   /* ************************************************************************ */
-  // Helper methods.
+  // API methods.
   /* ************************************************************************ */
 
   /**
-   * Get Schema.org types or properties filter form.
+   * Get Schema.org type or property URL.
    *
-   * @param string $table
-   *   Types or properties table name.
    * @param string $id
-   *   Type or property to filter by.
+   *   Type or property ID.
    *
-   * @return array
-   *   The form array.
+   * @return \Drupal\Core\Url
+   *   Schema.org type or property URL.
    */
-  protected function getFilterForm($table, $id = '') {
-    return $this->formBuilder->getForm('\Drupal\schemadotorg\Form\SchemaDotOrgReportsFilterForm', $table, $id);
+  protected function getItemUrl($id) {
+    return Url::fromRoute('schemadotorg.reports', ['id' => $id]);
   }
 
   /**
@@ -649,6 +831,54 @@ class SchemaDotOrgReportsController extends ControllerBase {
       ->fetchAssoc();
   }
 
+  /* ************************************************************************ */
+  // Helper methods.
+  /* ************************************************************************ */
+
+  /**
+   * Get Schema.org types or properties filter form.
+   *
+   * @param string $table
+   *   Types or properties table name.
+   * @param string $id
+   *   Type or property to filter by.
+   *
+   * @return array
+   *   The form array.
+   */
+  protected function getFilterForm($table, $id = '') {
+    return $this->formBuilder->getForm('\Drupal\schemadotorg\Form\SchemaDotOrgReportsFilterForm', $table, $id);
+  }
+
+  /**
+   * Get Schema.org types or properties info.
+   *
+   * @param string $table
+   *   Types or properties table name.
+   * @param string $id
+   *   Types or properties id
+   *
+   * @return array
+   *   A renderable array containing Schema.org types or properties info.
+   */
+  protected function getInfo($table, $id) {
+    $query = $this->database->select('schemadotorg_' . $table, $table);
+    if ($id) {
+      $or = $query->orConditionGroup()
+        ->condition('label', '%' . $id . '%', 'LIKE')
+        ->condition('comment', '%' . $id . '%', 'LIKE');
+      $query->condition($or);
+    }
+    $count = $query->countQuery()->execute()->fetchField();
+    return [
+      '#markup' => ($table === 'types')
+        ? $this->formatPlural($count, '@count type', '@count types')
+        : $this->formatPlural($count, '@count property', '@count properties'),
+      '#prefix' => '<div>',
+      '#suffix' => '</div>',
+    ];
+  }
+
   /**
    * Format Schema.org type or property comment.
    *
@@ -667,7 +897,7 @@ class SchemaDotOrgReportsController extends ControllerBase {
     foreach ($a_nodes as $a_node) {
       $href = $a_node->getAttribute('href');
       if (preg_match('#^/([0-9A-Za-z]+)$#', $href, $match)) {
-        $url = Url::fromRoute('schemadotorg.reports', ['id' => $match[1]]);
+        $url = $this->getItemUrl($match[1]);
         $a_node->setAttribute('href', $url->toString());
       }
     }
@@ -684,7 +914,7 @@ class SchemaDotOrgReportsController extends ControllerBase {
    *   An array of links for Schema.org items (types or properties).
    */
   protected function getLinks($text) {
-    $types = $this->parseTypes($text);
+    $types = $this->manager->parseItems($text);
 
     $links = [];
     foreach ($types as $type) {
@@ -693,7 +923,7 @@ class SchemaDotOrgReportsController extends ControllerBase {
         $links[] = [
           '#type' => 'link',
           '#title' => $type,
-          '#url' => Url::fromRoute('schemadotorg.reports', ['id' => $type]),
+          '#url' => $this->getItemUrl($type),
           '#prefix' => $prefix,
         ];
       }
@@ -702,22 +932,6 @@ class SchemaDotOrgReportsController extends ControllerBase {
       }
     }
     return $links;
-  }
-
-  /**
-   * Parse types from comma delimited list of Schema.org URLs.
-   *
-   * @param string $text
-   *   A comma delimited list of Schema.org URLs.
-   *
-   * @return string[]
-   *   An array of Schema.org types.
-   */
-  protected function parseTypes($text) {
-    $text = trim($text);
-    return $text
-      ? explode(', ', str_replace('https://schema.org/', '', $text))
-      : [];
   }
 
 }

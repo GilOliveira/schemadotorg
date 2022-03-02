@@ -3,7 +3,10 @@
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\schemadotorg\Utilty\SchemaDotOrgStringHelper;
+use Drupal\taxonomy\Entity\Term;
 
 /**
  * Schema.org installer service.
@@ -23,13 +26,32 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   protected $database;
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+  /**
+   * The Schema.org manager service.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgManagerInterface
+   */
+  protected $schemaDotOrgManager;
+
+  /**
    * Constructs a SchemaDotOrgInstaller object.
    *
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Drupal\schemadotorg\SchemaDotOrgManagerInterface $schemedotorg_manager
+   *   The Schema.org manager service.
    */
-  public function __construct(Connection $database) {
+  public function __construct(Connection $database, EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgManagerInterface $schemedotorg_manager) {
     $this->database = $database;
+    $this->entityTypeManager = $entity_type_manager;
+    $this->schemaDotOrgManager = $schemedotorg_manager;
   }
 
   /**
@@ -37,8 +59,9 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    */
   public function install() {
     $this->reinstallSchema();
-    $this->installTable('properties');
-    $this->installTable('types');
+    $this->importTable('properties');
+    $this->importTable('types');
+    $this->updateTypesVocabulary();
   }
 
   /**
@@ -50,7 +73,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
     // Schema.org: Types.
     // @see https://raw.githubusercontent.com/schemaorg/schemaorg/main/data/releases/13.0/schemaorg-current-https-types.csv
     $schema['schemadotorg_types'] = [
-      'description' => '',
+      'description' => 'Schema.org types',
       'fields' => [
         'id' => [
           'type' => 'varchar_ascii',
@@ -113,15 +136,30 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
           'not null' => TRUE,
           'default' => '',
         ],
+        'drupal_name' => [
+          'type' => 'varchar_ascii',
+          // @todo Lower to 32 characters.
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => '',
+        ],
+        'drupal_label' => [
+          'type' => 'varchar_ascii',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => '',
+        ],
       ],
       'primary key' => ['id'],
-      'indexes' => [],
+      'indexes' => [
+        'label' => ['label'],
+        'drupal_name' => ['drupal_name'],
+      ],
     ];
-
     // Schema.org: Properties.
     // @see https://raw.githubusercontent.com/schemaorg/schemaorg/main/data/releases/13.0/schemaorg-current-https-properties.csv
     $schema['schemadotorg_properties'] = [
-      'description' => '',
+      'description' => 'Schema.org properties',
       'fields' => [
         'id' => [
           'type' => 'varchar_ascii',
@@ -188,27 +226,28 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
           'not null' => TRUE,
           'default' => '',
         ],
+        'drupal_name' => [
+          'type' => 'varchar_ascii',
+          // @todo Lower to 32 characters.
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => '',
+        ],
+        'drupal_label' => [
+          'type' => 'varchar_ascii',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => '',
+        ],
       ],
       'primary key' => ['id'],
-      'indexes' => [],
+      'indexes' => [
+        'label' => ['label'],
+        'drupal_name' => ['drupal_name'],
+      ],
     ];
 
     return $schema;
-  }
-
-  /**
-   * Reinstall Scheme.org tables.
-   *
-   * @todo Determine if we can't drop and recreate table because other modules are altering them.
-   */
-  protected function reinstallSchema() {
-    $tables = $this->schema();
-    foreach ($tables as $name => $table) {
-      if ($this->database->schema()->tableExists($name)) {
-        $this->database->schema()->dropTable($name);
-      }
-      $this->database->schema()->createTable($name, $table);
-    }
   }
 
   /**
@@ -217,7 +256,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    * @param string $name
    *   The Schema.org table type (properties or types).
    */
-  protected function installTable($name){
+  protected function importTable($name){
     $table = 'schemadotorg_' . $name;
     $filename = __DIR__ . '/../data/' . static::VERSION . '/schemaorg-current-https-' . $name . '.csv';
 
@@ -239,10 +278,77 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       foreach ($field_names as $index => $field_name) {
         $fields[$field_name] = $row[$index] ?? '';
       }
+      $fields['drupal_label'] = SchemaDotOrgStringHelper::toDrupalLabel($fields['label']);
+      $fields['drupal_name'] = SchemaDotOrgStringHelper::toDrupalName($fields['label']);
       $this->database->insert($table)
         ->fields($fields)
         ->execute();
     }
   }
+
+  /**
+   * Reinstall Scheme.org tables.
+   */
+  protected function reinstallSchema() {
+    $tables = $this->schema();
+    foreach ($tables as $name => $table) {
+      if ($this->database->schema()->tableExists($name)) {
+        $this->database->schema()->dropTable($name);
+      }
+      $this->database->schema()->createTable($name, $table);
+    }
+  }
+
+  /**
+   * Update the Schema.org types vocabulary (schemadotorg_types).
+   */
+  protected function updateTypesVocabulary() {
+    /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+    $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
+
+    // Create terms lookup table.
+    /** @var \Drupal\taxonomy\TermInterface[] $terms_lookup */
+    $terms_lookup = [];
+    $terms = $term_storage->loadByProperties(['vid' => 'schemadotorg_types']);
+    foreach ($terms as $term) {
+      $terms_lookup[$term->field_schemadotorg_type->value] = $term;
+    }
+
+    // Get types below 'Thing'.
+    // This prevents data types from being added to the vocabulary.
+    $types = $this->schemaDotOrgManager->getTypeChildren('Thing');
+
+    // First pass: Insert new Schema.org types.
+    foreach ($types as $type => $item) {
+      if (!isset($terms_lookup[$type])) {
+        $term = $term_storage->create([
+          'name' => SchemaDotOrgStringHelper::toLabel($type),
+          'vid' => 'schemadotorg_types',
+          'field_schemadotorg_type' => ['value' => $type],
+        ]);
+        $term->save();
+        $terms_lookup[$type] = $term;
+      }
+    }
+
+    // Second path: Build Schema.org type hierarchy.
+    foreach ($types as $type => $item) {
+      // Get parent values.
+      $value = [];
+      $parent_types = $this->schemaDotOrgManager->parseItems($item['sub_type_of']);
+      foreach ($parent_types as $parent_type) {
+        if (isset($terms_lookup[$parent_type])) {
+          $parent_term = $terms_lookup[$parent_type];
+          $value[] = ['target_id' => $parent_term->id()];
+        }
+      }
+
+      // Re-save the term.
+      $term = $terms_lookup[$type];
+      $term->parent->setValue($value);
+      $term->save();
+    }
+  }
+
 
 }

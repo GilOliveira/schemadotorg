@@ -73,4 +73,48 @@ class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
     return $field_definitions;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function parseItems($text) {
+    $text = trim($text);
+    return $text
+      ? explode(', ', str_replace('https://schema.org/', '', $text))
+      : [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTypeChildren($type, $fields = ['label', 'sub_types', 'sub_type_of']) {
+    return $this->getAllTypesRecursive([$type], $fields);
+  }
+
+  /**
+   * Get all Schema.org types below a specified array of types.
+   *
+   * @param array $ids
+   *   An array of Schema.org type ids.
+   * @param array $fields
+   *   An array of Schema.org type fields.
+   *
+   * @return array
+   *   An associative array of Schema.org types keyed by type.
+   */
+  protected function getAllTypesRecursive(array $ids, array $fields = ['label', 'sub_types', 'sub_type_of']) {
+    $items = $this->database->select('schemadotorg_types', 'types')
+      ->fields('types', $fields)
+      ->condition('label', $ids, 'IN')
+      ->orderBy('label')
+      ->execute()
+      ->fetchAllAssoc('label', \PDO::FETCH_ASSOC);
+    foreach ($items as $item) {
+      $sub_types = $this->parseItems($item['sub_types']);
+      if ($sub_types) {
+        $items += $this->getAllTypesRecursive($sub_types, $fields);
+      }
+    }
+    return $items;
+  }
+
 }
