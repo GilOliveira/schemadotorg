@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\schemadotorg\Breadcrumb;
+namespace Drupal\schemadotorg_report\Breadcrumb;
 
 use Drupal\Core\Breadcrumb\Breadcrumb;
 use Drupal\Core\Breadcrumb\BreadcrumbBuilderInterface;
@@ -9,9 +9,9 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Provides a breadcrumb builder for articles.
+ * Provides a breadcrumb builder for Schema.org report.
  */
-class SchemaDotOrgBreadcrumbBuilder implements BreadcrumbBuilderInterface {
+class SchemaDotOrgReportBreadcrumbBuilder implements BreadcrumbBuilderInterface {
 
   use StringTranslationTrait;
 
@@ -19,7 +19,7 @@ class SchemaDotOrgBreadcrumbBuilder implements BreadcrumbBuilderInterface {
    * {@inheritdoc}
    */
   public function applies(RouteMatchInterface $route_match) {
-    return (strpos($route_match->getRouteName(), 'schemadotorg.reports.') === 0);
+    return (strpos($route_match->getRouteName(), 'schemadotorg_reports.') === 0);
   }
 
   /**
@@ -30,7 +30,7 @@ class SchemaDotOrgBreadcrumbBuilder implements BreadcrumbBuilderInterface {
     $breadcrumb->addLink(Link::createFromRoute($this->t('Home'), '<front>'));
     $breadcrumb->addLink(Link::createFromRoute($this->t('Administration'), 'system.admin'));
     $breadcrumb->addLink(Link::createFromRoute($this->t('Reports'), 'system.admin_reports'));
-    $breadcrumb->addLink(Link::createFromRoute($this->t('Schema.org'), 'schemadotorg.reports'));
+    $breadcrumb->addLink(Link::createFromRoute($this->t('Schema.org'), 'schemadotorg_reports'));
 
     // This breadcrumb builder is based on a route parameter, and hence it
     // depends on the 'route' cache context.

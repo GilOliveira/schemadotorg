@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\schemadotorg\Controller;
+namespace Drupal\schemadotorg_report\Controller;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Controller\ControllerBase;
@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * Returns responses for Schema.org routes.
  */
-class SchemaDotOrgReportsController extends ControllerBase {
+class SchemaDotOrgReportController extends ControllerBase {
 
   /**
    * The database connection.
@@ -818,7 +818,7 @@ class SchemaDotOrgReportsController extends ControllerBase {
    *   Schema.org type or property URL.
    */
   protected function getItemUrl($id) {
-    return Url::fromRoute('schemadotorg.reports', ['id' => $id]);
+    return Url::fromRoute('schemadotorg_reports', ['id' => $id]);
   }
 
   /**
@@ -860,7 +860,7 @@ class SchemaDotOrgReportsController extends ControllerBase {
    *   The form array.
    */
   protected function getFilterForm($table, $id = '') {
-    return $this->formBuilder->getForm('\Drupal\schemadotorg\Form\SchemaDotOrgReportsFilterForm', $table, $id);
+    return $this->formBuilder->getForm('\Drupal\schemadotorg_report\Form\SchemaDotOrgReportFilterForm', $table, $id);
   }
 
   /**

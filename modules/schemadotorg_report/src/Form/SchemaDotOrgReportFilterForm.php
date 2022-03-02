@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\schemadotorg\Form;
+namespace Drupal\schemadotorg_report\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Provides a Schema.org reports filter form.
  */
-class SchemaDotOrgReportsFilterForm extends FormBase {
+class SchemaDotOrgReportFilterForm extends FormBase {
 
   /**
    * The Schema.org manager service.
@@ -61,7 +61,7 @@ class SchemaDotOrgReportsFilterForm extends FormBase {
       '#placeholder' => $this->t('Find a @label', $t_args),
       '#size' => '20',
       '#default_value' => $id,
-      '#autocomplete_route_name' => 'schemadotorg.reports.autocomplete',
+      '#autocomplete_route_name' => 'schemadotorg_reports.autocomplete',
       '#autocomplete_route_parameters' => ['table' => $table],
       '#attributes' => ['class' => ['schemadotorg-autocomplete']],
       '#attached' => ['library' => ['schemadotorg/schemadotorg.autocomplete']],
@@ -87,10 +87,10 @@ class SchemaDotOrgReportsFilterForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $id = $form_state->getValue('id');
     if ($id && $this->manager->isId($this->table, $id)) {
-      $form_state->setRedirect('schemadotorg.reports', ['id' => $id]);
+      $form_state->setRedirect('schemadotorg_reports', ['id' => $id]);
     }
     else {
-      $form_state->setRedirect('schemadotorg.reports.' . $this->table, [], ['query' => ['id' => $id]]);
+      $form_state->setRedirect('schemadotorg_reports.' . $this->table, [], ['query' => ['id' => $id]]);
     }
   }
 
