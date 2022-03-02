@@ -8,12 +8,16 @@ schemadotorg_reports.types:
   route_name: schemadotorg_reports.types
   base_route: schemadotorg_reports
 schemadotorg_reports.types.table:
-  title: Table
+  title: All
   route_name: schemadotorg_reports.types
   parent_id: schemadotorg_reports.types
 schemadotorg_reports.types.things:
   title: Things
   route_name: schemadotorg_reports.types.things
+  parent_id: schemadotorg_reports.types
+schemadotorg_reports.types.intangible:
+  title: Intangibles
+  route_name: schemadotorg_reports.types.intangible
   parent_id: schemadotorg_reports.types
 schemadotorg_reports.types.enumerations:
   title: Enumerations

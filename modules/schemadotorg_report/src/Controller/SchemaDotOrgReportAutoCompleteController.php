@@ -44,6 +44,8 @@ class SchemaDotOrgReportAutoCompleteController extends ControllerBase {
    *
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The current request object containing the search string.
+   * @param string $table
+   *   Types or properties table name.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   A JSON response containing the autocomplete suggestions.

@@ -116,29 +116,43 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
           $build[$name]['#markup'] = $this->formatComment($value);
           break;
 
-        case 'sub_types':
-          $types = $this->manager->parseItems($value);
-          $build[$name]['links'] = $this->getLinks($value);
-          $build[$name]['hierarchy'] = [
-            '#type' => 'details',
-            '#title' => $this->t('Sub types hierarchy'),
-            'items' => $this->buildItemsRecursive($types),
-          ];
-          break;
-
-        case 'sub_type_of':
-          $build[$name]['links'] = $this->getLinks($value);
-          $build[$name]['breadcrumbs'] = $this->buildTypeBreadcrumbs($id);
-          break;
-
         case 'properties':
           $properties = $this->manager->parseItems($value);
-          $build[$name]['table'] = $this->buildTypeProperties($properties);
+          $build[$name] = [
+            '#type' => 'details',
+            '#title' => $label,
+            '#open' => TRUE,
+            'items' => $this->buildTypeProperties($properties),
+          ];
           break;
 
         default:
           $build[$name]['links'] = $this->getLinks($value);
       }
+    }
+
+    // Custom fields.
+    if ($table === 'types') {
+      // Parents.
+      $build['parents'] = [
+        '#type' => 'details',
+        '#title' => $this->t('Parent types'),
+        '#open' => TRUE,
+        'breadcrumbs' => $this->buildTypeBreadcrumbs($id),
+      ];
+
+      // Subtype.
+      if ($item['sub_types']) {
+        $subtypes = $this->manager->parseItems($item['sub_types']);
+        $build['sub_types_hierarchy'] = [
+          '#type' => 'details',
+          '#title' => $this->t('More specific types'),
+          'items' => $this->buildItemsRecursive($subtypes),
+        ];
+      }
+
+      // Enumerations.
+      $build['enumerations'] = $this->buildTypeEnumerations($id);
     }
 
     return $build;
@@ -196,10 +210,6 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       '#rows' => $rows,
     ];
   }
-
-  /* ************************************************************************ */
-  // Breadcrumb methods.
-  /* ************************************************************************ */
 
   /**
    * Build Schema.org type breadcrumbs.
@@ -265,6 +275,43 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     }
   }
 
+  /**
+   * Build Schema.org type enumerations.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   *
+   * @return array
+   *   A renderable array containing schema.org type enumerations.
+   */
+  protected function buildTypeEnumerations($type) {
+    $member_types = $this->database->select('schemadotorg_types', 'types')
+      ->fields('types', ['label'])
+      ->condition('enumerationtype', 'https://schema.org/' . $type)
+      ->orderBy('label')
+      ->execute()
+      ->fetchCol();
+    if (!$member_types) {
+      return [];
+    }
+    $items = [];
+    foreach ($member_types as $member_type) {
+      $items[] = [
+        '#type' => 'link',
+        '#title' => $member_type,
+        '#url' => $this->getItemUrl($member_type),
+      ];
+    }
+    return [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Enumeration members'),
+      'items' => [
+        '#theme' => 'item_list',
+        '#items' => $items,
+      ],
+    ];
+  }
+
   /* ************************************************************************ */
   // Fields methods.
   /* ************************************************************************ */
@@ -285,11 +332,11 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       'sub_type_of' => $this->t('Sub type of'),
       'enumerationtype' => $this->t('Enumeration type'),
       'equivalent_class' => $this->t('Equivalent class'),
-      'properties' => $this->t('Properties'),
       'sub_types' => $this->t('Sub types'),
       'supersedes' => $this->t('supersedes'),
       'superseded_by' => $this->t('Superseded by'),
       'is_part_of =>' => $this->t('Is part of'),
+      'properties' => $this->t('Properties'),
     ];
   }
 

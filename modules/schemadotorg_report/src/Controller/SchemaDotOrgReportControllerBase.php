@@ -67,7 +67,6 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   // Build methods.
   /* ************************************************************************ */
 
-
   /**
    * Get Schema.org types or properties filter form.
    *
@@ -125,7 +124,7 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    * @return array[]|string
    *   A renderable array containing a table cell.
    */
-  function buildTableCell($name, $value) {
+  public function buildTableCell($name, $value) {
     switch ($name) {
       case 'drupal_name':
       case 'drupal_label':
@@ -156,11 +155,13 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    *
    * @param array $ids
    *   An array of Schema.org type ids.
+   * @param array $ignored_types
+   *   An array of ignored Schema.org type ids.
    *
    * @return array
    *   A renderable array containing Schema.org type as an item list.
    */
-  protected function buildItemsRecursive(array $ids) {
+  protected function buildItemsRecursive(array $ids, array $ignored_types = []) {
     if (empty($ids)) {
       return [];
     }
@@ -174,14 +175,31 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
 
     $items = [];
     foreach ($types as $id => $type) {
+      // Item.
       $items[$id] = [
         '#type' => 'link',
         '#title' => $id,
         '#url' => $this->getItemUrl($id),
       ];
-      if ($type['sub_types']) {
-        $sub_types = $this->manager->parseItems($type['sub_types']);
-        $items[$id]['sub_types'] = $this->buildItemsRecursive($sub_types);
+
+      // Subtypes.
+      $sub_types = $this->manager->parseItems($type['sub_types']);
+      if ($ignored_types) {
+        $sub_types = array_diff($sub_types, $ignored_types);
+      }
+      if ($sub_types) {
+        $items[$id]['sub_types'] = $this->buildItemsRecursive($sub_types, $ignored_types);
+      }
+
+      // Enumerations.
+      $enumeration_types = $this->database->select('schemadotorg_types', 'types')
+        ->fields('types', ['label'])
+        ->condition('enumerationtype', 'https://schema.org/' . $id)
+        ->orderBy('label')
+        ->execute()
+        ->fetchCol();
+      if ($enumeration_types) {
+        $items[$id]['enumeration'] = $this->buildItemsRecursive($enumeration_types);
       }
     }
 

@@ -256,7 +256,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    * @param string $name
    *   The Schema.org table type (properties or types).
    */
-  protected function importTable($name){
+  protected function importTable($name) {
     $table = 'schemadotorg_' . $name;
     $filename = __DIR__ . '/../data/' . static::VERSION . '/schemaorg-current-https-' . $name . '.csv';
 
@@ -278,7 +278,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       foreach ($field_names as $index => $field_name) {
         $fields[$field_name] = $row[$index] ?? '';
       }
-      $fields['drupal_label'] = SchemaDotOrgStringHelper::toDrupalLabel($fields['label']);
+      $fields['drupal_label'] = SchemaDotOrgStringHelper::toLabel($fields['label']);
       $fields['drupal_name'] = SchemaDotOrgStringHelper::toDrupalName($fields['label']);
       $this->database->insert($table)
         ->fields($fields)
@@ -349,6 +349,5 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       $term->save();
     }
   }
-
 
 }

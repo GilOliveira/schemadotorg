@@ -3,12 +3,11 @@ Schema.org
 
 
 Todo
-- Names
-  - All
-  - Types
-  - Properties/Fields
 
-_ schemadotorg_report.module
+- Custom labels
+- Intangible vocabulary.
+- Enumeration vocabulary.
+- Structured value vocabulary.
 
 --------------------------------------------------------------------------------
 

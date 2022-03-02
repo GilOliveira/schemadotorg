@@ -38,12 +38,17 @@ class SchemaDotOrgStringHelper {
     return ucfirst($text);
   }
 
-  public static function toDrupalLabel($label) {
-    $drupal_label = static::toLabel($label);
-    return $drupal_label;
-  }
-
-  // @see https://www.allacronyms.com/,
+  /**
+   * Convert Schema.org type or property to Drupal machine name.
+   *
+   * @param string $label
+   *   A Schema.org type or property.
+   *
+   * @return string
+   *   Schema.org type or property converted to Drupal machine name.
+   *
+   * @see https://www.allacronyms.com/,
+   */
   public static function toDrupalName($label) {
     $drupal_name = static::camelCaseToSnakeCase($label);
 
@@ -98,6 +103,7 @@ class SchemaDotOrgStringHelper {
       '_credential' => '_cred',
       '_descending' => '_dsc',
       '_description' => '_desc',
+      '_duration' => 'dur',
       '_education' => '_ed',
       '_details' => '_det',
       '_buildings' => '_bld',

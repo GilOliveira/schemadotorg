@@ -75,7 +75,6 @@ interface SchemaDotOrgManagerInterface {
    * @return array
    *   An associative array of Schema.org types keyed by type.
    */
-  public function getTypeChildren($type, $fields = ['label', 'sub_types']);
-
+  public function getTypeChildren($type, array $fields = ['label', 'sub_types']);
 
 }

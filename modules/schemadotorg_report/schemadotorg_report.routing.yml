@@ -21,10 +21,20 @@ schemadotorg_reports.types:
     _permission: 'access site reports'
 
 schemadotorg_reports.types.things:
-  path: '/admin/reports/schemadotorg/docs/hierarchy'
+  path: '/admin/reports/schemadotorg/docs/things'
   defaults:
     _title: 'Schema.org: Things'
     _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportHierarchyController::index'
+    type: 'Thing'
+  requirements:
+    _permission: 'access site reports'
+
+schemadotorg_reports.types.intangible:
+  path: '/admin/reports/schemadotorg/docs/intangible'
+  defaults:
+    _title: 'Schema.org: Intangibles'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportHierarchyController::index'
+    type: 'Intangible'
   requirements:
     _permission: 'access site reports'
 

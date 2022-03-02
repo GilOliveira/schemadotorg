@@ -16,6 +16,9 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
    *   A renderable array containing Schema.org names table.
    */
   public function index($display = '') {
+    $tables = ['types', 'properties'];
+    $is_schema_item = in_array($display, $tables);
+
     $header = [
       'schema_item' => [
         'data' => $this->t('Schema.org item'),
@@ -40,9 +43,9 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
       ],
     ];
 
-    $tables = ['types', 'properties'];
-    if (in_array($display, $tables)) {
+    if ($is_schema_item) {
       $tables = [$display];
+      unset($header['schema_item']);
     }
 
     $rows = [];
@@ -62,9 +65,17 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
         $drupal_name_length = strlen($drupal_name);
 
         $row = [];
-        $row['schema_item'] = $schema_item;
+        if (!$is_schema_item) {
+          $row['schema_item'] = $schema_item;
+        }
+        $row['schema_id'] = [
+          'data' => [
+            '#type' => 'link',
+            '#title' => $schema_id,
+            '#url' => $this->getItemUrl($schema_id),
+          ],
+        ];
         $row['schema_label'] = $schema_label;
-        $row['schema_id'] = $schema_id;
         $row['original_name'] = $original_name;
         $row['original_name_length'] = $original_name_length;
         $row['drupal_name'] = $drupal_name;
@@ -96,4 +107,5 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
     ];
     return $build;
   }
+
 }

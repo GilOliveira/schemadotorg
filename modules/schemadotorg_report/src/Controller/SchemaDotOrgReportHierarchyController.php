@@ -22,12 +22,14 @@ class SchemaDotOrgReportHierarchyController extends SchemaDotOrgReportController
         ->orderBy('label')
         ->execute()
         ->fetchCol();
+      $ignored_types = [];
     }
     else {
       $types = [$type];
+      $ignored_types = ['Intangible', 'Enumeration', 'StructuredValue'];
     }
 
-    return $this->buildItemsRecursive($types);
+    return $this->buildItemsRecursive($types, $ignored_types);
   }
 
 }

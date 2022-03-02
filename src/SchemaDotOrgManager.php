@@ -86,7 +86,7 @@ class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getTypeChildren($type, $fields = ['label', 'sub_types', 'sub_type_of']) {
+  public function getTypeChildren($type, array $fields = ['label', 'sub_types', 'sub_type_of']) {
     return $this->getAllTypesRecursive([$type], $fields);
   }
 
