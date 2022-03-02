@@ -149,7 +149,7 @@ class SchemaDotOrgReportsController extends ControllerBase {
    * @return array
    *   A renderable array containing Schema.org names table.
    */
-  public function names($table = '', $warnings = FALSE) {
+  public function names($display = '') {
     $header = [
       'schema_item' => [
         'data' => $this->t('Schema.org item'),
@@ -174,7 +174,11 @@ class SchemaDotOrgReportsController extends ControllerBase {
       ],
     ];
 
-    $tables = $table ? [$table] : ['types', 'properties'];
+    $tables = ['types', 'properties'];
+    if (in_array($display, $tables)) {
+      $tables = [$display];
+    }
+
     $rows = [];
     foreach ($tables as $table) {
       $max_length = ($table === 'types') ? 32 : 26;
@@ -209,14 +213,16 @@ class SchemaDotOrgReportsController extends ControllerBase {
         else {
           $class = [];
         }
-        if (!$warnings || $class) {
+        if ($display !== 'warnings' || $class) {
           $rows[$schema_id] = ['data' => $row];
           $rows[$schema_id]['class'] = $class;
         }
       }
     }
+    ksort($rows);
 
     $build = [];
+    $build['info'] = $this->getInfo($display, count($rows));
     $build['table'] = [
       '#type' => 'table',
       '#header' => $header,
@@ -436,18 +442,25 @@ class SchemaDotOrgReportsController extends ControllerBase {
       ? $this->getTypesHeader()
       : $this->getPropertiesHeader();
 
-    // Query.
-    $query = $this->database->select('schemadotorg_' . $table, $table);
-    $query->fields($table, array_keys($header));
-    $query->orderBy('label');
+    // Base query.
+    $base_query = $this->database->select('schemadotorg_' . $table, $table);
+    $base_query->fields($table, array_keys($header));
+    $base_query->orderBy('label');
     if ($id) {
-      $or = $query->orConditionGroup()
+      $or = $base_query->orConditionGroup()
         ->condition('label', '%' . $id . '%', 'LIKE')
         ->condition('comment', '%' . $id . '%', 'LIKE');
-      $query->condition($or);
+      $base_query->condition($or);
     }
-    $query = $query->extend(PagerSelectExtender::class)->limit(200);
-    $result = $query->execute();
+
+    // Total.
+    $total_query = clone $base_query;
+    $count = $total_query->countQuery()->execute()->fetchField();
+
+    // Result.
+    $result_query = clone $base_query;
+    $result_query = $result_query->extend(PagerSelectExtender::class)->limit(200);
+    $result = $result_query->execute();
 
     // Rows.
     $rows = [];
@@ -465,7 +478,7 @@ class SchemaDotOrgReportsController extends ControllerBase {
 
     $build = [];
     $build['filter'] = $this->getFilterForm($table, $id);
-    $build['info'] = $this->getInfo($table, $id);
+    $build['info'] = $this->getInfo($table, $count);
     $build['table'] = [
       '#type' => 'table',
       '#header' => $header,
@@ -855,25 +868,27 @@ class SchemaDotOrgReportsController extends ControllerBase {
    *
    * @param string $table
    *   Types or properties table name.
-   * @param string $id
-   *   Types or properties id
+   * @param int $count
+   *   The item count to display.
    *
    * @return array
-   *   A renderable array containing Schema.org types or properties info.
+   *   A renderable array containing item count info.
    */
-  protected function getInfo($table, $id) {
-    $query = $this->database->select('schemadotorg_' . $table, $table);
-    if ($id) {
-      $or = $query->orConditionGroup()
-        ->condition('label', '%' . $id . '%', 'LIKE')
-        ->condition('comment', '%' . $id . '%', 'LIKE');
-      $query->condition($or);
+  protected function getInfo($table, $count) {
+    if ($table === 'warnings') {
+      $info = $this->formatPlural($count, '@count warning', '@count warnings');
     }
-    $count = $query->countQuery()->execute()->fetchField();
+    elseif ($table === 'types') {
+      $info = $this->formatPlural($count, '@count type', '@count types');
+    }
+    elseif ($table === 'properties') {
+      $info = $this->formatPlural($count, '@count property', '@count properties');
+    }
+    else {
+      $info = $this->formatPlural($count, '@count item', '@count items');
+    }
     return [
-      '#markup' => ($table === 'types')
-        ? $this->formatPlural($count, '@count type', '@count types')
-        : $this->formatPlural($count, '@count property', '@count properties'),
+      '#markup' => $info,
       '#prefix' => '<div>',
       '#suffix' => '</div>',
     ];

@@ -88,7 +88,7 @@ schemadotorg.reports.names.types:
   defaults:
     _title: 'Schema.org: Type name'
     _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgReportsController::names'
-    table: types
+    display: types
   requirements:
     _permission: 'access site reports'
 
@@ -97,7 +97,7 @@ schemadotorg.reports.names.properties:
   defaults:
     _title: 'Schema.org: Property name'
     _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgReportsController::names'
-    table: properties
+    display: properties
   requirements:
     _permission: 'access site reports'
 
@@ -106,7 +106,7 @@ schemadotorg.reports.names.warnings:
   defaults:
     _title: 'Schema.org: Names warnings'
     _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgReportsController::names'
-    warnings: true
+    display: warnings
   requirements:
     _permission: 'access site reports'
 
