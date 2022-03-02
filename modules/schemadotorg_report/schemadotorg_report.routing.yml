@@ -1,0 +1,111 @@
+# Report
+
+schemadotorg_reports:
+  path: '/admin/reports/schemadotorg/{id}'
+  defaults:
+    _title: 'Schema.org: About'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportController::index'
+    id: ''
+  requirements:
+    _permission: 'access site reports'
+
+# Report: Types
+
+schemadotorg_reports.types:
+  path: '/admin/reports/schemadotorg/docs/types'
+  defaults:
+    _title: 'Schema.org: Types'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportController::docs'
+    table: types
+  requirements:
+    _permission: 'access site reports'
+
+schemadotorg_reports.types.things:
+  path: '/admin/reports/schemadotorg/docs/hierarchy'
+  defaults:
+    _title: 'Schema.org: Things'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportController::hierarchy'
+  requirements:
+    _permission: 'access site reports'
+
+schemadotorg_reports.types.enumerations:
+  path: '/admin/reports/schemadotorg/docs/enumerations'
+  defaults:
+    _title: 'Schema.org: Enumerations'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportController::hierarchy'
+    type: 'Enumeration'
+  requirements:
+    _permission: 'access site reports'
+
+schemadotorg_reports.types.structured_values:
+  path: '/admin/reports/schemadotorg/docs/structured-values'
+  defaults:
+    _title: 'Schema.org: Structured Values'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportController::hierarchy'
+    type: 'StructuredValue'
+  requirements:
+    _permission: 'access site reports'
+
+schemadotorg_reports.types.data_types:
+  path: '/admin/reports/schemadotorg/docs/data_types'
+  defaults:
+    _title: 'Schema.org: Data types'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportController::dataTypes'
+  requirements:
+    _permission: 'access site reports'
+
+# Report: Properties
+
+schemadotorg_reports.properties:
+  path: '/admin/reports/schemadotorg/docs/properties'
+  defaults:
+    _title: 'Schema.org: Properties'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportController::docs'
+    table: properties
+  requirements:
+    _permission: 'access site reports'
+
+# Report: Names
+
+schemadotorg_reports.names:
+  path: '/admin/reports/schemadotorg/docs/names'
+  defaults:
+    _title: 'Schema.org: Names'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportController::names'
+  requirements:
+    _permission: 'access site reports'
+
+schemadotorg_reports.names.types:
+  path: '/admin/reports/schemadotorg/docs/names/types'
+  defaults:
+    _title: 'Schema.org: Type name'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportController::names'
+    display: types
+  requirements:
+    _permission: 'access site reports'
+
+schemadotorg_reports.names.properties:
+  path: '/admin/reports/schemadotorg/docs/names/properties'
+  defaults:
+    _title: 'Schema.org: Property name'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportController::names'
+    display: properties
+  requirements:
+    _permission: 'access site reports'
+
+schemadotorg_reports.names.warnings:
+  path: '/admin/reports/schemadotorg/docs/names/warnings'
+  defaults:
+    _title: 'Schema.org: Names warnings'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportController::names'
+    display: warnings
+  requirements:
+    _permission: 'access site reports'
+
+schemadotorg_reports.autocomplete:
+  path: '/admin/reports/schemadotorg/docs/autocomplete/{table}'
+  defaults:
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportController::autocomplete'
+  requirements:
+    _permission: 'access site reports'
+

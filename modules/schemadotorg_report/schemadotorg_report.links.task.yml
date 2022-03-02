@@ -1,0 +1,55 @@
+schemadotorg_reports:
+  title: About
+  route_name: schemadotorg_reports
+  base_route: schemadotorg_reports
+
+schemadotorg_reports.types:
+  title: Types
+  route_name: schemadotorg_reports.types
+  base_route: schemadotorg_reports
+schemadotorg_reports.types.table:
+  title: Table
+  route_name: schemadotorg_reports.types
+  parent_id: schemadotorg_reports.types
+schemadotorg_reports.types.things:
+  title: Things
+  route_name: schemadotorg_reports.types.things
+  parent_id: schemadotorg_reports.types
+schemadotorg_reports.types.enumerations:
+  title: Enumerations
+  route_name: schemadotorg_reports.types.enumerations
+  parent_id: schemadotorg_reports.types
+schemadotorg_reports.types.structured_values:
+  title: Structured values
+  route_name: schemadotorg_reports.types.structured_values
+  parent_id: schemadotorg_reports.types
+schemadotorg_reports.types.data_types:
+  title: Data types
+  route_name: schemadotorg_reports.types.data_types
+  parent_id: schemadotorg_reports.types
+
+schemadotorg_reports.properties:
+  title: Properties
+  route_name: schemadotorg_reports.properties
+  base_route: schemadotorg_reports
+
+schemadotorg_reports.names:
+  title: Names
+  route_name: schemadotorg_reports.names
+  base_route: schemadotorg_reports
+schemadotorg_reports.names.all:
+  title: All
+  route_name: schemadotorg_reports.names
+  parent_id: schemadotorg_reports.names
+schemadotorg_reports.names.types:
+  title: Type names
+  route_name: schemadotorg_reports.names.types
+  parent_id: schemadotorg_reports.names
+schemadotorg_reports.names.properties:
+  title: Property names
+  route_name: schemadotorg_reports.names.properties
+  parent_id: schemadotorg_reports.names
+schemadotorg_reports.names.warnings:
+  title: Warnings
+  route_name: schemadotorg_reports.names.warnings
+  parent_id: schemadotorg_reports.names

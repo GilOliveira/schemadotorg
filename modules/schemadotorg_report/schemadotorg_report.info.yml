@@ -1,0 +1,7 @@
+name: Schema.org Report
+type: module
+description: Provide a report for browsing Schema.org types and properties.
+package: Schema.org
+core_version_requirement: ^9
+dependencies:
+  - 'schemadotorg:schemadotorg'
