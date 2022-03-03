@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Schema.org Report module.
+ */
+
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function schemadotorg_report_menu_local_tasks_alter(&$data, $route_name) {
+  // Always point to the About page/tab to the same URL, which it shares
+  // with the type and property detail page.
+  // @see \Drupal\schemadotorg_report\Controller\SchemaDotOrgReportItemController::index
+  if ($route_name === 'schemadotorg_reports'
+    && isset($data['tabs'][0]['schemadotorg_reports']['#link']['url'])) {
+    $data['tabs'][0]['schemadotorg_reports']['#link']['url'] = Url::fromRoute('schemadotorg_reports');
+  }
+}

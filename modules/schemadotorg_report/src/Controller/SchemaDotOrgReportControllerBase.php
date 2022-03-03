@@ -93,7 +93,7 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    * @return array
    *   A renderable array containing item count info.
    */
-  protected function buildTableInfo($table, $count) {
+  protected function buildInfo($table, $count) {
     if ($table === 'warnings') {
       $info = $this->formatPlural($count, '@count warning', '@count warnings');
     }

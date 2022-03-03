@@ -99,7 +99,7 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
     ksort($rows);
 
     $build = [];
-    $build['info'] = $this->buildTableInfo($display, count($rows));
+    $build['info'] = $this->buildInfo($display, count($rows));
     $build['table'] = [
       '#type' => 'table',
       '#header' => $header,

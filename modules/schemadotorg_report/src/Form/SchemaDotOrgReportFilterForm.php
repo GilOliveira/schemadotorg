@@ -69,7 +69,7 @@ class SchemaDotOrgReportFilterForm extends FormBase {
     $form['filter']['submit'] = [
       '#type' => 'submit',
       '#button_type' => 'primary',
-      '#value' => $this->t('Filter'),
+      '#value' => $this->t('Find'),
     ];
     if (!empty($id)) {
       $form['filter']['reset'] = [

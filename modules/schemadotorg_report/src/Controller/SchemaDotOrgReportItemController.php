@@ -53,13 +53,38 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
 
     // Description.
     $t_args = [
-      ':types_href' => Url::fromRoute('schemadotorg_reports.types')->toString(),
+      ':type_href' => Url::fromRoute('schemadotorg_reports.types')->toString(),
       ':properties_href' => Url::fromRoute('schemadotorg_reports.properties')->toString(),
     ];
-    $build['description'] = ['#markup' => $this->t('The schemas are a set of <a href=":types_href">types</a>, each associated with a set of <a href=":properties_href">properties</a>.', $t_args)];
+    $description = $this->t('The schemas are a set of <a href=":types_href">types</a>, each associated with a set of <a href=":properties_href">properties</a>.', $t_args);
+    $t_args = [
+      ':href' => Url::fromRoute('schemadotorg_reports.types.things')->toString(),
+    ];
+    $description .= ' ' . $this->t('The types are arranged in a <a href=":href">hierarchy</a>.', $t_args);
+    $build['description'] = ['#markup' => $description];
 
     // Types.
     $build['types'] = $this->getFilterForm('types');
+
+    // Jump.
+    $jump = <<<EOT
+<p>Or you can jump directly to a commonly used type:</p>
+<ul>
+<li>Creative works: <a title="CreativeWork" href="/CreativeWork">CreativeWork</a>, <a title="Book" href="/Book">Book</a>, <a title="Movie" href="/Movie">Movie</a>, <a title="MusicRecording" href="/MusicRecording">MusicRecording</a>, <a title="Recipe" href="/Recipe">Recipe</a>, <a title="TVSeries" href="/TVSeries">TVSeries</a> ...</li>
+<li>Embedded non-text objects: <a title="AudioObject" href="/AudioObject">AudioObject</a>, <a title="ImageObject" href="/ImageObject">ImageObject</a>, <a title="VideoObject" href="/VideoObject">VideoObject</a></li>
+<li><a title="Event" href="/Event">Event</a></li>
+<li><a href="meddocs.html">Health and medical types</a>: notes on the health and medical types under <a title="MedicalEntity" href="/MedicalEntity">MedicalEntity</a>.</li>
+<li><a title="Organization" href="/Organization">Organization</a></li>
+<li><a title="Person" href="/Person">Person</a></li>
+<li><a title="Place" href="/Place">Place</a>, <a title="LocalBusiness" href="/LocalBusiness">LocalBusiness</a>, <a title="Restaurant" href="/Restaurant">Restaurant</a> ...</li>
+<li><a title="Product" href="/Product">Product</a>, <a title="Offer" href="/Offer">Offer</a>, <a title="AggregateOffer" href="/AggregateOffer">AggregateOffer</a></li>
+<li><a title="Review" href="/Review">Review</a>, <a title="AggregateRating" href="/AggregateRating">AggregateRating</a></li>
+<li><a title="Action" href="/Action">Action</a></li>
+</ul>
+EOT;
+    $path = Url::fromRoute('schemadotorg_reports')->toString();
+    $jump = str_replace('href="/', 'href="' . $path . '/', $jump);
+    $build[] = ['#markup' => $jump];
 
     return $build;
   }

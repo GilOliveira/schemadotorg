@@ -1,19 +1,19 @@
 Schema.org
 ----------
 
+# Sub modules
 
-Todo
+- Report
+- Descriptions
+- UI
+- Json-ld
+- Json API
 
-
-- schemadotorg_things vocabulary.
-- schemadotorg_intangibles vocabulary.
-- schemadotorg_enumerations vocabulary.
-- schemadotorg_structured_values vocabulary.
+# Todo
 
 - Custom labels
 
-- Mark as experimental.
-
+- Write baseline tests
 
 --------------------------------------------------------------------------------
 
@@ -30,10 +30,14 @@ Todo
   - Add Schema.org type
   - Add Schema.org properties
 
+- Create type blacklist applies to taxonomy
+
+- Define what is alpha beta and release goals
+
 - Use Entity Builder class to add helper
   @see https://www.drupal.org/node/3191609
 
-Tests
+# Tests
 
 Installer
 
@@ -53,10 +57,9 @@ Report
 - Confirm names.
 - Confirm warning.
 
-TBD
+# TBD
 
 - Should we prefix all schema field with schema_* ?
-
 
 - Should machine name be generates during the import?
   - machine_name
@@ -69,3 +72,11 @@ TBD
   - annualPercentageRate => ann_per_rat
 
 - How to handle translations for imported data?
+
+# Schema.org Type => Drupal Entity
+
+- Thing => Node
+- Enumeration => Term
+- Media Object => Media
+- Structure values => Paragraph
+- Component => Block content

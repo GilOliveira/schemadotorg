@@ -3,5 +3,6 @@ type: module
 description: Uses Schema.org types and properties as the content architecture foundation for Drupal website.
 package: Schema.org
 core_version_requirement: ^9
+lifecycle: experimental
 dependencies:
   - drupal:taxonomy

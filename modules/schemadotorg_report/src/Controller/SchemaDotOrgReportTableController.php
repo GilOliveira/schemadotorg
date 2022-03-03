@@ -66,7 +66,7 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
 
     $build = [];
     $build['filter'] = $this->getFilterForm($table, $id);
-    $build['info'] = $this->buildTableInfo($table, $count);
+    $build['info'] = $this->buildInfo($table, $count);
     $build['table'] = [
       '#type' => 'table',
       '#header' => $header,
