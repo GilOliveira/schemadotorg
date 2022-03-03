@@ -50,7 +50,7 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
 
     $rows = [];
     foreach ($tables as $table) {
-      $max_length = ($table === 'types') ? 32 : 26;
+      $max_length = ($table === 'types') ? 32 : 25;
       $schema_ids = $this->database->select('schemadotorg_' . $table, $table)
         ->fields($table, ['label'])
         ->orderBy('label')
@@ -58,10 +58,10 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
         ->fetchCol();
       foreach ($schema_ids as $schema_id) {
         $schema_item = ($table === 'types') ? $this->t('Type') : $this->t('Properties');
-        $schema_label = SchemaDotOrgStringHelper::toLabel($schema_id);
+        $schema_label = SchemaDotOrgStringHelper::camelCaseToTitleCase($schema_id);
         $original_name = SchemaDotOrgStringHelper::camelCaseToSnakeCase($schema_id);
         $original_name_length = strlen($original_name);
-        $drupal_name = SchemaDotOrgStringHelper::toDrupalName($schema_id);
+        $drupal_name = SchemaDotOrgStringHelper::toDrupalName($schema_id, $max_length);
         $drupal_name_length = strlen($drupal_name);
 
         $row = [];

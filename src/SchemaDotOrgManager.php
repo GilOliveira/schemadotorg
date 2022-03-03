@@ -3,7 +3,6 @@
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Database\Connection;
-use Drupal\schemadotorg\Utilty\SchemaDotOrgStringHelper;
 
 /**
  * Schema.org manager service.
@@ -55,63 +54,114 @@ class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getFieldDefinitions($name) {
-    $filename = __DIR__ . '/../data/schemaorg-current-https-' . $name . '.csv';
-    $handle = fopen($filename, 'r');
-
-    // Get field names.
-    $schema_names = fgetcsv($handle);
-    $field_definitions = [];
-    foreach ($schema_names as $schema_name) {
-      $column_name = SchemaDotOrgStringHelper::camelCaseToSnakeCase($schema_name);
-      $field_definitions[$column_name] = [
-        'label' => SchemaDotOrgStringHelper::toLabel($schema_name),
-        'column_name' => $column_name,
-        'schema_name' => $schema_name,
-      ];
-    }
-    return $field_definitions;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function parseItems($text) {
     $text = trim($text);
-    return $text
-      ? explode(', ', str_replace('https://schema.org/', '', $text))
-      : [];
+    if (empty($text)) {
+      return [];
+    }
+
+    $items = explode(', ', str_replace('https://schema.org/', '', $text));
+    return array_combine($items, $items);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getTypeChildren($type, array $fields = ['label', 'sub_types', 'sub_type_of']) {
-    return $this->getAllTypesRecursive([$type], $fields);
+  public function getItem($table, $id, array $fields = []) {
+    $table_name = 'schemadotorg_' . $table;
+    if (empty($fields)) {
+      return $this->database->query('SELECT *
+        FROM {' . $this->database->escapeTable($table_name) . '}
+        WHERE label=:id', [':id' => $id])->fetchAssoc();
+    }
+    else {
+      return $this->database->select($table_name, 't')
+        ->fields('t', $fields)
+        ->condition('label', $id)
+        ->execute()
+        ->fetchAssoc();
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getType($type, array $fields = []) {
+    return $this->getItem('types', $type, $fields);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getProperty($property, array $fields = []) {
+    return $this->getItem('properties', $property, $fields);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTypeChildren($type) {
+    $type_definition = $this->getType($type, ['sub_types']);
+
+    // Subtypes.
+    $children = $this->parseItems($type_definition['sub_types']);
+
+    // Enumerations.
+    $enumeration_types = $this->database->select('schemadotorg_types', 'types')
+      ->fields('types', ['label'])
+      ->condition('enumerationtype', 'https://schema.org/' . $type)
+      ->orderBy('label')
+      ->execute()
+      ->fetchCol();
+    if ($enumeration_types) {
+      $children += array_combine($enumeration_types, $enumeration_types);
+    }
+
+    return $children;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getAllTypeChildren($type, array $fields = [], array $ignored_types = []) {
+    return $this->getTypesChildrenRecursive([$type], $fields, $ignored_types);
   }
 
   /**
    * Get all Schema.org types below a specified array of types.
    *
-   * @param array $ids
+   * @param array $types
    *   An array of Schema.org type ids.
    * @param array $fields
    *   An array of Schema.org type fields.
+   * @param array $ignored_types
+   *   An array of ignored Schema.org type ids.
    *
    * @return array
    *   An associative array of Schema.org types keyed by type.
+   *
+   * @see \Drupal\schemadotorg_report\Controller\SchemaDotOrgReportControllerBase::buildItemsRecursive
    */
-  protected function getAllTypesRecursive(array $ids, array $fields = ['label', 'sub_types', 'sub_type_of']) {
+  protected function getTypesChildrenRecursive(array $types, array $fields = [], array $ignored_types = []) {
+    $fields = $fields ?: ['label', 'sub_types', 'sub_type_of'];
+
     $items = $this->database->select('schemadotorg_types', 'types')
       ->fields('types', $fields)
-      ->condition('label', $ids, 'IN')
+      ->condition('label', $types, 'IN')
       ->orderBy('label')
       ->execute()
       ->fetchAllAssoc('label', \PDO::FETCH_ASSOC);
-    foreach ($items as $item) {
-      $sub_types = $this->parseItems($item['sub_types']);
-      if ($sub_types) {
-        $items += $this->getAllTypesRecursive($sub_types, $fields);
+    foreach ($items as $id => $item) {
+      // Get children.
+      $children = $this->getTypeChildren($id);
+
+      // Remove ignored types from children.
+      if ($ignored_types) {
+        $children = array_diff_key($children, $ignored_types);
+      }
+
+      if ($children) {
+        $items += $this->getTypesChildrenRecursive($children, $fields, $ignored_types);
       }
     }
     return $items;

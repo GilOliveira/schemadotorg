@@ -160,6 +160,8 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    *
    * @return array
    *   A renderable array containing Schema.org type as an item list.
+   *
+   * @see \Drupal\schemadotorg\SchemaDotOrgManager::getTypesChildrenRecursive
    */
   protected function buildItemsRecursive(array $ids, array $ignored_types = []) {
     if (empty($ids)) {
@@ -167,39 +169,23 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
     }
 
     $types = $this->database->select('schemadotorg_types', 'types')
-      ->fields('types', ['label', 'sub_types'])
+      ->fields('types', ['label'])
       ->condition('label', $ids, 'IN')
       ->orderBy('label')
       ->execute()
-      ->fetchAllAssoc('label', \PDO::FETCH_ASSOC);
+      ->fetchCol();
 
     $items = [];
-    foreach ($types as $id => $type) {
-      // Item.
-      $items[$id] = [
+    foreach ($types as $type) {
+      $items[$type] = [
         '#type' => 'link',
-        '#title' => $id,
-        '#url' => $this->getItemUrl($id),
+        '#title' => $type,
+        '#url' => $this->getItemUrl($type),
       ];
 
-      // Subtypes.
-      $sub_types = $this->manager->parseItems($type['sub_types']);
-      if ($ignored_types) {
-        $sub_types = array_diff($sub_types, $ignored_types);
-      }
-      if ($sub_types) {
-        $items[$id]['sub_types'] = $this->buildItemsRecursive($sub_types, $ignored_types);
-      }
-
-      // Enumerations.
-      $enumeration_types = $this->database->select('schemadotorg_types', 'types')
-        ->fields('types', ['label'])
-        ->condition('enumerationtype', 'https://schema.org/' . $id)
-        ->orderBy('label')
-        ->execute()
-        ->fetchCol();
-      if ($enumeration_types) {
-        $items[$id]['enumeration'] = $this->buildItemsRecursive($enumeration_types);
+      $children = $this->manager->getTypeChildren($type);
+      if ($children) {
+        $items[$type]['children'] = $this->buildItemsRecursive($children);
       }
     }
 

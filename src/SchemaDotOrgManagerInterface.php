@@ -43,17 +43,6 @@ interface SchemaDotOrgManagerInterface {
   public function isProperty($id);
 
   /**
-   * Get Schema.org field definitions for types and properties.
-   *
-   * @param string $name
-   *   Table name (types or properties).
-   *
-   * @return array
-   *   Field definitions for types and properties.
-   */
-  public function getFieldDefinitions($name);
-
-  /**
    * Parse Schema.org types or properties from a comma delimited list of URLs.
    *
    * @param string $text
@@ -65,16 +54,53 @@ interface SchemaDotOrgManagerInterface {
   public function parseItems($text);
 
   /**
+   * Get Schema.org type.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   *
+   * @return array|false
+   *   An associative array containing Schema.org type definition,
+   *   or FALSE if there is no type found.
+   */
+  public function getType($type);
+
+  /**
+   * Get Schema.org property.
+   *
+   * @param string $property
+   *   A Schema.org property.
+   *
+   * @return array|false
+   *   An associative array containing Schema.org property definition,
+   *   or FALSE if there is no property found.
+   */
+  public function getProperty($property);
+
+  /**
+   * Get all child Schema.org types below a specified type.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   *
+   * @return array
+   *   An associative array of Schema.org types keyed by type.
+   */
+  public function getTypeChildren($type);
+
+  /**
    * Get all Schema.org types below a specified type.
    *
    * @param string $type
    *   A Schema.org type.
    * @param array $fields
    *   An array of Schema.org type fields.
+   * @param array $ignored_types
+   *   An array of ignored Schema.org type ids.
    *
    * @return array
    *   An associative array of Schema.org types keyed by type.
    */
-  public function getTypeChildren($type, array $fields = ['label', 'sub_types']);
+  public function getAllTypeChildren($type, array $fields = [], array $ignored_types = []);
 
 }

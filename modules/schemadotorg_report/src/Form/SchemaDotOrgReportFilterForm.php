@@ -48,7 +48,7 @@ class SchemaDotOrgReportFilterForm extends FormBase {
     $this->table = $table;
 
     $t_args = [
-      '@label' => ($table === 'types') ? $this->t('type') : $this->t('properties'),
+      '@label' => ($table === 'types') ? $this->t('type') : $this->t('property'),
     ];
     $form['filter'] = [
       '#type' => 'container',
@@ -58,8 +58,8 @@ class SchemaDotOrgReportFilterForm extends FormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Find a @label', $t_args),
       '#title_display' => 'invisible',
-      '#placeholder' => $this->t('Find a @label', $t_args),
-      '#size' => '20',
+      '#placeholder' => $this->t('Find a Schema.org @label', $t_args),
+      '#size' => 30,
       '#default_value' => $id,
       '#autocomplete_route_name' => 'schemadotorg_reports.autocomplete',
       '#autocomplete_route_parameters' => ['table' => $table],

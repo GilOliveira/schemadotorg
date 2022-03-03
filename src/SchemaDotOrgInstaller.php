@@ -4,9 +4,13 @@ namespace Drupal\schemadotorg;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\schemadotorg\Utilty\SchemaDotOrgStringHelper;
 use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\Entity\Vocabulary;
 
 /**
  * Schema.org installer service.
@@ -39,6 +43,18 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   protected $schemaDotOrgManager;
 
   /**
+   * Schema.org type vocabularies.
+   *
+   * @var string[]
+   */
+  protected $typeVocabularies = [
+    'Thing',
+    'Intangible',
+    'Enumeration',
+    'StructuredValue',
+  ];
+
+  /**
    * Constructs a SchemaDotOrgInstaller object.
    *
    * @param \Drupal\Core\Database\Connection $database
@@ -58,10 +74,18 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    * {@inheritdoc}
    */
   public function install() {
+    // Recreate Schema.org types and properties tables.
+    // Recreating these readonly tables allows us to continually refine and
+    // optimize the table schemas.
     $this->reinstallSchema();
-    $this->importTable('properties');
+
+    // Import Schema.org types and properties tables.
     $this->importTable('types');
-    $this->updateTypesVocabulary();
+    $this->importTable('properties');
+
+    // Create and update Schema.org type vocabularies.
+    $this->createTypeVocabularies();
+    $this->updateTypeVocabularies();
   }
 
   /**
@@ -278,7 +302,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       foreach ($field_names as $index => $field_name) {
         $fields[$field_name] = $row[$index] ?? '';
       }
-      $fields['drupal_label'] = SchemaDotOrgStringHelper::toLabel($fields['label']);
+      $fields['drupal_label'] = SchemaDotOrgStringHelper::camelCaseToTitleCase($fields['label']);
       $fields['drupal_name'] = SchemaDotOrgStringHelper::toDrupalName($fields['label']);
       $this->database->insert($table)
         ->fields($fields)
@@ -299,54 +323,123 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
     }
   }
 
+  /* ************************************************************************ */
+  // Type vocabularies.
+  /* ************************************************************************ */
+
   /**
-   * Update the Schema.org types vocabulary (schemadotorg_types).
+   * Create type vocabularies.
    */
-  protected function updateTypesVocabulary() {
+  protected function createTypeVocabularies() {
+    $entity_type = 'taxonomy_term';
+    $field_name = 'schema_type';
+    $field_label = 'Schema.org: Type';
+
+    if (!FieldStorageConfig::loadByName('taxonomy_term', 'schema_type')) {
+      FieldStorageConfig::create([
+        'field_name' => $field_name,
+        'entity_type' => 'taxonomy_term',
+        'type' => 'string',
+        'settings' => ['max_length' => 255],
+      ])->save();
+    }
+
+    /** @var \Drupal\taxonomy\VocabularyStorage $vocabulary_storage */
+    $vocabulary_storage = $this->entityTypeManager->getStorage('taxonomy_vocabulary');
+
+    foreach ($this->typeVocabularies as $type_vocabulary) {
+      $type_definition = $this->schemaDotOrgManager->getType($type_vocabulary);
+
+      $entity_id = 'schema_' . $type_definition['drupal_name'];
+      $entity_label = 'Schema.org: ' . $type_definition['drupal_label'];
+
+      $vocabulary = $vocabulary_storage->load($entity_id);
+      if (!$vocabulary) {
+        $vocabulary = $vocabulary_storage->create([
+          'name' => $entity_label,
+          'vid' => $entity_id,
+        ]);
+        $vocabulary->save();
+      }
+
+      if (!FieldConfig::loadByName($entity_type, $entity_id, $field_name)) {
+        FieldConfig::create([
+          'entity_type' => $entity_type,
+          'bundle' => $entity_id,
+          'field_name' => $field_name,
+          'label' => $field_label,
+        ])->save();
+      }
+
+      /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository */
+      $display_repository = \Drupal::service('entity_display.repository');
+
+      $display_repository->getFormDisplay($entity_type, $entity_id)
+        ->setComponent($field_name, ['type' => 'string_textfield'])
+        ->save();
+
+      $display_repository->getViewDisplay($entity_type, $entity_id)
+        ->setComponent($field_name, ['type' => 'string'])
+        ->save();
+    }
+  }
+
+  /**
+   * Update the Schema.org type vocabularies.
+   */
+  protected function updateTypeVocabularies() {
     /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
     $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
 
-    // Create terms lookup table.
-    /** @var \Drupal\taxonomy\TermInterface[] $terms_lookup */
-    $terms_lookup = [];
-    $terms = $term_storage->loadByProperties(['vid' => 'schemadotorg_types']);
-    foreach ($terms as $term) {
-      $terms_lookup[$term->field_schemadotorg_type->value] = $term;
-    }
+    foreach ($this->typeVocabularies as $type_vocabulary) {
+      $type_definition = $this->schemaDotOrgManager->getType($type_vocabulary);
 
-    // Get types below 'Thing'.
-    // This prevents data types from being added to the vocabulary.
-    $types = $this->schemaDotOrgManager->getTypeChildren('Thing');
+      $entity_id = 'schema_' . $type_definition['drupal_name'];
 
-    // First pass: Insert new Schema.org types.
-    foreach ($types as $type => $item) {
-      if (!isset($terms_lookup[$type])) {
-        $term = $term_storage->create([
-          'name' => SchemaDotOrgStringHelper::toLabel($type),
-          'vid' => 'schemadotorg_types',
-          'field_schemadotorg_type' => ['value' => $type],
-        ]);
-        $term->save();
-        $terms_lookup[$type] = $term;
+      // Create terms lookup table.
+      /** @var \Drupal\taxonomy\TermInterface[] $terms_lookup */
+      $terms_lookup = [];
+      $terms = $term_storage->loadByProperties(['vid' => $entity_id]);
+      foreach ($terms as $term) {
+        $terms_lookup[$term->schema_type->value] = $term;
       }
-    }
 
-    // Second path: Build Schema.org type hierarchy.
-    foreach ($types as $type => $item) {
-      // Get parent values.
-      $value = [];
-      $parent_types = $this->schemaDotOrgManager->parseItems($item['sub_type_of']);
-      foreach ($parent_types as $parent_type) {
-        if (isset($terms_lookup[$parent_type])) {
-          $parent_term = $terms_lookup[$parent_type];
-          $value[] = ['target_id' => $parent_term->id()];
+      $types = $this->schemaDotOrgManager->getAllTypeChildren(
+        $type_vocabulary,
+        ['label', 'drupal_label', 'sub_type_of'],
+        $this->typeVocabularies
+      );
+
+      // First pass: Insert new Schema.org types.
+      foreach ($types as $type => $item) {
+        if (!isset($terms_lookup[$type])) {
+          $term = $term_storage->create([
+            'name' => $item['drupal_label'],
+            'vid' => $entity_id,
+            'schema_type' => ['value' => $type],
+          ]);
+          $term->save();
+          $terms_lookup[$type] = $term;
         }
       }
 
-      // Re-save the term.
-      $term = $terms_lookup[$type];
-      $term->parent->setValue($value);
-      $term->save();
+      // Second path: Build Schema.org type hierarchy.
+      foreach ($types as $type => $item) {
+        // Get parent values.
+        $value = [];
+        $parent_types = $this->schemaDotOrgManager->parseItems($item['sub_type_of']);
+        foreach ($parent_types as $parent_type) {
+          if (isset($terms_lookup[$parent_type])) {
+            $parent_term = $terms_lookup[$parent_type];
+            $value[] = ['target_id' => $parent_term->id()];
+          }
+        }
+
+        // Re-save the term.
+        $term = $terms_lookup[$type];
+        $term->parent->setValue($value);
+        $term->save();
+      }
     }
   }
 
