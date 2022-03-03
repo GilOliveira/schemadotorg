@@ -124,6 +124,9 @@ class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
    * {@inheritdoc}
    */
   public function getAllTypeChildren($type, array $fields = [], array $ignored_types = []) {
+    if ($ignored_types) {
+      $ignored_types = array_combine($ignored_types, $ignored_types);
+    }
     return $this->getTypesChildrenRecursive([$type], $fields, $ignored_types);
   }
 

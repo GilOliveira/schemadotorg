@@ -184,8 +184,11 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
       ];
 
       $children = $this->manager->getTypeChildren($type);
+      if ($ignored_types) {
+        $children = array_diff_key($children, $ignored_types);
+      }
       if ($children) {
-        $items[$type]['children'] = $this->buildItemsRecursive($children);
+        $items[$type]['children'] = $this->buildItemsRecursive($children, $ignored_types);
       }
     }
 

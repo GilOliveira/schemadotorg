@@ -27,6 +27,7 @@ class SchemaDotOrgReportHierarchyController extends SchemaDotOrgReportController
     else {
       $types = [$type];
       $ignored_types = ['Intangible', 'Enumeration', 'StructuredValue'];
+      $ignored_types = array_combine($ignored_types, $ignored_types);
     }
 
     return $this->buildItemsRecursive($types, $ignored_types);
