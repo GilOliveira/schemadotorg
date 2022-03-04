@@ -23,7 +23,7 @@
   </rule>
 
   <!-- Rules that need to ignored -->
-  <rule ref="Drupal">
+  <rule ref="sDrupal">
     <exclude name="Drupal.Arrays.Array.ArrayIndentation"/>
     <exclude name="Drupal.Commenting.DocComment.ShortNotCapital"/>
     <exclude name="Drupal.Commenting.FunctionComment.TypeHintMissing"/>

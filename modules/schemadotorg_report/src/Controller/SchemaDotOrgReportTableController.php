@@ -84,7 +84,7 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
    * @return array[]
    *   Schema.org types table header.
    */
-  public function getTypesHeader() {
+  protected function getTypesHeader() {
     return [
       'label' => [
         'data' => $this->t('Schema.org label'),
@@ -136,7 +136,7 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
    * @return array[]
    *   Properties table header.
    */
-  public function getPropertiesHeader() {
+  protected function getPropertiesHeader() {
     return [
       'label' => [
         'data' => $this->t('Schema.org label'),

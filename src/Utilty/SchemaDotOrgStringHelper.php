@@ -83,7 +83,7 @@ class SchemaDotOrgStringHelper {
       'is_accessory_or_spare_part_for' => 'is_access_or_part_for',
       'is_located_in_subcellular_location' => 'is_located_in_subcell_loc',
       'offers_prescription_by_mail' => 'offers_prescript_by_mail',
-      'customer_remorse_return_shipping_fees_amount' => 'cust_rem_ret_ship_fee_amt'
+      'customer_remorse_return_shipping_fees_amount' => 'cust_rem_ret_ship_fee_amt',
     ];
     if (isset($custom[$drupal_name])) {
       return $custom[$drupal_name];
@@ -104,7 +104,7 @@ class SchemaDotOrgStringHelper {
       'digital_document_' => 'digit_doc_',
       'government_' => 'gov_',
       'educational_occupational_' => 'edu_occ_',
-      'eu_energy_efficiency_category' => 'eu_energy_eff_cat_',
+      'eu_energy_efficiency_category_' => 'eu_energy_eff_cat_',
       'energy_star_energy_efficiency_' => 'en_star_eff_',
       'food_establishment_' => 'food_est_',
       'item_defect_return_' => 'itm_def_ret_',
@@ -120,7 +120,8 @@ class SchemaDotOrgStringHelper {
       'misconceptions_' => 'miscon_',
       'original_' => 'orig_',
       'verification_' => 'verif_',
-      'return_' => 'ret_',
+      'return_label_' => 'ret_lbl_',
+      'return_fees_' => 'ret_fees_',
       'risks_or_complications_' => 'risks_or_comp_',
       'wearable_measurement_' => 'wear_measure_',
       'wearable_size_' => 'wear_size_',
@@ -160,11 +161,13 @@ class SchemaDotOrgStringHelper {
       '_process' => '_proc',
       '_processing' => '_proc',
       '_policy' => '_pol',
+      '_recommendation' => '_rec',
       '_reservation' => '_res',
       '_requirement' => '_req',
       '_registered' => '_reg',
       '_registration' => '_reg',
       '_responsibility' => '_resp',
+      '_standard' => '_stand',
       '_statistics' => '_stats',
       '_volume' => '_vol',
     ];
@@ -200,6 +203,7 @@ class SchemaDotOrgStringHelper {
       'experience' => 'exp',
       'frequency' => 'freq',
       'identification' => 'id',
+      'incorporated' => 'inc',
       'insurance' => 'ins',
       'hours' => 'hrs',
       'minutes' => 'min',
@@ -208,6 +212,7 @@ class SchemaDotOrgStringHelper {
       'maximum' => 'max',
       'number' => 'num',
       'organization' => 'org',
+      'pregnancy' => 'preg',
       'permission' => 'perm',
       'process' => 'proc',
       'production' => 'prod',

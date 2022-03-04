@@ -17,6 +17,13 @@ class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
   protected $database;
 
   /**
+   * Schema.org items cache.
+   *
+   * @var array
+   */
+  protected $itemsCache = [];
+
+  /**
    * Constructs a SchemaDotOrgInstaller object.
    *
    * @param \Drupal\Core\Database\Connection $database
@@ -24,6 +31,19 @@ class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
    */
   public function __construct(Connection $database) {
     $this->database = $database;
+  }
+
+  /**
+   * Get Schema.org type or property URI.
+   *
+   * @param string $id
+   *   A Schema.org type or property.
+   *
+   * @return string
+   *   Schema.org type or property URI.
+   */
+  public function getUri($id) {
+    return static::URI . $id;
   }
 
   /**
@@ -40,8 +60,43 @@ class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
   /**
    * {@inheritdoc}
    */
+  public function isItem($id) {
+    return $this->isType($id) || $this->isProperty($id);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function isType($id) {
     return $this->isId('types', $id);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isDataType($id) {
+    $data_types = $this->getDataTypes();
+    return (isset($data_types[$id]));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isEnumerationType($id) {
+    return (boolean) $this->database->select('schemadotorg_types', 'types')
+      ->fields('types', ['id'])
+      ->condition('enumerationtype', $this->getUri($id))
+      ->countQuery()
+      ->execute()
+      ->fetchField();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isEnumerationValue($id) {
+    $item = $this->getItem('types', $id);
+    return (!empty($item['enumerationtype']));
   }
 
   /**
@@ -54,13 +109,13 @@ class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function parseItems($text) {
+  public function parseIds($text) {
     $text = trim($text);
     if (empty($text)) {
       return [];
     }
 
-    $items = explode(', ', str_replace('https://schema.org/', '', $text));
+    $items = explode(', ', str_replace(static::URI, '', $text));
     return array_combine($items, $items);
   }
 
@@ -70,9 +125,12 @@ class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
   public function getItem($table, $id, array $fields = []) {
     $table_name = 'schemadotorg_' . $table;
     if (empty($fields)) {
-      return $this->database->query('SELECT *
-        FROM {' . $this->database->escapeTable($table_name) . '}
-        WHERE label=:id', [':id' => $id])->fetchAssoc();
+      if (!isset($this->itemsCache[$table][$id])) {
+        $this->itemsCache[$table][$id] = $this->database->query('SELECT *
+          FROM {' . $this->database->escapeTable($table_name) . '}
+          WHERE label=:id', [':id' => $id])->fetchAssoc();
+      }
+      return $this->itemsCache[$table][$id];
     }
     else {
       return $this->database->select($table_name, 't')
@@ -104,12 +162,12 @@ class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
     $type_definition = $this->getType($type, ['sub_types']);
 
     // Subtypes.
-    $children = $this->parseItems($type_definition['sub_types']);
+    $children = $this->parseIds($type_definition['sub_types']);
 
     // Enumerations.
     $enumeration_types = $this->database->select('schemadotorg_types', 'types')
       ->fields('types', ['label'])
-      ->condition('enumerationtype', 'https://schema.org/' . $type)
+      ->condition('enumerationtype', $this->getUri($type))
       ->orderBy('label')
       ->execute()
       ->fetchCol();
@@ -168,6 +226,24 @@ class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
       }
     }
     return $items;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDataTypes() {
+    $labels = $this->database->select('schemadotorg_types', 'types')
+      ->fields('types', ['label'])
+      ->condition('sub_type_of', '')
+      ->condition('label', 'Thing', '<>')
+      ->orderBy('label')
+      ->execute()
+      ->fetchCol();
+    $data_types = array_combine($labels, $labels);
+    foreach ($data_types as $data_type) {
+      $data_types += $this->getTypeChildren($data_type);
+    }
+    return $data_types;
   }
 
 }

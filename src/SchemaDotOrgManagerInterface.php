@@ -8,6 +8,24 @@ namespace Drupal\schemadotorg;
 interface SchemaDotOrgManagerInterface {
 
   /**
+   * Schema.org URI.
+   *
+   * @var string
+   */
+  const URI = 'https://schema.org/';
+
+  /**
+   * Get Schema.org type or property URI.
+   *
+   * @param string $id
+   *   A Schema.org type or property.
+   *
+   * @return string
+   *   Schema.org type or property URI.
+   */
+  public function getUri($id);
+
+  /**
    * Determine if ID is in a valid Schema.org table.
    *
    * @param string $table
@@ -21,6 +39,17 @@ interface SchemaDotOrgManagerInterface {
   public function isId($table, $id);
 
   /**
+   * Determine if ID is a Schema.org type or property.
+   *
+   * @param string $id
+   *   A Schema.org ID.
+   *
+   * @return bool
+   *   TRUE if ID is a Schema.org type or property.
+   */
+  public function isItem($id);
+
+  /**
    * Determine if ID is a Schema.org type.
    *
    * @param string $id
@@ -30,6 +59,39 @@ interface SchemaDotOrgManagerInterface {
    *   TRUE if ID is a Schema.org type.
    */
   public function isType($id);
+
+  /**
+   * Determine if ID is a Schema.org data type.
+   *
+   * @param string $id
+   *   A Schema.org ID.
+   *
+   * @return bool
+   *   TRUE if ID is a Schema.org data type.
+   */
+  public function isDataType($id);
+
+  /**
+   * Determine if ID is a Schema.org enumeration type.
+   *
+   * @param string $id
+   *   A Schema.org ID.
+   *
+   * @return bool
+   *   TRUE if ID is a Schema.org enumeration type.
+   */
+  public function isEnumerationType($id);
+
+  /**
+   * Determine if ID is a Schema.org enumeration value.
+   *
+   * @param string $id
+   *   A Schema.org ID.
+   *
+   * @return bool
+   *   TRUE if ID is a Schema.org enumeration value.
+   */
+  public function isEnumerationValue($id);
 
   /**
    * Determine if ID is a Schema.org property.
@@ -43,7 +105,7 @@ interface SchemaDotOrgManagerInterface {
   public function isProperty($id);
 
   /**
-   * Parse Schema.org types or properties from a comma delimited list of URLs.
+   * Parse Schema.org type or property IDs from a comma delimited list of URLs.
    *
    * @param string $text
    *   A comma delimited list of Schema.org URLs.
@@ -51,7 +113,23 @@ interface SchemaDotOrgManagerInterface {
    * @return string[]
    *   An array of Schema.org types.
    */
-  public function parseItems($text);
+  public function parseIds($text);
+
+  /**
+   * Get Schema.org type or property item.
+   *
+   * @param string $table
+   *   A Schema.org table.
+   * @param string $id
+   *   A Schema.org type or property ID.
+   * @param array $fields
+   *   Fields to returned.
+   *
+   * @return array
+   *   An associative array containing Schema.org type or property item.
+   *   or FALSE if there is no type found.
+   */
+  public function getItem($table, $id, array $fields = []);
 
   /**
    * Get Schema.org type.
@@ -102,5 +180,13 @@ interface SchemaDotOrgManagerInterface {
    *   An associative array of Schema.org types keyed by type.
    */
   public function getAllTypeChildren($type, array $fields = [], array $ignored_types = []);
+
+  /**
+   * Get Schema.org data types.
+   *
+   * @return array|string[]
+   *   An array of data types.
+   */
+  public function getDataTypes();
 
 }

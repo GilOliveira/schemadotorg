@@ -83,28 +83,52 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   }
 
   /**
-   * Build table info.
+   * Build info.
    *
-   * @param string $table
-   *   Types or properties table name.
+   * @param string $type
+   *   Type of info being displayed.
    * @param int $count
    *   The item count to display.
    *
    * @return array
-   *   A renderable array containing item count info.
+   *   A renderable array containing info.
    */
-  protected function buildInfo($table, $count) {
-    if ($table === 'warnings') {
-      $info = $this->formatPlural($count, '@count warning', '@count warnings');
-    }
-    elseif ($table === 'types') {
-      $info = $this->formatPlural($count, '@count type', '@count types');
-    }
-    elseif ($table === 'properties') {
-      $info = $this->formatPlural($count, '@count property', '@count properties');
-    }
-    else {
-      $info = $this->formatPlural($count, '@count item', '@count items');
+  protected function buildInfo($type, $count) {
+    switch ($type) {
+      case 'Thing':
+        $info = $this->formatPlural($count, '@count thing', '@count things');
+        break;
+
+      case 'Intangible':
+        $info = $this->formatPlural($count, '@count intangible', '@count intangibles');
+        break;
+
+      case 'Enumeration':
+        $info = $this->formatPlural($count, '@count enumeration', '@count enumerations');
+        break;
+
+      case 'StructuredValue':
+        $info = $this->formatPlural($count, '@count structured value', '@count structured values');
+        break;
+
+      case 'DataTypes':
+        $info = $this->formatPlural($count, '@count data type', '@count data types');
+        break;
+
+      case 'warnings':
+        $info = $this->formatPlural($count, '@count warning', '@count warnings');
+        break;
+
+      case 'types':
+        $info = $this->formatPlural($count, '@count type', '@count types');
+        break;
+
+      case 'properties':
+        $info = $this->formatPlural($count, '@count property', '@count properties');
+        break;
+
+      default:
+        $info = $this->formatPlural($count, '@count item', '@count items');
     }
     return [
       '#markup' => $info,
@@ -124,7 +148,7 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    * @return array[]|string
    *   A renderable array containing a table cell.
    */
-  public function buildTableCell($name, $value) {
+  protected function buildTableCell($name, $value) {
     switch ($name) {
       case 'drupal_name':
       case 'drupal_label':
@@ -168,6 +192,8 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
       return [];
     }
 
+    // We must make sure the type is not deprecated or does not exist.
+    // @see https://schema.org/docs/attic.home.html
     $types = $this->database->select('schemadotorg_types', 'types')
       ->fields('types', ['label'])
       ->condition('label', $ids, 'IN')
@@ -198,10 +224,6 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
     ];
   }
 
-  /* ************************************************************************ */
-  // API methods.
-  /* ************************************************************************ */
-
   /**
    * Get Schema.org type or property URL.
    *
@@ -214,33 +236,6 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   protected function getItemUrl($id) {
     return Url::fromRoute('schemadotorg_reports', ['id' => $id]);
   }
-
-  /**
-   * Get Schema.org type or property item.
-   *
-   * @param string $table
-   *   Types or properties table name.
-   * @param string $id
-   *   Type or property ID.
-   *
-   * @return array
-   *   A Schema.org type or property item.
-   */
-  protected function getItem($table, $id) {
-    $fields = ($table === 'types')
-      ? $this->getTypeFields()
-      : $this->getPropertyFields();
-
-    return $this->database->select('schemadotorg_' . $table, $table)
-      ->fields($table, array_keys($fields))
-      ->condition('label', $id)
-      ->execute()
-      ->fetchAssoc();
-  }
-
-  /* ************************************************************************ */
-  // Helper methods.
-  /* ************************************************************************ */
 
   /**
    * Format Schema.org type or property comment.
@@ -277,21 +272,21 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    *   An array of links for Schema.org items (types or properties).
    */
   protected function getLinks($text) {
-    $types = $this->manager->parseItems($text);
+    $ids = $this->manager->parseIds($text);
 
     $links = [];
-    foreach ($types as $type) {
+    foreach ($ids as $id) {
       $prefix = ($links) ? ', ' : '';
-      if (preg_match('#^[0-9A-Za-z]+$#', $type)) {
+      if ($this->manager->isItem($id)) {
         $links[] = [
           '#type' => 'link',
-          '#title' => $type,
-          '#url' => $this->getItemUrl($type),
+          '#title' => $id,
+          '#url' => $this->getItemUrl($id),
           '#prefix' => $prefix,
         ];
       }
       else {
-        $links[] = ['#plain_text' => $type, '#prefix' => $prefix];
+        $links[] = ['#plain_text' => $id, '#prefix' => $prefix];
       }
     }
     return $links;

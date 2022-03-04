@@ -3,6 +3,8 @@ schemadotorg_reports:
   route_name: schemadotorg_reports
   base_route: schemadotorg_reports
 
+# Types
+
 schemadotorg_reports.types:
   title: Types
   route_name: schemadotorg_reports.types
@@ -32,10 +34,14 @@ schemadotorg_reports.types.data_types:
   route_name: schemadotorg_reports.types.data_types
   parent_id: schemadotorg_reports.types
 
+# Properties
+
 schemadotorg_reports.properties:
   title: Properties
   route_name: schemadotorg_reports.properties
   base_route: schemadotorg_reports
+
+# Names
 
 schemadotorg_reports.names:
   title: Names

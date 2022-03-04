@@ -4,13 +4,9 @@ namespace Drupal\schemadotorg;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Field\FieldStorageDefinitionInterface;
-use Drupal\Core\Language\LanguageInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\schemadotorg\Utilty\SchemaDotOrgStringHelper;
-use Drupal\taxonomy\Entity\Term;
-use Drupal\taxonomy\Entity\Vocabulary;
 
 /**
  * Schema.org installer service.
@@ -427,7 +423,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       foreach ($types as $type => $item) {
         // Get parent values.
         $value = [];
-        $parent_types = $this->schemaDotOrgManager->parseItems($item['sub_type_of']);
+        $parent_types = $this->schemaDotOrgManager->parseIds($item['sub_type_of']);
         foreach ($parent_types as $parent_type) {
           if (isset($terms_lookup[$parent_type])) {
             $parent_term = $terms_lookup[$parent_type];

@@ -8,6 +8,15 @@ Schema.org
 - UI
 - Json-ld
 - Json API
+- Entity???
+
+# Schema.org Type => Drupal Entity
+
+- Thing => Node
+- Enumeration => Term
+- Media Object => Media
+- Structure values => Paragraph
+- Component => Block content
 
 # Todo
 
@@ -26,13 +35,9 @@ Schema.org
   - paragraphs
   - terms
 
-- Research UI hooks
-  - Add Schema.org type
-  - Add Schema.org properties
+- Create type blacklist which applies to taxonomy.
 
-- Create type blacklist applies to taxonomy
-
-- Define what is alpha beta and release goals
+- Define what is alpha beta and release goals.
 
 - Use Entity Builder class to add helper
   @see https://www.drupal.org/node/3191609
@@ -59,24 +64,13 @@ Report
 
 # TBD
 
+- Why are we seeing 1329 types? (/admin/reports/schemadotorg/docs/types)
+
 - Should we prefix all schema field with schema_* ?
 
-- Should machine name be generates during the import?
-  - machine_name
-  - SchemaDotOrgStringHelper::toMachineName($text)
-
-- How to handle field names with 32 characters limit?
-  - For multiple word abbreviate by taking first 3 characters.
-  - actionAccessibilityRequirement => act_acc_req
-  - additionalNumberOfGuests => add_num_gue
-  - annualPercentageRate => ann_per_rat
+- Should machine name be tied to field storage via third party settings?
 
 - How to handle translations for imported data?
 
-# Schema.org Type => Drupal Entity
+- How can we validate the generated JSON-ld?
 
-- Thing => Node
-- Enumeration => Term
-- Media Object => Media
-- Structure values => Paragraph
-- Component => Block content

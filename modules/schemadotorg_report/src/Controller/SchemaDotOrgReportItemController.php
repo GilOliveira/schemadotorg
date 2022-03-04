@@ -14,22 +14,59 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
   /**
    * Builds the Schema.org type or property item.
    *
+   * @param string $id
+   *   The Schema.org type of property ID.
+   *
    * @return array
    *   A renderable array containing a Schema.org type or property item.
    */
   public function index($id = '') {
     if ($id === '') {
-      return $this->buildAbout();
+      return $this->about();
     }
     elseif ($this->manager->isType($id)) {
-      return $this->buildItem('types', $id);
+      return $this->item('types', $id);
     }
     elseif ($this->manager->isProperty($id)) {
-      return $this->buildItem('properties', $id);
+      return $this->item('properties', $id);
     }
     else {
       throw new NotFoundHttpException();
     }
+  }
+
+  /**
+   * Route title callback.
+   *
+   * @param string $id
+   *   The Schema.org type of property ID.
+   *
+   * @return \Drupal\Core\StringTranslation\TranslatableMarkup
+   *   The title.
+   */
+  public function title($id) {
+    if (empty($id)) {
+      return $this->t('Schema.org: About');
+    }
+
+    if ($this->manager->isDataType($id)) {
+      $type = $this->t('Data type');
+    }
+    elseif ($this->manager->isEnumerationType($id)) {
+      $type = $this->t('Enumeration type');
+    }
+    elseif ($this->manager->isEnumerationValue($id)) {
+      $type = $this->t('Enumeration value');
+    }
+    elseif ($this->manager->isType($id)) {
+      $type = $this->t('Type');
+    }
+    else {
+      $type = $this->t('Property');
+    }
+
+    $t_args = ['@id' => $id, '@type' => $type];
+    return $this->t('Schema.org: @id (@type)', $t_args);
   }
 
   /**
@@ -38,7 +75,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    * @return array
    *   A renderable array containing Schema.org about page.
    */
-  protected function buildAbout() {
+  protected function about() {
     $build = [];
 
     // Introduction.
@@ -51,41 +88,35 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     // Divider.
     $build['divider'] = ['#markup' => '<hr/>'];
 
-    // Description.
+    // Description top.
     $t_args = [
       ':type_href' => Url::fromRoute('schemadotorg_reports.types')->toString(),
       ':properties_href' => Url::fromRoute('schemadotorg_reports.properties')->toString(),
+      ':things_href' => Url::fromRoute('schemadotorg_reports.types.things')->toString(),
     ];
-    $description = $this->t('The schemas are a set of <a href=":types_href">types</a>, each associated with a set of <a href=":properties_href">properties</a>.', $t_args);
-    $t_args = [
-      ':href' => Url::fromRoute('schemadotorg_reports.types.things')->toString(),
-    ];
-    $description .= ' ' . $this->t('The types are arranged in a <a href=":href">hierarchy</a>.', $t_args);
-    $build['description'] = ['#markup' => $description];
+    $description_top = $this->t('The schemas are a set of <a href=":types_href">types</a>, each associated with a set of <a href=":properties_href">properties</a>.', $t_args);
+    $description_top .= ' ' . $this->t('The types are arranged in a <a href=":things_href">hierarchy</a>.', $t_args);
+    $build['description'] = ['#markup' => $description_top];
 
     // Types.
     $build['types'] = $this->getFilterForm('types');
 
-    // Jump.
-    $jump = <<<EOT
-<p>Or you can jump directly to a commonly used type:</p>
-<ul>
-<li>Creative works: <a title="CreativeWork" href="/CreativeWork">CreativeWork</a>, <a title="Book" href="/Book">Book</a>, <a title="Movie" href="/Movie">Movie</a>, <a title="MusicRecording" href="/MusicRecording">MusicRecording</a>, <a title="Recipe" href="/Recipe">Recipe</a>, <a title="TVSeries" href="/TVSeries">TVSeries</a> ...</li>
-<li>Embedded non-text objects: <a title="AudioObject" href="/AudioObject">AudioObject</a>, <a title="ImageObject" href="/ImageObject">ImageObject</a>, <a title="VideoObject" href="/VideoObject">VideoObject</a></li>
-<li><a title="Event" href="/Event">Event</a></li>
-<li><a href="meddocs.html">Health and medical types</a>: notes on the health and medical types under <a title="MedicalEntity" href="/MedicalEntity">MedicalEntity</a>.</li>
-<li><a title="Organization" href="/Organization">Organization</a></li>
-<li><a title="Person" href="/Person">Person</a></li>
-<li><a title="Place" href="/Place">Place</a>, <a title="LocalBusiness" href="/LocalBusiness">LocalBusiness</a>, <a title="Restaurant" href="/Restaurant">Restaurant</a> ...</li>
-<li><a title="Product" href="/Product">Product</a>, <a title="Offer" href="/Offer">Offer</a>, <a title="AggregateOffer" href="/AggregateOffer">AggregateOffer</a></li>
-<li><a title="Review" href="/Review">Review</a>, <a title="AggregateRating" href="/AggregateRating">AggregateRating</a></li>
-<li><a title="Action" href="/Action">Action</a></li>
-</ul>
-EOT;
+    // Description bottom.
+    $description_bottom = '<p>' . $this->t('Or you can jump directly to a commonly used type:') . '</p>';
+    $description_bottom .= '<ul>';
+    $description_bottom .= '<li>' . $this->t('Creative works: <a title="CreativeWork" href="/CreativeWork">CreativeWork</a>, <a title="Book" href="/Book">Book</a>, <a title="Movie" href="/Movie">Movie</a>, <a title="MusicRecording" href="/MusicRecording">MusicRecording</a>, <a title="Recipe" href="/Recipe">Recipe</a>, <a title="TVSeries" href="/TVSeries">TVSeries</a> ...') . '</li>';
+    $description_bottom .= '<li>' . $this->t('Embedded non-text objects: <a title="AudioObject" href="/AudioObject">AudioObject</a>, <a title="ImageObject" href="/ImageObject">ImageObject</a>, <a title="VideoObject" href="/VideoObject">VideoObject</a>') . '</li>';
+    $description_bottom .= '<li>' . $this->t('<a title="Event" href="/Event">Event</a>') . '</li>';
+    $description_bottom .= '<li>' . $this->t('<a href="meddocs.html">Health and medical types</a>: notes on the health and medical types under <a title="MedicalEntity" href="/MedicalEntity">MedicalEntity</a>.') . '</li>';
+    $description_bottom .= '<li>' . $this->t('<a title="Organization" href="/Organization">Organization</a>') . '</li>';
+    $description_bottom .= '<li>' . $this->t('<a title="Person" href="/Person">Person</a>') . '</li>';
+    $description_bottom .= '<li>' . $this->t('<a title="Place" href="/Place">Place</a>, <a title="LocalBusiness" href="/LocalBusiness">LocalBusiness</a>, <a title="Restaurant" href="/Restaurant">Restaurant</a> ...') . '</li>';
+    $description_bottom .= '<li>' . $this->t('<a title="Product" href="/Product">Product</a>, <a title="Offer" href="/Offer">Offer</a>, <a title="AggregateOffer" href="/AggregateOffer">AggregateOffer</a>') . '</li>';
+    $description_bottom .= '<li>' . $this->t('<a title="Review" href="/Review">Review</a>, <a title="AggregateRating" href="/AggregateRating">AggregateRating</a>') . '</li>';
+    $description_bottom .= '<li>' . $this->t('<a title="Action" href="/Action">Action</a>') . '</li>';
+    $description_bottom .= '</ul>';
     $path = Url::fromRoute('schemadotorg_reports')->toString();
-    $jump = str_replace('href="/', 'href="' . $path . '/', $jump);
-    $build[] = ['#markup' => $jump];
-
+    $build[] = ['#markup' => str_replace('href="/', 'href="' . $path . '/', $description_bottom)];
     return $build;
   }
 
@@ -100,22 +131,17 @@ EOT;
    * @return array
    *   A renderable array containing Schema.org type or property item.
    */
-  protected function buildItem($table, $id) {
+  protected function item($table, $id) {
     // Fields.
     $fields = ($table === 'types')
       ? $this->getTypeFields()
       : $this->getPropertyFields();
 
     // Item.
-    $item = $this->getItem($table, $id);
+    $item = $this->manager->getItem($table, $id);
 
     // Item.
-    $t_args = [
-      '@type' => ($table === 'types') ? $this->t('Type') : $this->t('Property'),
-      '@id' => $id,
-    ];
     $build = [];
-    $build['#title'] = $this->t('Schema.org: @id (@type)', $t_args);
     foreach ($fields as $name => $label) {
       $value = $item[$name] ?? NULL;
       if (empty($value)) {
@@ -146,7 +172,7 @@ EOT;
           break;
 
         case 'properties':
-          $properties = $this->manager->parseItems($value);
+          $properties = $this->manager->parseIds($value);
           $build[$name] = [
             '#type' => 'details',
             '#title' => $label,
@@ -172,7 +198,7 @@ EOT;
 
       // Subtype.
       if ($item['sub_types']) {
-        $subtypes = $this->manager->parseItems($item['sub_types']);
+        $subtypes = $this->manager->parseIds($item['sub_types']);
         $build['sub_types_hierarchy'] = [
           '#type' => 'details',
           '#title' => $this->t('More specific types'),
@@ -279,11 +305,11 @@ EOT;
    *   The current Schema.org type.
    */
   protected function getTypeBreadcrumbsRecursive(array &$breadcrumbs, $breadcrumb_id, $type) {
-    $item = $this->getItem('types', $type);
+    $item = $this->manager->getItem('types', $type, ['sub_type_of']);
 
     $breadcrumbs[$breadcrumb_id][$type] = Link::fromTextAndUrl($type, $this->getItemUrl($type));
 
-    $parent_types = $this->manager->parseItems($item['sub_type_of']);
+    $parent_types = $this->manager->parseIds($item['sub_type_of']);
 
     // Check if there are parents types.
     if (empty($parent_types)) {
@@ -316,7 +342,7 @@ EOT;
   protected function buildTypeEnumerations($type) {
     $member_types = $this->database->select('schemadotorg_types', 'types')
       ->fields('types', ['label'])
-      ->condition('enumerationtype', 'https://schema.org/' . $type)
+      ->condition('enumerationtype', $this->manager->getUri($type))
       ->orderBy('label')
       ->execute()
       ->fetchCol();
@@ -383,7 +409,7 @@ EOT;
       'comment' => $this->t('Comment'),
       'sub_property_of' => $this->t('Sub property of'),
       'equivalent_property' => $this->t('Equivalent property'),
-      'subproperties' => $this->t('Subproperties'),
+      'subproperties' => $this->t('Sub properties'),
       'domain_includes' => $this->t('Domain includes'),
       'range_includes' => $this->t('Range includes'),
       'inverse_of' => $this->t('Inverse of'),
