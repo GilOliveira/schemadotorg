@@ -24,20 +24,11 @@ Provides blueprints for leveraging Schema.org to build and manage an SEO and API
 
 # Todo
 
-SchemaDotOrgNames
-
-- Overview
-  prefixes
-  suffixes
-  words
-  Only display > 3
-  Prefix | # | Abbrevation | #
-
-- Custom labels
-
 - Write baseline tests
 
 --------------------------------------------------------------------------------
+
+- Move abbeviation, prefixes, and suffixes into configuration.
 
 - Add help to types and properties reports.
   - Note version.

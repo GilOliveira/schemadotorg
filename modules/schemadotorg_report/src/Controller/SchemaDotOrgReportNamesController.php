@@ -212,9 +212,22 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
       $rows[] = $row;
     }
 
+    $replacements_rows = [];
+    foreach ($abbreviations as $source => $abbreviation) {
+      $replacements_rows[] = [$source, $abbreviation];
+    }
     $build = [
       '#type' => 'details',
       '#title' => $title,
+    ];
+    $build['replacements'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Replacements'),
+      'table' => [
+        '#type' => 'table',
+        '#header' => [$label, $this->t('Replacement')],
+        '#rows' => $replacements_rows,
+      ],
     ];
     $build['table'] = [
       '#type' => 'table',

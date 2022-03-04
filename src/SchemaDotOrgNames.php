@@ -128,13 +128,13 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
       'number_of_available' => 'num_of_avail',
       'number' => 'num',
       'maximum' => 'max',
-      'merchant_return_policy' => 'merch_ret_pol',
-      'merchant' => 'merch',
+      'merchant_return_policy' => 'mer_ret_pol',
+      'merchant' => 'mer',
       'medical' => 'med',
       'mission' => 'mis',
       'misconceptions' => 'miscon',
       'original' => 'orig',
-      'verification' => 'verif',
+      'verification' => 'ver',
       'reservation' => 'res',
       'return_label' => 'ret_lbl',
       'return_fees' => 'ret_fees',
@@ -216,9 +216,9 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
       'document' => 'doc',
       'customer' => 'cust',
       'coinsurance' => 'coin',
+      'condition' => 'cond',
       'configuration' => 'conf',
       'consumption' => 'cons',
-      'condition' => 'cond',
       'composition' => 'comp',
       'coverage' => 'cover',
       'credential' => 'cred',
@@ -272,11 +272,11 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
    */
   public function getCustomNames() {
     return [
+      'applies_to_delivery_method' => 'applies_to_delivery_meth',
+      'customer_remorse_return_shipping_fees_amount' => 'cust_rem_ret_ship_fee_amt',
       'is_accessory_or_spare_part_for' => 'is_access_or_part_for',
       'is_located_in_subcellular_location' => 'is_located_in_subcell_loc',
       'offers_prescription_by_mail' => 'offers_prescript_by_mail',
-      'customer_remorse_return_shipping_fees_amount' => 'cust_rem_ret_ship_fee_amt',
-      'applies_to_delivery_method' => 'applies_to_delivery_meth',
       'provides_broadcast_service' => 'provides_broadcast_serv',
       'public_transport_closures_info' => 'pub_trans_closures_info',
       'vehicle_identification_number' => 'vin',
@@ -287,7 +287,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
    * {@inheritdoc}
    */
   public function getCustomTitles() {
-    return  [
+    return [
       'Nonprofit501' => 'Nonprofit 501',
       'gtin' => 'GTIN',
       'rxcui' => 'RxCUI',
