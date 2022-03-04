@@ -2,12 +2,28 @@
 
 namespace Drupal\schemadotorg_report\Controller;
 
-use Drupal\schemadotorg\Utilty\SchemaDotOrgStringHelper;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Returns responses for Schema.org report names routes.
  */
 class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase {
+
+  /**
+   * The Schema.org Names service.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgManagerInterface
+   */
+  protected $schemaDotOrgNames;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $instance = parent::create($container);
+    $instance->schemaDotOrgNames = $container->get('schemadotorg.names');
+    return $instance;
+  }
 
   /**
    * Builds the Schema.org names table.
@@ -58,10 +74,10 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
         ->fetchCol();
       foreach ($schema_ids as $schema_id) {
         $schema_item = ($table === 'types') ? $this->t('Type') : $this->t('Properties');
-        $schema_label = SchemaDotOrgStringHelper::camelCaseToTitleCase($schema_id);
-        $original_name = SchemaDotOrgStringHelper::camelCaseToSnakeCase($schema_id);
+        $schema_label = $this->schemaDotOrgNames->camelCaseToTitleCase($schema_id);
+        $original_name = $this->schemaDotOrgNames->camelCaseToSnakeCase($schema_id);
         $original_name_length = strlen($original_name);
-        $drupal_name = SchemaDotOrgStringHelper::toDrupalName($schema_id, $max_length);
+        $drupal_name = $this->schemaDotOrgNames->toDrupalName($schema_id, $max_length);
         $drupal_name_length = strlen($drupal_name);
 
         $row = [];

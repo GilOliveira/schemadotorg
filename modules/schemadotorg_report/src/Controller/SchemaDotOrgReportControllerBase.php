@@ -34,33 +34,17 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgManagerInterface
    */
-  protected $manager;
-
-  /**
-   * The controller constructor.
-   *
-   * @param \Drupal\Core\Database\Connection $database
-   *   The database connection.
-   * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
-   *   The form builder service.
-   * @param \Drupal\schemadotorg\SchemaDotOrgManagerInterface $schemedotorg_manager
-   *   The Schema.org manager service.
-   */
-  public function __construct(Connection $database, FormBuilderInterface $form_builder, SchemaDotOrgManagerInterface $schemedotorg_manager) {
-    $this->database = $database;
-    $this->formBuilder = $form_builder;
-    $this->manager = $schemedotorg_manager;
-  }
+  protected $schemaDotOrgManager;
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('database'),
-      $container->get('form_builder'),
-      $container->get('schemadotorg.manager')
-    );
+    $instance = parent::create($container);
+    $instance->database = $container->get('database');
+    $instance->formBuilder = $container->get('form_builder');
+    $instance->schemaDotOrgManager = $container->get('schemadotorg.manager');
+    return $instance;
   }
 
   /* ************************************************************************ */
@@ -209,7 +193,7 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
         '#url' => $this->getItemUrl($type),
       ];
 
-      $children = $this->manager->getTypeChildren($type);
+      $children = $this->schemaDotOrgManager->getTypeChildren($type);
       if ($ignored_types) {
         $children = array_diff_key($children, $ignored_types);
       }
@@ -272,12 +256,12 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    *   An array of links for Schema.org items (types or properties).
    */
   protected function getLinks($text) {
-    $ids = $this->manager->parseIds($text);
+    $ids = $this->schemaDotOrgManager->parseIds($text);
 
     $links = [];
     foreach ($ids as $id) {
       $prefix = ($links) ? ', ' : '';
-      if ($this->manager->isItem($id)) {
+      if ($this->schemaDotOrgManager->isItem($id)) {
         $links[] = [
           '#type' => 'link',
           '#title' => $id,

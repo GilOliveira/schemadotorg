@@ -1,6 +1,6 @@
 name: Schema.org Report
 type: module
-description: Provide a report for browsing Schema.org types and properties.
+description: Provides a report for browsing Schema.org types, properties, and naming conventions.
 package: Schema.org
 core_version_requirement: ^9
 lifecycle: experimental

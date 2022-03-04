@@ -23,13 +23,13 @@ class SchemaDotOrgReportHierarchyController extends SchemaDotOrgReportController
         ->execute()
         ->fetchCol();
       $ignored_types = [];
-      $count = count($this->manager->getDataTypes());
+      $count = count($this->schemaDotOrgManager->getDataTypes());
     }
     else {
       $types = [$type];
       $ignored_types = ['Intangible', 'Enumeration', 'StructuredValue'];
       $ignored_types = array_combine($ignored_types, $ignored_types);
-      $count = count($this->manager->getAllTypeChildren($type, ['label'], $ignored_types));
+      $count = count($this->schemaDotOrgManager->getAllTypeChildren($type, ['label'], $ignored_types));
     }
 
     $build = [];

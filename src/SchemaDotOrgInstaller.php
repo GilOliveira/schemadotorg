@@ -6,7 +6,6 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\schemadotorg\Utilty\SchemaDotOrgStringHelper;
 
 /**
  * Schema.org installer service.
@@ -31,6 +30,14 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
+
+  /**
+   * The Schema.org names service.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
+   */
+  protected $schemaDotOrgNames;
+
   /**
    * The Schema.org manager service.
    *
@@ -59,11 +66,14 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    *   The entity type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgManagerInterface $schemedotorg_manager
    *   The Schema.org manager service.
+   * @param \Drupal\schemadotorg\SchemaDotOrgManagerInterface $schemedotorg_names
+   *   The Schema.org names service.
    */
-  public function __construct(Connection $database, EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgManagerInterface $schemedotorg_manager) {
+  public function __construct(Connection $database, EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgManagerInterface $schemedotorg_manager, SchemaDotOrgNamesInterface $schemedotorg_names) {
     $this->database = $database;
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaDotOrgManager = $schemedotorg_manager;
+    $this->schemaDotOrgNames = $schemedotorg_names;
   }
 
   /**
@@ -289,7 +299,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
     // Get field names.
     $field_names = fgetcsv($handle);
     array_walk($field_names, function (&$field_name) {
-      $field_name = SchemaDotOrgStringHelper::camelCaseToSnakeCase($field_name);
+      $field_name = $this->schemaDotOrgNames->camelCaseToSnakeCase($field_name);
     });
 
     // Insert records.
@@ -298,8 +308,8 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       foreach ($field_names as $index => $field_name) {
         $fields[$field_name] = $row[$index] ?? '';
       }
-      $fields['drupal_label'] = SchemaDotOrgStringHelper::camelCaseToTitleCase($fields['label']);
-      $fields['drupal_name'] = SchemaDotOrgStringHelper::toDrupalName($fields['label']);
+      $fields['drupal_label'] = $this->schemaDotOrgNames->camelCaseToTitleCase($fields['label']);
+      $fields['drupal_name'] = $this->schemaDotOrgNames->toDrupalName($fields['label']);
       $this->database->insert($table)
         ->fields($fields)
         ->execute();
