@@ -63,7 +63,7 @@ schemadotorg_reports.names.properties:
   title: Property names
   route_name: schemadotorg_reports.names.properties
   parent_id: schemadotorg_reports.names
-schemadotorg_reports.names.warnings:
-  title: Warnings
-  route_name: schemadotorg_reports.names.warnings
+schemadotorg_reports.names.abbreviations:
+  title: Abbreviated names
+  route_name: schemadotorg_reports.names.abbreviations
   parent_id: schemadotorg_reports.names

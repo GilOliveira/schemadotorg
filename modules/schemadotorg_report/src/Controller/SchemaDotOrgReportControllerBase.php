@@ -99,10 +99,6 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
         $info = $this->formatPlural($count, '@count data type', '@count data types');
         break;
 
-      case 'warnings':
-        $info = $this->formatPlural($count, '@count warning', '@count warnings');
-        break;
-
       case 'types':
         $info = $this->formatPlural($count, '@count type', '@count types');
         break;

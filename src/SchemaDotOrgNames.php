@@ -12,6 +12,13 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
   /**
    * {@inheritdoc}
    */
+  public function getNameMaxLength($table) {
+    return ($table === 'types') ? 32 : 25;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function camelCaseToSnakeCase($string) {
     $intermediate = preg_replace('/(?!^)([[:upper:]][[:lower:]]+)/', '_$0', $string);
     $snake_case = preg_replace('/(?!^)([[:lower:]])([[:upper:]])/', '$1_$2', $intermediate);
@@ -228,6 +235,9 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
       'is_located_in_subcellular_location' => 'is_located_in_subcell_loc',
       'offers_prescription_by_mail' => 'offers_prescript_by_mail',
       'customer_remorse_return_shipping_fees_amount' => 'cust_rem_ret_ship_fee_amt',
+      'applies_to_delivery_method' => 'applies_to_delivery_meth',
+      'provides_broadcast_service' => 'provides_broadcast_serv',
+      'public_transport_closures_info' => 'pub_trans_closures_info',
     ];
   }
 

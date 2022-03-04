@@ -112,12 +112,12 @@ schemadotorg_reports.names.properties:
   requirements:
     _permission: 'access site reports'
 
-schemadotorg_reports.names.warnings:
-  path: '/admin/reports/schemadotorg/docs/names/warnings'
+schemadotorg_reports.names.abbreviations:
+  path: '/admin/reports/schemadotorg/docs/names/abbreviations'
   defaults:
-    _title: 'Schema.org: Names warnings'
+    _title: 'Schema.org: Abbreviated names'
     _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportNamesController::index'
-    display: 'warnings'
+    display: 'abbreviations'
   requirements:
     _permission: 'access site reports'
 

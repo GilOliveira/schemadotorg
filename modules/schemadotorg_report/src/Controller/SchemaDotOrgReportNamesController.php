@@ -47,63 +47,141 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
    *   A renderable array containing Schema.org names overview.
    */
   public function overview() {
-    $types_query = $this->database->select('schemadotorg_types', 't')->fields('t', ['label']);
-    $properties_query = $this->database->select('schemadotorg_properties', 'p')->fields('p', ['label']);
-    $labels = $types_query->union($properties_query)->orderBy('label')->execute()->fetchCol();
+    $names = [];
+    $abbreviated = [];
+    $truncated = [];
 
     $prefixes = [];
     $suffixes = [];
     $words = [];
-    foreach ($labels as $label) {
-      $name = $this->schemaDotOrgNames->camelCaseToSnakeCase($label);
-      $name_parts = explode('_', $name);
 
-      $suffix = end($name_parts);
-      $suffixes += [$suffix => 0];
-      $suffixes[$suffix]++;
+    $tables = ['types', 'properties'];
+    foreach ($tables as $table) {
+      $labels = $this->database->select('schemadotorg_' . $table, 't')
+        ->fields('t', ['label'])
+        ->orderBy('label')
+        ->execute()
+        ->fetchCol();
 
-      $prefix = reset($name_parts);
-      $prefixes += [$prefix => 0];
-      $prefixes[$prefix]++;
+      $max_length = $this->schemaDotOrgNames->getNameMaxLength($table);
+      foreach ($labels as $label) {
+        $name = $this->schemaDotOrgNames->camelCaseToSnakeCase($label);
+        $names[$name] = $label;
 
-      foreach ($name_parts as $name_part) {
-        $words += [$name_part => 0];
-        $words[$name_part]++;
+        $drupal_name = $this->schemaDotOrgNames->toDrupalName($label, $max_length);
+        $drupal_name_length = strlen($drupal_name);
+        if ($drupal_name_length > $max_length) {
+          $truncated[$name] = [
+            'label' => $label,
+            'name' => $drupal_name,
+            'length' => $drupal_name_length,
+            'max_length' => $max_length,
+          ];
+        }
+        elseif ($name !== $drupal_name) {
+          $abbreviated[$name] = $drupal_name;
+        }
+
+        $name_parts = explode('_', $name);
+        if (count($name_parts) > 1) {
+          $prefix_parts = array_slice($name_parts, 0, 2);
+          $one_word_prefix = $prefix_parts[0];
+          $prefixes += [$one_word_prefix => 0];
+          $prefixes[$one_word_prefix]++;
+
+          $two_word_prefix = implode('_', $prefix_parts);
+          $prefixes += [$two_word_prefix => 0];
+          $prefixes[$two_word_prefix]++;
+
+          $suffix = end($name_parts);
+          $suffixes += [$suffix => 0];
+          $suffixes[$suffix]++;
+        }
+
+        reset($name_parts);
+        foreach ($name_parts as $name_part) {
+          $words += [$name_part => 0];
+          $words[$name_part]++;
+        }
       }
     }
 
     $build = [];
+    $build['general'] = [
+      '#type' => 'details',
+      '#title' => $this->t('General summary'),
+      '#open' => TRUE,
+    ];
+    $build['general']['names'] = [
+      '#type' => 'item',
+      '#title' => $this->t('Total names'),
+      'value' => ['#plain_text' => count($names)],
+    ];
+    $build['general']['abbreviated'] = [
+      '#type' => 'item',
+      '#title' => $this->t('Total abbreviated names'),
+      'value' => ['#plain_text' => count($abbreviated)],
+    ];
+    if ($truncated) {
+      $build['general']['truncated'] = [
+        '#type' => 'item',
+        '#title' => $this->t('Total truncated names'),
+        'value' => ['#plain_text' => count($truncated)],
+        'table' => [
+          '#type' => 'table',
+          '#header' => [
+            $this->t('Label'),
+            $this->t('Name'),
+            $this->t('Length'),
+            $this->t('Max length'),
+          ],
+          '#rows' => $truncated,
+        ],
+      ];
+    }
 
-    $build['summary'] = [
+    $build['usage'] = [
       '#type' => 'details',
       '#title' => $this->t('Usage summary'),
       '#open' => TRUE,
     ];
-
-    $build['summary']['words'] = $this->buildWordUsage(
+    $build['usage']['words'] = $this->buildWordUsage(
       $this->t('Words'),
       $this->t('Word'),
       $words,
       $this->schemaDotOrgNames->getNameAbbreviations()
     );
-
-    $build['summary']['prefixes'] = $this->buildWordUsage(
+    $build['usage']['prefixes'] = $this->buildWordUsage(
       $this->t('Prefixes'),
       $this->t('Prefix'),
       $prefixes,
       $this->schemaDotOrgNames->getNamePrefixes()
     );
-
-    $build['summary']['suffixes'] = $this->buildWordUsage(
+    $build['usage']['suffixes'] = $this->buildWordUsage(
       $this->t('Suffixes'),
       $this->t('Suffix'),
-      $prefixes,
+      $suffixes,
       $this->schemaDotOrgNames->getNameSuffixes()
     );
 
     return $build;
   }
 
+  /**
+   * Build word usage.
+   *
+   * @param string $title
+   *   Details title.
+   * @param string $label
+   *   Header label.
+   * @param array $words
+   *   Words.
+   * @param array $abbreviations
+   *   Abbreviations.
+   *
+   * @return array
+   *   A renderable array containing word usage.
+   */
   protected function buildWordUsage($title, $label, array $words, array $abbreviations) {
     // Remove words that are less than 5 characters.
     $words = array_filter($words, function ($word) {
@@ -187,7 +265,7 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
 
     $rows = [];
     foreach ($tables as $table) {
-      $max_length = ($table === 'types') ? 32 : 25;
+      $max_length = $this->schemaDotOrgNames->getNameMaxLength($table);
       $schema_ids = $this->database->select('schemadotorg_' . $table, $table)
         ->fields($table, ['label'])
         ->orderBy('label')
@@ -227,7 +305,7 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
         else {
           $class = [];
         }
-        if ($display !== 'warnings' || $class) {
+        if ($display !== 'abbreviations' || $class) {
           $rows[$schema_id] = ['data' => $row];
           $rows[$schema_id]['class'] = $class;
         }

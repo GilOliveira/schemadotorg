@@ -8,6 +8,22 @@ namespace Drupal\schemadotorg;
 interface SchemaDotOrgNamesInterface {
 
   /**
+   * Get the max length for Schema.org type or property.
+   *
+   * Drupal limits type and field names to 32 characters.
+   * Schema.org fields are prefixed with 'schema_' which limits
+   * the name to 25 characters.
+   *
+   * @param string $table
+   *   Schema.org type or property table name.
+   *
+   * @return int
+   *   The max length for Schema.org type (32 characters)
+   *   or property (25 characters).
+   */
+  public function getNameMaxLength($table);
+
+  /**
    * Convert camel case (camelCase) to snake case (snake_case).
    *
    * @param string $string
