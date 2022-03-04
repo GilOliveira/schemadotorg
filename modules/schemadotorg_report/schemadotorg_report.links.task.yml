@@ -47,9 +47,13 @@ schemadotorg_reports.names:
   title: Names
   route_name: schemadotorg_reports.names
   base_route: schemadotorg_reports
-schemadotorg_reports.names.all:
-  title: All
+schemadotorg_reports.names.overview:
+  title: Overview
   route_name: schemadotorg_reports.names
+  parent_id: schemadotorg_reports.names
+schemadotorg_reports.names.all:
+  title: All names
+  route_name: schemadotorg_reports.names.all
   parent_id: schemadotorg_reports.names
 schemadotorg_reports.names.types:
   title: Type names

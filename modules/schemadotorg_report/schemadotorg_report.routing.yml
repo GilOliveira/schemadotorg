@@ -79,15 +79,25 @@ schemadotorg_reports.properties:
 schemadotorg_reports.names:
   path: '/admin/reports/schemadotorg/docs/names'
   defaults:
-    _title: 'Schema.org: Names'
+    _title: 'Schema.org: Names overview'
     _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportNamesController::index'
+    display: 'overview'
+  requirements:
+    _permission: 'access site reports'
+
+schemadotorg_reports.names.all:
+  path: '/admin/reports/schemadotorg/docs/names/all'
+  defaults:
+    _title: 'Schema.org: All names'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportNamesController::index'
+    display: 'all'
   requirements:
     _permission: 'access site reports'
 
 schemadotorg_reports.names.types:
   path: '/admin/reports/schemadotorg/docs/names/types'
   defaults:
-    _title: 'Schema.org: Type name'
+    _title: 'Schema.org: Type names'
     _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportNamesController::index'
     display: 'types'
   requirements:
@@ -96,7 +106,7 @@ schemadotorg_reports.names.types:
 schemadotorg_reports.names.properties:
   path: '/admin/reports/schemadotorg/docs/names/properties'
   defaults:
-    _title: 'Schema.org: Property name'
+    _title: 'Schema.org: Property names'
     _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportNamesController::index'
     display: 'properties'
   requirements:
