@@ -182,7 +182,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
           break;
 
         default:
-          $build[$name]['links'] = $this->getLinks($value);
+          $build[$name]['links'] = $this->buildItemsLinks($value);
       }
     }
 
@@ -300,36 +300,24 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    *   A renderable array containing schema.org type enumerations.
    */
   protected function buildTypeEnumerations($type) {
-    $member_types = $this->database->select('schemadotorg_types', 'types')
-      ->fields('types', ['label'])
-      ->condition('enumerationtype', $this->schemaDotOrgManager->getUri($type))
-      ->orderBy('label')
-      ->execute()
-      ->fetchCol();
-    if (!$member_types) {
+    $enumerations = $this->schemaDotOrgManager->getEnumerations($type);
+    if (!$enumerations) {
       return [];
     }
-    $items = [];
-    foreach ($member_types as $member_type) {
-      $items[] = [
-        '#type' => 'link',
-        '#title' => $member_type,
-        '#url' => $this->getItemUrl($member_type),
-      ];
-    }
+
+    array_walk($enumerations, function (&$enumeration) {
+      $enumeration = Link::fromTextAndUrl($enumeration, $this->getItemUrl($enumeration))->toRenderable();
+    });
+
     return [
       '#type' => 'fieldset',
       '#title' => $this->t('Enumeration members'),
       'items' => [
         '#theme' => 'item_list',
-        '#items' => $items,
+        '#items' => $enumerations,
       ],
     ];
   }
-
-  /* ************************************************************************ */
-  // Fields methods.
-  /* ************************************************************************ */
 
   /**
    * Get Schema.org type fields.

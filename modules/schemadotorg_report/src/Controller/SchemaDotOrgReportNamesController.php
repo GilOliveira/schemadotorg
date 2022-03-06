@@ -187,10 +187,12 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
     $words = array_filter($words, function ($word) {
       return strlen($word) > 5;
     }, ARRAY_FILTER_USE_KEY);
+
     // Remove words that are only used once.
     $words = array_filter($words, function ($usage) {
       return $usage > 1;
     });
+
     // Sort by usage.
     asort($words, SORT_NUMERIC);
     $words = array_reverse($words);

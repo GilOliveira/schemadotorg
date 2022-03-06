@@ -83,7 +83,7 @@ class SchemaDotOrgBuilder implements SchemaDotOrgBuilderInterface {
       $vocabulary->save();
     }
 
-    // Add 'schema_type' field to the vocabulary.
+    // Add 'schema_type' field to the schema type vocabulary.
     $entity_type_id = 'taxonomy_term';
     $bundle = $vocabulary_id;
     $field_name = 'schema_type';

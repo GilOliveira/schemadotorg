@@ -47,10 +47,6 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
     return $instance;
   }
 
-  /* ************************************************************************ */
-  // Build methods.
-  /* ************************************************************************ */
-
   /**
    * Get Schema.org types or properties filter form.
    *
@@ -138,7 +134,7 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
         return ['data' => ['#markup' => $this->formatComment($value)]];
 
       default:
-        $links = $this->getLinks($value);
+        $links = $this->buildItemsLinks($value);
         if (count($links) > 20) {
           return [
             'data' => [
@@ -188,6 +184,36 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   }
 
   /**
+   * Build links to Schema.org items (types or properties).
+   *
+   * @param string $text
+   *   A string of comma delimited items (types or properties).
+   *
+   * @return array
+   *   An array of links to Schema.org items (types or properties).
+   */
+  protected function buildItemsLinks($text) {
+    $ids = $this->schemaDotOrgManager->parseIds($text);
+
+    $links = [];
+    foreach ($ids as $id) {
+      $prefix = ($links) ? ', ' : '';
+      if ($this->schemaDotOrgManager->isItem($id)) {
+        $links[] = [
+          '#type' => 'link',
+          '#title' => $id,
+          '#url' => $this->getItemUrl($id),
+          '#prefix' => $prefix,
+        ];
+      }
+      else {
+        $links[] = ['#plain_text' => $id, '#prefix' => $prefix];
+      }
+    }
+    return $links;
+  }
+
+  /**
    * Get Schema.org type or property URL.
    *
    * @param string $id
@@ -223,36 +249,6 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
       }
     }
     return Html::serialize($dom);
-  }
-
-  /**
-   * Get links for Schema.org items (types or properties).
-   *
-   * @param string $text
-   *   A string of comma delimited items (types or properties).
-   *
-   * @return array
-   *   An array of links for Schema.org items (types or properties).
-   */
-  protected function getLinks($text) {
-    $ids = $this->schemaDotOrgManager->parseIds($text);
-
-    $links = [];
-    foreach ($ids as $id) {
-      $prefix = ($links) ? ', ' : '';
-      if ($this->schemaDotOrgManager->isItem($id)) {
-        $links[] = [
-          '#type' => 'link',
-          '#title' => $id,
-          '#url' => $this->getItemUrl($id),
-          '#prefix' => $prefix,
-        ];
-      }
-      else {
-        $links[] = ['#plain_text' => $id, '#prefix' => $prefix];
-      }
-    }
-    return $links;
   }
 
 }

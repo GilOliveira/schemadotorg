@@ -47,7 +47,7 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
 
     // Result.
     $result_query = clone $base_query;
-    $result_query = $result_query->extend(PagerSelectExtender::class)->limit(200);
+    $result_query = $result_query->extend(PagerSelectExtender::class)->limit(100);
     $result = $result_query->execute();
 
     // Rows.
