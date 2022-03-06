@@ -327,4 +327,62 @@ class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
     return $items;
   }
 
+  /**
+   * Build Schema.org type breadcrumbs.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   *
+   * @return array
+   *   An array containing Schema.org type breadcrumbs.
+   */
+  public function getTypeBreadcrumbs($type) {
+    $breadcrumbs = [];
+    $breadcrumb_id = $type;
+    $breadcrumbs[$breadcrumb_id] = [];
+    $this->getTypeBreadcrumbsRecursive($breadcrumbs, $breadcrumb_id, $type);
+
+    $sorted_breadcrumbs = [];
+    foreach ($breadcrumbs as $breadcrumb) {
+      $sorted_breadcrumb = array_reverse($breadcrumb, TRUE);
+      $breadcrumb_path = implode('/', array_keys($sorted_breadcrumb));
+      $sorted_breadcrumbs[$breadcrumb_path] = $sorted_breadcrumb;
+    }
+    ksort($sorted_breadcrumbs);
+    return $sorted_breadcrumbs;
+  }
+
+  /**
+   * Build type breadcrumbs recursively.
+   *
+   * @param array &$breadcrumbs
+   *   The type breadcrumbs.
+   * @param string $breadcrumb_id
+   *   The breadcrumb id which is a Schema.org type.
+   * @param string $type
+   *   A Schema.org type.
+   */
+  protected function getTypeBreadcrumbsRecursive(array &$breadcrumbs, $breadcrumb_id, $type) {
+    $breadcrumbs[$breadcrumb_id][$type] = $type;
+
+    $item = $this->getItem('types', $type, ['sub_type_of']);
+    $parent_types = $this->parseIds($item['sub_type_of']);
+    if (empty($parent_types)) {
+      return;
+    }
+
+    // Store a reference to the current breadcrumb.
+    $current_breadcrumb = $breadcrumbs[$breadcrumb_id];
+
+    // The first parent type is appended to the current breadcrumb.
+    $parent_type = array_shift($parent_types);
+    $this->getTypeBreadcrumbsRecursive($breadcrumbs, $breadcrumb_id, $parent_type);
+
+    // All additional parent types needs to start a new breadcrumb.
+    foreach ($parent_types as $parent_type) {
+      $breadcrumbs[$parent_type] = $current_breadcrumb;
+      $this->getTypeBreadcrumbsRecursive($breadcrumbs, $parent_type, $parent_type);
+    }
+  }
+
 }

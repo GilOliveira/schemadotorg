@@ -8,8 +8,7 @@ use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 /**
  * Schema.org builder service.
  */
-class SchemaDotOrgBuilder implements SchemaDotOrgBuilderInterface
-{
+class SchemaDotOrgBuilder implements SchemaDotOrgBuilderInterface {
 
   /**
    * The entity type manager.

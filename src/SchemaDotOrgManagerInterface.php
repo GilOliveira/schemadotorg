@@ -224,4 +224,15 @@ interface SchemaDotOrgManagerInterface {
    */
   public function getTypeTree($type, array $ignored_types = []);
 
+  /**
+   * Build Schema.org type breadcrumbs.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   *
+   * @return array
+   *   An array containing Schema.org type breadcrumbs.
+   */
+  public function getTypeBreadcrumbs($type);
+
 }

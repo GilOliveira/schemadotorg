@@ -190,9 +190,8 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     if ($table === 'types') {
       // Parents.
       $build['parents'] = [
-        '#type' => 'details',
-        '#title' => $this->t('Parent types'),
-        '#open' => TRUE,
+        '#weight' => '-10',
+        '#suffix' => '<hr/>',
         'breadcrumbs' => $this->buildTypeBreadcrumbs($id),
       ];
 
@@ -277,58 +276,18 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    *   A renderable containing Schema.org type breadcrumbs.
    */
   protected function buildTypeBreadcrumbs($type) {
-    $breadcrumbs = [];
-    $breadcrumb_id = $type;
-    $breadcrumbs[$breadcrumb_id] = [];
-    $this->getTypeBreadcrumbsRecursive($breadcrumbs, $breadcrumb_id, $type);
-
     $build = [];
-    foreach ($breadcrumbs as $links) {
-      $links = array_reverse($links, TRUE);
-      $breadcrumb_path = implode('/', array_keys($links));
+    $breadcrumbs = $this->schemaDotOrgManager->getTypeBreadcrumbs($type);
+    foreach ($breadcrumbs as $breadcrumb_path => $breadcrumb) {
+      array_walk($breadcrumb, function (&$type) {
+        $type = Link::fromTextAndUrl($type, $this->getItemUrl($type));
+      });
       $build[$breadcrumb_path] = [
         '#theme' => 'breadcrumb',
-        '#links' => $links,
+        '#links' => $breadcrumb,
       ];
     }
-    ksort($build);
     return $build;
-  }
-
-  /**
-   * Build type breadcrumbs recursivley.
-   *
-   * @param array &$breadcrumbs
-   *   The type breadcrumbs.
-   * @param string $breadcrumb_id
-   *   The current breadcrumb id which is Schema.org type.
-   * @param string $type
-   *   The current Schema.org type.
-   */
-  protected function getTypeBreadcrumbsRecursive(array &$breadcrumbs, $breadcrumb_id, $type) {
-    $item = $this->schemaDotOrgManager->getItem('types', $type, ['sub_type_of']);
-
-    $breadcrumbs[$breadcrumb_id][$type] = Link::fromTextAndUrl($type, $this->getItemUrl($type));
-
-    $parent_types = $this->schemaDotOrgManager->parseIds($item['sub_type_of']);
-
-    // Check if there are parents types.
-    if (empty($parent_types)) {
-      return;
-    }
-
-    // Store a reference to the current breadcrumb.
-    $current_breadcrumb = $breadcrumbs[$breadcrumb_id];
-
-    // The first parent type is appended to the current breadcrumb.
-    $parent_type = array_shift($parent_types);
-    $this->getTypeBreadcrumbsRecursive($breadcrumbs, $breadcrumb_id, $parent_type);
-
-    // All additional parent types needs to start a new breadcrumb.
-    foreach ($parent_types as $parent_type) {
-      $breadcrumbs[$parent_type] = $current_breadcrumb;
-      $this->getTypeBreadcrumbsRecursive($breadcrumbs, $parent_type, $parent_type);
-    }
   }
 
   /**
