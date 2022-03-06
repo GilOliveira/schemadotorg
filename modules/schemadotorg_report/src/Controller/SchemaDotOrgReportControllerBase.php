@@ -155,47 +155,30 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   }
 
   /**
-   * Build Schema.org type as an item list recursively.
+   * Build Schema.org type tree as an item list recursively.
    *
-   * @param array $ids
-   *   An array of Schema.org type ids.
-   * @param array $ignored_types
-   *   An array of ignored Schema.org type ids.
+   * @param array $tree
+   *   An array of Schema.org type tree.
    *
    * @return array
-   *   A renderable array containing Schema.org type as an item list.
+   *   A renderable array containing Schema.org type tree as an item list.
    *
    * @see \Drupal\schemadotorg\SchemaDotOrgManager::getTypesChildrenRecursive
    */
-  protected function buildItemsRecursive(array $ids, array $ignored_types = []) {
-    if (empty($ids)) {
+  protected function buildTypeTreeRecursive(array $tree) {
+    if (empty($tree)) {
       return [];
     }
 
-    // We must make sure the type is not deprecated or does not exist.
-    // @see https://schema.org/docs/attic.home.html
-    $types = $this->database->select('schemadotorg_types', 'types')
-      ->fields('types', ['label'])
-      ->condition('label', $ids, 'IN')
-      ->orderBy('label')
-      ->execute()
-      ->fetchCol();
-
     $items = [];
-    foreach ($types as $type) {
+    foreach ($tree as $type => $item) {
       $items[$type] = [
         '#type' => 'link',
         '#title' => $type,
         '#url' => $this->getItemUrl($type),
       ];
-
-      $children = $this->schemaDotOrgManager->getTypeChildren($type);
-      if ($ignored_types) {
-        $children = array_diff_key($children, $ignored_types);
-      }
-      if ($children) {
-        $items[$type]['children'] = $this->buildItemsRecursive($children, $ignored_types);
-      }
+      $children = $item['subtypes'] + $item['enumerations'];
+      $items[$type]['children'] = $this->buildTypeTreeRecursive($children);
     }
 
     return [

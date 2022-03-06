@@ -26,6 +26,29 @@ Provides blueprints for leveraging Schema.org to build and manage an SEO and API
 
 - Write baseline tests
 
+- Schema.org UI
+  - Review Field UI
+  - Add 'Create Schema.org type'
+  - Add 'Manage Schema.org' tab
+  - Create Schema.org type
+    - schemadotorg.type
+    - schemadotorg.description
+  - Autocomplete
+  - Description
+  - Task and menu item
+
+Schema.org Templates
+  - Templates will preselect recommended fields.
+  - Templates can be automatically updated
+
+- Manage Schema.org UI
+
+Type settings
+
+Current properties
+
+Available properties
+
 --------------------------------------------------------------------------------
 
 - Move abbeviation, prefixes, and suffixes into configuration.
@@ -65,15 +88,16 @@ Beta
 
 # Tests
 
-Installer
+Services
 
-
-Utility
-
-- SchemaDotOrgStringHelper
-  - Possibly use all labels in tests.
+- SchemaDotOrgInstaller.php
+- SchemaDotOrgBuilder.php
+- SchemaDotOrgManager.php
+- SchemaDotOrgNames.php
 
 Report
+
+- Filter form.
 - Confirm types.
 - Confirm properties.
 - Confirm things.
@@ -85,11 +109,11 @@ Report
 
 # TBD
 
+- Should we prefix all schema field with schema_*? YES
+
+- Should machine name be tied to field storage via third party settings? YES
+
 - Why are we seeing 1329 types? (/admin/reports/schemadotorg/docs/types)
-
-- Should we prefix all schema field with schema_* ?
-
-- Should machine name be tied to field storage via third party settings?
 
 - How to handle translations for imported data?
 

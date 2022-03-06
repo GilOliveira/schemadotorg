@@ -167,6 +167,36 @@ interface SchemaDotOrgManagerInterface {
   public function getTypeChildren($type);
 
   /**
+   * Get Schema.org subtypes.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   *
+   * @return array
+   *   Array containing Schema.org subtypes.
+   */
+  public function getSubtypes($type);
+
+  /**
+   * Get Schema.org enumerations.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   *
+   * @return array
+   *   Array containing Schema.org enumerations.
+   */
+  public function getEnumerations($type);
+
+  /**
+   * Get Schema.org data types.
+   *
+   * @return array|string[]
+   *   An array of data types.
+   */
+  public function getDataTypes();
+
+  /**
    * Get all Schema.org types below a specified type.
    *
    * @param string $type
@@ -182,11 +212,16 @@ interface SchemaDotOrgManagerInterface {
   public function getAllTypeChildren($type, array $fields = [], array $ignored_types = []);
 
   /**
-   * Get Schema.org data types.
+   * Build Schema.org type hierarchical tree.
    *
-   * @return array|string[]
-   *   An array of data types.
+   * @param string $type
+   *   A Schema.org type.
+   * @param array $ignored_types
+   *   An array of ignored Schema.org types.
+   *
+   * @return array
+   *   A renderable array containing Schema.org type hierarchical tree.
    */
-  public function getDataTypes();
+  public function getTypeTree($type, array $ignored_types = []);
 
 }

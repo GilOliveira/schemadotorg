@@ -6,5 +6,13 @@ namespace Drupal\schemadotorg;
  * Schema.org builder interface.
  */
 interface SchemaDotOrgBuilderInterface {
-  // @todo Build the builder.
+
+  /**
+   * Create type vocabularies.
+   *
+   * @param string $type
+   *   A Schema.org types.
+   */
+  public function createTypeVocabulary($type);
+
 }

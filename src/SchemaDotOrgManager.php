@@ -181,6 +181,105 @@ class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
   /**
    * {@inheritdoc}
    */
+  public function getSubtypes($type) {
+    $type_definition = $this->getType($type, ['sub_types']);
+    return $this->parseIds($type_definition['sub_types']);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getEnumerations($type) {
+    $enumeration_types = $this->database->select('schemadotorg_types', 'types')
+      ->fields('types', ['label'])
+      ->condition('enumerationtype', $this->getUri($type))
+      ->orderBy('label')
+      ->execute()
+      ->fetchCol();
+    return ($enumeration_types) ? array_combine($enumeration_types, $enumeration_types) : [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDataTypes() {
+    $labels = $this->database->select('schemadotorg_types', 'types')
+      ->fields('types', ['label'])
+      ->condition('sub_type_of', '')
+      ->condition('label', 'Thing', '<>')
+      ->orderBy('label')
+      ->execute()
+      ->fetchCol();
+    $data_types = array_combine($labels, $labels);
+    foreach ($data_types as $data_type) {
+      $data_types += $this->getTypeChildren($data_type);
+    }
+    return $data_types;
+  }
+
+  /**
+   * Build Schema.org type hierarchical tree.
+   *
+   * @param string|array $type
+   *   A Schema.org type or an array of types.
+   * @param array $ignored_types
+   *   An array of ignored Schema.org types.
+   *
+   * @return array
+   *   A renderable array containing Schema.org type hierarchical tree.
+   */
+  public function getTypeTree($type, array $ignored_types = []) {
+    if ($ignored_types) {
+      $ignored_types = array_combine($ignored_types, $ignored_types);
+    }
+    return $this->getTypeTreeRecursive((array) $type, $ignored_types);
+  }
+
+  /**
+   * Build Schema.org type hierarchical tree recursively.
+   *
+   * @param array $types
+   *   An array of Schema.org type.
+   * @param array $ignored_types
+   *   An array of ignored Schema.org types.
+   *
+   * @return array
+   *   A renderable array containing Schema.org type hierarchical tree.
+   */
+  protected function getTypeTreeRecursive(array $types, array $ignored_types = []) {
+    if (empty($types)) {
+      return [];
+    }
+
+    // We must make sure the types are not deprecated or does not exist.
+    // @see https://schema.org/docs/attic.home.html
+    $types = $this->database->select('schemadotorg_types', 'types')
+      ->fields('types', ['label'])
+      ->condition('label', $types, 'IN')
+      ->orderBy('label')
+      ->execute()
+      ->fetchCol();
+
+    // Remove ignored types.
+    if ($types) {
+      $types = array_diff_key($types, $ignored_types);
+    }
+
+    $tree = [];
+    foreach ($types as $type) {
+      $subtypes = $this->getSubtypes($type);
+      $enumerations = $this->getEnumerations($type);
+      $tree[$type] = [
+        'subtypes' => $this->getTypeTreeRecursive($subtypes, $ignored_types),
+        'enumerations' => $this->getTypeTreeRecursive($enumerations, $ignored_types),
+      ];
+    }
+    return $tree;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getAllTypeChildren($type, array $fields = [], array $ignored_types = []) {
     if ($ignored_types) {
       $ignored_types = array_combine($ignored_types, $ignored_types);
@@ -226,24 +325,6 @@ class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
       }
     }
     return $items;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getDataTypes() {
-    $labels = $this->database->select('schemadotorg_types', 'types')
-      ->fields('types', ['label'])
-      ->condition('sub_type_of', '')
-      ->condition('label', 'Thing', '<>')
-      ->orderBy('label')
-      ->execute()
-      ->fetchCol();
-    $data_types = array_combine($labels, $labels);
-    foreach ($data_types as $data_type) {
-      $data_types += $this->getTypeChildren($data_type);
-    }
-    return $data_types;
   }
 
 }

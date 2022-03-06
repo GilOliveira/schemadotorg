@@ -199,10 +199,11 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       // Subtype.
       if ($item['sub_types']) {
         $subtypes = $this->schemaDotOrgManager->parseIds($item['sub_types']);
+        $tree = $this->schemaDotOrgManager->getTypeTree($subtypes);
         $build['sub_types_hierarchy'] = [
           '#type' => 'details',
           '#title' => $this->t('More specific types'),
-          'items' => $this->buildItemsRecursive($subtypes),
+          'items' => $this->buildTypeTreeRecursive($tree),
         ];
       }
 

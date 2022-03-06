@@ -108,15 +108,11 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
    */
   public function getNamePrefixes() {
     return [
-      'application' => 'app',
-      'business' => 'biz',
       'body_measurement' => 'body_meas',
       'customer_remorse_return' => 'cust_rem_ret',
       'customer' => 'cust',
       'cvd_num' => 'cvd',
-      'departure' => 'dept',
       'digital_document' => 'digit_doc',
-      'government' => 'gov',
       'educational_occupational' => 'edu_occ',
       'educational' => 'edu',
       'eu_energy_efficiency_category' => 'eu_energy_eff_cat',

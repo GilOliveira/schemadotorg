@@ -4,8 +4,6 @@ namespace Drupal\schemadotorg;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\field\Entity\FieldConfig;
-use Drupal\field\Entity\FieldStorageConfig;
 
 /**
  * Schema.org installer service.
@@ -32,6 +30,13 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   protected $entityTypeManager;
 
   /**
+   * The Schema.org manager service.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgManagerInterface
+   */
+  protected $schemaDotOrgManager;
+
+  /**
    * The Schema.org names service.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
@@ -39,11 +44,11 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   protected $schemaDotOrgNames;
 
   /**
-   * The Schema.org manager service.
+   * The Schema.org builder service.
    *
-   * @var \Drupal\schemadotorg\SchemaDotOrgManagerInterface
+   * @var \Drupal\schemadotorg\SchemaDotOrgBuilderInterface
    */
-  protected $schemaDotOrgManager;
+  protected $schemaDotOrgBuilder;
 
   /**
    * Schema.org type vocabularies.
@@ -66,14 +71,23 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    *   The entity type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgManagerInterface $schemedotorg_manager
    *   The Schema.org manager service.
-   * @param \Drupal\schemadotorg\SchemaDotOrgManagerInterface $schemedotorg_names
+   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schemedotorg_names
    *   The Schema.org names service.
+   * @param \Drupal\schemadotorg\SchemaDotOrgBuilderInterface $schemedotorg_builder
+   *   The Schema.org builder service.
    */
-  public function __construct(Connection $database, EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgManagerInterface $schemedotorg_manager, SchemaDotOrgNamesInterface $schemedotorg_names) {
+  public function __construct(
+    Connection $database,
+    EntityTypeManagerInterface $entity_type_manager,
+    SchemaDotOrgManagerInterface $schemedotorg_manager,
+    SchemaDotOrgNamesInterface $schemedotorg_names,
+    SchemaDotOrgBuilderInterface $schemedotorg_builder
+  ) {
     $this->database = $database;
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaDotOrgManager = $schemedotorg_manager;
     $this->schemaDotOrgNames = $schemedotorg_names;
+    $this->schemaDotOrgBuilder = $schemedotorg_builder;
   }
 
   /**
@@ -337,56 +351,8 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    * Create type vocabularies.
    */
   protected function createTypeVocabularies() {
-    $entity_type = 'taxonomy_term';
-    $field_name = 'schema_type';
-    $field_label = 'Schema.org: Type';
-
-    if (!FieldStorageConfig::loadByName('taxonomy_term', 'schema_type')) {
-      FieldStorageConfig::create([
-        'field_name' => $field_name,
-        'entity_type' => 'taxonomy_term',
-        'type' => 'string',
-        'settings' => ['max_length' => 255],
-      ])->save();
-    }
-
-    /** @var \Drupal\taxonomy\VocabularyStorage $vocabulary_storage */
-    $vocabulary_storage = $this->entityTypeManager->getStorage('taxonomy_vocabulary');
-
     foreach ($this->typeVocabularies as $type_vocabulary) {
-      $type_definition = $this->schemaDotOrgManager->getType($type_vocabulary);
-
-      $entity_id = 'schema_' . $type_definition['drupal_name'];
-      $entity_label = 'Schema.org: ' . $type_definition['drupal_label'];
-
-      $vocabulary = $vocabulary_storage->load($entity_id);
-      if (!$vocabulary) {
-        $vocabulary = $vocabulary_storage->create([
-          'name' => $entity_label,
-          'vid' => $entity_id,
-        ]);
-        $vocabulary->save();
-      }
-
-      if (!FieldConfig::loadByName($entity_type, $entity_id, $field_name)) {
-        FieldConfig::create([
-          'entity_type' => $entity_type,
-          'bundle' => $entity_id,
-          'field_name' => $field_name,
-          'label' => $field_label,
-        ])->save();
-      }
-
-      /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository */
-      $display_repository = \Drupal::service('entity_display.repository');
-
-      $display_repository->getFormDisplay($entity_type, $entity_id)
-        ->setComponent($field_name, ['type' => 'string_textfield'])
-        ->save();
-
-      $display_repository->getViewDisplay($entity_type, $entity_id)
-        ->setComponent($field_name, ['type' => 'string'])
-        ->save();
+      $this->schemaDotOrgBuilder->createTypeVocabulary($type_vocabulary);
     }
   }
 
@@ -429,7 +395,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
         }
       }
 
-      // Second path: Build Schema.org type hierarchy.
+      // Second pass: Build Schema.org type hierarchy.
       foreach ($types as $type => $item) {
         // Get parent values.
         $value = [];

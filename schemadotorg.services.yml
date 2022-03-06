@@ -6,9 +6,9 @@ services:
     class: Drupal\schemadotorg\SchemaDotOrgNames
   schemadotorg.builder:
     class: Drupal\schemadotorg\SchemaDotOrgBuilder
-    arguments: ['@entity_type.manager']
+    arguments: ['@entity_type.manager', '@entity_display.repository', '@schemadotorg.manager', '@schemadotorg.names']
   schemadotorg.installer:
     class: Drupal\schemadotorg\SchemaDotOrgInstaller
-    arguments: ['@database', '@entity_type.manager', '@schemadotorg.manager', '@schemadotorg.names']
+    arguments: ['@database', '@entity_type.manager', '@schemadotorg.manager', '@schemadotorg.names', '@schemadotorg.builder']
 
 
