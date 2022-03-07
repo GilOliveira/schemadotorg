@@ -4,25 +4,14 @@ Slides: https://www.slidescarnival.com/valentine-free-presentation-template/234
 
 Provides blueprints for leveraging Schema.org to build and manage an SEO and API-first content architecture in Drupal.
 
-# Sub modules
-
-- Report - Provides a report for browsing Schema.org types, properties, and naming conventions.
-- Descriptions
-- UI
-- Json-ld
-- Json API
-- Templates - Provides templates for creating and updating a Schema.org type in a click.
-- Entity???
-
-# Schema.org Type => Drupal Entity
-
-- Thing => Node
-- Enumeration => Term
-- Media Object => Media
-- Structure values => Paragraph
-- Component => Block content
-
 # Todo
+
+- Research Field UI implementation
+- Implement Create Schema.org type.
+- Basic property/field creation
+- Advanced  property/field creation
+- Entity Reference selection widget
+
 
 - Write baseline tests
 
@@ -109,6 +98,8 @@ Report
 
 # TBD
 
+- Should the schema type be added to terms as field or property?
+
 - Should we prefix all schema field with schema_*? YES
 
 - Should machine name be tied to field storage via third party settings? YES
@@ -119,3 +110,20 @@ Report
 
 - How can we validate the generated JSON-ld?
 
+# Sub modules
+
+- Report - Provides a report for browsing Schema.org types, properties, and naming conventions.
+- Descriptions
+- UI
+- Json-ld
+- Json API
+- Templates - Provides templates for creating and updating a Schema.org type in a click.
+- Entity???
+
+# Schema.org Type => Drupal Entity
+
+- Thing => Node
+- Enumeration => Term
+- Media Object => Media
+- Structure values => Paragraph
+- Component => Block content

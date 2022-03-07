@@ -24,10 +24,10 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     if ($id === '') {
       return $this->about();
     }
-    elseif ($this->schemaDotOrgManager->isType($id)) {
+    elseif ($this->schemaDataTypeManager->isType($id)) {
       return $this->item('types', $id);
     }
-    elseif ($this->schemaDotOrgManager->isProperty($id)) {
+    elseif ($this->schemaDataTypeManager->isProperty($id)) {
       return $this->item('properties', $id);
     }
     else {
@@ -49,16 +49,16 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       return $this->t('Schema.org: About');
     }
 
-    if ($this->schemaDotOrgManager->isDataType($id)) {
+    if ($this->schemaDataTypeManager->isDataType($id)) {
       $type = $this->t('Data type');
     }
-    elseif ($this->schemaDotOrgManager->isEnumerationType($id)) {
+    elseif ($this->schemaDataTypeManager->isEnumerationType($id)) {
       $type = $this->t('Enumeration type');
     }
-    elseif ($this->schemaDotOrgManager->isEnumerationValue($id)) {
+    elseif ($this->schemaDataTypeManager->isEnumerationValue($id)) {
       $type = $this->t('Enumeration value');
     }
-    elseif ($this->schemaDotOrgManager->isType($id)) {
+    elseif ($this->schemaDataTypeManager->isType($id)) {
       $type = $this->t('Type');
     }
     else {
@@ -138,7 +138,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       : $this->getPropertyFields();
 
     // Item.
-    $item = $this->schemaDotOrgManager->getItem($table, $id);
+    $item = $this->schemaDataTypeManager->getItem($table, $id);
 
     // Item.
     $build = [];
@@ -172,7 +172,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
           break;
 
         case 'properties':
-          $properties = $this->schemaDotOrgManager->parseIds($value);
+          $properties = $this->schemaDataTypeManager->parseIds($value);
           $build[$name] = [
             '#type' => 'details',
             '#title' => $label,
@@ -197,8 +197,8 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
 
       // Subtype.
       if ($item['sub_types']) {
-        $subtypes = $this->schemaDotOrgManager->parseIds($item['sub_types']);
-        $tree = $this->schemaDotOrgManager->getTypeTree($subtypes);
+        $subtypes = $this->schemaDataTypeManager->parseIds($item['sub_types']);
+        $tree = $this->schemaDataTypeManager->getTypeTree($subtypes);
         $build['sub_types_hierarchy'] = [
           '#type' => 'details',
           '#title' => $this->t('More specific types'),
@@ -277,7 +277,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    */
   protected function buildTypeBreadcrumbs($type) {
     $build = [];
-    $breadcrumbs = $this->schemaDotOrgManager->getTypeBreadcrumbs($type);
+    $breadcrumbs = $this->schemaDataTypeManager->getTypeBreadcrumbs($type);
     foreach ($breadcrumbs as $breadcrumb_path => $breadcrumb) {
       array_walk($breadcrumb, function (&$type) {
         $type = Link::fromTextAndUrl($type, $this->getItemUrl($type));
@@ -300,7 +300,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    *   A renderable array containing schema.org type enumerations.
    */
   protected function buildTypeEnumerations($type) {
-    $enumerations = $this->schemaDotOrgManager->getEnumerations($type);
+    $enumerations = $this->schemaDataTypeManager->getEnumerations($type);
     if (!$enumerations) {
       return [];
     }

@@ -12,11 +12,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SchemaDotOrgReportFilterForm extends FormBase {
 
   /**
-   * The Schema.org manager service.
+   * The Schema.org schema data type manager service.
    *
-   * @var \Drupal\schemadotorg\SchemaDotOrgManagerInterface
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
    */
-  protected $manager;
+  protected $schemaDataTypeManager;
 
   /**
    * Schema.org table.
@@ -37,7 +37,7 @@ class SchemaDotOrgReportFilterForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
-    $instance->manager = $container->get('schemadotorg.manager');
+    $instance->schemaDataTypeManager = $container->get('schemadotorg.schema_type_manager');
     return $instance;
   }
 
@@ -86,7 +86,7 @@ class SchemaDotOrgReportFilterForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $id = $form_state->getValue('id');
-    if ($id && $this->manager->isId($this->table, $id)) {
+    if ($id && $this->schemaDataTypeManager->isId($this->table, $id)) {
       $form_state->setRedirect('schemadotorg_reports', ['id' => $id]);
     }
     else {

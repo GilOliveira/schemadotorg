@@ -7,7 +7,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Url;
-use Drupal\schemadotorg\SchemaDotOrgManagerInterface;
+use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -30,11 +30,11 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   protected $formBuilder;
 
   /**
-   * The Schema.org manager service.
+   * The Schema.org schema data type manager service.
    *
-   * @var \Drupal\schemadotorg\SchemaDotOrgManagerInterface
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
    */
-  protected $schemaDotOrgManager;
+  protected $schemaDataTypeManager;
 
   /**
    * {@inheritdoc}
@@ -43,7 +43,7 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
     $instance = parent::create($container);
     $instance->database = $container->get('database');
     $instance->formBuilder = $container->get('form_builder');
-    $instance->schemaDotOrgManager = $container->get('schemadotorg.manager');
+    $instance->schemaDataTypeManager = $container->get('schemadotorg.schema_type_manager');
     return $instance;
   }
 
@@ -159,7 +159,7 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    * @return array
    *   A renderable array containing Schema.org type tree as an item list.
    *
-   * @see \Drupal\schemadotorg\SchemaDotOrgManager::getTypesChildrenRecursive
+   * @see \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager::getTypesChildrenRecursive
    */
   protected function buildTypeTreeRecursive(array $tree) {
     if (empty($tree)) {
@@ -193,12 +193,12 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    *   An array of links to Schema.org items (types or properties).
    */
   protected function buildItemsLinks($text) {
-    $ids = $this->schemaDotOrgManager->parseIds($text);
+    $ids = $this->schemaDataTypeManager->parseIds($text);
 
     $links = [];
     foreach ($ids as $id) {
       $prefix = ($links) ? ', ' : '';
-      if ($this->schemaDotOrgManager->isItem($id)) {
+      if ($this->schemaDataTypeManager->isItem($id)) {
         $links[] = [
           '#type' => 'link',
           '#title' => $id,

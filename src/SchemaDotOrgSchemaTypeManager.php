@@ -5,9 +5,9 @@ namespace Drupal\schemadotorg;
 use Drupal\Core\Database\Connection;
 
 /**
- * Schema.org manager service.
+ * Schema.org schema type manager service.
  */
-class SchemaDotOrgManager implements SchemaDotOrgManagerInterface {
+class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInterface {
 
   /**
    * The database connection.

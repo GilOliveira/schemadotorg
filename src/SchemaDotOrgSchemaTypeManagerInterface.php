@@ -3,9 +3,9 @@
 namespace Drupal\schemadotorg;
 
 /**
- * Schema.org manager interface.
+ * Schema.org schema data type manager interface.
  */
-interface SchemaDotOrgManagerInterface {
+interface SchemaDotOrgSchemaTypeManagerInterface {
 
   /**
    * Schema.org URI.

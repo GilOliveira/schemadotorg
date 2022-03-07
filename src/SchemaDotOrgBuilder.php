@@ -29,14 +29,14 @@ class SchemaDotOrgBuilder implements SchemaDotOrgBuilderInterface {
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
    */
-  protected $schemaDotOrgNames;
+  protected $schemaNames;
 
   /**
-   * The Schema.org manager service.
+   * The Schema.org schema data type manager service.
    *
-   * @var \Drupal\schemadotorg\SchemaDotOrgManagerInterface
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
    */
-  protected $schemaDotOrgManager;
+  protected $schemaDataTypeManager;
 
   /**
    * Constructs a SchemaDotOrgBuilder object.
@@ -45,28 +45,28 @@ class SchemaDotOrgBuilder implements SchemaDotOrgBuilderInterface {
    *   The entity type manager.
    * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository
    *   The entity display repository.
-   * @param \Drupal\schemadotorg\SchemaDotOrgManagerInterface $schemedotorg_manager
-   *   The Schema.org manager service.
-   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schemedotorg_names
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_data_type_manager
+   *   The Schema.org schema data type manager service.
+   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
    *   The Schema.org names service.
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
     EntityDisplayRepositoryInterface $display_repository,
-    SchemaDotOrgManagerInterface $schemedotorg_manager,
-    SchemaDotOrgNamesInterface $schemedotorg_names
+    SchemaDotOrgSchemaTypeManagerInterface $schema_data_type_manager,
+    SchemaDotOrgNamesInterface $schema_names
   ) {
     $this->entityDisplayRepository = $display_repository;
     $this->entityTypeManager = $entity_type_manager;
-    $this->schemaDotOrgManager = $schemedotorg_manager;
-    $this->schemaDotOrgNames = $schemedotorg_names;
+    $this->schemaDataTypeManager = $schema_data_type_manager;
+    $this->schemaNames = $schema_names;
   }
 
   /**
    * {@inheritdoc}
    */
   public function createTypeVocabulary($type) {
-    $type_definition = $this->schemaDotOrgManager->getType($type);
+    $type_definition = $this->schemaDataTypeManager->getType($type);
 
     // Create vocabulary.
     $vocabulary_id = 'schema_' . $type_definition['drupal_name'];

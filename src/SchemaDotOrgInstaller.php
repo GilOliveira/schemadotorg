@@ -30,25 +30,25 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   protected $entityTypeManager;
 
   /**
-   * The Schema.org manager service.
+   * The Schema.org schema data type manager service.
    *
-   * @var \Drupal\schemadotorg\SchemaDotOrgManagerInterface
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
    */
-  protected $schemaDotOrgManager;
+  protected $schemaDataTypeManager;
 
   /**
    * The Schema.org names service.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
    */
-  protected $schemaDotOrgNames;
+  protected $schemaNames;
 
   /**
    * The Schema.org builder service.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgBuilderInterface
    */
-  protected $schemaDotOrgBuilder;
+  protected $schemaBuilder;
 
   /**
    * Schema.org type vocabularies.
@@ -69,25 +69,25 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    *   The database connection.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgManagerInterface $schemedotorg_manager
-   *   The Schema.org manager service.
-   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schemedotorg_names
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_data_type_manager
+   *   The Schema.org schema data type manager service.
+   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
    *   The Schema.org names service.
-   * @param \Drupal\schemadotorg\SchemaDotOrgBuilderInterface $schemedotorg_builder
+   * @param \Drupal\schemadotorg\SchemaDotOrgBuilderInterface $schema_builder
    *   The Schema.org builder service.
    */
   public function __construct(
     Connection $database,
     EntityTypeManagerInterface $entity_type_manager,
-    SchemaDotOrgManagerInterface $schemedotorg_manager,
-    SchemaDotOrgNamesInterface $schemedotorg_names,
-    SchemaDotOrgBuilderInterface $schemedotorg_builder
+    SchemaDotOrgSchemaTypeManagerInterface $schema_data_type_manager,
+    SchemaDotOrgNamesInterface $schema_names,
+    SchemaDotOrgBuilderInterface $schema_builder
   ) {
     $this->database = $database;
     $this->entityTypeManager = $entity_type_manager;
-    $this->schemaDotOrgManager = $schemedotorg_manager;
-    $this->schemaDotOrgNames = $schemedotorg_names;
-    $this->schemaDotOrgBuilder = $schemedotorg_builder;
+    $this->schemaDataTypeManager = $schema_data_type_manager;
+    $this->schemaNames = $schema_names;
+    $this->schemaBuilder = $schema_builder;
   }
 
   /**
@@ -313,7 +313,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
     // Get field names.
     $field_names = fgetcsv($handle);
     array_walk($field_names, function (&$field_name) {
-      $field_name = $this->schemaDotOrgNames->camelCaseToSnakeCase($field_name);
+      $field_name = $this->schemaNames->camelCaseToSnakeCase($field_name);
     });
 
     // Insert records.
@@ -322,8 +322,8 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       foreach ($field_names as $index => $field_name) {
         $fields[$field_name] = $row[$index] ?? '';
       }
-      $fields['drupal_label'] = $this->schemaDotOrgNames->camelCaseToTitleCase($fields['label']);
-      $fields['drupal_name'] = $this->schemaDotOrgNames->toDrupalName($fields['label']);
+      $fields['drupal_label'] = $this->schemaNames->camelCaseToTitleCase($fields['label']);
+      $fields['drupal_name'] = $this->schemaNames->toDrupalName($fields['label']);
       $this->database->insert($table)
         ->fields($fields)
         ->execute();
@@ -331,7 +331,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   }
 
   /**
-   * Reinstall Scheme.org tables.
+   * Reinstall Schema.org tables.
    */
   protected function reinstallSchema() {
     $tables = $this->schema();
@@ -352,7 +352,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    */
   protected function createTypeVocabularies() {
     foreach ($this->typeVocabularies as $type_vocabulary) {
-      $this->schemaDotOrgBuilder->createTypeVocabulary($type_vocabulary);
+      $this->schemaBuilder->createTypeVocabulary($type_vocabulary);
     }
   }
 
@@ -364,7 +364,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
     $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
 
     foreach ($this->typeVocabularies as $type_vocabulary) {
-      $type_definition = $this->schemaDotOrgManager->getType($type_vocabulary);
+      $type_definition = $this->schemaDataTypeManager->getType($type_vocabulary);
 
       $entity_id = 'schema_' . $type_definition['drupal_name'];
 
@@ -376,7 +376,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
         $terms_lookup[$term->schema_type->value] = $term;
       }
 
-      $types = $this->schemaDotOrgManager->getAllTypeChildren(
+      $types = $this->schemaDataTypeManager->getAllTypeChildren(
         $type_vocabulary,
         ['label', 'drupal_label', 'sub_type_of'],
         $this->typeVocabularies
@@ -399,7 +399,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       foreach ($types as $type => $item) {
         // Get parent values.
         $value = [];
-        $parent_types = $this->schemaDotOrgManager->parseIds($item['sub_type_of']);
+        $parent_types = $this->schemaDataTypeManager->parseIds($item['sub_type_of']);
         foreach ($parent_types as $parent_type) {
           if (isset($terms_lookup[$parent_type])) {
             $parent_term = $terms_lookup[$parent_type];

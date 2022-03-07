@@ -1,5 +1,5 @@
 schemadotorg.settings:
-  path: '/admin/config/content/schemedotorg'
+  path: '/admin/config/content/schemadotorg'
   defaults:
     _title: 'Schema.org settings'
     _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsForm'
