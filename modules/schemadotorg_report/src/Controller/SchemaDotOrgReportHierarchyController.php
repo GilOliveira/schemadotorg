@@ -22,19 +22,19 @@ class SchemaDotOrgReportHierarchyController extends SchemaDotOrgReportController
         ->orderBy('label')
         ->execute()
         ->fetchCol();
-      $tree = $this->schemaDataTypeManager->getTypeTree($types);
-      $count = count($this->schemaDataTypeManager->getDataTypes());
+      $tree = $this->schemaTypeManager->getTypeTree($types);
+      $count = count($this->schemaTypeManager->getDataTypes());
     }
     else {
       $ignored_types = ['Intangible', 'Enumeration', 'StructuredValue'];
       $ignored_types = array_combine($ignored_types, $ignored_types);
       unset($ignored_types[$type]);
-      $tree = $this->schemaDataTypeManager->getTypeTree($type);
-      $count = count($this->schemaDataTypeManager->getAllTypeChildren($type, ['label'], $ignored_types));
+      $tree = $this->schemaTypeManager->getTypeTree($type);
+      $count = count($this->schemaTypeManager->getAllTypeChildren($type, ['label'], $ignored_types));
     }
     $build = [];
     $build['info'] = $this->buildInfo($type, $count);
-    $build['tree'] = $this->buildTypeTreeRecursive($tree);
+    $build['tree'] = $this->schemaTypeBuilder->buildTypeTreeRecursive($tree);
     return $build;
   }
 

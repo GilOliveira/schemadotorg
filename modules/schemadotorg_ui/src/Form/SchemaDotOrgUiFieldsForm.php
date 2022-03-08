@@ -16,11 +16,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SchemaDotOrgUiFieldsForm extends FormBase {
 
   /**
-   * The Schema.org schema data type manager service.
+   * The Schema.org schema type manager service.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
    */
-  protected $schemaDataTypeManager;
+  protected $schemaTypeManager;
+
+  /**
+   * The Schema.org schema type builder service.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface
+   */
+  protected $schemaTypeBuilder;
 
   /**
    * {@inheritdoc}
@@ -34,7 +41,8 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
-    $instance->schemaDataTypeManager = $container->get('schemadotorg.schema_type_manager');
+    $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
+    $instance->schemaTypeBuilder = $container->get('schemadotorg.schema_type_builder');
     return $instance;
   }
 
@@ -69,7 +77,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
       return $form;
     }
 
-    $type_definition = $this->schemaDataTypeManager->getType($type);
+    $type_definition = $this->schemaTypeManager->getType($type);
     $t_args = [
       '@label' => $type_definition['drupal_label'],
       '@name' => $type_definition['drupal_name'],
@@ -81,7 +89,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
       'link' => [
         '#type' => 'link',
         '#title' => $type_definition['label'],
-        '#url' => $this->getItemUrl($type_definition['label']),
+        '#url' => $this->schemaTypeBuilder->getItemUrl($type_definition['label']),
       ],
     ];
     $form['drupal_label'] = [
@@ -136,7 +144,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    */
   protected function buildTypeProperties($type) {
     $fields = ['label', 'comment', 'range_includes', 'drupal_label', 'drupal_name'];
-    $properties = $this->schemaDataTypeManager->getTypeProperties($type, $fields);
+    $properties = $this->schemaTypeManager->getTypeProperties($type, $fields);
 
     // Header.
     $header = [
@@ -176,12 +184,12 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
           '#suffix' => '</strong><br/>',
         ],
         'comment' => [
-          '#markup' => $this->formatComment($property_definition['comment']),
+          '#markup' => $this->schemaTypeBuilder->formatComment($property_definition['comment']),
           '#prefix' => '<div>',
           '#suffix' => '</div>',
         ],
         'range_includes' => [
-          'links' => $this->buildItemsLinks($property_definition['range_includes']),
+          'links' => $this->schemaTypeBuilder->buildItemsLinks($property_definition['range_includes']),
           '#prefix' => '<div>(',
           '#suffix' => ')</div>',
         ],
@@ -222,74 +230,6 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
     ] + $rows;
   }
 
-  /**
-   * Build links to Schema.org items (types or properties).
-   *
-   * @param string $text
-   *   A string of comma delimited items (types or properties).
-   *
-   * @return array
-   *   An array of links to Schema.org items (types or properties).
-   */
-  protected function buildItemsLinks($text) {
-    $ids = $this->schemaDataTypeManager->parseIds($text);
-
-    $links = [];
-    foreach ($ids as $id) {
-      $prefix = ($links) ? ', ' : '';
-      if ($this->schemaDataTypeManager->isItem($id)) {
-        $links[] = [
-          '#type' => 'link',
-          '#title' => $id,
-          '#url' => $this->getItemUrl($id),
-          '#prefix' => $prefix,
-        ];
-      }
-      else {
-        $links[] = ['#plain_text' => $id, '#prefix' => $prefix];
-      }
-    }
-    return $links;
-  }
-
-  /**
-   * Format Schema.org type or property comment.
-   *
-   * @param string $comment
-   *   A comment.
-   *
-   * @return string
-   *   Formatted Schema.org type or property comment with links to details.
-   */
-  protected function formatComment($comment) {
-    if (strpos($comment, 'href="/') === FALSE) {
-      return $comment;
-    }
-    $dom = Html::load($comment);
-    $a_nodes = $dom->getElementsByTagName('a');
-    foreach ($a_nodes as $a_node) {
-      $href = $a_node->getAttribute('href');
-      if (preg_match('#^/([0-9A-Za-z]+)$#', $href, $match)) {
-        $url = $this->getItemUrl($match[1]);
-        $a_node->setAttribute('href', $url->toString());
-      }
-    }
-    return Html::serialize($dom);
-  }
-
-  /**
-   * Get Schema.org type or property URL.
-   *
-   * @param string $id
-   *   Type or property ID.
-   *
-   * @return \Drupal\Core\Url
-   *   Schema.org type or property URL.
-   */
-  protected function getItemUrl($id) {
-    return Url::fromRoute('schemadotorg_reports', ['id' => $id]);
-  }
-
   protected function getFieldTypeOptions(array $property_definition) {
     /** @var FieldTypePluginManagerInterface $field_types */
     $field_type_manager = \Drupal::service('plugin.manager.field.field_type');
@@ -305,7 +245,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
     asort($options);
 
     // Get recommend field types as options.
-    $range_includes = $this->schemaDataTypeManager->parseIds($property_definition['range_includes']);
+    $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
     $data_type_mappings = [
       // Data types.
       'Text' => ['text', 'text_long', 'string', 'string_long', 'list_string'],

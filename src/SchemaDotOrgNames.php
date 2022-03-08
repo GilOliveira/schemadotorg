@@ -3,7 +3,7 @@
 namespace Drupal\schemadotorg;
 
 /**
- * SchemaDotOrgNames service.
+ * Schema.org names service.
  *
  * @see https://www.allacronyms.com/
  */

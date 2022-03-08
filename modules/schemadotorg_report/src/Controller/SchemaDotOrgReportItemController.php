@@ -24,10 +24,10 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     if ($id === '') {
       return $this->about();
     }
-    elseif ($this->schemaDataTypeManager->isType($id)) {
+    elseif ($this->schemaTypeManager->isType($id)) {
       return $this->item('types', $id);
     }
-    elseif ($this->schemaDataTypeManager->isProperty($id)) {
+    elseif ($this->schemaTypeManager->isProperty($id)) {
       return $this->item('properties', $id);
     }
     else {
@@ -49,16 +49,16 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       return $this->t('Schema.org: About');
     }
 
-    if ($this->schemaDataTypeManager->isDataType($id)) {
+    if ($this->schemaTypeManager->isDataType($id)) {
       $type = $this->t('Data type');
     }
-    elseif ($this->schemaDataTypeManager->isEnumerationType($id)) {
+    elseif ($this->schemaTypeManager->isEnumerationType($id)) {
       $type = $this->t('Enumeration type');
     }
-    elseif ($this->schemaDataTypeManager->isEnumerationValue($id)) {
+    elseif ($this->schemaTypeManager->isEnumerationValue($id)) {
       $type = $this->t('Enumeration value');
     }
-    elseif ($this->schemaDataTypeManager->isType($id)) {
+    elseif ($this->schemaTypeManager->isType($id)) {
       $type = $this->t('Type');
     }
     else {
@@ -138,7 +138,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       : $this->getPropertyFields();
 
     // Item.
-    $item = $this->schemaDataTypeManager->getItem($table, $id);
+    $item = $this->schemaTypeManager->getItem($table, $id);
 
     // Item.
     $build = [];
@@ -168,11 +168,11 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
           break;
 
         case 'comment':
-          $build[$name]['#markup'] = $this->formatComment($value);
+          $build[$name]['#markup'] = $this->schemaTypeBuilder->formatComment($value);
           break;
 
         case 'properties':
-          $properties = $this->schemaDataTypeManager->parseIds($value);
+          $properties = $this->schemaTypeManager->parseIds($value);
           $build[$name] = [
             '#type' => 'details',
             '#title' => $label,
@@ -182,7 +182,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
           break;
 
         default:
-          $build[$name]['links'] = $this->buildItemsLinks($value);
+          $build[$name]['links'] = $this->schemaTypeBuilder->buildItemsLinks($value);
       }
     }
 
@@ -197,12 +197,12 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
 
       // Subtype.
       if ($item['sub_types']) {
-        $subtypes = $this->schemaDataTypeManager->parseIds($item['sub_types']);
-        $tree = $this->schemaDataTypeManager->getTypeTree($subtypes);
+        $subtypes = $this->schemaTypeManager->parseIds($item['sub_types']);
+        $tree = $this->schemaTypeManager->getTypeTree($subtypes);
         $build['sub_types_hierarchy'] = [
           '#type' => 'details',
           '#title' => $this->t('More specific types'),
-          'items' => $this->buildTypeTreeRecursive($tree),
+          'items' => $this->schemaTypeBuilder->buildTypeTreeRecursive($tree),
         ];
       }
 
@@ -277,10 +277,10 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    */
   protected function buildTypeBreadcrumbs($type) {
     $build = [];
-    $breadcrumbs = $this->schemaDataTypeManager->getTypeBreadcrumbs($type);
+    $breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs($type);
     foreach ($breadcrumbs as $breadcrumb_path => $breadcrumb) {
       array_walk($breadcrumb, function (&$type) {
-        $type = Link::fromTextAndUrl($type, $this->getItemUrl($type));
+        $type = Link::fromTextAndUrl($type, $this->schemaTypeBuilder->getItemUrl($type));
       });
       $build[$breadcrumb_path] = [
         '#theme' => 'breadcrumb',
@@ -300,13 +300,13 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    *   A renderable array containing schema.org type enumerations.
    */
   protected function buildTypeEnumerations($type) {
-    $enumerations = $this->schemaDataTypeManager->getEnumerations($type);
+    $enumerations = $this->schemaTypeManager->getEnumerations($type);
     if (!$enumerations) {
       return [];
     }
 
     array_walk($enumerations, function (&$enumeration) {
-      $enumeration = Link::fromTextAndUrl($enumeration, $this->getItemUrl($enumeration))->toRenderable();
+      $enumeration = Link::fromTextAndUrl($enumeration, $this->schemaTypeBuilder->getItemUrl($enumeration))->toRenderable();
     });
 
     return [

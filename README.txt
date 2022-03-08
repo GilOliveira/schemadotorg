@@ -6,8 +6,9 @@ Provides blueprints for leveraging Schema.org to build and manage an SEO and API
 
 # Todo
 
-- Add checkbox
-- Add datatype selector
+- Add getting started links to 'Add Schema.org type' page
+
+- Improve datatype selector
 - Map datatypes to ranges
   - Recommended
   - OThers

@@ -3,9 +3,9 @@
 namespace Drupal\schemadotorg;
 
 /**
- * Schema.org builder interface.
+ * Schema.org entity type builder interface.
  */
-interface SchemaDotOrgBuilderInterface {
+interface SchemaDotOrgEntityTypeBuilderInterface {
 
   /**
    * Create type vocabularies.

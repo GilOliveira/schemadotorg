@@ -2,12 +2,7 @@
 
 namespace Drupal\schemadotorg_report\Controller;
 
-use Drupal\Component\Utility\Html;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Database\Connection;
-use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\Core\Url;
-use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -30,11 +25,18 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   protected $formBuilder;
 
   /**
-   * The Schema.org schema data type manager service.
+   * The Schema.org schema type manager service.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
    */
-  protected $schemaDataTypeManager;
+  protected $schemaTypeManager;
+
+  /**
+   * The Schema.org schema type builder service.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface
+   */
+  protected $schemaTypeBuilder;
 
   /**
    * {@inheritdoc}
@@ -43,7 +45,8 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
     $instance = parent::create($container);
     $instance->database = $container->get('database');
     $instance->formBuilder = $container->get('form_builder');
-    $instance->schemaDataTypeManager = $container->get('schemadotorg.schema_type_manager');
+    $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
+    $instance->schemaTypeBuilder = $container->get('schemadotorg.schema_type_builder');
     return $instance;
   }
 
@@ -131,10 +134,10 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
         return $value;
 
       case 'comment':
-        return ['data' => ['#markup' => $this->formatComment($value)]];
+        return ['data' => ['#markup' => $this->schemaTypeBuilder->formatComment($value)]];
 
       default:
-        $links = $this->buildItemsLinks($value);
+        $links = $this->schemaTypeBuilder->buildItemsLinks($value);
         if (count($links) > 20) {
           return [
             'data' => [
@@ -148,107 +151,6 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
           return ['data' => $links];
         }
     }
-  }
-
-  /**
-   * Build Schema.org type tree as an item list recursively.
-   *
-   * @param array $tree
-   *   An array of Schema.org type tree.
-   *
-   * @return array
-   *   A renderable array containing Schema.org type tree as an item list.
-   *
-   * @see \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager::getTypesChildrenRecursive
-   */
-  protected function buildTypeTreeRecursive(array $tree) {
-    if (empty($tree)) {
-      return [];
-    }
-
-    $items = [];
-    foreach ($tree as $type => $item) {
-      $items[$type] = [
-        '#type' => 'link',
-        '#title' => $type,
-        '#url' => $this->getItemUrl($type),
-      ];
-      $children = $item['subtypes'] + $item['enumerations'];
-      $items[$type]['children'] = $this->buildTypeTreeRecursive($children);
-    }
-
-    return [
-      '#theme' => 'item_list',
-      '#items' => $items,
-    ];
-  }
-
-  /**
-   * Build links to Schema.org items (types or properties).
-   *
-   * @param string $text
-   *   A string of comma delimited items (types or properties).
-   *
-   * @return array
-   *   An array of links to Schema.org items (types or properties).
-   */
-  protected function buildItemsLinks($text) {
-    $ids = $this->schemaDataTypeManager->parseIds($text);
-
-    $links = [];
-    foreach ($ids as $id) {
-      $prefix = ($links) ? ', ' : '';
-      if ($this->schemaDataTypeManager->isItem($id)) {
-        $links[] = [
-          '#type' => 'link',
-          '#title' => $id,
-          '#url' => $this->getItemUrl($id),
-          '#prefix' => $prefix,
-        ];
-      }
-      else {
-        $links[] = ['#plain_text' => $id, '#prefix' => $prefix];
-      }
-    }
-    return $links;
-  }
-
-  /**
-   * Get Schema.org type or property URL.
-   *
-   * @param string $id
-   *   Type or property ID.
-   *
-   * @return \Drupal\Core\Url
-   *   Schema.org type or property URL.
-   */
-  protected function getItemUrl($id) {
-    return Url::fromRoute('schemadotorg_reports', ['id' => $id]);
-  }
-
-  /**
-   * Format Schema.org type or property comment.
-   *
-   * @param string $comment
-   *   A comment.
-   *
-   * @return string
-   *   Formatted Schema.org type or property comment with links to details.
-   */
-  protected function formatComment($comment) {
-    if (strpos($comment, 'href="/') === FALSE) {
-      return $comment;
-    }
-    $dom = Html::load($comment);
-    $a_nodes = $dom->getElementsByTagName('a');
-    foreach ($a_nodes as $a_node) {
-      $href = $a_node->getAttribute('href');
-      if (preg_match('#^/([0-9A-Za-z]+)$#', $href, $match)) {
-        $url = $this->getItemUrl($match[1]);
-        $a_node->setAttribute('href', $url->toString());
-      }
-    }
-    return Html::serialize($dom);
   }
 
 }

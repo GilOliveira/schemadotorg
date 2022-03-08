@@ -302,7 +302,7 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
           'data' => [
             '#type' => 'link',
             '#title' => $schema_id,
-            '#url' => $this->getItemUrl($schema_id),
+            '#url' => $this->schemaTypeBuilder->getItemUrl($schema_id),
           ],
         ];
         $row['schema_label'] = $schema_label;
