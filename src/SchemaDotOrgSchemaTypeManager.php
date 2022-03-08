@@ -158,6 +158,20 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
+  public function getTypeProperties($type, array $fields = []) {
+    $type_definition = $this->getType($type);
+    $properties = $this->parseIds($type_definition['properties']);
+    return $this->database->select('schemadotorg_properties', 'properties')
+      ->fields('properties', $fields)
+      ->condition('label', $properties, 'IN')
+      ->orderBy('label')
+      ->execute()
+      ->fetchAllAssoc('label', \PDO::FETCH_ASSOC);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getTypeChildren($type) {
     $type_definition = $this->getType($type, ['sub_types']);
 

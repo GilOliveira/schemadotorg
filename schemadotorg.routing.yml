@@ -5,3 +5,10 @@ schemadotorg.settings:
     _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsForm'
   requirements:
     _permission: 'administer site configuration'
+
+schemadotorg.autocomplete:
+  path: '/schemadotorg/autocomplete/{table}'
+  defaults:
+    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgAutoCompleteController::autocomplete'
+  requirements:
+    _permission: 'access content'

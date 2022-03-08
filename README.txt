@@ -6,7 +6,19 @@ Provides blueprints for leveraging Schema.org to build and manage an SEO and API
 
 # Todo
 
-- Research Field UI implementation
+- Add checkbox
+- Add datatype selector
+- Map datatypes to ranges
+  - Recommended
+  - OThers
+- Change to input
+-
+
+- Save Schema.org type.
+- Add Schema.org type.
+- Third party settings.
+-------
+
 - Implement Create Schema.org type.
 - Basic property/field creation
 - Advanced  property/field creation
@@ -95,6 +107,9 @@ Report
 - Confirm data types.
 - Confirm names.
 - Confirm warning.
+
+UI
+FieldUIRouteTest.php
 
 # TBD
 

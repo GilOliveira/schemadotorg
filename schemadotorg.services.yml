@@ -2,6 +2,9 @@ services:
   schemadotorg.schema_type_manager:
     class: Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager
     arguments: ['@database']
+  schemadotorg.entity_type_manager:
+    class: Drupal\schemadotorg\SchemaDotOrgEntityTypeManager
+    arguments: ['@entity_type.manager']
   schemadotorg.names:
     class: Drupal\schemadotorg\SchemaDotOrgNames
   schemadotorg.builder:

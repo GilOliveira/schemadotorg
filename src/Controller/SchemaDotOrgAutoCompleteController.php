@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\schemadotorg_report\Controller;
+namespace Drupal\schemadotorg\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Returns responses for Schema.org report autocomplete routes.
+ * Returns responses for Schema.org autocomplete routes.
  */
-class SchemaDotOrgReportAutoCompleteController extends ControllerBase {
+class SchemaDotOrgAutoCompleteController extends ControllerBase {
 
   /**
    * The database connection.

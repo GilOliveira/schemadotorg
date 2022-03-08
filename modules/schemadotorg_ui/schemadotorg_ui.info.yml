@@ -1,0 +1,9 @@
+name: Schema.org UI
+type: module
+description: Allows administrators to attach custom Schema.org properties to fieldable types.
+package: Schema.org
+core_version_requirement: ^9
+lifecycle: experimental
+dependencies:
+  - 'drupal:field_ui'
+  - 'schemadotorg:schemadotorg'

@@ -5,4 +5,6 @@ package: Schema.org
 core_version_requirement: ^9
 lifecycle: experimental
 dependencies:
+  - drupal:media
   - drupal:taxonomy
+  - paragraphs:paragraphs

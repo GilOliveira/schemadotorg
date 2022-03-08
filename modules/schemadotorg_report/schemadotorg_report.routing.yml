@@ -121,12 +121,3 @@ schemadotorg_reports.names.abbreviations:
   requirements:
     _permission: 'access site reports'
 
-# Autocomplete
-
-schemadotorg_reports.autocomplete:
-  path: '/admin/reports/schemadotorg/docs/autocomplete/{table}'
-  defaults:
-    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportAutoCompleteController::autocomplete'
-  requirements:
-    _permission: 'access site reports'
-
