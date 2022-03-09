@@ -96,7 +96,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     ];
     $description_top = $this->t('The schemas are a set of <a href=":types_href">types</a>, each associated with a set of <a href=":properties_href">properties</a>.', $t_args);
     $description_top .= ' ' . $this->t('The types are arranged in a <a href=":things_href">hierarchy</a>.', $t_args);
-    $build['description'] = ['#markup' => $description_top];
+    $build['description_top'] = ['#markup' => $description_top];
 
     // Types.
     $build['types'] = $this->getFilterForm('types');
@@ -116,7 +116,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     $description_bottom .= '<li>' . $this->t('<a title="Action" href="/Action">Action</a>') . '</li>';
     $description_bottom .= '</ul>';
     $path = Url::fromRoute('schemadotorg_reports')->toString();
-    $build[] = ['#markup' => str_replace('href="/', 'href="' . $path . '/', $description_bottom)];
+    $build['description_bottom'] = ['#markup' => str_replace('href="/', 'href="' . $path . '/', $description_bottom)];
     return $build;
   }
 

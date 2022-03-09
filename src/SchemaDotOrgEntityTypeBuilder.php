@@ -32,7 +32,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   protected $schemaNames;
 
   /**
-   * The Schema.org schema type manager service.
+   * The Schema.org schema type manager.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
    */
@@ -47,19 +47,19 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *   The entity display repository.
    * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
    *   The Schema.org names service.
-   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_data_type_manager
-   *   The Schema.org schema type manager service.
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   *   The Schema.org schema type manager.
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
     EntityDisplayRepositoryInterface $display_repository,
     SchemaDotOrgNamesInterface $schema_names,
-    SchemaDotOrgSchemaTypeManagerInterface $schema_data_type_manager
+    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
   ) {
     $this->entityDisplayRepository = $display_repository;
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaNames = $schema_names;
-    $this->schemaTypeManager = $schema_data_type_manager;
+    $this->schemaTypeManager = $schema_type_manager;
   }
 
   /**

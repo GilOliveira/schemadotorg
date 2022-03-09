@@ -9,9 +9,9 @@ use Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides local action definitions for all entity bundles.
+ * Provides menu link definitions for all entity bundles.
  */
-class SchemaDotOrgUiLocalAction extends DeriverBase implements ContainerDeriverInterface {
+class SchemaDotOrgUiMenuLink extends DeriverBase implements ContainerDeriverInterface {
 
   use StringTranslationTrait;
 
@@ -50,8 +50,8 @@ class SchemaDotOrgUiLocalAction extends DeriverBase implements ContainerDeriverI
       if ($bundle_of && in_array($bundle_of, $entity_types)) {
         $this->derivatives["schemadotorg.{$entity_type_id}.type_add"] = [
           'route_name' => "schemadotorg.{$entity_type_id}.type_add",
+          'parent' => "entity.{$entity_type_id}.collection",
           'title' => $this->t('Add Schema.org type'),
-          'appears_on' => ["entity.{$entity_type_id}.collection"],
         ] + $base_plugin_definition;
       }
     }

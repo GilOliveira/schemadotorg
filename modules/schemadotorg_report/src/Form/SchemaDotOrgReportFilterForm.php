@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SchemaDotOrgReportFilterForm extends FormBase {
 
   /**
-   * The Schema.org schema type manager service.
+   * The Schema.org schema type manager.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
    */

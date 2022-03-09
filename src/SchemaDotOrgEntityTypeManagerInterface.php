@@ -15,4 +15,22 @@ interface SchemaDotOrgEntityTypeManagerInterface {
    */
   public function getEntityTypes();
 
+  /**
+   * Get field types as options.
+   *
+   * @return array
+   *   An associative array of field types as options.
+   */
+  public function getFieldTypesAsOptions();
+
+  /**
+   * Get a Schema.org property's field type options.
+   *
+   * @param string $property
+   *   A Schema.org property.
+   *
+   * @return array
+   *   An associative array of Schema.org property's field type as options.
+   */
+  public function getSchemaPropertyFieldTypesAsOptions($property);
 }

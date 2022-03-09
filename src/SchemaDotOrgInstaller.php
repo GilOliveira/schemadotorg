@@ -37,7 +37,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   protected $schemaNames;
 
   /**
-   * The Schema.org schema type manager service.
+   * The Schema.org schema type manager.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
    */
@@ -72,7 +72,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
    *   The Schema.org names service.
    * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
-   *   The Schema.org schema type manager service.
+   *   The Schema.org schema type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilderInterface $schema_entity_type_builder
    *   The Schema.org entity type  service.
    */

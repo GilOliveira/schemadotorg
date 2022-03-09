@@ -17,7 +17,7 @@ use Symfony\Component\Routing\RouteCollection;
 class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
 
   /**
-   * The entity type manager service.
+   * The entity type manager.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
@@ -34,7 +34,7 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
    * Constructs a SchemaDotOrgRouteSubscriber object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager service.
+   *   The entity type manager.
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,

@@ -25,7 +25,7 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   protected $formBuilder;
 
   /**
-   * The Schema.org schema type manager service.
+   * The Schema.org schema type manager.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
    */

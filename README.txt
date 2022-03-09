@@ -6,18 +6,16 @@ Provides blueprints for leveraging Schema.org to build and manage an SEO and API
 
 # Todo
 
-- Add getting started links to 'Add Schema.org type' page
+- Created dedicated SchemaDotOrgUiTypeForm.php
 
-- Improve datatype selector
-- Map datatypes to ranges
-  - Recommended
-  - OThers
-- Change to input
--
+- /admin/structure/types/schemadotorg/add/{type}
+
+- Sort field type options in manual order.
 
 - Save Schema.org type.
 - Add Schema.org type.
 - Third party settings.
+
 -------
 
 - Implement Create Schema.org type.

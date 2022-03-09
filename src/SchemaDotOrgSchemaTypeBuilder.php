@@ -11,7 +11,7 @@ use Drupal\Core\Url;
 class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInterface {
 
   /**
-   * The Schema.org schema type manager service.
+   * The Schema.org schema type manager.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
    */
@@ -21,7 +21,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
    * Constructs a SchemaDotOrgSchemaTypeBuilder object.
    *
    * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
-   *   The Schema.org schema type manager service.
+   *   The Schema.org schema type manager.
    */
   public function __construct(SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager) {
     $this->schemaTypeManager = $schema_type_manager;
