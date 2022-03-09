@@ -2,13 +2,10 @@
 
 namespace Drupal\schemadotorg_ui\Form;
 
-use Drupal\Component\Utility\Html;
-use Drupal\Core\Field\FieldTypePluginManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Form\OptGroup;
 use Drupal\Core\Url;
-use Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -33,7 +30,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
   /**
    * The Schema.org entity type manager.
    *
-   * @var SchemaDotOrgEntityTypeManagerInterface
+   * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterfacee
    */
   protected $schemaEntityTypeManager;
 
@@ -209,7 +206,11 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
         'width' => '60%',
       ],
       'definition' => [
-        'data' => ['#markup' => $this->t('Field label') . ' /  <br/>' . $this->t('Machine readable-name')],
+        'data' => [
+          '#markup' => $this->t('Field label')
+            . ' /  <br/>'
+            . $this->t('Machine readable-name'),
+        ],
         'width' => '20%',
       ],
       'type' => [

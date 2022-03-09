@@ -84,11 +84,17 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
    * {@inheritdoc}
    */
   public function getSchemaPropertyFieldTypesAsOptions($property) {
-    $property_definition = $this->schemaTypeManager->getProperty($property);
+    $property_mappings = [
+      'description' => ['text_long', 'text', 'text_with_summary'],
+      'disambiguatingDescription' => ['text_long', 'text', 'text_with_summary'],
+      'identifier' => ['key_value', 'key_value_long'],
+      'image' => ['field_ui:entity_reference:media', 'image'],
+      'telephone' => ['telephone'],
+    ];
 
     $data_type_mappings = [
       // Data types.
-      'Text' => ['text', 'text_long', 'string', 'string_long', 'list_string', 'text_with_summary'],
+      'Text' => ['string', 'string_long', 'list_string', 'text', 'text_long', 'text_with_summary'],
       'Number' => ['integer', 'float', 'decimal', 'list_integer', 'list_float'],
       'DateTime' => ['datetime'],
       'Date' => ['datetime'],
@@ -100,29 +106,35 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
       // @todo Enumerations.
     ];
 
-    $property_mappings = [
-      'telephone' => ['telephone'],
-    ];
+    $property_definition = $this->schemaTypeManager->getProperty($property);
 
     $field_type_options = $this->getFieldTypesAsOptions();
 
-    // Property options.
-    $property_options = [];
+    // Set property specific field types.
+    $property_field_types = [];
     if (isset($property_mappings[$property])) {
-      $property_options += array_intersect_key($field_type_options, array_combine($property_mappings[$property], $property_mappings[$property]));
+      $property_field_types = array_merge($property_field_types, $property_mappings[$property]);
     }
 
-    // Range options.
+    // Set range include field types.
     $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
     foreach ($range_includes as $range_include) {
       if (isset($data_type_mappings[$range_include])) {
-        $property_options += array_intersect_key($field_type_options, array_combine($data_type_mappings[$range_include], $data_type_mappings[$range_include]));
+        $property_field_types = array_merge($property_field_types, $data_type_mappings[$range_include]);
       }
     }
 
-    // Default options.
-    if (!$property_options) {
-      $property_options['entity_reference'] = $field_type_options['entity_reference'];
+    // Set a default field type.
+    if (!$property_field_types) {
+      $property_field_types[] = 'entity_reference';
+    }
+
+    // Get property options for property field types.
+    $property_options = [];
+    foreach ($property_field_types as $field_type) {
+      if (isset($field_type_options[$field_type])) {
+        $property_options[$field_type] = $field_type_options[$field_type];
+      }
     }
 
     return $property_options;

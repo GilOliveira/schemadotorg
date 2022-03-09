@@ -134,6 +134,16 @@ FieldUIRouteTest.php
 - Templates - Provides templates for creating and updating a Schema.org type in a click.
 - Entity???
 
+# Contrib modules
+https://www.drupal.org/project/entity_type_clone
+https://www.drupal.org/project/field_name_prefix_remove
+https://www.drupal.org/project/convert_bundles
+https://www.drupal.org/project/paragraphs
+https://www.drupal.org/project/key_value_field
+https://www.drupal.org/project/flexfield
+https://www.drupal.org/project/properties
+https://www.drupal.org/project/computed_field
+
 # Schema.org Type => Drupal Entity
 
 - Thing => Node

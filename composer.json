@@ -22,5 +22,14 @@
                 "drush.services.yml": "^10"
             }
         }
+    },
+    "require": {
+        "drupal/core": "^8.8 || ^9"
+    },
+    "require-dev": {
+        "drupal/address": "~1.0",
+        "drupal/key_value_field": "~3.0"
     }
 }
+
+
