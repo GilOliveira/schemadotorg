@@ -6,21 +6,44 @@ Provides blueprints for leveraging Schema.org to build and manage an SEO and API
 
 # Todo
 
-- Created dedicated SchemaDotOrgUiTypeForm.php
+SchemaDotOrgMapping
+- schemadotorg.mapping.{entity_type}.{bundle}
+- EntityDisplayBase
 
-- /admin/structure/types/schemadotorg/add/{type}
+entity_type.bundle:
+  type: SchemaType
+  properties:
+    field_name: propertyType
 
-- Sort field type options in manual order.
+Provide default mapping for entity types
 
-- Save Schema.org type.
-- Add Schema.org type.
-- Third party settings.
+Move mapping up to the entity and out of the field.
+
+Allow schema.type to be selected for existing entities. THIS CAN BE DONE LATER.
+
+How do we
+
+- Load and note existing fields.
+
+- Only allow access when there are third party settings.
+
+- Mapping title, body, and author to Schema.org property
+
+- Move property on config storage to the node type.
+  - As fields are added and removed the mapping would be updated.
+
+  - Default properties.
+
+      name => title (Thing)
+      description => body.value (Thing)
+      disambiguatingDescription => body.summary (Thing)
+      dataCreated => create (CreativeWork)
+      dataUpdated => updated (CreativeWork)
+      url => url (Thing)
+      uid => author (CreativeWork)
 
 -------
 
-- Implement Create Schema.org type.
-- Basic property/field creation
-- Advanced  property/field creation
 - Entity Reference selection widget
 
 
@@ -43,18 +66,12 @@ Schema.org Templates
 
 - Manage Schema.org UI
 
-Type settings
-
-Current properties
-
-Available properties
-
 --------------------------------------------------------------------------------
 
-- Move abbeviation, prefixes, and suffixes into configuration.
+- Move abbreviations, prefixes, and suffixes into configuration.
 
 - Add help to types and properties reports.
-  - Note version.
+  - Note Schema.org version.
   - Link to source CSV.
 
 - Add reports for targeted entity types
@@ -72,7 +89,7 @@ Available properties
 - Third party settings
   - schemadotorg.property = name|alternateName
   - schemadotorg.description = optional|before|after|disable
-  - schemadotorg.type = Thing|CreativeWork
+  - schemadotorg.types = Thing|CreativeWork
 
 - Schema.org UI (/admin/structure/types)
   - Add Schema.org type
@@ -112,6 +129,9 @@ FieldUIRouteTest.php
 
 # TBD
 
+- How do we handle property.name vs entity.title?
+  - Allow title to be mapped to name?
+
 - Should the schema type be added to terms as field or property?
 
 - Should we prefix all schema field with schema_*? YES
@@ -124,6 +144,34 @@ FieldUIRouteTest.php
 
 - How can we validate the generated JSON-ld?
 
+# Notes/Decisions
+
+- Opting not to extend \Drupal\Core\Entity\EntityForm because it adds complexity and unpredictability.
+
+# References
+
+- https://paperzz.com/doc/7052675/drupal-content-entity-8.0.pages
+- https://www.drupal.org/docs/drupal-apis/entity-api/defining-and-using-content-entity-field-definitions
+
+# APIs
+
+- **entity_type.manager:**
+  Manages entity type plugin definitions.
+  _Provides entity definition, handlers, storage, etc...
+- **entity_type.repository:**
+  Provides helper methods for loading entity types.
+  _Gets entity types as options_
+- **entity_type.bundle.info**
+  Provides discovery and retrieval of entity type bundles.
+  _Gets entity bundles_
+- **entity.repository:**
+  Provides several mechanisms for retrieving entities.
+- **entity_display.repository:**
+  Provides a repository for entity display objects (view modes and form modes).
+- **entity_field.manager:**
+  Manages the discovery of entity fields. This includes field definitions, base field definitions, and field storage definitions.
+
+
 # Sub modules
 
 - Report - Provides a report for browsing Schema.org types, properties, and naming conventions.
@@ -135,14 +183,21 @@ FieldUIRouteTest.php
 - Entity???
 
 # Contrib modules
-https://www.drupal.org/project/entity_type_clone
-https://www.drupal.org/project/field_name_prefix_remove
-https://www.drupal.org/project/convert_bundles
-https://www.drupal.org/project/paragraphs
-https://www.drupal.org/project/key_value_field
-https://www.drupal.org/project/flexfield
-https://www.drupal.org/project/properties
-https://www.drupal.org/project/computed_field
+
+Required
+
+- https://www.drupal.org/project/paragraphs
+- https://www.drupal.org/project/key_value_field
+
+Recommended
+- https://www.drupal.org/project/entity_type_clone
+- https://www.drupal.org/project/convert_bundles
+
+Other
+- https://www.drupal.org/project/field_name_prefix_remove
+- https://www.drupal.org/project/flexfield
+- https://www.drupal.org/project/properties
+- https://www.drupal.org/project/computed_field
 
 # Schema.org Type => Drupal Entity
 

@@ -2,9 +2,14 @@
 
 namespace Drupal\schemadotorg;
 
+use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Entity\EntityFieldManager;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
+use Drupal\field\FieldConfigInterface;
+use Drupal\field\FieldStorageConfigInterface;
 
 /**
  * Schema.org entity type manager.
@@ -52,7 +57,10 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
   }
 
   /**
-   * {@inheritdoc}
+   * Get entity types that implement Schema.org.
+   *
+   * @return array
+   *   Entity types that implement Schema.org.
    */
   public function getEntityTypes() {
     return [
@@ -64,26 +72,46 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
     ];
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getFieldTypesAsOptions() {
-    // Get field types as options.
-    $options = [];
-    $field_types = $this->fieldTypeManager->getUiDefinitions();
-    foreach ($field_types as $name => $field_type) {
-      if (empty($field_type['no_ui'])) {
-        $options[$name] = $field_type['label'];
-      }
-    }
-    asort($options);
-    return $options;
+  public function getBaseFieldNames() {
+    return [
+      'uuid',
+      'revision_uid',
+      'uid',
+      'title',
+      'created',
+      'changed',
+      'promote',
+      'sticky',
+      'path',
+    ];
   }
 
+  public function getEntitySchemaType($entity_type_id, $bundle = NULL) {
+    // @todo Determine best to map user entity type to Person schema type.
+    if ($entity_type_id === 'user') {
+      return 'Person';
+    }
+
+    $entity = $this->getEntity($entity_type_id, $bundle);
+    return $entity
+      ? $entity->getThirdPartySetting('schemadotorg', 'type')
+      : NULL;
+  }
+
+  public function getEntity($entity_type_id, $bundle = NULL) {
+    $field_definition = $this->entityTypeManager->getDefinition($entity_type_id);
+    $bundle_entity_type_id = $field_definition->getBundleEntityType();
+    if (!$bundle_entity_type_id) {
+      return NULL;
+    }
+
+    $entity_storage = $this->entityTypeManager->getStorage($bundle_entity_type_id);
+    return $entity_storage->load($bundle) ?: NULL;
+  }
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyFieldTypesAsOptions($property) {
+  public function getSchemaPropertyFieldTypes($property) {
     $property_mappings = [
       'description' => ['text_long', 'text', 'text_with_summary'],
       'disambiguatingDescription' => ['text_long', 'text', 'text_with_summary'],
@@ -108,36 +136,76 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
 
     $property_definition = $this->schemaTypeManager->getProperty($property);
 
-    $field_type_options = $this->getFieldTypesAsOptions();
-
     // Set property specific field types.
-    $property_field_types = [];
+    $field_types = [];
     if (isset($property_mappings[$property])) {
-      $property_field_types = array_merge($property_field_types, $property_mappings[$property]);
+      $field_types = array_merge($field_types, $property_mappings[$property]);
     }
 
     // Set range include field types.
     $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
     foreach ($range_includes as $range_include) {
       if (isset($data_type_mappings[$range_include])) {
-        $property_field_types = array_merge($property_field_types, $data_type_mappings[$range_include]);
+        $field_types = array_merge($field_types, $data_type_mappings[$range_include]);
       }
     }
 
     // Set a default field type.
-    if (!$property_field_types) {
-      $property_field_types[] = 'entity_reference';
+    if (!$field_types) {
+      $field_types[] = 'entity_reference';
     }
 
-    // Get property options for property field types.
-    $property_options = [];
-    foreach ($property_field_types as $field_type) {
-      if (isset($field_type_options[$field_type])) {
-        $property_options[$field_type] = $field_type_options[$field_type];
+    return $field_types;
+  }
+
+  public function getEntityFieldProperties(EntityInterface $entity = NULL) {
+    if (!$entity) {
+      return [];
+    }
+    /** @var EntityFieldManager $entity_field_manager */
+    $entity_field_manager = \Drupal::service('entity_field.manager');
+
+    $field_properties = [];
+
+    // Set entity label.
+    $definition = \Drupal::entityTypeManager()->getDefinition($entity->getEntityTypeId());
+    $target_entity_type_id = $definition->getBundleOf();
+    $target_bundle = $entity->id();
+
+    $field_storage_definitions = $entity_field_manager->getFieldStorageDefinitions($target_entity_type_id);
+    foreach ($field_storage_definitions as $field_storage_definition) {
+      if (!$field_storage_definition instanceof FieldStorageConfigInterface) {
+        continue;
+      }
+
+      $property = $field_storage_definition->getThirdPartySetting('schemadotorg', 'property');
+      if ($property) {
+        $field_properties[$property] = [
+          'machine_name' => $field_storage_definition->getName(),
+          'type' => $field_storage_definition->getType(),
+          'unlimited' => ($field_storage_definition->getCardinality() === -1),
+        ];
+      }
+      $entity_field_manager->getFieldDefinitions($target_entity_type_id, $target_bundle);
+    }
+
+    $field_definitions = $entity_field_manager->getFieldDefinitions($target_entity_type_id, $target_bundle);
+    foreach ($field_definitions as $field_definition) {
+      if (!$field_definition instanceof FieldConfigInterface) {
+        continue;
+      }
+
+      $property = $field_definition->getFieldStorageDefinition()->getThirdPartySetting('schemadotorg', 'property');
+      if ($property) {
+        $field_properties += [$property => []];
+        $field_properties[$property] += [
+          'status' => TRUE,
+          'label' => $field_definition->getLabel(),
+          'required' => $field_definition->isRequired(),
+        ];
       }
     }
-
-    return $property_options;
+    return $field_properties;
   }
 
 }

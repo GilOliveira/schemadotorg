@@ -5,7 +5,6 @@ namespace Drupal\schemadotorg_ui\Plugin\Derivative;
 use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

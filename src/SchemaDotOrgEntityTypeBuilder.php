@@ -2,8 +2,12 @@
 
 namespace Drupal\schemadotorg;
 
+use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
+use Drupal\Core\Field\FieldTypePluginManagerInterface;
+use Drupal\node\Entity\NodeType;
 
 /**
  * Schema.org entity type builder service.
@@ -89,10 +93,10 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $field_name = 'schema_type';
     $field_label = 'Schema.org: Type';
 
-    /** @var \Drupal\field\FieldStorageConfigInterface $field_storage_config */
-    $field_storage_config = $this->entityTypeManager->getStorage('field_storage_config');
-    if (!$field_storage_config->load($entity_type_id . '.' . $field_name)) {
-      $field_storage_config->create([
+    /** @var \Drupal\field\FieldStorageConfigInterface $field_storage_config_storage */
+    $field_storage_config_storage = $this->entityTypeManager->getStorage('field_storage_config');
+    if (!$field_storage_config_storage->load($entity_type_id . '.' . $field_name)) {
+      $field_storage_config_storage->create([
         'field_name' => $field_name,
         'entity_type' => $entity_type_id,
         'type' => 'string',
@@ -101,9 +105,9 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     }
 
     /** @var \Drupal\field\FieldConfigInterface $field_storage_config */
-    $field_config = $this->entityTypeManager->getStorage('field_config');
-    if (!$field_config->load($entity_type_id . '.' . $bundle . '.' . $field_name)) {
-      $field_config->create([
+    $field_config_storage = $this->entityTypeManager->getStorage('field_config');
+    if (!$field_config_storage->load($entity_type_id . '.' . $bundle . '.' . $field_name)) {
+      $field_config_storage->create([
         'entity_type' => $entity_type_id,
         'bundle' => $bundle,
         'field_name' => $field_name,
@@ -118,6 +122,65 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle)
       ->setComponent($field_name, ['type' => 'string'])
       ->save();
+  }
+
+  public function addFieldToEntity($entity_type_id, $bundle, array $field) {
+    $field_name = $field['machine_name'];
+    $field_label = $field['label'];
+
+    /** @var \Drupal\field\FieldStorageConfigInterface $field_storage_config_storage */
+    $field_storage_config_storage = $this->entityTypeManager->getStorage('field_storage_config');
+    $field_storage_config = $field_storage_config_storage->load($entity_type_id . '.' . $field_name);
+    if (!$field_storage_config) {
+      $field_cardinality = $field['unlimited'] ? -1 : 1;
+
+      // @see \Drupal\field_ui\Form\FieldStorageAddForm::submitForm
+      if (strpos($field['type'], 'field_ui:') !== FALSE) {
+        [, $field_type, $option_key] = explode(':', $field['type'], 3);
+
+        /** @var FieldTypePluginManagerInterface $field_type_plugin_manager */
+        $field_type_plugin_manager = \Drupal::service('plugin.manager.field.field_type');
+        $field_definition = $field_type_plugin_manager->getDefinition($field_type);
+        $options = $field_type_plugin_manager->getPreconfiguredOptions($field_definition['id']);
+        $field_options = $options[$option_key];
+      }
+      else {
+        $field_type = $field['type'];
+        $field_options = [];
+      }
+      $field_options += ['field_storage_config' => []];
+
+      /** @var \Drupal\field\FieldStorageConfigInterface $field_storage_config */
+      $field_storage_config_storage->create([
+        'field_name' => $field_name,
+        'entity_type' => $entity_type_id,
+        'type' => $field_type,
+        'cardinality' => $field_cardinality,
+      ] + $field_options['field_storage_config'])->save();
+    }
+
+    /** @var \Drupal\Core\Config\Entity\ConfigEntityStorageInterface $field_config_storage */
+    $field_config_storage = $this->entityTypeManager->getStorage('field_config');
+    /** @var \Drupal\field\FieldConfigInterface $field_config */
+    $field_config = $field_config_storage->load($entity_type_id . '.' . $bundle . '.' . $field_name);
+    if (!$field_config) {
+      $field_config_storage->create([
+        'entity_type' => $entity_type_id,
+        'bundle' => $bundle,
+        'field_name' => $field_name,
+        'label' => $field_label,
+      ])->save();
+    }
+
+    $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle);
+    if (!$form_display->getComponent($field_name)) {
+      $form_display->setComponent($field_name)->save();
+    }
+
+    $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle);
+    if (!$view_display->getComponent($field_name)) {
+      $view_display->setComponent($field_name)->save();
+    }
   }
 
 }
