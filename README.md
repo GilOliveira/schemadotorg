@@ -10,65 +10,38 @@ SchemaDotOrgMapping
 - schemadotorg.mapping.{entity_type}.{bundle}
 - EntityDisplayBase
 
-entity_type.bundle:
+schemadotorg.mapping.entity_type.bundle:
   type: SchemaType
   properties:
     field_name: propertyType
 
-Provide default mapping for entity types
+Change Schema.org type (for bundles only).
 
-Move mapping up to the entity and out of the field.
+How do we map field sub values?
+- body.summary
 
-Allow schema.type to be selected for existing entities. THIS CAN BE DONE LATER.
-
-How do we
-
-- Load and note existing fields.
-
-- Only allow access when there are third party settings.
-
-- Mapping title, body, and author to Schema.org property
-
-- Move property on config storage to the node type.
-  - As fields are added and removed the mapping would be updated.
-
-  - Default properties.
-
-      name => title (Thing)
-      description => body.value (Thing)
-      disambiguatingDescription => body.summary (Thing)
-      dataCreated => create (CreativeWork)
-      dataUpdated => updated (CreativeWork)
-      url => url (Thing)
-      uid => author (CreativeWork)
-
--------
+--------------------------------------------------------------------------------
 
 - Entity Reference selection widget
 
-
 - Write baseline tests
 
-- Schema.org UI
-  - Review Field UI
-  - Add 'Create Schema.org type'
-  - Add 'Manage Schema.org' tab
-  - Create Schema.org type
-    - schemadotorg.type
-    - schemadotorg.description
-  - Autocomplete
-  - Description
-  - Task and menu item
+Configure Schema.org and Schema.org UI
+- General
+  - Prefix: 'schema_'
+- Names:
+  - Abbreviations
+  - Suffixes
+  - Prefixes
+- Fields:
+  - Support types
+  - Support base fields
 
 Schema.org Templates
   - Templates will preselect recommended fields.
   - Templates can be automatically updated
 
-- Manage Schema.org UI
-
 --------------------------------------------------------------------------------
-
-- Move abbreviations, prefixes, and suffixes into configuration.
 
 - Add help to types and properties reports.
   - Note Schema.org version.
@@ -82,21 +55,6 @@ Schema.org Templates
 - Create type blacklist which applies to taxonomy.
 
 - Define what is alpha beta and release goals.
-
-- Use Entity Builder class to add helper
-  @see https://www.drupal.org/node/3191609
-
-- Third party settings
-  - schemadotorg.property = name|alternateName
-  - schemadotorg.description = optional|before|after|disable
-  - schemadotorg.types = Thing|CreativeWork
-
-- Schema.org UI (/admin/structure/types)
-  - Add Schema.org type
-  - Add Schema.org property
-  - Add Schema.org property
-  - Manage Schema.org properties
-
 # Releases
 
 Beta

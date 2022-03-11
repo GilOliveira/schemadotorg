@@ -316,6 +316,8 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       $field_name = $this->schemaNames->camelCaseToSnakeCase($field_name);
     });
 
+    $length = $this->schemaNames->getNameMaxLength($table);
+
     // Insert records.
     while ($row = fgetcsv($handle)) {
       $fields = [];
@@ -323,7 +325,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
         $fields[$field_name] = $row[$index] ?? '';
       }
       $fields['drupal_label'] = $this->schemaNames->camelCaseToTitleCase($fields['label']);
-      $fields['drupal_name'] = $this->schemaNames->toDrupalName($fields['label']);
+      $fields['drupal_name'] = $this->schemaNames->toDrupalName($fields['label'], $length);
       $this->database->insert($table)
         ->fields($fields)
         ->execute();

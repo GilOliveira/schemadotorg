@@ -48,62 +48,68 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
    * {@inheritdoc}
    */
   protected function alterRoutes(RouteCollection $collection) {
-    $entity_types = $this->schemaDotOrgEntityTypeManager->getEntityTypes();
+    $supported_entity_types = $this->schemaDotOrgEntityTypeManager->getEntityTypes();
     foreach ($this->entityTypeManager->getDefinitions() as $entity_type_id => $entity_type) {
-      // Add 'Add Schema.org type' routes.
-      $bundle_of = $entity_type->getBundleOf();
-      if ($bundle_of
-        && $collection->get("entity.{$entity_type_id}.collection")
-        && in_array($bundle_of, $entity_types)) {
-        $path = $collection->get("entity.{$entity_type_id}.collection")->getPath();
-        $route = new Route(
-          "$path/schemadotorg",
-          [
-            '_form' => '\Drupal\schemadotorg_ui\Form\SchemaDotOrgUiFieldsForm',
-            '_title' => 'Add Schema.org type',
-            'entity_type_id' => $entity_type_id,
-          ],
-          ['_permission' => 'administer ' . $entity_type_id . ' fields'],
-        );
-        $collection->add("schemadotorg.{$entity_type_id}.type_add", $route);
+      // Make sure the entity is supported.
+      if (!in_array($entity_type_id, $supported_entity_types)) {
+        continue;
       }
 
-      // Add 'Manage Fields: Schema.org' routes.
+      // Make sure the entity has a field UI.
       $route_name = $entity_type->get('field_ui_base_route');
-      if ($route_name
-        && $collection->get($route_name)
-        && in_array($entity_type_id, $entity_types)) {
-        $entity_route = $collection->get($route_name);
-        $path = $entity_route->getPath();
+      if (!$route_name) {
+        continue;
+      }
 
-        $options = $entity_route->getOptions();
-        if ($bundle_entity_type = $entity_type->getBundleEntityType()) {
-          $options['parameters'][$bundle_entity_type] = [
-            'type' => 'entity:' . $bundle_entity_type,
-          ];
-        }
-        // Special parameter used to easily recognize all Field UI routes.
-        $options['_field_ui'] = TRUE;
+      // Try to get the route from the current collection.
+      $entity_route = $collection->get($route_name);
+      if (!$entity_route) {
+        continue;
+      }
 
-        $defaults = [
-          'entity_type_id' => $entity_type_id,
+      $path = $entity_route->getPath();
+
+      $options = $entity_route->getOptions();
+      $bundle_entity_type = $entity_type->getBundleEntityType();
+      if ($bundle_entity_type) {
+        $options['parameters'][$bundle_entity_type] = [
+          'type' => 'entity:' . $bundle_entity_type,
         ];
-        // If the entity type has no bundles and it doesn't use {bundle} in its
-        // admin path, use the entity type.
-        if (strpos($path, '{bundle}') === FALSE) {
-          $defaults['bundle'] = !$entity_type->hasKey('bundle') ? $entity_type_id : '';
-        }
+      }
+      // Special parameter used to easily recognize all Field UI routes.
+      $options['_field_ui'] = TRUE;
 
+      $defaults = [
+        'entity_type_id' => $entity_type_id,
+        '_form' => '\Drupal\schemadotorg_ui\Form\SchemaDotOrgUiFieldsForm',
+      ];
+      // If the entity type has no bundles and it doesn't use {bundle} in its
+      // admin path, use the entity type.
+      if (strpos($path, '{bundle}') === FALSE) {
+        $defaults['bundle'] = !$entity_type->hasKey('bundle') ? $entity_type_id : '';
+      }
+
+      $requirements = ['_permission' => 'administer ' . $entity_type_id . ' fields'];
+
+      // Add 'Manage Schema.org fields' route.
+      $route = new Route(
+        "$path/schemedotorg",
+        $defaults + ['_title' => 'Manage Schema.org fields'],
+        $requirements,
+        $options
+      );
+      $collection->add("entity.{$entity_type_id}.schemadotorg_fields", $route);
+
+      // Add 'Add Schema.org type' route.
+      $entity_collection_route = $collection->get("entity.{$bundle_entity_type}.collection");
+      if ($bundle_entity_type && $entity_collection_route) {
+        $entity_collection_path = $entity_collection_route->getPath();
         $route = new Route(
-          "$path/schemadotorg",
-          [
-            '_form' => '\Drupal\schemadotorg_ui\Form\SchemaDotOrgUiFieldsForm',
-            '_title' => 'Manage Schema.org fields',
-          ] + $defaults,
-          ['_permission' => 'administer ' . $entity_type_id . ' fields'],
-          $options
+          "$entity_collection_path/schemadotorg",
+          $defaults + ['_title' => 'Add Schema.org type'],
+          $requirements,
         );
-        $collection->add("entity.{$entity_type_id}.schemadotorg_fields", $route);
+        $collection->add("schemadotorg.{$bundle_entity_type}.type_add", $route);
       }
     }
   }

@@ -79,7 +79,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
 
     // Do not do any more abbreviations if the name has less than two words.
     if (substr_count($drupal_name, '_') <= 1
-      && (!$length || strlen($drupal_name) < $length)) {
+      && (!$length || (strlen($drupal_name) < $length))) {
       return $drupal_name;
     }
 

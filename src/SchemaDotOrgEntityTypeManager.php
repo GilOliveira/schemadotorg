@@ -2,8 +2,6 @@
 
 namespace Drupal\schemadotorg;
 
-use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
-use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityFieldManager;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -72,18 +70,26 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
     ];
   }
 
-  public function getBaseFieldNames() {
-    return [
-      'uuid',
-      'revision_uid',
-      'uid',
-      'title',
-      'created',
-      'changed',
-      'promote',
-      'sticky',
-      'path',
+  public function getBaseFieldNames($entity_type_id) {
+    $base_fields_names = [
+      'node' => [
+        'uuid',
+        'revision_uid',
+        'uid',
+        'title',
+        'created',
+        'changed',
+        'promote',
+        'sticky',
+        'path',
+      ],
+      'user' => [
+        'uuid',
+        'name',
+        'mail',
+      ],
     ];
+    return $base_fields_names[$entity_type_id] ?? [];
   }
 
   public function getEntitySchemaType($entity_type_id, $bundle = NULL) {

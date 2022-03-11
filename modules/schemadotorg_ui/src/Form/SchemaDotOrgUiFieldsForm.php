@@ -160,11 +160,12 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
       return;
     }
 
+    $schema_type_id = $this->getSchemaType();
+
     // Create the bundle entity.
     if ($this->isBundleEntityType() && !$this->getEntity()) {
       $entity_values = $form_state->getValue('entity');
 
-      $schema_type_id = $this->getSchemaType();
       $bundle_entity_type_id = $this->getBundleEntityTypeId();
       $bundle_entity_type_definition = $this->getBundleEntityTypeDefinition();
 
@@ -177,10 +178,6 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
         ->set($id_key, $entity_values['id'])
         ->set($label_key, $entity_values['label']);
 
-      // @todo Move this to configuration.
-      $entity->setThirdPartySetting('schemadotorg', 'type', $schema_type_id);
-      $entity->save();
-
       $this->bundle = $entity_values['id'];
 
       $t_args = [
@@ -192,6 +189,14 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
       $this->logger('node')->notice('Added @type %name.', $context);
 
       $form_state->setRedirectUrl($entity->toUrl('collection'));
+    }
+
+    // Set Schema.org type.
+    // @todo move to config entity.
+    if ($this->getEntity()) {
+      $this->getEntity()
+        ->setThirdPartySetting('schemadotorg', 'type', $schema_type_id)
+        ->save();
     }
 
     $entity_type_id = $this->getEntityTypeId();
@@ -354,24 +359,28 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
       $t_args = ['@property' => $property_definition['label']];
       $row = [];
 
+      // Property.
       $row['property'] = [
+        '#prefix' => '<div class="schemadotorg-ui-property">',
+        '#suffix' => '</div>',
         'label' => [
           '#markup' => $property_definition['label'],
-          '#prefix' => '<strong>',
-          '#suffix' => '</strong><br/>',
+          '#prefix' => '<div class="schemadotorg-ui-property--label"><strong>',
+          '#suffix' => '</strong></div>',
         ],
         'comment' => [
           '#markup' => $this->schemaTypeBuilder->formatComment($property_definition['comment']),
-          '#prefix' => '<div>',
+          '#prefix' => '<div class="schemadotorg-ui-property--comment">',
           '#suffix' => '</div>',
         ],
         'range_includes' => [
           'links' => $this->schemaTypeBuilder->buildItemsLinks($property_definition['range_includes']),
-          '#prefix' => '<div>(',
+          '#prefix' => '<div class="schemadotorg-ui-property--range-includes">(',
           '#suffix' => ')</div>',
         ],
       ];
 
+      // Field.
       $row['field'] = [];
       $row['field']['name'] = [
         '#type' => 'select',
@@ -427,6 +436,12 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
         '#type' => 'checkbox',
         '#title' => $this->t('Unlimited number of values', $t_args),
       ];
+
+      // Highlight mapped properties.
+      if (isset($property_mappings[$property])) {
+        $row['#attributes'] = ['class' => ['color-success']];
+      }
+
       $rows[$property] = $row;
     }
 
@@ -434,6 +449,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
       '#type' => 'table',
       '#header' => $header,
       '#sticky' => TRUE,
+      '#attributes' => ['class' => ['schemadotorg-ui-properties']],
     ] + $rows;
   }
 
@@ -745,10 +761,17 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
     $field_definitions = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
     $options = [];
 
-    $field_names = $this->schemaEntityTypeManager->getBaseFieldNames();
-    foreach ($field_names as $field_name) {
-      if (isset($field_definitions[$field_name])) {
-        $field_definition = $field_definitions[$field_name];
+    $base_field_names = $this->schemaEntityTypeManager->getBaseFieldNames($entity_type_id);
+    if ($base_field_names) {
+      foreach ($base_field_names as $field_name) {
+        if (isset($field_definitions[$field_name])) {
+          $field_definition = $field_definitions[$field_name];
+          $options[$field_definition->getName()] = $field_definition->getLabel();
+        }
+      }
+    }
+    else {
+      foreach ($field_definitions as $field_definition) {
         $options[$field_definition->getName()] = $field_definition->getLabel();
       }
     }
