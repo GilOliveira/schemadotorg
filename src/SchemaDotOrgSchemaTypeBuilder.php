@@ -86,18 +86,23 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
   /**
    * {@inheritdoc}
    */
-  public function formatComment($comment) {
-    if (strpos($comment, 'href="/') === FALSE) {
+  public function formatComment($comment, $base_path = 'https://schema.org') {
+    if (strpos($comment, 'href="') === FALSE) {
       return $comment;
     }
+
 
     $dom = Html::load($comment);
     $a_nodes = $dom->getElementsByTagName('a');
     foreach ($a_nodes as $a_node) {
+      $a_node->removeAttribute('class');
+
       $href = $a_node->getAttribute('href');
       if (preg_match('#^/([0-9A-Za-z]+)$#', $href, $match)) {
-        $url = $this->getItemUrl($match[1]);
-        $a_node->setAttribute('href', $url->toString());
+        $a_node->setAttribute('href', $base_path . $match[0]);
+      }
+      elseif (strpos($href, '/') === 0) {
+        $a_node->setAttribute('href', 'https://schema.org' . $href);
       }
     }
     return Html::serialize($dom);

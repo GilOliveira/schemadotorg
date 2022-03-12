@@ -49,10 +49,13 @@ interface SchemaDotOrgSchemaTypeBuilderInterface {
    *
    * @param string $comment
    *   A comment.
+   * @param string $base_path
+   *   Base patt for all Schema.org types and properties.
+   *   Default to https://schema.org
    *
    * @return string
    *   Formatted Schema.org type or property comment with links to details.
    */
-  public function formatComment($comment);
+  public function formatComment($comment, $base_path = 'https://schema.org');
 
 }

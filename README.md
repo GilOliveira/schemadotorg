@@ -6,14 +6,35 @@ Provides blueprints for leveraging Schema.org to build and manage an SEO and API
 
 # Todo
 
-SchemaDotOrgMapping
+SchemaDotOrgMapping config entity
 - schemadotorg.mapping.{entity_type}.{bundle}
 - EntityDisplayBase
+- Create full working config entity
+- /admin/config/search
+- Basic form would just display the information.
+- UI module would override/replace the basic config entity.
+
+Create a working instance of the config entity without the UI/UX but the needed
+behaviors.
+
+
+\Drupal\Core\Entity\Entity\EntityViewDisplay
+\Drupal\Core\Entity\Display\EntityViewDisplayInterface
+\Drupal\Core\Entity\EntityDisplayBase
+\Drupal\Core\Entity\Display\EntityDisplayInterface
+field_ui_entity_type_build
+
+\Drupal\KernelTests\Core\Entity\EntityDisplayFormBaseTest
+\Drupal\KernelTests\Core\Entity\EntityDisplayRepositoryTest
+
+Need to change entityTypeId to targetEntityTypeTd.
+
 
 schemadotorg.mapping.entity_type.bundle:
   type: SchemaType
   properties:
-    field_name: propertyType
+    field_name:
+      property: propertyType
 
 Change Schema.org type (for bundles only).
 - Add Change Schema type button

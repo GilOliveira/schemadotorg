@@ -164,11 +164,13 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     /** @var \Drupal\field\FieldConfigInterface $field_config */
     $field_config = $field_config_storage->load($entity_type_id . '.' . $bundle . '.' . $field_name);
     if (!$field_config) {
+      $field_description = $field['description'] ?? '';
       $field_config_storage->create([
         'entity_type' => $entity_type_id,
         'bundle' => $bundle,
         'field_name' => $field_name,
         'label' => $field_label,
+        'description' => $field_description,
       ])->save();
     }
 

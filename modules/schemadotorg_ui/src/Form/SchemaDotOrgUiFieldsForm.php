@@ -2,6 +2,7 @@
 
 namespace Drupal\schemadotorg_ui\Form;
 
+use Drupal\Core\Field\FieldFilteredMarkup;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
@@ -174,11 +175,14 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
 
       /** @var \Drupal\Core\Entity\Sql\SqlContentEntityStorage $entity_storage */
       $entity_storage = $this->entityTypeManager->getStorage($bundle_entity_type_id);
-      $entity = $entity_storage->create()
-        ->set($id_key, $entity_values['id'])
-        ->set($label_key, $entity_values['label']);
+      $entity = $entity_storage->create([
+        $id_key => $entity_values['id'],
+        $label_key => $entity_values['label'],
+        'description' => $entity_values['description'],
+      ]);
+      $entity->save();
 
-      $this->bundle = $entity_values['id'];
+      $this->bundle = $entity->id();
 
       $t_args = [
         '@type' => $bundle_entity_type_definition->getSingularLabel(),
@@ -214,9 +218,12 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
 
       if (!$this->fieldExists($field_name)) {
         if ($this->fieldStorageExists($field_name)) {
-          $field_label = $this->getFieldConfigLabel($field_name)
-            ?: $this->getSchemaPropertyLabel($property_name);
-          $field = ['machine_name' => $field_name, 'label' => $field_label];
+          $property_definition = $this->schemaTypeManager->getProperty($property_name);
+          $field = [
+            'machine_name' => $field_name,
+            'label' => $this->getFieldConfigLabel($field_name) ?: $property_definition['label'],
+            'description' => $this->schemaTypeBuilder->formatComment($property_definition['comment']),
+          ];
           $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
         }
         elseif ($field_name === '_add_') {
@@ -328,6 +335,12 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
       '#pattern' => '[_0-9a-z]+',
       '#default_value' => $type_definition['drupal_name'],
     ];
+    $form['entity']['description'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Description'),
+      '#description' => $this->t('This text will be displayed on the <em>Add new content</em> page.'),
+      '#default_value' => $this->schemaTypeBuilder->formatComment($type_definition['comment']),
+    ];
   }
 
   /**
@@ -404,6 +417,18 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
           ],
         ],
       ];
+      $field_type_options = $this->getSchemaPropertyFieldTypeOptions($property);
+      $recommended_category = (string) $this->t('Recommended');
+      $field_type_default_value = (isset($field_type_options[$recommended_category]))
+        ? array_key_first($field_type_options[$recommended_category])
+        : NULL;
+      $row['field']['add']['type'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Field type'),
+        '#empty_option' => $this->t('- Select a field type -'),
+        '#options' => $field_type_options,
+        '#default_value' => $field_type_default_value,
+      ];
       $row['field']['add']['label'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Label'),
@@ -420,18 +445,13 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
         '#attributes' => ['style' => 'width: 200px'],
         '#wrapper_attributes' => ['style' => 'white-space: nowrap'],
       ];
-      $field_type_options = $this->getSchemaPropertyFieldTypeOptions($property);
-      $recommended_category = (string) $this->t('Recommended');
-      $field_type_default_value = (isset($field_type_options[$recommended_category]))
-        ? array_key_first($field_type_options[$recommended_category])
-        : NULL;
-      $row['field']['add']['type'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Field type'),
-        '#empty_option' => $this->t('- Select a field type -'),
-        '#options' => $field_type_options,
-        '#default_value' => $field_type_default_value,
+      $row['field']['add']['description'] = [
+        '#type' => 'textarea',
+        '#title' => $this->t('Description'),
+        '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
+        '#default_value' => $this->schemaTypeBuilder->formatComment($property_definition['comment']),
       ];
+
       $row['field']['add']['unlimited'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Unlimited number of values', $t_args),
@@ -538,20 +558,6 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    */
   protected function getSchmemaTypeDefinition() {
     return $this->schemaTypeManager->getType($this->type);
-  }
-
-  /**
-   * Get a Schema.org property's label.
-   *
-   * @param string $property
-   *   A a Schema.org property.
-   *
-   * @return string
-   *   a Schema.org property's label.
-   */
-  protected function getSchemaPropertyLabel($property) {
-    $property_definition = $this->schemaTypeManager->getProperty($property);
-    return $property_definition['drupal_label'];
   }
 
   /**

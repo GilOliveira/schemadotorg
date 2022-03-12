@@ -3,6 +3,7 @@
 namespace Drupal\schemadotorg_report\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -134,7 +135,8 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
         return $value;
 
       case 'comment':
-        return ['data' => ['#markup' => $this->schemaTypeBuilder->formatComment($value)]];
+        $base_path = Url::fromRoute('schemadotorg_reports')->toString();
+        return ['data' => ['#markup' => $this->schemaTypeBuilder->formatComment($value, $base_path)]];
 
       default:
         $links = $this->schemaTypeBuilder->buildItemsLinks($value);
