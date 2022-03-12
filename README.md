@@ -21,7 +21,6 @@ Demo
 SchemaDotOrgMapping config entity
 - Configure properties
 - Copy settings.
-- schemadotorg.mapping.{entity_type}.{bundle}
 - EntityDisplayBase
 - Create full working config entity
 - /admin/config/search
@@ -43,12 +42,6 @@ field_ui_entity_type_build
 
 Need to change entityTypeId to targetEntityTypeTd.
 
-
-schemadotorg.mapping.entity_type.bundle:
-  type: SchemaType
-  properties:
-    field_name:
-      property: propertyType
 
 Change Schema.org type (for bundles only).
 - Add Change Schema type button

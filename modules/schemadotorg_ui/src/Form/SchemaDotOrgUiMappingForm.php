@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\schemadotorg\Form;
+namespace Drupal\schemadotorg_ui\Form;
 
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
@@ -10,7 +10,7 @@ use Drupal\Core\Form\FormStateInterface;
  *
  * @property \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity
  */
-class SchemaDotOrgMappingForm extends EntityForm {
+class SchemaDotOrgUiMappingForm extends EntityForm {
 
   /**
    * {@inheritdoc}

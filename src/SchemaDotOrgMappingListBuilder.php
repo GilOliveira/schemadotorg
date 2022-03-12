@@ -14,9 +14,10 @@ class SchemaDotOrgMappingListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['label'] = $this->t('Label');
-    $header['id'] = $this->t('Machine name');
-    $header['status'] = $this->t('Status');
+    $header['id'] = $this->t('id');
+    $header['targetEntityType'] = $this->t('targetEntityType');
+    $header['bundle'] = $this->t('bundle');
+    $header['type'] = $this->t('type');
     return $header + parent::buildHeader();
   }
 
@@ -25,9 +26,10 @@ class SchemaDotOrgMappingListBuilder extends ConfigEntityListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
-    $row['label'] = $entity->label();
     $row['id'] = $entity->id();
-    $row['status'] = $entity->status() ? $this->t('Enabled') : $this->t('Disabled');
+    $row['targetEntityType'] = $entity->get('targetEntityType');
+    $row['bundle'] = $entity->get('bundle');
+    $row['type'] = $entity->get('type');
     return $row + parent::buildRow($entity);
   }
 

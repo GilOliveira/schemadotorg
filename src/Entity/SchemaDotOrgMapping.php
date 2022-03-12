@@ -36,44 +36,132 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
  *   },
  *   entity_keys = {
  *     "id" = "id",
- *     "label" = "label",
- *     "uuid" = "uuid"
  *   },
  *   config_export = {
  *     "id",
- *     "label",
- *     "description"
+ *     "targetEntityType",
+ *     "bundle",
+ *     "type",
+ *     "properties",
  *   }
  * )
+ *
+ * @see \Drupal\Core\Entity\Entity\EntityViewDisplay
  */
 class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappingInterface {
 
   /**
-   * The Schema.org mapping ID.
+   * Unique ID for the config entity.
    *
    * @var string
    */
   protected $id;
 
   /**
-   * The Schema.org mapping label.
+   * Entity type to be displayed.
    *
    * @var string
    */
-  protected $label;
+  protected $targetEntityType;
 
   /**
-   * The Schema.org mapping status.
-   *
-   * @var bool
-   */
-  protected $status;
-
-  /**
-   * The schemadotorg_mapping description.
+   * Bundle to be displayed.
    *
    * @var string
    */
-  protected $description;
+  protected $bundle;
 
+  /**
+   * Schema.org type.
+   *
+   * @var string
+   */
+  protected $type;
+
+  /**
+   * List of property mapping, keyed by field name.
+   *
+   * @var array
+   */
+  protected $properties = [];
+
+  // @see \Drupal\Core\Entity\EntityDisplayBase::__construct
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTargetEntityTypeId() {
+    return $this->targetEntityType;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTargetBundle() {
+    return $this->bundle;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setTargetBundle($bundle) {
+    $this->set('bundle', $bundle);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function id() {
+    return $this->targetEntityType . '.' . $this->bundle;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSchemaType() {
+    return $this->type;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setSchemaType($type) {
+    $this->set('type', $type);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSchemaProperties() {
+    return $this->properties;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSchemaProperty($name) {
+    return $this->properties[$name] ?? NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setSchemaProperty($name, array $mapping = []) {
+    $this->properties[$name] = $mapping;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function removeSchemaProperty($name) {
+    unset($this->properties[$name]);
+    return $this;
+  }
+
+  // @see \Drupal\Core\Entity\EntityDisplayBase::calculateDependencies
+  // @see \Drupal\Core\Entity\EntityDisplayBase::onDependencyRemoval
+  // @see \Drupal\Core\Entity\EntityDisplayBase::getPluginRemovedDependencies
 }

@@ -4,3 +4,10 @@
  * @file
  * Allows administrators to attach custom Schema.org properties to fieldable types.
  */
+/**
+ * Implements hook_entity_type_build().
+ */
+function schemadotorg_ui_entity_type_build(array &$entity_types) {
+//  $entity_types['schemadotorg_mapping']->setFormClass('add', '\Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm');
+//  $entity_types['schemadotorg_mapping']->setFormClass('edit', '\Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm');
+}

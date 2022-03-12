@@ -12,3 +12,31 @@ schemadotorg.schemadotorg_mapping.*:
       type: string
     description:
       type: string
+
+# Overview configuration information for view mode or form mode displays.
+schemadotorg.schemadotorg_mapping:.*.*:
+  type: config_entity
+  label: Schema.org mapping
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    targetEntityType:
+      type: string
+      label: 'Target entity type'
+    bundle:
+      type: string
+      label: 'Bundle'
+    type:
+      type: string
+      label: 'Schema.org type'
+    properties:
+      type: sequence
+      label: 'Property mappings'
+      sequence:
+        type: sequence
+        label: 'Property mapping'
+        mapping:
+          property:
+            type: string
+            label: 'Schema.org property'
