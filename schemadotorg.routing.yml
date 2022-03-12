@@ -14,15 +14,15 @@ schemadotorg.autocomplete:
     _permission: 'access content'
 
 entity.schemadotorg_mapping.collection:
-  path: '/admin/structure/schemadotorg-mapping'
+  path: '/admin/structure/schemadotorg'
   defaults:
     _entity_list: 'schemadotorg_mapping'
-    _title: 'Schema.org mapping configuration'
+    _title: 'Schema.org mappings'
   requirements:
     _permission: 'administer schemadotorg'
 
 entity.schemadotorg_mapping.add_form:
-  path: '/admin/structure/schemadotorg_mapping/add'
+  path: '/admin/structure/schemadotorg/add'
   defaults:
     _entity_form: 'schemadotorg_mapping.add'
     _title: 'Add a Schema.org mapping'
@@ -30,7 +30,7 @@ entity.schemadotorg_mapping.add_form:
     _permission: 'administer schemadotorg'
 
 entity.schemadotorg_mapping.edit_form:
-  path: '/admin/structure/schemadotorg-mapping/{schemadotorg_mapping}'
+  path: '/admin/structure/schemadotorg/{schemadotorg_mapping}'
   defaults:
     _entity_form: 'schemadotorg_mapping.edit'
     _title: 'Edit a Schema.org mapping'
@@ -38,7 +38,7 @@ entity.schemadotorg_mapping.edit_form:
     _permission: 'administer schemadotorg'
 
 entity.schemadotorg_mapping.delete_form:
-  path: '/admin/structure/schemadotorg-mapping/{schemadotorg_mapping}/delete'
+  path: '/admin/structure/schemadotorg/{schemadotorg_mapping}/delete'
   defaults:
     _entity_form: 'schemadotorg_mapping.delete'
     _title: 'Delete a Schema.org mapping'

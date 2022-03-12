@@ -15,4 +15,9 @@ interface SchemaDotOrgEntityTypeBuilderInterface {
    */
   public function createTypeVocabulary($type);
 
+  /**
+   * {@inheritdoc}
+   */
+  public function addFieldToEntity($entity_type_id, $bundle, array $field);
+
 }

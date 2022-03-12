@@ -90,6 +90,13 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
+  public function id() {
+    return $this->targetEntityType . '.' . $this->bundle;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getTargetEntityTypeId() {
     return $this->targetEntityType;
   }
@@ -98,7 +105,9 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    * {@inheritdoc}
    */
   public function getTargetBundle() {
-    return $this->bundle;
+    return $this->isTargetEntityTypeBundle()
+      ? $this->bundle
+      : $this->getTargetEntityTypeId();
   }
 
   /**
@@ -112,15 +121,69 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function id() {
-    return $this->targetEntityType . '.' . $this->bundle;
+  public function getTargetEntityTypeDefinition() {
+    return $this->entityTypeManager()->getDefinition($this->getTargetEntityTypeId());
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTargetEntityTypeBundleId() {
+    return $this->getTargetEntityTypeDefinition()->getBundleEntityType();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTargetEntityTypeBundleDefinition() {
+    $bundle_entity_type = $this->getTargetEntityTypeBundleId();
+    return $bundle_entity_type ? $this->entityTypeManager()->getDefinition($bundle_entity_type) : NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTargetEntityBundleEntity() {
+    if (!$this->isTargetEntityTypeBundle()) {
+      return NULL;
+    }
+
+    $bundle = $this->getTargetBundle();
+    $bundle_entity_type_id = $this->getTargetEntityTypeBundleId();
+    $entity_storage = $this->entityTypeManager()->getStorage($bundle_entity_type_id);
+    return $bundle ? $entity_storage->load($bundle) : NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isTargetEntityTypeBundle() {
+    return (boolean) $this->getTargetEntityTypeBundleId();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isNewTargetEntityTypeBundle() {
+    return ($this->isTargetEntityTypeBundle() && !$this->getTargetEntityBundleEntity());
   }
 
   /**
    * {@inheritdoc}
    */
   public function getSchemaType() {
-    return $this->type;
+    if ($this->type) {
+      return $this->type;
+    }
+
+    $default_schema_types = [
+      'user.user' => 'Person',
+      'media.audio' => 'AudioObject',
+      'media.image' => 'ImageObject',
+      'media.remote_video'=> 'VideoObject',
+      'media.video' => 'VideoObject',
+    ];
+    return $default_schema_types[$this->id()] ?? NULL;
   }
 
   /**

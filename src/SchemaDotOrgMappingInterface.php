@@ -38,6 +38,54 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   public function setTargetBundle($bundle);
 
   /**
+   * Gets the entity type definition.
+   *
+   * @return \Drupal\Core\Entity\EntityTypeInterface|null
+   *   The entity type definition.
+   */
+  public function getTargetEntityTypeDefinition();
+
+  /**
+   * Get the entity type's bundle ID.
+   *
+   * @return string|null
+   *   The entity type's bundle ID.
+   */
+  public function getTargetEntityTypeBundleId();
+
+  /**
+   * Get the entity type's bundle definition.
+   *
+   * @return \Drupal\Core\Entity\EntityTypeInterface|null
+   *   Get the entity type's bundle definition.
+   */
+  public function getTargetEntityTypeBundleDefinition();
+
+  /**
+   * Get the bundle entity type.
+   *
+   * @return \Drupal\Core\Config\Entity\ConfigEntityBundleBase|null
+   *   The bundle entity type.
+   */
+  public function getTargetEntityBundleEntity();
+
+  /**
+   * Determine if the entity type supports bundling.
+   *
+   * @return bool
+   *   TRUE if the entity type supports bundling.
+   */
+  public function isTargetEntityTypeBundle();
+
+  /**
+   * Determine if a new bundle entity is being created.
+   *
+   * @return bool
+   *   TRUE if a new bundle entity is being created.
+   */
+  public function isNewTargetEntityTypeBundle();
+
+  /**
    * Gets the Schema.org type to be mapped.
    *
    * @return string

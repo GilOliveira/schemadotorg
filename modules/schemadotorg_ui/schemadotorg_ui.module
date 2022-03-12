@@ -4,6 +4,7 @@
  * @file
  * Allows administrators to attach custom Schema.org properties to fieldable types.
  */
+
 /**
  * Implements hook_entity_type_build().
  */

@@ -16,20 +16,24 @@ Demo
 
 # Todo
 
+The goal is to demo framework which allows for progressive enhancements.
+
 SchemaDotOrgMapping config entity
-- Review
 - Revisit dependencies.
-- Handling when UI is disabled. Display a summary.
 
-List builder
-- Update list builder to display entity info and schema.org info.
-- Link to each entity
-- field_ui_entity_operation()
+Display target entity when mapping is displayed outside of field UI.
 
-How do we map field sub values?
-- body.summary
+MediaTypes requires a source to create a schema.org type.
+
+Add validation rules.
+
+Tests
+
+Done!!!! for now
 
 --------------------------------------------------------------------------------
+
+- Reuse \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::save
 
 - Suppress superseded properties, unless they are being used.
 

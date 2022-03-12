@@ -49,14 +49,14 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   /**
    * The Schema.org entity type manager.
    *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager
+   * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface
    */
   protected $schemaEntityTypeManager;
 
   /**
    * The Schema.org entity type builder.
    *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder
+   * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilderInterface
    */
   protected $schemaEntityTypeBuilder;
 
@@ -80,12 +80,17 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   public function getEntityFromRouteMatch(RouteMatchInterface $route_match, $entity_type_id) {
     $route_parameters = $route_match->getParameters()->all();
-    $target_entity_type_id = $route_parameters['entity_type_id'] ?? 'node';
-    $target_bundle = $route_parameters['bundle'] ?? '';
+
+    $target_entity_type_id = $route_parameters['entity_type_id'] ?? NULL;
+    $target_bundle = $route_parameters['bundle'] ?? NULL;
     $schema_type = $this->getRequest()->query->get('type');
 
-    if ($target_entity_type_id === 'user') {
-      $schema_type = 'Person';
+    if (!$target_entity_type_id && !$schema_type) {
+      return parent::getEntityFromRouteMatch($route_match, $entity_type_id);
+    }
+
+    if ($schema_type && !$target_entity_type_id) {
+      $target_entity_type_id = 'node';
     }
 
     $storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
@@ -99,13 +104,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     $entity->setSchemaType($entity->getSchemaType() ?: $schema_type);
     return $entity;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(array $form, FormStateInterface $form_state, $entity_type_id = NULL, $bundle = NULL) {
-    return parent::buildForm($form, $form_state);
   }
 
   /**
@@ -153,14 +151,17 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping_entity */
     $mapping_entity = $this->getEntity();
 
-    $form_state->setRedirect('<current>');
+    // Redirect the current page if we are update the Schema.org field UI tab.
+    if ($this->getRouteMatch()->getRouteName() === 'entity.user.schemadotorg_mapping') {
+      $form_state->setRedirect('<current>');
+    }
 
     // Create the bundle entity.
-    if ($this->isNewBundleEntityType()) {
+    if ($mapping_entity->isNewTargetEntityTypeBundle()) {
       $bundle_entity_values = $form_state->getValue('entity');
 
-      $bundle_entity_type_id = $this->getBundleEntityTypeId();
-      $bundle_entity_type_definition = $this->getBundleEntityTypeDefinition();
+      $bundle_entity_type_id = $mapping_entity->getTargetEntityTypeBundleId();
+      $bundle_entity_type_definition = $mapping_entity->getTargetEntityTypeBundleDefinition();
 
       $id_key = $bundle_entity_type_definition->getKey('id');
       $label_key = $bundle_entity_type_definition->getKey('label');
@@ -177,6 +178,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       // Set mapping entity target bundle.
       $mapping_entity->setTargetBundle($bundle_entity->id());
 
+      // Disable message about new bundle entity.
       $t_args = [
         '@type' => $bundle_entity_type_definition->getSingularLabel(),
         '%name' => $bundle_entity_values['label'],
@@ -189,7 +191,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     }
 
     $entity_type_id = $this->getTargetEntityTypeId();
-    $bundle = $this->getBundle();
+    $bundle = $this->getTargetBundle();
 
     // Reset Schema.org properties.
     // @todo Determine if we only remove existing fields.
@@ -228,8 +230,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $mapping_entity->setSchemaProperty($field_name, ['property' => $property_name]);
     }
 
+    // Save the mapping.
     $mapping_entity->save();
 
+    // Disable message about new fields.
     if ($new_field_names) {
       $message = $this->formatPlural(
         count($new_field_names),
@@ -253,7 +257,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function buildFieldTypeForm(array &$form) {
     $this->buildSchemaTypeForm($form);
-    if ($this->isBundleEntityType()) {
+    if ($this->getEntity()->isTargetEntityTypeBundle()) {
       $this->buildAddEntityForm($form);
     }
     $this->buildSchemaPropertiesForm($form);
@@ -269,7 +273,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function buildSchemaTypeForm(array &$form) {
     $type_definition = $this->getSchmemaTypeDefinition();
-    $form['type'] = [
+    $form['label'] = [
       '#type' => 'link',
       '#title' => $type_definition['label'],
       '#url' => $this->schemaTypeBuilder->getItemUrl($type_definition['label']),
@@ -290,14 +294,14 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   An associative array containing the structure of the form.
    */
   protected function buildAddEntityForm(array &$form) {
-    $target_entity = $this->getTargetEntity();
+    $target_entity = $this->getEntity()->getTargetEntityBundleEntity();
     if ($target_entity) {
       return;
     }
 
-    $bundle_entity_type = $this->getBundleEntityTypeDefinition();
+    $target_entity_type_bundle_definition = $this->getEntity()->getTargetEntityTypeBundleDefinition();
     $type_definition = $this->getSchmemaTypeDefinition();
-    $t_args = ['@name' => $bundle_entity_type->getSingularLabel()];
+    $t_args = ['@name' => $target_entity_type_bundle_definition->getSingularLabel()];
     $form['entity'] = [
       '#type' => 'details',
       '#title' => $this->t('Add @name', $t_args),
@@ -603,7 +607,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       foreach ($property_definitions as $property => $property_definition) {
         $field_name = 'schema_' . $property_definition['drupal_name'];
         if ($this->fieldExists($field_name)
-          || ($this->isNewBundleEntityType() && $this->fieldStorageExists($field_name))) {
+          || ($this->isNewTargetEntityTypeBundle() && $this->fieldStorageExists($field_name))) {
           $mappings[$property] = $field_name;
         }
       }
@@ -634,23 +638,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Get the current bundle/type entity, when applicable.
-   *
-   * @return \Drupal\Core\Config\Entity\ConfigEntityBundleBase|null
-   *   The current bundle/type entity
-   */
-  protected function getTargetEntity() {
-    if (!$this->isBundleEntityType()) {
-      return NULL;
-    }
-
-    $bundle = $this->getBundle();
-    $bundle_entity_type_id = $this->getBundleEntityTypeId();
-    $entity_storage = $this->entityTypeManager->getStorage($bundle_entity_type_id);
-    return $entity_storage->load($bundle);
-  }
-
-  /**
    * Get the current entity type ID (i.e. node, block_content, user, etc...).
    *
    * @return string
@@ -661,56 +648,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Get the current entity type.
-   *
-   * @return \Drupal\Core\Entity\EntityTypeInterface|null
-   *   The current entity type.
-   */
-  protected function getTargetEntityType() {
-    return $this->entityTypeManager->getDefinition($this->getTargetEntityTypeId());
-  }
-
-  /**
    * Get the current entity bundle.
    *
    * @return string|null
    *   The current entity bundle.
    */
-  protected function getBundle() {
-    return $this->isBundleEntityType()
-      ? $this->getEntity()->getTargetBundle()
-      : $this->getTargetEntityTypeId();
-  }
-
-  /**
-   * Get the current bundle entity type ID.
-   *
-   * @return string|null
-   *   The current bundle entity type ID.
-   */
-  protected function getBundleEntityTypeId() {
-    return $this->getTargetEntityType()->getBundleEntityType();
-  }
-
-  /**
-   * Get the current bundle entity type.
-   *
-   * @return \Drupal\Core\Entity\EntityTypeInterface|null
-   *   Get the current bundle entity type.
-   */
-  protected function getBundleEntityTypeDefinition() {
-    $bundle_entity_type = $this->getBundleEntityTypeId();
-    return $this->entityTypeManager->getDefinition($bundle_entity_type);
-  }
-
-  /**
-   * Determine if the current entity support bundling.
-   *
-   * @return bool
-   *   TRUE if the current entity support bundling.
-   */
-  protected function isBundleEntityType() {
-    return (boolean) $this->getBundleEntityTypeId();
+  protected function getTargetBundle() {
+    return $this->getEntity()->getTargetBundle();
   }
 
   /**
@@ -719,8 +663,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * @return bool
    *   TRUE if a new bundle entity is being created.
    */
-  protected function isNewBundleEntityType() {
-    return ($this->isBundleEntityType() && !$this->getTargetEntity());
+  protected function isNewTargetEntityTypeBundle() {
+    return $this->getEntity()->isNewTargetEntityTypeBundle();
   }
 
   /* ************************************************************************ */
@@ -738,7 +682,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function fieldExists($field_name) {
     $entity_type_id = $this->getTargetEntityTypeId();
-    $bundle = $this->getBundle();
+    $bundle = $this->getTargetBundle();
     $field_definitions = $this->entityFieldManager->getFieldDefinitions($entity_type_id, $bundle);
     return isset($field_definitions[$field_name]);
   }
@@ -850,7 +794,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function getFieldDefinitionsOptions() {
     $entity_type_id = $this->getTargetEntityTypeId();
-    $bundle = $this->getBundle();
+    $bundle = $this->getTargetBundle();
     $field_definitions = array_diff_key(
       $this->entityFieldManager->getFieldDefinitions($entity_type_id, $bundle),
       $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id)
@@ -921,7 +865,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       if ($field_storage instanceof FieldStorageConfigInterface
         && !$field_storage->isLocked()
         && empty($field_types[$field_type]['no_ui'])
-        && !in_array($this->getBundle(), $field_storage->getBundles(), TRUE)) {
+        && !in_array($this->getTargetBundle(), $field_storage->getBundles(), TRUE)) {
         $options[$field_name] = $this->t('@field (@type)', [
           '@type' => $field_types[$field_type]['label'],
           '@field' => $field_name,

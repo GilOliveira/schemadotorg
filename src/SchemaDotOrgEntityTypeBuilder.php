@@ -124,6 +124,16 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       ->save();
   }
 
+  /**
+   * Add a field to an entity.
+   *
+   * @param string $entity_type_id
+   *   The entity type id.
+   * @param string $bundle
+   *   The entity bundle.
+   * @param array $field
+   *   The field to be added to the entity.
+   */
   public function addFieldToEntity($entity_type_id, $bundle, array $field) {
     $field_name = $field['machine_name'];
     $field_label = $field['label'];

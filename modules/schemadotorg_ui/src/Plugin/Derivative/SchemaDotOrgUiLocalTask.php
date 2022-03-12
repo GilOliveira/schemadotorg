@@ -56,7 +56,7 @@ class SchemaDotOrgUiLocalTask extends DeriverBase implements ContainerDeriverInt
           'parent_id' => "field_ui.fields:overview_$entity_type_id",
         ] + $base_plugin_definition;
         $this->derivatives["schemadotorg_$entity_type_id"] = [
-          'route_name' => "entity.$entity_type_id.schemadotorg_fields",
+          'route_name' => "entity.$entity_type_id.schemadotorg_mapping",
           'title' => $this->t('Schema.org'),
           'parent_id' => "field_ui.fields:overview_$entity_type_id",
         ] + $base_plugin_definition;

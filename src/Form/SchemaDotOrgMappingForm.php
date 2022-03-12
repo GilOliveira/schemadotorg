@@ -16,42 +16,69 @@ class SchemaDotOrgMappingForm extends EntityForm {
    * {@inheritdoc}
    */
   public function form(array $form, FormStateInterface $form_state) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
+    $entity = $this->getEntity();
 
-    $form = parent::form($form, $form_state);
+    $form['#title'] = $this->t('Schema.org mapping');
 
-    $form['targetEntityType'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('targetEntityType'),
-      '#default_value' => $this->entity->get('targetEntityType'),
-      '#required' => TRUE,
+    $target_entity_type_definition = $entity->getTargetEntityTypeDefinition();
+    $target_entity_type_bundle_definition = $entity->getTargetEntityTypeBundleDefinition();
+    $form['entity_type'] = [
+      '#type' => 'item',
+      '#title' => $this->t('Type'),
+      '#markup' => $target_entity_type_bundle_definition
+      ? $target_entity_type_bundle_definition->getLabel()
+      : $target_entity_type_definition->getLabel(),
     ];
-    $form['bundle'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('bundle'),
-      '#default_value' => $this->entity->get('bundle'),
-      '#required' => TRUE,
+
+    $entity_type_bundle = $entity->getTargetEntityBundleEntity();
+    if ($entity_type_bundle) {
+      $form['bundle_name'] = [
+        '#type' => 'item',
+        '#title' => $this->t('Name'),
+        '#markup' => $entity_type_bundle->label(),
+      ];
+      $form['bundle_id'] = [
+        '#type' => 'item',
+        '#title' => $this->t('ID'),
+        '#markup' => $entity_type_bundle->id(),
+      ];
+    }
+
+    $form['schema_type'] = [
+      '#type' => 'item',
+      '#title' => $this->t('Schema.org type'),
+      '#markup' => $entity->getSchemaType(),
     ];
-    $form['type'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('type'),
-      '#default_value' => $this->entity->get('type'),
-      '#required' => TRUE,
-    ];
+
+    $schema_properties = $entity->getSchemaProperties();
+    if ($schema_properties) {
+      $header = [
+        $this->t('Field name'),
+        $this->t('Schema.org property'),
+      ];
+      $rows = [];
+      foreach ($schema_properties as $field_name => $mapping) {
+        $rows[] = [
+          $field_name,
+          $mapping['property'],
+        ];
+      }
+      $form['schema_properties'] = [
+        '#type' => 'table',
+        '#header' => $header,
+        '#rows' => $rows,
+      ];
+    }
+
     return $form;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function save(array $form, FormStateInterface $form_state) {
-    $result = parent::save($form, $form_state);
-    $message_args = ['%label' => $this->entity->label()];
-    $message = $result == SAVED_NEW
-      ? $this->t('Created new Schema.org mapping %label.', $message_args)
-      : $this->t('Updated Schema.org mapping %label.', $message_args);
-    $this->messenger()->addStatus($message);
-    $form_state->setRedirectUrl($this->entity->toUrl('collection'));
-    return $result;
+  public function actions(array $form, FormStateInterface $form_state) {
+    return [];
   }
 
 }

@@ -1,3 +1,9 @@
+entity.schemadotorg_mapping.add_form:
+  route_name: 'entity.schemadotorg_mapping.add_form'
+  title: 'Add Schema.org mapping'
+  appears_on:
+    - entity.schemadotorg_mapping.collection
+
 schemadotorg_ui.fields:
   class: \Drupal\Core\Menu\LocalActionDefault
   deriver: \Drupal\schemadotorg_ui\Plugin\Derivative\SchemaDotOrgUiLocalAction
