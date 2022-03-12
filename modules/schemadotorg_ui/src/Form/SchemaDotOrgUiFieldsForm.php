@@ -533,7 +533,38 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
     $path = Url::fromRoute('<current>', [], ['query' => ['type' => '']])->toString();
     $form['description_bottom'] = ['#markup' => str_replace('href="/', 'href="' . $path, $description_bottom)];
 
+    $tree = $this->schemaTypeManager->getTypeTree('Thing');
+    $form['types'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Full list of Schema.org types'),
+      'tree' => $this->buildTypeTreeRecursive($tree),
+    ];
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildTypeTreeRecursive(array $tree) {
+    if (empty($tree)) {
+      return [];
+    }
+
+    $items = [];
+    foreach ($tree as $type => $item) {
+      $items[$type] = [
+        '#type' => 'link',
+        '#title' => $type,
+        '#url' => Url::fromRoute('<current>', [], ['query' => ['type' => $type]]),
+      ];
+      $children = $item['subtypes'] + $item['enumerations'];
+      $items[$type]['children'] = $this->buildTypeTreeRecursive($children);
+    }
+
+    return [
+      '#theme' => 'item_list',
+      '#items' => $items,
+    ];
   }
 
   /* ************************************************************************ */

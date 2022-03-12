@@ -4,6 +4,18 @@ Slides: https://www.slidescarnival.com/valentine-free-presentation-template/234
 
 Provides blueprints for leveraging Schema.org to build and manage an SEO and API-first content architecture in Drupal.
 
+Demo
+
+- Report
+- Mappings
+- Creation
+  - Person
+  - Thing > Event
+  - Thing > Location
+- Form and view display
+
+
+
 # Todo
 
 SchemaDotOrgMapping config entity
@@ -46,7 +58,10 @@ How do we map field sub values?
 
 --------------------------------------------------------------------------------
 
-- Add descriptions.
+- Suppress superseded properties, unless they are being used.
+
+- Tree widget
+  - https://github.com/vakata/jstree
 
 - Entity Reference selection widget
 
