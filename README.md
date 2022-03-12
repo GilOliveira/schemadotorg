@@ -19,6 +19,8 @@ Demo
 # Todo
 
 SchemaDotOrgMapping config entity
+- Configure properties
+- Copy settings.
 - schemadotorg.mapping.{entity_type}.{bundle}
 - EntityDisplayBase
 - Create full working config entity

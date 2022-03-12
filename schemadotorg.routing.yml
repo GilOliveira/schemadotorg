@@ -12,3 +12,35 @@ schemadotorg.autocomplete:
     _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgAutoCompleteController::autocomplete'
   requirements:
     _permission: 'access content'
+
+entity.schemadotorg_mapping.collection:
+  path: '/admin/structure/schemadotorg-mapping'
+  defaults:
+    _entity_list: 'schemadotorg_mapping'
+    _title: 'Schema.org mapping configuration'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+entity.schemadotorg_mapping.add_form:
+  path: '/admin/structure/schemadotorg_mapping/add'
+  defaults:
+    _entity_form: 'schemadotorg_mapping.add'
+    _title: 'Add a Schema.org mapping'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+entity.schemadotorg_mapping.edit_form:
+  path: '/admin/structure/schemadotorg-mapping/{schemadotorg_mapping}'
+  defaults:
+    _entity_form: 'schemadotorg_mapping.edit'
+    _title: 'Edit a Schema.org mapping'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+entity.schemadotorg_mapping.delete_form:
+  path: '/admin/structure/schemadotorg-mapping/{schemadotorg_mapping}/delete'
+  defaults:
+    _entity_form: 'schemadotorg_mapping.delete'
+    _title: 'Delete a Schema.org mapping'
+  requirements:
+    _permission: 'administer schemadotorg'
