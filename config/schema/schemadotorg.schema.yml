@@ -1,0 +1,14 @@
+schemadotorg.schemadotorg_mapping.*:
+  type: config_entity
+  label: Schema.org mapping
+  mapping:
+    id:
+      type: string
+      label: ID
+    label:
+      type: label
+      label: Label
+    uuid:
+      type: string
+    description:
+      type: string
