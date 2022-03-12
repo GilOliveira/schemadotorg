@@ -2,7 +2,6 @@
 
 namespace Drupal\schemadotorg_ui\Form;
 
-use Drupal\Core\Field\FieldFilteredMarkup;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
@@ -66,14 +65,14 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
   protected $schemaEntityTypeBuilder;
 
   /**
-   * The current entity type id (i.e. node_type, media_type, user, etc...)
+   * The target entity type id (i.e. node, media, user, etc...)
    *
    * @var string|null
    */
-  protected $entityTypeId;
+  protected $targetEntityTypeId;
 
   /**
-   * The current entity bundle id (i.e. page, image, etc...)
+   * The target entity bundle id (i.e. page, image, etc...)
    *
    * @var string|null
    */
@@ -87,11 +86,11 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
   protected $type;
 
   /**
-   * The current (bundle) entity.
+   * The current target entity.
    *
    * @var \Drupal\Core\Config\Entity\ConfigEntityBundleBase
    */
-  protected $entity;
+  protected $targetEntity;
 
   /**
    * {@inheritdoc}
@@ -120,19 +119,19 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $entity_type_id = NULL, $bundle = NULL) {
-    $this->entityTypeId = $entity_type_id;
+    $this->targetEntityTypeId = $entity_type_id;
     $this->bundle = $bundle;
 
     if ($this->isBundleEntityType()) {
       $bundle_entity_type_id = $this->getBundleEntityTypeId();
       $entity_storage = $this->entityTypeManager->getStorage($bundle_entity_type_id);
-      $this->entity = $entity_storage->load($bundle);
+      $this->targetEntity = $entity_storage->load($bundle);
     }
 
     $this->type = $this->schemaEntityTypeManager->getEntitySchemaType($entity_type_id, $bundle)
       ?: $this->getRequest()->query->get('type');
 
-    if ($this->type) {
+    if ($this->getSchemaType()) {
       return $this->buildFieldTypeForm($form, $form_state);
     }
     else {
@@ -173,37 +172,37 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
       $id_key = $bundle_entity_type_definition->getKey('id');
       $label_key = $bundle_entity_type_definition->getKey('label');
 
-      /** @var \Drupal\Core\Entity\Sql\SqlContentEntityStorage $entity_storage */
-      $entity_storage = $this->entityTypeManager->getStorage($bundle_entity_type_id);
-      $entity = $entity_storage->create([
+      /** @var \Drupal\Core\Entity\Sql\SqlContentEntityStorage $bundle_entity_storage */
+      $bundle_entity_storage = $this->entityTypeManager->getStorage($bundle_entity_type_id);
+      $bundle_entity = $bundle_entity_storage->create([
         $id_key => $entity_values['id'],
         $label_key => $entity_values['label'],
         'description' => $entity_values['description'],
       ]);
-      $entity->save();
+      $bundle_entity->save();
 
-      $this->bundle = $entity->id();
+      $this->bundle = $bundle_entity->id();
 
       $t_args = [
         '@type' => $bundle_entity_type_definition->getSingularLabel(),
         '%name' => $entity_values['label'],
       ];
       $this->messenger()->addStatus($this->t('The @type %name has been added.', $t_args));
-      $context = array_merge($t_args, ['link' => $entity->toLink($this->t('View'), 'collection')->toString()]);
+      $context = array_merge($t_args, ['link' => $bundle_entity->toLink($this->t('View'), 'collection')->toString()]);
       $this->logger('node')->notice('Added @type %name.', $context);
 
-      $form_state->setRedirectUrl($entity->toUrl('collection'));
+      $form_state->setRedirectUrl($bundle_entity->toUrl('collection'));
     }
 
     // Set Schema.org type.
     // @todo move to config entity.
-    if ($this->getEntity()) {
-      $this->getEntity()
+    if ($this->getTargetEntity()) {
+      $this->getTargetEntity()
         ->setThirdPartySetting('schemadotorg', 'type', $schema_type_id)
         ->save();
     }
 
-    $entity_type_id = $this->getEntityTypeId();
+    $entity_type_id = $this->getTargetEntityTypeId();
     $bundle = $this->getBundle();
 
     // Get properties to fields mapping.
@@ -306,8 +305,8 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    *   An associative array containing the structure of the form.
    */
   protected function buildAddEntityForm(array &$form) {
-    $entity = $this->getEntity();
-    if ($entity) {
+    $target_entity = $this->getTargetEntity();
+    if ($target_entity) {
       return;
     }
 
@@ -633,8 +632,8 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    * @return \Drupal\Core\Config\Entity\ConfigEntityBundleBase|null
    *   The current bundle/type entity
    */
-  protected function getEntity() {
-    return $this->entity;
+  protected function getTargetEntity() {
+    return $this->targetEntity;
   }
 
   /**
@@ -643,8 +642,8 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    * @return string
    *   The current entity type ID
    */
-  protected function getEntityTypeId() {
-    return $this->entityTypeId;
+  protected function getTargetEntityTypeId() {
+    return $this->targetEntityTypeId;
   }
 
   /**
@@ -653,8 +652,8 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    * @return \Drupal\Core\Entity\EntityTypeInterface|null
    *   The current entity type.
    */
-  protected function getEntityType() {
-    return $this->entityTypeManager->getDefinition($this->entityTypeId);
+  protected function getTargetEntityType() {
+    return $this->entityTypeManager->getDefinition($this->getTargetEntityTypeId());
   }
 
   /**
@@ -664,7 +663,9 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    *   The current entity bundle.
    */
   protected function getBundle() {
-    return $this->isBundleEntityType() ? $this->bundle : $this->entityTypeId;
+    return $this->isBundleEntityType()
+      ? $this->bundle
+      : $this->getTargetEntityTypeId();
   }
 
   /**
@@ -674,7 +675,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    *   The current bundle entity type ID.
    */
   protected function getBundleEntityTypeId() {
-    return $this->getEntityType()->getBundleEntityType();
+    return $this->getTargetEntityType()->getBundleEntityType();
   }
 
   /**
@@ -705,7 +706,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    *   TRUE if a new bundle entity is being created.
    */
   protected function isNew() {
-    return ($this->isBundleEntityType() && !$this->getEntity());
+    return ($this->isBundleEntityType() && !$this->getTargetEntity());
   }
 
   /* ************************************************************************ */
@@ -722,7 +723,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    *   TRUE if a field exists for the current entity.
    */
   protected function fieldExists($field_name) {
-    $entity_type_id = $this->getEntityTypeId();
+    $entity_type_id = $this->getTargetEntityTypeId();
     $bundle = $this->getBundle();
     $field_definitions = $this->entityFieldManager->getFieldDefinitions($entity_type_id, $bundle);
     return isset($field_definitions[$field_name]);
@@ -738,7 +739,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    *   TRUE if a field storage exists for the current entity.
    */
   protected function fieldStorageExists($field_name) {
-    $entity_type_id = $this->getEntityTypeId();
+    $entity_type_id = $this->getTargetEntityTypeId();
     $field_storage_definitions = $this->entityFieldManager->getFieldStorageDefinitions($entity_type_id);
     return isset($field_storage_definitions[$field_name]);
   }
@@ -753,7 +754,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    *   A field's label from an existing field instance.
    */
   protected function getFieldConfigLabel($field_name) {
-    $entity_type_id = $this->getEntityTypeId();
+    $entity_type_id = $this->getTargetEntityTypeId();
     $field_ids = $this->entityTypeManager->getStorage('field_config')->getQuery()
       ->condition('entity_type', $entity_type_id)
       ->condition('field_name', $field_name)
@@ -806,7 +807,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    *   Base fields as options.
    */
   protected function getBaseFieldDefinitionsOptions() {
-    $entity_type_id = $this->getEntityTypeId();
+    $entity_type_id = $this->getTargetEntityTypeId();
     $field_definitions = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
     $options = [];
 
@@ -834,7 +835,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    *   The current entity's fields as options.
    */
   protected function getFieldDefinitionsOptions() {
-    $entity_type_id = $this->getEntityTypeId();
+    $entity_type_id = $this->getTargetEntityTypeId();
     $bundle = $this->getBundle();
     $field_definitions = array_diff_key(
       $this->entityFieldManager->getFieldDefinitions($entity_type_id, $bundle),
@@ -896,7 +897,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
     $options = [];
     // Load the field_storages and build the list of options.
     $field_types = $this->fieldTypePluginManager->getDefinitions();
-    foreach ($this->entityFieldManager->getFieldStorageDefinitions($this->entityTypeId) as $field_name => $field_storage) {
+    foreach ($this->entityFieldManager->getFieldStorageDefinitions($this->getTargetEntityTypeId()) as $field_name => $field_storage) {
       // Do not show:
       // - non-configurable field storages,
       // - locked field storages,
@@ -906,7 +907,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
       if ($field_storage instanceof FieldStorageConfigInterface
         && !$field_storage->isLocked()
         && empty($field_types[$field_type]['no_ui'])
-        && !in_array($this->bundle, $field_storage->getBundles(), TRUE)) {
+        && !in_array($this->getBundle(), $field_storage->getBundles(), TRUE)) {
         $options[$field_name] = $this->t('@field (@type)', [
           '@type' => $field_types[$field_type]['label'],
           '@field' => $field_name,

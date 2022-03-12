@@ -19,34 +19,15 @@ Demo
 # Todo
 
 SchemaDotOrgMapping config entity
-- Configure properties
-- Copy settings.
-- EntityDisplayBase
-- Create full working config entity
-- /admin/config/search
-- Basic form would just display the information.
-- UI module would override/replace the basic config entity.
+- Need to change entityTypeId to targetEntityTypeTd.
+- Move from entity to targetEntity
+- Gradually copy over the settings.
+- Revisit dependencies.
 
-Create a working instance of the config entity without the UI/UX but the needed
-behaviors.
-
-
-\Drupal\Core\Entity\Entity\EntityViewDisplay
-\Drupal\Core\Entity\Display\EntityViewDisplayInterface
-\Drupal\Core\Entity\EntityDisplayBase
-\Drupal\Core\Entity\Display\EntityDisplayInterface
-field_ui_entity_type_build
-
-\Drupal\KernelTests\Core\Entity\EntityDisplayFormBaseTest
-\Drupal\KernelTests\Core\Entity\EntityDisplayRepositoryTest
-
-Need to change entityTypeId to targetEntityTypeTd.
-
-
-Change Schema.org type (for bundles only).
-- Add Change Schema type button
-- Add Remove Schema
-- Redirect to ?type= which force Schema selection.
+List builder
+- Update list builder to display entity info and schema.org info.
+- Link to each entity
+- field_ui_entity_operation()
 
 How do we map field sub values?
 - body.summary
@@ -98,6 +79,12 @@ Beta
 - Finalize drupal machine names.
 
 # Tests
+
+Entity
+
+SchemaDotOrgMapping
+- \Drupal\KernelTests\Core\Entity\EntityDisplayFormBaseTest
+- \Drupal\KernelTests\Core\Entity\EntityDisplayRepositoryTest
 
 Services
 
