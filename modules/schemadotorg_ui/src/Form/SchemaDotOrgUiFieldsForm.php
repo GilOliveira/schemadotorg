@@ -163,7 +163,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
     $schema_type_id = $this->getSchemaType();
 
     // Create the bundle entity.
-    if ($this->isNew()) {
+    if ($this->isNewBundleEntityType()) {
       $entity_values = $form_state->getValue('entity');
 
       $bundle_entity_type_id = $this->getBundleEntityTypeId();
@@ -615,7 +615,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
     foreach ($property_definitions as $property => $property_definition) {
       $field_name = 'schema_' . $property_definition['drupal_name'];
       if ($this->fieldExists($field_name)
-        || ($this->isNew() && $this->fieldStorageExists($field_name))) {
+        || ($this->isNewBundleEntityType() && $this->fieldStorageExists($field_name))) {
         $mappings[$property] = $field_name;
       }
     }
@@ -705,7 +705,7 @@ class SchemaDotOrgUiFieldsForm extends FormBase {
    * @return bool
    *   TRUE if a new bundle entity is being created.
    */
-  protected function isNew() {
+  protected function isNewBundleEntityType() {
     return ($this->isBundleEntityType() && !$this->getTargetEntity());
   }
 
