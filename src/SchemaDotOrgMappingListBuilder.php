@@ -18,6 +18,7 @@ class SchemaDotOrgMappingListBuilder extends ConfigEntityListBuilder {
     $header['targetEntityType'] = $this->t('targetEntityType');
     $header['bundle'] = $this->t('bundle');
     $header['type'] = $this->t('type');
+    $header['properties'] = $this->t('properties');
     return $header + parent::buildHeader();
   }
 
@@ -30,6 +31,7 @@ class SchemaDotOrgMappingListBuilder extends ConfigEntityListBuilder {
     $row['targetEntityType'] = $entity->get('targetEntityType');
     $row['bundle'] = $entity->get('bundle');
     $row['type'] = $entity->get('type');
+    $row['properties'] = implode('; ', array_keys($entity->get('properties')));
     return $row + parent::buildRow($entity);
   }
 

@@ -14,15 +14,12 @@ Demo
   - Thing > Location
 - Form and view display
 
-
-
 # Todo
 
 SchemaDotOrgMapping config entity
-- Need to change entityTypeId to targetEntityTypeTd.
-- Move from entity to targetEntity
-- Gradually copy over the settings.
+- Review
 - Revisit dependencies.
+- Handling when UI is disabled. Display a summary.
 
 List builder
 - Update list builder to display entity info and schema.org info.
