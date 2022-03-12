@@ -1,0 +1,14 @@
+/**
+ * @file
+ * Schema.org styles.
+ */
+
+details.schemadotorg-ui--add-field {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .schemadotorg-ui-property--comment {
+    display: none;
+  }
+}
