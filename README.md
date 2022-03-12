@@ -16,11 +16,16 @@ schemadotorg.mapping.entity_type.bundle:
     field_name: propertyType
 
 Change Schema.org type (for bundles only).
+- Add Change Schema type button
+- Add Remove Schema
+- Redirect to ?type= which force Schema selection.
 
 How do we map field sub values?
 - body.summary
 
 --------------------------------------------------------------------------------
+
+- Add descriptions.
 
 - Entity Reference selection widget
 
@@ -28,7 +33,8 @@ How do we map field sub values?
 
 Configure Schema.org and Schema.org UI
 - General
-  - Prefix: 'schema_'
+  - Field prefix: 'schema_'
+  - Excluded: Types
 - Names:
   - Abbreviations
   - Suffixes
@@ -52,9 +58,8 @@ Schema.org Templates
   - paragraphs
   - terms
 
-- Create type blacklist which applies to taxonomy.
-
 - Define what is alpha beta and release goals.
+
 # Releases
 
 Beta
