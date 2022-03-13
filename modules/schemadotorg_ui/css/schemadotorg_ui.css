@@ -7,6 +7,11 @@ details.schemadotorg-ui--add-field {
   display: none;
 }
 
+.schemadotorg-ui-properties .color-success,
+.schemadotorg-ui-properties .color-warning {
+  border: 2px solid #666;
+}
+
 @media (max-width: 768px) {
   .schemadotorg-ui-property--comment {
     display: none;

@@ -18,20 +18,36 @@ Demo
 
 The goal is to demo framework which allows for progressive enhancements.
 
-SchemaDotOrgMapping config entity
-- Revisit dependencies.
-
-Display target entity when mapping is displayed outside of field UI.
-
-MediaTypes requires a source to create a schema.org type.
+Recommend specific types based on the entity.
+- \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager::getCommonSchemaTypes
+- Group Name: Type1, Type2
+- Unlink existing types.
 
 Add validation rules.
+- Entity bundle exists
+- Schema type exists.
 
-Tests
+-----
+
+Paragraphs
+Media
+Block content
+
+MediaTypes requires a source to create a schema.org type.
+- $form['entity']['media_type'];
+-
+- Write baseline tests
 
 Done!!!! for now
 
 --------------------------------------------------------------------------------
+
+Mapping
+- property => field or field => property
+- Sub properties???
+
+SchemaDotOrgMapping config entity
+- Revisit dependencies.
 
 - Reuse \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::save
 
@@ -41,8 +57,6 @@ Done!!!! for now
   - https://github.com/vakata/jstree
 
 - Entity Reference selection widget
-
-- Write baseline tests
 
 Configure Schema.org and Schema.org UI
 - General
@@ -60,23 +74,18 @@ Schema.org Templates
   - Templates will preselect recommended fields.
   - Templates can be automatically updated
 
---------------------------------------------------------------------------------
-
 - Add help to types and properties reports.
   - Note Schema.org version.
   - Link to source CSV.
 
-- Add reports for targeted entity types
-  - node
-  - paragraphs
-  - terms
+Define what is alpha beta and release goals.
 
-- Define what is alpha beta and release goals.
+--------------------------------------------------------------------------------
 
 # Releases
 
-Beta
-
+Alpha
+- Finalize drupal machine names.
 - Finalize drupal machine names.
 
 # Tests
@@ -107,7 +116,7 @@ Report
 - Confirm warning.
 
 UI
-FieldUIRouteTest.php
+- FieldUIRouteTest.php
 
 # TBD
 
@@ -118,17 +127,11 @@ FieldUIRouteTest.php
 
 - Should we prefix all schema field with schema_*? YES
 
-- Should machine name be tied to field storage via third party settings? YES
-
 - Why are we seeing 1329 types? (/admin/reports/schemadotorg/docs/types)
 
 - How to handle translations for imported data?
 
-- How can we validate the generated JSON-ld?
-
-# Notes/Decisions
-
-- Opting not to extend \Drupal\Core\Entity\EntityForm because it adds complexity and unpredictability.
+- How can we validate the generated JSON-LD?
 
 # References
 
@@ -174,12 +177,15 @@ Required
 Recommended
 - https://www.drupal.org/project/entity_type_clone
 - https://www.drupal.org/project/convert_bundles
+- https://www.drupal.org/project/field_ui_extras
 
 Other
 - https://www.drupal.org/project/field_name_prefix_remove
 - https://www.drupal.org/project/flexfield
 - https://www.drupal.org/project/properties
 - https://www.drupal.org/project/computed_field
+- https://www.drupal.org/project/base_field_override_ui
+- https://www.drupal.org/project/field_token_value
 
 # Schema.org Type => Drupal Entity
 

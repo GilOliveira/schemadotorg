@@ -3,12 +3,13 @@
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Field\FieldTypePluginManagerInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Schema.org entity type manager.
  */
 class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInterface {
+  use StringTranslationTrait;
 
   /**
    * The Schema.org schema type manager.
@@ -33,10 +34,7 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
   }
 
   /**
-   * Get entity types that implement Schema.org.
-   *
-   * @return array
-   *   Entity types that implement Schema.org.
+   * {@inheritdoc}
    */
   public function getEntityTypes() {
     return [
@@ -49,13 +47,7 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
   }
 
   /**
-   * Get an entity type's base fields names.
-   *
-   * @param string $entity_type_id
-   *   An entity type.
-   *
-   * @return array|string[]
-   *   An entity type's base fields names.
+   * {@inheritdoc}
    */
   public function getBaseFieldNames($entity_type_id) {
     $base_fields_names = [
@@ -80,13 +72,26 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
   }
 
   /**
-   * Get field types for Schema.org property.
-   *
-   * @param string $property
-   *   A Schema.org property.
-   *
-   * @return array
-   *   Field types for Schema.org property.
+   * {@inheritdoc}
+   */
+  public function getCommonSchemaTypes($entity_type_id) {
+    $common_types = [
+      'node' => [
+        (string) $this->t('Common things') => ['Person', 'Place', 'Event'],
+        (string) $this->t('Creative works') => ['CreativeWork', 'Book', 'Movie', 'MusicRecording', 'Recipe', 'TVSeries'],
+        (string) $this->t('Health and medical types') => ['MedicalCondition', 'Drug', 'MedicalGuideline', 'MedicalWebPage', 'MedicalScholarlyArticle'],
+        (string) $this->t('Businesses') => ['LocalBusiness', 'Restaurant'],
+        (string) $this->t('Commerce') => ['Product', 'Offer', 'Review'],
+      ],
+      'media' => [
+        (string) $this->t('Embedded non-text objects:') => ['AudioObject', 'ImageObject', 'VideoObject'],
+      ],
+    ];
+    return $common_types[$entity_type_id] ?? $common_types['node'];
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function getSchemaPropertyFieldTypes($property) {
     $property_mappings = [

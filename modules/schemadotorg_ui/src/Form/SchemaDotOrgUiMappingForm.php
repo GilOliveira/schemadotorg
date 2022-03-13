@@ -256,6 +256,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   An associative array containing the structure of the form.
    */
   protected function buildFieldTypeForm(array &$form) {
+    $this->buildEntityTypeForm($form);
     $this->buildSchemaTypeForm($form);
     if ($this->getEntity()->isTargetEntityTypeBundle()) {
       $this->buildAddEntityForm($form);
@@ -266,6 +267,36 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
+   * Build the entity type summary form.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   */
+  protected function buildEntityTypeForm(array &$form) {
+    $entity = $this->getEntity();
+    $entity_type_bundle = $entity->getTargetEntityBundleEntity();
+    if ($entity_type_bundle) {
+      $target_entity_type_bundle_definition = $entity->getTargetEntityTypeBundleDefinition();
+      $link = $entity_type_bundle->toLink($entity_type_bundle->label(), 'edit-form')->toRenderable();
+      $form['entity_type'] = [
+        '#type' => 'item',
+        '#title' => $target_entity_type_bundle_definition->getLabel(),
+        'link' => $link + ['#suffx' => '(' . $entity_type_bundle->id() . ')'],
+      ];
+    }
+    else {
+      $target_entity_type_definition = $entity->getTargetEntityTypeDefinition();
+      $form['entity_type'] = [
+        '#type' => 'item',
+        '#title' => $this->t('Entity type'),
+        '#markup' => $entity->isTargetEntityTypeBundle()
+          ? $target_entity_type_definition->getBundleLabel()
+          : $target_entity_type_definition->getLabel(),
+      ];
+    }
+  }
+
+  /**
    * Build the Schema.org type summary form.
    *
    * @param array $form
@@ -273,14 +304,18 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function buildSchemaTypeForm(array &$form) {
     $type_definition = $this->getSchmemaTypeDefinition();
-    $form['label'] = [
+    $form['schema_type'] = [
+      '#type' => 'item',
+      '#title' => $this->t('Schema.org type'),
+    ];
+    $form['schema_type']['label'] = [
       '#type' => 'link',
       '#title' => $type_definition['label'],
       '#url' => $this->schemaTypeBuilder->getItemUrl($type_definition['label']),
-      '#prefix' => '<div><strong>',
-      '#suffix' => '</strong></div>',
+      '#prefix' => '<div>',
+      '#suffix' => '</div>',
     ];
-    $form['comment'] = [
+    $form['schema_type']['comment'] = [
       '#markup' => $this->schemaTypeBuilder->formatComment($type_definition['comment']),
       '#prefix' => '<div>',
       '#suffix' => '</div>',
@@ -598,6 +633,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   Schema.org property to field mappings for the current Schema.org type.
    */
   protected function getSchemaTypePropertyMappings() {
+    $mapping_entity = $this->getEntity();
     $mappings = [];
 
     // For new mapping entities load mapping from existing fields.
@@ -607,14 +643,14 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       foreach ($property_definitions as $property => $property_definition) {
         $field_name = 'schema_' . $property_definition['drupal_name'];
         if ($this->fieldExists($field_name)
-          || ($this->isNewTargetEntityTypeBundle() && $this->fieldStorageExists($field_name))) {
+          || ($mapping_entity->isNewTargetEntityTypeBundle() && $this->fieldStorageExists($field_name))) {
           $mappings[$property] = $field_name;
         }
       }
     }
 
     // Load mapping from config entity.
-    $properties = $this->getEntity()->getSchemaProperties();
+    $properties = $mapping_entity->getSchemaProperties();
     foreach ($properties as $field_name => $mapping) {
       $property = $mapping['property'];
       $mappings[$property] = $field_name;
@@ -655,16 +691,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function getTargetBundle() {
     return $this->getEntity()->getTargetBundle();
-  }
-
-  /**
-   * Determine if a new bundle entity is being created.
-   *
-   * @return bool
-   *   TRUE if a new bundle entity is being created.
-   */
-  protected function isNewTargetEntityTypeBundle() {
-    return $this->getEntity()->isNewTargetEntityTypeBundle();
   }
 
   /* ************************************************************************ */

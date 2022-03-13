@@ -4,6 +4,7 @@ namespace Drupal\schemadotorg\Form;
 
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Schema.org mapping form.
@@ -11,6 +12,38 @@ use Drupal\Core\Form\FormStateInterface;
  * @property \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity
  */
 class SchemaDotOrgMappingForm extends EntityForm {
+
+  /**
+   * The entity field manager.
+   *
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
+   */
+  protected $entityFieldManager;
+
+  /**
+   * The Schema.org schema type manager.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
+   */
+  protected $schemaTypeManager;
+
+  /**
+   * The Schema.org schema type builder service.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface
+   */
+  protected $schemaTypeBuilder;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $instance = parent::create($container);
+    $instance->entityFieldManager = $container->get('entity_field.manager');
+    $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
+    $instance->schemaTypeBuilder = $container->get('schemadotorg.schema_type_builder');
+    return $instance;
+  }
 
   /**
    * {@inheritdoc}
@@ -21,48 +54,81 @@ class SchemaDotOrgMappingForm extends EntityForm {
 
     $form['#title'] = $this->t('Schema.org mapping');
 
-    $target_entity_type_definition = $entity->getTargetEntityTypeDefinition();
-    $target_entity_type_bundle_definition = $entity->getTargetEntityTypeBundleDefinition();
-    $form['entity_type'] = [
-      '#type' => 'item',
-      '#title' => $this->t('Type'),
-      '#markup' => $target_entity_type_bundle_definition
-      ? $target_entity_type_bundle_definition->getLabel()
-      : $target_entity_type_definition->getLabel(),
-    ];
-
     $entity_type_bundle = $entity->getTargetEntityBundleEntity();
     if ($entity_type_bundle) {
-      $form['bundle_name'] = [
+      $target_entity_type_bundle_definition = $entity->getTargetEntityTypeBundleDefinition();
+      $link = $entity_type_bundle->toLink($entity_type_bundle->label(), 'edit-form')->toRenderable();
+      $form['entity_type'] = [
         '#type' => 'item',
-        '#title' => $this->t('Name'),
-        '#markup' => $entity_type_bundle->label(),
+        '#title' => $target_entity_type_bundle_definition->getLabel(),
+        'link' => $link + ['#suffx' => '(' . $entity_type_bundle->id() . ')'],
       ];
-      $form['bundle_id'] = [
+    }
+    else {
+      $target_entity_type_definition = $entity->getTargetEntityTypeDefinition();
+      $form['entity_type'] = [
         '#type' => 'item',
-        '#title' => $this->t('ID'),
-        '#markup' => $entity_type_bundle->id(),
+        '#title' => $this->t('Entity type'),
+        '#markup' => $entity->isTargetEntityTypeBundle()
+          ? $target_entity_type_definition->getBundleLabel()
+          : $target_entity_type_definition->getLabel(),
       ];
     }
 
+    $type_definition = $this->schemaTypeManager->getType($entity->getSchemaType());
     $form['schema_type'] = [
       '#type' => 'item',
       '#title' => $this->t('Schema.org type'),
-      '#markup' => $entity->getSchemaType(),
+    ];
+    $form['schema_type']['label'] = [
+      '#type' => 'link',
+      '#title' => $type_definition['label'],
+      '#url' => $this->schemaTypeBuilder->getItemUrl($type_definition['label']),
+      '#prefix' => '<div>',
+      '#suffix' => '</div>',
+    ];
+    $form['schema_type']['comment'] = [
+      '#markup' => $this->schemaTypeBuilder->formatComment($type_definition['comment']),
+      '#prefix' => '<div>',
+      '#suffix' => '</div>',
     ];
 
     $schema_properties = $entity->getSchemaProperties();
+    $field_definitions = $this->entityFieldManager->getFieldDefinitions($entity->getTargetEntityTypeId(), $entity->getTargetBundle());
     if ($schema_properties) {
-      $header = [
-        $this->t('Field name'),
-        $this->t('Schema.org property'),
+      $header = [];
+      $header['field'] = [
+        'data' => $this->t('Field name'),
+        'width' => '20%',
+      ];
+      $header['property'] = [
+        'data' => $this->t('Schema.org property'),
+        'width' => '80%',
       ];
       $rows = [];
       foreach ($schema_properties as $field_name => $mapping) {
-        $rows[] = [
-          $field_name,
-          $mapping['property'],
+        $field_definition = $field_definitions[$field_name] ?? NULL;
+        if (!$field_definition) {
+          continue;
+        }
+        $row = [];
+        $row['field'] = $field_definition->getLabel();
+        $property_definition = $this->schemaTypeManager->getProperty($mapping['property']);
+        $row['property'] = [
+          'data' => [
+            'label' => [
+              '#markup' => $property_definition['label'],
+              '#prefix' => '<div><strong>',
+              '#suffix' => '</strong></div>',
+            ],
+            'comment' => [
+              '#markup' => $this->schemaTypeBuilder->formatComment($property_definition['comment']),
+              '#prefix' => '<div>',
+              '#suffix' => '</div>',
+            ],
+          ],
         ];
+        $rows[] = $row;
       }
       $form['schema_properties'] = [
         '#type' => 'table',

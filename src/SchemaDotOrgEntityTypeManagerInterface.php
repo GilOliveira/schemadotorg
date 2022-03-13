@@ -27,6 +27,17 @@ interface SchemaDotOrgEntityTypeManagerInterface {
   public function getBaseFieldNames($entity_type_id);
 
   /**
+   * Get common Schema.org types for specific entity type.
+   *
+   * @param string $entity_type_id
+   *   An entity type.
+   *
+   * @return array
+   *   Common Schema.org types for specific entity type.
+   */
+  public function getCommonSchemaTypes($entity_type_id);
+
+  /**
    * Get field types for Schema.org property.
    *
    * @param string $property

@@ -46,17 +46,41 @@ interface SchemaDotOrgNamesInterface {
   public function camelCaseToTitleCase($string);
 
   /**
+   * Convert camel case (camelCase) to sentence case (Sentence ase).
+   *
+   * @param string $string
+   *   A camel case string.
+   *
+   * @return string
+   *   The camel case string converted to sentence case.
+   */
+  public function camelCaseToSentenceCase($string);
+
+  /**
+   * Convert Schema.org type or property to Drupal label.
+   *
+   * @param string $table
+   *   A Schema.org table.
+   * @param string $string
+   *   A Schema.org type or property.
+   *
+   * @return string
+   *   Schema.org type or property coverted to a Drupal label.
+   */
+  public function toDrupalLabel($table, $string);
+
+  /**
    * Convert Schema.org type or property to Drupal machine name.
    *
-   * @param string $label
+   * @param string $table
+   *   A Schema.org table.
+   * @param string $string
    *   A Schema.org type or property.
-   * @param int $length
-   *   Maximum number of characters allowed for the Drupal machine name.
    *
    * @return string
    *   Schema.org type or property converted to Drupal machine name.
    */
-  public function toDrupalName($label, $length = 0);
+  public function toDrupalName($table, $label);
 
   /**
    * Get name prefixes.

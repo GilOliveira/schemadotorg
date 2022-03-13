@@ -62,7 +62,28 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
   /**
    * {@inheritdoc}
    */
-  public function toDrupalName($label, $length = 0) {
+  public function camelCaseToSentenceCase($string) {
+    $sentence = $this->camelCaseToTitleCase($string);
+    $sentence = preg_replace_callback('/ ([A-Z])([a-z])/', function ($matches) {
+      return ' ' . strtolower($matches[1]) . $matches[2];
+    }, $sentence);
+    return ucfirst($sentence);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function toDrupalLabel($table, $string) {
+    return ($table === 'types')
+      ? $this->camelCaseToTitleCase($string)
+      : $this->camelCaseToSentenceCase($string);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function toDrupalName($table, $label) {
+    $length = $this->getNameMaxLength($table);
     $drupal_name = $this->camelCaseToSnakeCase($label);
 
     // Custom.
