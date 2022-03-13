@@ -163,16 +163,19 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $bundle_entity_type_id = $mapping_entity->getTargetEntityTypeBundleId();
       $bundle_entity_type_definition = $mapping_entity->getTargetEntityTypeBundleDefinition();
 
-      $id_key = $bundle_entity_type_definition->getKey('id');
-      $label_key = $bundle_entity_type_definition->getKey('label');
+      // Map id and label keys.
+      $keys = ['id', 'label'];
+      foreach ($keys as $key) {
+        $key_name = $bundle_entity_type_definition->getKey($key);
+        if ($key_name !== $key) {
+          $bundle_entity_values[$key_name] = $bundle_entity_values[$key];
+          unset($bundle_entity_values[$key]);
+        }
+      }
 
       /** @var \Drupal\Core\Entity\Sql\SqlContentEntityStorage $bundle_entity_storage */
       $bundle_entity_storage = $this->entityTypeManager->getStorage($bundle_entity_type_id);
-      $bundle_entity = $bundle_entity_storage->create([
-        $id_key => $bundle_entity_values['id'],
-        $label_key => $bundle_entity_values['label'],
-        'description' => $bundle_entity_values['description'],
-      ]);
+      $bundle_entity = $bundle_entity_storage->create($bundle_entity_values);
       $bundle_entity->save();
 
       // Set mapping entity target bundle.
@@ -540,21 +543,33 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     ];
 
     // Description bottom.
-    $description_bottom = '<p>' . $this->t('Or you can jump directly to a commonly used type:') . '</p>';
-    $description_bottom .= '<ul>';
-    $description_bottom .= '<li>' . $this->t('Creative works: <a title="CreativeWork" href="/CreativeWork">CreativeWork</a>, <a title="Book" href="/Book">Book</a>, <a title="Movie" href="/Movie">Movie</a>, <a title="MusicRecording" href="/MusicRecording">MusicRecording</a>, <a title="Recipe" href="/Recipe">Recipe</a>, <a title="TVSeries" href="/TVSeries">TVSeries</a> ...') . '</li>';
-    $description_bottom .= '<li>' . $this->t('Embedded non-text objects: <a title="AudioObject" href="/AudioObject">AudioObject</a>, <a title="ImageObject" href="/ImageObject">ImageObject</a>, <a title="VideoObject" href="/VideoObject">VideoObject</a>') . '</li>';
-    $description_bottom .= '<li>' . $this->t('<a title="Event" href="/Event">Event</a>') . '</li>';
-    $description_bottom .= '<li>' . $this->t('Health and medical types: <a href="/MedicalCondition">MedicalCondition</a>, <a href="/Drug">Drug</a>, <a href="/MedicalGuideline">MedicalGuideline</a>, <a href="/MedicalWebPage">MedicalWebPage</a>, <a href="/MedicalScholarlyArticle">MedicalScholarlyArticle</a>.') . '</li>';
-    $description_bottom .= '<li>' . $this->t('<a title="Organization" href="/Organization">Organization</a>') . '</li>';
-    $description_bottom .= '<li>' . $this->t('<a title="Person" href="/Person">Person</a>') . '</li>';
-    $description_bottom .= '<li>' . $this->t('<a title="Place" href="/Place">Place</a>, <a title="LocalBusiness" href="/LocalBusiness">LocalBusiness</a>, <a title="Restaurant" href="/Restaurant">Restaurant</a> ...') . '</li>';
-    $description_bottom .= '<li>' . $this->t('<a title="Product" href="/Product">Product</a>, <a title="Offer" href="/Offer">Offer</a>, <a title="AggregateOffer" href="/AggregateOffer">AggregateOffer</a>') . '</li>';
-    $description_bottom .= '<li>' . $this->t('<a title="Review" href="/Review">Review</a>, <a title="AggregateRating" href="/AggregateRating">AggregateRating</a>') . '</li>';
-    $description_bottom .= '<li>' . $this->t('<a title="Action" href="/Action">Action</a>') . '</li>';
-    $description_bottom .= '</ul>';
-    $path = Url::fromRoute('<current>', [], ['query' => ['type' => '']])->toString();
-    $form['description_bottom'] = ['#markup' => str_replace('href="/', 'href="' . $path, $description_bottom)];
+    $entity_type_id = $this->getTargetEntityTypeId();
+    $common_types = $this->schemaEntityTypeManager->getCommonSchemaTypes($entity_type_id);
+    $items = [];
+    foreach ($common_types as $group => $types) {
+      $item = [];
+      $item['group'] = [
+        '#markup' => $group,
+        '#prefix' => '<strong>',
+        '#suffix' => ':</strong> ',
+      ];
+      foreach ($types as $type) {
+        $item[$type] = [
+          '#type' => 'link',
+          '#title' => $type,
+          '#url' => Url::fromRoute('<current>', [], ['query' => ['type' => $type]]),
+          '#prefix' => (count($item) > 1) ? ', ' : '',
+        ];
+      }
+      $items[] = $item;
+    }
+    $form['description_bottom'] = [
+      'intro' => ['#markup' => '<p>' . $this->t('Or you can jump directly to a commonly used type:') . '</p>'],
+      'items' => [
+        '#theme' => 'item_list',
+        '#items' => $items,
+      ],
+    ];
 
     $tree = $this->schemaTypeManager->getTypeTree('Thing');
     $form['types'] = [

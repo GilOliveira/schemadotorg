@@ -18,14 +18,19 @@ Demo
 
 The goal is to demo framework which allows for progressive enhancements.
 
-Recommend specific types based on the entity.
-- \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager::getCommonSchemaTypes
-- Group Name: Type1, Type2
-- Unlink existing types.
+Report
+
 
 Add validation rules.
 - Entity bundle exists
 - Schema type exists.
+
+Recommend specific types based on the entity.
+- Unlink existing types.
+
+Block media type from being added  @see \Drupal\media\MediaTypeForm::form
+
+Should we change mapping targetEntityType to target_entity_type?
 
 -----
 
@@ -33,9 +38,6 @@ Paragraphs
 Media
 Block content
 
-MediaTypes requires a source to create a schema.org type.
-- $form['entity']['media_type'];
--
 - Write baseline tests
 
 Done!!!! for now

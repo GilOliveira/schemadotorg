@@ -81,7 +81,7 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
 
       $defaults = [
         'entity_type_id' => $entity_type_id,
-        '_form' => '\Drupal\schemadotorg_ui\Form\SchemaDotOrgUiFieldsForm',
+
       ];
       // If the entity type has no bundles and it doesn't use {bundle} in its
       // admin path, use the entity type.
@@ -94,11 +94,14 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
       // Add 'Manage Schema.org fields' route.
       $route = new Route(
         "$path/schemedotorg",
-        $defaults + ['_title' => 'Manage Schema.org fields'],
+        [
+          '_title' => 'Manage Schema.org fields',
+          '_entity_form' => 'schemadotorg_mapping.edit',
+        ] + $defaults,
         $requirements,
         $options
       );
-      $collection->add("entity.{$entity_type_id}.schemadotorg_fields", $route);
+      $collection->add("entity.{$entity_type_id}.schemadotorg_mapping", $route);
 
       // Add 'Add Schema.org type' route.
       $entity_collection_route = $collection->get("entity.{$bundle_entity_type}.collection");
@@ -106,7 +109,10 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
         $entity_collection_path = $entity_collection_route->getPath();
         $route = new Route(
           "$entity_collection_path/schemadotorg",
-          $defaults + ['_title' => 'Add Schema.org type'],
+          [
+            '_title' => 'Add Schema.org type',
+            '_entity_form' => 'schemadotorg_mapping.add',
+          ] + $defaults,
           $requirements,
         );
         $collection->add("schemadotorg.{$bundle_entity_type}.type_add", $route);

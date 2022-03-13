@@ -75,18 +75,28 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
    * {@inheritdoc}
    */
   public function getCommonSchemaTypes($entity_type_id) {
-    $common_types = [
-      'node' => [
-        (string) $this->t('Common things') => ['Person', 'Place', 'Event'],
-        (string) $this->t('Creative works') => ['CreativeWork', 'Book', 'Movie', 'MusicRecording', 'Recipe', 'TVSeries'],
-        (string) $this->t('Health and medical types') => ['MedicalCondition', 'Drug', 'MedicalGuideline', 'MedicalWebPage', 'MedicalScholarlyArticle'],
-        (string) $this->t('Businesses') => ['LocalBusiness', 'Restaurant'],
-        (string) $this->t('Commerce') => ['Product', 'Offer', 'Review'],
-      ],
-      'media' => [
-        (string) $this->t('Embedded non-text objects:') => ['AudioObject', 'ImageObject', 'VideoObject'],
-      ],
+    $common_types = [];
+    $common_types['node'] = [
+      (string) $this->t('Common') => ['Thing', 'Person', 'Place', 'Event'],
+      (string) $this->t('Content') => ['CreativeWork', 'Article', 'NewsArticle', 'Blog', 'Book', 'FAQ', 'Recipe', 'WebPage'],
+      (string) $this->t('Education') => ['Course', 'CollegeOrUniversity', 'ElementarySchool', 'HighSchool'],
+      (string) $this->t('Entertainment') => ['Movie', 'MusicRecording', 'TVSeries', 'VideoGame'],
+      (string) $this->t('Health') => ['Physician', 'Patient', 'Drug', 'MedicalCondition', 'MedicalGuideline', 'MedicalWebPage', 'MedicalScholarlyArticle', 'ResearchProject'],
+      (string) $this->t('Business') => ['Organization', 'LocalBusiness', 'Corporation', 'Restaurant', 'NGO'],
+      (string) $this->t('Commerce') => ['Product', 'Offer', 'Review'],
     ];
+    $common_types['media'] = [
+      (string) $this->t('Media objects') => ['AudioObject', 'ImageObject', 'VideoObject', '3DModel', 'DataDownload'],
+    ];
+    $common_types['paragraph'] = [
+      (string) $this->t('Common') => ['Thing', 'ContactPoint'],
+      (string) $this->t('Content') => ['DefinedTerm', 'ItemList'],
+      (string) $this->t('Values') => ['PropertyValue', 'QuantitativeValue'],
+      (string) $this->t('Business') => ['Audience', 'Brand', 'Invoice', 'JobPosting', 'OwnershipInfo', 'OpeningHoursSpecification', 'Occupation', 'VirtualLocation'],
+      (string) $this->t('Commerce') => ['Offer', 'Order', 'Rating', 'Service', 'Ticket', 'Trip', 'MonetaryAmount', 'OfferShippingDetails', 'PriceSpecification'],
+      (string) $this->t('Other') => ['HealthInsurancePlan', 'ComputerLanguage', 'NutritionInformation'],
+    ];
+    $common_types['block_content'] = $common_types['paragraph'];
     return $common_types[$entity_type_id] ?? $common_types['node'];
   }
 
