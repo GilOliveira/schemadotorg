@@ -10,7 +10,7 @@ services:
     arguments: ['@database']
   schemadotorg.schema_type_builder:
     class: Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilder
-    arguments: ['@schemadotorg.schema_type_manager']
+    arguments: ['@module_handler', '@current_user', '@schemadotorg.schema_type_manager']
 
   schemadotorg.entity_type_manager:
     class: Drupal\schemadotorg\SchemaDotOrgEntityTypeManager

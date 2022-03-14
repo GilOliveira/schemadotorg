@@ -3,12 +3,28 @@
 namespace Drupal\schemadotorg;
 
 use Drupal\Component\Utility\Html;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 
 /**
  * Schema.org schema type builder service.
  */
 class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInterface {
+
+  /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
+   * The current user.
+   *
+   * @var \Drupal\Core\Session\AccountInterface
+   */
+  protected $currentUser;
 
   /**
    * The Schema.org schema type manager.
@@ -20,10 +36,16 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
   /**
    * Constructs a SchemaDotOrgSchemaTypeBuilder object.
    *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler service.
+   * @param \Drupal\Core\Session\AccountInterface $current_user
+   *   The current user.
    * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
    *   The Schema.org schema type manager.
    */
-  public function __construct(SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager) {
+  public function __construct(ModuleHandlerInterface $module_handler, AccountInterface $current_user, SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager) {
+    $this->moduleHandler = $module_handler;
+    $this->currentUser = $current_user;
     $this->schemaTypeManager = $schema_type_manager;
   }
 
@@ -31,7 +53,10 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
    * {@inheritdoc}
    */
   public function getItemUrl($id) {
-    return Url::fromRoute('schemadotorg_reports', ['id' => $id]);
+    return ($this->moduleHandler->moduleExists('schemadotorg_reports')
+      && $this->currentUser->hasPermission('access site reports'))
+      ? Url::fromRoute('schemadotorg_reports', ['id' => $id])
+      : Url::fromUri('https://schema.org/' . $id);
   }
 
   /**
@@ -90,7 +115,6 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
     if (strpos($comment, 'href="') === FALSE) {
       return $comment;
     }
-
 
     $dom = Html::load($comment);
     $a_nodes = $dom->getElementsByTagName('a');

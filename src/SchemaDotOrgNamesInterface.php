@@ -80,7 +80,7 @@ interface SchemaDotOrgNamesInterface {
    * @return string
    *   Schema.org type or property converted to Drupal machine name.
    */
-  public function toDrupalName($table, $label);
+  public function toDrupalName($table, $string);
 
   /**
    * Get name prefixes.

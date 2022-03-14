@@ -48,6 +48,8 @@ class SchemaDotOrgUiLocalAction extends DeriverBase implements ContainerDeriverI
       $bundle_of = $entity_type->getBundleOf();
       if ($bundle_of
         && in_array($bundle_of, $entity_types)
+        // Block media from being created because it requires a source to be defined.
+        // @see \Drupal\media\MediaTypeForm::form
         && $bundle_of !== 'media') {
         $this->derivatives["schemadotorg.{$entity_type_id}.type_add"] = [
           'route_name' => "schemadotorg.{$entity_type_id}.type_add",

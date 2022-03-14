@@ -16,31 +16,24 @@ Demo
 
 # Todo
 
-The goal is to demo framework which allows for progressive enhancements.
-
-Report
-
-Add validation rules.
-- Determine if the Entity bundle exists
-
-Recommend specific types based on the entity.
-- Unlink existing types.
-
-Block media type from being added  @see \Drupal\media\MediaTypeForm::form
-
-Should we change mapping targetEntityType to target_entity_type?
+The goal is to demo a content building framework which allows for progressive enhancements.
 
 MUST deep dive the RDF module.
 - Create RdfMapping that mirrors the SchemaDotOrgMapping.
 - https://drupal.stackexchange.com/questions/241470/how-to-configure-rdf-on-fields
 
------
+Research baseline content types
+- node
+- paragraphs
 
-Paragraphs
-Media
-Block content
+Default properties that should always be created???
+Thing, Person, Place, Event, Organization, CreativeWork
+
+
 
 - Write baseline tests
+
+Help text will better define the functionality.
 
 Done!!!! for now
 
@@ -53,6 +46,8 @@ Mapping
 SchemaDotOrgMapping config entity
 - Revisit dependencies.
 
+- Add comment support.
+
 - Reuse \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::save
 
 - Suppress superseded properties, unless they are being used.
@@ -61,6 +56,12 @@ SchemaDotOrgMapping config entity
   - https://github.com/vakata/jstree
 
 - Entity Reference selection widget
+  - Select Schema.org Types (comma delimited)
+
+- Term selection
+  - Enumeration
+
+- Subtype reference.
 
 Configure Schema.org and Schema.org UI
 - General
@@ -89,7 +90,6 @@ Define what is alpha beta and release goals.
 # Releases
 
 Alpha
-- Finalize drupal machine names.
 - Finalize drupal machine names.
 
 # Tests
@@ -124,8 +124,7 @@ UI
 
 # TBD
 
-- How do we handle property.name vs entity.title?
-  - Allow title to be mapped to name?
+- Should Drupal names and ids be stored in the database or dynamically generated?
 
 - Should the schema type be added to terms as field or property?
 
@@ -166,6 +165,7 @@ UI
 - Report - Provides a report for browsing Schema.org types, properties, and naming conventions.
 - Descriptions
 - UI
+- RDF - Generates Schema.org RDFa mapping via cores RDF module.
 - Json-ld
 - Json API
 - Templates - Provides templates for creating and updating a Schema.org type in a click.
@@ -190,6 +190,7 @@ Other
 - https://www.drupal.org/project/computed_field
 - https://www.drupal.org/project/base_field_override_ui
 - https://www.drupal.org/project/field_token_value
+- https://www.drupal.org/project/jsonapi_node_preview_tab
 
 # Schema.org Type => Drupal Entity
 

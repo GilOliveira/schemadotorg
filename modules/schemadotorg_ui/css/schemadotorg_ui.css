@@ -7,9 +7,21 @@ details.schemadotorg-ui--add-field {
   display: none;
 }
 
-.schemadotorg-ui-properties .color-success,
-.schemadotorg-ui-properties .color-warning {
-  border: 2px solid #666;
+.schemadotorg-ui-properties tr.color-success {
+  border: 4px solid #325e1c;
+}
+
+.schemadotorg-ui-properties tr.color-warning {
+  border: 4px solid #734c00;
+}
+
+.schemadotorg-ui-properties tr.color-success:hover,
+.schemadotorg-ui-properties tr.color-warning:hover {
+  border-color: #232429;
+}
+
+.schemadotorg-ui-properties td {
+  vertical-align: top;
 }
 
 @media (max-width: 768px) {

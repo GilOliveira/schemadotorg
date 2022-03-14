@@ -82,9 +82,9 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
   /**
    * {@inheritdoc}
    */
-  public function toDrupalName($table, $label) {
+  public function toDrupalName($table, $string) {
     $length = $this->getNameMaxLength($table);
-    $drupal_name = $this->camelCaseToSnakeCase($label);
+    $drupal_name = $this->camelCaseToSnakeCase($string);
 
     // Custom.
     $custom = $this->getCustomNames();

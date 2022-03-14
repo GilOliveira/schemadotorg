@@ -39,8 +39,8 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
   public function getEntityTypes() {
     return [
       'block_content',
-      'node',
       'media',
+      'node',
       'paragraph',
       'user',
     ];
@@ -61,10 +61,10 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
     $default_schema_types = [
       'user.user' => 'Person',
       'media.audio' => 'AudioObject',
+      'media.document' => 'DataDownload',
       'media.image' => 'ImageObject',
       'media.remote_video' => 'VideoObject',
       'media.video' => 'VideoObject',
-      'media.document' => 'DataDownload',
     ];
     return $default_schema_types[$entity_type_id . '.' . $bundle] ?? NULL;
   }
@@ -74,6 +74,29 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
    */
   public function getBaseFieldNames($entity_type_id) {
     $base_fields_names = [
+      'block_content' => [
+        'uuid',
+        'type',
+        'info',
+        'revision_created',
+        'revision_user',
+        'changed',
+      ],
+      'media' => [
+        'uuid',
+        'revision_created',
+        'revision_user',
+        'uid',
+        'thumbnail',
+        'created',
+        'changed',
+        'path',
+      ],
+      'user' => [
+        'uuid',
+        'name',
+        'mail',
+      ],
       'node' => [
         'uuid',
         'revision_uid',
@@ -85,10 +108,9 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
         'sticky',
         'path',
       ],
-      'user' => [
+      'paragraph' => [
         'uuid',
-        'name',
-        'mail',
+        'created',
       ],
     ];
     return $base_fields_names[$entity_type_id] ?? [];

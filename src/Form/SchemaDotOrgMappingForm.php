@@ -70,8 +70,8 @@ class SchemaDotOrgMappingForm extends EntityForm {
         '#type' => 'item',
         '#title' => $this->t('Entity type'),
         '#markup' => $entity->isTargetEntityTypeBundle()
-          ? $target_entity_type_definition->getBundleLabel()
-          : $target_entity_type_definition->getLabel(),
+        ? $target_entity_type_definition->getBundleLabel()
+        : $target_entity_type_definition->getLabel(),
       ];
     }
 

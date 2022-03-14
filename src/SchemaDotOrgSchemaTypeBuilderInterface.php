@@ -44,6 +44,7 @@ interface SchemaDotOrgSchemaTypeBuilderInterface {
    * @see \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager::getTypesChildrenRecursive
    */
   public function buildTypeTreeRecursive(array $tree);
+
   /**
    * Format Schema.org type or property comment.
    *
@@ -51,7 +52,7 @@ interface SchemaDotOrgSchemaTypeBuilderInterface {
    *   A comment.
    * @param string $base_path
    *   Base patt for all Schema.org types and properties.
-   *   Default to https://schema.org
+   *   Default to https://schema.org.
    *
    * @return string
    *   Formatted Schema.org type or property comment with links to details.

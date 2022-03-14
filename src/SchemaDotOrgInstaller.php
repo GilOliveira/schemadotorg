@@ -316,8 +316,6 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       $field_name = $this->schemaNames->camelCaseToSnakeCase($field_name);
     });
 
-
-
     // Insert records.
     while ($row = fgetcsv($handle)) {
       $fields = [];

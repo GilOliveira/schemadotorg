@@ -2,12 +2,12 @@
 
 namespace Drupal\schemadotorg_ui\Form;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 use Drupal\field\FieldStorageConfigInterface;
-use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -159,6 +159,58 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   /**
    * {@inheritdoc}
    */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    $mapping_entity = $this->getEntity();
+
+    // Validate the bundle entity before it is created.
+    if ($mapping_entity->isNewTargetEntityTypeBundle()) {
+      $values = $form_state->getValue('entity');
+      $bundle_entity_type_id = $mapping_entity->getTargetEntityTypeBundleId();
+      /** @var \Drupal\Core\Entity\Sql\SqlContentEntityStorage $bundle_entity_storage */
+      $bundle_entity_storage = $this->entityTypeManager->getStorage($bundle_entity_type_id);
+      $bundle_entity = $bundle_entity_storage->load($values['id']);
+      if ($bundle_entity) {
+        $target_entity_type_bundle_definition = $this->getEntity()->getTargetEntityTypeBundleDefinition();
+        $t_args = [
+          '%id' => $bundle_entity->id(),
+          '@type' => $target_entity_type_bundle_definition->getSingularLabel(),
+        ];
+        $message = $this->t('A %id @type already exists. Please enter a different name.', $t_args);
+        $element = NestedArray::getValue($form, ['entity', 'id']);
+        $form_state->setError($element, $message);
+      }
+    }
+
+    // Validate the new field names before they are created.
+    $entity_type_id = $mapping_entity->getTargetEntityTypeId();
+    /** @var \Drupal\field\FieldStorageConfigStorage $field_storage_config_storage */
+    $field_storage_config_storage = $this->entityTypeManager->getStorage('field_storage_config');
+    $properties = $form_state->getValue('properties');
+    foreach ($properties as $property_name => $property_values) {
+      if ($property_values['field']['name'] === '_add_') {
+        $required_element_names = ['type', 'label', 'machine_name'];
+        foreach ($required_element_names as $required_element_name) {
+          if (empty($property_values['field']['add'][$required_element_name])) {
+            $element = NestedArray::getValue($form, ['properties', $property_name, 'field', 'add', $required_element_name]);
+            $form_state->setError($element, $this->t('@name field is required.', ['@name' => $element['#title']]));
+          }
+        }
+        if (!empty($property_values['field']['add']['machine_name'])) {
+          $field_name = 'schema_' . $property_values['field']['add']['machine_name'];
+          if ($field_storage_config_storage->load($entity_type_id . '.' . $field_name)) {
+            $element = NestedArray::getValue($form, ['properties', $property_name, 'field', 'add', 'machine_name']);
+            $t_args = ['%name' => $field_name];
+            $message = $this->t('A %name field already exists. Please enter a different name or select the existing field.', $t_args);
+            $form_state->setError($element, $message);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $op = (string) $form_state->getValue('op');
     if ($op === (string) $this->t('Find')) {
@@ -171,7 +223,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping_entity */
     $mapping_entity = $this->getEntity();
 
     // Redirect the current page if we are update the Schema.org field UI tab.
@@ -181,12 +232,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     // Create the bundle entity.
     if ($mapping_entity->isNewTargetEntityTypeBundle()) {
-      $bundle_entity_values = $form_state->getValue('entity');
-
       $bundle_entity_type_id = $mapping_entity->getTargetEntityTypeBundleId();
       $bundle_entity_type_definition = $mapping_entity->getTargetEntityTypeBundleDefinition();
 
-      // Map id and label keys.
+      // Get bundle entity values and map id and label keys.
+      $bundle_entity_values = $form_state->getValue('entity');
       $keys = ['id', 'label'];
       foreach ($keys as $key) {
         $key_name = $bundle_entity_type_definition->getKey($key);
@@ -316,8 +366,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#type' => 'item',
         '#title' => $this->t('Entity type'),
         '#markup' => $entity->isTargetEntityTypeBundle()
-          ? $target_entity_type_definition->getBundleLabel()
-          : $target_entity_type_definition->getLabel(),
+        ? $target_entity_type_definition->getBundleLabel()
+        : $target_entity_type_definition->getLabel(),
       ];
     }
   }
@@ -407,11 +457,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $header = [
       'property' => [
         'data' => $this->t('Property'),
-        'width' => '60%',
+        'width' => '50%',
       ],
       'field' => [
         'data' => $this->t('Field'),
-        'width' => '40%',
+        'width' => '50%',
       ],
     ];
 
@@ -461,9 +511,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           'visible' => [
             ':input[name="properties[' . $property . '][field][name]"]' => ['value' => '_add_'],
           ],
-          'required' => [
-            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => '_add_'],
-          ],
         ],
       ];
       $field_type_options = $this->getSchemaPropertyFieldTypeOptions($property);
@@ -477,22 +524,39 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#empty_option' => $this->t('- Select a field type -'),
         '#options' => $field_type_options,
         '#default_value' => $field_type_default_value,
+        '#states' => [
+          'required' => [
+            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => '_add_'],
+          ],
+        ],
       ];
       $row['field']['add']['label'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Label'),
+        '#size' => 40,
         '#default_value' => $property_definition['drupal_label'],
+        '#states' => [
+          'required' => [
+            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => '_add_'],
+          ],
+        ],
       ];
       $row['field']['add']['machine_name'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Machine-readable name'),
         '#descripion' => 'A unique machine-readable name containing letters, numbers, and underscores.',
         '#maxlength' => 26,
+        '#size' => 26,
         '#pattern' => '[_0-9a-z]+',
         '#field_prefix' => 'schema_',
         '#default_value' => $property_definition['drupal_name'],
         '#attributes' => ['style' => 'width: 200px'],
         '#wrapper_attributes' => ['style' => 'white-space: nowrap'],
+        '#states' => [
+          'required' => [
+            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => '_add_'],
+          ],
+        ],
       ];
       $row['field']['add']['description'] = [
         '#type' => 'textarea',
@@ -533,13 +597,20 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function buildFindTypeForm(array &$form) {
     // Description top.
-    $t_args = [
-      ':type_href' => Url::fromRoute('schemadotorg_reports.types')->toString(),
-      ':properties_href' => Url::fromRoute('schemadotorg_reports.properties')->toString(),
-      ':things_href' => Url::fromRoute('schemadotorg_reports.types.things')->toString(),
-    ];
-    $description_top = $this->t('The schemas are a set of <a href=":types_href">types</a>, each associated with a set of <a href=":properties_href">properties</a>.', $t_args);
-    $description_top .= ' ' . $this->t('The types are arranged in a <a href=":things_href">hierarchy</a>.', $t_args);
+    if ($this->moduleHandler->moduleExists('schemadotorg_reports')
+      && $this->currentUser()->hasPermission('access site reports')) {
+      $t_args = [
+        ':type_href' => Url::fromRoute('schemadotorg_reports.types')->toString(),
+        ':properties_href' => Url::fromRoute('schemadotorg_reports.properties')->toString(),
+        ':things_href' => Url::fromRoute('schemadotorg_reports.types.things')->toString(),
+      ];
+      $description_top = $this->t('The schemas are a set of <a href=":types_href">types</a>, each associated with a set of <a href=":properties_href">properties</a>.', $t_args);
+      $description_top .= ' ' . $this->t('The types are arranged in a <a href=":things_href">hierarchy</a>.', $t_args);
+    }
+    else {
+      $description_top = $this->t("The schemas are a set of 'types', each associated with a set of properties.");
+      $description_top .= ' ' . $this->t('The types are arranged in a hierarchy.');
+    }
     $form['description'] = ['#markup' => $description_top];
 
     // Find.
@@ -565,9 +636,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#value' => $this->t('Find'),
     ];
 
-    $entity_type_id = $this->getTargetEntityTypeId();
-    $schema_mapping_storage = $this->getEntityStorage();
-
     // Description bottom.
     $entity_type_id = $this->getTargetEntityTypeId() ?? 'node';
     $common_types = $this->schemaEntityTypeManager->getCommonSchemaTypes($entity_type_id);
@@ -580,18 +648,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#suffix' => ':</strong> ',
       ];
       foreach ($types as $type) {
-        $prefix = (count($item) > 1) ? ', ' : '';
-        if ($schema_mapping_storage->isSchemaTypeMapped($entity_type_id, $type)) {
-          $item[$type] = ['#markup' => $type, '#prefix' => $prefix];
-        }
-        else {
-          $item[$type] = [
-            '#type' => 'link',
-            '#title' => $type,
-            '#url' => Url::fromRoute('<current>', [], ['query' => ['type' => $type]]),
-            '#prefix' => $prefix,
-          ];
-        }
+        $item[$type] = $this->buildSchemaTypeItem($type)
+          + ['#prefix' => (count($item) > 1) ? ', ' : ''];
       }
       $items[] = $item;
     }
@@ -622,11 +680,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     $items = [];
     foreach ($tree as $type => $item) {
-      $items[$type] = [
-        '#type' => 'link',
-        '#title' => $type,
-        '#url' => Url::fromRoute('<current>', [], ['query' => ['type' => $type]]),
-      ];
+      $items[$type] = $this->buildSchemaTypeItem($type);
       $children = $item['subtypes'] + $item['enumerations'];
       $items[$type]['children'] = $this->buildTypeTreeRecursive($children);
     }
@@ -635,6 +689,30 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#theme' => 'item_list',
       '#items' => $items,
     ];
+  }
+
+  /**
+   * Build Schema.org type item to be displayed in comma or hierarchical lists.
+   *
+   * @param string $type
+   *   The Schema.org type.
+   *
+   * @return array
+   *   A renderable array containing the Schema.org type item.
+   */
+  protected function buildSchemaTypeItem($type) {
+    $schema_mapping_storage = $this->getEntityStorage();
+    $entity_type_id = $this->getTargetEntityTypeId();
+    if ($schema_mapping_storage->isSchemaTypeMapped($entity_type_id, $type)) {
+      return ['#markup' => $type];
+    }
+    else {
+      return [
+        '#type' => 'link',
+        '#title' => $type,
+        '#url' => Url::fromRoute('<current>', [], ['query' => ['type' => $type]]),
+      ];
+    }
   }
 
   /* ************************************************************************ */
@@ -866,6 +944,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         $options[$field_definition->getName()] = $field_definition->getLabel();
       }
     }
+
     return $options;
   }
 

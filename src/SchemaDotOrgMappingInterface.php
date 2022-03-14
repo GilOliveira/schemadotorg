@@ -12,7 +12,7 @@ use Drupal\Core\Config\Entity\ConfigEntityInterface;
 interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
 
   /**
-   * Gets the entity type for which this mapping is used.
+   * Gets the entity type for which this mapping is used. (i.e. node)
    *
    * @return string
    *   The entity type id.
@@ -20,7 +20,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   public function getTargetEntityTypeId();
 
   /**
-   * Gets the bundle to be mapped.
+   * Gets the bundle to be mapped. (i.e. page)
    *
    * @return string
    *   The bundle to be mapped.
@@ -38,7 +38,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   public function setTargetBundle($bundle);
 
   /**
-   * Gets the entity type definition.
+   * Gets the entity type definition. (i.e. node annotation)
    *
    * @return \Drupal\Core\Entity\EntityTypeInterface|null
    *   The entity type definition.
@@ -46,7 +46,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   public function getTargetEntityTypeDefinition();
 
   /**
-   * Get the entity type's bundle ID.
+   * Get the entity type's bundle ID. (i.e. node_type)
    *
    * @return string|null
    *   The entity type's bundle ID.
@@ -54,7 +54,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   public function getTargetEntityTypeBundleId();
 
   /**
-   * Get the entity type's bundle definition.
+   * Get the entity type's bundle definition. (i.e. node_type annotation)
    *
    * @return \Drupal\Core\Entity\EntityTypeInterface|null
    *   Get the entity type's bundle definition.
@@ -62,7 +62,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   public function getTargetEntityTypeBundleDefinition();
 
   /**
-   * Get the bundle entity type.
+   * Get the bundle entity type. (i.e. node_type:page)
    *
    * @return \Drupal\Core\Config\Entity\ConfigEntityBundleBase|null
    *   The bundle entity type.

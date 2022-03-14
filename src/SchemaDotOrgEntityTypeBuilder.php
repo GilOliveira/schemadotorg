@@ -148,7 +148,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       if (strpos($field['type'], 'field_ui:') !== FALSE) {
         [, $field_type, $option_key] = explode(':', $field['type'], 3);
 
-        /** @var FieldTypePluginManagerInterface $field_type_plugin_manager */
+        /** @var \Drupal\Core\Field\FieldTypePluginManagerInterface $field_type_plugin_manager */
         $field_type_plugin_manager = \Drupal::service('plugin.manager.field.field_type');
         $field_definition = $field_type_plugin_manager->getDefinition($field_type);
         $options = $field_type_plugin_manager->getPreconfiguredOptions($field_definition['id']);

@@ -35,6 +35,8 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface $schemadotorg_entity_type_manager
+   *   The Schema.org entity type manager.
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
@@ -107,6 +109,8 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
       $entity_collection_route = $collection->get("entity.{$bundle_entity_type}.collection");
       if ($bundle_entity_type
         && $entity_collection_route
+        // Block media from being created because it requires a source to be defined.
+        // @see \Drupal\media\MediaTypeForm::form
         && $entity_type_id !== 'media') {
         $entity_collection_path = $entity_collection_route->getPath();
         $route = new Route(
