@@ -345,7 +345,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    * Build Schema.org type breadcrumbs.
    *
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    *
    * @return array
    *   An array containing Schema.org type breadcrumbs.
@@ -374,7 +374,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    * @param string $breadcrumb_id
    *   The breadcrumb id which is a Schema.org type.
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    */
   protected function getTypeBreadcrumbsRecursive(array &$breadcrumbs, $breadcrumb_id, $type) {
     $breadcrumbs[$breadcrumb_id][$type] = $type;

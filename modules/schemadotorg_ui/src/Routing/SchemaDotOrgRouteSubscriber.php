@@ -103,9 +103,11 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
       );
       $collection->add("entity.{$entity_type_id}.schemadotorg_mapping", $route);
 
-      // Add 'Add Schema.org type' route.
+      // Add 'Add Schema.org type' route. (except media)
       $entity_collection_route = $collection->get("entity.{$bundle_entity_type}.collection");
-      if ($bundle_entity_type && $entity_collection_route) {
+      if ($bundle_entity_type
+        && $entity_collection_route
+        && $entity_type_id !== 'media') {
         $entity_collection_path = $entity_collection_route->getPath();
         $route = new Route(
           "$entity_collection_path/schemadotorg",

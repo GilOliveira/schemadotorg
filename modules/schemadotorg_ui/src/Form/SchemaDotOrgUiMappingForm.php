@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 use Drupal\field\FieldStorageConfigInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -79,30 +80,52 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * {@inheritdoc}
    */
   public function getEntityFromRouteMatch(RouteMatchInterface $route_match, $entity_type_id) {
+    $entity_storage = $this->getEntityStorage();
+
     $route_parameters = $route_match->getParameters()->all();
 
     $target_entity_type_id = $route_parameters['entity_type_id'] ?? NULL;
     $target_bundle = $route_parameters['bundle'] ?? NULL;
     $schema_type = $this->getRequest()->query->get('type');
 
+    // Get the Schema.org mapping using route matching.
     if (!$target_entity_type_id && !$schema_type) {
       return parent::getEntityFromRouteMatch($route_match, $entity_type_id);
     }
 
-    if ($schema_type && !$target_entity_type_id) {
-      $target_entity_type_id = 'node';
+    // Default the target entity type to be a node.
+    $target_entity_type_id = $target_entity_type_id ?? 'node';
+
+    // Make sure the new Schema.org type is not already mapped.
+    if ($entity_storage->isSchemaTypeMapped($target_entity_type_id, $schema_type)) {
+      /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
+      $entity = $entity_storage->loadBySchemaType($target_entity_type_id, $schema_type);
+      $target_entity = $entity->getTargetEntityBundleEntity();
+      $t_args = [
+        '%type' => $schema_type,
+        ':href' => $target_entity->toUrl()->toString(),
+        '@label' => $target_entity->label(),
+        '@id' => $target_entity->id(),
+      ];
+      $this->messenger()->addWarning($this->t('%type is currently mapped to <a href=":href">@label</a> (@id).', $t_args));
+      $schema_type = NULL;
     }
 
-    $storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+    // Set default schema type for the current target entity type and bundle.
+    $schema_type = $schema_type
+      ?: $this->schemaEntityTypeManager->getDefaultSchemaType($target_entity_type_id, $target_bundle);
+
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
-    $entity = $storage->load($target_entity_type_id . '.' . $target_bundle)
-      ?: $storage->create([
+    $entity = $entity_storage->load($target_entity_type_id . '.' . $target_bundle)
+      ?: $entity_storage->create([
         'targetEntityType' => $target_entity_type_id,
         'bundle' => $target_bundle,
         'type' => $schema_type,
       ]);
 
+    // Make sure the Schema.org mapping entity's Schema.org type is set.
     $entity->setSchemaType($entity->getSchemaType() ?: $schema_type);
+
     return $entity;
   }
 
@@ -181,10 +204,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       // Set mapping entity target bundle.
       $mapping_entity->setTargetBundle($bundle_entity->id());
 
-      // Disable message about new bundle entity.
+      // Display message about new bundle entity.
       $t_args = [
         '@type' => $bundle_entity_type_definition->getSingularLabel(),
-        '%name' => $bundle_entity_values['label'],
+        '%name' => $bundle_entity->label(),
       ];
       $this->messenger()->addStatus($this->t('The @type %name has been added.', $t_args));
       $context = array_merge($t_args, ['link' => $bundle_entity->toLink($this->t('View'), 'collection')->toString()]);
@@ -542,8 +565,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#value' => $this->t('Find'),
     ];
 
-    // Description bottom.
     $entity_type_id = $this->getTargetEntityTypeId();
+    $schema_mapping_storage = $this->getEntityStorage();
+
+    // Description bottom.
+    $entity_type_id = $this->getTargetEntityTypeId() ?? 'node';
     $common_types = $this->schemaEntityTypeManager->getCommonSchemaTypes($entity_type_id);
     $items = [];
     foreach ($common_types as $group => $types) {
@@ -554,12 +580,18 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#suffix' => ':</strong> ',
       ];
       foreach ($types as $type) {
-        $item[$type] = [
-          '#type' => 'link',
-          '#title' => $type,
-          '#url' => Url::fromRoute('<current>', [], ['query' => ['type' => $type]]),
-          '#prefix' => (count($item) > 1) ? ', ' : '',
-        ];
+        $prefix = (count($item) > 1) ? ', ' : '';
+        if ($schema_mapping_storage->isSchemaTypeMapped($entity_type_id, $type)) {
+          $item[$type] = ['#markup' => $type, '#prefix' => $prefix];
+        }
+        else {
+          $item[$type] = [
+            '#type' => 'link',
+            '#title' => $type,
+            '#url' => Url::fromRoute('<current>', [], ['query' => ['type' => $type]]),
+            '#prefix' => $prefix,
+          ];
+        }
       }
       $items[] = $item;
     }
@@ -682,10 +714,20 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * Get the Schema.org mapping entity.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface
-   *   the Schema.org mapping entity.
+   *   The Schema.org mapping entity.
    */
   public function getEntity() {
     return $this->entity;
+  }
+
+  /**
+   * Get the Schema.org mapping entity storage.
+   *
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface
+   *   The Schema.org mapping entity storage
+   */
+  protected function getEntityStorage() {
+    return $this->entityTypeManager->getStorage('schemadotorg_mapping');
   }
 
   /**
@@ -852,7 +894,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * Get a Schema.org property's available field types as options.
    *
    * @param string $property
-   *   A Schema.org property.
+   *   The Schema.org property.
    *
    * @return array[]
    *   A property's available field types as options.

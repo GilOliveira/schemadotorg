@@ -20,10 +20,8 @@ The goal is to demo framework which allows for progressive enhancements.
 
 Report
 
-
 Add validation rules.
-- Entity bundle exists
-- Schema type exists.
+- Determine if the Entity bundle exists
 
 Recommend specific types based on the entity.
 - Unlink existing types.
@@ -31,6 +29,10 @@ Recommend specific types based on the entity.
 Block media type from being added  @see \Drupal\media\MediaTypeForm::form
 
 Should we change mapping targetEntityType to target_entity_type?
+
+MUST deep dive the RDF module.
+- Create RdfMapping that mirrors the SchemaDotOrgMapping.
+- https://drupal.stackexchange.com/questions/241470/how-to-configure-rdf-on-fields
 
 -----
 

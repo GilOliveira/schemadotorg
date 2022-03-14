@@ -271,7 +271,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    * Build Schema.org type breadcrumbs.
    *
    * @param string $type
-   *   The current Schema.org type.
+   *   The Schema.org type.
    *
    * @return array
    *   A renderable containing Schema.org type breadcrumbs.
@@ -295,7 +295,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    * Build Schema.org type enumerations.
    *
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    *
    * @return array
    *   A renderable array containing schema.org type enumerations.

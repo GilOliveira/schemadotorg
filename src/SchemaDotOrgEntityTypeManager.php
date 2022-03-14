@@ -47,6 +47,29 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
   }
 
   /**
+   * Get default Schema.org type for an entity type and bundle.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $bundle
+   *   The name of the bundle.
+   *
+   * @return string|null
+   *   The default Schema.org type for an entity type and bundle.
+   */
+  public function getDefaultSchemaType($entity_type_id, $bundle) {
+    $default_schema_types = [
+      'user.user' => 'Person',
+      'media.audio' => 'AudioObject',
+      'media.image' => 'ImageObject',
+      'media.remote_video' => 'VideoObject',
+      'media.video' => 'VideoObject',
+      'media.document' => 'DataDownload',
+    ];
+    return $default_schema_types[$entity_type_id . '.' . $bundle] ?? NULL;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getBaseFieldNames($entity_type_id) {

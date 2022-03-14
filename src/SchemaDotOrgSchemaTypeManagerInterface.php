@@ -135,7 +135,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Get Schema.org type.
    *
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    *
    * @return array|false
    *   An associative array containing Schema.org type definition,
@@ -147,7 +147,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Get Schema.org property.
    *
    * @param string $property
-   *   A Schema.org property.
+   *   The Schema.org property.
    *
    * @return array|false
    *   An associative array containing Schema.org property definition,
@@ -159,7 +159,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Get a Schema.org type's properties.
    *
    * @param string $type
-   *   A Scheme.org type.
+   *   The Schema.org type.
    * @param array $fields
    *   An array of Schema.org property fields.
    *
@@ -172,7 +172,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Get all child Schema.org types below a specified type.
    *
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    *
    * @return array
    *   An associative array of Schema.org types keyed by type.

@@ -46,7 +46,9 @@ class SchemaDotOrgUiLocalAction extends DeriverBase implements ContainerDeriverI
     $entity_types = $this->schemaDotOrgEntityTypeManager->getEntityTypes();
     foreach ($this->entityTypeManager->getDefinitions() as $entity_type_id => $entity_type) {
       $bundle_of = $entity_type->getBundleOf();
-      if ($bundle_of && in_array($bundle_of, $entity_types)) {
+      if ($bundle_of
+        && in_array($bundle_of, $entity_types)
+        && $bundle_of !== 'media') {
         $this->derivatives["schemadotorg.{$entity_type_id}.type_add"] = [
           'route_name' => "schemadotorg.{$entity_type_id}.type_add",
           'title' => $this->t('Add Schema.org type'),

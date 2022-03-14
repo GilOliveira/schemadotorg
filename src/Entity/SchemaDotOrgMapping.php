@@ -19,6 +19,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
  *     plural = "@count Schema.org mappings",
  *   ),
  *   handlers = {
+ *     "storage" = "\Drupal\schemadotorg\SchemaDotOrgMappingStorage",
  *     "list_builder" = "Drupal\schemadotorg\SchemaDotOrgMappingListBuilder",
  *     "form" = {
  *       "add" = "Drupal\schemadotorg\Form\SchemaDotOrgMappingForm",
@@ -172,25 +173,14 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    * {@inheritdoc}
    */
   public function getSchemaType() {
-    if ($this->type) {
-      return $this->type;
-    }
-
-    $default_schema_types = [
-      'user.user' => 'Person',
-      'media.audio' => 'AudioObject',
-      'media.image' => 'ImageObject',
-      'media.remote_video'=> 'VideoObject',
-      'media.video' => 'VideoObject',
-    ];
-    return $default_schema_types[$this->id()] ?? NULL;
+    return $this->type;
   }
 
   /**
    * {@inheritdoc}
    */
   public function setSchemaType($type) {
-    $this->set('type', $type);
+    $this->type = $type;
     return $this;
   }
 

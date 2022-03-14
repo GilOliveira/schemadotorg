@@ -31,7 +31,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
    * Sets the bundle to be mapped.
    *
    * @param string $bundle
-   *   The bundle to be mapped.
+   *   The name of the bundle to be mapped.
    *
    * @return $this
    */

@@ -16,10 +16,23 @@ interface SchemaDotOrgEntityTypeManagerInterface {
   public function getEntityTypes();
 
   /**
+   * Get default Schema.org type for an entity type and bundle.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $bundle
+   *   The name of the bundle.
+   *
+   * @return string|null
+   *   The default Schema.org type for an entity type and bundle.
+   */
+  public function getDefaultSchemaType($entity_type_id, $bundle);
+
+  /**
    * Get an entity type's base fields names.
    *
    * @param string $entity_type_id
-   *   An entity type.
+   *   The entity type ID.
    *
    * @return array|string[]
    *   An entity type's base fields names.
@@ -30,7 +43,7 @@ interface SchemaDotOrgEntityTypeManagerInterface {
    * Get common Schema.org types for specific entity type.
    *
    * @param string $entity_type_id
-   *   An entity type.
+   *   The entity type ID.
    *
    * @return array
    *   Common Schema.org types for specific entity type.
@@ -41,7 +54,7 @@ interface SchemaDotOrgEntityTypeManagerInterface {
    * Get field types for Schema.org property.
    *
    * @param string $property
-   *   A Schema.org property.
+   *   The Schema.org property.
    *
    * @return array
    *   Field types for Schema.org property.

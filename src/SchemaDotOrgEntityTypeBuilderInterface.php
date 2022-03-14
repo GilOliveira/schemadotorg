@@ -11,7 +11,7 @@ interface SchemaDotOrgEntityTypeBuilderInterface {
    * Create type vocabularies.
    *
    * @param string $type
-   *   A Schema.org types.
+   *   The Schema.org type.
    */
   public function createTypeVocabulary($type);
 
