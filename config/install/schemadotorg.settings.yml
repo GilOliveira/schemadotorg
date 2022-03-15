@@ -1,0 +1,255 @@
+entity_types:
+  block_content:
+    base_fields:
+      - uuid
+      - type
+      - info
+      - revision_created
+      - revision_user
+      - changed
+    schema_types:
+      common:
+        label: Common
+        types:
+          - Thing
+          - ContactPoint
+          - PostalAddress
+      content:
+        label: Content
+        types:
+          - DefinedTerm
+          - ItemList
+      values:
+        label: Values
+        types:
+          - PropertyValue
+          - QuantitativeValue
+      business:
+        label: Business
+        types:
+          - Audience
+          - Brand
+          - Invoice
+          - JobPosting
+          - OwnershipInfo
+          - OpeningHoursSpecification
+          - Occupation
+          - VirtualLocation
+      commerce:
+        label: Commerce
+        types:
+          - Offer
+          - Order
+          - Rating
+          - Service
+          - Ticket
+          - Trip
+          - MonetaryAmount
+          - OfferShippingDetails
+          - PriceSpecification
+      other:
+        label: Other
+        types:
+          - HealthInsurancePlan
+          - ComputerLanguage
+          - NutritionInformation
+  media:
+    base_fields:
+      - uuid
+      - revision_created
+      - revision_user
+      - uid
+      - thumbnail
+      - created
+      - changed
+      - path
+    schema_types:
+      media_objects:
+        label: 'Media objects'
+        types:
+          - AudioObject
+          - ImageObject
+          - VideoObject
+          - 3DModel
+          - DataDownload
+    default_schema_types:
+      audio: AudioObject
+      document: DataDownload
+      image: ImageObject
+      remote_video: VideoObject
+      video: VideoObject
+  user:
+    base_fields:
+      - uuid
+      - name
+      - mail
+    default_schema_types:
+      user: Person
+  node:
+    base_fields:
+      - uuid
+      - revision_uid
+      - uid
+      - title
+      - created
+      - changed
+      - promote
+      - sticky
+      - path
+    schema_types:
+      common:
+        label: Common
+        types:
+          - Thing
+          - Person
+          - Place
+          - Event
+      content:
+        label: Content
+        types:
+          - CreativeWork
+          - Article
+          - NewsArticle
+          - Blog
+          - Book
+          - FAQ
+          - Recipe
+          - WebPage
+      business:
+        label: Business
+        types:
+          - Organization
+          - LocalBusiness
+          - Corporation
+          - Restaurant
+          - NGO
+      education:
+        label: Education
+        types:
+          - Course
+          - CollegeOrUniversity
+          - ElementarySchool
+          - HighSchool
+      entertainment:
+        label: Entertainment
+        types:
+          - Movie
+          - MusicRecording
+          - TVSeries
+          - VideoGame
+      health:
+        label: Health
+        types:
+          - Physician
+          - Patient
+          - Drug
+          - MedicalCondition
+          - MedicalGuideline
+          - MedicalWebPage
+          - MedicalScholarlyArticle
+          - ResearchProject
+      commerce:
+        label: Commerce
+        types:
+          - Product
+          - Offer
+          - Review
+  paragraph:
+    base_fields:
+      - uuid
+      - created
+    schema_types:
+      common:
+        label: Common
+        types:
+          - Thing
+          - ContactPoint
+          - PostalAddress
+      content:
+        label: Content
+        types:
+          - DefinedTerm
+          - ItemList
+      values:
+        label: Values
+        types:
+          - PropertyValue
+          - QuantitativeValue
+      business:
+        label: Business
+        types:
+          - Audience
+          - Brand
+          - Invoice
+          - JobPosting
+          - OwnershipInfo
+          - OpeningHoursSpecification
+          - Occupation
+          - VirtualLocation
+      commerce:
+        label: Commerce
+        types:
+          - Offer
+          - Order
+          - Rating
+          - Service
+          - Ticket
+          - Trip
+          - MonetaryAmount
+          - OfferShippingDetails
+          - PriceSpecification
+      other:
+        label: Other
+        types:
+          - HealthInsurancePlan
+          - ComputerLanguage
+          - NutritionInformation
+schema_properties:
+  default_field_types:
+    description:
+      - text_long
+      - text
+      - text_with_summary
+    disambiguatingDescription:
+      - text_long
+      - text
+      - text_with_summary
+    identifier:
+      - key_value
+      - key_value_long
+    image:
+      - 'field_ui:entity_reference:media'
+      - image
+    telephone:
+      - telephone
+schema_types:
+  default_field_types:
+    Text:
+      - string
+      - string_long
+      - list_string
+      - text
+      - text_long
+      - text_with_summary
+    Number:
+      - integer
+      - float
+      - decimal
+      - list_integer
+      - list_float
+    DateTime:
+      - datetime
+    Date:
+      - datetime
+    Integer:
+      - integer
+      - list_integer
+    Time:
+      - datetime
+    Boolean:
+      - boolean
+    URL:
+      - link
+    PostalAddress:
+      - address
+      - entity_reference

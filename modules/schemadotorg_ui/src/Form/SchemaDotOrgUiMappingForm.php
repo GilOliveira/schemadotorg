@@ -653,18 +653,18 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $entity_type_id = $this->getTargetEntityTypeId() ?? 'node';
     $common_types = $this->schemaEntityTypeManager->getCommonSchemaTypes($entity_type_id);
     $items = [];
-    foreach ($common_types as $group => $types) {
+    foreach ($common_types as $group_name => $group) {
       $item = [];
       $item['group'] = [
-        '#markup' => $group,
+        '#markup' => $group['label'],
         '#prefix' => '<strong>',
         '#suffix' => ':</strong> ',
       ];
-      foreach ($types as $type) {
+      foreach ($group['types'] as $type) {
         $item[$type] = $this->buildSchemaTypeItem($type)
           + ['#prefix' => (count($item) > 1) ? ', ' : ''];
       }
-      $items[] = $item;
+      $items[$group_name] = $item;
     }
     $form['description_bottom'] = [
       'intro' => ['#markup' => '<p>' . $this->t('Or you can jump directly to a commonly used type:') . '</p>'],
@@ -997,10 +997,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     $options = [$recommended_category => []];
 
+    // Collecting found field type to ensure the field type is installed.
+    $found_field_types = [];
     $grouped_definitions = $this->fieldTypePluginManager->getGroupedDefinitions($this->fieldTypePluginManager->getUiDefinitions());
     foreach ($grouped_definitions as $category => $field_types) {
       foreach ($field_types as $name => $field_type) {
         if (in_array($name, $recommended_field_types)) {
+          $found_field_types[$name] = $name;
           $options[$recommended_category][$name] = $field_type['label'];
         }
         else {
@@ -1013,7 +1016,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     }
     else {
       // @see https://stackoverflow.com/questions/348410/sort-an-array-by-keys-based-on-another-array#answer-9098675
-      $options[$recommended_category] = array_replace(array_flip($recommended_field_types), $options[$recommended_category]);
+      $options[$recommended_category] = array_replace($found_field_types, $options[$recommended_category]);
     }
     return $options;
   }

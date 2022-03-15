@@ -2,6 +2,7 @@
 
 namespace Drupal\schemadotorg;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
@@ -10,6 +11,20 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
  */
 class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInterface {
   use StringTranslationTrait;
+
+  /**
+   * The Schema.org config.
+   *
+   * @var \Drupal\Core\Config\Config
+   */
+  protected $config;
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
 
   /**
    * The Schema.org schema type manager.
@@ -21,14 +36,18 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
   /**
    * Constructs a SchemaDotOrgEntityTypeManager object.
    *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config
+   *   The config factory.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
    *   The Schema.org schema type manager.
    */
   public function __construct(
+    ConfigFactoryInterface $config,
     EntityTypeManagerInterface $entity_type_manager,
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager) {
+    $this->config = $config->get('schemadotorg.settings');
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaTypeManager = $schema_type_manager;
   }
@@ -37,13 +56,7 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
    * {@inheritdoc}
    */
   public function getEntityTypes() {
-    return [
-      'block_content',
-      'media',
-      'node',
-      'paragraph',
-      'user',
-    ];
+    return array_keys($this->config->get('entity_types'));
   }
 
   /**
@@ -58,119 +71,29 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
    *   The default Schema.org type for an entity type and bundle.
    */
   public function getDefaultSchemaType($entity_type_id, $bundle) {
-    $default_schema_types = [
-      'user.user' => 'Person',
-      'media.audio' => 'AudioObject',
-      'media.document' => 'DataDownload',
-      'media.image' => 'ImageObject',
-      'media.remote_video' => 'VideoObject',
-      'media.video' => 'VideoObject',
-    ];
-    return $default_schema_types[$entity_type_id . '.' . $bundle] ?? NULL;
+    return $this->config->get("entity_types.$entity_type_id.default_schema_types.$bundle");
   }
 
   /**
    * {@inheritdoc}
    */
   public function getBaseFieldNames($entity_type_id) {
-    $base_fields_names = [
-      'block_content' => [
-        'uuid',
-        'type',
-        'info',
-        'revision_created',
-        'revision_user',
-        'changed',
-      ],
-      'media' => [
-        'uuid',
-        'revision_created',
-        'revision_user',
-        'uid',
-        'thumbnail',
-        'created',
-        'changed',
-        'path',
-      ],
-      'user' => [
-        'uuid',
-        'name',
-        'mail',
-      ],
-      'node' => [
-        'uuid',
-        'revision_uid',
-        'uid',
-        'title',
-        'created',
-        'changed',
-        'promote',
-        'sticky',
-        'path',
-      ],
-      'paragraph' => [
-        'uuid',
-        'created',
-      ],
-    ];
-    return $base_fields_names[$entity_type_id] ?? [];
+    return $this->config->get("entity_types.$entity_type_id.base_fields") ?: [];
   }
 
   /**
    * {@inheritdoc}
    */
   public function getCommonSchemaTypes($entity_type_id) {
-    $types = [];
-    $types['node'] = [
-      (string) $this->t('Common') => ['Thing', 'Person', 'Place', 'Event'],
-      (string) $this->t('Content') => ['CreativeWork', 'Article', 'NewsArticle', 'Blog', 'Book', 'FAQ', 'Recipe', 'WebPage'],
-      (string) $this->t('Business') => ['Organization', 'LocalBusiness', 'Corporation', 'Restaurant', 'NGO'],
-      (string) $this->t('Education') => ['Course', 'CollegeOrUniversity', 'ElementarySchool', 'HighSchool'],
-      (string) $this->t('Entertainment') => ['Movie', 'MusicRecording', 'TVSeries', 'VideoGame'],
-      (string) $this->t('Health') => ['Physician', 'Patient', 'Drug', 'MedicalCondition', 'MedicalGuideline', 'MedicalWebPage', 'MedicalScholarlyArticle', 'ResearchProject'],
-      (string) $this->t('Commerce') => ['Product', 'Offer', 'Review'],
-    ];
-    $types['media'] = [
-      (string) $this->t('Media objects') => ['AudioObject', 'ImageObject', 'VideoObject', '3DModel', 'DataDownload'],
-    ];
-    $types['paragraph'] = [
-      (string) $this->t('Common') => ['Thing', 'ContactPoint', 'PostalAddress'],
-      (string) $this->t('Content') => ['DefinedTerm', 'ItemList'],
-      (string) $this->t('Values') => ['PropertyValue', 'QuantitativeValue'],
-      (string) $this->t('Business') => ['Audience', 'Brand', 'Invoice', 'JobPosting', 'OwnershipInfo', 'OpeningHoursSpecification', 'Occupation', 'VirtualLocation'],
-      (string) $this->t('Commerce') => ['Offer', 'Order', 'Rating', 'Service', 'Ticket', 'Trip', 'MonetaryAmount', 'OfferShippingDetails', 'PriceSpecification'],
-      (string) $this->t('Other') => ['HealthInsurancePlan', 'ComputerLanguage', 'NutritionInformation'],
-    ];
-    $types['block_content'] = $types['paragraph'];
-    return $types[$entity_type_id] ?? $types['node'];
+    return $this->config->get("entity_types.$entity_type_id.schema_types") ?: [];
   }
 
   /**
    * {@inheritdoc}
    */
   public function getSchemaPropertyFieldTypes($property) {
-    $property_mappings = [
-      'description' => ['text_long', 'text', 'text_with_summary'],
-      'disambiguatingDescription' => ['text_long', 'text', 'text_with_summary'],
-      'identifier' => ['key_value', 'key_value_long'],
-      'image' => ['field_ui:entity_reference:media', 'image'],
-      'telephone' => ['telephone'],
-    ];
-
-    $data_type_mappings = [
-      // Data types.
-      'Text' => ['string', 'string_long', 'list_string', 'text', 'text_long', 'text_with_summary'],
-      'Number' => ['integer', 'float', 'decimal', 'list_integer', 'list_float'],
-      'DateTime' => ['datetime'],
-      'Date' => ['datetime'],
-      'Integer' => ['integer', 'list_integer'],
-      'Time' => ['datetime'],
-      'Boolean' => ['boolean'],
-      'URL' => ['link'],
-      // Things.
-      'PostalAddress' => ['address', 'entity_reference'],
-      // @todo Enumerations.
-    ];
+    $property_mappings = $this->config->get('schema_properties.default_field_types');
+    $type_mappings = $this->config->get('schema_types.default_field_types');
 
     $property_definition = $this->schemaTypeManager->getProperty($property);
 
@@ -183,8 +106,8 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
     // Set range include field types.
     $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
     foreach ($range_includes as $range_include) {
-      if (isset($data_type_mappings[$range_include])) {
-        $field_types = array_merge($field_types, $data_type_mappings[$range_include]);
+      if (isset($type_mappings[$range_include])) {
+        $field_types = array_merge($field_types, $type_mappings[$range_include]);
       }
     }
 

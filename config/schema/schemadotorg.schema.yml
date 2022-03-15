@@ -1,3 +1,69 @@
+schemadotorg.settings:
+  type: config_entity
+  label: Schema.org settings
+  mapping:
+    entity_types:
+      type: sequence
+      label: 'Entity types'
+      sequence:
+        type: mapping
+        label: 'Entity type'
+        mapping:
+          default_schema_types:
+            type: sequence
+            label: 'Default Schema.org types'
+            sequence:
+              type: string
+              label: 'Default Schema.org type'
+          base_fields:
+            type: sequence
+            label: 'Base field names'
+            sequence:
+              type: string
+              label: 'Base field name'
+          schema_types:
+            type: sequence
+            label: 'Schema.org types'
+            sequence:
+              type: mapping
+              label: 'Schema type'
+              mapping:
+                label:
+                  type: string
+                  label: 'Label'
+                types:
+                  type: sequence
+                  label: 'Types'
+                  sequence:
+                    type: string
+                    label: 'Type'
+    schema_properties:
+      type: mapping
+      label: 'Schema.org properties'
+      mapping:
+        default_field_types:
+          type: sequence
+          label: 'Default field type'
+          sequence:
+            type: sequence
+            label: 'Schema.org property'
+            sequence:
+              type: string
+              label: 'Field type'
+    schema_types:
+      type: mapping
+      label: 'Schema.org types'
+      mapping:
+        default_field_types:
+          type: sequence
+          label: 'Default field type'
+          sequence:
+            type: sequence
+            label: 'Schema.org type'
+            sequence:
+              type: string
+              label: 'Field types'
+
 schemadotorg.schemadotorg_mapping:.*.*:
   type: config_entity
   label: Schema.org mapping

@@ -24,6 +24,34 @@ MUST deep dive the RDF module.
 - Create RdfMapping that mirrors the SchemaDotOrgMapping.
 - https://drupal.stackexchange.com/questions/241470/how-to-configure-rdf-on-fields
 
+Move value in SchemaDotOrgSchemaTypeManager into schemadotorg.settings.yml
+- Dump existing values
+- Write schema
+- Update manager
+- Test features import.
+
+entity_types:
+  {entity_type}:
+    base_fields:
+      - field_name
+
+schema_types:
+  common:
+    - label: title
+      types:
+        - type
+        - type
+  defaults:
+
+schema_properties:
+  common:
+    {entity_type}:
+      - property
+      - property
+  defaults:
+    data_types:
+    properties:
+
 Research baseline properties per entity type.
 ::getCommonSchemaProperties($entity_type_id))
 - node
