@@ -41,6 +41,13 @@ schemadotorg.settings:
       type: mapping
       label: 'Schema.org properties'
       mapping:
+        default_properties:
+          sequence:
+            type: sequence
+            label: 'Default Schema.org properties'
+            sequence:
+              type: string
+              label: 'Default Schema.org property'
         default_field_types:
           type: sequence
           label: 'Default field type'

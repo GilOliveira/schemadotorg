@@ -91,6 +91,13 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
   /**
    * {@inheritdoc}
    */
+  public function getSchemaPropertyDefaults($entity_type_id) {
+    return $this->config->get('schema_properties.default_properties');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getSchemaPropertyFieldTypes($property) {
     $property_mappings = $this->config->get('schema_properties.default_field_types');
     $type_mappings = $this->config->get('schema_types.default_field_types');
@@ -100,22 +107,21 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
     // Set property specific field types.
     $field_types = [];
     if (isset($property_mappings[$property])) {
-      $field_types = array_merge($field_types, $property_mappings[$property]);
+      $field_types += array_combine($property_mappings[$property], $property_mappings[$property]);
     }
 
     // Set range include field types.
     $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
     foreach ($range_includes as $range_include) {
       if (isset($type_mappings[$range_include])) {
-        $field_types = array_merge($field_types, $type_mappings[$range_include]);
+        $field_types += array_combine($type_mappings[$range_include], $type_mappings[$range_include]);
       }
     }
 
     // Set a default field type.
     if (!$field_types) {
-      $field_types[] = 'entity_reference';
+      $field_types['entity_reference'] = 'entity_reference';
     }
-
     return $field_types;
   }
 

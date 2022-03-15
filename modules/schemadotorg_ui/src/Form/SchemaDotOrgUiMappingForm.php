@@ -20,6 +20,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SchemaDotOrgUiMappingForm extends EntityForm {
 
   /**
+   * Add new field mapping option.
+   */
+  const ADD_FIELD = '_add_';
+
+  /**
    * The entity field manager.
    *
    * @var \Drupal\Core\Entity\EntityFieldManagerInterface
@@ -188,7 +193,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $field_storage_config_storage = $this->entityTypeManager->getStorage('field_storage_config');
     $properties = $form_state->getValue('properties');
     foreach ($properties as $property_name => $property_values) {
-      if ($property_values['field']['name'] === '_add_') {
+      if ($property_values['field']['name'] === static::ADD_FIELD) {
         $required_element_names = ['type', 'label', 'machine_name'];
         foreach ($required_element_names as $required_element_name) {
           if (empty($property_values['field']['add'][$required_element_name])) {
@@ -294,7 +299,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           ];
           $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
         }
-        elseif ($field_name === '_add_') {
+        elseif ($field_name === static::ADD_FIELD) {
           $field = $property_values['field']['add'];
           $field['machine_name'] = 'schema_' . $field['machine_name'];
           $field_name = $field['machine_name'];
@@ -453,9 +458,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   An associative array containing the structure of the form.
    */
   protected function buildSchemaPropertiesForm(array &$form) {
+    $entity_type_id = $this->getTargetEntityTypeId();
     $field_options = $this->getFieldOptions();
     $property_definitions = $this->getSchemaTypePropertyDefinitions();
     $property_mappings = $this->getSchemaTypePropertyMappings();
+    $property_defaults = $this->schemaEntityTypeManager->getSchemaPropertyDefaults($entity_type_id );
 
     // Header.
     $header = [
@@ -479,7 +486,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         && empty($property_mappings[$property])) {
         continue;
       }
-
       $t_args = ['@property' => $property_definition['label']];
 
       $row = [];
@@ -506,13 +512,22 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       ];
 
       // Field.
+      if (isset($property_mappings[$property])) {
+        $field_name_default_value = $property_mappings[$property];
+      }
+      elseif ($this->getEntity()->isNew() && in_array($property, $property_defaults)) {
+        $field_name_default_value = static::ADD_FIELD;
+      }
+      else {
+        $field_name_default_value = NULL;
+      }
       $row['field'] = [];
       $row['field']['name'] = [
         '#type' => 'select',
         '#title' => $this->t('Field'),
         '#title_display' => 'invisible',
         '#options' => $field_options,
-        '#default_value' => $property_mappings[$property] ?? NULL,
+        '#default_value' => $field_name_default_value,
         '#empty_option' => $this->t('- Select or add field -'),
       ];
       $row['field']['add'] = [
@@ -522,7 +537,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#attributes' => ['class' => ['schemadotorg-ui--add-field']],
         '#states' => [
           'visible' => [
-            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => '_add_'],
+            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD],
           ],
         ],
       ];
@@ -539,7 +554,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#default_value' => $field_type_default_value,
         '#states' => [
           'required' => [
-            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => '_add_'],
+            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD],
           ],
         ],
       ];
@@ -550,7 +565,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#default_value' => $property_definition['drupal_label'],
         '#states' => [
           'required' => [
-            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => '_add_'],
+            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD],
           ],
         ],
       ];
@@ -567,7 +582,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#wrapper_attributes' => ['style' => 'white-space: nowrap'],
         '#states' => [
           'required' => [
-            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => '_add_'],
+            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD],
           ],
         ],
       ];
@@ -584,8 +599,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       ];
 
       // Highlight mapped properties.
-      if (isset($property_mappings[$property])) {
-        $row['#attributes'] = ['class' => ['color-success']];
+      if ($field_name_default_value) {
+        if ($field_name_default_value === static::ADD_FIELD) {
+          $row['#attributes'] = ['class' => ['color-warning']];
+        }
+        else {
+          $row['#attributes'] = ['class' => ['color-success']];
+        }
       }
 
       $rows[$property] = $row;
@@ -913,7 +933,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function getFieldOptions() {
     $options = [];
-    $options['_add_'] = $this->t('Add a new field…');
+    $options[static::ADD_FIELD] = $this->t('Add a new field…');
 
     $field_definition_options = $this->getFieldDefinitionsOptions();
     if ($field_definition_options) {
@@ -998,12 +1018,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $options = [$recommended_category => []];
 
     // Collecting found field type to ensure the field type is installed.
-    $found_field_types = [];
     $grouped_definitions = $this->fieldTypePluginManager->getGroupedDefinitions($this->fieldTypePluginManager->getUiDefinitions());
     foreach ($grouped_definitions as $category => $field_types) {
       foreach ($field_types as $name => $field_type) {
-        if (in_array($name, $recommended_field_types)) {
-          $found_field_types[$name] = $name;
+        if (isset($recommended_field_types[$name])) {
           $options[$recommended_category][$name] = $field_type['label'];
         }
         else {
@@ -1016,7 +1034,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     }
     else {
       // @see https://stackoverflow.com/questions/348410/sort-an-array-by-keys-based-on-another-array#answer-9098675
-      $options[$recommended_category] = array_replace($found_field_types, $options[$recommended_category]);
+      $recommended_field_types = array_intersect_key($recommended_field_types, $options[$recommended_category]);
+      $options[$recommended_category] = array_replace($recommended_field_types, $options[$recommended_category]);
     }
     return $options;
   }

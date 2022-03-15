@@ -51,6 +51,16 @@ interface SchemaDotOrgEntityTypeManagerInterface {
   public function getCommonSchemaTypes($entity_type_id);
 
   /**
+   * Get default Schema.org properties.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @return array
+   *   default Schema.org properties.
+   */
+  public function getSchemaPropertyDefaults($entity_type_id);
+
+  /**
    * Get field types for Schema.org property.
    *
    * @param string $property

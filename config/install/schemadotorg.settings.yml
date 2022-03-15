@@ -72,6 +72,10 @@ entity_types:
           - VideoObject
           - 3DModel
           - DataDownload
+      other:
+        label: 'Other types'
+        types:
+          - Photograph
     default_schema_types:
       audio: AudioObject
       document: DataDownload
@@ -205,6 +209,35 @@ entity_types:
           - ComputerLanguage
           - NutritionInformation
 schema_properties:
+  default_properties:
+    - address
+    - abstract
+    - additionalName
+    - author
+    - alternateName
+    - birthDate
+    - contactPoint
+    - dateCreated
+    - dateModified
+    - datePublished
+    - description
+    - disambiguatingDescription
+    - email
+    - familyName
+    - faxNumber
+    - gender
+    - givenName
+    - honorificPrefix
+    - honorificSuffix
+    - image
+    - jobTitle
+    - latitude
+    - longitude
+    - name
+    - parentOrganization
+    - photo
+    - telephone
+    - thumbnailUrl
   default_field_types:
     description:
       - text_long

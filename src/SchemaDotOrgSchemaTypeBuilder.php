@@ -54,7 +54,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
    * {@inheritdoc}
    */
   public function getItemUrl($id) {
-    return ($this->moduleHandler->moduleExists('schemadotorg_reports')
+    return ($this->moduleHandler->moduleExists('schemadotorg_report')
       && $this->currentUser->hasPermission('access site reports'))
       ? Url::fromRoute('schemadotorg_reports', ['id' => $id])
       : Url::fromUri('https://schema.org/' . $id);
