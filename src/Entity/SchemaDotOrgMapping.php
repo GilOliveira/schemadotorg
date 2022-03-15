@@ -3,6 +3,7 @@
 namespace Drupal\schemadotorg\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
+use Drupal\Core\Config\Entity\ConfigEntityInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
@@ -214,7 +215,88 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
     return $this;
   }
 
-  // @see \Drupal\Core\Entity\EntityDisplayBase::calculateDependencies
-  // @see \Drupal\Core\Entity\EntityDisplayBase::onDependencyRemoval
-  // @see \Drupal\Core\Entity\EntityDisplayBase::getPluginRemovedDependencies
+  /**
+   * {@inheritdoc}
+   */
+  public function calculateDependencies() {
+    parent::calculateDependencies();
+    $target_entity_type = $this->entityTypeManager()->getDefinition($this->targetEntityType);
+
+    // Create dependency on the bundle.
+    $bundle_config_dependency = $target_entity_type->getBundleConfigDependency($this->bundle);
+    $this->addDependency($bundle_config_dependency['type'], $bundle_config_dependency['name']);
+
+    // If field.module is enabled, add dependencies on 'field_config' entities
+    // for both displayed and hidden fields. We intentionally leave out base
+    // field overrides, since the field still exists without them.
+    if (\Drupal::moduleHandler()->moduleExists('field')) {
+      $properties = $this->properties;
+      $field_definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions($this->targetEntityType, $this->bundle);
+      foreach (array_intersect_key($field_definitions, $properties) as $field_name => $field_definition) {
+        if ($field_definition instanceof ConfigEntityInterface && $field_definition->getEntityTypeId() == 'field_config') {
+          $this->addDependency('config', $field_definition->getConfigDependencyName());
+        }
+      }
+    }
+
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function onDependencyRemoval(array $dependencies) {
+    $changed = parent::onDependencyRemoval($dependencies);
+    foreach ($dependencies['config'] as $entity) {
+      if ($entity->getEntityTypeId() == 'field_config') {
+        // Remove properties for fields that are being deleted.
+        $this->removeSchemaProperty($entity->getName());
+        $changed = TRUE;
+      }
+    }
+    return $changed;
+  }
+
+  /**
+   * Returns the plugin dependencies being removed.
+   *
+   * The function recursively computes the intersection between all plugin
+   * dependencies and all removed dependencies.
+   *
+   * Note: The two arguments do not have the same structure.
+   *
+   * @param array[] $plugin_dependencies
+   *   A list of dependencies having the same structure as the return value of
+   *   ConfigEntityInterface::calculateDependencies().
+   * @param array[] $removed_dependencies
+   *   A list of dependencies having the same structure as the input argument of
+   *   ConfigEntityInterface::onDependencyRemoval().
+   *
+   * @return array
+   *   A recursively computed intersection.
+   *
+   * @see \Drupal\Core\Config\Entity\ConfigEntityInterface::calculateDependencies()
+   * @see \Drupal\Core\Config\Entity\ConfigEntityInterface::onDependencyRemoval()
+   */
+  protected function getPluginRemovedDependencies(array $plugin_dependencies, array $removed_dependencies) {
+    $intersect = [];
+    foreach ($plugin_dependencies as $type => $dependencies) {
+      if ($removed_dependencies[$type]) {
+        // Config and content entities have the dependency names as keys while
+        // module and theme dependencies are indexed arrays of dependency names.
+        // @see \Drupal\Core\Config\ConfigManager::callOnDependencyRemoval()
+        if (in_array($type, ['config', 'content'])) {
+          $removed = array_intersect_key($removed_dependencies[$type], array_flip($dependencies));
+        }
+        else {
+          $removed = array_values(array_intersect($removed_dependencies[$type], $dependencies));
+        }
+        if ($removed) {
+          $intersect[$type] = $removed;
+        }
+      }
+    }
+    return $intersect;
+  }
+
 }

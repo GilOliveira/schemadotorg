@@ -147,9 +147,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * {@inheritdoc}
    */
   protected function actions(array $form, FormStateInterface $form_state) {
-    return ($this->getSchemaType())
-      ? parent::actions($form, $form_state)
-      : [];
+    if (!$this->getSchemaType()) {
+      return [];
+    }
+    return parent::actions($form, $form_state);
   }
 
   /* ************************************************************************ */
@@ -225,8 +226,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   public function save(array $form, FormStateInterface $form_state) {
     $mapping_entity = $this->getEntity();
 
-    // Redirect the current page if we are update the Schema.org field UI tab.
-    if ($this->getRouteMatch()->getRouteName() === 'entity.user.schemadotorg_mapping') {
+    // Redirect to the current page if we are update the Schema.org tab
+    // in the field UI.
+    if (preg_match('/entity\.[a-z]+\.schemadotorg_mapping/', $this->getRouteMatch()->getRouteName())) {
       $form_state->setRedirect('<current>');
     }
 
@@ -306,10 +308,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $mapping_entity->setSchemaProperty($field_name, ['property' => $property_name]);
     }
 
-    // Save the mapping.
-    $mapping_entity->save();
-
-    // Disable message about new fields.
+    // Display message about new fields.
     if ($new_field_names) {
       $message = $this->formatPlural(
         count($new_field_names),
@@ -319,6 +318,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       );
       $this->messenger()->addStatus($message);
     }
+
+    // Save the mapping and display a message.
+    $mapping_entity->save();
+    $this->messenger()->addStatus($this->t('Your mappings have been saved.'));
   }
 
   /* ************************************************************************ */
@@ -388,6 +391,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#type' => 'link',
       '#title' => $type_definition['label'],
       '#url' => $this->schemaTypeBuilder->getItemUrl($type_definition['label']),
+      '#attributes' => ['target' => '_blank'],
       '#prefix' => '<div>',
       '#suffix' => '</div>',
     ];
@@ -466,9 +470,18 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     ];
 
     // Rows.
+    $link_options = ['attributes' => ['target' => '_blank']];
+    $comment_options = ['attributes' => ['target' => '_blank']];
     $rows = [];
     foreach ($property_definitions as $property => $property_definition) {
+      // Skip empty superseded properties.
+      if (!empty($property_definition['superseded_by'])
+        && empty($property_mappings[$property])) {
+        continue;
+      }
+
       $t_args = ['@property' => $property_definition['label']];
+
       $row = [];
 
       // Property.
@@ -481,12 +494,12 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           '#suffix' => '</strong></div>',
         ],
         'comment' => [
-          '#markup' => $this->schemaTypeBuilder->formatComment($property_definition['comment']),
+          '#markup' => $this->schemaTypeBuilder->formatComment($property_definition['comment'], $comment_options),
           '#prefix' => '<div class="schemadotorg-ui-property--comment">',
           '#suffix' => '</div>',
         ],
         'range_includes' => [
-          'links' => $this->schemaTypeBuilder->buildItemsLinks($property_definition['range_includes']),
+          'links' => $this->schemaTypeBuilder->buildItemsLinks($property_definition['range_includes'], $link_options),
           '#prefix' => '<div class="schemadotorg-ui-property--range-includes">(',
           '#suffix' => ')</div>',
         ],
@@ -747,7 +760,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function getSchemaTypePropertyDefinitions() {
     $type = $this->getSchemaType();
-    $fields = ['label', 'comment', 'range_includes', 'drupal_label', 'drupal_name'];
+    $fields = ['label', 'comment', 'range_includes', 'superseded_by', 'drupal_label', 'drupal_name'];
     return $this->schemaTypeManager->getTypeProperties($type, $fields);
   }
 
@@ -900,7 +913,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function getFieldOptions() {
     $options = [];
-    $options['_add_'] = $this->t('Add field…');
+    $options['_add_'] = $this->t('Add a new field…');
 
     $field_definition_options = $this->getFieldDefinitionsOptions();
     if ($field_definition_options) {

@@ -14,6 +14,8 @@ Demo
   - Thing > Location
 - Form and view display
 
+# Common schemas
+
 # Todo
 
 The goal is to demo a content building framework which allows for progressive enhancements.
@@ -22,35 +24,31 @@ MUST deep dive the RDF module.
 - Create RdfMapping that mirrors the SchemaDotOrgMapping.
 - https://drupal.stackexchange.com/questions/241470/how-to-configure-rdf-on-fields
 
-Research baseline content types
+Research baseline properties per entity type.
+::getCommonSchemaProperties($entity_type_id))
 - node
 - paragraphs
+
+Remove adding only one Schema mapping per entity type.
 
 Default properties that should always be created???
 Thing, Person, Place, Event, Organization, CreativeWork
 
-
-
 - Write baseline tests
-
-Help text will better define the functionality.
 
 Done!!!! for now
 
 --------------------------------------------------------------------------------
 
+Help text will better define the functionality.
+
 Mapping
 - property => field or field => property
 - Sub properties???
 
-SchemaDotOrgMapping config entity
-- Revisit dependencies.
-
 - Add comment support.
 
 - Reuse \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::save
-
-- Suppress superseded properties, unless they are being used.
 
 - Tree widget
   - https://github.com/vakata/jstree
@@ -124,6 +122,9 @@ UI
 
 # TBD
 
+- Should you be able to map the same field to multiple properties?
+  - body => description and disambiguatingDescription
+
 - Should Drupal names and ids be stored in the database or dynamically generated?
 
 - Should the schema type be added to terms as field or property?
@@ -181,16 +182,16 @@ Required
 Recommended
 - https://www.drupal.org/project/entity_type_clone
 - https://www.drupal.org/project/convert_bundles
-- https://www.drupal.org/project/field_ui_extras
 
 Other
-- https://www.drupal.org/project/field_name_prefix_remove
 - https://www.drupal.org/project/flexfield
-- https://www.drupal.org/project/properties
 - https://www.drupal.org/project/computed_field
-- https://www.drupal.org/project/base_field_override_ui
+
+TBD
 - https://www.drupal.org/project/field_token_value
+- https://www.drupal.org/project/base_field_override_ui
 - https://www.drupal.org/project/jsonapi_node_preview_tab
+- https://www.drupal.org/project/field_ui_extras
 
 # Schema.org Type => Drupal Entity
 

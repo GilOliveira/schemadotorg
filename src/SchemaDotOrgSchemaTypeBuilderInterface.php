@@ -26,11 +26,14 @@ interface SchemaDotOrgSchemaTypeBuilderInterface {
    *
    * @param string $text
    *   A string of comma delimited items (types or properties).
+   * @param array $options
+   *   Link links options which include:
+   *   - attributes.
    *
    * @return array
    *   An array of links to Schema.org items (types or properties).
    */
-  public function buildItemsLinks($text);
+  public function buildItemsLinks($text, array $options = []);
 
   /**
    * Build Schema.org type tree as an item list recursively.
@@ -50,13 +53,14 @@ interface SchemaDotOrgSchemaTypeBuilderInterface {
    *
    * @param string $comment
    *   A comment.
-   * @param string $base_path
-   *   Base patt for all Schema.org types and properties.
-   *   Default to https://schema.org.
+   * @param array $options
+   *   Comment links options which include:
+   *   - base_path.
+   *   - attributes.
    *
    * @return string
    *   Formatted Schema.org type or property comment with links to details.
    */
-  public function formatComment($comment, $base_path = 'https://schema.org');
+  public function formatComment($comment, array $options = []);
 
 }

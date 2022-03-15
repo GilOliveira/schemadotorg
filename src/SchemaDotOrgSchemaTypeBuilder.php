@@ -5,6 +5,7 @@ namespace Drupal\schemadotorg;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
 
 /**
@@ -62,9 +63,10 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
   /**
    * {@inheritdoc}
    */
-  public function buildItemsLinks($text) {
-    $ids = $this->schemaTypeManager->parseIds($text);
+  public function buildItemsLinks($text, array $options =[]) {
+    $options += ['attributes' => []];
 
+    $ids = $this->schemaTypeManager->parseIds($text);
     $links = [];
     foreach ($ids as $id) {
       $prefix = ($links) ? ', ' : '';
@@ -74,6 +76,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
           '#title' => $id,
           '#url' => $this->getItemUrl($id),
           '#prefix' => $prefix,
+          '#attributes' => $options['attributes'],
         ];
       }
       else {
@@ -111,7 +114,11 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
   /**
    * {@inheritdoc}
    */
-  public function formatComment($comment, $base_path = 'https://schema.org') {
+  public function formatComment($comment, array $options = []) {
+    $options += [
+      'base_path' => 'https://schema.org',
+      'attributes' => [],
+    ];
     if (strpos($comment, 'href="') === FALSE) {
       return $comment;
     }
@@ -120,10 +127,13 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
     $a_nodes = $dom->getElementsByTagName('a');
     foreach ($a_nodes as $a_node) {
       $a_node->removeAttribute('class');
+      foreach ($options['attributes'] as $attribute_name => $attribute_value) {
+        $a_node->setAttribute($attribute_name, $attribute_value);
+      }
 
       $href = $a_node->getAttribute('href');
       if (preg_match('#^/([0-9A-Za-z]+)$#', $href, $match)) {
-        $a_node->setAttribute('href', $base_path . $match[0]);
+        $a_node->setAttribute('href', $options['base_path'] . $match[0]);
       }
       elseif (strpos($href, '/') === 0) {
         $a_node->setAttribute('href', 'https://schema.org' . $href);

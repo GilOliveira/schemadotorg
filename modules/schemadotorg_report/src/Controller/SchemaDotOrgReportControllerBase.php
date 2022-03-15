@@ -135,8 +135,8 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
         return $value;
 
       case 'comment':
-        $base_path = Url::fromRoute('schemadotorg_reports')->toString();
-        return ['data' => ['#markup' => $this->schemaTypeBuilder->formatComment($value, $base_path)]];
+        $options = ['base_path' => Url::fromRoute('schemadotorg_reports')->toString()];
+        return ['data' => ['#markup' => $this->schemaTypeBuilder->formatComment($value, $options)]];
 
       default:
         $links = $this->schemaTypeBuilder->buildItemsLinks($value);
