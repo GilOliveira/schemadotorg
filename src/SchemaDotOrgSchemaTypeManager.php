@@ -294,6 +294,35 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
+  public function getAllSubTypes(array $types) {
+    if (!isset($this->tree)) {
+      $this->tree = [];
+      $result = $this->database->select('schemadotorg_types', 'types')
+        ->fields('types', ['label', 'sub_types'])
+        ->orderBy('label')
+        ->execute();
+      while ($record = $result->fetchAssoc()) {
+        $this->tree[$record['label']] = $this->parseIds($record['sub_types']);
+      }
+    }
+
+    $all_subtypes = [];
+
+    $types = array_combine($types, $types);
+    while ($types) {
+      $all_subtypes += $types;
+      $subtypes = [];
+      foreach ($types as $type) {
+        $subtypes += array_combine($this->tree[$type], $this->tree[$type]);
+      }
+      $types = $subtypes;
+    }
+    return $all_subtypes;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getAllTypeChildren($type, array $fields = [], array $ignored_types = []) {
     if ($ignored_types) {
       $ignored_types = array_combine($ignored_types, $ignored_types);

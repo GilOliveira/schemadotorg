@@ -92,7 +92,7 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
    * {@inheritdoc}
    */
   public function getSchemaPropertyDefaults($entity_type_id) {
-    return $this->config->get('schema_properties.default_properties');
+    return $this->config->get("entity_types.$entity_type_id.default_schema_properties");
   }
 
   /**

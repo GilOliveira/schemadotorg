@@ -2,6 +2,7 @@
 
 namespace Drupal\schemadotorg;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -141,24 +142,25 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     /** @var \Drupal\field\FieldStorageConfigInterface $field_storage_config_storage */
     $field_storage_config_storage = $this->entityTypeManager->getStorage('field_storage_config');
     $field_storage_config = $field_storage_config_storage->load($entity_type_id . '.' . $field_name);
+
+    // @see \Drupal\field_ui\Form\FieldStorageAddForm::submitForm
+    if (strpos($field['type'], 'field_ui:') !== FALSE) {
+      [, $field_type, $option_key] = explode(':', $field['type'], 3);
+
+      /** @var \Drupal\Core\Field\FieldTypePluginManagerInterface $field_type_plugin_manager */
+      $field_type_plugin_manager = \Drupal::service('plugin.manager.field.field_type');
+      $field_definition = $field_type_plugin_manager->getDefinition($field_type);
+      $options = $field_type_plugin_manager->getPreconfiguredOptions($field_definition['id']);
+      $field_options = $options[$option_key];
+    }
+    else {
+      $field_type = $field['type'];
+      $field_options = [];
+    }
+    $field_options += ['field_storage_config' => []];
+
     if (!$field_storage_config) {
       $field_cardinality = $field['unlimited'] ? -1 : 1;
-
-      // @see \Drupal\field_ui\Form\FieldStorageAddForm::submitForm
-      if (strpos($field['type'], 'field_ui:') !== FALSE) {
-        [, $field_type, $option_key] = explode(':', $field['type'], 3);
-
-        /** @var \Drupal\Core\Field\FieldTypePluginManagerInterface $field_type_plugin_manager */
-        $field_type_plugin_manager = \Drupal::service('plugin.manager.field.field_type');
-        $field_definition = $field_type_plugin_manager->getDefinition($field_type);
-        $options = $field_type_plugin_manager->getPreconfiguredOptions($field_definition['id']);
-        $field_options = $options[$option_key];
-      }
-      else {
-        $field_type = $field['type'];
-        $field_options = [];
-      }
-      $field_options += ['field_storage_config' => []];
 
       /** @var \Drupal\field\FieldStorageConfigInterface $field_storage_config */
       $field_storage_config_storage->create([
@@ -174,6 +176,17 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     /** @var \Drupal\field\FieldConfigInterface $field_config */
     $field_config = $field_config_storage->load($entity_type_id . '.' . $bundle . '.' . $field_name);
     if (!$field_config) {
+      if ($field_type === 'entity_reference') {
+        $settings = [
+          'handler' => 'schemadotorg_type',
+          'handler_settings' => [
+            'target_type' => NestedArray::getValue($field_options, ['field_storage_config', 'settings', 'target_type']) ?: 'node',
+          ],
+        ];
+      }
+      else {
+        $settings = [];
+      }
       $field_description = $field['description'] ?? '';
       $field_config_storage->create([
         'entity_type' => $entity_type_id,
@@ -181,6 +194,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         'field_name' => $field_name,
         'label' => $field_label,
         'description' => $field_description,
+        'settings' => $settings,
       ])->save();
     }
 

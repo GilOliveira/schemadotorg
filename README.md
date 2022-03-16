@@ -24,43 +24,15 @@ MUST deep dive the RDF module.
 - Create RdfMapping that mirrors the SchemaDotOrgMapping.
 - https://drupal.stackexchange.com/questions/241470/how-to-configure-rdf-on-fields
 
-Move value in SchemaDotOrgSchemaTypeManager into schemadotorg.settings.yml
-- Dump existing values
-- Write schema
-- Update manager
-- Test features import.
+Review default properties that should always be created???
+Thing, Person, Place, Event, Organization, CreativeWork
 
-entity_types:
-  {entity_type}:
-    base_fields:
-      - field_name
-
-schema_types:
-  common:
-    - label: title
-      types:
-        - type
-        - type
-  defaults:
-
-schema_properties:
-  common:
-    {entity_type}:
-      - property
-      - property
-  defaults:
-    data_types:
-    properties:
-
-Research baseline properties per entity type.
-::getCommonSchemaProperties($entity_type_id))
-- node
-- paragraphs
+Review paragraphs support.
 
 Remove adding only one Schema mapping per entity type.
+Set entity reference handler default.
 
-Default properties that should always be created???
-Thing, Person, Place, Event, Organization, CreativeWork
+
 
 - Write baseline tests
 
@@ -81,25 +53,20 @@ Mapping
 - Tree widget
   - https://github.com/vakata/jstree
 
-- Entity Reference selection widget
-  - Select Schema.org Types (comma delimited)
 
 - Term selection
   - Enumeration
 
-- Subtype reference.
+- Subtyping.
 
 Configure Schema.org and Schema.org UI
 - General
   - Field prefix: 'schema_'
-  - Excluded: Types
+  - Excluded: Schema.org types
 - Names:
   - Abbreviations
   - Suffixes
   - Prefixes
-- Fields:
-  - Support types
-  - Support base fields
 
 Schema.org Templates
   - Templates will preselect recommended fields.

@@ -210,6 +210,18 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getDataTypes();
 
   /**
+   * Get all Schema.org subtypes below specified Schema.org types.
+   *
+   * @param array $types
+   *   An array of Schema.org types.
+   *
+   * @return array
+   *   An array of Schema.org subtypes which includes the specified
+   *   Schema.org types
+   */
+  public function getAllSubTypes(array $types);
+
+  /**
    * Get all Schema.org types below a specified type.
    *
    * @param string $type

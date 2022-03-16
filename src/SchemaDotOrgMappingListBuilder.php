@@ -50,7 +50,9 @@ class SchemaDotOrgMappingListBuilder extends ConfigEntityListBuilder {
       : $target_entity_type_definition->getLabel();
 
     $entity_type_bundle = $entity->getTargetEntityBundleEntity();
-    $row['bundle_label'] = $entity_type_bundle ? $entity_type_bundle->label() : '';
+    $row['bundle_label'] = $entity_type_bundle
+      ? ['data' => $entity_type_bundle->toLink($entity_type_bundle->label(), 'edit-form')->toRenderable()]
+      : '';
 
     $row['bundle_id'] = $entity_type_bundle ? $entity_type_bundle->id() : '';
 

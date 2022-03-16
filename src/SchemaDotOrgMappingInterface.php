@@ -121,7 +121,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
    *   The mapping for the Schema.org property, or NULL if the
    *   Schema.org property is not mapped.
    */
-  public function getSchemaProperty($name);
+  public function getSchemaPropertyMapping($name);
 
   /**
    * Sets the mapping for a Schema.org property.
@@ -133,7 +133,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
    *
    * @return $this
    */
-  public function setSchemaProperty($name, array $mapping = []);
+  public function setSchemaPropertyMapping($name, array $mapping = []);
 
   /**
    * Removes the Schema.org property mapping.

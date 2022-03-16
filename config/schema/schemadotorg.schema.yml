@@ -15,6 +15,12 @@ schemadotorg.settings:
             sequence:
               type: string
               label: 'Default Schema.org type'
+          default_schema_properties:
+            type: sequence
+            label: 'Default Schema.org properties'
+            sequence:
+              type: string
+              label: 'Default Schema.org property'
           base_fields:
             type: sequence
             label: 'Base field names'
@@ -41,13 +47,6 @@ schemadotorg.settings:
       type: mapping
       label: 'Schema.org properties'
       mapping:
-        default_properties:
-          sequence:
-            type: sequence
-            label: 'Default Schema.org properties'
-            sequence:
-              type: string
-              label: 'Default Schema.org property'
         default_field_types:
           type: sequence
           label: 'Default field type'
@@ -97,3 +96,20 @@ schemadotorg.schemadotorg_mapping:.*.*:
           property:
             type: string
             label: 'Schema.org property'
+
+entity_reference_selection.schemadotorg_type:
+  type: entity_reference_selection.default
+  label: 'Scheme.org type handler settings'
+  schemadotorg_mapping:
+    type: mapping
+    label: 'Schema.org field mapping'
+    mapping:
+      entity_type:
+        type: string
+        label: 'Entity type'
+      bundle:
+        type: string
+        label: 'Entity bundle'
+      field_name:
+        type: string
+        label: 'Field name'

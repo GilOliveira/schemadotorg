@@ -15,6 +15,22 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDotOrgMappingStorageInterface {
 
   /**
+   * The Schema.org schema type manager.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
+   */
+  protected $schemaTypeManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
+    $instance = parent::createInstance($container, $entity_type);
+    $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
+    return $instance;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function isBundleMapped($entity_type_id, $bundle) {
@@ -22,6 +38,49 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
       ->condition('targetEntityType', $entity_type_id)
       ->condition('bundle', $bundle)
       ->execute();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSchemaPropertyName($entity_type_id, $bundle, $field_name) {
+    /** @var SchemaDotOrgMappingInterface $entity */
+    $entity = $this->load($entity_type_id . '.' . $bundle);
+    if (!$entity) {
+      return NULL;
+    }
+    $mapping = $entity->getSchemaPropertyMapping($field_name) ?: [];
+    return $mapping['property'] ?? NULL;
+  }
+
+  public function getSchemaPropertyRangeIncludes($entity_type_id, $bundle, $field_name) {
+    $property = $this->getSchemaPropertyName($entity_type_id, $bundle, $field_name);
+    $property_definition = $this->schemaTypeManager->getProperty($property);
+    return $this->schemaTypeManager->parseIds($property_definition['range_includes']);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSchemaPropertyTargetBundles($entity_type_id, $bundle, $field_name, $target_type) {
+    $range_includes = $this->getSchemaPropertyRangeIncludes($entity_type_id, $bundle, $field_name);
+    $subtypes = $this->schemaTypeManager->getAllSubTypes($range_includes);
+    $entity_ids = $this->getQuery()
+      ->condition('targetEntityType', $target_type)
+      ->condition('type', $subtypes, 'IN')
+      ->execute();
+    if (!$entity_ids) {
+      return [];
+    }
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $entities */
+    $entities = $this->loadMultiple($entity_ids);
+
+    $bundles = [];
+    foreach ($entities as $entity) {
+      $bundles[$entity->getTargetBundle()] = $entity->getTargetBundle();
+    }
+    return $bundles;
   }
 
   /**

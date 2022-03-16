@@ -24,6 +24,53 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
   public function isBundleMapped($entity_type_id, $bundle);
 
   /**
+   * Get the Schema.org property name for an entity field mapping.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $bundle
+   *   The name of the bundle.
+   * @param string $field_name
+   *   The field name.
+   *
+   * @return string
+   *   The Schema.org property name for an entity field mapping.
+   */
+  public function getSchemaPropertyName($entity_type_id, $bundle, $field_name);
+
+  /**
+   * Get the Schema.org property's range includes Schema.org types.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $bundle
+   *   The name of the bundle.
+   * @param string $field_name
+   *   The field name.
+   *
+   * @return array
+   *   The Schema.org property's range includes Schema.org types.
+   */
+  public function getSchemaPropertyRangeIncludes($entity_type_id, $bundle, $field_name);
+
+  /**
+   * Get the Schema.org property target bundles.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $bundle
+   *   The name of the bundle.
+   * @param string $field_name
+   *   The field name.
+   * @param string $target_type
+   *   The taraet entity type ID.
+   *
+   * @return array
+   *   The Schema.org property target bundles.
+   */
+  public function getSchemaPropertyTargetBundles($entity_type_id, $bundle, $field_name, $target_type);
+
+  /**
    * Determine if Schema.org type is mapped to an entity.
    *
    * @param string $entity_type_id

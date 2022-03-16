@@ -6,6 +6,7 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Serialization\Yaml;
 use Drupal\Core\Url;
 use Drupal\field\FieldStorageConfigInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -310,7 +311,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         }
       }
 
-      $mapping_entity->setSchemaProperty($field_name, ['property' => $property_name]);
+      $mapping_entity->setSchemaPropertyMapping($field_name, ['property' => $property_name]);
     }
 
     // Display message about new fields.

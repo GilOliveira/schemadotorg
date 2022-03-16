@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Schema.org module.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * hook_entity_reference_selection_alter().
+ */
+function schemadotorg_entity_reference_selection_alter(array &$definitions) {
+  if (isset($definitions['schemadotorg_type'])) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface $schema_entity_type_manager */
+    $schema_entity_type_manager = \Drupal::service('schemadotorg.entity_type_manager');
+    $definitions['schemadotorg_type']['enity_types'] = $schema_entity_type_manager->getEntityTypes();
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function schemadotorg_field_config_presave(EntityInterface $entity) {
+  // Add field mapping to SchemaDotOrgTypeSelection handler settings
+  // so that we can use it to find the mapping property's
+  // related Schema.org types.
+  //
+  // @see \Drupal\schemadotorg\Plugin\EntityReferenceSelection\SchemaDotOrgTypeSelection
+  /** @var \Drupal\field\FieldConfigInterface $entity */
+  if ($entity->getType() === 'entity_reference'
+    && $entity->getSetting('handler') === 'schemadotorg_type') {
+    $settings = $entity->getSettings();
+    $settings['handler_settings']['schemadotorg_mapping'] = [
+      'entity_type' => $entity->getTargetEntityTypeId(),
+      'bundle' => $entity->getTargetBundle(),
+      'field_name' => $entity->getName()
+    ];
+    $entity->set('settings', $settings);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_prepare_form().
+ */
+function schemadotorg_field_config_prepare_form(EntityInterface $entity, $operation, \Drupal\Core\Form\FormStateInterface $form_state) {
+  if ($entity->getType() === 'entity_reference') {
+    $form_state->set('schemadotorg_mapping', [
+      'entity_type' => $entity->getTargetEntityTypeId(),
+      'bundle' => $entity->getTargetBundle(),
+      'field_name' => $entity->getName()
+    ]);
+  }
+}
