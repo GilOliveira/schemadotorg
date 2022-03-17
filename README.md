@@ -32,11 +32,31 @@ Review paragraphs support.
 Remove adding only one Schema mapping per entity type.
 Set entity reference handler default.
 
+Reports
+- Review field order.
 
+Types of relations
+- Datatype
+- Name/Value
+- Type
 
-- Write baseline tests
+Enumerations
+- http://localhost/so/admin/reports/schemadotorg/GenderType
 
-Done!!!! for now
+Defined Terms
+- http://localhost/so/admin/reports/schemadotorg/DefinedTerm
+- Does this point to a taxonomy.
+
+Relationships
+- Can all relationships have text strings?
+
+Review and document patterns provide by Google
+https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
+
+Enumeration
+  schemedotorg_enumeration
+  only for terms
+  only for schemedotorg_enumeration vocabulary.
 
 --------------------------------------------------------------------------------
 
@@ -54,8 +74,6 @@ Mapping
   - https://github.com/vakata/jstree
 
 
-- Term selection
-  - Enumeration
 
 - Subtyping.
 
@@ -134,8 +152,16 @@ UI
 
 # References
 
-- https://paperzz.com/doc/7052675/drupal-content-entity-8.0.pages
-- https://www.drupal.org/docs/drupal-apis/entity-api/defining-and-using-content-entity-field-definitions
+Schema.org
+
+- [Understand how structured data works | Google Search Central](https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data)
+- [Schema.org - What, How, Why? | Video](https://www.youtube.com/watch?v=hcahQfN5u9Y)
+- [RDF in Drupal: What is it and Why Should We Care? \ Drupal Easy](https://www.drupaleasy.com/blogs/ultimike/2009/06/rdf-drupal-what-it-and-why-should-we-care)
+
+Drupal Entities & Field
+
+- [Drupal content entity 8.0.pages](https://paperzz.com/doc/7052675/drupal-content-entity-8.0.pages)
+- [Defining and using Content Entity Field definitions](https://www.drupal.org/docs/drupal-apis/entity-api/defining-and-using-content-entity-field-definitions)
 
 # APIs
 
@@ -195,3 +221,9 @@ TBD
 - Media Object => Media
 - Structure values => Paragraph
 - Component => Block content
+
+# Common workflow
+
+Create common intangible types via Paragraphs
+
+PostalAddress

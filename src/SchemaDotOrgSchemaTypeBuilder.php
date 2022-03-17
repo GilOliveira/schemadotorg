@@ -66,7 +66,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
   public function buildItemsLinks($text, array $options =[]) {
     $options += ['attributes' => []];
 
-    $ids = $this->schemaTypeManager->parseIds($text);
+    $ids = (is_string($text)) ? $this->schemaTypeManager->parseIds($text) : $text;
     $links = [];
     foreach ($ids as $id) {
       $prefix = ($links) ? ', ' : '';

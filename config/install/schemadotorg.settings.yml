@@ -433,8 +433,12 @@ schema_properties:
     image:
       - 'field_ui:entity_reference:media'
       - image
+    height:
+      - text
     telephone:
-      - telephone
+      - tel
+    width:
+      - text
 schema_types:
   default_field_types:
     Text:
@@ -461,8 +465,8 @@ schema_types:
       - datetime
     Boolean:
       - boolean
-    URL:
-      - link
     PostalAddress:
       - address
       - entity_reference
+    URL:
+      - link

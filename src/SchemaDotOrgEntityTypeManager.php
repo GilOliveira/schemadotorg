@@ -113,6 +113,11 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
     // Set range include field types.
     $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
     foreach ($range_includes as $range_include) {
+      // Set enumeration to taxonomy term.
+      if ($this->schemaTypeManager->isEnumerationType($range_include)) {
+        $field_types['field_ui:entity_reference:taxonomy_term'] = 'field_ui:entity_reference:taxonomy_term';
+      }
+      // Set common data type and type mappings to field types.
       if (isset($type_mappings[$range_include])) {
         $field_types += array_combine($type_mappings[$range_include], $type_mappings[$range_include]);
       }
@@ -122,6 +127,7 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
     if (!$field_types) {
       $field_types['entity_reference'] = 'entity_reference';
     }
+
     return $field_types;
   }
 

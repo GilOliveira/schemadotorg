@@ -3,12 +3,8 @@
 namespace Drupal\schemadotorg;
 
 use Drupal\Component\Utility\NestedArray;
-use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
-use Drupal\Core\Field\FieldTypePluginManagerInterface;
-use Drupal\node\Entity\NodeType;
 
 /**
  * Schema.org entity type builder service.
@@ -143,31 +139,38 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $field_storage_config_storage = $this->entityTypeManager->getStorage('field_storage_config');
     $field_storage_config = $field_storage_config_storage->load($entity_type_id . '.' . $field_name);
 
-    // @see \Drupal\field_ui\Form\FieldStorageAddForm::submitForm
-    if (strpos($field['type'], 'field_ui:') !== FALSE) {
-      [, $field_type, $option_key] = explode(':', $field['type'], 3);
-
-      /** @var \Drupal\Core\Field\FieldTypePluginManagerInterface $field_type_plugin_manager */
-      $field_type_plugin_manager = \Drupal::service('plugin.manager.field.field_type');
-      $field_definition = $field_type_plugin_manager->getDefinition($field_type);
-      $options = $field_type_plugin_manager->getPreconfiguredOptions($field_definition['id']);
-      $field_options = $options[$option_key];
+    if ($field_storage_config) {
+      $field_type = $field_storage_config->getType();
+      $field_options = ['field_storage_config' => ['settings' => $field_storage_config->getSettings()]];
     }
     else {
-      $field_type = $field['type'];
-      $field_options = [];
+      // Handle preconfigured options.
+      // @see \Drupal\field_ui\Form\FieldStorageAddForm::submitForm
+      // @see \Drupal\Core\Field\FieldTypePluginManager::getUiDefinitions
+      // @see hook_field_ui_preconfigured_options_alter()
+      if (strpos($field['type'], 'field_ui:') !== FALSE) {
+        [, $field_type, $option_key] = explode(':', $field['type'], 3);
+
+        /** @var \Drupal\Core\Field\FieldTypePluginManagerInterface $field_type_plugin_manager */
+        $field_type_plugin_manager = \Drupal::service('plugin.manager.field.field_type');
+        $field_definition = $field_type_plugin_manager->getDefinition($field_type);
+        $options = $field_type_plugin_manager->getPreconfiguredOptions($field_definition['id']);
+        $field_options = $options[$option_key];
+      }
+      else {
+        $field_type = $field['type'];
+        $field_options = [];
+      }
     }
-    $field_options += ['field_storage_config' => []];
+    $field_options += ['field_storage_config' => ['settings' => ['target_type' => 'node']]];
 
     if (!$field_storage_config) {
-      $field_cardinality = $field['unlimited'] ? -1 : 1;
-
       /** @var \Drupal\field\FieldStorageConfigInterface $field_storage_config */
       $field_storage_config_storage->create([
         'field_name' => $field_name,
         'entity_type' => $entity_type_id,
         'type' => $field_type,
-        'cardinality' => $field_cardinality,
+        'cardinality' => $field['unlimited'] ? -1 : 1,
       ] + $field_options['field_storage_config'])->save();
     }
 
@@ -176,13 +179,24 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     /** @var \Drupal\field\FieldConfigInterface $field_config */
     $field_config = $field_config_storage->load($entity_type_id . '.' . $bundle . '.' . $field_name);
     if (!$field_config) {
+      $target_type = NestedArray::getValue($field_options, ['field_storage_config', 'settings', 'target_type']);
       if ($field_type === 'entity_reference') {
-        $settings = [
-          'handler' => 'schemadotorg_type',
-          'handler_settings' => [
-            'target_type' => NestedArray::getValue($field_options, ['field_storage_config', 'settings', 'target_type']) ?: 'node',
-          ],
-        ];
+        if ($target_type === 'taxonomy_term') {
+          $settings = [
+            'handler' => 'schemadotorg_enumeration',
+            'handler_settings' => [
+              'target_type' => $target_type,
+            ],
+          ];
+        }
+        else {
+          $settings = [
+            'handler' => 'schemadotorg_type',
+            'handler_settings' => [
+              'target_type' => $target_type,
+            ],
+          ];
+        }
       }
       else {
         $settings = [];

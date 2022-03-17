@@ -209,6 +209,19 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
 
       // Enumerations.
       $build['enumerations'] = $this->buildTypeEnumerations($id);
+
+      // Appears in.
+      $appears_in = $this->database->select('schemadotorg_properties', 'properties')
+        ->fields('properties', ['label'])
+        ->condition('range_includes', '%' . $item['id'] . '%', 'LIKE')
+        ->orderBy('label')
+        ->execute()
+        ->fetchCol();
+      $build['appears_in'] = [
+        '#type' => 'item',
+        '#title' => $this->t('Appears in (via range includes)'),
+        'items' => $this->schemaTypeBuilder->buildItemsLinks($appears_in),
+      ];
     }
 
     return $build;
@@ -240,6 +253,9 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       ],
       'range_includes' => [
         'data' => $this->t('Range includes'),
+      ],
+      'superseded_by' => [
+        'data' => $this->t('Superseded by'),
       ],
     ];
 

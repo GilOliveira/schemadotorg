@@ -14,7 +14,7 @@ function schemadotorg_entity_reference_selection_alter(array &$definitions) {
   if (isset($definitions['schemadotorg_type'])) {
     /** @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface $schema_entity_type_manager */
     $schema_entity_type_manager = \Drupal::service('schemadotorg.entity_type_manager');
-    $definitions['schemadotorg_type']['enity_types'] = $schema_entity_type_manager->getEntityTypes();
+    $definitions['schemadotorg_type']['entity_types'] = $schema_entity_type_manager->getEntityTypes();
   }
 }
 

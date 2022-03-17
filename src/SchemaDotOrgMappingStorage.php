@@ -53,10 +53,15 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
     return $mapping['property'] ?? NULL;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getSchemaPropertyRangeIncludes($entity_type_id, $bundle, $field_name) {
     $property = $this->getSchemaPropertyName($entity_type_id, $bundle, $field_name);
     $property_definition = $this->schemaTypeManager->getProperty($property);
-    return $this->schemaTypeManager->parseIds($property_definition['range_includes']);
+    return $property_definition
+      ? $this->schemaTypeManager->parseIds($property_definition['range_includes'])
+      : [];
   }
 
   /**

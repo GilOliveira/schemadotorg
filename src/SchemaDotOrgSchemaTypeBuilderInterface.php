@@ -24,7 +24,7 @@ interface SchemaDotOrgSchemaTypeBuilderInterface {
   /**
    * Build links to Schema.org items (types or properties).
    *
-   * @param string $text
+   * @param string|array $text
    *   A string of comma delimited items (types or properties).
    * @param array $options
    *   Link links options which include:
