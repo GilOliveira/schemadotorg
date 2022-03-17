@@ -331,7 +331,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     // Save the mapping and display a message.
     $mapping_entity->save();
-    $this->messenger()->addStatus($this->t('Your mappings have been saved.'));
+    $this->messenger()->addStatus($this->t('Schema.org mapping has been saved.'));
   }
 
   /* ************************************************************************ */
@@ -538,7 +538,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $row['field']['add'] = [
         '#type' => 'details',
         '#title' => $this->t('Add field'),
-        '#open' => TRUE,
         '#attributes' => ['class' => ['schemadotorg-ui--add-field']],
         '#states' => [
           'visible' => [

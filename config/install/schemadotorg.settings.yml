@@ -129,83 +129,31 @@ entity_types:
       remote_video: VideoObject
       video: VideoObject
     default_schema_properties:
-      - address
       - about
-      - abstract
-      - additionalName
       - alternativeHeadline
       - audience
       - author
-      - attendee
-      - birthDate
-      - contactPoint
+      - contentSize
+      - contentLocation
+      - contentUrl
       - creativeWorkStatus
       - dateCreated
       - dateModified
       - datePublished
       - description
       - duration
-      - endDate
-      - email
-      - eventStatus
-      - familyName
-      - faxNumber
-      - gender
-      - givenName
       - headline
-      - honorificPrefix
-      - honorificSuffix
       - image
-      - jobTitle
       - keywords
-      - latitude
-      - location
-      - longitude
       - mentions
       - name
-      - organizer
-      - performer
-      - parentOrganization
-      - photo
+      - recordedAt
       - sponsor
       - startDate
-      - telephone
       - text
       - timeRequired
-      - thumbnailUrl
+      - thumbnail
       - video
-  user:
-    base_fields:
-      - uuid
-      - name
-      - mail
-    default_schema_types:
-      user: Person
-    default_schema_properties:
-      - additionalName
-      - address
-      - affiliation
-      - alternateName
-      - alumniOf
-      - award
-      - birthDate
-      - colleague
-      - contactPoint
-      - description
-      - disambiguatingDescription
-      - email
-      - familyName
-      - faxNumber
-      - gender
-      - givenName
-      - honorificPrefix
-      - honorificSuffix
-      - image
-      - jobTitle
-      - name
-      - nationality
-      - telephone
-
   node:
     base_fields:
       - uuid
@@ -417,8 +365,42 @@ entity_types:
       - timeRequired
       - thumbnailUrl
       - video
+  user:
+    base_fields:
+      - uuid
+      - name
+      - mail
+    default_schema_types:
+      user: Person
+    default_schema_properties:
+      - additionalName
+      - address
+      - affiliation
+      - alternateName
+      - alumniOf
+      - award
+      - birthDate
+      - colleague
+      - contactPoint
+      - description
+      - disambiguatingDescription
+      - email
+      - familyName
+      - faxNumber
+      - gender
+      - givenName
+      - honorificPrefix
+      - honorificSuffix
+      - image
+      - jobTitle
+      - name
+      - nationality
+      - telephone
 schema_properties:
   default_field_types:
+    email:
+      - email
+      - string
     description:
       - text_long
       - text
@@ -434,11 +416,12 @@ schema_properties:
       - 'field_ui:entity_reference:media'
       - image
     height:
-      - text
+      - string
     telephone:
       - tel
+      - string
     width:
-      - text
+      - string
 schema_types:
   default_field_types:
     Text:
@@ -461,12 +444,19 @@ schema_types:
     Integer:
       - integer
       - list_integer
-    Time:
-      - datetime
     Boolean:
       - boolean
+    Time:
+      - datetime
     PostalAddress:
       - address
       - entity_reference
+      - text
+    DefinedTerm:
+      - string
+      - list_string
+      - field_ui:entity_reference:taxonomy_term
+    QuantitativeValue:
+      - text
     URL:
       - link

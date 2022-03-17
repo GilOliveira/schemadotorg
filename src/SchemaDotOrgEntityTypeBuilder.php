@@ -2,14 +2,16 @@
 
 namespace Drupal\schemadotorg;
 
-use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
+use Drupal\Core\Field\FieldTypePluginManagerInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Schema.org entity type builder service.
  */
 class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInterface {
+  use StringTranslationTrait;
 
   /**
    * The entity type manager.
@@ -24,6 +26,13 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    * @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface
    */
   protected $entityDisplayRepository;
+
+  /**
+   * The field type plugin manager.
+   *
+   * @var \Drupal\Core\Field\FieldTypePluginManagerInterface
+   */
+  protected $fieldTypePluginManager;
 
   /**
    * The Schema.org names service.
@@ -46,6 +55,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *   The entity type manager.
    * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository
    *   The entity display repository.
+   * @param \Drupal\Core\Field\FieldTypePluginManagerInterface $field_type_plugin_manager
+   *   The field type plugin manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
    *   The Schema.org names service.
    * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
@@ -54,11 +65,13 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
     EntityDisplayRepositoryInterface $display_repository,
+    FieldTypePluginManagerInterface $field_type_plugin_manager,
     SchemaDotOrgNamesInterface $schema_names,
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
   ) {
     $this->entityDisplayRepository = $display_repository;
     $this->entityTypeManager = $entity_type_manager;
+    $this->fieldTypePluginManager = $field_type_plugin_manager;
     $this->schemaNames = $schema_names;
     $this->schemaTypeManager = $schema_type_manager;
   }
@@ -121,106 +134,216 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       ->save();
   }
 
+  /* ************************************************************************ */
+  // Field creation methods copied from FieldStorageAddForm.
+  // @see \Drupal\field_ui\Form\FieldStorageAddForm
+  /* ************************************************************************ */
+
   /**
-   * Add a field to an entity.
+   * {@inheritdoc}
+   */
+  public function addFieldToEntity($entity_type_id, $bundle, array $field) {
+    // Define and document expected default field settings.
+    // @see \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::save
+    $field += [
+      'machine_name' => NULL,
+      'type' => NULL,
+      'label' => NULL,
+      'description' => '',
+      'unlimited' => NULL,
+    ];
+
+    /** @var \Drupal\field\FieldStorageConfigInterface $field_storage_config */
+    $field_storage_config = $this->entityTypeManager
+      ->getStorage('field_storage_config')
+      ->load($entity_type_id . '.' . $field['machine_name']);
+
+    $field_name = $field['machine_name'];
+    $field_type = ($field_storage_config) ? $field_storage_config->getType() : $field['type'];
+    $field_label = $field['label'];
+    $field_description = $field['description'];
+    $field_unlimited = $field['unlimited'];
+
+    $new_storage_type = !$field_storage_config;
+    $existing_storage = !!$field_storage_config;
+
+    if ($field_storage_config) {
+      $field_storage_values = array_intersect_key(
+        $field_storage_config->toArray(),
+        [
+          'field_name' => 'field_name',
+          'entity_type' => 'entity_type',
+          'type' => 'type',
+          'cardinality' => 'cardinality',
+          'settings' => 'settings',
+        ]);
+    }
+    else {
+      $field_storage_values = [
+        'field_name' => $field_name,
+        'entity_type' => $entity_type_id,
+        'type' => $field_type,
+        'cardinality' => $field_unlimited ? -1 : 1,
+      ];
+    }
+
+    $field_values = [
+      'field_name' => $field_name,
+      'entity_type' => $entity_type_id,
+      'bundle' => $bundle,
+      'label' => $field_label,
+      'description' => $field_description,
+    ];
+
+    // Create new field.
+    if ($new_storage_type) {
+      $widget_id = $formatter_id = NULL;
+      $widget_settings = $formatter_settings = [];
+
+      // Check if we're dealing with a preconfigured field.
+      if (strpos($field_storage_values['type'], 'field_ui:') !== FALSE) {
+
+        [, $field_type, $option_key] = explode(':', $field_storage_values['type'], 3);
+        $field_storage_values['type'] = $field_type;
+
+        $field_definition = $this->fieldTypePluginManager->getDefinition($field_type);
+        $options = $this->fieldTypePluginManager->getPreconfiguredOptions($field_definition['id']);
+        $field_options = $options[$option_key];
+        // Merge in preconfigured field storage options.
+        if (isset($field_options['field_storage_config'])) {
+          foreach (['cardinality', 'settings'] as $key) {
+            if (isset($field_options['field_storage_config'][$key])) {
+              $field_storage_values[$key] = $field_options['field_storage_config'][$key];
+            }
+          }
+        }
+
+        // Merge in preconfigured field options.
+        if (isset($field_options['field_config'])) {
+          foreach (['required', 'settings'] as $key) {
+            if (isset($field_options['field_config'][$key])) {
+              $field_values[$key] = $field_options['field_config'][$key];
+            }
+          }
+        }
+
+        $widget_id = $field_options['entity_form_display']['type'] ?? NULL;
+        $widget_settings = $field_options['entity_form_display']['settings'] ?? [];
+        $formatter_id = $field_options['entity_view_display']['type'] ?? NULL;
+        $formatter_settings = $field_options['entity_view_display']['settings'] ?? [];
+      }
+
+      // Create the field storage and field.
+      try {
+        $this->alterFieldValues($field_storage_values, $field_values);
+        $this->entityTypeManager->getStorage('field_storage_config')->create($field_storage_values)->save();
+        $field = $this->entityTypeManager->getStorage('field_config')->create($field_values);
+        $field->save();
+
+        $this->configureEntityFormDisplay($entity_type_id, $bundle, $field_name, $widget_id, $widget_settings);
+        $this->configureEntityViewDisplay($entity_type_id, $bundle, $field_name, $formatter_id, $formatter_settings);
+      }
+      catch (\Exception $e) {
+        \Drupal::messenger()->addError($this->t('There was a problem creating field %label: @message', ['%label' => $field_label, '@message' => $e->getMessage()]));
+      }
+    }
+
+    // Re-use existing field.
+    if ($existing_storage) {
+      try {
+        $this->alterFieldValues($field_storage_values, $field_values);
+        $field = $this->entityTypeManager->getStorage('field_config')->create($field_values);
+        $field->save();
+
+        $this->configureEntityFormDisplay($entity_type_id, $bundle, $field_name);
+        $this->configureEntityViewDisplay($entity_type_id, $bundle, $field_name);
+      }
+      catch (\Exception $e) {
+        \Drupal::messenger()->addError($this->t('There was a problem creating field %label: @message', ['%label' => $field_label, '@message' => $e->getMessage()]));
+      }
+    }
+  }
+
+  /**
+   * Alter field storage and field values before they are created.
+   *
+   * @param array $field_storage_values
+   *   Field storage config values.
+   * @param array $field_values
+   *   Field config values.
+   */
+  protected function alterFieldValues(array &$field_storage_values, array &$field_values) {
+    switch ($field_storage_values['type']) {
+      case 'entity_reference':
+        $target_type = $field_storage_values['settings']['target_type'] ?? 'node';
+        $field_values['settings'] = [
+          'handler' => 'schemadotorg_' . ($target_type === 'taxonomy_term' ? 'enumeration' : 'type'),
+          'handler_settings' => [
+            'target_type' => $target_type,
+          ],
+        ];
+        break;
+    }
+  }
+
+  /**
+   * Configures the field for the default form mode.
    *
    * @param string $entity_type_id
    *   The entity type ID.
    * @param string $bundle
    *   The name of the bundle.
-   * @param array $field
-   *   The field to be added to the entity.
+   * @param string $field_name
+   *   The field name.
+   * @param string|null $widget_id
+   *   (optional) The plugin ID of the widget. Defaults to NULL.
+   * @param array $widget_settings
+   *   (optional) An array of widget settings. Defaults to an empty array.
    */
-  public function addFieldToEntity($entity_type_id, $bundle, array $field) {
-    $field_name = $field['machine_name'];
-    $field_label = $field['label'];
-
-    /** @var \Drupal\field\FieldStorageConfigInterface $field_storage_config_storage */
-    $field_storage_config_storage = $this->entityTypeManager->getStorage('field_storage_config');
-    $field_storage_config = $field_storage_config_storage->load($entity_type_id . '.' . $field_name);
-
-    if ($field_storage_config) {
-      $field_type = $field_storage_config->getType();
-      $field_options = ['field_storage_config' => ['settings' => $field_storage_config->getSettings()]];
-    }
-    else {
-      // Handle preconfigured options.
-      // @see \Drupal\field_ui\Form\FieldStorageAddForm::submitForm
-      // @see \Drupal\Core\Field\FieldTypePluginManager::getUiDefinitions
-      // @see hook_field_ui_preconfigured_options_alter()
-      if (strpos($field['type'], 'field_ui:') !== FALSE) {
-        [, $field_type, $option_key] = explode(':', $field['type'], 3);
-
-        /** @var \Drupal\Core\Field\FieldTypePluginManagerInterface $field_type_plugin_manager */
-        $field_type_plugin_manager = \Drupal::service('plugin.manager.field.field_type');
-        $field_definition = $field_type_plugin_manager->getDefinition($field_type);
-        $options = $field_type_plugin_manager->getPreconfiguredOptions($field_definition['id']);
-        $field_options = $options[$option_key];
-      }
-      else {
-        $field_type = $field['type'];
-        $field_options = [];
+  protected function configureEntityFormDisplay($entity_type_id, $bundle, $field_name, $widget_id = NULL, array $widget_settings = []) {
+    $options = [];
+    if ($widget_id) {
+      $options['type'] = $widget_id;
+      if (!empty($widget_settings)) {
+        $options['settings'] = $widget_settings;
       }
     }
-    $field_options += ['field_storage_config' => ['settings' => ['target_type' => 'node']]];
+    // Make sure the field is displayed in the 'default' form mode (using
+    // default widget and settings). It stays hidden for other form modes
+    // until it is explicitly configured.
+    $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, 'default')
+      ->setComponent($field_name, $options)
+      ->save();
+  }
 
-    if (!$field_storage_config) {
-      /** @var \Drupal\field\FieldStorageConfigInterface $field_storage_config */
-      $field_storage_config_storage->create([
-        'field_name' => $field_name,
-        'entity_type' => $entity_type_id,
-        'type' => $field_type,
-        'cardinality' => $field['unlimited'] ? -1 : 1,
-      ] + $field_options['field_storage_config'])->save();
-    }
-
-    /** @var \Drupal\Core\Config\Entity\ConfigEntityStorageInterface $field_config_storage */
-    $field_config_storage = $this->entityTypeManager->getStorage('field_config');
-    /** @var \Drupal\field\FieldConfigInterface $field_config */
-    $field_config = $field_config_storage->load($entity_type_id . '.' . $bundle . '.' . $field_name);
-    if (!$field_config) {
-      $target_type = NestedArray::getValue($field_options, ['field_storage_config', 'settings', 'target_type']);
-      if ($field_type === 'entity_reference') {
-        if ($target_type === 'taxonomy_term') {
-          $settings = [
-            'handler' => 'schemadotorg_enumeration',
-            'handler_settings' => [
-              'target_type' => $target_type,
-            ],
-          ];
-        }
-        else {
-          $settings = [
-            'handler' => 'schemadotorg_type',
-            'handler_settings' => [
-              'target_type' => $target_type,
-            ],
-          ];
-        }
+  /**
+   * Configures the field for the default view mode.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $bundle
+   *   The name of the bundle.
+   * @param string $field_name
+   *   The field name.
+   * @param string|null $formatter_id
+   *   (optional) The plugin ID of the formatter. Defaults to NULL.
+   * @param array $formatter_settings
+   *   (optional) An array of formatter settings. Defaults to an empty array.
+   */
+  protected function configureEntityViewDisplay($entity_type_id, $bundle, $field_name, $formatter_id = NULL, array $formatter_settings = []) {
+    $options = [];
+    if ($formatter_id) {
+      $options['type'] = $formatter_id;
+      if (!empty($formatter_settings)) {
+        $options['settings'] = $formatter_settings;
       }
-      else {
-        $settings = [];
-      }
-      $field_description = $field['description'] ?? '';
-      $field_config_storage->create([
-        'entity_type' => $entity_type_id,
-        'bundle' => $bundle,
-        'field_name' => $field_name,
-        'label' => $field_label,
-        'description' => $field_description,
-        'settings' => $settings,
-      ])->save();
     }
-
-    $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle);
-    if (!$form_display->getComponent($field_name)) {
-      $form_display->setComponent($field_name)->save();
-    }
-
-    $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle);
-    if (!$view_display->getComponent($field_name)) {
-      $view_display->setComponent($field_name)->save();
-    }
+    // Make sure the field is displayed in the 'default' view mode (using
+    // default formatter and settings). It stays hidden for other view
+    // modes until it is explicitly configured.
+    $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle)
+      ->setComponent($field_name, $options)
+      ->save();
   }
 
 }

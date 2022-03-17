@@ -216,4 +216,46 @@ abstract class SchemaDotOrgSelectionBase extends SelectionPluginBase implements 
     $query->alterMetaData = $old_metadata;
   }
 
+  /**
+   * Get the Schema.org property's range includes Schema.org types.
+   *
+   * @return array
+   *   The Schema.org property's range includes Schema.org types.
+   */
+  protected function getSchemaPropertyRangeIncludes() {
+    $mapping = $this->configuration['schemadotorg_mapping'];
+    if (!$mapping['entity_type']) {
+      return [];
+    }
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $schemadotorg_mapping_storage */
+    $schemadotorg_mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+    return $schemadotorg_mapping_storage->getSchemaPropertyRangeIncludes(
+      $mapping['entity_type'],
+      $mapping['bundle'],
+      $mapping['field_name']
+    );
+  }
+
+  /**
+   * Get the Schema.org property name for an entity field mapping.
+   *
+   * @return string
+   *   The Schema.org property name for an entity field mapping.
+   */
+  protected function getSchemaPropertyName() {
+    $mapping = $this->configuration['schemadotorg_mapping'];
+    if (!$mapping['entity_type']) {
+      return NULL;
+    }
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $schemadotorg_mapping_storage */
+    $schemadotorg_mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+    return $schemadotorg_mapping_storage->getSchemaPropertyName(
+      $mapping['entity_type'],
+      $mapping['bundle'],
+      $mapping['field_name']
+    );
+  }
+
 }

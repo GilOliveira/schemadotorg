@@ -16,7 +16,14 @@ interface SchemaDotOrgEntityTypeBuilderInterface {
   public function createTypeVocabulary($type);
 
   /**
-   * {@inheritdoc}
+   * Add a field to an entity.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $bundle
+   *   The name of the bundle.
+   * @param array $field
+   *   The field to be added to the entity.
    */
   public function addFieldToEntity($entity_type_id, $bundle, array $field);
 

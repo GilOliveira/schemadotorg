@@ -112,18 +112,28 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
 
     // Set range include field types.
     $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
+
+    // Prioritize enumerations and types (not data types).
     foreach ($range_includes as $range_include) {
-      // Set enumeration to taxonomy term.
       if ($this->schemaTypeManager->isEnumerationType($range_include)) {
         $field_types['field_ui:entity_reference:taxonomy_term'] = 'field_ui:entity_reference:taxonomy_term';
+        break;
       }
-      // Set common data type and type mappings to field types.
-      if (isset($type_mappings[$range_include])) {
+      if (isset($type_mappings[$range_include]) && !$this->schemaTypeManager->isDataType($range_include)) {
         $field_types += array_combine($type_mappings[$range_include], $type_mappings[$range_include]);
       }
     }
 
-    // Set a default field type.
+    // Set default data type related field types.
+    if (!$field_types) {
+      foreach ($range_includes as $range_include) {
+        if (isset($type_mappings[$range_include]) && $this->schemaTypeManager->isDataType($range_include)) {
+          $field_types += array_combine($type_mappings[$range_include], $type_mappings[$range_include]);
+        }
+      }
+    }
+
+    // Set a default field type to an entity reference.
     if (!$field_types) {
       $field_types['entity_reference'] = 'entity_reference';
     }

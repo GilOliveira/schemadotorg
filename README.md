@@ -20,43 +20,28 @@ Demo
 
 The goal is to demo a content building framework which allows for progressive enhancements.
 
-MUST deep dive the RDF module.
-- Create RdfMapping that mirrors the SchemaDotOrgMapping.
-- https://drupal.stackexchange.com/questions/241470/how-to-configure-rdf-on-fields
-
-Review default properties that should always be created???
-Thing, Person, Place, Event, Organization, CreativeWork
-
 Review paragraphs support.
-
-Remove adding only one Schema mapping per entity type.
-Set entity reference handler default.
-
-Reports
-- Review field order.
 
 Types of relations
 - Datatype
 - Name/Value
+- DefinedTerm
 - Type
-
-Enumerations
-- http://localhost/so/admin/reports/schemadotorg/GenderType
 
 Defined Terms
 - http://localhost/so/admin/reports/schemadotorg/DefinedTerm
 - Does this point to a taxonomy.
+
+\Drupal\schemadotorg\SchemaDotOrgEntityTypeManager::getSchemaPropertyFieldTypes
+
+Type of field.
+- Token fields for computations
 
 Relationships
 - Can all relationships have text strings?
 
 Review and document patterns provide by Google
 https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
-
-Enumeration
-  schemedotorg_enumeration
-  only for terms
-  only for schemedotorg_enumeration vocabulary.
 
 --------------------------------------------------------------------------------
 
@@ -73,14 +58,11 @@ Mapping
 - Tree widget
   - https://github.com/vakata/jstree
 
-
-
 - Subtyping.
 
 Configure Schema.org and Schema.org UI
 - General
   - Field prefix: 'schema_'
-  - Excluded: Schema.org types
 - Names:
   - Abbreviations
   - Suffixes
@@ -135,8 +117,14 @@ UI
 
 # TBD
 
+- Should a warning/info message be displayed when creating a new mapping
+  and entity?
+
 - Should you be able to map the same field to multiple properties?
   - body => description and disambiguatingDescription
+
+- How do we handle sub-values (i.e. body.summary)?
+  - Token field?
 
 - Should Drupal names and ids be stored in the database or dynamically generated?
 
@@ -145,6 +133,8 @@ UI
 - Should we prefix all schema field with schema_*? YES
 
 - Why are we seeing 1329 types? (/admin/reports/schemadotorg/docs/types)
+
+- Should we allow multiple Schema type mapping per entity type?
 
 - How to handle translations for imported data?
 
@@ -222,8 +212,8 @@ TBD
 - Structure values => Paragraph
 - Component => Block content
 
-# Common workflow
-
-Create common intangible types via Paragraphs
-
-PostalAddress
+# TBD
+country
+- https://chromatichq.com/insights/dynamic-default-and-allowed-values-list-fields-drupal-8
+- HOOK_allowed_values_FIELD_NAME()
+- schemadotorg_allowed_values_schema_country()

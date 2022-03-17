@@ -29,7 +29,7 @@ function schemadotorg_field_config_presave(EntityInterface $entity) {
   // @see \Drupal\schemadotorg\Plugin\EntityReferenceSelection\SchemaDotOrgTypeSelection
   /** @var \Drupal\field\FieldConfigInterface $entity */
   if ($entity->getType() === 'entity_reference'
-    && $entity->getSetting('handler') === 'schemadotorg_type') {
+    && strpos($entity->getSetting('handler'), 'schemadotorg_') === 0) {
     $settings = $entity->getSettings();
     $settings['handler_settings']['schemadotorg_mapping'] = [
       'entity_type' => $entity->getTargetEntityTypeId(),
@@ -37,18 +37,5 @@ function schemadotorg_field_config_presave(EntityInterface $entity) {
       'field_name' => $entity->getName()
     ];
     $entity->set('settings', $settings);
-  }
-}
-
-/**
- * Implements hook_ENTITY_TYPE_prepare_form().
- */
-function schemadotorg_field_config_prepare_form(EntityInterface $entity, $operation, \Drupal\Core\Form\FormStateInterface $form_state) {
-  if ($entity->getType() === 'entity_reference') {
-    $form_state->set('schemadotorg_mapping', [
-      'entity_type' => $entity->getTargetEntityTypeId(),
-      'bundle' => $entity->getTargetBundle(),
-      'field_name' => $entity->getName()
-    ]);
   }
 }

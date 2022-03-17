@@ -68,7 +68,6 @@ class SchemaDotOrgTypeSelection extends SchemaDotOrgSelectionBase {
         '#markup' => '<p>' . $this->t('This field is not mapped to a Schema.org property.') . '</p>'
         . '<p><strong>' . $this->t("Please update this @entity_type's Schema.org type mapping.", $t_args) . '</strong></p>',
       ];
-
     }
     return $form;
   }
@@ -77,7 +76,7 @@ class SchemaDotOrgTypeSelection extends SchemaDotOrgSelectionBase {
    * {@inheritdoc}
    */
   protected function buildEntityQuery($match = NULL, $match_operator = 'CONTAINS') {
-    $query = parent::buildEntityQuery($match_operator, $match_operator);
+    $query = parent::buildEntityQuery($match, $match_operator);
 
     $configuration = $this->getConfiguration();
     $target_type = $configuration['target_type'];
@@ -113,48 +112,6 @@ class SchemaDotOrgTypeSelection extends SchemaDotOrgSelectionBase {
       $mapping['bundle'],
       $mapping['field_name'],
       $this->configuration['target_type']
-    );
-  }
-
-  /**
-   * Get the Schema.org property's range includes Schema.org types.
-   *
-   * @return array
-   *   The Schema.org property's range includes Schema.org types.
-   */
-  protected function getSchemaPropertyRangeIncludes() {
-    $mapping = $this->configuration['schemadotorg_mapping'];
-    if (!$mapping['entity_type']) {
-      return [];
-    }
-
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $schemadotorg_mapping_storage */
-    $schemadotorg_mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
-    return $schemadotorg_mapping_storage->getSchemaPropertyRangeIncludes(
-      $mapping['entity_type'],
-      $mapping['bundle'],
-      $mapping['field_name']
-    );
-  }
-
-  /**
-   * Get the Schema.org property name for an entity field mapping.
-   *
-   * @return string
-   *   The Schema.org property name for an entity field mapping.
-   */
-  protected function getSchemaPropertyName() {
-    $mapping = $this->configuration['schemadotorg_mapping'];
-    if (!$mapping['entity_type']) {
-      return NULL;
-    }
-
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $schemadotorg_mapping_storage */
-    $schemadotorg_mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
-    return $schemadotorg_mapping_storage->getSchemaPropertyName(
-      $mapping['entity_type'],
-      $mapping['bundle'],
-      $mapping['field_name']
     );
   }
 
