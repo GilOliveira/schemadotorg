@@ -8,6 +8,27 @@
   'use strict';
 
   /**
+   * Open Schema.org type and property report links in a modal dialog.
+   *
+   * @type {Drupal~behavior}
+   */
+  Drupal.behaviors.schemaDotOrgUiReportDialog = {
+    attach: function (context) {
+      $('a[href*="/admin/reports/schemadotorg/"]', context)
+        .once('schemadotorg-ui-report-dialog').each(function () {
+          Drupal.ajax({
+            progress: {type: 'fullscreen'},
+            url: $(this).attr('href'),
+            event: 'click',
+            dialogType: 'modal',
+            dialog: {width: '90%'},
+            element: this,
+          });
+        });
+    }
+  }
+
+  /**
    * Schema.org UI properties toggle behavior.
    *
    * @type {Drupal~behavior}

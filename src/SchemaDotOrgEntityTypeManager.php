@@ -133,9 +133,13 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
       }
     }
 
-    // Set a default field type to an entity reference.
+    // Set a default field type to an entity reference and string (a.k.a. name).
+    // @todo Default to the relevant entity type.
     if (!$field_types) {
-      $field_types['entity_reference'] = 'entity_reference';
+      $field_types += [
+        'field_ui:entity_reference:node' => 'field_ui:entity_reference:node',
+        'string' => 'string',
+      ];
     }
 
     return $field_types;

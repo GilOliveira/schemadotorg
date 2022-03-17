@@ -54,6 +54,7 @@ class SchemaDotOrgUiLocalAction extends DeriverBase implements ContainerDeriverI
         $this->derivatives["schemadotorg.{$entity_type_id}.type_add"] = [
           'route_name' => "schemadotorg.{$entity_type_id}.type_add",
           'title' => $this->t('Add Schema.org type'),
+          'weight' => 10,
           'appears_on' => ["entity.{$entity_type_id}.collection"],
         ] + $base_plugin_definition;
       }

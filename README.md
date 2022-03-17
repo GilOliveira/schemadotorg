@@ -4,16 +4,6 @@ Slides: https://www.slidescarnival.com/valentine-free-presentation-template/234
 
 Provides blueprints for leveraging Schema.org to build and manage an SEO and API-first content architecture in Drupal.
 
-Demo
-
-- Report
-- Mappings
-- Creation
-  - Person
-  - Thing > Event
-  - Thing > Location
-- Form and view display
-
 # Common schemas
 
 # Todo
@@ -27,12 +17,6 @@ Types of relations
 - Name/Value
 - DefinedTerm
 - Type
-
-Defined Terms
-- http://localhost/so/admin/reports/schemadotorg/DefinedTerm
-- Does this point to a taxonomy.
-
-\Drupal\schemadotorg\SchemaDotOrgEntityTypeManager::getSchemaPropertyFieldTypes
 
 Type of field.
 - Token fields for computations
@@ -51,9 +35,8 @@ Mapping
 - property => field or field => property
 - Sub properties???
 
-- Add comment support.
-
-- Reuse \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::save
+\Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::alterFormDisplayWidget
+\Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::alterViewDisplayWidget
 
 - Tree widget
   - https://github.com/vakata/jstree

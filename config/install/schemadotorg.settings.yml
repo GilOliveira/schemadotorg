@@ -148,7 +148,6 @@ entity_types:
       - mentions
       - name
       - recordedAt
-      - sponsor
       - startDate
       - text
       - timeRequired
@@ -320,51 +319,39 @@ entity_types:
           - ComputerLanguage
           - NutritionInformation
     default_schema_properties:
-      - address
-      - about
-      - abstract
       - additionalName
+      - addressCountry
       - alternativeHeadline
-      - audience
-      - author
-      - attendee
-      - birthDate
-      - contactPoint
-      - creativeWorkStatus
-      - dateCreated
-      - dateModified
-      - datePublished
+      - addressLocality
+      - addressRegion
+      - contactOption
       - description
       - duration
       - endDate
       - email
-      - eventStatus
-      - familyName
-      - faxNumber
-      - gender
-      - givenName
       - headline
-      - honorificPrefix
-      - honorificSuffix
+      - hoursAvailable
       - image
-      - jobTitle
-      - keywords
-      - latitude
-      - location
-      - longitude
-      - mentions
       - name
-      - organizer
-      - performer
-      - parentOrganization
-      - photo
-      - sponsor
+      - postOfficeBoxNumber
+      - postalCode
+      - roleName
       - startDate
+      - streetAddress
       - telephone
       - text
-      - timeRequired
-      - thumbnailUrl
-      - video
+      - calories
+      - carbohydrateContent
+      - cholesterolContent
+      - fatContent
+      - fiberContent
+      - proteinContent
+      - saturatedFatContent
+      - servingSize
+      - sodiumContent
+      - sugarContent
+      - transFatContent
+      - unsaturatedFatContent
   user:
     base_fields:
       - uuid
@@ -396,6 +383,7 @@ entity_types:
       - name
       - nationality
       - telephone
+      - worksFor
 schema_properties:
   default_field_types:
     email:
@@ -418,7 +406,7 @@ schema_properties:
     height:
       - string
     telephone:
-      - tel
+      - telephone
       - string
     width:
       - string
@@ -456,7 +444,11 @@ schema_types:
       - string
       - list_string
       - field_ui:entity_reference:taxonomy_term
+    Duration:
+      - text
     QuantitativeValue:
+      - text
+    Quantity:
       - text
     URL:
       - link
