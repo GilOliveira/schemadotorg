@@ -60,15 +60,24 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
   }
 
   /**
-   * Get default Schema.org type for an entity type and bundle.
+   * Get default bundle for an entity type and Schema.org type.
    *
    * @param string $entity_type_id
    *   The entity type ID.
-   * @param string $bundle
-   *   The name of the bundle.
+   * @param string $type
+   *   The Schema.org type.
    *
    * @return string|null
-   *   The default Schema.org type for an entity type and bundle.
+   *   The default bundle for an entity type and Schema.org type.
+   */
+  public function getDefaultSchemaTypeBundle($entity_type_id, $type) {
+    $schema_types = $this->config->get("entity_types.$entity_type_id.default_schema_types") ?: [];
+    $bundles = array_flip($schema_types);
+    return $bundles[$type] ?? NULL;
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function getDefaultSchemaType($entity_type_id, $bundle) {
     return $this->config->get("entity_types.$entity_type_id.default_schema_types.$bundle");

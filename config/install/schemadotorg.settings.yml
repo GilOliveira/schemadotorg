@@ -169,8 +169,8 @@ entity_types:
           - NewsArticle
           - Blog
           - Book
-          - FAQ
           - Recipe
+          - FAQPage
           - WebPage
       business:
         label: Business

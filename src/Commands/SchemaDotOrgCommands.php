@@ -8,6 +8,8 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\field\FieldConfigStorage;
+use Drupal\field\FieldStorageConfigStorage;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgInstallerInterface;
@@ -102,10 +104,10 @@ class SchemaDotOrgCommands extends DrushCommands {
   /**
    * Update Schema.org data and taxonomy.
    *
-   * @usage schemadotorg:update-schema
-   *   Update Schema.org data and taxonomy.
-   *
    * @command schemadotorg:update-schema
+   *
+   * @usage schemadotorg:update-schema
+   *
    * @aliases soup
    */
   public function update() {
@@ -153,8 +155,8 @@ class SchemaDotOrgCommands extends DrushCommands {
     // Check for valid Schema.org types.
     foreach ($schema_types as $schema_type) {
       if (!$this->schemaTypeManager->isType($schema_type)) {
-        $t_args = ['@schema_type' => $schema_type];
-        throw new \Exception($this->t("The Schema.org type '@schema_type' is not valid. Please go to https://schema.org to find valid Schema.org types.", $t_args));
+        $t_args = ['@type' => $schema_type];
+        throw new \Exception($this->t("The Schema.org type '@type' is not valid. Please go to https://schema.org to find valid Schema.org types.", $t_args));
       }
     }
   }
@@ -162,15 +164,16 @@ class SchemaDotOrgCommands extends DrushCommands {
   /**
    * Create Schema.org type.
    *
-   * @usage schemadotorg:create-type
-   *   Usage description
-   *
-   * @command schemadotorg:create-type
-   *
    * @param string $entity_type
    *   An entity type.
    * @param array $schema_types
    *   A list of Schema.org types.
+   *
+   * @command schemadotorg:create-type
+   *
+   * @usage drush schemadotorg:create-type user Person
+   * @usage drush schemadotorg:create-type media AudioObject DataDownload ImageObject VideoObject
+   * @usage drush schemadotorg:create-type node Person Organization Place Event CreativeWork
    *
    * @aliases socr
    */
@@ -180,11 +183,12 @@ class SchemaDotOrgCommands extends DrushCommands {
       throw new UserAbortException();
     }
 
-    // Get default bundle for the entity type.
-    $entity_definition = $this->entityTypeManager->getDefinition($entity_type);
-    $bundle = (!$entity_definition->getBundleEntityType()) ? $entity_type : NULL;
-
     foreach ($schema_types as $schema_type) {
+      // Get the default bundle for the schema type.
+      // Default bundles are only defined for the 'media' and 'user'
+      // entity types.
+      $bundle = $this->schemaEntityTypeManager->getDefaultSchemaTypeBundle($entity_type, $schema_type);
+
       // Create a new Schema.org mapping.
       $schemadotorg_mapping = SchemaDotOrgMapping::create([
         'targetEntityType' => $entity_type,
@@ -241,19 +245,23 @@ class SchemaDotOrgCommands extends DrushCommands {
   /**
    * Delete Schema.org type.
    *
-   * @usage schemadotorg:delete-type
-   *   Usage description
-   *
-   * @command schemadotorg:delete-type
-   *
    * @param string $entity_type
    *   An entity type.
    * @param array $schema_types
    *   A list of Schema.org types.
    *
+   * @command schemadotorg:delete-type
+   *
+   * @usage drush schemadotorg:delete-type --delete-fields user Person
+   * @usage drush schemadotorg:delete-type --delete-fields media AudioObject DataDownload ImageObject VideoObject
+   * @usage drush schemadotorg:delete-type --delete-entity node Recipe
+   *
+   * @option delete-entity Delete the entity associated with the Schema.org type.
+   * @option delimiter Delete the fields associated with the Schema.org type.
+   *
    * @aliases sode
    */
-  public function deleteType($entity_type, array $schema_types) {
+  public function deleteType($entity_type, array $schema_types, $options = ['delete-entity' => FALSE, 'delete-fields' => FALSE]) {
     $t_args = ['@schema_types' => implode(', ', $schema_types)];
     if (!$this->io()->confirm($this->t('Are you sure you want to delete these Schema.org types (@schema_types) and their associated entities and fields?', $t_args))) {
       throw new UserAbortException();
@@ -262,23 +270,58 @@ class SchemaDotOrgCommands extends DrushCommands {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $schemadotorg_mapping_storage */
     $schemadotorg_mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
 
+    if ($options['delete-fields']) {
+      /** @var \Drupal\field\FieldStorageConfigStorage $field_storage_config_storage */
+      $field_storage_config_storage = $this->entityTypeManager->getStorage('field_storage_config');
+      /** @var \Drupal\field\FieldConfigStorage $field_config_storage */
+      $field_config_storage = $this->entityTypeManager->getStorage('field_config');
+    }
+
     foreach ($schema_types as $schema_type) {
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $schemadotorg_mappings */
       $schemadotorg_mappings = $schemadotorg_mapping_storage->loadByProperties([
         'targetEntityType' => $entity_type,
         'type' => $schema_type,
       ]);
+
       foreach ($schemadotorg_mappings as $schemadotorg_mapping) {
+        $t_args = ['@schema_type' => $schema_type, '@id' => $schemadotorg_mapping->id()];
+
+        $entity_type_id = $schemadotorg_mapping->getTargetEntityTypeId();
+        $bundle = $schemadotorg_mapping->getTargetBundle();
         $target_entity_bundle = $schemadotorg_mapping->getTargetEntityBundleEntity();
-        if ($target_entity_bundle) {
+
+        if ($options['delete-entity'] && $target_entity_bundle) {
           $target_entity_bundle->delete();
           $t_args = ['@label' => $target_entity_bundle->label()];
           $this->output()->writeln($this->t('The @label entity and its associated entities and fields has been deleted.', $t_args));
         }
         else {
+          if ($options['delete-fields']) {
+            $deleted_fields = [];
+            $properties = array_keys($schemadotorg_mapping->getSchemaProperties());
+            foreach ($properties as $field_name) {
+              if (strpos($field_name, 'schema_') === 0) {
+                $field_config = $field_config_storage->load($entity_type_id . '.' . $bundle . '.' . $field_name);
+                $field_storage_config = $field_storage_config_storage->load($entity_type_id . '.' . $field_name);
+                if ($field_storage_config && count($field_storage_config->getBundles()) <= 1) {
+                  $field_storage_config->delete();
+                  $deleted_fields[] = $field_name;
+                }
+                elseif ($field_config) {
+                  $field_config->delete();
+                  $deleted_fields[] = $field_name;
+                }
+              }
+            }
+            $t_args['@fields'] = implode('; ', $deleted_fields);
+            $this->output()->writeln($this->t('The associated Schema.org type @schema_type fields (@fields) have been deleted.', $t_args));
+          }
+
           $schemadotorg_mapping->delete();
           $t_args = ['@schema_type' => $schema_type, '@id' => $schemadotorg_mapping->id()];
           $this->output()->writeln($this->t('Schema.org mapping @schema_type (@id) has been deleted.', $t_args));
+          $this->output()->writeln();
         }
       }
     }

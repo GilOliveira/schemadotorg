@@ -16,6 +16,19 @@ interface SchemaDotOrgEntityTypeManagerInterface {
   public function getEntityTypes();
 
   /**
+   * Get default bundle for an entity type and Schema.org type.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $type
+   *   The Schema.org type.
+   *
+   * @return string|null
+   *   The default bundle for an entity type and Schema.org type.
+   */
+  public function getDefaultSchemaTypeBundle($entity_type_id, $type);
+
+  /**
    * Get default Schema.org type for an entity type and bundle.
    *
    * @param string $entity_type_id

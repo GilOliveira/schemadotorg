@@ -20,8 +20,12 @@ Review and document patterns provide by Google
 https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
 
 Drush
+- Add drush usage examples
 - Documentation/test script
-- What happens when you delete an entity with existing content.
+- What happens when you delete an entity with existing content?
+
+Unlimited
+- Unlimited defaults Add entity_types.ENTITY_TYPE.default_unlimited
 
 Add help to types and properties reports.
 - Help text will better define the functionality.
@@ -63,6 +67,12 @@ Schema.org Templates
 
 Alpha
 - Finalize drupal machine names.
+
+# Drush commands
+```
+drush list --filter schemadotorg
+
+```
 
 # Tests
 

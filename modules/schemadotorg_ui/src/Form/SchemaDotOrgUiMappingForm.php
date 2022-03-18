@@ -93,6 +93,14 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $target_bundle = $route_parameters['bundle'] ?? NULL;
     $schema_type = $this->getRequest()->query->get('type');
 
+    // Validate the schema type before continuing.
+    if ($schema_type
+      && !$this->schemaTypeManager->isType($schema_type)) {
+      $t_args = ['@type' => $schema_type];
+      $this->messenger()->addWarning($this->t("The Schema.org type '@type' is not valid.", $t_args));
+      $schema_type = NULL;
+    }
+
     // Get the Schema.org mapping using route matching.
     if (!$target_entity_type_id && !$schema_type) {
       return parent::getEntityFromRouteMatch($route_match, $entity_type_id);
@@ -101,7 +109,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     // Default the target entity type to be a node.
     $target_entity_type_id = $target_entity_type_id ?? 'node';
 
-    // Make sure the new Schema.org type is not already mapped.
+    // Display warning that new Schema.org type is  mapped.
     if ($entity_storage->isSchemaTypeMapped($target_entity_type_id, $schema_type)) {
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
       $entity = $entity_storage->loadBySchemaType($target_entity_type_id, $schema_type);
@@ -113,7 +121,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '@id' => $target_entity->id(),
       ];
       $this->messenger()->addWarning($this->t('%type is currently mapped to <a href=":href">@label</a> (@id).', $t_args));
-      $schema_type = NULL;
     }
 
     // Set default schema type for the current target entity type and bundle.
