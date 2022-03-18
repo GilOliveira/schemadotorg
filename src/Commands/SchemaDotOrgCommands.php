@@ -2,6 +2,16 @@
 
 namespace Drupal\schemadotorg\Commands;
 
+use Consolidation\AnnotatedCommand\CommandData;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Form\FormState;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
+use Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface;
+use Drupal\schemadotorg\SchemaDotOrgInstallerInterface;
+use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Drush\Commands\DrushCommands;
 use Drush\Exceptions\UserAbortException;
 
@@ -10,24 +20,268 @@ use Drush\Exceptions\UserAbortException;
  */
 class SchemaDotOrgCommands extends DrushCommands {
 
+  use StringTranslationTrait;
+
+  /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
+   * The form builder.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $formBuilder;
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * The Schema.org installer service.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface
+   */
+  protected $schemaInstaller;
+
+  /**
+   * The Schema.org schema type manager.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
+   */
+  protected $schemaTypeManager;
+
+  /**
+   * The Schema.org entity type manager service.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface
+   */
+  protected $schemaEntityTypeManager;
+
+  /**
+   * SchemaDotOrgCommands constructor.
+   *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler.
+   * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
+   *   The form builder.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   *   The Schema.org schema type manager.
+   * @param \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface $schema_entity_type_manager
+   *   The Schema.org entity type service.
+   */
+  public function __construct(
+    ModuleHandlerInterface $module_handler,
+    FormBuilderInterface $form_builder,
+    EntityTypeManagerInterface $entity_type_manager,
+    SchemaDotOrgInstallerInterface $schemadotorg_installer,
+    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
+    SchemaDotOrgEntityTypeManagerInterface $schema_entity_type_manager
+  ) {
+    parent::__construct();
+    $this->moduleHandler = $module_handler;
+    $this->formBuilder = $form_builder;
+    $this->entityTypeManager = $entity_type_manager;
+    $this->schemaInstaller = $schemadotorg_installer;
+    $this->schemaTypeManager = $schema_type_manager;
+    $this->schemaEntityTypeManager = $schema_entity_type_manager;
+  }
+
+  /* ************************************************************************ */
+  // Update schema.
+  /* ************************************************************************ */
+
   /**
    * Update Schema.org data and taxonomy.
    *
-   * @usage schemadotorg:update
-   *   Usage description
+   * @usage schemadotorg:update-schema
+   *   Update Schema.org data and taxonomy.
    *
-   * @command schemadotorg:update
+   * @command schemadotorg:update-schema
    * @aliases soup
    */
   public function update() {
-    if (!$this->io()->confirm(dt('Are you sure you want to update Schema.org data and taxonomy?'))) {
+    if (!$this->io()->confirm($this->t('Are you sure you want to update Schema.org data and taxonomy?'))) {
       throw new UserAbortException();
     }
 
-    /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
-    $installer = \Drupal::service('schemadotorg.installer');
-    $installer->install();
-    $this->output()->writeln(dt('Schema.org data and taxonomy updated.'));
+    $this->schemaInstaller->install();
+    $this->output()->writeln($this->t('Schema.org data and taxonomy updated.'));
+  }
+
+  /* ************************************************************************ */
+  // Create type.
+  /* ************************************************************************ */
+
+  /**
+   * Validates the entity type and Schema.org type to be created.
+   *
+   * @hook validate schemadotorg:create-type
+   */
+  public function createTypeValidate(CommandData $commandData) {
+    if (!$this->moduleHandler->moduleExists('schemadotorg_ui')) {
+      throw new \Exception($this->t('The Schema.org UI module must be enabled to create Schema.org types.'));
+    }
+
+    $arguments = $commandData->getArgsWithoutAppName();
+    $schema_types = $arguments['schema_types'] ?? [];
+    $entity_type = $arguments['entity_type'] ?? NULL;
+
+    // Required Schema.org type.
+    if (empty($schema_types)) {
+      throw new \Exception(dt('Schema.org types are required'));
+    }
+
+    // Check for allowed and valid entity type.
+    $entity_types = $this->schemaEntityTypeManager->getEntityTypes();
+    if (!in_array($entity_type, $entity_types)) {
+      $t_args = [
+        '@entity_type' => $entity_type,
+        '@entity_types' => implode(', ', $entity_types),
+      ];
+      throw new \Exception($this->t("The entity type '@entity_type' is not valid. Please select a entity type (@entity_types).", $t_args));
+    }
+
+    // Check for valid Schema.org types.
+    foreach ($schema_types as $schema_type) {
+      if (!$this->schemaTypeManager->isType($schema_type)) {
+        $t_args = ['@schema_type' => $schema_type];
+        throw new \Exception($this->t("The Schema.org type '@schema_type' is not valid. Please go to https://schema.org to find valid Schema.org types.", $t_args));
+      }
+    }
+  }
+
+  /**
+   * Create Schema.org type.
+   *
+   * @usage schemadotorg:create-type
+   *   Usage description
+   *
+   * @command schemadotorg:create-type
+   *
+   * @param string $entity_type
+   *   An entity type.
+   * @param array $schema_types
+   *   A list of Schema.org types.
+   *
+   * @aliases socr
+   */
+  public function createType($entity_type, array $schema_types) {
+    $t_args = ['@schema_types' => implode(', ', $schema_types)];
+    if (!$this->io()->confirm($this->t('Are you sure you want to create Schema.org types (@schema_types)?', $t_args))) {
+      throw new UserAbortException();
+    }
+
+    // Get default bundle for the entity type.
+    $entity_definition = $this->entityTypeManager->getDefinition($entity_type);
+    $bundle = (!$entity_definition->getBundleEntityType()) ? $entity_type : NULL;
+
+    foreach ($schema_types as $schema_type) {
+      // Create a new Schema.org mapping.
+      $schemadotorg_mapping = SchemaDotOrgMapping::create([
+        'targetEntityType' => $entity_type,
+        'type' => $schema_type,
+        'bundle' => $bundle,
+      ]);
+
+      /** @var \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm $form_object */
+      $form_object = $this->entityTypeManager->getFormObject('schemadotorg_mapping', 'add');
+      $form_object->setEntity($schemadotorg_mapping);
+
+      // Submit the form.
+      $form_state = new FormState();
+      $this->formBuilder->submitForm($form_object, $form_state);
+    }
+  }
+
+  /* ************************************************************************ */
+  // Delete type.
+  /* ************************************************************************ */
+
+  /**
+   * Validates the entity type and Schema.org type to be deleted.
+   *
+   * @hook validate schemadotorg:delete-type
+   */
+  public function deleteTypeValidate(CommandData $commandData) {
+    $arguments = $commandData->getArgsWithoutAppName();
+    $entity_type = $arguments['entity_type'] ?? NULL;
+    $schema_types = $arguments['schema_types'] ?? [];
+
+    // Required Schema.org type.
+    if (empty($schema_types)) {
+      throw new \Exception(dt('Schema.org types are required'));
+    }
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $schemadotorg_mapping_storage */
+    $schemadotorg_mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+
+    // Check for valid Schema.org mapping.
+    foreach ($schema_types as $schema_type) {
+      /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $schemadotorg_mappings */
+      $schemadotorg_mappings = $schemadotorg_mapping_storage->loadByProperties([
+        'targetEntityType' => $entity_type,
+        'type' => $schema_type,
+      ]);
+      if (empty($schemadotorg_mappings)) {
+        $t_args = ['@entity_type' => $entity_type, '@schema_type' => $schema_type];
+        throw new \Exception($this->t("No Schema.org mapping exists for @schema_type (@entity_type).", $t_args));
+      }
+    }
+  }
+
+  /**
+   * Delete Schema.org type.
+   *
+   * @usage schemadotorg:delete-type
+   *   Usage description
+   *
+   * @command schemadotorg:delete-type
+   *
+   * @param string $entity_type
+   *   An entity type.
+   * @param array $schema_types
+   *   A list of Schema.org types.
+   *
+   * @aliases sode
+   */
+  public function deleteType($entity_type, array $schema_types) {
+    $t_args = ['@schema_types' => implode(', ', $schema_types)];
+    if (!$this->io()->confirm($this->t('Are you sure you want to delete these Schema.org types (@schema_types) and their associated entities and fields?', $t_args))) {
+      throw new UserAbortException();
+    }
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $schemadotorg_mapping_storage */
+    $schemadotorg_mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+
+    foreach ($schema_types as $schema_type) {
+      /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $schemadotorg_mappings */
+      $schemadotorg_mappings = $schemadotorg_mapping_storage->loadByProperties([
+        'targetEntityType' => $entity_type,
+        'type' => $schema_type,
+      ]);
+      foreach ($schemadotorg_mappings as $schemadotorg_mapping) {
+        $target_entity_bundle = $schemadotorg_mapping->getTargetEntityBundleEntity();
+        if ($target_entity_bundle) {
+          $target_entity_bundle->delete();
+          $t_args = ['@label' => $target_entity_bundle->label()];
+          $this->output()->writeln($this->t('The @label entity and its associated entities and fields has been deleted.', $t_args));
+        }
+        else {
+          $schemadotorg_mapping->delete();
+          $t_args = ['@schema_type' => $schema_type, '@id' => $schemadotorg_mapping->id()];
+          $this->output()->writeln($this->t('Schema.org mapping @schema_type (@id) has been deleted.', $t_args));
+        }
+      }
+    }
   }
 
 }

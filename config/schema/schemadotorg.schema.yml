@@ -113,3 +113,20 @@ entity_reference_selection.schemadotorg_type:
       field_name:
         type: string
         label: 'Field name'
+
+entity_reference_selection.schemadotorg_enumeration:
+  type: entity_reference_selection.default
+  label: 'Scheme.org enumeration handler settings'
+  schemadotorg_mapping:
+    type: mapping
+    label: 'Schema.org field mapping'
+    mapping:
+      entity_type:
+        type: string
+        label: 'Entity type'
+      bundle:
+        type: string
+        label: 'Entity bundle'
+      field_name:
+        type: string
+        label: 'Field name'

@@ -140,6 +140,12 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
 
+    // Disable inline form errors for CLI (a.k.a Drush).
+    // @see \Drupal\schemadotorg\Commands\SchemaDotOrgCommands::createType
+    if (PHP_SAPI === 'cli') {
+      $form['#disable_inline_form_errors'] = TRUE;
+    }
+
     if ($this->getSchemaType()) {
       return $this->buildFieldTypeForm($form);
     }
@@ -223,17 +229,16 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    parent::submitForm($form, $form_state);
+
+    // Handle find Schema.org type form.
     $op = (string) $form_state->getValue('op');
     if ($op === (string) $this->t('Find')) {
       $type = $form_state->getValue('type');
       $form_state->setRedirect('<current>', [], ['query' => ['type' => $type]]);
+      return;
     }
-  }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function save(array $form, FormStateInterface $form_state) {
     $mapping_entity = $this->getEntity();
 
     // Redirect to the current page if we are update the Schema.org tab
@@ -331,9 +336,15 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $this->messenger()->addStatus($message);
     }
 
-    // Save the mapping and display a message.
-    $mapping_entity->save();
     $this->messenger()->addStatus($this->t('Schema.org mapping has been saved.'));
+    $mapping_entity->save();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function save(array $form, FormStateInterface $form_state) {
+    // Do nothing and allows the entity to be saved via ::submitForm.
   }
 
   /* ************************************************************************ */

@@ -19,6 +19,10 @@ Types of relationships
 Review and document patterns provide by Google
 https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
 
+Drush
+- Documentation/test script
+- What happens when you delete an entity with existing content.
+
 Add help to types and properties reports.
 - Help text will better define the functionality.
 - Note Schema.org version.
@@ -29,12 +33,6 @@ Display Enumerations as select menus.
 Change target for entity reference based on available mappings.
 - Find mappings with sub-targets.
 - Display dedicated entity types.
-
-drush soma - Schema.org map command
-- drush soma user Person
-- drush soma node Recipe
-- drush soma media VideoObject
-- Isolate form values and submit callback.
 
 --------------------------------------------------------------------------------
 
