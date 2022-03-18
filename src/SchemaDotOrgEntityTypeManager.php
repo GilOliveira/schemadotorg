@@ -122,6 +122,11 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
       if (isset($type_mappings[$range_include]) && !$this->schemaTypeManager->isDataType($range_include)) {
         $field_types += array_combine($type_mappings[$range_include], $type_mappings[$range_include]);
       }
+      // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::alterFieldValues
+      $allowed_values_function = 'schemadotorg_allowed_values_' . strtolower($range_include);
+      if (function_exists($allowed_values_function)) {
+        $field_types['list_string'] = 'list_string';
+      }
     }
 
     // Set default data type related field types.

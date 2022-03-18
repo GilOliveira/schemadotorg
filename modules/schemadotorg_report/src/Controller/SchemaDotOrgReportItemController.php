@@ -368,6 +368,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    */
   protected function getPropertyFields() {
     return [
+      'id' => $this->t('Schema.org ID'),
       'label' => $this->t('Schema.org label'),
       'drupal_label' => $this->t('Drupal label'),
       'drupal_name' => $this->t('Drupal name'),

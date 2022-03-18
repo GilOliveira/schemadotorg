@@ -151,6 +151,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       'label' => NULL,
       'description' => '',
       'unlimited' => NULL,
+      'schema_property' => NULL,
     ];
 
     /** @var \Drupal\field\FieldStorageConfigInterface $field_storage_config */
@@ -163,6 +164,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $field_label = $field['label'];
     $field_description = $field['description'];
     $field_unlimited = $field['unlimited'];
+    $schema_property = $field['schema_property'];
 
     $new_storage_type = !$field_storage_config;
     $existing_storage = !!$field_storage_config;
@@ -235,7 +237,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
 
       // Create the field storage and field.
       try {
-        $this->alterFieldValues($field_storage_values, $field_values);
+        $this->alterFieldValues($schema_property, $field_storage_values, $field_values);
         $this->entityTypeManager->getStorage('field_storage_config')->create($field_storage_values)->save();
         $field = $this->entityTypeManager->getStorage('field_config')->create($field_values);
         $field->save();
@@ -251,7 +253,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     // Re-use existing field.
     if ($existing_storage) {
       try {
-        $this->alterFieldValues($field_storage_values, $field_values);
+        $this->alterFieldValues($schema_property, $field_storage_values, $field_values);
         $field = $this->entityTypeManager->getStorage('field_config')->create($field_values);
         $field->save();
 
@@ -267,12 +269,14 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * Alter field storage and field values before they are created.
    *
+   * @param string $property
+   *   The Schema.org property.
    * @param array $field_storage_values
    *   Field storage config values.
    * @param array $field_values
    *   Field config values.
    */
-  protected function alterFieldValues(array &$field_storage_values, array &$field_values) {
+  protected function alterFieldValues($property, array &$field_storage_values, array &$field_values) {
     switch ($field_storage_values['type']) {
       case 'entity_reference':
         $target_type = $field_storage_values['settings']['target_type'] ?? 'node';
@@ -282,6 +286,22 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
             'target_type' => $target_type,
           ],
         ];
+        break;
+
+      case 'list_string':
+        // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager::getSchemaPropertyFieldTypes
+        $property_definition = $this->schemaTypeManager->getProperty($property);
+        $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
+        foreach ($range_includes as $range_include) {
+          $allowed_values_function = 'schemadotorg_allowed_values_' . strtolower($range_include);
+          if (function_exists($allowed_values_function)) {
+            $field_storage_values['settings'] = [
+              'allowed_values' => [],
+              'allowed_values_function' => $allowed_values_function,
+            ];
+            break;
+          }
+        }
         break;
     }
   }

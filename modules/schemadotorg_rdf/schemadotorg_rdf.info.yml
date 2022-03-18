@@ -1,0 +1,9 @@
+name: Schema.org RDF
+type: module
+description: Integrates Schema.org mappings with Drupal core's RDF(a) mappings.
+package: Schema.org
+core_version_requirement: ^9
+lifecycle: experimental
+dependencies:
+  - 'schemadotorg:schemadotorg'
+  - 'drupal:rdf'

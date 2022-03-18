@@ -54,51 +54,39 @@ entity_types:
           - ComputerLanguage
           - NutritionInformation
     default_schema_properties:
-      - address
-      - about
-      - abstract
       - additionalName
+      - addressCountry
       - alternativeHeadline
-      - audience
-      - author
-      - attendee
-      - birthDate
-      - contactPoint
-      - creativeWorkStatus
-      - dateCreated
-      - dateModified
-      - datePublished
+      - addressLocality
+      - addressRegion
+      - contactOption
       - description
       - duration
       - endDate
       - email
-      - eventStatus
-      - familyName
-      - faxNumber
-      - gender
-      - givenName
       - headline
-      - honorificPrefix
-      - honorificSuffix
+      - hoursAvailable
       - image
-      - jobTitle
-      - keywords
-      - latitude
-      - location
-      - longitude
-      - mentions
       - name
-      - organizer
-      - performer
-      - parentOrganization
-      - photo
-      - sponsor
+      - postOfficeBoxNumber
+      - postalCode
+      - roleName
       - startDate
+      - streetAddress
       - telephone
       - text
-      - timeRequired
-      - thumbnailUrl
-      - video
+      - calories
+      - carbohydrateContent
+      - cholesterolContent
+      - fatContent
+      - fiberContent
+      - proteinContent
+      - saturatedFatContent
+      - servingSize
+      - sodiumContent
+      - sugarContent
+      - transFatContent
+      - unsaturatedFatContent
   media:
     base_fields:
       - uuid
@@ -170,12 +158,13 @@ entity_types:
         types:
           - Thing
           - Person
+          - Organization
           - Place
           - Event
+          - CreativeWork
       content:
         label: Content
         types:
-          - CreativeWork
           - Article
           - NewsArticle
           - Blog
@@ -186,7 +175,6 @@ entity_types:
       business:
         label: Business
         types:
-          - Organization
           - LocalBusiness
           - Corporation
           - Restaurant
@@ -251,23 +239,35 @@ entity_types:
       - honorificSuffix
       - image
       - jobTitle
+      - knowsLanguage
       - keywords
       - latitude
       - location
       - longitude
       - mentions
       - name
+      - nationality
+      - nutrition
       - organizer
       - performer
       - parentOrganization
       - photo
+      - recipeCategory
+      - recipeCuisine
+      - recipeIngredient
+      - recipeInstructions
+      - recipeYield
       - sponsor
       - startDate
+      - suitableForDiet
       - telephone
       - text
+      - totalTime
       - timeRequired
       - thumbnailUrl
+      - worksFor
       - video
+      - yield
   paragraph:
     base_fields:
       - uuid
@@ -380,6 +380,7 @@ entity_types:
       - honorificSuffix
       - image
       - jobTitle
+      - knowsLanguage
       - name
       - nationality
       - telephone
@@ -445,10 +446,10 @@ schema_types:
       - list_string
       - field_ui:entity_reference:taxonomy_term
     Duration:
-      - text
+      - string
     QuantitativeValue:
-      - text
+      - string
     Quantity:
-      - text
+      - string
     URL:
       - link

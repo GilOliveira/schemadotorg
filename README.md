@@ -4,39 +4,43 @@ Slides: https://www.slidescarnival.com/valentine-free-presentation-template/234
 
 Provides blueprints for leveraging Schema.org to build and manage an SEO and API-first content architecture in Drupal.
 
-# Common schemas
-
 # Todo
 
 The goal is to demo a content building framework which allows for progressive enhancements.
 
-Review paragraphs support.
+Person
 
-Types of relations
+Types of relationships
 - Datatype
 - Name/Value
 - DefinedTerm
 - Type
 
-Type of field.
-- Token fields for computations
-
-Relationships
-- Can all relationships have text strings?
-
 Review and document patterns provide by Google
 https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
 
+Add help to types and properties reports.
+- Help text will better define the functionality.
+- Note Schema.org version.
+- Link to source CSV.
+
+Display Enumerations as select menus.
+
+Change target for entity reference based on available mappings.
+- Find mappings with sub-targets.
+- Display dedicated entity types.
+
+drush soma - Schema.org map command
+- drush soma user Person
+- drush soma node Recipe
+- drush soma media VideoObject
+- Isolate form values and submit callback.
+
 --------------------------------------------------------------------------------
 
-Help text will better define the functionality.
-
-Mapping
-- property => field or field => property
-- Sub properties???
-
-\Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::alterFormDisplayWidget
-\Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::alterViewDisplayWidget
+Defined form and view display defaults.
+- \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::alterFormDisplayWidget
+- \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::alterViewDisplayWidget
 
 - Tree widget
   - https://github.com/vakata/jstree
@@ -54,12 +58,6 @@ Configure Schema.org and Schema.org UI
 Schema.org Templates
   - Templates will preselect recommended fields.
   - Templates can be automatically updated
-
-- Add help to types and properties reports.
-  - Note Schema.org version.
-  - Link to source CSV.
-
-Define what is alpha beta and release goals.
 
 --------------------------------------------------------------------------------
 
@@ -157,46 +155,33 @@ Drupal Entities & Field
 
 # Sub modules
 
-- Report - Provides a report for browsing Schema.org types, properties, and naming conventions.
-- Descriptions
-- UI
-- RDF - Generates Schema.org RDFa mapping via cores RDF module.
-- Json-ld
-- Json API
+- Schema.org Report - Provides a report for browsing Schema.org types, properties, and naming conventions.
+- Schema.org RDF - Integrates Schema.org mappings with Drupal core's RDF(a) mappings.
+- Schema.org UI - Allows administrators to attach custom Schema.org properties to fieldable types.
+
+TDB
+
+- JSON-LD - Generation JSON-LD definitions for Schema.org type.
+- JSON:API - Apply Schema.org type and property names to Drupal core's JSON:API.
 - Templates - Provides templates for creating and updating a Schema.org type in a click.
-- Entity???
 
 # Contrib modules
 
 Required
-
 - https://www.drupal.org/project/paragraphs
-- https://www.drupal.org/project/key_value_field
 
 Recommended
-- https://www.drupal.org/project/entity_type_clone
-- https://www.drupal.org/project/convert_bundles
+- https://www.drupal.org/project/key_value_field
+- https://www.drupal.org/project/field_token_value
 
 Other
 - https://www.drupal.org/project/flexfield
 - https://www.drupal.org/project/computed_field
 
 TBD
-- https://www.drupal.org/project/field_token_value
+- https://www.drupal.org/project/entity_type_clone
+- https://www.drupal.org/project/convert_bundles
 - https://www.drupal.org/project/base_field_override_ui
 - https://www.drupal.org/project/jsonapi_node_preview_tab
 - https://www.drupal.org/project/field_ui_extras
 
-# Schema.org Type => Drupal Entity
-
-- Thing => Node
-- Enumeration => Term
-- Media Object => Media
-- Structure values => Paragraph
-- Component => Block content
-
-# TBD
-country
-- https://chromatichq.com/insights/dynamic-default-and-allowed-values-list-fields-drupal-8
-- HOOK_allowed_values_FIELD_NAME()
-- schemadotorg_allowed_values_schema_country()

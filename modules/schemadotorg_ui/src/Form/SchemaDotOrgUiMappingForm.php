@@ -301,11 +301,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
             'machine_name' => $field_name,
             'label' => $this->getFieldConfigLabel($field_name) ?: $property_definition['label'],
             'description' => $this->schemaTypeBuilder->formatComment($property_definition['comment']),
+            'schema_property' => $property_name,
           ];
           $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
         }
         elseif ($field_name === static::ADD_FIELD) {
           $field = $property_values['field']['add'];
+          $field['schema_property'] = $property_name;
           $field['machine_name'] = 'schema_' . $field['machine_name'];
           $field_name = $field['machine_name'];
           if (!$this->fieldExists($field_name)) {
@@ -500,7 +502,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#prefix' => '<div class="schemadotorg-ui-property">',
         '#suffix' => '</div>',
         'label' => [
-          '#markup' => $property_definition['label'],
+          '#type' => 'link',
+          '#title' => $property_definition['label'],
+          '#url' => $this->schemaTypeBuilder->getItemUrl($property_definition['label']),
           '#prefix' => '<div class="schemadotorg-ui-property--label"><strong>',
           '#suffix' => '</strong></div>',
         ],
@@ -517,8 +521,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       ];
 
       // Field.
-      $field_name_default_value = NULL;
       $field_name = 'schema_' . $property_definition['drupal_name'];
+      $field_name_default_value = NULL;
       if (isset($property_mappings[$property])) {
         $field_name_default_value = $property_mappings[$property];
       }
@@ -967,6 +971,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   Base fields as options.
    */
   protected function getBaseFieldDefinitionsOptions() {
+    $field_types = $this->fieldTypePluginManager->getDefinitions();
+
     $entity_type_id = $this->getTargetEntityTypeId();
     $field_definitions = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
     $options = [];
@@ -976,13 +982,19 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       foreach ($base_field_names as $field_name) {
         if (isset($field_definitions[$field_name])) {
           $field_definition = $field_definitions[$field_name];
-          $options[$field_definition->getName()] = $field_definition->getLabel();
+          $options[$field_definition->getName()] = $this->t('@field (@type)', [
+            '@type' => $field_types[$field_definition->getType()]['label'],
+            '@field' => $field_definition->getLabel(),
+          ]);
         }
       }
     }
     else {
       foreach ($field_definitions as $field_definition) {
-        $options[$field_definition->getName()] = $field_definition->getLabel();
+        $options[$field_definition->getName()] = $this->t('@field (@type)', [
+          '@type' => $field_types[$field_definition->getType()]['label'],
+          '@field' => $field_definition->getLabel(),
+        ]);
       }
     }
 
@@ -996,6 +1008,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   The current entity's fields as options.
    */
   protected function getFieldDefinitionsOptions() {
+    $field_types = $this->fieldTypePluginManager->getDefinitions();
+
     $entity_type_id = $this->getTargetEntityTypeId();
     $bundle = $this->getTargetBundle();
     $field_definitions = array_diff_key(
@@ -1005,7 +1019,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     $options = [];
     foreach ($field_definitions as $field_definition) {
-      $options[$field_definition->getName()] = $field_definition->getLabel();
+      $options[$field_definition->getName()] = $this->t('@field (@type)', [
+        '@type' => $field_types[$field_definition->getType()]['label'],
+        '@field' => $field_definition->getLabel(),
+      ]);
     }
     return $options;
   }
@@ -1057,9 +1074,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * @see \Drupal\field_ui\Form\FieldStorageAddForm::getExistingFieldStorageOptions
    */
   protected function getExistingFieldStorageOptions() {
-    $options = [];
-    // Load the field_storages and build the list of options.
     $field_types = $this->fieldTypePluginManager->getDefinitions();
+
+    // Load the field_storages and build the list of options.
+    $options = [];
     foreach ($this->entityFieldManager->getFieldStorageDefinitions($this->getTargetEntityTypeId()) as $field_name => $field_storage) {
       // Do not show:
       // - non-configurable field storages,

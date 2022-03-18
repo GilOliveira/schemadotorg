@@ -7,6 +7,8 @@
 
 use Drupal\Core\Entity\EntityInterface;
 
+require_once __DIR__ . '/includes/schemadotorg.allowed_values.inc';
+
 /**
  * hook_entity_reference_selection_alter().
  */

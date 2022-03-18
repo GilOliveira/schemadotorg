@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Schema.org RDF module.
+ */
+
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_rdf_install() {
+  $schemadotorg_mappings = SchemaDotOrgMapping::loadMultiple();
+  foreach ($schemadotorg_mappings as $schemadotorg_mapping) {
+    schemadotorg_rdf_schemadotorg_mapping_update($schemadotorg_mapping);
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function schemadotorg_rdf_uninstall() {
+  $schemadotorg_mappings = SchemaDotOrgMapping::loadMultiple();
+  foreach ($schemadotorg_mappings as $schemadotorg_mapping) {
+    schemadotorg_rdf_schemadotorg_mapping_delete($schemadotorg_mapping);
+  }
+}
+

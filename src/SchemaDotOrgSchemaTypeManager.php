@@ -313,7 +313,9 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
       $all_subtypes += $types;
       $subtypes = [];
       foreach ($types as $type) {
-        $subtypes += array_combine($this->tree[$type], $this->tree[$type]);
+        if (isset($this->tree[$type])) {
+          $subtypes += array_combine($this->tree[$type], $this->tree[$type]);
+        }
       }
       $types = $subtypes;
     }

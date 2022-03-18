@@ -2,9 +2,6 @@
 
 namespace Drupal\schemadotorg;
 
-use Drupal\Component\Utility\Html;
-use Drupal\Core\Url;
-
 /**
  * Schema.org schema type builder interface.
  */

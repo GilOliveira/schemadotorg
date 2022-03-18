@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * @file
+ * Integrates Schema.org mappings with Drupal core's RDF(a) mappi
+ */
+
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function schemadotorg_rdf_schemadotorg_mapping_update(SchemaDotOrgMappingInterface $schemadotorg_mapping) {
+  $entity_type_id = $schemadotorg_mapping->getTargetEntityTypeId();
+  $bundle = $schemadotorg_mapping->getTargetBundle();
+  $schema_type = $schemadotorg_mapping->getSchemaType();
+  $schema_properties = $schemadotorg_mapping->getSchemaProperties();
+
+  $rdf_mapping = rdf_get_mapping($entity_type_id, $bundle);
+
+  // Set the bundle mapping.
+  $rdf_mapping->setBundleMapping(['types' => ['schema:' . $schema_type]]);
+
+  // Reset all field mappings.
+  $rdf_mapping->set('fieldMappings', []);
+
+  // Set each individual field mapping.
+  foreach ($schema_properties as $field_name => $schema_property) {
+    $rdf_mapping->setFieldMapping($field_name, [
+        'properties' => ['schema:' . $schema_property['property']],
+      ],
+    );
+  }
+
+  $rdf_mapping->save();
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function schemadotorg_rdf_schemadotorg_mapping_delete(SchemaDotOrgMappingInterface $schemadotorg_mapping) {
+  $entity_type_id = $schemadotorg_mapping->getTargetEntityTypeId();
+  $bundle = $schemadotorg_mapping->getTargetBundle();
+  $rdf_mapping = rdf_get_mapping($entity_type_id, $bundle);
+  $rdf_mapping->delete();
+}
