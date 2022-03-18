@@ -8,14 +8,8 @@ Provides blueprints for leveraging Schema.org to build and manage an SEO and API
 
 The goal is to demo a content building framework which allows for progressive enhancements.
 
-Person
-
 Review and document patterns provide by Google
 https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
-
-Change target for entity reference based on available mappings.
-- Find mappings with sub-targets.
-- Display dedicated entity types.
 
 Add help to types and properties reports.
 - Help text will better define the functionality.
@@ -29,10 +23,10 @@ Ongoing
 - Build out the default property list.
 - Build out the global unlimited property list.
 
-- Tree widget
+Tree widget
   - https://github.com/vakata/jstree
 
-- Subtyping.
+Subtyping
 
 Configure Schema.org and Schema.org UI
 - General

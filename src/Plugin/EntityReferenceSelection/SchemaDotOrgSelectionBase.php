@@ -95,6 +95,7 @@ abstract class SchemaDotOrgSelectionBase extends SelectionPluginBase implements 
     /** @var \Drupal\field\FieldConfigInterface $field_config */
     $field_config = $this->routeMatch->getParameter('field_config');
     if ($field_config instanceof FieldConfigInterface) {
+      $configuration = $this->getConfiguration();
       $configuration['schemadotorg_mapping'] = [
         'entity_type' => $field_config->getTargetEntityTypeId(),
         'bundle' => $field_config->getTargetBundle(),

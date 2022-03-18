@@ -372,6 +372,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     array &$formatter_settings
   ) {
     switch ($field_storage_values['type']) {
+      case 'entity_reference_revisions':
       case 'entity_reference':
         $target_type = $field_storage_values['settings']['target_type'] ?? 'node';
         switch ($target_type) {
@@ -386,7 +387,14 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         }
         $field_values['settings'] = [
           'handler' => $handler,
-          'handler_settings' => ['target_type' => $target_type],
+          'handler_settings' => [
+            'target_type' => $target_type,
+            'schemadotorg_mapping' => [
+              'entity_type' => $field_values['field_name'],
+              'bundle' => $field_values['bundle'],
+              'field_name' => $field_values['entity_type'],
+            ],
+          ],
         ];
         break;
 
