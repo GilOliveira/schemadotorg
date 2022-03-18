@@ -197,11 +197,11 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       'description' => $field_description,
     ];
 
+    $widget_id = $formatter_id = NULL;
+    $widget_settings = $formatter_settings = [];
+
     // Create new field.
     if ($new_storage_type) {
-      $widget_id = $formatter_id = NULL;
-      $widget_settings = $formatter_settings = [];
-
       // Check if we're dealing with a preconfigured field.
       if (strpos($field_storage_values['type'], 'field_ui:') !== FALSE) {
 
@@ -237,7 +237,16 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
 
       // Create the field storage and field.
       try {
-        $this->alterFieldValues($schema_property, $field_storage_values, $field_values);
+        $this->alterFieldValues(
+          $schema_property,
+          $field_storage_values,
+          $field_values,
+          $widget_id,
+          $widget_settings,
+            $formatter_id,
+            $formatter_settings
+        );
+
         $this->entityTypeManager->getStorage('field_storage_config')->create($field_storage_values)->save();
         $field = $this->entityTypeManager->getStorage('field_config')->create($field_values);
         $field->save();
@@ -253,56 +262,25 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     // Re-use existing field.
     if ($existing_storage) {
       try {
-        $this->alterFieldValues($schema_property, $field_storage_values, $field_values);
+        $this->alterFieldValues(
+          $schema_property,
+          $field_storage_values,
+          $field_values,
+          $widget_id,
+          $widget_settings,
+          $formatter_id,
+          $formatter_settings
+        );
+
         $field = $this->entityTypeManager->getStorage('field_config')->create($field_values);
         $field->save();
 
-        $this->configureEntityFormDisplay($entity_type_id, $bundle, $field_name);
-        $this->configureEntityViewDisplay($entity_type_id, $bundle, $field_name);
+        $this->configureEntityFormDisplay($entity_type_id, $bundle, $field_name, $widget_id, $widget_settings);
+        $this->configureEntityViewDisplay($entity_type_id, $bundle, $field_name, $formatter_id, $formatter_settings);
       }
       catch (\Exception $e) {
         \Drupal::messenger()->addError($this->t('There was a problem creating field %label: @message', ['%label' => $field_label, '@message' => $e->getMessage()]));
       }
-    }
-  }
-
-  /**
-   * Alter field storage and field values before they are created.
-   *
-   * @param string $property
-   *   The Schema.org property.
-   * @param array $field_storage_values
-   *   Field storage config values.
-   * @param array $field_values
-   *   Field config values.
-   */
-  protected function alterFieldValues($property, array &$field_storage_values, array &$field_values) {
-    switch ($field_storage_values['type']) {
-      case 'entity_reference':
-        $target_type = $field_storage_values['settings']['target_type'] ?? 'node';
-        $field_values['settings'] = [
-          'handler' => 'schemadotorg_' . ($target_type === 'taxonomy_term' ? 'enumeration' : 'type'),
-          'handler_settings' => [
-            'target_type' => $target_type,
-          ],
-        ];
-        break;
-
-      case 'list_string':
-        // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager::getSchemaPropertyFieldTypes
-        $property_definition = $this->schemaTypeManager->getProperty($property);
-        $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
-        foreach ($range_includes as $range_include) {
-          $allowed_values_function = 'schemadotorg_allowed_values_' . strtolower($range_include);
-          if (function_exists($allowed_values_function)) {
-            $field_storage_values['settings'] = [
-              'allowed_values' => [],
-              'allowed_values_function' => $allowed_values_function,
-            ];
-            break;
-          }
-        }
-        break;
     }
   }
 
@@ -364,6 +342,70 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle)
       ->setComponent($field_name, $options)
       ->save();
+  }
+
+  /**
+   * Alter field storage and field values before they are created.
+   *
+   * @param string $property
+   *   The Schema.org property.
+   * @param array $field_storage_values
+   *   Field storage config values.
+   * @param array $field_values
+   *   Field config values.
+   * @param string $widget_id
+   *   The plugin ID of the widget.
+   * @param array $widget_settings
+   *   An array of widget settings.
+   * @param string|null $formatter_id
+   *   The plugin ID of the formatter.
+   * @param array $formatter_settings
+   *   An array of formatter settings.
+   */
+  protected function alterFieldValues(
+    $property,
+    array &$field_storage_values,
+    array &$field_values,
+    &$widget_id,
+    array &$widget_settings,
+    &$formatter_id,
+    array &$formatter_settings
+  ) {
+    switch ($field_storage_values['type']) {
+      case 'entity_reference':
+        $target_type = $field_storage_values['settings']['target_type'] ?? 'node';
+        switch ($target_type) {
+          case 'taxonomy_term':
+            $handler = 'schemadotorg_enumeration';
+            $widget_id = 'options_select';
+            break;
+
+          default:
+            $handler = 'schemadotorg_type';
+            break;
+        }
+        $field_values['settings'] = [
+          'handler' => $handler,
+          'handler_settings' => ['target_type' => $target_type],
+        ];
+        break;
+
+      case 'list_string':
+        // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager::getSchemaPropertyFieldTypes
+        $property_definition = $this->schemaTypeManager->getProperty($property);
+        $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
+        foreach ($range_includes as $range_include) {
+          $allowed_values_function = 'schemadotorg_allowed_values_' . strtolower($range_include);
+          if (function_exists($allowed_values_function)) {
+            $field_storage_values['settings'] = [
+              'allowed_values' => [],
+              'allowed_values_function' => $allowed_values_function,
+            ];
+            break;
+          }
+        }
+        break;
+    }
   }
 
 }

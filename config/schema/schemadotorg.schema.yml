@@ -21,6 +21,12 @@ schemadotorg.settings:
             sequence:
               type: string
               label: 'Default Schema.org property'
+          default_unlimited:
+            type: sequence
+            label: 'Default unlimited fields'
+            sequence:
+              type: string
+              label: 'Schema.org property'
           base_fields:
             type: sequence
             label: 'Base field names'
@@ -43,19 +49,6 @@ schemadotorg.settings:
                   sequence:
                     type: string
                     label: 'Type'
-    schema_properties:
-      type: mapping
-      label: 'Schema.org properties'
-      mapping:
-        default_field_types:
-          type: sequence
-          label: 'Default field type'
-          sequence:
-            type: sequence
-            label: 'Schema.org property'
-            sequence:
-              type: string
-              label: 'Field type'
     schema_types:
       type: mapping
       label: 'Schema.org types'
@@ -69,6 +62,25 @@ schemadotorg.settings:
             sequence:
               type: string
               label: 'Field types'
+    schema_properties:
+      type: mapping
+      label: 'Schema.org properties'
+      mapping:
+        default_field_types:
+          type: sequence
+          label: 'Default field type'
+          sequence:
+            type: sequence
+            label: 'Schema.org property'
+            sequence:
+              type: string
+              label: 'Field type'
+        default_unlimited:
+          type: sequence
+          label: 'Default unlimited fields'
+          sequence:
+            type: string
+            label: 'Schema.org property'
 
 schemadotorg.schemadotorg_mapping:.*.*:
   type: config_entity

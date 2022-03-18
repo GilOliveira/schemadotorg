@@ -10,7 +10,7 @@ use Drupal\Core\Entity\EntityInterface;
 require_once __DIR__ . '/includes/schemadotorg.allowed_values.inc';
 
 /**
- * hook_entity_reference_selection_alter().
+ * Hook_entity_reference_selection_alter().
  */
 function schemadotorg_entity_reference_selection_alter(array &$definitions) {
   if (isset($definitions['schemadotorg_type'])) {

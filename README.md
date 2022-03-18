@@ -10,39 +10,24 @@ The goal is to demo a content building framework which allows for progressive en
 
 Person
 
-Types of relationships
-- Datatype
-- Name/Value
-- DefinedTerm
-- Type
-
 Review and document patterns provide by Google
 https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
 
-Drush
-- Add drush usage examples
-- Documentation/test script
-- What happens when you delete an entity with existing content?
-
-Unlimited
-- Unlimited defaults Add entity_types.ENTITY_TYPE.default_unlimited
+Change target for entity reference based on available mappings.
+- Find mappings with sub-targets.
+- Display dedicated entity types.
 
 Add help to types and properties reports.
 - Help text will better define the functionality.
 - Note Schema.org version.
 - Link to source CSV.
 
-Display Enumerations as select menus.
-
-Change target for entity reference based on available mappings.
-- Find mappings with sub-targets.
-- Display dedicated entity types.
-
 --------------------------------------------------------------------------------
 
-Defined form and view display defaults.
-- \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::alterFormDisplayWidget
-- \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::alterViewDisplayWidget
+Ongoing
+- Determine the recommended types.
+- Build out the default property list.
+- Build out the global unlimited property list.
 
 - Tree widget
   - https://github.com/vakata/jstree
@@ -61,6 +46,22 @@ Schema.org Templates
   - Templates will preselect recommended fields.
   - Templates can be automatically updated
 
+# Concepts
+
+Types of relationships
+- Datatype
+- Name/Value
+- DefinedTerm
+- Type
+
+Schema.org Type => Drupal Entity
+
+- Thing => Node
+- Enumeration => Term
+- Media Object => Media
+- Structure values => Paragraph
+- Component => Block content
+
 --------------------------------------------------------------------------------
 
 # Releases
@@ -68,43 +69,17 @@ Schema.org Templates
 Alpha
 - Finalize drupal machine names.
 
-# Drush commands
-```
-drush list --filter schemadotorg
-
-```
-
-# Tests
-
-Entity
-
-SchemaDotOrgMapping
-- \Drupal\KernelTests\Core\Entity\EntityDisplayFormBaseTest
-- \Drupal\KernelTests\Core\Entity\EntityDisplayRepositoryTest
-
-Services
-
-- SchemaDotOrgInstaller.php
-- SchemaDotOrgBuilder.php
-- SchemaDotOrgManager.php
-- SchemaDotOrgNames.php
-
-Report
-
-- Filter form.
-- Confirm types.
-- Confirm properties.
-- Confirm things.
-- Confirm intangibles.
-- Confirm enumerations.
-- Confirm data types.
-- Confirm names.
-- Confirm warning.
-
-UI
-- FieldUIRouteTest.php
 
 # TBD
+
+- How do we implement common content types and components?
+  - teaser
+  - slideshow
+  - lists
+  - forms
+  - toc
+  - faq
+  - timeline
 
 - Should a warning/info message be displayed when creating a new mapping
   and entity?
@@ -129,6 +104,7 @@ UI
 
 - How can we validate the generated JSON-LD?
 
+
 # References
 
 Schema.org
@@ -141,6 +117,7 @@ Drupal Entities & Field
 
 - [Drupal content entity 8.0.pages](https://paperzz.com/doc/7052675/drupal-content-entity-8.0.pages)
 - [Defining and using Content Entity Field definitions](https://www.drupal.org/docs/drupal-apis/entity-api/defining-and-using-content-entity-field-definitions)
+
 
 # APIs
 
@@ -172,6 +149,7 @@ TDB
 - JSON-LD - Generation JSON-LD definitions for Schema.org type.
 - JSON:API - Apply Schema.org type and property names to Drupal core's JSON:API.
 - Templates - Provides templates for creating and updating a Schema.org type in a click.
+
 
 # Contrib modules
 

@@ -86,13 +86,6 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getBaseFieldNames($entity_type_id) {
-    return $this->config->get("entity_types.$entity_type_id.base_fields") ?: [];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getCommonSchemaTypes($entity_type_id) {
     return $this->config->get("entity_types.$entity_type_id.schema_types") ?: [];
   }
@@ -100,8 +93,33 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
   /**
    * {@inheritdoc}
    */
+  public function getBaseFieldNames($entity_type_id) {
+    $fields = $this->config->get("entity_types.$entity_type_id.base_fields") ?: [];
+    return array_combine($fields, $fields);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getSchemaPropertyDefaults($entity_type_id) {
-    return $this->config->get("entity_types.$entity_type_id.default_schema_properties");
+    $properties = $this->config->get("entity_types.$entity_type_id.default_schema_properties") ?: [];
+    return array_combine($properties, $properties);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSchemaPropertyUnlimited($entity_type_id) {
+    $unlimited = [];
+    $entity_default_unlimited = $this->config->get("entity_types.$entity_type_id.default_unlimited") ?: [];
+    if ($entity_default_unlimited) {
+      $unlimited += array_combine($entity_default_unlimited, $entity_default_unlimited);
+    }
+    $default_unlimited = $this->config->get('schema_properties.default_unlimited') ?: [];
+    if ($default_unlimited) {
+      $unlimited += array_combine($default_unlimited, $default_unlimited);
+    }
+    return $unlimited;
   }
 
   /**

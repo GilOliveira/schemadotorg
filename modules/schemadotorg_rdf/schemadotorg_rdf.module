@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Integrates Schema.org mappings with Drupal core's RDF(a) mappi
+ * Integrates Schema.org mappings with Drupal core's RDF(a) mappi.
  */
 
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
@@ -27,8 +27,8 @@ function schemadotorg_rdf_schemadotorg_mapping_update(SchemaDotOrgMappingInterfa
   // Set each individual field mapping.
   foreach ($schema_properties as $field_name => $schema_property) {
     $rdf_mapping->setFieldMapping($field_name, [
-        'properties' => ['schema:' . $schema_property['property']],
-      ],
+      'properties' => ['schema:' . $schema_property['property']],
+    ],
     );
   }
 

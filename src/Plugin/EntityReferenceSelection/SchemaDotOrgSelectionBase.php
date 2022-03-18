@@ -86,7 +86,6 @@ abstract class SchemaDotOrgSelectionBase extends SelectionPluginBase implements 
     ] + parent::defaultConfiguration();
   }
 
-
   /**
    * {@inheritdoc}
    */

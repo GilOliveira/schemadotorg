@@ -84,7 +84,7 @@ class SchemaDotOrgTypeSelection extends SchemaDotOrgSelectionBase {
 
     // Limit entity by the field Schema.org property's range includes converted
     // to target bundles.
-    $target_bundles = $this->getSchemaPropertyTargetBundles() ;
+    $target_bundles = $this->getSchemaPropertyTargetBundles();
     if ($target_bundles) {
       $bundle_key = $entity_type->getKey('bundle') ?? 'bundle';
       $query->condition($bundle_key, $target_bundles, 'IN');

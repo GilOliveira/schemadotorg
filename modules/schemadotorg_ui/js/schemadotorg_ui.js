@@ -102,25 +102,37 @@
   };
 
   /**
-   * Schema.org UI property summary behavior.
+   * Schema.org UI property add field summary behavior.
    *
    * @type {Drupal~behavior}
    */
-  Drupal.behaviors.schemaDotOrgUiPropertySummary = {
+  Drupal.behaviors.schemaDotOrgUiPropertyAddFieldSummary = {
     attach: function (context) {
-      $('table.schemadotorg-ui-properties select[name$="[field][add][type]"]', context)
+
+      $('table.schemadotorg-ui-properties .schemadotorg-ui--add-field', context)
         .once('schemadotorg-ui-property-summary')
-        .each(setFieldTypeSummary)
-        .on('change', setFieldTypeSummary);
+        .each(function () {
+          var $details = $(this);
+          $details.find('select')
+            .on('change', function () {
+              setPropertyAddFieldSummary($details);
+            });
+          $details.find('input[type="checkbox"]')
+            .on('click', function () {
+              setPropertyAddFieldSummary($details);
+            });
+          setPropertyAddFieldSummary($details);
+        });
+
     }
   };
 
-  function setFieldTypeSummary() {
-    var $select = $(this);
-    var text = $select.find('option:selected').text();
-    $select.parents('details')
-      .drupalSetSummary(text)
-      .trigger('summaryUpdated');
+  function setPropertyAddFieldSummary($details) {
+    var text = $details.find('select option:selected').text();
+    if ($details.find('input[type="checkbox"]').prop("checked")) {
+      text += ' (' + Drupal.t('unlimited') + ')';
+    }
+    $details.drupalSetSummary(text).trigger('summaryUpdated');
   }
 
 } (jQuery, Drupal));

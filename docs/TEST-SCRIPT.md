@@ -1,31 +1,50 @@
 Common workflow
 ---------------
 
-# Schema.org Type => Drupal Entity
+# Manual Tests
 
-- Thing => Node
-- Enumeration => Term
-- Media Object => Media
-- Structure values => Paragraph
-- Component => Block content
+User
+- http://localhost/so/admin/config/people/accounts/schemedotorg
+- `drush schemadotorg:create-type user Person`
 
+Media
+- http://localhost/so/admin/structure/media
+- `drush schemadotorg:create-type media AudioObject DataDownload ImageObject VideoObject`
 
-Components: Media
-- ImageObject
-- VideoObject
-- AudioObject
-- DocumentData
+Paragraphs
+- http://localhost/so/admin/structure/paragraphs_type/schemadotorg
+- `drush schemadotorg:create-type paragraph ContactPoint PostalAddress`
 
-Components: Paragraphs
-- ContactPoint
-- PostalAddress
+Node
+- http://localhost/so/admin/structure/types/schemadotorg
+- `drush schemadotorg:create-type node Person, Organization, Place, Event, CreativeWork`
 
-Type: User
-- Person
+# Automated Tests
 
-Types: Node
-- Person
-- Organization
-- Place
-- CreativeWork
-- Event
+Entity
+
+SchemaDotOrgMapping
+- \Drupal\KernelTests\Core\Entity\EntityDisplayFormBaseTest
+- \Drupal\KernelTests\Core\Entity\EntityDisplayRepositoryTest
+
+Services
+
+- SchemaDotOrgInstaller.php
+- SchemaDotOrgBuilder.php
+- SchemaDotOrgManager.php
+- SchemaDotOrgNames.php
+
+Report
+
+- Filter form.
+- Confirm types.
+- Confirm properties.
+- Confirm things.
+- Confirm intangibles.
+- Confirm enumerations.
+- Confirm data types.
+- Confirm names.
+- Confirm warning.
+
+UI
+- FieldUIRouteTest.php

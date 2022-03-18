@@ -8,7 +8,6 @@
 use Drupal\Core\Locale\CountryManager;
 use Drupal\Core\Language\LanguageManager;
 
-
 /**
  * HOOK_allowed_values_SCHEMA_TYPE()
  */

@@ -8,8 +8,6 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\field\FieldConfigStorage;
-use Drupal\field\FieldStorageConfigStorage;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgInstallerInterface;
@@ -75,6 +73,8 @@ class SchemaDotOrgCommands extends DrushCommands {
    *   The form builder.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param SchemaDotOrgInstallerInterface $schemadotorg_installer
+   *   The Schema.org installer service.
    * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
    *   The Schema.org schema type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface $schema_entity_type_manager
@@ -173,6 +173,7 @@ class SchemaDotOrgCommands extends DrushCommands {
    *
    * @usage drush schemadotorg:create-type user Person
    * @usage drush schemadotorg:create-type media AudioObject DataDownload ImageObject VideoObject
+   * @usage drush schemadotorg:create-type paragraph ContactPoint PostalAddress
    * @usage drush schemadotorg:create-type node Person Organization Place Event CreativeWork
    *
    * @aliases socr
@@ -249,12 +250,15 @@ class SchemaDotOrgCommands extends DrushCommands {
    *   An entity type.
    * @param array $schema_types
    *   A list of Schema.org types.
+   * @param array $options
+   *   (optional) An array of options.
    *
    * @command schemadotorg:delete-type
    *
    * @usage drush schemadotorg:delete-type --delete-fields user Person
    * @usage drush schemadotorg:delete-type --delete-fields media AudioObject DataDownload ImageObject VideoObject
-   * @usage drush schemadotorg:delete-type --delete-entity node Recipe
+   * @usage drush schemadotorg:delete-type --delete-entity paragraph ContactPoint PostalAddress
+   * @usage drush schemadotorg:delete-type --delete-entity node Person Organization Place Event CreativeWork
    *
    * @option delete-entity Delete the entity associated with the Schema.org type.
    * @option delimiter Delete the fields associated with the Schema.org type.
@@ -321,7 +325,7 @@ class SchemaDotOrgCommands extends DrushCommands {
           $schemadotorg_mapping->delete();
           $t_args = ['@schema_type' => $schema_type, '@id' => $schemadotorg_mapping->id()];
           $this->output()->writeln($this->t('Schema.org mapping @schema_type (@id) has been deleted.', $t_args));
-          $this->output()->writeln();
+          $this->output()->writeln('');
         }
       }
     }

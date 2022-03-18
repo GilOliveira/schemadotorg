@@ -487,7 +487,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $field_options = $this->getFieldOptions();
     $property_definitions = $this->getSchemaTypePropertyDefinitions();
     $property_mappings = $this->getSchemaTypePropertyMappings();
-    $property_defaults = $this->schemaEntityTypeManager->getSchemaPropertyDefaults($entity_type_id );
+    $property_defaults = $this->schemaEntityTypeManager->getSchemaPropertyDefaults($entity_type_id);
+    $property_unlimited = $this->schemaEntityTypeManager->getSchemaPropertyUnlimited($entity_type_id);
 
     // Header.
     $header = [
@@ -622,10 +623,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
         '#default_value' => $this->schemaTypeBuilder->formatComment($property_definition['comment']),
       ];
-
+      $unlimited_default_value = isset($property_unlimited[$property]);
       $row['field']['add']['unlimited'] = [
         '#type' => 'checkbox',
-        '#title' => $this->t('Unlimited number of values', $t_args),
+        '#title' => $this->t('Unlimited number of values'),
+        '#default_value' => $unlimited_default_value,
       ];
 
       // Highlight mapped properties.

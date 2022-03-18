@@ -87,6 +87,7 @@ entity_types:
       - sugarContent
       - transFatContent
       - unsaturatedFatContent
+    default_unlimited: {  }
   media:
     base_fields:
       - uuid
@@ -141,6 +142,7 @@ entity_types:
       - timeRequired
       - thumbnail
       - video
+    default_unlimited: {  }
   node:
     base_fields:
       - uuid
@@ -268,6 +270,7 @@ entity_types:
       - worksFor
       - video
       - yield
+    default_unlimited: { }
   paragraph:
     base_fields:
       - uuid
@@ -352,6 +355,7 @@ entity_types:
       - sugarContent
       - transFatContent
       - unsaturatedFatContent
+    default_unlimited: {  }
   user:
     base_fields:
       - uuid
@@ -385,7 +389,27 @@ entity_types:
       - nationality
       - telephone
       - worksFor
+    default_unlimited: {  }
 schema_properties:
+  default_unlimited:
+    - audience
+    - address
+    - about
+    - affiliation
+    - alumniOf
+    - attendee
+    - award
+    - contentLocation
+    - contactPoint
+    - knowsLanguage
+    - keywords
+    - mentions
+    - photo
+    - sponsor
+    - suitableForDiet
+    - thumbnailUrl
+    - worksFor
+    - video
   default_field_types:
     email:
       - email

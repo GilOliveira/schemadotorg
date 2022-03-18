@@ -26,4 +26,3 @@ function schemadotorg_rdf_uninstall() {
     schemadotorg_rdf_schemadotorg_mapping_delete($schemadotorg_mapping);
   }
 }
-
