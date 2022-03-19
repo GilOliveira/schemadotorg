@@ -54,6 +54,23 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
   public function getSchemaPropertyRangeIncludes($entity_type_id, $bundle, $field_name);
 
   /**
+   * Get the Schema.org property target mappings.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $bundle
+   *   The name of the bundle.
+   * @param string $field_name
+   *   The field name.
+   * @param string $target_type
+   *   The taraet entity type ID.
+   *
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface[]
+   *   The Schema.org property target mappings.
+   */
+  public function getSchemaPropertyTargetMappings($entity_type_id, $bundle, $field_name, $target_type);
+
+  /**
    * Get the Schema.org property target bundles.
    *
    * @param string $entity_type_id

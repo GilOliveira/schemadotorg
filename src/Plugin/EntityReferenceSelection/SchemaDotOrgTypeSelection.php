@@ -3,6 +3,7 @@
 namespace Drupal\schemadotorg\Plugin\EntityReferenceSelection;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
 /**
  * Select entities using the field's mapping Schema.org property.
@@ -30,22 +31,32 @@ class SchemaDotOrgTypeSelection extends SchemaDotOrgSelectionBase {
     $configuration = $this->getConfiguration();
     $entity_type_id = $configuration['target_type'] ?? 'node';
     $entity_type = $this->entityTypeManager->getDefinition($entity_type_id);
-    $bundle_entity_type = $this->entityTypeManager->getDefinition($entity_type->getBundleEntityType());
 
-    $target_bundles = $this->getSchemaPropertyTargetBundles();
-    if ($target_bundles) {
-      // Get the target bundle labels.
-      $bundles = $this->entityTypeBundleInfo->getBundleInfo($entity_type_id);
-      foreach ($target_bundles as $target_bundle) {
-        $target_bundles[$target_bundle] = $bundles[$target_bundle]['label'];
+    $bundle_entity_type = $this->entityTypeManager->getDefinition($entity_type->getBundleEntityType());
+    $target_entity_type_storage = $this->entityTypeManager->getStorage($entity_type->getBundleEntityType());
+
+    $target_mappings = $this->getSchemaPropertyTargetMappings();
+    if ($target_mappings) {
+      // Get a list containing linked target bundles.
+      $target_bundles_items = [];
+      foreach ($target_mappings as $target_mapping) {
+        $target_bundle = $target_entity_type_storage->load($target_mapping->getTargetBundle());
+        $target_bundles_items[] = $target_bundle
+          ->toLink($target_bundle->label(), 'add-form')
+          ->toRenderable() + ['#suffix' => ' (' . $target_mapping->getSchemaType() . ')'];
       }
+
       // Display message about entity reference selection.
       $t_args = [
-        '@entity_types' => $bundle_entity_type->getCollectionLabel(),
-        '@bundles' => implode(', ', $target_bundles),
+        '@entity_types' => $bundle_entity_type->getPluralLabel(),
+        '@property' => $this->getSchemaPropertyName(),
       ];
       $form['message'] = [
-        '#markup' => '<p>' . $this->t("@entity_types (@bundles) will be automatically available based this field's associated Schema.org property.", $t_args) . '</p>',
+        '#markup' => '<p>' . $this->t("The below @entity_types will be automatically be available based this field's associated Schema.org property (@property).", $t_args) . '</p>',
+      ];
+      $form['bundles'] = [
+        '#theme' => 'item_list',
+        '#items' => $target_bundles_items,
       ];
     }
     elseif ($this->getSchemaPropertyName()) {
@@ -94,12 +105,12 @@ class SchemaDotOrgTypeSelection extends SchemaDotOrgSelectionBase {
   }
 
   /**
-   * Get the Schema.org property target bundles.
+   * Get the Schema.org property target mappings.
    *
-   * @return array
-   *   The Schema.org property target bundles.
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface[]
+   *   The Schema.org property target mappings.
    */
-  protected function getSchemaPropertyTargetBundles() {
+  protected function getSchemaPropertyTargetMappings() {
     $mapping = $this->configuration['schemadotorg_mapping'];
     if (!$mapping['entity_type']) {
       return [];
@@ -107,7 +118,7 @@ class SchemaDotOrgTypeSelection extends SchemaDotOrgSelectionBase {
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $schemadotorg_mapping_storage */
     $schemadotorg_mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
-    return $schemadotorg_mapping_storage->getSchemaPropertyTargetBundles(
+    return $schemadotorg_mapping_storage->getSchemaPropertyTargetMappings(
       $mapping['entity_type'],
       $mapping['bundle'],
       $mapping['field_name'],

@@ -32,12 +32,14 @@ function schemadotorg_field_config_presave(EntityInterface $entity) {
   /** @var \Drupal\field\FieldConfigInterface $entity */
   if ($entity->getType() === 'entity_reference'
     && strpos($entity->getSetting('handler'), 'schemadotorg_') === 0) {
+
     $settings = $entity->getSettings();
     $settings['handler_settings']['schemadotorg_mapping'] = [
       'entity_type' => $entity->getTargetEntityTypeId(),
       'bundle' => $entity->getTargetBundle(),
       'field_name' => $entity->getName()
     ];
+
     // Remove duplicate target type which is break config inspection.
     // The $settings['handler_settings'] already tracks the target type.
     // @todo Determine why target type is being set.

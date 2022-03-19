@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\field\FieldConfigInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -256,6 +257,18 @@ abstract class SchemaDotOrgSelectionBase extends SelectionPluginBase implements 
       $mapping['bundle'],
       $mapping['field_name']
     );
+  }
+
+  /**
+   * Get the Schema.org mapping.
+   *
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null
+   *   The Schema.org mapping.
+   */
+  protected function getSchemaMapping() {
+    $schemadotorg_mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+    $mapping = $this->configuration['schemadotorg_mapping'];
+    return $schemadotorg_mapping_storage->load($mapping['entity_type'] . '.' . $mapping['bundle']);
   }
 
 }
