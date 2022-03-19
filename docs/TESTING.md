@@ -1,5 +1,5 @@
-Common workflow
----------------
+Testing
+-------
 
 # Manual Tests
 
@@ -17,7 +17,7 @@ Paragraphs
 
 Node
 - http://localhost/so/admin/structure/types/schemadotorg
-- `drush schemadotorg:create-type node Person, Organization, Place, Event, CreativeWork`
+- `drush schemadotorg:create-type node Person Organization Place Event CreativeWork`
 
 # Automated Tests
 

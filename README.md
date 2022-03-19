@@ -4,21 +4,35 @@ Slides: https://www.slidescarnival.com/valentine-free-presentation-template/234
 
 Provides blueprints for leveraging Schema.org to build and manage an SEO and API-first content architecture in Drupal.
 
+What is needed for solid demo?
+- Example models
+- Dummy content.
+
 # Todo
 
 The goal is to demo a content building framework which allows for progressive enhancements.
 
+Defaults mapping for base fields for title and name.
+
+- node.title => name
+- media.name => name
+- user.name => name
+
 Review and document patterns provide by Google
-https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
+- https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
 
 Add help to types and properties reports.
 - Help text will better define the functionality.
 - Note Schema.org version.
 - Link to source CSV.
 
+Fix devel generate
+- Start simple and determine what is broken.
+
 --------------------------------------------------------------------------------
 
 Ongoing
+- Defaults mapping for base fields for title and name.
 - Determine the recommended types.
 - Build out the default property list.
 - Build out the global unlimited property list.
@@ -103,11 +117,18 @@ Alpha
 
 Schema.org
 
+- [Schema.org](https://schema.org)
+- [Schema.org | Wikipedia](https://en.m.wikipedia.org/wiki/Schema.org)
 - [Understand how structured data works | Google Search Central](https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data)
 - [Schema.org - What, How, Why? | Video](https://www.youtube.com/watch?v=hcahQfN5u9Y)
 - [RDF in Drupal: What is it and Why Should We Care? \ Drupal Easy](https://www.drupaleasy.com/blogs/ultimike/2009/06/rdf-drupal-what-it-and-why-should-we-care)
 
-Drupal Entities & Field
+Examples
+
+- [JSON-LD - Structured Data. Made Simple.](https://jsonld.com/)
+- [Featured Guides | Google Search Central](https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data)
+
+- Drupal Entities & Field
 
 - [Drupal content entity 8.0.pages](https://paperzz.com/doc/7052675/drupal-content-entity-8.0.pages)
 - [Defining and using Content Entity Field definitions](https://www.drupal.org/docs/drupal-apis/entity-api/defining-and-using-content-entity-field-definitions)
@@ -165,3 +186,10 @@ TBD
 - https://www.drupal.org/project/jsonapi_node_preview_tab
 - https://www.drupal.org/project/field_ui_extras
 
+Related/Similar
+- https://www.drupal.org/project/schema_metatag
+- https://www.drupal.org/project/jsonld
+- https://www.drupal.org/project/json_ld_schema
+- https://www.drupal.org/project/jsld
+- https://www.drupal.org/project/schemaorg
+- https://www.drupal.org/project/rdfui

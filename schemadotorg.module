@@ -38,6 +38,10 @@ function schemadotorg_field_config_presave(EntityInterface $entity) {
       'bundle' => $entity->getTargetBundle(),
       'field_name' => $entity->getName()
     ];
+    // Remove duplicate target type which is break config inspection.
+    // The $settings['handler_settings'] already tracks the target type.
+    // @todo Determine why target type is being set.
+    unset($settings['target_type']);
     $entity->set('settings', $settings);
   }
 }

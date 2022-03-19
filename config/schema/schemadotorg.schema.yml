@@ -82,7 +82,7 @@ schemadotorg.settings:
             type: string
             label: 'Schema.org property'
 
-schemadotorg.schemadotorg_mapping:.*.*:
+schemadotorg.schemadotorg_mapping.*.*:
   type: config_entity
   label: Schema.org mapping
   mapping:
@@ -102,7 +102,7 @@ schemadotorg.schemadotorg_mapping:.*.*:
       type: sequence
       label: 'Property mappings'
       sequence:
-        type: sequence
+        type: mapping
         label: 'Property mapping'
         mapping:
           property:
@@ -110,35 +110,44 @@ schemadotorg.schemadotorg_mapping:.*.*:
             label: 'Schema.org property'
 
 entity_reference_selection.schemadotorg_type:
-  type: entity_reference_selection.default
+  type: entity_reference_selection
   label: 'Scheme.org type handler settings'
-  schemadotorg_mapping:
-    type: mapping
-    label: 'Schema.org field mapping'
-    mapping:
-      entity_type:
-        type: string
-        label: 'Entity type'
-      bundle:
-        type: string
-        label: 'Entity bundle'
-      field_name:
-        type: string
-        label: 'Field name'
+  mapping:
+    target_type:
+      type: string
+      label: 'Type of item to reference'
+    schemadotorg_mapping:
+      type: mapping
+      label: 'Schema.org field mapping'
+      mapping:
+        entity_type:
+          type: string
+          label: 'Entity type'
+        bundle:
+          type: string
+          label: 'Entity bundle'
+        field_name:
+          type: string
+          label: 'Field name'
 
 entity_reference_selection.schemadotorg_enumeration:
-  type: entity_reference_selection.default
+  type: entity_reference_selection
   label: 'Scheme.org enumeration handler settings'
-  schemadotorg_mapping:
-    type: mapping
-    label: 'Schema.org field mapping'
-    mapping:
-      entity_type:
-        type: string
-        label: 'Entity type'
-      bundle:
-        type: string
-        label: 'Entity bundle'
-      field_name:
-        type: string
-        label: 'Field name'
+  mapping:
+    target_type:
+      type: string
+      label: 'Type of item to reference'
+    schemadotorg_mapping:
+      type: mapping
+      label: 'Schema.org field mapping'
+      mapping:
+        entity_type:
+          type: string
+          label: 'Entity type'
+        bundle:
+          type: string
+          label: 'Entity bundle'
+        field_name:
+          type: string
+          label: 'Field name'
+

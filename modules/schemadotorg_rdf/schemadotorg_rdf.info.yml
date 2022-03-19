@@ -1,6 +1,9 @@
 name: Schema.org RDF
 type: module
-description: Integrates Schema.org mappings with Drupal core's RDF(a) mappings.
+description: |
+  Integrates Schema.org mappings with Drupal core's RDF(a) mappings.
+  Issue #2152459: [Policy] Deprecate RDF module and move it to contrib.
+  @see https://www.drupal.org/project/ideas/issues/2152459
 package: Schema.org
 core_version_requirement: ^9
 lifecycle: experimental

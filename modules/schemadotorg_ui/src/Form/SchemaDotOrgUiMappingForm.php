@@ -179,8 +179,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    $op = (string) $form_state->getValue('op');
-    if ($op === (string) $this->t('Find')) {
+    if ($form_state->getValue('find_schema_type')) {
       return;
     }
 
@@ -239,10 +238,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     parent::submitForm($form, $form_state);
 
     // Handle find Schema.org type form.
-    $op = (string) $form_state->getValue('op');
-    if ($op === (string) $this->t('Find')) {
-      $type = $form_state->getValue('type');
-      $form_state->setRedirect('<current>', [], ['query' => ['type' => $type]]);
+    $find_schema_type = $form_state->getValue('find_schema_type');
+    if ($find_schema_type) {
+      $form_state->setRedirect('<current>', [], ['query' => ['type' => $find_schema_type]]);
       return;
     }
 
@@ -684,7 +682,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#type' => 'container',
       '#attributes' => ['class' => ['container-inline']],
     ];
-    $form['find']['type'] = [
+    $form['find']['find_schema_type'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Find a @label', $t_args),
       '#title_display' => 'invisible',
