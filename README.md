@@ -20,12 +20,6 @@ Provides blueprints for leveraging Schema.org to build and manage an SEO and API
 
 The goal is to demo a content building framework which allows for progressive enhancements.
 
-Defaults mapping for base fields for title and name.
-
-- node.title => name
-- media.name => name
-- user.name => name
-
 Review and document patterns provide by Google
 - https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
 
@@ -40,7 +34,6 @@ Fix devel generate
 --------------------------------------------------------------------------------
 
 Ongoing
-- Defaults mapping for base fields for title and name.
 - Determine the recommended types.
 - Build out the default property list.
 - Build out the global unlimited property list.

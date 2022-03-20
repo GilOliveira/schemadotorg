@@ -1,12 +1,12 @@
 entity_types:
   block_content:
-    base_fields:
-      - uuid
-      - type
-      - info
-      - revision_created
-      - revision_user
-      - changed
+    base_field_mappings:
+      uuid: NULL
+      type: NULL
+      info: NULL
+      revision_created: NULL
+      revision_user: NULL
+      changed: NULL
     schema_types:
       common:
         label: Common
@@ -89,15 +89,16 @@ entity_types:
       - unsaturatedFatContent
     default_unlimited: {  }
   media:
-    base_fields:
-      - uuid
-      - revision_created
-      - revision_user
-      - uid
-      - thumbnail
-      - created
-      - changed
-      - path
+    base_field_mappings:
+      uuid: NULL
+      revision_created: NULL
+      revision_user: NULL
+      uid: NULL
+      name: name
+      thumbnail: thumbnail
+      created: dateCreated
+      changed: dateModified
+      path: NULL
     schema_types:
       media_objects:
         label: 'Media objects'
@@ -144,16 +145,16 @@ entity_types:
       - video
     default_unlimited: {  }
   node:
-    base_fields:
-      - uuid
-      - revision_uid
-      - uid
-      - title
-      - created
-      - changed
-      - promote
-      - sticky
-      - path
+    base_field_mappings:
+      uuid: NULL
+      revision_uid: NULL
+      uid: NULL
+      title: name
+      created: dateCreated
+      changed: dateChanged
+      promote: NULL
+      sticky: NULL
+      path: NULL
     schema_types:
       common:
         label: Common
@@ -272,9 +273,9 @@ entity_types:
       - yield
     default_unlimited: { }
   paragraph:
-    base_fields:
-      - uuid
-      - created
+    base_field_mappings:
+      - uuid: NULL
+      - created: NULL
     schema_types:
       common:
         label: Common
@@ -357,10 +358,10 @@ entity_types:
       - unsaturatedFatContent
     default_unlimited: {  }
   user:
-    base_fields:
-      - uuid
-      - name
-      - mail
+    base_field_mappings:
+      uuid: NULL
+      name: NULL
+      mail: email
     default_schema_types:
       user: Person
     default_schema_properties:

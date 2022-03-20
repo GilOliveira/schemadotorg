@@ -93,9 +93,18 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
   /**
    * {@inheritdoc}
    */
+  public function getBaseFieldMappings($entity_type_id) {
+    $base_field_mappings = $this->config->get("entity_types.$entity_type_id.base_field_mappings") ?: [];
+    return $base_field_mappings ? array_flip(array_filter($base_field_mappings)) : [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getBaseFieldNames($entity_type_id) {
-    $fields = $this->config->get("entity_types.$entity_type_id.base_fields") ?: [];
-    return array_combine($fields, $fields);
+    $base_field_mappings = $this->config->get("entity_types.$entity_type_id.base_field_mappings") ?: [];
+    $base_field_names = array_keys($base_field_mappings);
+    return array_combine($base_field_names, $base_field_names);
   }
 
   /**

@@ -54,6 +54,17 @@ interface SchemaDotOrgEntityTypeManagerInterface {
   public function getCommonSchemaTypes($entity_type_id);
 
   /**
+   * Get an entity type's base field mappings.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   *
+   * @return array
+   *   An entity type's base field mappings.
+   */
+  public function getBaseFieldMappings($entity_type_id);
+
+  /**
    * Get an entity type's base fields names.
    *
    * @param string $entity_type_id

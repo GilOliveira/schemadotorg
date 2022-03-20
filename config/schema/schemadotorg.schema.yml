@@ -27,12 +27,12 @@ schemadotorg.settings:
             sequence:
               type: string
               label: 'Schema.org property'
-          base_fields:
+          base_field_mappings:
             type: sequence
-            label: 'Base field names'
+            label: 'Base field mappings'
             sequence:
               type: string
-              label: 'Base field name'
+              label: 'Base field mapping'
           schema_types:
             type: sequence
             label: 'Schema.org types'

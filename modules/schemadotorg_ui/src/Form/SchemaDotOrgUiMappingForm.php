@@ -844,8 +844,17 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     // For new mapping entities load mapping from existing fields.
     // @todo Rework this to be a lot smarter.
     if ($this->getEntity()->isNew()) {
+      $entity_type_id = $this->getTargetEntityTypeId();
+      $base_field_mappings = $this->schemaEntityTypeManager->getBaseFieldMappings($entity_type_id);
+
       $property_definitions = $this->getSchemaTypePropertyDefinitions();
       foreach ($property_definitions as $property => $property_definition) {
+        // Map base field which include name and createDate but allow a custom
+        // field to override this default mapping.
+        if (isset($base_field_mappings[$property])) {
+          $mappings[$property] = $base_field_mappings[$property];
+        }
+
         $field_name = 'schema_' . $property_definition['drupal_name'];
         if ($this->fieldExists($field_name)
           || ($mapping_entity->isNewTargetEntityTypeBundle() && $this->fieldStorageExists($field_name))) {
