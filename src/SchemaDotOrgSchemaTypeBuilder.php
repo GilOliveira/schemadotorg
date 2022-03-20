@@ -116,9 +116,10 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
    */
   public function formatComment($comment, array $options = []) {
     $options += [
-      'base_path' => 'https://schema.org',
+      'base_path' => $this->getDefaultBasePath(),
       'attributes' => [],
     ];
+
     if (strpos($comment, 'href="') === FALSE) {
       return $comment;
     }
@@ -140,6 +141,19 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
       }
     }
     return Html::serialize($dom);
+  }
+
+  /**
+   * Get the default Schema.org base path for the current user.
+   *
+   * @return string
+   *   The default Schema.org base path for the current user.
+   */
+  protected function getDefaultBasePath() {
+    return ($this->moduleHandler->moduleExists('schemadotorg_report')
+      && $this->currentUser->hasPermission('access site reports'))
+      ? Url::fromRoute('schemadotorg_reports')->toString()
+      : 'https://schema.org/';
   }
 
 }

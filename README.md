@@ -4,9 +4,17 @@ Slides: https://www.slidescarnival.com/valentine-free-presentation-template/234
 
 Provides blueprints for leveraging Schema.org to build and manage an SEO and API-first content architecture in Drupal.
 
-What is needed for solid demo?
+# Demo
+- Create User:Person via UI
+- Create Media:Image via UI
+- Create Media:* via Drush
+- Create Paragragh:* via Drush
+- Create Node:Organization via UI
+
+- What is needed for solid demo?
 - Example models
 - Dummy content.
+
 
 # Todo
 
@@ -88,9 +96,6 @@ Alpha
   - toc
   - faq
   - timeline
-
-- Should a warning/info message be displayed when creating a new mapping
-  and entity?
 
 - Should you be able to map the same field to multiple properties?
   - body => description and disambiguatingDescription

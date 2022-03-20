@@ -433,6 +433,9 @@ schema_properties:
     telephone:
       - telephone
       - string
+    faxNumber:
+      - telephone
+      - string
     width:
       - string
 schema_types:

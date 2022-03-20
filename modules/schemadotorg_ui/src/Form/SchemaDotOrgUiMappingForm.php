@@ -369,7 +369,25 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $this->buildAddEntityForm($form);
     }
     $this->buildSchemaPropertiesForm($form);
+
     $form['#attached']['library'][] = 'schemadotorg_ui/schemadotorg_ui';
+
+    // Display warning when creating a new entity or fields.
+    if ($this->getEntity()->isNew()) {
+      if ($this->getEntity()->isTargetEntityTypeBundle()) {
+        $type_definition = $this->getSchmemaTypeDefinition();
+        $target_entity_type_bundle_definition = $this->getEntity()->getTargetEntityTypeBundleDefinition();
+        $t_args = [
+          '%schema_type' => $type_definition['drupal_label'],
+          '@entity_type' => $target_entity_type_bundle_definition->getSingularLabel(),
+        ];
+        $this->messenger()->addWarning($this->t('Please review the %schema_type @entity_type and new fields that will be created below.', $t_args));
+      }
+      else {
+        $this->messenger()->addWarning($this->t('Please review the new fields that will be created below.'));
+      }
+    }
+
     return $form;
   }
 
@@ -470,7 +488,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
       '#description' => $this->t('This text will be displayed on the <em>Add new content</em> page.'),
-      '#default_value' => $this->schemaTypeBuilder->formatComment($type_definition['comment']),
+      '#default_value' => $this->schemaTypeBuilder->formatComment($type_definition['comment'], ['base_path' => 'https://schema.org']),
     ];
   }
 
@@ -510,7 +528,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         && empty($property_mappings[$property])) {
         continue;
       }
-      $t_args = ['@property' => $property_definition['label']];
 
       $row = [];
 
@@ -619,7 +636,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#type' => 'textarea',
         '#title' => $this->t('Description'),
         '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
-        '#default_value' => $this->schemaTypeBuilder->formatComment($property_definition['comment']),
+        '#default_value' => $this->schemaTypeBuilder->formatComment($property_definition['comment'], ['base_path' => 'https://schema.org']),
       ];
       $unlimited_default_value = isset($property_unlimited[$property]);
       $row['field']['add']['unlimited'] = [
