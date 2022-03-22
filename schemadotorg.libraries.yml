@@ -4,3 +4,29 @@ schemadotorg.autocomplete:
   dependencies:
     - core/jquery
     - core/drupal
+
+schemadotorg.jstree:
+  css:
+    component:
+      css/schemadotorg.jstree.css: {}
+  js:
+    js/schemadotorg.jstree.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - schemadotorg/jstree
+
+jstree:
+  remote: https://www.jstree.com/
+  version: 3.3.12
+  license:
+    name: MIT
+    url: https://github.com/vakata/jstree/blob/master/LICENSE-MIT
+    gpl-compatible: true
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js: { type: external, minified: true }
+  css:
+    component:
+      https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css: { type: external, minified: true }
+  dependencies:
+    - core/jquery

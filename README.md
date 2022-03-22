@@ -4,6 +4,8 @@ Slides: https://www.slidescarnival.com/valentine-free-presentation-template/234
 
 Provides blueprints for leveraging Schema.org to build and manage an SEO and API-first content architecture in Drupal.
 
+The goal is to demo a content building framework that allows for progressive enhancements.
+
 # Demo
 - Create User:Person via UI
 - Create Media:Image via UI
@@ -12,13 +14,11 @@ Provides blueprints for leveraging Schema.org to build and manage an SEO and API
 - Create Node:Organization via UI
 
 - What is needed for solid demo?
-- Example models
+- Example models.
 - Dummy content.
 
 
 # Todo
-
-The goal is to demo a content building framework which allows for progressive enhancements.
 
 Review and document patterns provide by Google
 - https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
@@ -37,9 +37,6 @@ Ongoing
 - Determine the recommended types.
 - Build out the default property list.
 - Build out the global unlimited property list.
-
-Tree widget
-  - https://github.com/vakata/jstree
 
 Subtyping
 

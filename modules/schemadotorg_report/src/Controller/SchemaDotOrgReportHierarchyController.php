@@ -34,7 +34,7 @@ class SchemaDotOrgReportHierarchyController extends SchemaDotOrgReportController
     }
     $build = [];
     $build['info'] = $this->buildInfo($type, $count);
-    $build['tree'] = $this->schemaTypeBuilder->buildTypeTreeRecursive($tree);
+    $build['tree'] = $this->schemaTypeBuilder->buildTypeTree($tree);
     return $build;
   }
 

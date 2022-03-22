@@ -203,7 +203,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
         $build['sub_types_hierarchy'] = [
           '#type' => 'details',
           '#title' => $this->t('More specific types'),
-          'items' => $this->schemaTypeBuilder->buildTypeTreeRecursive($tree),
+          'items' => $this->schemaTypeBuilder->buildTypeTree($tree),
         ];
       }
 

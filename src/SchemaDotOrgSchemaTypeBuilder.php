@@ -5,7 +5,6 @@ namespace Drupal\schemadotorg;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
 
 /**
@@ -89,7 +88,25 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
   /**
    * {@inheritdoc}
    */
-  public function buildTypeTreeRecursive(array $tree) {
+  public function buildTypeTree(array $tree) {
+    $build = $this->buildTypeTreeRecursive($tree);
+    $build['#attributes'] = ['class' => ['schemadotorg-jstree']];
+    $build['#attached']['library'][] = 'schemadotorg/schemadotorg.jstree';
+    return $build;
+  }
+
+  /**
+   * Build Schema.org type tree as an item list recursively.
+   *
+   * @param array $tree
+   *   An array of Schema.org type tree.
+   *
+   * @return array
+   *   A renderable array containing Schema.org type tree as an item list.
+   *
+   * @see \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager::getTypesChildrenRecursive
+   */
+  protected function buildTypeTreeRecursive(array $tree) {
     if (empty($tree)) {
       return [];
     }

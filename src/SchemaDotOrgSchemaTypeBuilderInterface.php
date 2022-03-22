@@ -33,17 +33,15 @@ interface SchemaDotOrgSchemaTypeBuilderInterface {
   public function buildItemsLinks($text, array $options = []);
 
   /**
-   * Build Schema.org type tree as an item list recursively.
+   * Build Schema.org type tree as an item list.
    *
    * @param array $tree
    *   An array of Schema.org type tree.
    *
    * @return array
    *   A renderable array containing Schema.org type tree as an item list.
-   *
-   * @see \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager::getTypesChildrenRecursive
    */
-  public function buildTypeTreeRecursive(array $tree);
+  public function buildTypeTree(array $tree);
 
   /**
    * Format Schema.org type or property comment.
