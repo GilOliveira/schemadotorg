@@ -274,8 +274,8 @@ entity_types:
     default_unlimited: { }
   paragraph:
     base_field_mappings:
-      - uuid: NULL
-      - created: NULL
+      uuid: NULL
+      created: NULL
     schema_types:
       common:
         label: Common

@@ -1,6 +1,31 @@
 Testing
 -------
 
+# Steps
+
+- PHPUnit
+- PHPUnit in Drupal
+- Tests in Core
+
+# References
+
+PHPUnit
+- [PHPUnit in Drupal](https://www.drupal.org/docs/automated-testing/phpunit-in-drupal)
+- [Types of tests](https://www.drupal.org/docs/automated-testing/types-of-tests)
+
+Browser
+- [PHPUnit Browser test tutorial](https://www.drupal.org/docs/automated-testing/phpunit-in-drupal/phpunit-browser-test-tutorial)
+
+JavaScript
+- [PHPUnit JavaScript test writing tutorial](https://www.drupal.org/docs/automated-testing/phpunit-in-drupal/phpunit-javascript-test-writing-tutorial)
+
+MockBuilder
+
+Prophesize
+
+Running tests
+- https://www.drupal.org/docs/automated-testing/phpunit-in-drupal
+
 # Manual Tests
 
 User

@@ -17,9 +17,9 @@ schemadotorg_reports.types.things:
   title: Things
   route_name: schemadotorg_reports.types.things
   parent_id: schemadotorg_reports.types
-schemadotorg_reports.types.intangible:
+schemadotorg_reports.types.intangibles:
   title: Intangibles
-  route_name: schemadotorg_reports.types.intangible
+  route_name: schemadotorg_reports.types.intangibles
   parent_id: schemadotorg_reports.types
 schemadotorg_reports.types.enumerations:
   title: Enumerations

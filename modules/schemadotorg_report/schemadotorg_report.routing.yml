@@ -27,8 +27,8 @@ schemadotorg_reports.types.things:
   requirements:
     _permission: 'access site reports'
 
-schemadotorg_reports.types.intangible:
-  path: '/admin/reports/schemadotorg/docs/intangible'
+schemadotorg_reports.types.intangibles:
+  path: '/admin/reports/schemadotorg/docs/intangibles'
   defaults:
     _title: 'Schema.org: Intangibles'
     _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportHierarchyController::index'
@@ -55,7 +55,7 @@ schemadotorg_reports.types.structured_values:
     _permission: 'access site reports'
 
 schemadotorg_reports.types.data_types:
-  path: '/admin/reports/schemadotorg/docs/data_types'
+  path: '/admin/reports/schemadotorg/docs/data-types'
   defaults:
     _title: 'Schema.org: Data types'
     _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportHierarchyController::index'
