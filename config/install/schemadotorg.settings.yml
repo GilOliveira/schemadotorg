@@ -362,6 +362,7 @@ entity_types:
       uuid: NULL
       name: NULL
       mail: email
+      user_picture: image
     default_schema_types:
       user: Person
     default_schema_properties:

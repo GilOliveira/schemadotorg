@@ -3,8 +3,10 @@
  * Schema.org jsTree styles.
  */
 
+.schemadotorg-jstree {
+  display: none;
+}
 
 .schemadotorg-jstree-toggle-wrapper {
   margin-top: 1em;
 }
-

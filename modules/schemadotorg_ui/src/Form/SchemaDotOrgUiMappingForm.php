@@ -373,7 +373,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $form['#attached']['library'][] = 'schemadotorg_ui/schemadotorg_ui';
 
     // Display warning when creating a new entity or fields.
-    if ($this->getEntity()->isNew()) {
+    $is_new = $this->getEntity()->isNew();
+    $is_get = ($this->getRequest()->getMethod() === 'GET');
+    if ($is_new && $is_get) {
       if ($this->getEntity()->isTargetEntityTypeBundle()) {
         $type_definition = $this->getSchmemaTypeDefinition();
         $target_entity_type_bundle_definition = $this->getEntity()->getTargetEntityTypeBundleDefinition();

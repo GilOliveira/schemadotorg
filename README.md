@@ -8,6 +8,7 @@ The goal is to demo a content building framework that allows for progressive enh
 
 # Demo
 - Create User:Person via UI
+  - Note that contact point is use content when it should be using a paragraph.
 - Create Media:Image via UI
 - Create Media:* via Drush
 - Create Paragragh:* via Drush
@@ -22,6 +23,10 @@ The goal is to demo a content building framework that allows for progressive enh
 
 Review and document patterns provide by Google
 - https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
+
+Move 'schema_' field prefix into configuration
+- \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager
+
 
 Add help to types and properties reports.
 - Help text will better define the functionality.
@@ -39,6 +44,12 @@ Ongoing
 - Build out the global unlimited property list.
 
 Subtyping
+- schemadotorg_subtype
+- Add subtyping to entity type.
+  - Sub typing allows content editors to specify a more specific type for an entity.
+  - For example, an Event can be subtyped to be a BusinessEvent, CourseInstance, EducationEvent, FoodEvent, etc...
+  - Subtype properties can be included via condition logic.
+
 
 Configure Schema.org and Schema.org UI
 - General
@@ -123,11 +134,14 @@ Examples
 - [JSON-LD - Structured Data. Made Simple.](https://jsonld.com/)
 - [Featured Guides | Google Search Central](https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data)
 
-- Drupal Entities & Field
+Drupal Entities & Field
 
 - [Drupal content entity 8.0.pages](https://paperzz.com/doc/7052675/drupal-content-entity-8.0.pages)
 - [Defining and using Content Entity Field definitions](https://www.drupal.org/docs/drupal-apis/entity-api/defining-and-using-content-entity-field-definitions)
 
+Related Issues
+
+- [Issue #2152459: \[Policy\] Deprecate RDF module and move it to contrib](https://www.drupal.org/project/ideas/issues/2152459)
 
 # APIs
 
