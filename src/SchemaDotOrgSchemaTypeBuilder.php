@@ -118,6 +118,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
         '#title' => $type,
         '#url' => $this->getItemUrl($type),
       ];
+      $item += ['subtypes' => [], 'enumerations' => []];
       $children = $item['subtypes'] + $item['enumerations'];
       $items[$type]['children'] = $this->buildTypeTreeRecursive($children);
     }
@@ -170,7 +171,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
     return ($this->moduleHandler->moduleExists('schemadotorg_report')
       && $this->currentUser->hasPermission('access site reports'))
       ? Url::fromRoute('schemadotorg_reports')->toString()
-      : 'https://schema.org/';
+      : 'https://schema.org';
   }
 
 }

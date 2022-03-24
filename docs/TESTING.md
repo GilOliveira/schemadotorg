@@ -1,6 +1,17 @@
 Testing
 -------
 
+SchemaDotOrgInstaller.php
+SchemaDotOrgNames.php
+SchemaDotOrgEntityTypeBuilder.php
+SchemaDotOrgEntityTypeManager.php
+SchemaDotOrgNames.php
+SchemaDotOrgSchemaTypeBuilder.php
+SchemaDotOrgSchemaTypeManager.php
+
+SchemaDotOrgMappingEntity
+
+
 # Steps
 
 - PHPUnit

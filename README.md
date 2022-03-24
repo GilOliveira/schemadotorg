@@ -19,8 +19,6 @@ The goal is to demo a content building framework that allows for progressive enh
 - Dummy content.
 
 # Tests
-- Mock form.
-
 - Base level UI
 - Simple unit
 - Base level service

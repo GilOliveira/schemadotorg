@@ -237,7 +237,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getAllTypeChildren($type, array $fields = [], array $ignored_types = []);
 
   /**
-   * Build Schema.org type hierarchical tree.
+   * Get Schema.org type hierarchical tree.
    *
    * @param string $type
    *   A Schema.org type.
@@ -245,18 +245,18 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    *   An array of ignored Schema.org types.
    *
    * @return array
-   *   A renderable array containing Schema.org type hierarchical tree.
+   *   An associative nested array containing Schema.org type hierarchical tree.
    */
   public function getTypeTree($type, array $ignored_types = []);
 
   /**
-   * Build Schema.org type breadcrumbs.
+   * Get Schema.org type breadcrumbs.
    *
    * @param string $type
    *   A Schema.org type.
    *
    * @return array
-   *   An array containing Schema.org type breadcrumbs.
+   *   An associative nested array containing Schema.org type breadcrumbs.
    */
   public function getTypeBreadcrumbs($type);
 

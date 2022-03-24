@@ -56,7 +56,8 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
    * {@inheritdoc}
    */
   public function getEntityTypes() {
-    return array_keys($this->config->get('entity_types'));
+    $entity_types = array_keys($this->config->get('entity_types'));
+    return array_combine($entity_types, $entity_types);
   }
 
   /**

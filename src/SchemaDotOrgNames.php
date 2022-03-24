@@ -35,11 +35,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
     $title = preg_replace('/(?!^)([[:lower:]])([[:upper:]])/', '$1 $2', $intermediate);
 
     // Custom.
-    $custom_titles = [
-      'Nonprofit501' => 'Nonprofit 501',
-      'gtin' => 'GTIN',
-      'rxcui' => 'RxCUI',
-    ];
+    $custom_titles = $this->getCustomTitles();
     foreach ($custom_titles as $search => $replace) {
       $title = str_replace($search, $replace, $title);
     }

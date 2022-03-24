@@ -295,6 +295,14 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   }
 
   /**
+   * Import Schema.org types and properties tables.
+   */
+  public function importTables() {
+    $this->importTable('types');
+    $this->importTable('properties');
+  }
+
+  /**
    * Installs and populatas Schema.org table.
    *
    * @param string $name
@@ -311,23 +319,25 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
     $handle = fopen($filename, 'r');
 
     // Get field names.
-    $field_names = fgetcsv($handle);
-    array_walk($field_names, function (&$field_name) {
+    $fields = fgetcsv($handle);
+    array_walk($fields, function (&$field_name) {
       $field_name = $this->schemaNames->camelCaseToSnakeCase($field_name);
     });
+    $fields[] = 'drupal_label';
+    $fields[] = 'drupal_name';
 
-    // Insert records.
+    // Insert multiple records.
+    $query = $this->database->insert($table)->fields($fields);
     while ($row = fgetcsv($handle)) {
-      $fields = [];
-      foreach ($field_names as $index => $field_name) {
-        $fields[$field_name] = $row[$index] ?? '';
+      $values = [];
+      foreach ($fields as $index => $field_name) {
+        $values[$field_name] = $row[$index] ?? '';
       }
-      $fields['drupal_label'] = $this->schemaNames->toDrupalLabel($table, $fields['label']);
-      $fields['drupal_name'] = $this->schemaNames->toDrupalName($table, $fields['label']);
-      $this->database->insert($table)
-        ->fields($fields)
-        ->execute();
+      $values['drupal_label'] = $this->schemaNames->toDrupalLabel($table, $values['label']);
+      $values['drupal_name'] = $this->schemaNames->toDrupalName($table, $values['label']);
+      $query->values($values);
     }
+    $query->execute();
   }
 
   /**

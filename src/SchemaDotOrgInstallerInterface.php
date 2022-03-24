@@ -20,4 +20,9 @@ interface SchemaDotOrgInstallerInterface {
    */
   public function schema();
 
+  /**
+   * Import Schema.org types and properties tables.
+   */
+  public function importTables();
+
 }
