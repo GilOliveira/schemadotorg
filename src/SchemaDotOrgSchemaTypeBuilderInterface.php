@@ -24,7 +24,7 @@ interface SchemaDotOrgSchemaTypeBuilderInterface {
    * @param string|array $text
    *   A string of comma delimited items (types or properties).
    * @param array $options
-   *   Link links options which include:
+   *   Link options which include:
    *   - attributes.
    *
    * @return array
@@ -37,11 +37,15 @@ interface SchemaDotOrgSchemaTypeBuilderInterface {
    *
    * @param array $tree
    *   An array of Schema.org type tree.
+   * @param array $options
+   *   Link options which include:
+   *   - base_path.
+   *   - attributes.
    *
    * @return array
    *   A renderable array containing Schema.org type tree as an item list.
    */
-  public function buildTypeTree(array $tree);
+  public function buildTypeTree(array $tree, array $options = []);
 
   /**
    * Format Schema.org type or property comment.
@@ -49,7 +53,7 @@ interface SchemaDotOrgSchemaTypeBuilderInterface {
    * @param string $comment
    *   A comment.
    * @param array $options
-   *   Comment links options which include:
+   *   Link options which include:
    *   - base_path.
    *   - attributes.
    *

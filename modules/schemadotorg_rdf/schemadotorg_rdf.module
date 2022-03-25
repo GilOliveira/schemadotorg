@@ -8,9 +8,9 @@
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
- * Implements hook_ENTITY_TYPE_update().
+ * Implements hook_ENTITY_TYPE_insert().
  */
-function schemadotorg_rdf_schemadotorg_mapping_update(SchemaDotOrgMappingInterface $schemadotorg_mapping) {
+function schemadotorg_rdf_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $schemadotorg_mapping) {
   $entity_type_id = $schemadotorg_mapping->getTargetEntityTypeId();
   $bundle = $schemadotorg_mapping->getTargetBundle();
   $schema_type = $schemadotorg_mapping->getSchemaType();
@@ -33,6 +33,13 @@ function schemadotorg_rdf_schemadotorg_mapping_update(SchemaDotOrgMappingInterfa
   }
 
   $rdf_mapping->save();
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function schemadotorg_rdf_schemadotorg_mapping_update(SchemaDotOrgMappingInterface $schemadotorg_mapping) {
+  schemadotorg_rdf_schemadotorg_mapping_insert($schemadotorg_mapping);
 }
 
 /**

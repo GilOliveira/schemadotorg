@@ -159,8 +159,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       ->getStorage('field_storage_config')
       ->load($entity_type_id . '.' . $field['machine_name']);
 
-    $field_name = $field['m7883hug
-    ine_name'];
+    $field_name = $field['machine_name'];
     $field_type = ($field_storage_config) ? $field_storage_config->getType() : $field['type'];
     $field_label = $field['label'];
     $field_description = $field['description'];

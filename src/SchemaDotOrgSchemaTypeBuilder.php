@@ -88,8 +88,12 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
   /**
    * {@inheritdoc}
    */
-  public function buildTypeTree(array $tree) {
-    $build = $this->buildTypeTreeRecursive($tree);
+  public function buildTypeTree(array $tree, array $options = []) {
+    $options += [
+      'base_path' => $this->getDefaultBasePath(),
+      'attributes' => [],
+    ];
+    $build = $this->buildTypeTreeRecursive($tree, $options);
     $build['#attributes'] = ['class' => ['schemadotorg-jstree']];
     $build['#attached']['library'][] = 'schemadotorg/schemadotorg.jstree';
     return $build;
@@ -100,13 +104,17 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
    *
    * @param array $tree
    *   An array of Schema.org type tree.
+   * @param array $options
+   *   Options which include:
+   *   - base_path.
+   *   - attributes.
    *
    * @return array
    *   A renderable array containing Schema.org type tree as an item list.
    *
    * @see \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager::getTypesChildrenRecursive
    */
-  protected function buildTypeTreeRecursive(array $tree) {
+  protected function buildTypeTreeRecursive(array $tree, array $options = []) {
     if (empty($tree)) {
       return [];
     }
@@ -116,11 +124,11 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
       $items[$type] = [
         '#type' => 'link',
         '#title' => $type,
-        '#url' => $this->getItemUrl($type),
+        '#url' => Url::fromUri($options['base_path'] . $type),
       ];
       $item += ['subtypes' => [], 'enumerations' => []];
       $children = $item['subtypes'] + $item['enumerations'];
-      $items[$type]['children'] = $this->buildTypeTreeRecursive($children);
+      $items[$type]['children'] = $this->buildTypeTreeRecursive($children, $options);
     }
 
     return [
@@ -152,7 +160,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
 
       $href = $a_node->getAttribute('href');
       if (preg_match('#^/([0-9A-Za-z]+)$#', $href, $match)) {
-        $a_node->setAttribute('href', $options['base_path'] . $match[0]);
+        $a_node->setAttribute('href', $options['base_path'] . $match[1]);
       }
       elseif (strpos($href, '/') === 0) {
         $a_node->setAttribute('href', 'https://schema.org' . $href);
@@ -170,8 +178,8 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
   protected function getDefaultBasePath() {
     return ($this->moduleHandler->moduleExists('schemadotorg_report')
       && $this->currentUser->hasPermission('access site reports'))
-      ? Url::fromRoute('schemadotorg_reports')->toString()
-      : 'https://schema.org';
+      ? Url::fromRoute('schemadotorg_reports')->setAbsolute()->toString() . '/'
+      : 'https://schema.org/';
   }
 
 }
