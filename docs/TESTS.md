@@ -12,15 +12,15 @@ SchemaDotOrgMappingStorage.php
 SchemaDotOrgMappingListBuilder.php
 SchemaDotOrgMapping
 SchemaDotOrgAutocompleteController
-
-\Drupal\schemadotorg\Form\SchemaDotOrgMappingForm
-
 SchemaDotOrgMappingForm.php
-SchemaDotOrgSettingsForm.php
+
 
 SchemaDotOrgEnumerationSelection.php
 SchemaDotOrgSelectionBase.php
 SchemaDotOrgTypeSelection.php
+
+SchemaDotOrgSettingsForm.php
+
 
 # Steps
 

@@ -54,6 +54,7 @@ class SchemaDotOrgMappingForm extends EntityForm {
 
     $form['#title'] = $this->t('Schema.org mapping');
 
+    // Display entity information with bundle or without bundle.
     $entity_type_bundle = $entity->getTargetEntityBundleEntity();
     if ($entity_type_bundle) {
       $target_entity_type_bundle_definition = $entity->getTargetEntityTypeBundleDefinition();
@@ -61,7 +62,7 @@ class SchemaDotOrgMappingForm extends EntityForm {
       $form['entity_type'] = [
         '#type' => 'item',
         '#title' => $target_entity_type_bundle_definition->getLabel(),
-        'link' => $link + ['#suffx' => '(' . $entity_type_bundle->id() . ')'],
+        'link' => $link + ['#suffix' => ' (' . $entity_type_bundle->id() . ')'],
       ];
     }
     else {
@@ -69,9 +70,7 @@ class SchemaDotOrgMappingForm extends EntityForm {
       $form['entity_type'] = [
         '#type' => 'item',
         '#title' => $this->t('Entity type'),
-        '#markup' => $entity->isTargetEntityTypeBundle()
-        ? $target_entity_type_definition->getBundleLabel()
-        : $target_entity_type_definition->getLabel(),
+        '#markup' => $target_entity_type_definition->getLabel(),
       ];
     }
 
@@ -130,11 +129,13 @@ class SchemaDotOrgMappingForm extends EntityForm {
         ];
         $rows[] = $row;
       }
-      $form['schema_properties'] = [
-        '#type' => 'table',
-        '#header' => $header,
-        '#rows' => $rows,
-      ];
+      if ($rows) {
+        $form['schema_properties'] = [
+          '#type' => 'table',
+          '#header' => $header,
+          '#rows' => $rows,
+        ];
+      }
     }
 
     return $form;
