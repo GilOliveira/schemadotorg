@@ -282,8 +282,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '%name' => $bundle_entity->label(),
       ];
       $this->messenger()->addStatus($this->t('The @type %name has been added.', $t_args));
+
+      // Log new bundle entity.
+      $entity_type_id = $this->getTargetEntityTypeId();
       $context = array_merge($t_args, ['link' => $bundle_entity->toLink($this->t('View'), 'collection')->toString()]);
-      $this->logger('node')->notice('Added @type %name.', $context);
+      $this->logger($entity_type_id)->notice('Added @type %name.', $context);
 
       $form_state->setRedirectUrl($bundle_entity->toUrl('collection'));
     }
@@ -802,7 +805,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   /* ************************************************************************ */
 
   /**
-   * Get the Schema.org type.
+   * Gets the Schema.org type.
    *
    * @return string|null
    *   The Schema.org type.
@@ -812,7 +815,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Get the Schema.org type definition.
+   * Gets the Schema.org type definition.
    *
    * @return array|false
    *   The Schema.org type definition.
@@ -822,7 +825,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Get Schema.org property definitions for the current Schema.org type.
+   * Gets Schema.org property definitions for the current Schema.org type.
    *
    * @return array
    *   Schema.org property definitions for the current Schema.org type.
@@ -834,7 +837,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Get Schema.org property to field mappings for the current Schema.org type.
+   * Gets Schema.org property to field mappings for the current Schema.org type.
    *
    * @return array
    *   Schema.org property to field mappings for the current Schema.org type.
@@ -880,7 +883,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   /* ************************************************************************ */
 
   /**
-   * Get the Schema.org mapping entity.
+   * Gets the Schema.org mapping entity.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface
    *   The Schema.org mapping entity.
@@ -890,7 +893,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Get the Schema.org mapping entity storage.
+   * Gets the Schema.org mapping entity storage.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface
    *   The Schema.org mapping entity storage
@@ -900,7 +903,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Get the current entity type ID (i.e. node, block_content, user, etc...).
+   * Gets the current entity type ID (i.e. node, block_content, user, etc...).
    *
    * @return string
    *   The current entity type ID
@@ -910,7 +913,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Get the current entity bundle.
+   * Gets the current entity bundle.
    *
    * @return string|null
    *   The current entity bundle.
@@ -955,7 +958,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Get a field's label from an existing field instance.
+   * Gets a field's label from an existing field instance.
    *
    * @param string $field_name
    *   A field name.
@@ -984,7 +987,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   /* ************************************************************************ */
 
   /**
-   * Get available fields as options.
+   * Gets available fields as options.
    *
    * @return array
    *   Available fields as options.
@@ -1011,7 +1014,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Get base fields as options.
+   * Gets base fields as options.
    *
    * @return array
    *   Base fields as options.
@@ -1048,7 +1051,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Get the current entity's fields as options.
+   * Gets the current entity's fields as options.
    *
    * @return array
    *   The current entity's fields as options.
@@ -1074,7 +1077,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Get a Schema.org property's available field types as options.
+   * Gets a Schema.org property's available field types as options.
    *
    * @param string $property
    *   The Schema.org property.

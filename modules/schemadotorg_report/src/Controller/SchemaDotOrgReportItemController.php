@@ -337,7 +337,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
   }
 
   /**
-   * Get Schema.org type fields.
+   * Gets Schema.org type fields.
    *
    * @return array
    *   Schema.org type fields.
@@ -361,7 +361,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
   }
 
   /**
-   * Get Schema.org property fields.
+   * Gets Schema.org property fields.
    *
    * @return array
    *   Schema.org Property fields.

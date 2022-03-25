@@ -34,6 +34,7 @@ class SchemaDotOrgInstallerTest extends KernelTestBase {
    * @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface
    */
   protected $installer;
+
   /**
    * {@inheritdoc}
    */
@@ -47,7 +48,6 @@ class SchemaDotOrgInstallerTest extends KernelTestBase {
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
     $this->installConfig(['schemadotorg']);
 
-    /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
     $this->installer = $this->container->get('schemadotorg.installer');
     $this->installer->install();
   }
@@ -147,7 +147,7 @@ class SchemaDotOrgInstallerTest extends KernelTestBase {
   }
 
   /**
-   * Get Schema.org: Thing terms by Schema.org type.
+   * Gets Schema.org: Thing terms by Schema.org type.
    *
    * @return \Drupal\taxonomy\TermInterface[]
    *   Schema.org: Thing terms by Schema.org type.

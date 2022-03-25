@@ -13,7 +13,7 @@ interface SchemaDotOrgInstallerInterface {
   public function install();
 
   /**
-   * Get Schema.org properties and types database schema.
+   * Gets Schema.org properties and types database schema.
    *
    * @return array
    *   A schema definition structure array.

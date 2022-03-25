@@ -8,7 +8,7 @@ namespace Drupal\schemadotorg;
 interface SchemaDotOrgSchemaTypeBuilderInterface {
 
   /**
-   * Get Schema.org type or property URL.
+   * Gets Schema.org type or property URL.
    *
    * @param string $id
    *   Type or property ID.

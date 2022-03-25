@@ -218,7 +218,7 @@ abstract class SchemaDotOrgSelectionBase extends SelectionPluginBase implements 
   }
 
   /**
-   * Get the Schema.org property's range includes Schema.org types.
+   * Gets the Schema.org property's range includes Schema.org types.
    *
    * @return array
    *   The Schema.org property's range includes Schema.org types.
@@ -239,7 +239,7 @@ abstract class SchemaDotOrgSelectionBase extends SelectionPluginBase implements 
   }
 
   /**
-   * Get the Schema.org property name for an entity field mapping.
+   * Gets the Schema.org property name for an entity field mapping.
    *
    * @return string
    *   The Schema.org property name for an entity field mapping.
@@ -260,7 +260,7 @@ abstract class SchemaDotOrgSelectionBase extends SelectionPluginBase implements 
   }
 
   /**
-   * Get the Schema.org mapping.
+   * Gets the Schema.org mapping.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null
    *   The Schema.org mapping.

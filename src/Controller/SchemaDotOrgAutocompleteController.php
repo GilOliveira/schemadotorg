@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Returns responses for Schema.org autocomplete routes.
  */
-class SchemaDotOrgAutoCompleteController extends ControllerBase {
+class SchemaDotOrgAutocompleteController extends ControllerBase {
 
   /**
    * The database connection.

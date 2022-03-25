@@ -69,7 +69,7 @@ class SchemaDotOrgEnumerationSelection extends SchemaDotOrgSelectionBase {
   }
 
   /**
-   * Get Schema.org enumeration term ids.
+   * Gets Schema.org enumeration term ids.
    *
    * @return array|int
    *   Schema.org enumeration term ids.

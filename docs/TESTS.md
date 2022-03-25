@@ -8,9 +8,19 @@ SchemaDotOrgEntityTypeManager.php
 SchemaDotOrgNames.php
 SchemaDotOrgSchemaTypeBuilder.php
 SchemaDotOrgSchemaTypeManager.php
+SchemaDotOrgMappingStorage.php
+SchemaDotOrgMappingListBuilder.php
+SchemaDotOrgMapping
+SchemaDotOrgAutocompleteController
 
-SchemaDotOrgMappingEntity
+\Drupal\schemadotorg\Form\SchemaDotOrgMappingForm
 
+SchemaDotOrgMappingForm.php
+SchemaDotOrgSettingsForm.php
+
+SchemaDotOrgEnumerationSelection.php
+SchemaDotOrgSelectionBase.php
+SchemaDotOrgTypeSelection.php
 
 # Steps
 

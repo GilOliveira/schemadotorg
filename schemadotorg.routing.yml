@@ -9,7 +9,7 @@ schemadotorg.settings:
 schemadotorg.autocomplete:
   path: '/schemadotorg/autocomplete/{table}'
   defaults:
-    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgAutoCompleteController::autocomplete'
+    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgAutocompleteController::autocomplete'
   requirements:
     _permission: 'access content'
 

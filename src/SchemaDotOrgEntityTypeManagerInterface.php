@@ -8,7 +8,7 @@ namespace Drupal\schemadotorg;
 interface SchemaDotOrgEntityTypeManagerInterface {
 
   /**
-   * Get entity types that implement Schema.org.
+   * Gets entity types that implement Schema.org.
    *
    * @return array
    *   Entity types that implement Schema.org.
@@ -16,7 +16,7 @@ interface SchemaDotOrgEntityTypeManagerInterface {
   public function getEntityTypes();
 
   /**
-   * Get default bundle for an entity type and Schema.org type.
+   * Gets default bundle for an entity type and Schema.org type.
    *
    * @param string $entity_type_id
    *   The entity type ID.
@@ -29,7 +29,7 @@ interface SchemaDotOrgEntityTypeManagerInterface {
   public function getDefaultSchemaTypeBundle($entity_type_id, $type);
 
   /**
-   * Get default Schema.org type for an entity type and bundle.
+   * Gets default Schema.org type for an entity type and bundle.
    *
    * @param string $entity_type_id
    *   The entity type ID.
@@ -42,7 +42,7 @@ interface SchemaDotOrgEntityTypeManagerInterface {
   public function getDefaultSchemaType($entity_type_id, $bundle);
 
   /**
-   * Get common Schema.org types for a specific entity type.
+   * Gets common Schema.org types for a specific entity type.
    *
    * @param string $entity_type_id
    *   The entity type ID.
@@ -54,7 +54,7 @@ interface SchemaDotOrgEntityTypeManagerInterface {
   public function getCommonSchemaTypes($entity_type_id);
 
   /**
-   * Get an entity type's base field mappings.
+   * Gets an entity type's base field mappings.
    *
    * @param string $entity_type_id
    *   The entity type ID.
@@ -65,7 +65,7 @@ interface SchemaDotOrgEntityTypeManagerInterface {
   public function getBaseFieldMappings($entity_type_id);
 
   /**
-   * Get an entity type's base fields names.
+   * Gets an entity type's base fields names.
    *
    * @param string $entity_type_id
    *   The entity type ID.
@@ -76,7 +76,7 @@ interface SchemaDotOrgEntityTypeManagerInterface {
   public function getBaseFieldNames($entity_type_id);
 
   /**
-   * Get default Schema.org properties.
+   * Gets default Schema.org properties.
    *
    * @param string $entity_type_id
    *   The entity type ID.
@@ -87,7 +87,7 @@ interface SchemaDotOrgEntityTypeManagerInterface {
   public function getSchemaPropertyDefaults($entity_type_id);
 
   /**
-   * Get default Schema.org unlimited properties.
+   * Gets default Schema.org unlimited properties.
    *
    * @param string $entity_type_id
    *   The entity type ID.
@@ -98,7 +98,7 @@ interface SchemaDotOrgEntityTypeManagerInterface {
   public function getSchemaPropertyUnlimited($entity_type_id);
 
   /**
-   * Get field types for Schema.org property.
+   * Gets field types for Schema.org property.
    *
    * @param string $property
    *   The Schema.org property.

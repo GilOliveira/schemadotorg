@@ -15,7 +15,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   const URI = 'https://schema.org/';
 
   /**
-   * Get Schema.org type or property URI.
+   * Gets Schema.org type or property URI.
    *
    * @param string $id
    *   A Schema.org type or property.
@@ -116,7 +116,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function parseIds($text);
 
   /**
-   * Get Schema.org type or property item.
+   * Gets Schema.org type or property item.
    *
    * @param string $table
    *   A Schema.org table.
@@ -132,7 +132,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getItem($table, $id, array $fields = []);
 
   /**
-   * Get Schema.org type.
+   * Gets Schema.org type.
    *
    * @param string $type
    *   The Schema.org type.
@@ -144,7 +144,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getType($type);
 
   /**
-   * Get Schema.org property.
+   * Gets Schema.org property.
    *
    * @param string $property
    *   The Schema.org property.
@@ -156,7 +156,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getProperty($property);
 
   /**
-   * Get a Schema.org type's properties.
+   * Gets a Schema.org type's properties.
    *
    * @param string $type
    *   The Schema.org type.
@@ -169,7 +169,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getTypeProperties($type, array $fields = []);
 
   /**
-   * Get all child Schema.org types below a specified type.
+   * Gets all child Schema.org types below a specified type.
    *
    * @param string $type
    *   The Schema.org type.
@@ -180,7 +180,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getTypeChildren($type);
 
   /**
-   * Get Schema.org subtypes.
+   * Gets Schema.org subtypes.
    *
    * @param string $type
    *   A Schema.org type.
@@ -191,7 +191,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getSubtypes($type);
 
   /**
-   * Get Schema.org enumerations.
+   * Gets Schema.org enumerations.
    *
    * @param string $type
    *   A Schema.org type.
@@ -202,7 +202,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getEnumerations($type);
 
   /**
-   * Get Schema.org data types.
+   * Gets Schema.org data types.
    *
    * @return array|string[]
    *   An array of data types.
@@ -210,7 +210,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getDataTypes();
 
   /**
-   * Get all Schema.org subtypes below specified Schema.org types.
+   * Gets all Schema.org subtypes below specified Schema.org types.
    *
    * @param array $types
    *   An array of Schema.org types.
@@ -222,7 +222,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getAllSubTypes(array $types);
 
   /**
-   * Get all Schema.org types below a specified type.
+   * Gets all Schema.org types below a specified type.
    *
    * @param string $type
    *   A Schema.org type.
@@ -237,7 +237,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getAllTypeChildren($type, array $fields = [], array $ignored_types = []);
 
   /**
-   * Get Schema.org type hierarchical tree.
+   * Gets Schema.org type hierarchical tree.
    *
    * @param string $type
    *   A Schema.org type.
@@ -250,7 +250,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getTypeTree($type, array $ignored_types = []);
 
   /**
-   * Get Schema.org type breadcrumbs.
+   * Gets Schema.org type breadcrumbs.
    *
    * @param string $type
    *   A Schema.org type.

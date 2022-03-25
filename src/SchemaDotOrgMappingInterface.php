@@ -46,7 +46,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   public function getTargetEntityTypeDefinition();
 
   /**
-   * Get the entity type's bundle ID. (i.e. node_type)
+   * Gets the entity type's bundle ID. (i.e. node_type)
    *
    * @return string|null
    *   The entity type's bundle ID.
@@ -54,7 +54,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   public function getTargetEntityTypeBundleId();
 
   /**
-   * Get the entity type's bundle definition. (i.e. node_type annotation)
+   * Gets the entity type's bundle definition. (i.e. node_type annotation)
    *
    * @return \Drupal\Core\Entity\EntityTypeInterface|null
    *   Get the entity type's bundle definition.
@@ -62,7 +62,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   public function getTargetEntityTypeBundleDefinition();
 
   /**
-   * Get the bundle entity type. (i.e. node_type:page)
+   * Gets the bundle entity type. (i.e. node_type:page)
    *
    * @return \Drupal\Core\Config\Entity\ConfigEntityBundleBase|null
    *   The bundle entity type.

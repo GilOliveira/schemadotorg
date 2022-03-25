@@ -52,7 +52,7 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   }
 
   /**
-   * Get Schema.org types or properties filter form.
+   * Gets Schema.org types or properties filter form.
    *
    * @param string $table
    *   Types or properties table name.

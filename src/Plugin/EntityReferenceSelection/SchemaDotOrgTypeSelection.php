@@ -105,7 +105,7 @@ class SchemaDotOrgTypeSelection extends SchemaDotOrgSelectionBase {
   }
 
   /**
-   * Get the Schema.org property target mappings.
+   * Gets the Schema.org property target mappings.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface[]
    *   The Schema.org property target mappings.

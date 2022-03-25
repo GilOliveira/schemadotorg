@@ -79,7 +79,7 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
   }
 
   /**
-   * Get Schema.org types table header.
+   * Gets Schema.org types table header.
    *
    * @return array[]
    *   Schema.org types table header.
@@ -131,7 +131,7 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
   }
 
   /**
-   * Get properties table header.
+   * Gets properties table header.
    *
    * @return array[]
    *   Properties table header.

@@ -162,7 +162,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
   }
 
   /**
-   * Get the default Schema.org base path for the current user.
+   * Gets the default Schema.org base path for the current user.
    *
    * @return string
    *   The default Schema.org base path for the current user.

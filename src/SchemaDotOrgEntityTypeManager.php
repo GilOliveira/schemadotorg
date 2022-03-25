@@ -61,7 +61,7 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
   }
 
   /**
-   * Get default bundle for an entity type and Schema.org type.
+   * Gets default bundle for an entity type and Schema.org type.
    *
    * @param string $entity_type_id
    *   The entity type ID.
@@ -188,7 +188,7 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
   }
 
   /**
-   * Get the entity reference field type based on an array Schema.org types.
+   * Gets the entity reference field type based on an array Schema.org types.
    *
    * @param array $types
    *   Schema.org types, extracted from a property's range includes.

@@ -8,7 +8,7 @@ namespace Drupal\schemadotorg;
 interface SchemaDotOrgNamesInterface {
 
   /**
-   * Get the max length for Schema.org type or property.
+   * Gets the max length for Schema.org type or property.
    *
    * Drupal limits type and field names to 32 characters.
    * Schema.org fields are prefixed with 'schema_' which limits
@@ -83,7 +83,7 @@ interface SchemaDotOrgNamesInterface {
   public function toDrupalName($table, $string);
 
   /**
-   * Get name prefixes.
+   * Gets name prefixes.
    *
    * @return string[]
    *   An associative array of name prefixes.
@@ -91,7 +91,7 @@ interface SchemaDotOrgNamesInterface {
   public function getNamePrefixes();
 
   /**
-   * Get name suffixes.
+   * Gets name suffixes.
    *
    * @return string[]
    *   An associative array of name suffixes.
@@ -99,7 +99,7 @@ interface SchemaDotOrgNamesInterface {
   public function getNameSuffixes();
 
   /**
-   * Get custom abbreviations.
+   * Gets custom abbreviations.
    *
    * @return string[]
    *   An associative array of custom abbreviation.
@@ -107,7 +107,7 @@ interface SchemaDotOrgNamesInterface {
   public function getNameAbbreviations();
 
   /**
-   * Get custom name abbreviations.
+   * Gets custom name abbreviations.
    *
    * @return string[]
    *   An associative array of custom name abbreviation.
@@ -115,7 +115,7 @@ interface SchemaDotOrgNamesInterface {
   public function getCustomNames();
 
   /**
-   * Get custom titles.
+   * Gets custom titles.
    *
    * @return string[]
    *   An associative array of custom title.
@@ -123,7 +123,7 @@ interface SchemaDotOrgNamesInterface {
   public function getCustomTitles();
 
   /**
-   * Get acronyms.
+   * Gets acronyms.
    *
    * @return string[]
    *   An array of acronyms.
@@ -131,7 +131,7 @@ interface SchemaDotOrgNamesInterface {
   public function getAcronyms();
 
   /**
-   * Get minor words.
+   * Gets minor words.
    *
    * @return string[]
    *   An array of minor words.

@@ -87,8 +87,6 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    */
   protected $properties = [];
 
-  // @see \Drupal\Core\Entity\EntityDisplayBase::__construct
-
   /**
    * {@inheritdoc}
    */
@@ -232,8 +230,8 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
     if (\Drupal::moduleHandler()->moduleExists('field')) {
       $properties = $this->properties;
       $field_definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions($this->targetEntityType, $this->bundle);
-      foreach (array_intersect_key($field_definitions, $properties) as $field_name => $field_definition) {
-        if ($field_definition instanceof ConfigEntityInterface && $field_definition->getEntityTypeId() == 'field_config') {
+      foreach (array_intersect_key($field_definitions, $properties) as $field_definition) {
+        if ($field_definition instanceof ConfigEntityInterface && $field_definition->getEntityTypeId() === 'field_config') {
           $this->addDependency('config', $field_definition->getConfigDependencyName());
         }
       }
@@ -248,7 +246,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   public function onDependencyRemoval(array $dependencies) {
     $changed = parent::onDependencyRemoval($dependencies);
     foreach ($dependencies['config'] as $entity) {
-      if ($entity->getEntityTypeId() == 'field_config') {
+      if ($entity->getEntityTypeId() === 'field_config') {
         // Remove properties for fields that are being deleted.
         $this->removeSchemaProperty($entity->getName());
         $changed = TRUE;

@@ -34,7 +34,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   }
 
   /**
-   * Get Schema.org type or property URI.
+   * Gets Schema.org type or property URI.
    *
    * @param string $id
    *   A Schema.org type or property.
@@ -333,7 +333,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   }
 
   /**
-   * Get all Schema.org types below a specified array of types.
+   * Gets all Schema.org types below a specified array of types.
    *
    * @param array $types
    *   An array of Schema.org type ids.
