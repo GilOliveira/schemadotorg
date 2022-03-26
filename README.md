@@ -18,15 +18,23 @@ The goal is to demo a content building framework that allows for progressive enh
 - Example models.
 - Dummy content.
 
-# Tests
-- Base level UI
-- Simple unit
-- Base level service
-
 # Todo
 
 Review and document patterns provide by Google
 - https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
+
+SchemaDotOrgMappingType
+- Copy SchemaDotOrgManager
+- SchemaDotOrgEntityTypeManager moves to SchemaDotOrgMappingTypeStorage
+- SchemaDotOrgMappingTypeListBuilder
+  - base_field_mappings
+  - default_schema_properties
+  - default_unlimited
+
+- Form input patters
+  - Lines
+  - Pipe => key|value
+  - Pipe and comma => key|value1,value2,value3
 
 Move 'schema_' field prefix into configuration
 - \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager
@@ -125,19 +133,6 @@ Alpha
 
 # References
 
-Schema.org
-
-- [Schema.org](https://schema.org)
-- [Schema.org | Wikipedia](https://en.m.wikipedia.org/wiki/Schema.org)
-- [Understand how structured data works | Google Search Central](https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data)
-- [Schema.org - What, How, Why? | Video](https://www.youtube.com/watch?v=hcahQfN5u9Y)
-- [RDF in Drupal: What is it and Why Should We Care? \ Drupal Easy](https://www.drupaleasy.com/blogs/ultimike/2009/06/rdf-drupal-what-it-and-why-should-we-care)
-
-Examples
-
-- [JSON-LD - Structured Data. Made Simple.](https://jsonld.com/)
-- [Featured Guides | Google Search Central](https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data)
-
 Drupal Entities & Field
 
 - [Drupal content entity 8.0.pages](https://paperzz.com/doc/7052675/drupal-content-entity-8.0.pages)
@@ -198,11 +193,3 @@ TBD
 - https://www.drupal.org/project/base_field_override_ui
 - https://www.drupal.org/project/jsonapi_node_preview_tab
 - https://www.drupal.org/project/field_ui_extras
-
-Related/Similar
-- https://www.drupal.org/project/schema_metatag
-- https://www.drupal.org/project/jsonld
-- https://www.drupal.org/project/json_ld_schema
-- https://www.drupal.org/project/jsld
-- https://www.drupal.org/project/schemaorg
-- https://www.drupal.org/project/rdfui

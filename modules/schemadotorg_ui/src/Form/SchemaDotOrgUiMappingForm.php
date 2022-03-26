@@ -373,6 +373,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     // Build Schema.org type properties table.
     $this->buildSchemaPropertiesForm($form);
 
+    // Load the jsTree before the UI library to ensure that jsTree works
+    // inside modal dialogs.
+    $form['#attached']['library'][] = 'schemadotorg/schemadotorg.jstree';
     $form['#attached']['library'][] = 'schemadotorg_ui/schemadotorg_ui';
 
     // Display warning when creating a new entity or fields.
@@ -444,7 +447,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#type' => 'link',
       '#title' => $type_definition['label'],
       '#url' => $this->schemaTypeBuilder->getItemUrl($type_definition['label']),
-      '#attributes' => ['target' => '_blank'],
       '#prefix' => '<div>',
       '#suffix' => '</div>',
     ];
@@ -651,12 +653,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
       // Highlight mapped properties.
       if ($field_name_default_value) {
-        if ($field_name_default_value === static::ADD_FIELD) {
-          $row['#attributes'] = ['class' => ['color-warning']];
-        }
-        else {
-          $row['#attributes'] = ['class' => ['color-success']];
-        }
+        $row_class = ($field_name_default_value === static::ADD_FIELD)
+          ? 'color-warning'
+          : 'color-success';
+        $row['#attributes'] = ['class' => [$row_class]];
       }
 
       $rows[$property] = $row;

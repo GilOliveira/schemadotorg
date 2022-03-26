@@ -217,11 +217,13 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
         ->orderBy('label')
         ->execute()
         ->fetchCol();
-      $build['appears_in'] = [
-        '#type' => 'item',
-        '#title' => $this->t('Appears in (via range includes)'),
-        'items' => $this->schemaTypeBuilder->buildItemsLinks($appears_in),
-      ];
+      if ($appears_in) {
+        $build['appears_in'] = [
+          '#type' => 'item',
+          '#title' => $this->t('Appears in (via range includes)'),
+          'items' => $this->schemaTypeBuilder->buildItemsLinks($appears_in),
+        ];
+      }
     }
 
     return $build;
