@@ -54,7 +54,7 @@ interface SchemaDotOrgMappingTypeStorageInterface extends ConfigEntityStorageInt
    *   An associative array containing common Schema.org types for
    *   a specific entity type.
    */
-  public function getCommonSchemaTypes($entity_type_id);
+  public function getRecommendedSchemaTypes($entity_type_id);
 
   /**
    * Gets an entity type's base field mappings.

@@ -715,9 +715,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     // Description bottom.
     $entity_type_id = $this->getTargetEntityTypeId() ?? 'node';
-    $common_types = $this->getMappingTypeStorage()->getCommonSchemaTypes($entity_type_id);
+    $recommended_types = $this->getMappingTypeStorage()->getRecommendedSchemaTypes($entity_type_id);
     $items = [];
-    foreach ($common_types as $group_name => $group) {
+    foreach ($recommended_types as $group_name => $group) {
       $item = [];
       $item['group'] = [
         '#markup' => $group['label'],

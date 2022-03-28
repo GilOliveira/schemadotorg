@@ -34,9 +34,20 @@ class SchemaDotOrgMappingTypeListBuilder extends ConfigEntityListBuilder {
   public function buildHeader() {
     $header['entity_type'] = [
       'data' => $this->t('Type'),
-      'width' => '80%',
+      'width' => '25%',
     ];
-
+    $header['default_schema_types'] = [
+      'data' => $this->t('Default schema types'),
+      'width' => '25%',
+    ];
+    $header['default_schema_properties'] = [
+      'data' => $this->t('Default schema properties'),
+      'width' => '25%',
+    ];
+    $header['default_base_fields'] = [
+      'data' => $this->t('Default base fields mapping'),
+      'width' => '25%',
+    ];
     return $header + parent::buildHeader();
   }
 
@@ -44,11 +55,10 @@ class SchemaDotOrgMappingTypeListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $entity */
-    $entity_type_definition = $this->entityTypeManager->getDefinition($entity->id());
-
-    $row['entity_type'] = $entity_type_definition->getLabel();
-
+    $row['entity_type'] = $entity->label();
+    $row['default_schema_types'] = implode(', ', $entity->get('default_schema_types'));
+    $row['default_schema_properties'] = implode(', ', $entity->get('default_schema_properties'));
+    $row['default_base_fields'] = implode(', ',  array_keys($entity->get('default_base_fields')));
     return $row + parent::buildRow($entity);
   }
 

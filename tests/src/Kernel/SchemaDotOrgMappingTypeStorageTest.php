@@ -23,9 +23,9 @@ class SchemaDotOrgMappingTypeStorageTest extends KernelTestBase {
   public static $modules = ['schemadotorg', 'paragraphs', 'file'];
 
   /**
-   * The Schema.org mapping storage.
+   * The Schema.org mapping type storage.
    *
-   * @var \Drupal\schemadotorg\SchemaDotOrgMappingStorage
+   * @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage
    */
   protected $storage;
 
@@ -83,9 +83,9 @@ class SchemaDotOrgMappingTypeStorageTest extends KernelTestBase {
     }
 
     // Check getting common Schema.org types for a specific entity type.
-    $common_schema_types = $this->storage->getCommonSchemaTypes('node');
-    $this->assertEquals('Common', $common_schema_types['common']['label']);
-    $this->assertEquals('Thing', $common_schema_types['common']['types'][0]);
+    $recommended_schema_types = $this->storage->getRecommendedSchemaTypes('node');
+    $this->assertEquals('Common', $recommended_schema_types['common']['label']);
+    $this->assertEquals('Thing', $recommended_schema_types['common']['types'][0]);
 
     // Check getting an entity type's base field mappings.
     $expected_base_field_mappings = [

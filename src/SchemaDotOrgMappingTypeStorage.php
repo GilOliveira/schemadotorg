@@ -47,7 +47,7 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
   /**
    * {@inheritdoc}
    */
-  public function getCommonSchemaTypes($entity_type_id) {
+  public function getRecommendedSchemaTypes($entity_type_id) {
     $mapping_type = $this->load($entity_type_id);
     if (!$mapping_type) {
       return [];
