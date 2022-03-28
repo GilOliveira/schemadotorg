@@ -42,8 +42,11 @@ class SchemaDotOrgUiLocalAction extends DeriverBase implements ContainerDeriverI
    * {@inheritdoc}
    */
   public function getDerivativeDefinitions($base_plugin_definition) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
+    $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
+    $entity_types = $mapping_type_storage->getEntityTypes();
+
     $this->derivatives = [];
-    $entity_types = $this->schemaDotOrgEntityTypeManager->getEntityTypes();
     foreach ($this->entityTypeManager->getDefinitions() as $entity_type_id => $entity_type) {
       $bundle_of = $entity_type->getBundleOf();
       if ($bundle_of

@@ -7,7 +7,7 @@ use Drupal\node\Entity\NodeType;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
 /**
- * Tests the Schema.org mapping entity storage.
+ * Tests the Schema.org mapping storage.
  *
  * @coversClass \Drupal\schemadotorg\SchemaDotOrgMappingStorage
  * @group schemadotorg
@@ -22,7 +22,7 @@ class SchemaDotOrgMappingStorageTest extends KernelTestBase {
   public static $modules = ['system', 'user', 'node', 'schemadotorg'];
 
   /**
-   * The Schema.org mapping entity storage.
+   * The Schema.org mapping storage.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgMappingStorage
    */
@@ -51,7 +51,7 @@ class SchemaDotOrgMappingStorageTest extends KernelTestBase {
     $installer = $this->container->get('schemadotorg.installer');
     $installer->importTables();
 
-    // Set Schema.org mapping entity storage.
+    // Set Schema.org mapping storage.
     $this->storage = $this->container->get('entity_type.manager')->getStorage('schemadotorg_mapping');
 
     // Create Thing and Image node with mappings.
@@ -83,7 +83,7 @@ class SchemaDotOrgMappingStorageTest extends KernelTestBase {
   }
 
   /**
-   * Test Schema.org mapping entity storage.
+   * Test Schema.org mapping storage.
    */
   public function testSchemaDotOrgMappingStorage() {
     // Check determining if an entity type and bundle are mapped to Schema.org.

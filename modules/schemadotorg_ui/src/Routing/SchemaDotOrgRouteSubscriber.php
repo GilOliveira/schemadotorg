@@ -50,10 +50,12 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
    * {@inheritdoc}
    */
   protected function alterRoutes(RouteCollection $collection) {
-    $supported_entity_types = $this->schemaDotOrgEntityTypeManager->getEntityTypes();
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
+    $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
+    $entity_types = $mapping_type_storage->getEntityTypes();
     foreach ($this->entityTypeManager->getDefinitions() as $entity_type_id => $entity_type) {
       // Make sure the entity is supported.
-      if (!in_array($entity_type_id, $supported_entity_types)) {
+      if (!in_array($entity_type_id, $entity_types)) {
         continue;
       }
 

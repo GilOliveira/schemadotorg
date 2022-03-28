@@ -131,6 +131,7 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
    * {@inheritdoc}
    */
   public function getPropertyFieldTypeOptions($property) {
+    $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
     $recommended_field_types = $this->schemaEntityTypeManager->getSchemaPropertyFieldTypes($property);
     $recommended_category = (string) $this->t('Recommended');
 
@@ -221,7 +222,9 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     $field_definitions = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
     $options = [];
 
-    $base_field_names = $this->schemaEntityTypeManager->getBaseFieldNames($entity_type_id);
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
+    $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
+    $base_field_names = $mapping_type_storage->getBaseFieldNames($entity_type_id);
     if ($base_field_names) {
       foreach ($base_field_names as $field_name) {
         if (isset($field_definitions[$field_name])) {

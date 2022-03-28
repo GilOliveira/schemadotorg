@@ -47,7 +47,7 @@ class SchemaDotOrgMappingEntityTest extends KernelTestBase {
   protected $userMapping;
 
   /**
-   * The Schema.org mapping entity storage.
+   * The Schema.org mapping storage.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgMappingStorage
    */
@@ -114,7 +114,7 @@ class SchemaDotOrgMappingEntityTest extends KernelTestBase {
     $user_mapping->save();
     $this->userMapping = $user_mapping;
 
-    // Set Schema.org mapping entity storage.
+    // Set Schema.org mapping storage.
     $this->storage = $this->container->get('entity_type.manager')->getStorage('schemadotorg_mapping');
   }
 

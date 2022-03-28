@@ -39,13 +39,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   protected $schemaTypeBuilder;
 
   /**
-   * The Schema.org entity type manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface
-   */
-  protected $schemaEntityTypeManager;
-
-  /**
    * The Schema.org entity type builder.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilderInterface
@@ -66,7 +59,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $instance = parent::create($container);
     $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
     $instance->schemaTypeBuilder = $container->get('schemadotorg.schema_type_builder');
-    $instance->schemaEntityTypeManager = $container->get('schemadotorg.entity_type_manager');
     $instance->schemaEntityTypeBuilder = $container->get('schemadotorg.entity_type_builder');
     $instance->schemaFieldManager = $container->get('schemadotorg_ui.field_manager');
     return $instance;
@@ -76,7 +68,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * {@inheritdoc}
    */
   public function getEntityFromRouteMatch(RouteMatchInterface $route_match, $entity_type_id) {
-    $entity_storage = $this->getEntityStorage();
+    $mapping_storage = $this->getMappingStorage();
+    $mapping_type_storage = $this->getMappingTypeStorage();
 
     $route_parameters = $route_match->getParameters()->all();
 
@@ -101,9 +94,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $target_entity_type_id = $target_entity_type_id ?? 'node';
 
     // Display warning that new Schema.org type is  mapped.
-    if ($entity_storage->isSchemaTypeMapped($target_entity_type_id, $schema_type)) {
+    if ($mapping_storage->isSchemaTypeMapped($target_entity_type_id, $schema_type)) {
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
-      $entity = $entity_storage->loadBySchemaType($target_entity_type_id, $schema_type);
+      $entity = $mapping_storage->loadBySchemaType($target_entity_type_id, $schema_type);
       $target_entity = $entity->getTargetEntityBundleEntity();
       $t_args = [
         '%type' => $schema_type,
@@ -116,11 +109,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     // Set default schema type for the current target entity type and bundle.
     $schema_type = $schema_type
-      ?: $this->schemaEntityTypeManager->getDefaultSchemaType($target_entity_type_id, $target_bundle);
+      ?: $mapping_type_storage->getDefaultSchemaType($target_entity_type_id, $target_bundle);
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
-    $entity = $entity_storage->load($target_entity_type_id . '.' . $target_bundle)
-      ?: $entity_storage->create([
+    $entity = $mapping_storage->load($target_entity_type_id . '.' . $target_bundle)
+      ?: $mapping_storage->create([
         'targetEntityType' => $target_entity_type_id,
         'bundle' => $target_bundle,
         'type' => $schema_type,
@@ -508,8 +501,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $field_options = $this->getFieldOptions();
     $property_definitions = $this->getSchemaTypePropertyDefinitions();
     $property_mappings = $this->getSchemaTypePropertyMappings();
-    $property_defaults = $this->schemaEntityTypeManager->getSchemaPropertyDefaults($entity_type_id);
-    $property_unlimited = $this->schemaEntityTypeManager->getSchemaPropertyUnlimited($entity_type_id);
+    $property_defaults = $this->getMappingTypeStorage()->getSchemaPropertyDefaults($entity_type_id);
+    $property_unlimited = $this->getMappingTypeStorage()->getSchemaPropertyUnlimited($entity_type_id);
 
     // Header.
     $header = [
@@ -722,7 +715,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     // Description bottom.
     $entity_type_id = $this->getTargetEntityTypeId() ?? 'node';
-    $common_types = $this->schemaEntityTypeManager->getCommonSchemaTypes($entity_type_id);
+    $common_types = $this->getMappingTypeStorage()->getCommonSchemaTypes($entity_type_id);
     $items = [];
     foreach ($common_types as $group_name => $group) {
       $item = [];
@@ -765,7 +758,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   A renderable array containing the Schema.org type item.
    */
   protected function buildSchemaTypeItem($type) {
-    $schema_mapping_storage = $this->getEntityStorage();
+    $schema_mapping_storage = $this->getMappingStorage();
     $entity_type_id = $this->getTargetEntityTypeId();
     if ($schema_mapping_storage->isSchemaTypeMapped($entity_type_id, $type)) {
       return ['#markup' => $type];
@@ -829,7 +822,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     // @todo Rework this to be a lot smarter.
     if ($this->getEntity()->isNew()) {
       $entity_type_id = $this->getTargetEntityTypeId();
-      $base_field_mappings = $this->schemaEntityTypeManager->getBaseFieldMappings($entity_type_id);
+      $base_field_mappings = $this->getMappingTypeStorage()->getBaseFieldMappings($entity_type_id);
 
       $property_definitions = $this->getSchemaTypePropertyDefinitions();
       foreach ($property_definitions as $property => $property_definition) {
@@ -872,13 +865,23 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Gets the Schema.org mapping entity storage.
+   * Gets the Schema.org mapping storage.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface
-   *   The Schema.org mapping entity storage
+   *   The Schema.org mapping storage
    */
-  protected function getEntityStorage() {
+  protected function getMappingStorage() {
     return $this->entityTypeManager->getStorage('schemadotorg_mapping');
+  }
+
+  /**
+   * Gets the Schema.org mapping type storage.
+   *
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface
+   *   The Schema.org mapping type storage
+   */
+  protected function getMappingTypeStorage() {
+    return $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
   }
 
   /**

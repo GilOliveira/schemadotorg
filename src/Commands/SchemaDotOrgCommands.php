@@ -58,13 +58,6 @@ class SchemaDotOrgCommands extends DrushCommands {
   protected $schemaTypeManager;
 
   /**
-   * The Schema.org entity type manager service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface
-   */
-  protected $schemaEntityTypeManager;
-
-  /**
    * SchemaDotOrgCommands constructor.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
@@ -77,16 +70,13 @@ class SchemaDotOrgCommands extends DrushCommands {
    *   The Schema.org installer service.
    * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
    *   The Schema.org schema type manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface $schema_entity_type_manager
-   *   The Schema.org entity type service.
    */
   public function __construct(
     ModuleHandlerInterface $module_handler,
     FormBuilderInterface $form_builder,
     EntityTypeManagerInterface $entity_type_manager,
     SchemaDotOrgInstallerInterface $schemadotorg_installer,
-    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
-    SchemaDotOrgEntityTypeManagerInterface $schema_entity_type_manager
+    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
   ) {
     parent::__construct();
     $this->moduleHandler = $module_handler;
@@ -94,7 +84,6 @@ class SchemaDotOrgCommands extends DrushCommands {
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaInstaller = $schemadotorg_installer;
     $this->schemaTypeManager = $schema_type_manager;
-    $this->schemaEntityTypeManager = $schema_entity_type_manager;
   }
 
   /* ************************************************************************ */
@@ -142,8 +131,11 @@ class SchemaDotOrgCommands extends DrushCommands {
       throw new \Exception(dt('Schema.org types are required'));
     }
 
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
+    $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
+
     // Check for allowed and valid entity type.
-    $entity_types = $this->schemaEntityTypeManager->getEntityTypes();
+    $entity_types = $mapping_type_storage->getEntityTypes();
     if (!in_array($entity_type, $entity_types)) {
       $t_args = [
         '@entity_type' => $entity_type,
@@ -184,11 +176,14 @@ class SchemaDotOrgCommands extends DrushCommands {
       throw new UserAbortException();
     }
 
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
+    $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
+
     foreach ($schema_types as $schema_type) {
       // Get the default bundle for the schema type.
       // Default bundles are only defined for the 'media' and 'user'
       // entity types.
-      $bundle = $this->schemaEntityTypeManager->getDefaultSchemaTypeBundle($entity_type, $schema_type);
+      $bundle = $mapping_type_storage->getDefaultSchemaTypeBundle($entity_type, $schema_type);
 
       // Create a new Schema.org mapping.
       $schemadotorg_mapping = SchemaDotOrgMapping::create([
