@@ -2,18 +2,13 @@
 
 namespace Drupal\Tests\schemadotorg\Kernel;
 
-use Drupal\Component\Utility\NestedArray;
-use Drupal\KernelTests\KernelTestBase;
-use Drupal\paragraphs\Entity\ParagraphsType;
-use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
-
 /**
  * Tests the Schema.org type manager service.
  *
  * @coversClass \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage
  * @group schemadotorg
  */
-class SchemaDotOrgMappingTypeStorageTest extends KernelTestBase {
+class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
 
   /**
    * Modules to enable.
@@ -35,10 +30,7 @@ class SchemaDotOrgMappingTypeStorageTest extends KernelTestBase {
   protected function setUp() {
     parent::setUp();
 
-    // Install the Schema.org mapping entity.
     $this->installEntitySchema('schemadotorg_mapping_type');
-
-    // Install the Schema.org configuration settings.
     $this->installConfig(['schemadotorg']);
 
     // Set Schema.org mapping storage.

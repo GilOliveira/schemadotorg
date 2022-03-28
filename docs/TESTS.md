@@ -1,11 +1,6 @@
 Testing
 -------
 
-Refactor \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildTypeTreeRecursive
-
-
-
-
 SchemaDotOrgInstaller.php
 SchemaDotOrgNames.php
 SchemaDotOrgEntityTypeBuilder.php
@@ -19,16 +14,15 @@ SchemaDotOrgMapping
 SchemaDotOrgAutocompleteController
 SchemaDotOrgMappingForm.php
 SchemaDotOrgRdfTest
+SchemaDotOrgUiFieldManagerTest
+
+\Drupal\Tests\field_ui\Functional\FieldUIRouteTest
 
 SchemaDotOrgEnumerationSelection.php
 SchemaDotOrgSelectionBase.php
 SchemaDotOrgTypeSelection.php
 
 SchemaDotOrgSettingsForm.php
-
-UI
-
-\Drupal\Tests\field_ui\Functional\FieldUIRouteTest
 
 # Steps
 

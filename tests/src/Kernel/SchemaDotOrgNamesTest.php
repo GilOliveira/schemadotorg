@@ -2,15 +2,13 @@
 
 namespace Drupal\Tests\schemadotorg\Kernel;
 
-use Drupal\KernelTests\KernelTestBase;
-
 /**
  * Tests the Schema.org names service.
  *
  * @coversDefaultClass \Drupal\schemadotorg\SchemaDotOrgNames
  * @group schemadotorg
  */
-class SchemaDotOrgNamesTest extends KernelTestBase {
+class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
 
   /**
    * Modules to enable.
@@ -33,6 +31,7 @@ class SchemaDotOrgNamesTest extends KernelTestBase {
     parent::setUp();
 
     $this->installConfig(['schemadotorg']);
+
     $this->names = $this->container->get('schemadotorg.names');
   }
 

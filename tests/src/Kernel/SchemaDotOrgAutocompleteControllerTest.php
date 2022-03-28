@@ -2,10 +2,7 @@
 
 namespace Drupal\Tests\schemadotorg\Kernel;
 
-use Drupal\Core\Database\Database;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\schemadotorg\Controller\SchemaDotOrgAutocompleteController;
-use Drupal\taxonomy\Entity\Vocabulary;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -14,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @coversClass \Drupal\schemadotorg\Controller\SchemaDotOrgAutocompleteController
  * @group schemadotorg
  */
-class SchemaDotOrgAutocompleteControllerTest extends KernelTestBase {
+class SchemaDotOrgAutocompleteControllerTest extends SchemaDotOrgKernelTestBase {
 
   /**
    * Modules to enable.
@@ -36,8 +33,8 @@ class SchemaDotOrgAutocompleteControllerTest extends KernelTestBase {
   protected function setUp() {
     parent::setUp();
 
-    $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
     $this->installEntitySchema('schemadotorg_mapping_type');
+    $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
     $this->installConfig(['schemadotorg']);
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */

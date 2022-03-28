@@ -3,7 +3,6 @@
 namespace Drupal\Tests\node\Kernel;
 
 use Drupal\Core\Language\LanguageInterface;
-use Drupal\KernelTests\KernelTestBase;
 
 /**
  * Tests the Schema.org mapping admin listing page.
@@ -11,7 +10,7 @@ use Drupal\KernelTests\KernelTestBase;
  * @coversClass \Drupal\schemadotorg\SchemaDotOrgListBuilder
  * @group schemadotorg
  */
-class SchemaDotOrgMappingListBuilderTest extends KernelTestBase {
+class SchemaDotOrgMappingListBuilderTest extends SchemaDotOrgKernelTestBase {
 
   /**
    * Modules to enable.

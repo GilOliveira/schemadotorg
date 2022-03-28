@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\schemadotorg\Kernel;
 
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\node\Entity\NodeType;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
@@ -12,7 +11,7 @@ use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
  * @coversClass \Drupal\schemadotorg\SchemaDotOrgMappingStorage
  * @group schemadotorg
  */
-class SchemaDotOrgMappingStorageTest extends KernelTestBase {
+class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
 
   /**
    * Modules to enable.
@@ -34,17 +33,12 @@ class SchemaDotOrgMappingStorageTest extends KernelTestBase {
   protected function setUp() {
     parent::setUp();
 
-    // Install the Schema.org configuration settings.
-    $this->installConfig(['schemadotorg']);
-
-    // Install the Schema.org mapping entity, user, and node.
     $this->installEntitySchema('schemadotorg_mapping');
     $this->installEntitySchema('user');
     $this->installEntitySchema('node');
     $this->installEntitySchema('node_type');
-
-    // Install the Schema.org type and properties tables.
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
+    $this->installConfig(['schemadotorg']);
 
     // Import CSV data into the Schema.org type and properties tables.
     /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */

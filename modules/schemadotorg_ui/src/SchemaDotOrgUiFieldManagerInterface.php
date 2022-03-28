@@ -65,19 +65,6 @@ interface SchemaDotOrgUiFieldManagerInterface {
   public function getPropertyFieldTypeOptions($property);
 
   /**
-   * Gets the current entity's fields as options.
-   *
-   * @param string $entity_type_id
-   *   The entity type ID.
-   * @param string $bundle
-   *   The name of the bundle.
-   *
-   * @return array
-   *   The current entity's fields as options.
-   */
-  public function getFieldDefinitionsOptions($entity_type_id, $bundle);
-
-  /**
    * Gets available fields as options.
    *
    * @param string $entity_type_id

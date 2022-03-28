@@ -80,49 +80,31 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
   }
 
   /**
-   * Determine if a field exists for the current entity.
-   *
-   * @param string $entity_type_id
-   *   The entity type ID.
-   * @param string $bundle
-   *   The name of the bundle.
-   * @param string $field_name
-   *   A field name.
-   *
-   * @return bool
-   *   TRUE if a field exists for the current entity.
+   * {@inheritdoc}
    */
   public function fieldExists($entity_type_id, $bundle, $field_name) {
+    if (!$this->entityTypeManager->hasDefinition($entity_type_id)) {
+      return FALSE;
+    }
+
     $field_definitions = $this->entityFieldManager->getFieldDefinitions($entity_type_id, $bundle);
     return isset($field_definitions[$field_name]);
   }
 
   /**
-   * Determine if a field storage exists for the current entity.
-   *
-   * @param string $entity_type_id
-   *   The entity type ID.
-   * @param string $field_name
-   *   A field name.
-   *
-   * @return bool
-   *   TRUE if a field storage exists for the current entity.
+   * {@inheritdoc}
    */
   public function fieldStorageExists($entity_type_id, $field_name) {
+    if (!$this->entityTypeManager->hasDefinition($entity_type_id)) {
+      return FALSE;
+    }
+
     $field_storage_definitions = $this->entityFieldManager->getFieldStorageDefinitions($entity_type_id);
     return isset($field_storage_definitions[$field_name]);
   }
 
   /**
-   * Gets a field's label from an existing field instance.
-   *
-   * @param string $entity_type_id
-   *   The entity type ID.
-   * @param string $field_name
-   *   A field name.
-   *
-   * @return \Drupal\Core\StringTranslation\TranslatableMarkup|string|null
-   *   A field's label from an existing field instance.
+   * {@inheritdoc}
    */
   public function getFieldLabel($entity_type_id, $field_name) {
     $field_ids = $this->entityTypeManager->getStorage('field_config')->getQuery()
@@ -173,9 +155,17 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
   }
 
   /**
-   * {@inheritdoc}
+   * Gets the current entity's fields as options.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $bundle
+   *   The name of the bundle.
+   *
+   * @return array
+   *   The current entity's fields as options.
    */
-  public function getFieldDefinitionsOptions($entity_type_id, $bundle) {
+  protected function getFieldDefinitionsOptions($entity_type_id, $bundle) {
     $field_types = $this->fieldTypePluginManager->getDefinitions();
 
     $field_definitions = array_diff_key(

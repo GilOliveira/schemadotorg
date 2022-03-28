@@ -20,17 +20,8 @@ The goal is to demo a content building framework that allows for progressive enh
 
 # Todo
 
-Review and document patterns provide by Google
-- https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
-
-- SchemaDotOrgMappingTypeListBuilder
-  - base_field_mappings
-  - default_schema_properties
-  - default_unlimited
-
-- SchemaDotOrgEntityTypeManager moves to SchemaDotOrgMappingTypeStorage
-
-Change targetEntityType to $target_entity_type
+Change schemadotorg_mapping::targetEntityType to target_entity_type_id
+Change schemadotorg_mapping::bundle to target_bundle
 
 --------------
 

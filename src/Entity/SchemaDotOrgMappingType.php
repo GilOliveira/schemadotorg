@@ -3,7 +3,6 @@
 namespace Drupal\schemadotorg\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
-use Drupal\Core\Config\Entity\ConfigEntityInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
 
 /**
@@ -114,7 +113,10 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * {@inheritdoc}
    */
   public function label() {
-    return \Drupal::entityTypeManager()->getDefinition($this->id())->getLabel();
+    $entity_type_manager = \Drupal::entityTypeManager();
+    return $entity_type_manager->hasDefinition($this->id())
+      ? $entity_type_manager->getDefinition($this->id())->getLabel()
+      : $this->id();
   }
 
 }

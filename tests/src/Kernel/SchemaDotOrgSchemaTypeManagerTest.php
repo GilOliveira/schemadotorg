@@ -3,7 +3,6 @@
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\Component\Utility\NestedArray;
-use Drupal\KernelTests\KernelTestBase;
 
 /**
  * Tests the Schema.org schema type manager service.
@@ -11,7 +10,7 @@ use Drupal\KernelTests\KernelTestBase;
  * @coversClass \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager
  * @group schemadotorg
  */
-class SchemaDotOrgSchemaTypeManagerTest extends KernelTestBase {
+class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
 
   /**
    * Modules to enable.

@@ -3,7 +3,6 @@
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\Core\Database\Database;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\taxonomy\Entity\Vocabulary;
 
 /**
@@ -13,7 +12,7 @@ use Drupal\taxonomy\Entity\Vocabulary;
  * @coversClass \Drupal\schemadotorg\SchemaDotOrgInstaller
  * @group schemadotorg
  */
-class SchemaDotOrgInstallerTest extends KernelTestBase {
+class SchemaDotOrgInstallerTest extends SchemaDotOrgKernelTestBase {
 
   /**
    * Modules to enable.
@@ -45,7 +44,6 @@ class SchemaDotOrgInstallerTest extends KernelTestBase {
     $this->installEntitySchema('taxonomy_vocabulary');
     $this->installEntitySchema('taxonomy_term');
     $this->installEntitySchema('schemadotorg_mapping_type');
-
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
     $this->installConfig(['schemadotorg']);
 

@@ -6,7 +6,6 @@ use Drupal\Core\Config\Entity\ConfigEntityType;
 use Drupal\Core\Entity\ContentEntityType;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\node\Entity\NodeType;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
@@ -16,7 +15,7 @@ use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
  * @coversClass \Drupal\schemadotorg\Entity\SchemaDotOrgMapping
  * @group schemadotorg
  */
-class SchemaDotOrgMappingEntityTest extends KernelTestBase {
+class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
 
   /**
    * Modules to enable.
@@ -59,17 +58,12 @@ class SchemaDotOrgMappingEntityTest extends KernelTestBase {
   protected function setUp() {
     parent::setUp();
 
-    // Install the Schema.org configuration settings.
-    $this->installConfig(['schemadotorg']);
-
-    // Install the Schema.org mapping entity, user, and node.
     $this->installEntitySchema('schemadotorg_mapping');
     $this->installEntitySchema('user');
     $this->installEntitySchema('node');
     $this->installEntitySchema('node_type');
-
-    // Install the Schema.org type and properties tables.
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
+    $this->installConfig(['schemadotorg']);
 
     // Create Thing node with field.
     $node_type = NodeType::create([
