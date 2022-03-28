@@ -1,0 +1,133 @@
+langcode: en
+status: true
+dependencies: {  }
+id: node
+targetEntityType: node
+
+default_base_fields:
+  uuid: NULL
+  revision_uid: NULL
+  uid: NULL
+  title: name
+  created: dateCreated
+  changed: dateChanged
+  promote: NULL
+  sticky: NULL
+  path: NULL
+recommended_schema_types:
+  common:
+    label: Common
+    types:
+      - Thing
+      - Person
+      - Organization
+      - Place
+      - Event
+      - CreativeWork
+  content:
+    label: Content
+    types:
+      - Article
+      - NewsArticle
+      - Blog
+      - Book
+      - Recipe
+      - FAQPage
+      - WebPage
+  business:
+    label: Business
+    types:
+      - LocalBusiness
+      - Corporation
+      - Restaurant
+      - NGO
+  education:
+    label: Education
+    types:
+      - Course
+      - CollegeOrUniversity
+      - ElementarySchool
+      - HighSchool
+  entertainment:
+    label: Entertainment
+    types:
+      - Movie
+      - MusicRecording
+      - TVSeries
+      - VideoGame
+  health:
+    label: Health
+    types:
+      - Physician
+      - Patient
+      - Drug
+      - MedicalCondition
+      - MedicalGuideline
+      - MedicalWebPage
+      - MedicalScholarlyArticle
+      - ResearchProject
+  commerce:
+    label: Commerce
+    types:
+      - Product
+      - Offer
+      - Review
+default_schema_properties:
+  - address
+  - about
+  - abstract
+  - additionalName
+  - alternativeHeadline
+  - audience
+  - author
+  - attendee
+  - birthDate
+  - contactPoint
+  - creativeWorkStatus
+  - dateCreated
+  - dateModified
+  - datePublished
+  - description
+  - duration
+  - endDate
+  - email
+  - eventStatus
+  - familyName
+  - faxNumber
+  - gender
+  - givenName
+  - headline
+  - honorificPrefix
+  - honorificSuffix
+  - image
+  - jobTitle
+  - knowsLanguage
+  - keywords
+  - latitude
+  - location
+  - longitude
+  - mentions
+  - name
+  - nationality
+  - nutrition
+  - organizer
+  - performer
+  - parentOrganization
+  - photo
+  - recipeCategory
+  - recipeCuisine
+  - recipeIngredient
+  - recipeInstructions
+  - recipeYield
+  - sponsor
+  - startDate
+  - suitableForDiet
+  - telephone
+  - text
+  - totalTime
+  - timeRequired
+  - thumbnailUrl
+  - worksFor
+  - video
+  - yield
+default_unlimited_fields: { }

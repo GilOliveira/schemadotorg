@@ -23,18 +23,16 @@ The goal is to demo a content building framework that allows for progressive enh
 Review and document patterns provide by Google
 - https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
 
-SchemaDotOrgMappingType
-- Copy SchemaDotOrgManager
-- SchemaDotOrgEntityTypeManager moves to SchemaDotOrgMappingTypeStorage
 - SchemaDotOrgMappingTypeListBuilder
   - base_field_mappings
   - default_schema_properties
   - default_unlimited
 
-- Form input patters
-  - Lines
-  - Pipe => key|value
-  - Pipe and comma => key|value1,value2,value3
+- SchemaDotOrgEntityTypeManager moves to SchemaDotOrgMappingTypeStorage
+
+Change targetEntityType to $target_entity_type
+
+--------------
 
 Move 'schema_' field prefix into configuration
 - \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager

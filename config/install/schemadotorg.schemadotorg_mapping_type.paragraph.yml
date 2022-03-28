@@ -1,0 +1,89 @@
+langcode: en
+status: true
+dependencies: {  }
+id: paragraph
+targetEntityType: paragraph
+default_base_fields:
+  uuid: NULL
+  created: NULL
+recommended_schema_types:
+  common:
+    label: Common
+    types:
+      - Thing
+      - ContactPoint
+      - PostalAddress
+  content:
+    label: Content
+    types:
+      - DefinedTerm
+      - ItemList
+  values:
+    label: Values
+    types:
+      - PropertyValue
+      - QuantitativeValue
+  business:
+    label: Business
+    types:
+      - Audience
+      - Brand
+      - Invoice
+      - JobPosting
+      - OwnershipInfo
+      - OpeningHoursSpecification
+      - Occupation
+      - VirtualLocation
+  commerce:
+    label: Commerce
+    types:
+      - Offer
+      - Order
+      - Rating
+      - Service
+      - Ticket
+      - Trip
+      - MonetaryAmount
+      - OfferShippingDetails
+      - PriceSpecification
+  other:
+    label: Other
+    types:
+      - HealthInsurancePlan
+      - ComputerLanguage
+      - NutritionInformation
+default_schema_properties:
+  - additionalName
+  - addressCountry
+  - alternativeHeadline
+  - addressLocality
+  - addressRegion
+  - contactOption
+  - description
+  - duration
+  - endDate
+  - email
+  - headline
+  - hoursAvailable
+  - image
+  - name
+  - postOfficeBoxNumber
+  - postalCode
+  - roleName
+  - startDate
+  - streetAddress
+  - telephone
+  - text
+  - calories
+  - carbohydrateContent
+  - cholesterolContent
+  - fatContent
+  - fiberContent
+  - proteinContent
+  - saturatedFatContent
+  - servingSize
+  - sodiumContent
+  - sugarContent
+  - transFatContent
+  - unsaturatedFatContent
+default_unlimited_fields: {  }

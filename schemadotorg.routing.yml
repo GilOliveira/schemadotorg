@@ -44,3 +44,35 @@ entity.schemadotorg_mapping.delete_form:
     _title: 'Delete a Schema.org mapping'
   requirements:
     _permission: 'administer schemadotorg'
+
+entity.schemadotorg_mapping_type.collection:
+  path: '/admin/structure/schemadotorg/type'
+  defaults:
+    _entity_list: 'schemadotorg_mapping_type'
+    _title: 'Schema.org mapping types'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+entity.schemadotorg_mapping_type.add_form:
+  path: '/admin/structure/schemadotorg/types/add'
+  defaults:
+    _entity_form: 'schemadotorg_mapping_type.add'
+    _title: 'Add a Schema.org mapping type'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+entity.schemadotorg_mapping_type.edit_form:
+  path: '/admin/structure/schemadotorg/types/{schemadotorg_mapping_type}'
+  defaults:
+    _entity_form: 'schemadotorg_mapping_type.edit'
+    _title: 'Edit a Schema.org mapping type'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+entity.schemadotorg_mapping_type.delete_form:
+  path: '/admin/structure/schemadotorg/types/{schemadotorg_mapping_type}/delete'
+  defaults:
+    _entity_form: 'schemadotorg_mapping_type.delete'
+    _title: 'Delete a Schema.org mapping type'
+  requirements:
+    _permission: 'administer schemadotorg'

@@ -1,0 +1,50 @@
+schemadotorg.schemadotorg_mapping_type.*:
+  type: config_entity
+  label: Schema.org mapping type
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    targetEntityType:
+      type: string
+      label: 'Target entity type'
+    default_schema_types:
+      type: sequence
+      label: 'Default Schema.org types'
+      sequence:
+        type: string
+        label: 'Default Schema.org type'
+    default_schema_properties:
+      type: sequence
+      label: 'Default Schema.org properties'
+      sequence:
+        type: string
+        label: 'Default Schema.org property'
+    default_base_fields:
+      type: sequence
+      label: 'Default base field mappings'
+      sequence:
+        type: string
+        label: 'Default base field mapping'
+    default_unlimited_fields:
+      type: sequence
+      label: 'Default unlimited fields'
+      sequence:
+        type: string
+        label: 'Schema.org property'
+    recommended_schema_types:
+      type: sequence
+      label: 'Recommended Schema.org types'
+      sequence:
+        type: mapping
+        label: 'Recommended Schema.org type'
+        mapping:
+          label:
+            type: string
+            label: 'Label'
+          types:
+            type: sequence
+            label: 'Types'
+            sequence:
+              type: string
+              label: 'Type'

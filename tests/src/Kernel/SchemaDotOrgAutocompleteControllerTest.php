@@ -37,6 +37,7 @@ class SchemaDotOrgAutocompleteControllerTest extends KernelTestBase {
     parent::setUp();
 
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
+    $this->installEntitySchema('schemadotorg_mapping_type');
     $this->installConfig(['schemadotorg']);
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */

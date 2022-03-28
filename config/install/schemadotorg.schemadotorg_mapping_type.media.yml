@@ -1,0 +1,61 @@
+langcode: en
+status: true
+dependencies: {  }
+id: media
+targetEntityType: media
+
+default_base_fields:
+  uuid: NULL
+  revision_created: NULL
+  revision_user: NULL
+  uid: NULL
+  name: name
+  thumbnail: thumbnail
+  created: dateCreated
+  changed: dateModified
+  path: NULL
+recommended_schema_types:
+  media_objects:
+    label: 'Media objects'
+    types:
+      - AudioObject
+      - ImageObject
+      - VideoObject
+      - 3DModel
+      - DataDownload
+  other:
+    label: 'Other types'
+    types:
+      - Photograph
+default_schema_types:
+  audio: AudioObject
+  document: DataDownload
+  image: ImageObject
+  remote_video: VideoObject
+  video: VideoObject
+default_schema_properties:
+  - about
+  - alternativeHeadline
+  - audience
+  - author
+  - contentSize
+  - contentLocation
+  - contentUrl
+  - creativeWorkStatus
+  - dateCreated
+  - dateModified
+  - datePublished
+  - description
+  - duration
+  - headline
+  - image
+  - keywords
+  - mentions
+  - name
+  - recordedAt
+  - startDate
+  - text
+  - timeRequired
+  - thumbnail
+  - video
+default_unlimited_fields: {  }

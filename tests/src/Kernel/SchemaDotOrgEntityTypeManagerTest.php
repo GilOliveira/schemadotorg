@@ -35,14 +35,14 @@ class SchemaDotOrgEntityTypeManagerTest extends KernelTestBase {
   protected function setUp() {
     parent::setUp();
 
-    // Install the Schema.org configuration settings.
-    $this->installConfig(['schemadotorg']);
-
     // Install the Schema.org mapping entity.
     $this->installEntitySchema('schemadotorg_mapping');
+    $this->installEntitySchema('schemadotorg_mapping_type');
     $this->installEntitySchema('paragraph');
     $this->installEntitySchema('paragraphs_type');
 
+    // Install the Schema.org configuration settings.
+    $this->installConfig(['schemadotorg']);
     // Install the Schema.org type and properties tables.
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
 

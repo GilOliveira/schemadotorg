@@ -7,7 +7,7 @@ use Drupal\Core\Config\Entity\ConfigEntityInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
- * Defines the Schema.org mapping entity type.
+ * Defines the Schema.org mapping entity.
  *
  * @ConfigEntityType(
  *   id = "schemadotorg_mapping",
@@ -60,14 +60,14 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   protected $id;
 
   /**
-   * Entity type to be displayed.
+   * Entity type to be mapped.
    *
    * @var string
    */
   protected $targetEntityType;
 
   /**
-   * Bundle to be displayed.
+   * Bundle to be mapped.
    *
    * @var string
    */

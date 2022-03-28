@@ -5,7 +5,7 @@ namespace Drupal\schemadotorg;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
 
 /**
- * Provides an interface defining a Schema.org mapping entity type.
+ * Provides an interface defining a Schema.org mapping entity.
  *
  * @see \Drupal\Core\Entity\Display\EntityDisplayInterface
  */

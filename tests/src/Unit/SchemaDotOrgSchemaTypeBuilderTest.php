@@ -209,12 +209,12 @@ class SchemaDotOrgSchemaTypeBuilderTest extends UnitTestCase {
       ],
       [
         'This is a <a href="/Thing" class="some-class">Thing</a>.',
-        ['base_path' => 'https://somewhere.com'],
+        ['base_path' => 'https://somewhere.com/'],
         'This is a <a href="https://somewhere.com/Thing">Thing</a>.',
       ],
       [
         'This is a <a href="/Thing" class="some-class">Thing</a> and some <a href="/some/docs">docs</a>.',
-        ['base_path' => 'https://somewhere.com'],
+        ['base_path' => 'https://somewhere.com/'],
         'This is a <a href="https://somewhere.com/Thing">Thing</a> and some <a href="https://schema.org/some/docs">docs</a>.',
       ],
     ];

@@ -56,80 +56,72 @@ class SchemaDotOrgEntityTypeManager implements SchemaDotOrgEntityTypeManagerInte
    * {@inheritdoc}
    */
   public function getEntityTypes() {
-    $entity_types = array_keys($this->config->get('entity_types'));
-    return array_combine($entity_types, $entity_types);
+    return $this->entityTypeManager
+      ->getStorage('schemadotorg_mapping_type')
+      ->getEntityTypes();
   }
 
   /**
-   * Gets default bundle for an entity type and Schema.org type.
-   *
-   * @param string $entity_type_id
-   *   The entity type ID.
-   * @param string $type
-   *   The Schema.org type.
-   *
-   * @return string|null
-   *   The default bundle for an entity type and Schema.org type.
+   * {@inheritdoc}
    */
   public function getDefaultSchemaTypeBundle($entity_type_id, $type) {
-    $schema_types = $this->config->get("entity_types.$entity_type_id.default_schema_types") ?: [];
-    $bundles = array_flip($schema_types);
-    return $bundles[$type] ?? NULL;
+    return $this->entityTypeManager
+      ->getStorage('schemadotorg_mapping_type')
+      ->getDefaultSchemaTypeBundle($entity_type_id, $type);
   }
 
   /**
    * {@inheritdoc}
    */
   public function getDefaultSchemaType($entity_type_id, $bundle) {
-    return $this->config->get("entity_types.$entity_type_id.default_schema_types.$bundle");
+    return $this->entityTypeManager
+      ->getStorage('schemadotorg_mapping_type')
+      ->getDefaultSchemaType($entity_type_id, $bundle);
   }
 
   /**
    * {@inheritdoc}
    */
   public function getCommonSchemaTypes($entity_type_id) {
-    return $this->config->get("entity_types.$entity_type_id.schema_types") ?: [];
+    return $this->entityTypeManager
+      ->getStorage('schemadotorg_mapping_type')
+      ->getCommonSchemaTypes($entity_type_id);
   }
 
   /**
    * {@inheritdoc}
    */
   public function getBaseFieldMappings($entity_type_id) {
-    $base_field_mappings = $this->config->get("entity_types.$entity_type_id.base_field_mappings") ?: [];
-    return $base_field_mappings ? array_flip(array_filter($base_field_mappings)) : [];
+    return $this->entityTypeManager
+      ->getStorage('schemadotorg_mapping_type')
+      ->getBaseFieldMappings($entity_type_id);
   }
 
   /**
    * {@inheritdoc}
    */
   public function getBaseFieldNames($entity_type_id) {
-    $base_field_mappings = $this->config->get("entity_types.$entity_type_id.base_field_mappings") ?: [];
-    $base_field_names = array_keys($base_field_mappings);
-    return array_combine($base_field_names, $base_field_names);
+    return $this->entityTypeManager
+      ->getStorage('schemadotorg_mapping_type')
+      ->getBaseFieldNames($entity_type_id);
   }
 
   /**
    * {@inheritdoc}
    */
   public function getSchemaPropertyDefaults($entity_type_id) {
-    $properties = $this->config->get("entity_types.$entity_type_id.default_schema_properties") ?: [];
-    return array_combine($properties, $properties);
+    return $this->entityTypeManager
+      ->getStorage('schemadotorg_mapping_type')
+      ->getSchemaPropertyDefaults($entity_type_id);
   }
 
   /**
    * {@inheritdoc}
    */
   public function getSchemaPropertyUnlimited($entity_type_id) {
-    $unlimited = [];
-    $entity_default_unlimited = $this->config->get("entity_types.$entity_type_id.default_unlimited") ?: [];
-    if ($entity_default_unlimited) {
-      $unlimited += array_combine($entity_default_unlimited, $entity_default_unlimited);
-    }
-    $default_unlimited = $this->config->get('schema_properties.default_unlimited') ?: [];
-    if ($default_unlimited) {
-      $unlimited += array_combine($default_unlimited, $default_unlimited);
-    }
-    return $unlimited;
+    return $this->entityTypeManager
+      ->getStorage('schemadotorg_mapping_type')
+      ->getSchemaPropertyUnlimited($entity_type_id);
   }
 
   /**

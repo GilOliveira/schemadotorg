@@ -1,0 +1,40 @@
+langcode: en
+status: true
+dependencies: {  }
+id: user
+targetEntityType: user
+default_base_fields:
+  uuid: NULL
+  name: NULL
+  mail: email
+  user_picture: image
+recommended_schema_types: {  }
+default_schema_types:
+  user: Person
+default_schema_properties:
+  - additionalName
+  - address
+  - affiliation
+  - alternateName
+  - alumniOf
+  - award
+  - birthDate
+  - colleague
+  - contactPoint
+  - description
+  - disambiguatingDescription
+  - email
+  - familyName
+  - faxNumber
+  - gender
+  - givenName
+  - honorificPrefix
+  - honorificSuffix
+  - image
+  - jobTitle
+  - knowsLanguage
+  - name
+  - nationality
+  - telephone
+  - worksFor
+default_unlimited_fields: {  }

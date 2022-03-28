@@ -44,6 +44,7 @@ class SchemaDotOrgInstallerTest extends KernelTestBase {
     $this->installEntitySchema('user');
     $this->installEntitySchema('taxonomy_vocabulary');
     $this->installEntitySchema('taxonomy_term');
+    $this->installEntitySchema('schemadotorg_mapping_type');
 
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
     $this->installConfig(['schemadotorg']);
