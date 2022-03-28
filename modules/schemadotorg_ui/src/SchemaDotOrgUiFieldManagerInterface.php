@@ -90,4 +90,15 @@ interface SchemaDotOrgUiFieldManagerInterface {
    */
   public function getFieldOptions($entity_type_id, $bundle);
 
+  /**
+   * Gets field types for Schema.org property.
+   *
+   * @param string $property
+   *   The Schema.org property.
+   *
+   * @return array
+   *   Field types for Schema.org property.
+   */
+  public function getSchemaPropertyFieldTypes($property);
+
 }

@@ -23,19 +23,11 @@ class SchemaDotOrgUiMenuLink extends DeriverBase implements ContainerDeriverInte
   protected $entityTypeManager;
 
   /**
-   * The Schema.org entity type manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface
-   */
-  protected $schemaDotOrgEntityTypeManager;
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, $base_plugin_id) {
     $instance = new static();
     $instance->entityTypeManager = $container->get('entity_type.manager');
-    $instance->schemaDotOrgEntityTypeManager = $container->get('schemadotorg.entity_type_manager');
     return $instance;
   }
 

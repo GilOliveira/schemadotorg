@@ -24,26 +24,13 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
   protected $entityTypeManager;
 
   /**
-   * The Schema.org entity type manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface
-   */
-  protected $schemaDotOrgEntityTypeManager;
-
-  /**
    * Constructs a SchemaDotOrgRouteSubscriber object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface $schemadotorg_entity_type_manager
-   *   The Schema.org entity type manager.
    */
-  public function __construct(
-    EntityTypeManagerInterface $entity_type_manager,
-    SchemaDotOrgEntityTypeManagerInterface $schemadotorg_entity_type_manager
-  ) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
     $this->entityTypeManager = $entity_type_manager;
-    $this->schemaDotOrgEntityTypeManager = $schemadotorg_entity_type_manager;
   }
 
   /**

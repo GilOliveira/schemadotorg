@@ -1,8 +1,7 @@
 <?php
 
-namespace Drupal\Tests\schemadotorg\Kernel;
+namespace Drupal\Tests\schemadotorg_ui\Kernel;
 
-use Drupal\Component\Utility\NestedArray;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
@@ -13,21 +12,21 @@ use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
  * @coversClass \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager
  * @group schemadotorg
  */
-class SchemaDotOrgEntityTypeManagerTest extends KernelTestBase {
+class SchemaDotOrgUiFieldManagerTest extends KernelTestBase {
 
   /**
    * Modules to enable.
    *
    * @var array
    */
-  public static $modules = ['schemadotorg', 'paragraphs', 'file'];
+  public static $modules = ['schemadotorg', 'schemadotorg_ui', 'paragraphs', 'file'];
 
   /**
-   * The Schema.org entity type manager.
+   * The Schema.org UI field manager.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface
    */
-  protected $schemaEntityTypeManager;
+  protected $fieldManager;
 
   /**
    * {@inheritdoc}
@@ -51,14 +50,14 @@ class SchemaDotOrgEntityTypeManagerTest extends KernelTestBase {
     $installer = $this->container->get('schemadotorg.installer');
     $installer->importTables();
 
-    // Set entity type manager.
-    $this->schemaEntityTypeManager = $this->container->get('schemadotorg.entity_type_manager');
+    // Set Schema.org UI field manager.
+    $this->fieldManager = $this->container->get('schemadotorg_ui.field_manager');
   }
 
   /**
-   * Test Schema.org entity type manager .
+   * Test Schema.org UI field manager.
    */
-  public function testEntityTypeManager() {
+  public function testFieldManager() {
     // Create contact point paragraph and Schema.org mapping.
     ParagraphsType::create([
       'id' => 'contact_point',
@@ -106,7 +105,7 @@ class SchemaDotOrgEntityTypeManagerTest extends KernelTestBase {
 
     ];
     foreach ($tests as $test) {
-      $this->assertEquals($test[1], $this->schemaEntityTypeManager->getSchemaPropertyFieldTypes($test[0]));
+      $this->assertEquals($test[1], $this->fieldManager->getSchemaPropertyFieldTypes($test[0]));
     }
   }
 

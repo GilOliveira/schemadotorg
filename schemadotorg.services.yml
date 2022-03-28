@@ -12,9 +12,6 @@ services:
     class: Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilder
     arguments: ['@module_handler', '@current_user', '@schemadotorg.schema_type_manager']
 
-  schemadotorg.entity_type_manager:
-    class: Drupal\schemadotorg\SchemaDotOrgEntityTypeManager
-    arguments: ['@config.factory', '@entity_type.manager', '@schemadotorg.schema_type_manager']
   schemadotorg.entity_type_builder:
     class: Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder
     arguments: ['@entity_type.manager', '@entity_display.repository', '@plugin.manager.field.field_type', '@schemadotorg.names', '@schemadotorg.schema_type_manager']
