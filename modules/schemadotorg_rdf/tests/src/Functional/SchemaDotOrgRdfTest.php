@@ -19,7 +19,7 @@ class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['schemadotorg_rdf'];
+  protected static $modules = ['schemadotorg_rdf'];
 
   /**
    * A test node.

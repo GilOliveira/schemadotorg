@@ -15,8 +15,8 @@ SchemaDotOrgAutocompleteController
 SchemaDotOrgMappingForm.php
 SchemaDotOrgRdfTest
 SchemaDotOrgUiFieldManagerTest
-
-\Drupal\Tests\field_ui\Functional\FieldUIRouteTest
+SchemaDotOrgUiRouteTest
+SchemaDotOrgMappingTypeFormTest.php
 
 SchemaDotOrgEnumerationSelection.php
 SchemaDotOrgSelectionBase.php

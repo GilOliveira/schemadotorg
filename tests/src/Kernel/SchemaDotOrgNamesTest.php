@@ -15,7 +15,7 @@ class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
    *
    * @var array
    */
-  public static $modules = ['schemadotorg'];
+  protected static $modules = ['schemadotorg'];
 
   /**
    * The Schema.org names service.

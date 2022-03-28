@@ -9,7 +9,6 @@ use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
-use Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgInstallerInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Drush\Commands\DrushCommands;

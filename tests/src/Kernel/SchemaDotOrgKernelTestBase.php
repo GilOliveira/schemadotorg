@@ -15,7 +15,7 @@ abstract class SchemaDotOrgKernelTestBase extends KernelTestBase {
    *
    * @var array
    */
-  public static $modules = ['schemadotorg'];
+  protected static $modules = ['schemadotorg'];
 
 
   /**

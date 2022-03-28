@@ -17,7 +17,7 @@ class SchemaDotOrgMappingListBuilderTest extends SchemaDotOrgKernelTestBase {
    *
    * @var array
    */
-  public static $modules = ['schemadotorg'];
+  protected static $modules = ['schemadotorg'];
 
   /**
    * {@inheritdoc}

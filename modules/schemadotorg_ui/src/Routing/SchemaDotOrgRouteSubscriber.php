@@ -5,7 +5,6 @@ namespace Drupal\schemadotorg_ui\Routing;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RouteSubscriberBase;
 use Drupal\Core\Routing\RoutingEvents;
-use Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 

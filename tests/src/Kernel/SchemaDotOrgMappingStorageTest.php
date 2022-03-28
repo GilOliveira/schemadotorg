@@ -18,7 +18,7 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
    *
    * @var array
    */
-  public static $modules = ['system', 'user', 'node', 'schemadotorg'];
+  protected static $modules = ['system', 'user', 'node', 'schemadotorg'];
 
   /**
    * The Schema.org mapping storage.

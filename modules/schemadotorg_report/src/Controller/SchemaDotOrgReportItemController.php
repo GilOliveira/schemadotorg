@@ -168,7 +168,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
           break;
 
         case 'comment':
-          $options = ['base_path' => Url::fromRoute('schemadotorg_reports')->toString()];
+          $options = ['base_path' => Url::fromRoute('schemadotorg_reports')->toString() . '/'];
           $build[$name]['#markup'] = $this->schemaTypeBuilder->formatComment($value, $options);
           break;
 

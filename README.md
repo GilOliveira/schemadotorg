@@ -25,9 +25,16 @@ Change schemadotorg_mapping::bundle to target_bundle
 
 --------------
 
-Move 'schema_' field prefix into configuration
-- \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager
-
+Settings
+- Move 'schema_' field prefix into configuration
+  - \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager
+- Add settings tab to 'Schema.org mappings'
+- SettingsForm
+  - Types
+  - Properties
+  - Names
+- Add schema
+- Add tests
 
 Add help to types and properties reports.
 - Help text will better define the functionality.

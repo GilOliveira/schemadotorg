@@ -15,7 +15,7 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
    *
    * @var array
    */
-  public static $modules = ['schemadotorg', 'paragraphs', 'file'];
+  protected static $modules = ['schemadotorg', 'paragraphs', 'file'];
 
   /**
    * The Schema.org mapping type storage.

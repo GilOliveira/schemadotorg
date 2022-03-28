@@ -21,6 +21,6 @@ abstract class SchemaDotOrgBrowserTestBase extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['schemadotorg'];
+  protected static $modules = ['schemadotorg'];
 
 }

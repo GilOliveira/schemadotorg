@@ -18,7 +18,7 @@ class SchemaDotOrgAutocompleteControllerTest extends SchemaDotOrgKernelTestBase 
    *
    * @var array
    */
-  public static $modules = ['schemadotorg'];
+  protected static $modules = ['schemadotorg'];
 
   /**
    * The Schema.org autocomplete controller.

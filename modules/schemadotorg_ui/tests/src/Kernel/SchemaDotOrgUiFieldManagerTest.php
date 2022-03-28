@@ -22,7 +22,7 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
    *
    * @var array
    */
-  public static $modules = ['system', 'user', 'node', 'paragraphs', 'file', 'field', 'schemadotorg', 'schemadotorg_ui'];
+  protected static $modules = ['system', 'user', 'node', 'paragraphs', 'file', 'field', 'schemadotorg', 'schemadotorg_ui'];
 
   /**
    * The Schema.org UI field manager.
