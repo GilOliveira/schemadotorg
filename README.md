@@ -15,34 +15,40 @@ The goal is to demo a content building framework that allows for progressive enh
 - Create Node:Organization via UI
 
 - What is needed for solid demo?
+  - Work example types created in the correct order.
 - Example models.
 - Dummy content.
 
 # Todo
 
-What is minimum for UI testing? JavaScript.
-
 Change schemadotorg_mapping::targetEntityType to target_entity_type_id
 Change schemadotorg_mapping::bundle to target_bundle
-
-
-Spellchecking
-
-Remove unneeded type vocabularues
-
-
---------------
 
 Settings
 - Move 'schema_' field prefix into configuration
   - \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager
 - Add settings tab to 'Schema.org mappings'
+- NestedList
 - SettingsForm
   - Types
   - Properties
   - Names
-- Add schema
-- Add tests
+
+Remove unneeded type vocabularies
+- Keep Enumeration
+
+-------------------
+
+
+default_schema_type_properties:
+  ContactPoint:
+    - name
+    - alterName
+  Person:
+    - name
+    - alterName
+
+-------------------
 
 Add help to types and properties reports.
 - Help text will better define the functionality.
@@ -65,15 +71,6 @@ Subtyping
   - Sub typing allows content editors to specify a more specific type for an entity.
   - For example, an Event can be subtyped to be a BusinessEvent, CourseInstance, EducationEvent, FoodEvent, etc...
   - Subtype properties can be included via condition logic.
-
-
-Configure Schema.org and Schema.org UI
-- General
-  - Field prefix: 'schema_'
-- Names:
-  - Abbreviations
-  - Suffixes
-  - Prefixes
 
 Schema.org Templates
   - Templates will preselect recommended fields.
@@ -105,6 +102,8 @@ Alpha
 
 # TBD
 
+- Should Drupal names and ids be stored in the database or dynamically generated?
+
 - How do we implement common content types and components?
   - teaser
   - slideshow
@@ -120,8 +119,6 @@ Alpha
 - How do we handle sub-values (i.e. body.summary)?
   - Token field?
 
-- Should Drupal names and ids be stored in the database or dynamically generated?
-
 - Should the schema type be added to terms as field or property?
 
 - Should we prefix all schema field with schema_*? YES
@@ -133,7 +130,6 @@ Alpha
 - How to handle translations for imported data?
 
 - How can we validate the generated JSON-LD?
-
 
 # References
 

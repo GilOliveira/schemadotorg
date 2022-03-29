@@ -3,7 +3,6 @@ status: true
 dependencies: {  }
 id: media
 targetEntityType: media
-
 default_base_fields:
   uuid: NULL
   revision_created: NULL

@@ -20,12 +20,13 @@ SchemaDotOrgMappingTypeFormTest.php
 SchemaDotOrgUiMappingFormTest
 
 SchemaDotOrgUiJavaScript
-
 SchemaDotOrgEnumerationSelection.php
 SchemaDotOrgSelectionBase.php
 SchemaDotOrgTypeSelection.php
-
 SchemaDotOrgSettingsForm.php
+SchemaDotOrgCommands.php
+
+What is minimum for UI testing? JavaScript.
 
 # Steps
 

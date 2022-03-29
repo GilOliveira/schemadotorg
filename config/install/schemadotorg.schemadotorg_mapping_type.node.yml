@@ -3,7 +3,6 @@ status: true
 dependencies: {  }
 id: node
 targetEntityType: node
-
 default_base_fields:
   uuid: NULL
   revision_uid: NULL
