@@ -20,8 +20,15 @@ The goal is to demo a content building framework that allows for progressive enh
 
 # Todo
 
+What is minimum for UI testing? JavaScript.
+
 Change schemadotorg_mapping::targetEntityType to target_entity_type_id
 Change schemadotorg_mapping::bundle to target_bundle
+
+Spellchecking
+
+Remove unneeded type vocabularues
+
 
 --------------
 

@@ -1,23 +1,13 @@
 <?php
 
-namespace Drupal\Tests\schemadotorg\Kernel;
+namespace Drupal\Tests\schemadotorg\Traits;
 
 use Drupal\Component\Render\MarkupInterface;
-use Drupal\KernelTests\KernelTestBase;
-use Drupal\Tests\schemadotorg\Traits\SchemaDotOrgTestTrait;
 
 /**
- * Defines an abstract test base for Schema.org kernel tests.
+ * Provides convenience methods for Schema.org assertions.
  */
-abstract class SchemaDotOrgKernelTestBase extends KernelTestBase {
-  use SchemaDotOrgTestTrait;
-
-  /**
-   * Modules to enable.
-   *
-   * @var array
-   */
-  protected static $modules = ['schemadotorg'];
+trait SchemaDotOrgTestTrait {
 
   /**
    * Convert all render(able) markup into strings.
@@ -28,7 +18,7 @@ abstract class SchemaDotOrgKernelTestBase extends KernelTestBase {
   protected function convertMarkupToStrings(array &$elements) {
     foreach ($elements as $key => &$value) {
       if (is_array($value)) {
-        self::convertMarkupToStrings($value);
+        $this->convertMarkupToStrings($value);
       }
       elseif ($value instanceof MarkupInterface) {
         $elements[$key] = (string) $value;

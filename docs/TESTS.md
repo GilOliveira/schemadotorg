@@ -17,6 +17,9 @@ SchemaDotOrgRdfTest
 SchemaDotOrgUiFieldManagerTest
 SchemaDotOrgUiRouteTest
 SchemaDotOrgMappingTypeFormTest.php
+SchemaDotOrgUiMappingFormTest
+
+SchemaDotOrgUiJavaScript
 
 SchemaDotOrgEnumerationSelection.php
 SchemaDotOrgSelectionBase.php

@@ -80,8 +80,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     // Validate the schema type before continuing.
     if ($schema_type
       && !$this->schemaTypeManager->isType($schema_type)) {
-      $t_args = ['@type' => $schema_type];
-      $this->messenger()->addWarning($this->t("The Schema.org type '@type' is not valid.", $t_args));
+      $t_args = ['%type' => $schema_type];
+      $this->messenger()->addWarning($this->t("The Schema.org type %type is not valid.", $t_args));
       $schema_type = NULL;
     }
 
@@ -93,7 +93,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     // Default the target entity type to be a node.
     $target_entity_type_id = $target_entity_type_id ?? 'node';
 
-    // Display warning that new Schema.org type is  mapped.
+    // Display warning that new Schema.org type is mapped.
     if ($mapping_storage->isSchemaTypeMapped($target_entity_type_id, $schema_type)) {
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
       $entity = $mapping_storage->loadBySchemaType($target_entity_type_id, $schema_type);
@@ -151,6 +151,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * {@inheritdoc}
    */
   protected function actions(array $form, FormStateInterface $form_state) {
+    // Hide actions when no Schema.org type is selected.
     if (!$this->getSchemaType()) {
       return [];
     }
@@ -326,15 +327,20 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     if ($new_field_names) {
       $message = $this->formatPlural(
         count($new_field_names),
-        'Added %field_names field',
-        'Added %field_names fields',
+        'Added %field_names field.',
+        'Added %field_names fields.',
         ['%field_names' => implode('; ', $new_field_names)]
       );
       $this->messenger()->addStatus($message);
     }
 
-    $this->messenger()->addStatus($this->t('Schema.org mapping has been saved.'));
-    $mapping_entity->save();
+    $result = $mapping_entity->save();
+
+    $t_args = ['%label' => $this->getEntity()->label()];
+    $message = ($result === SAVED_NEW)
+      ? $this->t('Created %label mapping.', $t_args)
+      : $this->t('Updated %label mapping.', $t_args);
+    $this->messenger()->addStatus($message);
   }
 
   /**
@@ -366,8 +372,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     // Build Schema.org type properties table.
     $this->buildSchemaPropertiesForm($form);
 
-    // Load the jsTree before the UI library to ensure that jsTree works
-    // inside modal dialogs.
+    // Load the jsTree before the Schema.org UI library to ensure that
+    // jsTree loads and works inside modal dialogs.
     $form['#attached']['library'][] = 'schemadotorg/schemadotorg.jstree';
     $form['#attached']['library'][] = 'schemadotorg_ui/schemadotorg_ui';
 
@@ -714,6 +720,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     ];
 
     // Description bottom.
+    // Display recommended Schema.org types.
     $entity_type_id = $this->getTargetEntityTypeId() ?? 'node';
     $recommended_types = $this->getMappingTypeStorage()->getRecommendedSchemaTypes($entity_type_id);
     $items = [];

@@ -97,6 +97,15 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
+  public function label() {
+    return $this->isTargetEntityTypeBundle()
+      ? $this->getTargetEntityBundleEntity()->label()
+      : $this->getTargetEntityTypeDefinition()->getLabel();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getTargetEntityTypeId() {
     return $this->targetEntityType;
   }

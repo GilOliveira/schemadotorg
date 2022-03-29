@@ -93,10 +93,10 @@ class SchemaDotOrgMappingTypeForm extends EntityForm
    */
   public function save(array $form, FormStateInterface $form_state) {
     $result = parent::save($form, $form_state);
-    $message_args = ['%label' => $this->getEntity()->label()];
+    $t_args = ['%label' => $this->getEntity()->label()];
     $message = ($result === SAVED_NEW)
-      ? $this->t('Created %label mapping type.', $message_args)
-      : $this->t('Updated %label mapping type.', $message_args);
+      ? $this->t('Created %label mapping type.', $t_args)
+      : $this->t('Updated %label mapping type.', $t_args);
     $this->messenger()->addStatus($message);
     $form_state->setRedirectUrl($this->getEntity()->toUrl('collection'));
     return $result;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\node\Kernel;
+namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\Core\Language\LanguageInterface;
 

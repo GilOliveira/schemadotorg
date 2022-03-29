@@ -37,7 +37,7 @@
 
           // Enable links.
           // @see https://stackoverflow.com/questions/8378561/js-tree-links-not-active
-          $jstree.on("activate_node.jstree", function(e, data){
+          $jstree.on("activate_node.jstree", function (e, data) {
             window.location.href = data.node.a_attr.href;
           })
 

@@ -65,7 +65,7 @@ interface SchemaDotOrgNamesInterface {
    *   A Schema.org type or property.
    *
    * @return string
-   *   Schema.org type or property coverted to a Drupal label.
+   *   Schema.org type or property converted to a Drupal label.
    */
   public function toDrupalLabel($table, $string);
 

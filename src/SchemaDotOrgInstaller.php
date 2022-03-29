@@ -333,8 +333,8 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       foreach ($fields as $index => $field_name) {
         $values[$field_name] = $row[$index] ?? '';
       }
-      $values['drupal_label'] = $this->schemaNames->toDrupalLabel($table, $values['label']);
-      $values['drupal_name'] = $this->schemaNames->toDrupalName($table, $values['label']);
+      $values['drupal_label'] = $this->schemaNames->toDrupalLabel($name, $values['label']);
+      $values['drupal_name'] = $this->schemaNames->toDrupalName($name, $values['label']);
       $query->values($values);
     }
     $query->execute();
