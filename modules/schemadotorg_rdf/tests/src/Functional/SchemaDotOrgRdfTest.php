@@ -63,8 +63,8 @@ class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
 
     // Create Thing with mapping.
     $node_mapping = SchemaDotOrgMapping::create([
-      'targetEntityType' => 'node',
-      'bundle' => 'thing',
+      'target_entity_type_id' => 'node',
+      'target_bundle' => 'thing',
       'type' => 'Thing',
       'properties' => [
         'title' => ['property' => 'name'],

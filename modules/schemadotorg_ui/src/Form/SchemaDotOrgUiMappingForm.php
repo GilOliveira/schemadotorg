@@ -114,8 +114,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
     $entity = $mapping_storage->load($target_entity_type_id . '.' . $target_bundle)
       ?: $mapping_storage->create([
-        'targetEntityType' => $target_entity_type_id,
-        'bundle' => $target_bundle,
+        'target_entity_type_id' => $target_entity_type_id,
+        'target_bundle' => $target_bundle,
         'type' => $schema_type,
       ]);
 

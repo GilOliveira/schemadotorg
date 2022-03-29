@@ -93,8 +93,8 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
       'label' => 'Contact Point',
     ])->save();
     SchemaDotOrgMapping::create([
-      'targetEntityType' => 'paragraph',
-      'bundle' => 'contact_point',
+      'target_entity_type_id' => 'paragraph',
+      'target_bundle' => 'contact_point',
       'type' => 'ContactPoint',
     ])->save();
 

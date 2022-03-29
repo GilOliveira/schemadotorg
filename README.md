@@ -21,9 +21,6 @@ The goal is to demo a content building framework that allows for progressive enh
 
 # Todo
 
-Change schemadotorg_mapping::targetEntityType to target_entity_type_id
-Change schemadotorg_mapping::bundle to target_bundle
-
 Settings
 - Move 'schema_' field prefix into configuration
   - \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager

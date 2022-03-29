@@ -40,7 +40,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *   },
  *   config_export = {
  *     "id",
- *     "targetEntityType",
+ *     "target_entity_type_id",
  *     "default_schema_types",
  *     "default_schema_properties",
  *     "default_base_fields",
@@ -65,7 +65,7 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    *
    * @var string
    */
-  protected $targetEntityType;
+  protected $target_entity_type_id;
 
   /**
    * An associative array of default Schema.org types.
@@ -106,7 +106,7 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * {@inheritdoc}
    */
   public function id() {
-    return $this->targetEntityType;
+    return $this->target_entity_type_id;
   }
 
   /**

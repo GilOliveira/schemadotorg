@@ -58,8 +58,8 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
       'name' => 'ImageObject',
     ])->save();
     SchemaDotOrgMapping::create([
-      'targetEntityType' => 'node',
-      'bundle' => 'thing',
+      'target_entity_type_id' => 'node',
+      'target_bundle' => 'thing',
       'type' => 'Thing',
       'properties' => [
         'title' => ['property' => 'name'],
@@ -67,8 +67,8 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
       ],
     ])->save();
     SchemaDotOrgMapping::create([
-      'targetEntityType' => 'node',
-      'bundle' => 'image_object',
+      'target_entity_type_id' => 'node',
+      'target_bundle' => 'image_object',
       'type' => 'ImageObject',
       'properties' => [
         'title' => ['property' => 'name'],

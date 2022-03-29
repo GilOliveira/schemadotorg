@@ -5,12 +5,12 @@ schemadotorg.schemadotorg_mapping.*.*:
     id:
       type: string
       label: 'ID'
-    targetEntityType:
+    target_entity_type_id:
       type: string
       label: 'Target entity type'
-    bundle:
+    target_bundle:
       type: string
-      label: 'Bundle'
+      label: 'Target bundle'
     type:
       type: string
       label: 'Schema.org type'

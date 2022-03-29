@@ -41,8 +41,8 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
  *   },
  *   config_export = {
  *     "id",
- *     "targetEntityType",
- *     "bundle",
+ *     "target_entity_type_id",
+ *     "target_bundle",
  *     "type",
  *     "properties",
  *   }
@@ -64,14 +64,14 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    *
    * @var string
    */
-  protected $targetEntityType;
+  protected $target_entity_type_id;
 
   /**
    * Bundle to be mapped.
    *
    * @var string
    */
-  protected $bundle;
+  protected $target_bundle;
 
   /**
    * Schema.org type.
@@ -91,7 +91,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    * {@inheritdoc}
    */
   public function id() {
-    return $this->targetEntityType . '.' . $this->bundle;
+    return $this->target_entity_type_id . '.' . $this->target_bundle;
   }
 
   /**
@@ -107,7 +107,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    * {@inheritdoc}
    */
   public function getTargetEntityTypeId() {
-    return $this->targetEntityType;
+    return $this->target_entity_type_id;
   }
 
   /**
@@ -115,7 +115,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    */
   public function getTargetBundle() {
     return $this->isTargetEntityTypeBundle()
-      ? $this->bundle
+      ? $this->target_bundle
       : $this->getTargetEntityTypeId();
   }
 
@@ -123,7 +123,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    * {@inheritdoc}
    */
   public function setTargetBundle($bundle) {
-    $this->set('bundle', $bundle);
+    $this->set('target_bundle', $bundle);
     return $this;
   }
 
@@ -227,10 +227,10 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    */
   public function calculateDependencies() {
     parent::calculateDependencies();
-    $target_entity_type = $this->entityTypeManager()->getDefinition($this->targetEntityType);
+    $target_entity_type = $this->entityTypeManager()->getDefinition($this->target_entity_type_id);
 
     // Create dependency on the bundle.
-    $bundle_config_dependency = $target_entity_type->getBundleConfigDependency($this->bundle);
+    $bundle_config_dependency = $target_entity_type->getBundleConfigDependency($this->getTargetBundle());
     $this->addDependency($bundle_config_dependency['type'], $bundle_config_dependency['name']);
 
     // If field.module is enabled, add dependencies on 'field_config' entities
@@ -238,7 +238,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
     // field overrides, since the field still exists without them.
     if (\Drupal::moduleHandler()->moduleExists('field')) {
       $properties = $this->properties;
-      $field_definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions($this->targetEntityType, $this->bundle);
+      $field_definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions($this->getTargetEntityTypeId(), $this->getTargetBundle());
       foreach (array_intersect_key($field_definitions, $properties) as $field_definition) {
         if ($field_definition instanceof ConfigEntityInterface && $field_definition->getEntityTypeId() === 'field_config') {
           $this->addDependency('config', $field_definition->getConfigDependencyName());

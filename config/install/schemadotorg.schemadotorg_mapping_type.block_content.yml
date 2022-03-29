@@ -2,7 +2,7 @@ langcode: en
 status: true
 dependencies: {  }
 id: block_content
-targetEntityType: block_content
+target_entity_type_id: block_content
 default_base_fields:
   uuid: NULL
   type: NULL

@@ -78,8 +78,8 @@ class SchemaDotOrgMappingFormTest extends SchemaDotOrgKernelTestBase {
 
     // Create Thing with mapping.
     $node_mapping = SchemaDotOrgMapping::create([
-      'targetEntityType' => 'node',
-      'bundle' => 'thing',
+      'target_entity_type_id' => 'node',
+      'target_bundle' => 'thing',
       'type' => 'Thing',
       'properties' => [
         'title' => ['property' => 'name'],
@@ -90,8 +90,8 @@ class SchemaDotOrgMappingFormTest extends SchemaDotOrgKernelTestBase {
 
     // Create user with Person mapping.
     $user_mapping = SchemaDotOrgMapping::create([
-      'targetEntityType' => 'user',
-      'bundle' => 'user',
+      'target_entity_type_id' => 'user',
+      'target_bundle' => 'user',
       'type' => 'Person',
       'properties' => [],
     ]);

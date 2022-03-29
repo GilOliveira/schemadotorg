@@ -186,9 +186,9 @@ class SchemaDotOrgCommands extends DrushCommands {
 
       // Create a new Schema.org mapping.
       $schemadotorg_mapping = SchemaDotOrgMapping::create([
-        'targetEntityType' => $entity_type,
+        'target_entity_type_id' => $entity_type,
+        'target_bundle' => $bundle,
         'type' => $schema_type,
-        'bundle' => $bundle,
       ]);
 
       /** @var \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm $form_object */
@@ -227,7 +227,7 @@ class SchemaDotOrgCommands extends DrushCommands {
     foreach ($schema_types as $schema_type) {
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $schemadotorg_mappings */
       $schemadotorg_mappings = $schemadotorg_mapping_storage->loadByProperties([
-        'targetEntityType' => $entity_type,
+        'target_entity_type_id' => $entity_type,
         'type' => $schema_type,
       ]);
       if (empty($schemadotorg_mappings)) {
@@ -278,7 +278,7 @@ class SchemaDotOrgCommands extends DrushCommands {
     foreach ($schema_types as $schema_type) {
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $schemadotorg_mappings */
       $schemadotorg_mappings = $schemadotorg_mapping_storage->loadByProperties([
-        'targetEntityType' => $entity_type,
+        'target_entity_type_id' => $entity_type,
         'type' => $schema_type,
       ]);
 

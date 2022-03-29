@@ -5,7 +5,7 @@ schemadotorg.schemadotorg_mapping_type.*:
     id:
       type: string
       label: 'ID'
-    targetEntityType:
+    target_entity_type_id:
       type: string
       label: 'Target entity type'
     default_schema_types:

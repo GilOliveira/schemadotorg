@@ -35,8 +35,8 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
    */
   public function isBundleMapped($entity_type_id, $bundle) {
     return (boolean) $this->getQuery()
-      ->condition('targetEntityType', $entity_type_id)
-      ->condition('bundle', $bundle)
+      ->condition('target_entity_type_id', $entity_type_id)
+      ->condition('target_bundle', $bundle)
       ->execute();
   }
 
@@ -71,7 +71,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
     $range_includes = $this->getSchemaPropertyRangeIncludes($entity_type_id, $bundle, $field_name);
     $subtypes = $this->schemaTypeManager->getAllSubTypes($range_includes);
     $entity_ids = $this->getQuery()
-      ->condition('targetEntityType', $target_type)
+      ->condition('target_entity_type_id', $target_type)
       ->condition('type', $subtypes, 'IN')
       ->execute();
     if (!$entity_ids) {
@@ -88,7 +88,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
     $range_includes = $this->getSchemaPropertyRangeIncludes($entity_type_id, $bundle, $field_name);
     $subtypes = $this->schemaTypeManager->getAllSubTypes($range_includes);
     $entity_ids = $this->getQuery()
-      ->condition('targetEntityType', $target_type)
+      ->condition('target_entity_type_id', $target_type)
       ->condition('type', $subtypes, 'IN')
       ->execute();
     if (!$entity_ids) {
@@ -110,7 +110,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
    */
   public function isSchemaTypeMapped($entity_type_id, $type) {
     return (boolean) $this->getQuery()
-      ->condition('targetEntityType', $entity_type_id)
+      ->condition('target_entity_type_id', $entity_type_id)
       ->condition('type', $type)
       ->execute();
   }
@@ -120,7 +120,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
    */
   public function loadBySchemaType($entity_type_id, $type) {
     $entities = $this->loadByProperties([
-      'targetEntityType' => $entity_type_id,
+      'target_entity_type_id' => $entity_type_id,
       'type' => $type,
     ]);
     return ($entities) ? reset($entities) : NULL;

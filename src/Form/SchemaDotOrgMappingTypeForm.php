@@ -34,7 +34,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm
     $entity = $this->getEntity();
 
     if ($entity->isNew()) {
-      $form['targetEntityType'] = [
+      $form['target_entity_type_id'] = [
         '#type' => 'select',
         '#title' => $this->t('Target entity type'),
         '#options' => $this->getTargetEntityTypeOptions(),
