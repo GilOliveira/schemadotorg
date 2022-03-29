@@ -13,6 +13,7 @@ recommended_schema_types:
       - Thing
       - ContactPoint
       - PostalAddress
+      - OpeningHoursSpecification
   content:
     label: Content
     types:
@@ -31,7 +32,6 @@ recommended_schema_types:
       - Invoice
       - JobPosting
       - OwnershipInfo
-      - OpeningHoursSpecification
       - Occupation
       - VirtualLocation
   commerce:

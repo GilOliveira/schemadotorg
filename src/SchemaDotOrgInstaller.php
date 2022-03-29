@@ -303,7 +303,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   }
 
   /**
-   * Installs and populatas Schema.org table.
+   * Installs and populates Schema.org table.
    *
    * @param string $name
    *   The Schema.org table type (properties or types).
