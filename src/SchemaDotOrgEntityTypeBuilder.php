@@ -79,11 +79,21 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * {@inheritdoc}
    */
+  public function getTypeVocabularyId($type) {
+    // The field suffix for type vocabularies needs to be hardcode because
+    // type vocabularies are created when the module is installed.
+    // @see \Drupal\schemadotorg\SchemaDotOrgInstaller::updateTypeVocabularies
+    return 'schema_' . $this->schemaNames->camelCaseToSnakeCase($type);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function createTypeVocabulary($type) {
     $type_definition = $this->schemaTypeManager->getType($type);
 
     // Create vocabulary.
-    $vocabulary_id = 'schema_' . $type_definition['drupal_name'];
+    $vocabulary_id = $this->getTypeVocabularyId($type);
     $vocabulary_name = 'Schema.org: ' . $type_definition['drupal_label'];
 
     /** @var \Drupal\taxonomy\VocabularyStorage $vocabulary_storage */

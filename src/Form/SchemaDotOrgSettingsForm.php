@@ -31,6 +31,19 @@ class SchemaDotOrgSettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('schemadotorg.settings');
 
+    // General settings.
+    $form['general'] = [
+      '#type' => 'details',
+      '#title' => $this->t('General settings'),
+      '#open' => TRUE,
+    ];
+    $form['general']['field_prefix'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Field prefix'),
+      '#default_value' => $config->get('field_prefix'),
+    ];
+
+    // Schema.org types.
     $form['schema_types'] = [
       '#type' => 'details',
       '#title' => $this->t('Schema.org types'),
@@ -45,6 +58,7 @@ class SchemaDotOrgSettingsForm extends ConfigFormBase {
       '#element_validate' => ['::validateNestedList'],
     ];
 
+    // Schema.org properties.
     $form['schema_properties'] = [
       '#type' => 'details',
       '#title' => $this->t('Schema.org properties'),
@@ -66,6 +80,7 @@ class SchemaDotOrgSettingsForm extends ConfigFormBase {
       '#element_validate' => ['::validateList'],
     ];
 
+    // Schema.org names.
     $form['names'] = [
       '#type' => 'details',
       '#title' => $this->t('Names'),
@@ -136,6 +151,7 @@ class SchemaDotOrgSettingsForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('schemadotorg.settings')
+      ->set('field_prefix', $form_state->getValue('field_prefix'))
       ->set('schema_types', $form_state->getValue('schema_types'))
       ->set('schema_properties', $form_state->getValue('schema_properties'))
       ->set('names', $form_state->getValue('names'))

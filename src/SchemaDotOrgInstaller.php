@@ -342,14 +342,12 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
     $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
 
     foreach ($this->typeVocabularies as $type_vocabulary) {
-      $type_definition = $this->schemaTypeManager->getType($type_vocabulary);
-
-      $entity_id = 'schema_' . $type_definition['drupal_name'];
+      $vocabulary_id = $this->schemaEntityTypeBuilder->getTypeVocabularyId($type_vocabulary);
 
       // Create terms lookup table.
       /** @var \Drupal\taxonomy\TermInterface[] $terms_lookup */
       $terms_lookup = [];
-      $terms = $term_storage->loadByProperties(['vid' => $entity_id]);
+      $terms = $term_storage->loadByProperties(['vid' => $vocabulary_id]);
       foreach ($terms as $term) {
         $terms_lookup[$term->schema_type->value] = $term;
       }
@@ -365,7 +363,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
         if (!isset($terms_lookup[$type])) {
           $term = $term_storage->create([
             'name' => $this->schemaNames->toDrupalName('types', $item['label']),
-            'vid' => $entity_id,
+            'vid' => $vocabulary_id,
             'schema_type' => ['value' => $type],
           ]);
           $term->save();

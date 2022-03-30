@@ -8,6 +8,17 @@ namespace Drupal\schemadotorg;
 interface SchemaDotOrgEntityTypeBuilderInterface {
 
   /**
+   * Get Schema.org type vocabulary id.
+   *
+   * @param string $type
+   *    Schema.org type.
+   *
+   * @return string
+   *   Schema.org type vocabulary id.
+   */
+  public function getTypeVocabularyId($type);
+
+  /**
    * Create type vocabularies.
    *
    * @param string $type

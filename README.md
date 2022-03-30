@@ -21,18 +21,6 @@ The goal is to demo a content building framework that allows for progressive enh
 
 # Todo
 
-- Move 'schema_' field prefix into configuration
-  - \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager
-  $field_prefix = $this->config('field_ui.settings')->get('field_prefix');
-  - field_prefix: schema_
-
-Add warning when adjusting names.
-
-Remove unneeded type vocabularies
-- Keep Enumeration
-
--------------------
-
 What do we want from default types?
 
 Properties
@@ -44,12 +32,17 @@ Properties
 - grouping
 
 default_schema_type_properties:
-  ContactPoint:
-    - name
-    - alterName
-  Person:
-    - name
-    - alterName
+ContactPoint:
+- name
+- alterName
+Person:
+- name
+- alterName
+
+-------------------
+
+Remove unneeded type vocabularies
+- Keep Enumeration
 
 -------------------
 

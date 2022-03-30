@@ -10,6 +10,7 @@ use Drupal\Core\Form\FormState;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\SchemaDotOrgInstallerInterface;
+use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Drush\Commands\DrushCommands;
 use Drush\Exceptions\UserAbortException;
@@ -50,6 +51,13 @@ class SchemaDotOrgCommands extends DrushCommands {
   protected $schemaInstaller;
 
   /**
+   * The Schema.org names service.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
+   */
+  protected $schemaNames;
+
+  /**
    * The Schema.org schema type manager.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
@@ -65,8 +73,10 @@ class SchemaDotOrgCommands extends DrushCommands {
    *   The form builder.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
-   * @param SchemaDotOrgInstallerInterface $schemadotorg_installer
+   * @param \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $schema_installer
    *   The Schema.org installer service.
+   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
+   *   The Schema.org names service.
    * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
    *   The Schema.org schema type manager.
    */
@@ -74,14 +84,16 @@ class SchemaDotOrgCommands extends DrushCommands {
     ModuleHandlerInterface $module_handler,
     FormBuilderInterface $form_builder,
     EntityTypeManagerInterface $entity_type_manager,
-    SchemaDotOrgInstallerInterface $schemadotorg_installer,
+    SchemaDotOrgInstallerInterface $schema_installer,
+    SchemaDotOrgNamesInterface $schema_names,
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
   ) {
     parent::__construct();
     $this->moduleHandler = $module_handler;
     $this->formBuilder = $form_builder;
     $this->entityTypeManager = $entity_type_manager;
-    $this->schemaInstaller = $schemadotorg_installer;
+    $this->schemaInstaller = $schema_installer;
+    $this->schemaNames = $schema_names;
     $this->schemaTypeManager = $schema_type_manager;
   }
 
@@ -296,10 +308,12 @@ class SchemaDotOrgCommands extends DrushCommands {
         }
         else {
           if ($options['delete-fields']) {
+            $field_prefix = $this->schemaNames->getFieldPrefix();
+
             $deleted_fields = [];
             $properties = array_keys($schemadotorg_mapping->getSchemaProperties());
             foreach ($properties as $field_name) {
-              if (strpos($field_name, 'schema_') === 0) {
+              if ($field_prefix && strpos($field_name, $field_prefix) === 0) {
                 $field_config = $field_config_storage->load($entity_type_id . '.' . $bundle . '.' . $field_name);
                 $field_storage_config = $field_storage_config_storage->load($entity_type_id . '.' . $field_name);
                 if ($field_storage_config && count($field_storage_config->getBundles()) <= 1) {

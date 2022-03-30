@@ -206,7 +206,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           }
         }
         if (!empty($property_values['field']['add']['machine_name'])) {
-          $field_name = 'schema_' . $property_values['field']['add']['machine_name'];
+          $field_name = $this->getFieldPrefix() . $property_values['field']['add']['machine_name'];
           if ($field_storage_config_storage->load($entity_type_id . '.' . $field_name)) {
             $element = NestedArray::getValue($form, ['properties', $property_name, 'field', 'add', 'machine_name']);
             $t_args = ['%name' => $field_name];
@@ -311,7 +311,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           // Create new field and field storage.
           $field = $property_values['field']['add'];
           $field['schema_property'] = $property_name;
-          $field['machine_name'] = 'schema_' . $field['machine_name'];
+          $field['machine_name'] = $this->getFieldPrefix() . $field['machine_name'];
           $field_name = $field['machine_name'];
           if (!$this->fieldExists($field_name)) {
             $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
@@ -559,7 +559,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       ];
 
       // Field.
-      $field_name = 'schema_' . $property_definition['drupal_name'];
+      $field_name = $this->getFieldPrefix() . $property_definition['drupal_name'];
       $field_name_default_value = NULL;
       if (isset($property_mappings[$property])) {
         $field_name_default_value = $property_mappings[$property];
@@ -627,7 +627,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#maxlength' => 26,
         '#size' => 26,
         '#pattern' => '[_0-9a-z]+',
-        '#field_prefix' => 'schema_',
+        '#field_prefix' => $this->getFieldPrefix(),
         '#default_value' => $property_definition['drupal_name'],
         '#attributes' => ['style' => 'width: 200px'],
         '#wrapper_attributes' => ['style' => 'white-space: nowrap'],
@@ -839,7 +839,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           $mappings[$property] = $base_field_mappings[$property];
         }
 
-        $field_name = 'schema_' . $property_definition['drupal_name'];
+        $field_name = $this->getFieldPrefix() . $property_definition['drupal_name'];
         if ($this->fieldExists($field_name)
           || ($mapping_entity->isNewTargetEntityTypeBundle() && $this->fieldStorageExists($field_name))) {
           $mappings[$property] = $field_name;
@@ -988,6 +988,16 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function getPropertyFieldTypeOptions($property) {
     return $this->schemaFieldManager->getPropertyFieldTypeOptions($property);
+  }
+
+  /**
+   * Gets the field suffix for Schema.org properties.
+   *
+   * @return string
+   *   The field suffix for Schema.org properties.
+   */
+  protected function getFieldPrefix() {
+    return $this->config('schemadotorg.settings')->get('field_prefix');
   }
 
 }

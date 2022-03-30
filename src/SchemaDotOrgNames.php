@@ -35,8 +35,17 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
   /**
    * {@inheritdoc}
    */
+  public function getFieldPrefix() {
+    return $this->getConfig()->get('field_prefix');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getNameMaxLength($table) {
-    return ($table === 'types') ? 32 : 25;
+    return ($table === 'properties')
+      ? 32 - strlen($this->getFieldPrefix())
+      : 32;
   }
 
   /**

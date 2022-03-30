@@ -1,3 +1,4 @@
+field_prefix: 'schema_'
 schema_types:
   default_field_types:
     Text:

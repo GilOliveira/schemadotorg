@@ -2,6 +2,9 @@ schemadotorg.settings:
   type: config_entity
   label: Schema.org settings
   mapping:
+    field_prefix:
+      type: string
+      label: 'Field prefix'
     schema_types:
       type: mapping
       label: 'Schema.org types'

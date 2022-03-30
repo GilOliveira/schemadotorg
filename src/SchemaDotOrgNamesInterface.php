@@ -8,6 +8,14 @@ namespace Drupal\schemadotorg;
 interface SchemaDotOrgNamesInterface {
 
   /**
+   * Gets the field suffix for Schema.org properties.
+   *
+   * @return string
+   *   The field suffix for Schema.org properties.
+   */
+  public function getFieldPrefix();
+
+  /**
    * Gets the max length for Schema.org type or property.
    *
    * Drupal limits type and field names to 32 characters.
@@ -19,7 +27,7 @@ interface SchemaDotOrgNamesInterface {
    *
    * @return int
    *   The max length for Schema.org type (32 characters)
-   *   or property (25 characters).
+   *   or property (32 characters - {field_prefix}).
    */
   public function getNameMaxLength($table);
 
