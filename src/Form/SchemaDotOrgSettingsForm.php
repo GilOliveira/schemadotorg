@@ -72,6 +72,13 @@ class SchemaDotOrgSettingsForm extends ConfigFormBase {
       '#tree' => TRUE,
       '#open' => TRUE,
     ];
+    $form['names']['message'] = [
+      '#theme' => 'status_messages',
+      '#message_list' => ['warning' => [$this->t('Adjusting prefixes, suffixes, and abbreviations can impact existing Schema.org mapping.')]],
+      '#status_headings' => [
+        'warning' => $this->t('Warning message'),
+      ],
+    ];
     $form['names']['prefixes'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Prefixes'),
