@@ -83,17 +83,4 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
     return array_combine($base_field_names, $base_field_names);
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getSchemaPropertyDefaults($entity_type_id) {
-    $mapping_type = $this->load($entity_type_id);
-    if (!$mapping_type) {
-      return [];
-    }
-
-    $properties = $mapping_type->get('default_schema_properties') ?: [];
-    return array_combine($properties, $properties);
-  }
-
 }

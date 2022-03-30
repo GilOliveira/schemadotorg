@@ -137,6 +137,54 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
       $this->assertArrayHasKey($property, $type_properties);
     }
 
+    // Check getting a Schema.org type's default properties.
+    $expected_default_properties = [
+      'additionalName' => 'additionalName',
+      'address' => 'address',
+      'affiliation' => 'affiliation',
+      'alternateName' => 'alternateName',
+      'alumniOf' => 'alumniOf',
+      'award' => 'award',
+      'birthDate' => 'birthDate',
+      'contactPoint' => 'contactPoint',
+      'description' => 'description',
+      'email' => 'email',
+      'familyName' => 'familyName',
+      'faxNumber' => 'faxNumber',
+      'gender' => 'gender',
+      'givenName' => 'givenName',
+      'honorificPrefix' => 'honorificPrefix',
+      'honorificSuffix' => 'honorificSuffix',
+      'image' => 'image',
+      'jobTitle' => 'jobTitle',
+      'knowsLanguage' => 'knowsLanguage',
+      'name' => 'name',
+      'nationality' => 'nationality',
+      'telephone' => 'telephone',
+      'worksFor' => 'worksFor',
+    ];
+    $actual_default_properties = $this->schemaTypeManager->getTypeDefaultProperties('Person');
+    $this->assertEquals($expected_default_properties, $actual_default_properties);
+    $expected_default_properties = [
+      'address' => 'address',
+      'alternateName' => 'alternateName',
+      'award' => 'award',
+      'contactPoint' => 'contactPoint',
+      'description' => 'description',
+      'email' => 'email',
+      'faxNumber' => 'faxNumber',
+      'image' => 'image',
+      'latitude' => 'latitude',
+      'location' => 'location',
+      'longitude' => 'longitude',
+      'name' => 'name',
+      'parentOrganization' => 'parentOrganization',
+      'photo' => 'photo',
+      'telephone' => 'telephone',
+    ];
+    $actual_default_properties = $this->schemaTypeManager->getTypeDefaultProperties('Physician');
+    $this->assertEquals($expected_default_properties, $actual_default_properties);
+
     // Check getting all child Schema.org types below a specified type.
     $type_children = $this->schemaTypeManager->getTypeChildren('Person');
     $this->assertEquals(['Patient' => 'Patient'], $type_children);

@@ -6,6 +6,8 @@ use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Schema.org form trait.
+ *
+ * @see \Drupal\options\Plugin\Field\FieldType\ListItemBase
  */
 trait SchemaDotOrgFormTrait {
 
@@ -39,8 +41,8 @@ trait SchemaDotOrgFormTrait {
     $values = [];
     $list = static::extractList($string);
     foreach ($list as $text) {
-      [$key, $value] = preg_split('/\s*\|\s*/', $text);
-      $values[$key] = $value ?? NULL;
+      $items = preg_split('/\s*\|\s*/', $text);
+      $values[$items[0]] = $items[1] ?? NULL;
     }
     return $values;
   }
@@ -59,7 +61,7 @@ trait SchemaDotOrgFormTrait {
   protected function keyValuesString(array $values) {
     $lines = [];
     foreach ($values as $key => $value) {
-      $lines[] = "$key|$value";
+      $lines[] = ($value !== NULL) ? "$key|$value" : $key;
     }
     return implode("\n", $lines);
   }
@@ -78,6 +80,11 @@ trait SchemaDotOrgFormTrait {
    */
   public static function validateGroupedList(array $element, FormStateInterface $form_state) {
     $values = static::extractGroupedList($element['#value']);
+    if (!is_array($values)) {
+      $form_state->setError($element, t('%title: invalid input.', ['%title' => $element['#title']]));
+      return;
+    }
+
     $form_state->setValueForElement($element, $values);
   }
 
@@ -94,11 +101,16 @@ trait SchemaDotOrgFormTrait {
     $values = [];
     $list = static::extractList($string);
     foreach ($list as $text) {
+      if (substr_count($text, '|') !== 2) {
+        return FALSE;
+      }
+
       [$name, $label, $types] = explode('|', $text);
+
       $name = trim($name);
       $values[$name] = [
         'label' => $label ?? $name,
-        'types' => $types ? preg_split('/\s*,\s*/', $types) : [],
+        'types' => $types ? preg_split('/\s*,\s*/', trim($types)) : [],
       ];
     }
     return $values;
@@ -140,6 +152,11 @@ trait SchemaDotOrgFormTrait {
    */
   public static function validateNestedList(array $element, FormStateInterface $form_state) {
     $values = static::extractNestedList($element['#value']);
+    if (!is_array($values)) {
+      $form_state->setError($element, t('%title: invalid input.', ['%title' => $element['#title']]));
+      return;
+    }
+
     $form_state->setValueForElement($element, $values);
   }
 
@@ -156,9 +173,13 @@ trait SchemaDotOrgFormTrait {
     $values = [];
     $list = static::extractList($string);
     foreach ($list as $text) {
+      if (substr_count($text, '|') !== 1) {
+        return FALSE;
+      }
+
       [$name, $types] = explode('|', $text);
       $name = trim($name);
-      $values[$name] = preg_split('/\s*,\s*/', $types);
+      $values[$name] = preg_split('/\s*,\s*/', trim($types));
     }
     return $values;
   }

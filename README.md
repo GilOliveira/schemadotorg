@@ -19,32 +19,10 @@ The goal is to demo a content building framework that allows for progressive enh
 - Example models.
 - Dummy content.
 
-# Todo
-
-What do we want from default types?
-
-Properties
-- field type
-- unlimited
-- relationships
-- order
-- required
-- grouping
-
-default_schema_type_properties:
-ContactPoint:
-- name
-- alterName
-Person:
-- name
-- alterName
-
 -------------------
 
-Remove unneeded type vocabularies
-- Keep Enumeration
 
--------------------
+Drush commands
 
 Add help to types and properties reports.
 - Help text will better define the functionality.
@@ -57,48 +35,18 @@ Fix devel generate
 --------------------------------------------------------------------------------
 
 Ongoing
-- Determine the recommended types.
-- Build out the default property list.
-- Build out the global unlimited property list.
+- Determine the recommended types per entity type.
+- Build out the default schema types properties.
+- Build out the unlimited property list.
 
 Subtyping
-- schemadotorg_subtype
+- schemadotorg_subtype use Thing
 - Add subtyping to entity type.
   - Sub typing allows content editors to specify a more specific type for an entity.
   - For example, an Event can be subtyped to be a BusinessEvent, CourseInstance, EducationEvent, FoodEvent, etc...
   - Subtype properties can be included via condition logic.
 
-Schema.org Templates
-  - Templates will preselect recommended fields.
-  - Templates can be automatically updated
-
-# Concepts
-
-Types of relationships
-- Datatype
-- Name/Value
-- DefinedTerm
-- Type
-
-Schema.org Type => Drupal Entity
-
-- Thing => Node
-- Enumeration => Term
-- Media Object => Media
-- Structure values => Paragraph
-- Component => Block content
-
---------------------------------------------------------------------------------
-
-# Releases
-
-Alpha
-- Finalize drupal machine names.
-
-
 # TBD
-
-- Should Drupal names and ids be stored in the database or dynamically generated?
 
 - How do we implement common content types and components?
   - teaser
@@ -115,17 +63,22 @@ Alpha
 - How do we handle sub-values (i.e. body.summary)?
   - Token field?
 
-- Should the schema type be added to terms as field or property?
-
-- Should we prefix all schema field with schema_*? YES
-
 - Why are we seeing 1329 types? (/admin/reports/schemadotorg/docs/types)
-
-- Should we allow multiple Schema type mapping per entity type?
 
 - How to handle translations for imported data?
 
 - How can we validate the generated JSON-LD?
+
+# Drush
+
+Quick start
+
+```
+drush schemadotorg:create-type -y media AudioObject DataDownload ImageObject VideoObject
+drush schemadotorg:create-type -y paragraph ContactPoint PostalAddress
+drush schemadotorg:create-type -y user Person
+drush schemadotorg:create-type -y node Person Organization Place Event CreativeWork
+```
 
 # References
 
@@ -138,38 +91,6 @@ Related Issues
 
 - [Issue #2152459: \[Policy\] Deprecate RDF module and move it to contrib](https://www.drupal.org/project/ideas/issues/2152459)
 
-# APIs
-
-- **entity_type.manager:**
-  Manages entity type plugin definitions.
-  _Provides entity definition, handlers, storage, etc...
-- **entity_type.repository:**
-  Provides helper methods for loading entity types.
-  _Gets entity types as options_
-- **entity_type.bundle.info**
-  Provides discovery and retrieval of entity type bundles.
-  _Gets entity bundles_
-- **entity.repository:**
-  Provides several mechanisms for retrieving entities.
-- **entity_display.repository:**
-  Provides a repository for entity display objects (view modes and form modes).
-- **entity_field.manager:**
-  Manages the discovery of entity fields. This includes field definitions, base field definitions, and field storage definitions.
-
-
-# Sub modules
-
-- Schema.org Report - Provides a report for browsing Schema.org types, properties, and naming conventions.
-- Schema.org RDF - Integrates Schema.org mappings with Drupal core's RDF(a) mappings.
-- Schema.org UI - Allows administrators to attach custom Schema.org properties to fieldable types.
-
-TDB
-
-- JSON-LD - Generation JSON-LD definitions for Schema.org type.
-- JSON:API - Apply Schema.org type and property names to Drupal core's JSON:API.
-- Templates - Provides templates for creating and updating a Schema.org type in a click.
-
-
 # Contrib modules
 
 Required
@@ -178,15 +99,11 @@ Required
 Recommended
 - https://www.drupal.org/project/key_value_field
 - https://www.drupal.org/project/field_token_value
+- https://www.drupal.org/project/flexfield
+- https://www.drupal.org/project/field_group
 
 Other
-- https://www.drupal.org/project/flexfield
+
 - https://www.drupal.org/project/computed_field
 - https://www.drupal.org/project/entity_reference_override
-
-TBD
-- https://www.drupal.org/project/entity_type_clone
-- https://www.drupal.org/project/convert_bundles
-- https://www.drupal.org/project/base_field_override_ui
-- https://www.drupal.org/project/jsonapi_node_preview_tab
-- https://www.drupal.org/project/field_ui_extras
+- https://www.drupal.org/project/field_tools

@@ -271,7 +271,7 @@ class SchemaDotOrgCommands extends DrushCommands {
    *
    * @aliases sode
    */
-  public function deleteType($entity_type, array $schema_types, $options = ['delete-entity' => FALSE, 'delete-fields' => FALSE]) {
+  public function deleteType($entity_type, array $schema_types, array $options = ['delete-entity' => FALSE, 'delete-fields' => FALSE]) {
     $t_args = ['@schema_types' => implode(', ', $schema_types)];
     if (!$this->io()->confirm($this->t('Are you sure you want to delete these Schema.org types (@schema_types) and their associated entities and fields?', $t_args))) {
       throw new UserAbortException();

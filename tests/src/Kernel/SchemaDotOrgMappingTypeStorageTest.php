@@ -97,11 +97,7 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
       'changed' => 'changed',
     ];
     $actual_base_field_names = $this->storage->getBaseFieldNames('block_content');
-    $this->assertEqual($expected_base_field_names, $actual_base_field_names);
-
-    // Check getting default Schema.org properties.
-    $property_defaults = $this->storage->getSchemaPropertyDefaults('node');
-    $this->assertTrue(in_array('additionalName', $property_defaults));
+    $this->assertEquals($expected_base_field_names, $actual_base_field_names);
   }
 
 }

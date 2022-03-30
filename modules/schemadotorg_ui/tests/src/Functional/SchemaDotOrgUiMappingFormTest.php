@@ -101,7 +101,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->createMediaType('image', ['id' => 'image', 'label' => 'Image']);
     $this->drupalGet('/admin/structure/media/manage/image/schemedotorg');
     $this->submitForm([], 'Save');
-    $assert_session->responseContains('Added <em class="placeholder">About; Alternative headline; Audience; Author; Content location; Content size; Content URL; Creative work status; Date published; Description; Duration; Headline; Image; Keywords; Mentions; Recorded at; Text; Time required; Video</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">About; Author; Content size; Content URL; Date published; Description; Headline; Image; Keywords; Mentions; Text</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">Image</em> mapping.');
 
     // Check the 'ImageObject' mapping.
@@ -111,28 +111,20 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->assertEquals('image', $image_object_mapping->getTargetBundle());
     $expected_schema_properties = [
       'schema_about' => ['property' => 'about'],
-      'schema_alternative_headline' => ['property' => 'alternativeHeadline'],
-      'schema_audience' => ['property' => 'audience'],
       'schema_author' => ['property' => 'author'],
-      'schema_content_location' => ['property' => 'contentLocation'],
       'schema_content_size' => ['property' => 'contentSize'],
       'schema_content_url' => ['property' => 'contentUrl'],
-      'schema_creative_work_status' => ['property' => 'creativeWorkStatus'],
       'created' => ['property' => 'dateCreated'],
       'changed' => ['property' => 'dateModified'],
       'schema_date_published' => ['property' => 'datePublished'],
       'schema_description' => ['property' => 'description'],
-      'schema_duration' => ['property' => 'duration'],
       'schema_headline' => ['property' => 'headline'],
       'schema_image' => ['property' => 'image'],
       'schema_keywords' => ['property' => 'keywords'],
       'schema_mentions' => ['property' => 'mentions'],
       'name' => ['property' => 'name'],
-      'schema_recorded_at' => ['property' => 'recordedAt'],
       'schema_text' => ['property' => 'text'],
       'thumbnail' => ['property' => 'thumbnail'],
-      'schema_time_required' => ['property' => 'timeRequired'],
-      'schema_video' => ['property' => 'video'],
     ];
     $actual_schema_properties = $image_object_mapping->getSchemaProperties();
     $this->assertEquals($expected_schema_properties, $actual_schema_properties);
@@ -145,7 +137,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet('/admin/structure/paragraphs_type/schemadotorg', ['query' => ['type' => 'ContactPoint']]);
     $this->submitForm([], 'Save');
     $assert_session->responseContains('The Paragraphs type <em class="placeholder">Contact Point</em> has been added.');
-    $assert_session->responseContains('Added <em class="placeholder">Contact option; Description; Email; Hours available; Image; Name; Telephone</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Contact option; Description; Email; Fax number; Hours available; Name; Telephone</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">Contact Point</em> mapping.');
 
     // Check display warning that new Schema.org type is mapped.
@@ -201,18 +193,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
         ],
         'target_type' => 'node',
       ],
-      'schema_image' => [
-        'handler' => 'schemadotorg_type',
-        'handler_settings' => [
-          'target_type' => 'media',
-          'schemadotorg_mapping' => [
-            'entity_type' => 'paragraph',
-            'bundle' => 'contact_point',
-            'field_name' => 'schema_image',
-          ],
-        ],
-        'target_type' => 'media',
-      ],
     ];
     $actual_field_settings = [];
     foreach ($contact_point_field_definitions as $field_name => $contact_point_field_definition) {
@@ -227,8 +207,8 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_contact_option' => ['type' => 'options_select'],
       'schema_description' => ['type' => 'text_textarea'],
       'schema_email' => ['type' => 'email_default'],
+      'schema_fax_number' => ['type' => 'telephone_default'],
       'schema_hours_available' => ['type' => 'entity_reference_autocomplete'],
-      'schema_image' => ['type' => 'entity_reference_autocomplete'],
       'schema_name' => ['type' => 'string_textfield'],
       'schema_telephone' => ['type' => 'telephone_default'],
     ];
@@ -244,8 +224,8 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_contact_option' => ['property' => 'contactOption'],
       'schema_description' => ['property' => 'description'],
       'schema_email' => ['property' => 'email'],
+      'schema_fax_number' => ['property' => 'faxNumber'],
       'schema_hours_available' => ['property' => 'hoursAvailable'],
-      'schema_image' => ['property' => 'image'],
       'schema_name' => ['property' => 'name'],
       'schema_telephone' => ['property' => 'telephone'],
     ];
@@ -259,11 +239,33 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     // Create 'Person' user mapping.
     $this->drupalGet('/admin/config/people/accounts/schemedotorg');
     $this->submitForm([], 'Save');
-    $assert_session->responseContains('<em class="placeholder">Additional name; Address; Affiliation; Alternate name; Alumni of; Award; Birth date; Colleague; Contact point; Description; Disambiguating description; Family name; Fax number; Gender; Given name; Honorific prefix; Honorific suffix; Job title; Knows language; Name; Nationality; Telephone; Works for</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Additional name; Address; Affiliation; Alternate name; Alumni of; Award; Birth date; Contact point; Description; Family name; Fax number; Gender; Given name; Honorific prefix; Honorific suffix; Job title; Knows language; Name; Nationality; Telephone; Works for</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">User</em> mapping.');
 
     // Check the 'Person' field settings.
     $person_field_definitions = $entity_field_manager->getFieldDefinitions('user', 'user');
+    $expected_field_storage_settings = [
+      'schema_address' => ['cardinality' => -1],
+      'schema_affiliation' => ['cardinality' => -1],
+      'schema_alternate_name' => ['cardinality' => -1],
+      'schema_alumni_of' => ['cardinality' => -1],
+      'schema_award' => ['cardinality' => -1],
+      'schema_birth_date' => ['cardinality' => 1],
+      'schema_contact_point' => ['cardinality' => -1],
+      'schema_description' => ['cardinality' => 1],
+      'schema_family_name' => ['cardinality' => 1],
+      'schema_fax_number' => ['cardinality' => 1],
+      'schema_gender' => ['cardinality' => 1],
+      'schema_given_name' => ['cardinality' => 1],
+      'schema_honorific_prefix' => ['cardinality' => 1],
+      'schema_honorific_suffix' => ['cardinality' => 1],
+      'schema_job_title' => ['cardinality' => 1],
+      'schema_knows_language' => ['cardinality' => -1],
+      'schema_name' => ['cardinality' => 1],
+      'schema_nationality' => ['cardinality' => 1],
+      'schema_telephone' => ['cardinality' => 1],
+      'schema_works_for' => ['cardinality' => -1],
+    ];
     $expected_field_settings = [
       'schema_address' => [
         'handler' => 'schemadotorg_type',
@@ -320,14 +322,22 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
         'target_type' => 'node',
       ],
     ];
+    $actual_field_storage_settings = [];
     $actual_field_settings = [];
     foreach ($person_field_definitions as $field_name => $person_field_definition) {
+      $field_storage_definition = $person_field_definition->getFieldStorageDefinition();
+      $actual_field_storage_settings[$field_name] = [
+        'cardinality' => $field_storage_definition->getCardinality(),
+      ];
+
       $actual_field_settings[$field_name] = $person_field_definition->getSettings();
     }
+    $this->convertMarkupToStrings($actual_field_storage_settings);
     $this->convertMarkupToStrings($actual_field_settings);
+    $this->assertEntityArraySubset($expected_field_storage_settings, $actual_field_storage_settings);
     $this->assertEntityArraySubset($expected_field_settings, $actual_field_settings);
 
-    // Check the 'Person'  form display.
+    // Check the 'Person' form display.
     $person_form_display = $display_repository->getFormDisplay('user', 'user');
     $expected_form_components = [
       'schema_additional_name' => ['type' => 'string_textfield'],
@@ -337,10 +347,8 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_alumni_of' => ['type' => 'entity_reference_autocomplete'],
       'schema_award' => ['type' => 'string_textfield'],
       'schema_birth_date' => ['type' => 'datetime_default'],
-      'schema_colleague' => ['type' => 'link_default'],
       'schema_contact_point' => ['type' => 'paragraphs'],
       'schema_description' => ['type' => 'text_textarea'],
-      'schema_disambiguating_desc' => ['type' => 'text_textarea'],
       'schema_family_name' => ['type' => 'string_textfield'],
       'schema_fax_number' => ['type' => 'telephone_default'],
       'schema_gender' => ['type' => 'options_select'],
@@ -370,10 +378,8 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_alumni_of' => ['property' => 'alumniOf'],
       'schema_award' => ['property' => 'award'],
       'schema_birth_date' => ['property' => 'birthDate'],
-      'schema_colleague' => ['property' => 'colleague'],
       'schema_contact_point' => ['property' => 'contactPoint'],
       'schema_description' => ['property' => 'description'],
-      'schema_disambiguating_desc' => ['property' => 'disambiguatingDescription'],
       'mail' => ['property' => 'email'],
       'schema_family_name' => ['property' => 'familyName'],
       'schema_fax_number' => ['property' => 'faxNumber'],
@@ -399,7 +405,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet('/admin/structure/types/schemadotorg', ['query' => ['type' => 'Place']]);
     $this->submitForm([], 'Save');
     $assert_session->responseContains('The content type <em class="placeholder">Place</em> has been added.');
-    $assert_session->responseContains('Added <em class="placeholder">Address; Description; Fax number; Image; Latitude; Longitude; Photo; Telephone</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Address; Alternate name; Description; Fax number; Image; Latitude; Longitude; Photo; Telephone</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">Place</em> mapping.');
   }
 

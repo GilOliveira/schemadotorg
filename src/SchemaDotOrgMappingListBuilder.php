@@ -78,4 +78,36 @@ class SchemaDotOrgMappingListBuilder extends ConfigEntityListBuilder {
     return $operations;
   }
 
+  /**
+   * Loads entity IDs using a pager sorted by the entity id.
+   *
+   * @return array
+   *   An array of entity IDs.
+   */
+  protected function getEntityIds() {
+    $query = $this->getStorage()->getQuery()
+      ->accessCheck(TRUE)
+      ->sort('target_entity_type_id');
+
+    // Only add the pager if a limit is specified.
+    if ($this->limit) {
+      $query->pager($this->limit);
+    }
+    return $query->execute();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function load() {
+    // Override the default load method to not sort mapping by label
+    // and instead sort them by the id.
+    // @see \Drupal\Core\Config\Entity\ConfigEntityListBuilder::load
+    // @see \Drupal\Core\Config\Entity\ConfigEntityBase::sort
+    // @see \Drupal\Core\Entity\EntityListBuilder::getEntityIds
+    $entity_ids = $this->getEntityIds();
+    $entities = $this->storage->loadMultipleOverrideFree($entity_ids);
+    return $entities;
+  }
+
 }

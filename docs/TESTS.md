@@ -23,7 +23,7 @@ SchemaDotOrgUiJavaScript
 SchemaDotOrgEnumerationSelection.php
 SchemaDotOrgSelectionBase.php
 SchemaDotOrgTypeSelection.php
-SchemaDotOrgSettingsForm.php
+SchemaDotOrgSettingsForm.php: Validation etc....
 SchemaDotOrgCommands.php
 
 What is minimum for UI testing? JavaScript.

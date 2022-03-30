@@ -2,12 +2,20 @@
 
 namespace Drupal\schemadotorg;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Connection;
 
 /**
  * Schema.org schema type manager.
  */
 class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInterface {
+
+  /**
+   * The configuration factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
 
   /**
    * The database connection.
@@ -33,12 +41,15 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * Constructs a SchemaDotOrgInstaller object.
    *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The configuration object factory.
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
    * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
    *   The Schema.org names service.
    */
-  public function __construct(Connection $database, SchemaDotOrgNamesInterface $schema_names) {
+  public function __construct(ConfigFactoryInterface $config_factory, Connection $database, SchemaDotOrgNamesInterface $schema_names) {
+    $this->configFactory = $config_factory;
     $this->database = $database;
     $this->schemaNames = $schema_names;
   }
@@ -183,6 +194,25 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
       $items[$index] = $this->setItemDrupalFields('properties', $item);
     }
     return $items;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTypeDefaultProperties($type) {
+    $config = $this->configFactory->get('schemadotorg.settings');
+    $breadcrumbs = $this->getTypeBreadcrumbs($type);
+    $default_properties = [];
+    foreach ($breadcrumbs as $breadcrumb) {
+      foreach ($breadcrumb as $breadcrumb_type) {
+        $breadcrumb_type_properties = $config->get('schema_types.default_properties.' . $breadcrumb_type);
+        if ($breadcrumb_type_properties) {
+          $default_properties += array_combine($breadcrumb_type_properties, $breadcrumb_type_properties);
+        }
+      }
+    }
+    ksort($default_properties);
+    return $default_properties;
   }
 
   /**

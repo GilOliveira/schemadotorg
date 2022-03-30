@@ -76,7 +76,7 @@ class SchemaDotOrgInstallerTest extends SchemaDotOrgKernelTestBase {
     $vocabulary = Vocabulary::load('schema_thing');
     $this->assertNotEmpty($vocabulary);
 
-    // Get Schema.org: Thing vocabulary terms by Schema.org type,
+    // Get Schema.org: Thing vocabulary terms by Schema.org type.
     $terms_by_type = $this->getTermsByType();
 
     // Check that Schema.org: Thing terms exist.

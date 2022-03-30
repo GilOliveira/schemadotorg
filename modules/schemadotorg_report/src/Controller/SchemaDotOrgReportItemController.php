@@ -4,6 +4,7 @@ namespace Drupal\schemadotorg_report\Controller;
 
 use Drupal\Core\Link;
 use Drupal\Core\Url;
+use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -178,6 +179,26 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
             '#open' => TRUE,
             'items' => $this->buildTypeProperties($properties),
           ];
+          $default_properties = $this->schemaTypeManager->getTypeDefaultProperties($item['label']);
+          if ($default_properties) {
+            $default_properties = array_intersect_assoc($default_properties, $properties);
+            ksort($default_properties);
+            $build[$name]['default_properties'] = [
+              '#type' => 'item',
+              '#title' => $this->t('Default properties'),
+              'links' => $this->schemaTypeBuilder->buildItemsLinks($default_properties) + [
+                '#prefix' => $item['label'] . ' | ',
+              ],
+            ];
+          }
+          $build[$name]['all_properties'] = [
+            '#type' => 'item',
+            '#title' => $this->t('All properties'),
+            'links' => $this->schemaTypeBuilder->buildItemsLinks($properties) + [
+              '#prefix' => $item['label'] . ' | ',
+            ],
+          ];
+
           break;
 
         default:

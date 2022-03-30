@@ -1,5 +1,218 @@
-field_prefix: 'schema_'
+field_prefix: schema_
 schema_types:
+  default_properties:
+    CreativeWork:
+      - about
+      - author
+      - dateCreated
+      - dateModified
+      - datePublished
+      - description
+      - headline
+      - keywords
+      - mentions
+      - name
+    MediaObject:
+      - about
+      - author
+      - contentSize
+      - contentUrl
+      - dateCreated
+      - dateModified
+      - datePublished
+      - description
+      - headline
+      - keywords
+      - mentions
+      - name
+      - text
+    AudioObject:
+      - author
+      - duration
+    DataDownload:
+      - author
+    ImageObject:
+      - image
+      - thumbnail
+    VideoObject:
+      - duration
+      - image
+      - thumbnail
+      - video
+    Event:
+      - about
+      - attendee
+      - audience
+      - description
+      - duration
+      - endDate
+      - eventStatus
+      - image
+      - location
+      - name
+      - organizer
+      - performer
+      - startDate
+    Organization:
+      - address
+      - alternateName
+      - award
+      - contactPoint
+      - description
+      - email
+      - faxNumber
+      - image
+      - location
+      - name
+      - parentOrganization
+      - telephone
+    Person:
+      - additionalName
+      - address
+      - affiliation
+      - alternateName
+      - alumniOf
+      - award
+      - birthDate
+      - contactPoint
+      - description
+      - email
+      - familyName
+      - faxNumber
+      - gender
+      - givenName
+      - honorificPrefix
+      - honorificSuffix
+      - image
+      - jobTitle
+      - knowsLanguage
+      - name
+      - nationality
+      - telephone
+      - worksFor
+    Place:
+      - address
+      - alternateName
+      - description
+      - faxNumber
+      - image
+      - latitude
+      - longitude
+      - name
+      - photo
+      - telephone
+    Recipe:
+      - abstract
+      - additionalName
+      - alternativeHeadline
+      - audience
+      - author
+      - dateCreated
+      - dateModified
+      - datePublished
+      - description
+      - image
+      - keywords
+      - mentions
+      - name
+      - nationality
+      - nutrition
+      - organizer
+      - performer
+      - parentOrganization
+      - photo
+      - recipeCategory
+      - recipeCuisine
+      - recipeIngredient
+      - recipeInstructions
+      - recipeYield
+      - startDate
+      - suitableForDiet
+      - telephone
+      - text
+      - totalTime
+      - thumbnailUrl
+      - worksFor
+      - video
+      - yield
+    Product:
+      - additionalProperty
+      - additionalType
+      - aggregateRating
+      - alternateName
+      - audience
+      - brand
+      - category
+      - color
+      - countryOfAssembly
+      - countryOfLastProcessing
+      - countryOfOrigin
+      - depth
+      - description
+      - height
+      - image
+      - isAccessoryOrSparePartFor
+      - isConsumableFor
+      - isRelatedTo
+      - isSimilarTo
+      - isVariantOf
+      - itemCondition
+      - logo
+      - manufacturer
+      - material
+      - model
+      - mpn
+      - name
+      - nsn
+      - productID
+      - productionDate
+      - releaseDate
+      - size
+      - sku
+      - weight
+      - width
+    ContactPoint:
+      - contactOption
+      - description
+      - email
+      - faxNumber
+      - hoursAvailable
+      - name
+      - telephone
+    OpeningHoursSpecification:
+      - closes
+      - dayOfWeek
+      - description
+      - name
+      - opens
+    PostalAddress:
+      - addressCountry
+      - addressLocality
+      - addressRegion
+      - alternateName
+      - contactOption
+      - description
+      - email
+      - faxNumber
+      - hoursAvailable
+      - image
+      - name
+      - postOfficeBoxNumber
+      - postalCode
+      - streetAddress
+      - telephone
+    QuantitativeValue:
+      - name
+      - value
+      - valueReference
+      - unitCode
+      - unitText
+    PropertyValue:
+      - name
+      - value
+      - valueReference
+      - unitCode
+      - unitText
   default_field_types:
     Text:
       - string
@@ -25,6 +238,7 @@ schema_types:
       - boolean
     Time:
       - datetime
+      - string
     PostalAddress:
       - address
       - entity_reference
@@ -32,7 +246,7 @@ schema_types:
     DefinedTerm:
       - string
       - list_string
-      - field_ui:entity_reference:taxonomy_term
+      - 'field_ui:entity_reference:taxonomy_term'
     Duration:
       - string
     QuantitativeValue:
@@ -41,37 +255,17 @@ schema_types:
       - string
     URL:
       - link
+      - string
 schema_properties:
-  default_unlimited_fields:
-    - audience
-    - address
-    - about
-    - affiliation
-    - alumniOf
-    - attendee
-    - award
-    - contentLocation
-    - contactPoint
-    - knowsLanguage
-    - keywords
-    - mentions
-    - photo
-    - sponsor
-    - suitableForDiet
-    - thumbnailUrl
-    - worksFor
-    - video
   default_field_types:
     email:
       - email
       - string
     description:
       - text_long
-      - text
       - text_with_summary
     disambiguatingDescription:
       - text_long
-      - text
       - text_with_summary
     identifier:
       - key_value
@@ -84,11 +278,32 @@ schema_properties:
     telephone:
       - telephone
       - string
+    text:
+      - text_long
+      - text_with_summary
     faxNumber:
       - telephone
       - string
     width:
       - string
+  default_unlimited_fields:
+    - audience
+    - address
+    - about
+    - affiliation
+    - alumniOf
+    - alternateName
+    - attendee
+    - award
+    - contactPoint
+    - knowsLanguage
+    - keywords
+    - mentions
+    - photo
+    - sponsor
+    - suitableForDiet
+    - worksFor
+    - video
 names:
   prefixes:
     body_measurement: body_meas

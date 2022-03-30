@@ -78,15 +78,4 @@ interface SchemaDotOrgMappingTypeStorageInterface extends ConfigEntityStorageInt
    */
   public function getBaseFieldNames($entity_type_id);
 
-  /**
-   * Gets default Schema.org properties.
-   *
-   * @param string $entity_type_id
-   *   The entity type ID.
-   *
-   * @return array
-   *   Default Schema.org properties.
-   */
-  public function getSchemaPropertyDefaults($entity_type_id);
-
 }

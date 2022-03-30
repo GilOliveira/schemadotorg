@@ -25,10 +25,6 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
    *   The configuration object factory.
    */
   public function __construct(ConfigFactoryInterface $config_factory) {
-    // We are storing a reference to the config factory and not the
-    // schemadotorg configuration because this service will be initialized
-    // before configuration is installed and called by Schema.org installer.
-    // @see \Drupal\schemadotorg\SchemaDotOrgInstaller
     $this->configFactory = $config_factory;
   }
 

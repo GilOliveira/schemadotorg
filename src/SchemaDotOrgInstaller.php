@@ -57,9 +57,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    */
   protected $typeVocabularies = [
     'Thing',
-    'Intangible',
     'Enumeration',
-    'StructuredValue',
   ];
 
   /**

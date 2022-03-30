@@ -169,6 +169,17 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getTypeProperties($type, array $fields = []);
 
   /**
+   * Gets a Schema.org type's default properties.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   *
+   * @return array
+   *   A Schema.org type's default properties.
+   */
+  public function getTypeDefaultProperties($type);
+
+  /**
    * Gets all child Schema.org types below a specified type.
    *
    * @param string $type

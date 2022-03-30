@@ -69,11 +69,14 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
     $links = [];
     foreach ($ids as $id) {
       $prefix = ($links) ? ', ' : '';
-      if ($this->schemaTypeManager->isItem($id)) {
+
+      $is_item = $this->schemaTypeManager->isItem($id);
+      $is_uri = (strpos($id, 'http') === 0);
+      if ($is_item || $is_uri) {
         $links[] = [
           '#type' => 'link',
           '#title' => $id,
-          '#url' => $this->getItemUrl($id),
+          '#url' => $is_item ? $this->getItemUrl($id) : Url::fromUri($id),
           '#prefix' => $prefix,
           '#attributes' => $options['attributes'],
         ];

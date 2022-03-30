@@ -32,28 +32,3 @@ default_schema_types:
   image: ImageObject
   remote_video: VideoObject
   video: VideoObject
-default_schema_properties:
-  - about
-  - alternativeHeadline
-  - audience
-  - author
-  - contentSize
-  - contentLocation
-  - contentUrl
-  - creativeWorkStatus
-  - dateCreated
-  - dateModified
-  - datePublished
-  - description
-  - duration
-  - headline
-  - image
-  - keywords
-  - mentions
-  - name
-  - recordedAt
-  - startDate
-  - text
-  - timeRequired
-  - thumbnail
-  - video

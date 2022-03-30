@@ -42,7 +42,6 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *     "id",
  *     "target_entity_type_id",
  *     "default_schema_types",
- *     "default_schema_properties",
  *     "default_base_fields",
  *     "recommended_schema_types",
  *   }
@@ -70,13 +69,6 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * @var array
    */
   protected $default_schema_types = [];
-
-  /**
-   * An array of default Schema.org properties.
-   *
-   * @var array
-   */
-  protected $default_schema_properties = [];
 
   /**
    * An associative array of base field mappings.

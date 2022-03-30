@@ -12,17 +12,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @property \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $entity
  */
-class SchemaDotOrgMappingTypeForm extends EntityForm
-{
+class SchemaDotOrgMappingTypeForm extends EntityForm {
   use SchemaDotOrgFormTrait;
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    $instance = parent::create($container);
-    return $instance;
-  }
 
   /**
    * {@inheritdoc}
@@ -56,13 +47,6 @@ class SchemaDotOrgMappingTypeForm extends EntityForm
       '#default_value' => $this->keyValuesString($entity->get('default_schema_types')),
       '#element_validate' => ['::validateKeyValues'],
     ];
-    $form['default_schema_properties'] = [
-      '#type' => 'textarea',
-      '#title' => 'Default Schema.org properties',
-      '#description' => $this->t('Enter one Schema.org property per line.'),
-      '#default_value' => $this->listString($entity->get('default_schema_properties')),
-      '#element_validate' => ['::validateList'],
-    ];
     $form['default_base_fields'] = [
       '#type' => 'textarea',
       '#title' => 'Default base field mappings',
@@ -75,6 +59,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm
       '#type' => 'textarea',
       '#title' => 'Recommended Schema.org types',
       '#description' => $this->t('Enter one value per line, in the format group_name|group_label|SchemaType01,SchemaType01,SchemaType01.'),
+      '#attributes' => ['wrap' => 'off'],
       '#default_value' => $this->groupedListString($entity->get('recommended_schema_types')),
       '#element_validate' => ['::validateGroupedList'],
     ];

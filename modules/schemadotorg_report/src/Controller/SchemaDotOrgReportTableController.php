@@ -99,14 +99,6 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
         'data' => $this->t('Enumeration type'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
-      'equivalent_class' => [
-        'data' => $this->t('Equivalent class'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-      ],
-      'properties' => [
-        'data' => $this->t('Properties'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-      ],
       'sub_types' => [
         'data' => $this->t('Sub types'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
@@ -140,10 +132,6 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
         'data' => $this->t('Sub property of'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
-      'equivalent_property' => [
-        'data' => $this->t('Equivalent property'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-      ],
       'subproperties' => [
         'data' => $this->t('Subproperties'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
@@ -166,10 +154,6 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
       ],
       'superseded_by' => [
         'data' => $this->t('Superseded by'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-      ],
-      'is_part_of' => [
-        'data' => $this->t('Is part of'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
     ];

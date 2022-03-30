@@ -11,7 +11,7 @@ interface SchemaDotOrgEntityTypeBuilderInterface {
    * Get Schema.org type vocabulary id.
    *
    * @param string $type
-   *    Schema.org type.
+   *   Schema.org type.
    *
    * @return string
    *   Schema.org type vocabulary id.

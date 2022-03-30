@@ -1,10 +1,11 @@
 name: Schema.org
 type: module
-description: Uses Schema.org types and properties as the content architecture foundation for Drupal website.
+description: 'Uses Schema.org types and properties as the content architecture foundation for Drupal website.'
 package: Schema.org
-core_version_requirement: ^9
+core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental
+configure: entity.schemadotorg_mapping.collection
 dependencies:
-  - drupal:media
-  - drupal:taxonomy
-  - paragraphs:paragraphs
+  - 'drupal:media'
+  - 'drupal:taxonomy'
+  - 'paragraphs:paragraphs'

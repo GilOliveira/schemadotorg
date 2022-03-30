@@ -503,12 +503,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   An associative array containing the structure of the form.
    */
   protected function buildSchemaPropertiesForm(array &$form) {
-    $entity_type_id = $this->getTargetEntityTypeId();
     $field_options = $this->getFieldOptions();
     $property_definitions = $this->getSchemaTypePropertyDefinitions();
     $property_mappings = $this->getSchemaTypePropertyMappings();
-    $property_defaults = $this->getMappingTypeStorage()->getSchemaPropertyDefaults($entity_type_id);
-    $property_unlimited = $this->config('schemadotorg.settings')->get('schema_properties.default_unlimited_fields');
+    $property_defaults = $this->getSchemaTypePropertyDefaults();
+    $property_unlimited = $this->getSchemaTypePropertyUnlimited();
 
     // Header.
     $header = [
@@ -855,6 +854,29 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     }
 
     return $mappings;
+  }
+
+  /**
+   * Gets default Schema.org properties.
+   *
+   * @return array
+   *   Default Schema.org properties.
+   */
+  protected function getSchemaTypePropertyDefaults() {
+    $schema_type = $this->getSchemaType();
+    return $this->schemaTypeManager->getTypeDefaultProperties($schema_type);
+  }
+
+  /**
+   * Gets unlimited Schema.org properties.
+   *
+   * @return array
+   *   Unlimited Schema.org properties.
+   */
+  protected function getSchemaTypePropertyUnlimited() {
+    $unlimited_fields = $this->config('schemadotorg.settings')
+      ->get('schema_properties.default_unlimited_fields');
+    return $unlimited_fields ? array_combine($unlimited_fields, $unlimited_fields) : [];
   }
 
   /* ************************************************************************ */
