@@ -32,10 +32,9 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
   protected function setUp() {
     parent::setUp();
 
-    // Install the Schema.org type and properties tables.
+    $this->installConfig(['schemadotorg']);
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
 
-    // Import CSV data into the Schema.org type and properties tables.
     /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
     $installer = $this->container->get('schemadotorg.installer');
     $installer->importTables();

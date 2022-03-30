@@ -4,7 +4,7 @@ services:
     arguments: ['@database', '@entity_type.manager', '@schemadotorg.names', '@schemadotorg.schema_type_manager', '@schemadotorg.entity_type_builder']
   schemadotorg.names:
     class: Drupal\schemadotorg\SchemaDotOrgNames
-
+    arguments: ['@config.factory']
   schemadotorg.schema_type_manager:
     class: Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager
     arguments: ['@database']

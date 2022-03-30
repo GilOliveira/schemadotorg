@@ -21,12 +21,6 @@ The goal is to demo a content building framework that allows for progressive enh
 
 # Todo
 
-Settings
-- Move Names to settings.
-  - Dump yaml
-  - Update scheme
-  - Update form.
-
 - Move 'schema_' field prefix into configuration
   - \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager
 
@@ -182,6 +176,7 @@ Recommended
 Other
 - https://www.drupal.org/project/flexfield
 - https://www.drupal.org/project/computed_field
+- https://www.drupal.org/project/entity_reference_override
 
 TBD
 - https://www.drupal.org/project/entity_type_clone

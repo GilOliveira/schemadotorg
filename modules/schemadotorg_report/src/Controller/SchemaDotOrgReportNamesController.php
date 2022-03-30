@@ -139,7 +139,7 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
         ],
       ];
     }
-
+    $config = $this->config('schemadotorg.settings');
     $build['usage'] = [
       '#type' => 'details',
       '#title' => $this->t('Usage summary'),
@@ -149,19 +149,19 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
       $this->t('Words'),
       $this->t('Word'),
       $words,
-      $this->schemaDotOrgNames->getNameAbbreviations()
+      $config->get('names.abbreviations')
     );
     $build['usage']['prefixes'] = $this->buildWordUsage(
       $this->t('Prefixes'),
       $this->t('Prefix'),
       $prefixes,
-      $this->schemaDotOrgNames->getNamePrefixes()
+      $config->get('names.prefixes')
     );
     $build['usage']['suffixes'] = $this->buildWordUsage(
       $this->t('Suffixes'),
       $this->t('Suffix'),
       $suffixes,
-      $this->schemaDotOrgNames->getNameSuffixes()
+      $config->get('names.suffixes')
     );
 
     return $build;
