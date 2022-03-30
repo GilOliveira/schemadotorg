@@ -127,6 +127,63 @@ trait SchemaDotOrgFormTrait {
   }
 
   /* ************************************************************************ */
+  // Nested list.
+  /* ************************************************************************ */
+
+  /**
+   * Element validate callback for nested list.
+   *
+   * @param array $element
+   *   The form element whose value is being processed.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   */
+  public static function validateNestedList(array $element, FormStateInterface $form_state) {
+    $values = static::extractNestedList($element['#value']);
+    $form_state->setValueForElement($element, $values);
+  }
+
+  /**
+   * Extracts the nested list array from the nested list element.
+   *
+   * @param string $string
+   *   The raw string to extract nested list from.
+   *
+   * @return array
+   *   The array of extracted nested list.
+   */
+  protected static function extractNestedList($string) {
+    $values = [];
+    $list = static::extractList($string);
+    foreach ($list as $text) {
+      [$name, $types] = explode('|', $text);
+      $name = trim($name);
+      $values[$name] = preg_split('/\s*,\s*/', $types);
+    }
+    return $values;
+  }
+
+  /**
+   * Generates a string representation of an array of nested list .
+   *
+   * @param array $values
+   *   An array containing nested list.
+   *
+   * @return string
+   *   The string representation of a nested list :
+   *    - Values are separated by a carriage return.
+   *    - Each value begins with the main items,
+   *      and followed by a comma delimited list of sub items.
+   */
+  protected function nestedListString(array $values) {
+    $lines = [];
+    foreach ($values as $name => $items) {
+      $lines[] = $name . '|' . implode(',', $items);
+    }
+    return implode("\n", $lines);
+  }
+
+  /* ************************************************************************ */
   // List.
   /* ************************************************************************ */
 

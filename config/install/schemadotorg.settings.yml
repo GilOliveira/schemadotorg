@@ -1,5 +1,47 @@
+schema_types:
+  default_field_types:
+    Text:
+      - string
+      - string_long
+      - list_string
+      - text
+      - text_long
+      - text_with_summary
+    Number:
+      - integer
+      - float
+      - decimal
+      - list_integer
+      - list_float
+    DateTime:
+      - datetime
+    Date:
+      - datetime
+    Integer:
+      - integer
+      - list_integer
+    Boolean:
+      - boolean
+    Time:
+      - datetime
+    PostalAddress:
+      - address
+      - entity_reference
+      - text
+    DefinedTerm:
+      - string
+      - list_string
+      - field_ui:entity_reference:taxonomy_term
+    Duration:
+      - string
+    QuantitativeValue:
+      - string
+    Quantity:
+      - string
+    URL:
+      - link
 schema_properties:
-  default_unlimited:
+  default_unlimited_fields:
     - audience
     - address
     - about
@@ -46,45 +88,3 @@ schema_properties:
       - string
     width:
       - string
-schema_types:
-  default_field_types:
-    Text:
-      - string
-      - string_long
-      - list_string
-      - text
-      - text_long
-      - text_with_summary
-    Number:
-      - integer
-      - float
-      - decimal
-      - list_integer
-      - list_float
-    DateTime:
-      - datetime
-    Date:
-      - datetime
-    Integer:
-      - integer
-      - list_integer
-    Boolean:
-      - boolean
-    Time:
-      - datetime
-    PostalAddress:
-      - address
-      - entity_reference
-      - text
-    DefinedTerm:
-      - string
-      - list_string
-      - field_ui:entity_reference:taxonomy_term
-    Duration:
-      - string
-    QuantitativeValue:
-      - string
-    Quantity:
-      - string
-    URL:
-      - link

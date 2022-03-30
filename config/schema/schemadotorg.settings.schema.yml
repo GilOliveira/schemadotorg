@@ -2,66 +2,6 @@ schemadotorg.settings:
   type: config_entity
   label: Schema.org settings
   mapping:
-    entity_types:
-      type: sequence
-      label: 'Entity types'
-      sequence:
-        type: mapping
-        label: 'Entity type'
-        mapping:
-          default_schema_types:
-            type: sequence
-            label: 'Default Schema.org types'
-            sequence:
-              type: string
-              label: 'Default Schema.org type'
-          default_schema_properties:
-            type: sequence
-            label: 'Default Schema.org properties'
-            sequence:
-              type: string
-              label: 'Default Schema.org property'
-          default_unlimited:
-            type: sequence
-            label: 'Default unlimited fields'
-            sequence:
-              type: string
-              label: 'Schema.org property'
-          base_field_mappings:
-            type: sequence
-            label: 'Base field mappings'
-            sequence:
-              type: string
-              label: 'Base field mapping'
-          schema_types:
-            type: sequence
-            label: 'Schema.org types'
-            sequence:
-              type: mapping
-              label: 'Schema type'
-              mapping:
-                label:
-                  type: string
-                  label: 'Label'
-                types:
-                  type: sequence
-                  label: 'Types'
-                  sequence:
-                    type: string
-                    label: 'Type'
-    schema_types:
-      type: mapping
-      label: 'Schema.org types'
-      mapping:
-        default_field_types:
-          type: sequence
-          label: 'Default field type'
-          sequence:
-            type: sequence
-            label: 'Schema.org type'
-            sequence:
-              type: string
-              label: 'Field types'
     schema_properties:
       type: mapping
       label: 'Schema.org properties'
@@ -75,10 +15,23 @@ schemadotorg.settings:
             sequence:
               type: string
               label: 'Field type'
-        default_unlimited:
+        default_unlimited_fields:
           type: sequence
           label: 'Default unlimited fields'
           sequence:
             type: string
             label: 'Schema.org property'
+    schema_types:
+      type: mapping
+      label: 'Schema.org types'
+      mapping:
+        default_field_types:
+          type: sequence
+          label: 'Default field types'
+          sequence:
+            type: sequence
+            label: 'Schema.org type'
+            sequence:
+              type: string
+              label: 'Field types'
 

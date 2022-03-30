@@ -22,14 +22,13 @@ The goal is to demo a content building framework that allows for progressive enh
 # Todo
 
 Settings
+- Move Names to settings.
+  - Dump yaml
+  - Update scheme
+  - Update form.
+
 - Move 'schema_' field prefix into configuration
   - \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager
-- Add settings tab to 'Schema.org mappings'
-- NestedList
-- SettingsForm
-  - Types
-  - Properties
-  - Names
 
 Remove unneeded type vocabularies
 - Keep Enumeration

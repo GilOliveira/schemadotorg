@@ -7,8 +7,7 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 /**
  * Tests the functionality of the Schema.org mapping type form.
  *
- * @covers \Drupal\schemadotorg_ui\Routing\SchemaDotOrgRouteSubscriber
- *
+ * @covers \Drupal\schemadotorg\Form\SchemaDotOrgMappingTypeForm
  * @group schemadotorg
  */
 class SchemaDotOrgMappingTypeFormTest extends SchemaDotOrgBrowserTestBase {

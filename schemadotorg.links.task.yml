@@ -6,3 +6,8 @@ entity.schemadotorg_mapping_type.collection:
   title: Mapping types
   route_name: entity.schemadotorg_mapping_type.collection
   base_route: entity.schemadotorg_mapping.collection
+schemadotorg.settings:
+  title: Settings
+  route_name: schemadotorg.settings
+  base_route: entity.schemadotorg_mapping.collection
+

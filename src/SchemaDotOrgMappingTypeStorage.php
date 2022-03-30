@@ -110,7 +110,9 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
       }
     }
 
-    $default_unlimited = $this->configFactory->get('schemadotorg.settings')->get('schema_properties.default_unlimited') ?: [];
+    $default_unlimited = $this->configFactory
+      ->get('schemadotorg.settings')
+      ->get('schema_properties.default_unlimited_fields');
     if ($default_unlimited) {
       $unlimited += array_combine($default_unlimited, $default_unlimited);
     }

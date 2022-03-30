@@ -48,8 +48,6 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *     "recommended_schema_types",
  *   }
  * )
- *
- * @see \Drupal\Core\Entity\Entity\EntityViewDisplay
  */
 class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMappingTypeInterface {
 

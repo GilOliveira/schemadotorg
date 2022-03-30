@@ -1,10 +1,10 @@
 schemadotorg.settings:
-  path: '/admin/config/content/schemadotorg'
+  path: '/admin/structure/schemadotorg/settings'
   defaults:
     _title: 'Schema.org settings'
     _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsForm'
   requirements:
-    _permission: 'administer site configuration'
+    _permission: 'administer schemadotorg'
 
 schemadotorg.autocomplete:
   path: '/schemadotorg/autocomplete/{table}'
