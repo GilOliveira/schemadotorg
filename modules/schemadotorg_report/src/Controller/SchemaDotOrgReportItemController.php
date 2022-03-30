@@ -162,8 +162,6 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
           break;
 
         case 'label':
-        case 'drupal_label':
-        case 'drupal_name':
           $build[$name]['#plain_text'] = $value;
           break;
 
@@ -242,12 +240,6 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     $header = [
       'label' => [
         'data' => $this->t('Schema.org label'),
-      ],
-      'drupal_label' => [
-        'data' => $this->t('Drupal label'),
-      ],
-      'drupal_name' => [
-        'data' => $this->t('Drupal name'),
       ],
       'comment' => [
         'data' => $this->t('Comment'),
@@ -348,8 +340,6 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     return [
       'id' => $this->t('Schema.org ID'),
       'label' => $this->t('Schema.org label'),
-      'drupal_label' => $this->t('Drupal label'),
-      'drupal_name' => $this->t('Drupal name'),
       'comment' => $this->t('Comment'),
       'sub_type_of' => $this->t('Sub type of'),
       'enumerationtype' => $this->t('Enumeration type'),
@@ -372,8 +362,6 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     return [
       'id' => $this->t('Schema.org ID'),
       'label' => $this->t('Schema.org label'),
-      'drupal_label' => $this->t('Drupal label'),
-      'drupal_name' => $this->t('Drupal name'),
       'comment' => $this->t('Comment'),
       'domain_includes' => $this->t('Domain includes'),
       'range_includes' => $this->t('Range includes'),

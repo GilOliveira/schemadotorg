@@ -130,10 +130,6 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    */
   protected function buildTableCell($name, $value) {
     switch ($name) {
-      case 'drupal_name':
-      case 'drupal_label':
-        return $value;
-
       case 'comment':
         $options = ['base_path' => Url::fromRoute('schemadotorg_reports')->toString()];
         return ['data' => ['#markup' => $this->schemaTypeBuilder->formatComment($value, $options)]];

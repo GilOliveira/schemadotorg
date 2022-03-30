@@ -811,7 +811,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function getSchemaTypePropertyDefinitions() {
     $type = $this->getSchemaType();
-    $fields = ['label', 'comment', 'range_includes', 'superseded_by', 'drupal_label', 'drupal_name'];
+    $fields = ['label', 'comment', 'range_includes', 'superseded_by'];
     return $this->schemaTypeManager->getTypeProperties($type, $fields);
   }
 

@@ -89,14 +89,6 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
       'label' => [
         'data' => $this->t('Schema.org label'),
       ],
-      'drupal_label' => [
-        'data' => $this->t('Drupal label'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-      ],
-      'drupal_name' => [
-        'data' => $this->t('Drupal name'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-      ],
       'comment' => [
         'data' => $this->t('Comment'),
       ],
@@ -140,14 +132,6 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
     return [
       'label' => [
         'data' => $this->t('Schema.org label'),
-      ],
-      'drupal_label' => [
-        'data' => $this->t('Drupal label'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-      ],
-      'drupal_name' => [
-        'data' => $this->t('Drupal name'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
       'comment' => [
         'data' => $this->t('Comment'),

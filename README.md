@@ -21,15 +21,12 @@ The goal is to demo a content building framework that allows for progressive enh
 
 # Todo
 
-Stop storing names and labels in the database.
-- Remove from the report.
-- Remove from the installer.
-- Add to
-
 - Move 'schema_' field prefix into configuration
   - \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager
   $field_prefix = $this->config('field_ui.settings')->get('field_prefix');
   - field_prefix: schema_
+
+Add warning when adjusting names.
 
 Remove unneeded type vocabularies
 - Keep Enumeration

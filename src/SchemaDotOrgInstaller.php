@@ -180,24 +180,10 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
           'not null' => TRUE,
           'default' => '',
         ],
-        'drupal_name' => [
-          'type' => 'varchar_ascii',
-          // @todo Lower to 32 characters.
-          'length' => 255,
-          'not null' => TRUE,
-          'default' => '',
-        ],
-        'drupal_label' => [
-          'type' => 'varchar_ascii',
-          'length' => 255,
-          'not null' => TRUE,
-          'default' => '',
-        ],
       ],
       'primary key' => ['id'],
       'indexes' => [
         'label' => ['label'],
-        'drupal_name' => ['drupal_name'],
       ],
     ];
     // Schema.org: Properties.
@@ -270,24 +256,10 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
           'not null' => TRUE,
           'default' => '',
         ],
-        'drupal_name' => [
-          'type' => 'varchar_ascii',
-          // @todo Lower to 32 characters.
-          'length' => 255,
-          'not null' => TRUE,
-          'default' => '',
-        ],
-        'drupal_label' => [
-          'type' => 'varchar_ascii',
-          'length' => 255,
-          'not null' => TRUE,
-          'default' => '',
-        ],
       ],
       'primary key' => ['id'],
       'indexes' => [
         'label' => ['label'],
-        'drupal_name' => ['drupal_name'],
       ],
     ];
 
@@ -323,8 +295,6 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
     array_walk($fields, function (&$field_name) {
       $field_name = $this->schemaNames->camelCaseToSnakeCase($field_name);
     });
-    $fields[] = 'drupal_label';
-    $fields[] = 'drupal_name';
 
     // Insert multiple records.
     $query = $this->database->insert($table)->fields($fields);
@@ -333,8 +303,6 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       foreach ($fields as $index => $field_name) {
         $values[$field_name] = $row[$index] ?? '';
       }
-      $values['drupal_label'] = $this->schemaNames->toDrupalLabel($name, $values['label']);
-      $values['drupal_name'] = $this->schemaNames->toDrupalName($name, $values['label']);
       $query->values($values);
     }
     $query->execute();
@@ -388,7 +356,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
 
       $types = $this->schemaTypeManager->getAllTypeChildren(
         $type_vocabulary,
-        ['label', 'drupal_label', 'sub_type_of'],
+        ['label', 'sub_type_of'],
         $this->typeVocabularies
       );
 
@@ -396,7 +364,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       foreach ($types as $type => $item) {
         if (!isset($terms_lookup[$type])) {
           $term = $term_storage->create([
-            'name' => $item['drupal_label'],
+            'name' => $this->schemaNames->toDrupalName('types', $item['label']),
             'vid' => $entity_id,
             'schema_type' => ['value' => $type],
           ]);

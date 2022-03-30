@@ -7,7 +7,7 @@ services:
     arguments: ['@config.factory']
   schemadotorg.schema_type_manager:
     class: Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager
-    arguments: ['@database']
+    arguments: ['@database', '@schemadotorg.names']
   schemadotorg.schema_type_builder:
     class: Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilder
     arguments: ['@module_handler', '@current_user', '@schemadotorg.schema_type_manager']

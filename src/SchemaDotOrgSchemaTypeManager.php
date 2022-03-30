@@ -17,6 +17,13 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   protected $database;
 
   /**
+   * The Schema.org names service.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
+   */
+  protected $schemaNames;
+
+  /**
    * Schema.org items cache.
    *
    * @var array
@@ -28,9 +35,12 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    *
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
+   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
+   *   The Schema.org names service.
    */
-  public function __construct(Connection $database) {
+  public function __construct(Connection $database, SchemaDotOrgNamesInterface $schema_names) {
     $this->database = $database;
+    $this->schemaNames = $schema_names;
   }
 
   /**
@@ -126,18 +136,20 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
     $table_name = 'schemadotorg_' . $table;
     if (empty($fields)) {
       if (!isset($this->itemsCache[$table][$id])) {
-        $this->itemsCache[$table][$id] = $this->database->query('SELECT *
+        $item = $this->database->query('SELECT *
           FROM {' . $this->database->escapeTable($table_name) . '}
           WHERE label=:id', [':id' => $id])->fetchAssoc();
+        $this->itemsCache[$table][$id] = $this->setItemDrupalFields($table, $item);
       }
       return $this->itemsCache[$table][$id];
     }
     else {
-      return $this->database->select($table_name, 't')
+      $item = $this->database->select($table_name, 't')
         ->fields('t', $fields)
         ->condition('label', $id)
         ->execute()
         ->fetchAssoc();
+      return $this->setItemDrupalFields($table, $item);
     }
   }
 
@@ -161,12 +173,16 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   public function getTypeProperties($type, array $fields = []) {
     $type_definition = $this->getType($type);
     $properties = $this->parseIds($type_definition['properties']);
-    return $this->database->select('schemadotorg_properties', 'properties')
+    $items = $this->database->select('schemadotorg_properties', 'properties')
       ->fields('properties', $fields)
       ->condition('label', $properties, 'IN')
       ->orderBy('label')
       ->execute()
       ->fetchAllAssoc('label', \PDO::FETCH_ASSOC);
+    foreach ($items as $index => $item) {
+      $items[$index] = $this->setItemDrupalFields('properties', $item);
+    }
+    return $items;
   }
 
   /**
@@ -428,6 +444,28 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
       $breadcrumbs[$parent_type] = $current_breadcrumb;
       $this->getTypeBreadcrumbsRecursive($breadcrumbs, $parent_type, $parent_type);
     }
+  }
+
+  /**
+   * Set Schema.org item Drupal fields including name and label.
+   *
+   * @param string $table
+   *   A Schema.org table.
+   * @param array|false|null $item
+   *   An associative array containing Schema.org type or property item.
+   *
+   * @return array
+   *   The Schema.org type or property item with a 'drupal_name' and
+   *   'drupal_label', if the Schema.org label is included with the item.
+   */
+  protected function setItemDrupalFields($table, $item) {
+    if (empty($item) || !isset($item['label'])) {
+      return $item;
+    }
+
+    $item['drupal_name'] = $this->schemaNames->toDrupalName($table, $item['label']);
+    $item['drupal_label'] = $this->schemaNames->toDrupalLabel($table, $item['label']);
+    return $item;
   }
 
 }
