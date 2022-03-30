@@ -44,7 +44,6 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *     "default_schema_types",
  *     "default_schema_properties",
  *     "default_base_fields",
- *     "default_unlimited_fields",
  *     "recommended_schema_types",
  *   }
  * )
@@ -85,13 +84,6 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * @var array
    */
   protected $default_base_fields = [];
-
-  /**
-   * An array of recommended unlimited (a.k.a. multiple value) fields.
-   *
-   * @var array
-   */
-  protected $default_unlimited_fields = [];
 
   /**
    * An associative array of grouped recommended Schema.org types.

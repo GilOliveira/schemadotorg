@@ -57,4 +57,3 @@ default_schema_properties:
   - timeRequired
   - thumbnail
   - video
-default_unlimited_fields: {  }

@@ -26,12 +26,6 @@ schemadotorg.schemadotorg_mapping_type.*:
       sequence:
         type: string
         label: 'Default base field mapping'
-    default_unlimited_fields:
-      type: sequence
-      label: 'Default unlimited fields'
-      sequence:
-        type: string
-        label: 'Schema.org property'
     recommended_schema_types:
       type: sequence
       label: 'Recommended Schema.org types'

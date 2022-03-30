@@ -508,7 +508,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $property_definitions = $this->getSchemaTypePropertyDefinitions();
     $property_mappings = $this->getSchemaTypePropertyMappings();
     $property_defaults = $this->getMappingTypeStorage()->getSchemaPropertyDefaults($entity_type_id);
-    $property_unlimited = $this->getMappingTypeStorage()->getSchemaPropertyUnlimited($entity_type_id);
+    $property_unlimited = $this->config('schemadotorg.settings')->get('schema_properties.default_unlimited_fields');
 
     // Header.
     $header = [

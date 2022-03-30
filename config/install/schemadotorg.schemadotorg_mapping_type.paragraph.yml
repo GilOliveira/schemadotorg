@@ -86,4 +86,3 @@ default_schema_properties:
   - sugarContent
   - transFatContent
   - unsaturatedFatContent
-default_unlimited_fields: {  }

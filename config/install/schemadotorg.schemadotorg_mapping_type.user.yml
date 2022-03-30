@@ -37,4 +37,4 @@ default_schema_properties:
   - nationality
   - telephone
   - worksFor
-default_unlimited_fields: {  }
+

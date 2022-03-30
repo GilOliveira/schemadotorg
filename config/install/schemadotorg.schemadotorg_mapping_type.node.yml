@@ -129,4 +129,3 @@ default_schema_properties:
   - worksFor
   - video
   - yield
-default_unlimited_fields: { }

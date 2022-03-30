@@ -102,30 +102,6 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
     // Check getting default Schema.org properties.
     $property_defaults = $this->storage->getSchemaPropertyDefaults('node');
     $this->assertTrue(in_array('additionalName', $property_defaults));
-
-    // Check getting default Schema.org unlimited properties.
-    $expected_property_unlimited = [
-      'audience' => 'audience',
-      'address' => 'address',
-      'about' => 'about',
-      'affiliation' => 'affiliation',
-      'alumniOf' => 'alumniOf',
-      'attendee' => 'attendee',
-      'award' => 'award',
-      'contentLocation' => 'contentLocation',
-      'contactPoint' => 'contactPoint',
-      'knowsLanguage' => 'knowsLanguage',
-      'keywords' => 'keywords',
-      'mentions' => 'mentions',
-      'photo' => 'photo',
-      'sponsor' => 'sponsor',
-      'suitableForDiet' => 'suitableForDiet',
-      'thumbnailUrl' => 'thumbnailUrl',
-      'worksFor' => 'worksFor',
-      'video' => 'video',
-    ];
-    $actual_property_unlimited = $this->storage->getSchemaPropertyUnlimited('user');
-    $this->assertEquals($expected_property_unlimited, $actual_property_unlimited);
   }
 
 }

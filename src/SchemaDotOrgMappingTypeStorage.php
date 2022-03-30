@@ -96,28 +96,4 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
     return array_combine($properties, $properties);
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getSchemaPropertyUnlimited($entity_type_id) {
-    $mapping_type = $this->load($entity_type_id);
-    $unlimited = [];
-
-    if ($mapping_type) {
-      $mapping_unlimited = $mapping_type->get('default_unlimited_fields') ?: [];
-      if ($mapping_unlimited) {
-        $unlimited += array_combine($mapping_unlimited, $mapping_unlimited);
-      }
-    }
-
-    $default_unlimited = $this->configFactory
-      ->get('schemadotorg.settings')
-      ->get('schema_properties.default_unlimited_fields');
-    if ($default_unlimited) {
-      $unlimited += array_combine($default_unlimited, $default_unlimited);
-    }
-
-    return $unlimited;
-  }
-
 }

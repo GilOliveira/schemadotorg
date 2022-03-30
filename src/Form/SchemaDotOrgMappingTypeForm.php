@@ -71,13 +71,6 @@ class SchemaDotOrgMappingTypeForm extends EntityForm
       '#default_value' => $this->keyValuesString($entity->get('default_base_fields')),
       '#element_validate' => ['::validateKeyValues'],
     ];
-    $form['default_unlimited_fields'] = [
-      '#type' => 'textarea',
-      '#title' => 'Default unlimited Schema.org properties',
-      '#description' => $this->t('Enter one Schema.org property per line.'),
-      '#default_value' => $this->listString($entity->get('default_unlimited_fields')),
-      '#element_validate' => ['::validateList'],
-    ];
     $form['recommended_schema_types'] = [
       '#type' => 'textarea',
       '#title' => 'Recommended Schema.org types',
