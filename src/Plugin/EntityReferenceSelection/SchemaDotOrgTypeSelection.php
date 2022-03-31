@@ -105,6 +105,28 @@ class SchemaDotOrgTypeSelection extends SchemaDotOrgSelectionBase {
   }
 
   /**
+   * Gets the Schema.org property target bundles.
+   *
+   * @return array
+   *   The Schema.org property target bundles.
+   */
+  protected function getSchemaPropertyTargetBundles() {
+    $mapping = $this->configuration['schemadotorg_mapping'];
+    if (!$mapping['entity_type']) {
+      return [];
+    }
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $schemadotorg_mapping_storage */
+    $schemadotorg_mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+    return $schemadotorg_mapping_storage->getSchemaPropertyTargetBundles(
+      $mapping['entity_type'],
+      $mapping['bundle'],
+      $mapping['field_name'],
+      $this->configuration['target_type']
+    );
+  }
+
+  /**
    * Gets the Schema.org property target mappings.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface[]

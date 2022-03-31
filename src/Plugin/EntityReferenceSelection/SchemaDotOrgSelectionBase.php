@@ -8,7 +8,7 @@ use Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\field\FieldConfigInterface;
-use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+use Drupal\user\EntityOwnerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,6 +17,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * This is a light-weight version of the DefaultSelection plugin.
  *
  * In theory, this selection plugin could support entity auto creation.
+ *
+ * The ::createNewEntity method is provided for devel generate.
  *
  * The 'entity_types' are set via schemadotorg_entity_reference_selection_alter.
  *
@@ -269,6 +271,29 @@ abstract class SchemaDotOrgSelectionBase extends SelectionPluginBase implements 
     $schemadotorg_mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
     $mapping = $this->configuration['schemadotorg_mapping'];
     return $schemadotorg_mapping_storage->load($mapping['entity_type'] . '.' . $mapping['bundle']);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function createNewEntity($entity_type_id, $bundle, $label, $uid) {
+    $entity_type = $this->entityTypeManager->getDefinition($entity_type_id);
+
+    $values = [
+      $entity_type->getKey('label') => $label,
+    ];
+
+    if ($bundle_key = $entity_type->getKey('bundle')) {
+      $values[$bundle_key] = $bundle;
+    }
+
+    $entity = $this->entityTypeManager->getStorage($entity_type_id)->create($values);
+
+    if ($entity instanceof EntityOwnerInterface) {
+      $entity->setOwnerId($uid);
+    }
+
+    return $entity;
   }
 
 }

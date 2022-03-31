@@ -87,7 +87,7 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
   protected function getTypesHeader() {
     return [
       'label' => [
-        'data' => $this->t('Schema.org label'),
+        'data' => $this->t('Label'),
       ],
       'comment' => [
         'data' => $this->t('Comment'),
@@ -123,18 +123,10 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
   protected function getPropertiesHeader() {
     return [
       'label' => [
-        'data' => $this->t('Schema.org label'),
+        'data' => $this->t('Label'),
       ],
       'comment' => [
         'data' => $this->t('Comment'),
-      ],
-      'sub_property_of' => [
-        'data' => $this->t('Sub property of'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-      ],
-      'subproperties' => [
-        'data' => $this->t('Subproperties'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
       'domain_includes' => [
         'data' => $this->t('Domain includes'),
@@ -146,14 +138,6 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
       ],
       'inverse_of' => [
         'data' => $this->t('Inverse of'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-      ],
-      'supersedes' => [
-        'data' => $this->t('Supersedes'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-      ],
-      'superseded_by' => [
-        'data' => $this->t('Superseded by'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
     ];
