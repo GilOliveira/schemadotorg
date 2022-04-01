@@ -3,18 +3,10 @@ Schema.org Blueprints
 
 Improve form validation
 
-- JSON:API
-- \Drupal\jsonapi_extras\EventSubscriber\JsonApiBuildSubscriber
-
 - Bonus types
-  - Blog
+  - HowTo
   - FAQPage
   - QAPage
-  - Movie
-  - Article
-  - Blog Post
-  - Web Site
-  - Web Page
 
 Ongoing
 - Determine the recommended types per entity type.

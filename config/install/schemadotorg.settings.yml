@@ -2,7 +2,6 @@ field_prefix: schema_
 schema_types:
   default_properties:
     CreativeWork:
-      - about
       - author
       - dateCreated
       - dateModified
@@ -13,7 +12,6 @@ schema_types:
       - mentions
       - name
     MediaObject:
-      - about
       - author
       - contentSize
       - contentUrl
@@ -39,8 +37,15 @@ schema_types:
       - image
       - thumbnail
       - video
+    Article:
+      - articleBody
+      - headline
+      - alternativeHeadline
+    WebPage:
+      - primaryImageOfPage
+      - relatedLink
+      - significantLink
     Event:
-      - about
       - attendee
       - audience
       - description
@@ -250,6 +255,9 @@ schema_types:
       - string
 schema_properties:
   default_field_types:
+    articleBody:
+      - text_long
+      - text_with_summary
     email:
       - email
       - string
@@ -259,23 +267,23 @@ schema_properties:
     disambiguatingDescription:
       - text_long
       - text_with_summary
+    faxNumber:
+      - telephone
+      - string
     identifier:
       - key_value
       - key_value_long
+    height:
+      - string
     image:
       - 'field_ui:entity_reference:media'
       - image
-    height:
-      - string
     telephone:
       - telephone
       - string
     text:
       - text_long
       - text_with_summary
-    faxNumber:
-      - telephone
-      - string
     width:
       - string
   default_unlimited_fields:
@@ -292,6 +300,8 @@ schema_properties:
     - keywords
     - mentions
     - photo
+    - relatedLink
+    - significantLink
     - sponsor
     - suitableForDiet
     - worksFor

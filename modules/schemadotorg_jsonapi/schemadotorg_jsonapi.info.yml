@@ -1,0 +1,10 @@
+name: Schema.org JSON:API
+type: module
+description: |
+  Integrates Schema.org mappings with Drupal core's JSON:API.
+package: Schema.org
+core_version_requirement: ^9
+lifecycle: experimental
+dependencies:
+  - 'schemadotorg:schemadotorg'
+  - 'drupal:jsonapi'

@@ -69,8 +69,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     SchemaDotOrgNamesInterface $schema_names,
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
   ) {
-    $this->entityDisplayRepository = $display_repository;
     $this->entityTypeManager = $entity_type_manager;
+    $this->entityDisplayRepository = $display_repository;
     $this->fieldTypePluginManager = $field_type_plugin_manager;
     $this->schemaNames = $schema_names;
     $this->schemaTypeManager = $schema_type_manager;

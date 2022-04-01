@@ -25,6 +25,8 @@ SchemaDotOrgUiMappingFormTest
 \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface::getProperties
 
 schemadotorg_descriptions.module
+schemadotorg_jsonapi.module
+
 SchemaDotOrgUiJavaScript
 SchemaDotOrgEnumerationSelection.php
 SchemaDotOrgSelectionBase.php
