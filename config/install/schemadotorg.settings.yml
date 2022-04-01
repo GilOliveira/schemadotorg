@@ -354,6 +354,7 @@ names:
     duration: dur
     education: ed
     buildings: bld
+    consideration: consid
     configuration: conf
     enumeration: enum
     entity: ent
@@ -439,6 +440,7 @@ names:
     production: prod
     publication: pub
     reference: ref
+    relevance: rel
     requirement: req
     requirements: req
     return: ret

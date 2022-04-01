@@ -112,8 +112,8 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
     }
     return [
       '#markup' => $info,
-      '#prefix' => '<div>',
-      '#suffix' => '</div>',
+      '#prefix' => '<p>',
+      '#suffix' => '</p>',
     ];
   }
 

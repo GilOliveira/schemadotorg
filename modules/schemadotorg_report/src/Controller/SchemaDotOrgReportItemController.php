@@ -95,8 +95,10 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       ':properties_href' => Url::fromRoute('schemadotorg_reports.properties')->toString(),
       ':things_href' => Url::fromRoute('schemadotorg_reports.types.things')->toString(),
     ];
-    $description_top = $this->t('The schemas are a set of <a href=":types_href">types</a>, each associated with a set of <a href=":properties_href">properties</a>.', $t_args);
-    $description_top .= ' ' . $this->t('The types are arranged in a <a href=":things_href">hierarchy</a>.', $t_args);
+    $description_top = '<p>'
+      . $this->t('The schemas are a set of <a href=":types_href">types</a>, each associated with a set of <a href=":properties_href">properties</a>.', $t_args)
+      . ' ' . $this->t('The types are arranged in a <a href=":things_href">hierarchy</a>.', $t_args)
+      . '</p>';
     $build['description_top'] = ['#markup' => $description_top];
 
     // Types.
@@ -260,7 +262,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
   protected function buildTypeProperties(array $properties) {
     $header = [
       'label' => [
-        'data' => $this->t('Schema.org label'),
+        'data' => $this->t('Label'),
       ],
       'comment' => [
         'data' => $this->t('Comment'),
@@ -359,8 +361,8 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    */
   protected function getTypeFields() {
     return [
-      'id' => $this->t('Schema.org ID'),
-      'label' => $this->t('Schema.org label'),
+      'id' => $this->t('ID'),
+      'label' => $this->t('Label'),
       'comment' => $this->t('Comment'),
       'sub_type_of' => $this->t('Sub type of'),
       'enumerationtype' => $this->t('Enumeration type'),
@@ -381,8 +383,8 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    */
   protected function getPropertyFields() {
     return [
-      'id' => $this->t('Schema.org ID'),
-      'label' => $this->t('Schema.org label'),
+      'id' => $this->t('ID'),
+      'label' => $this->t('label'),
       'comment' => $this->t('Comment'),
       'domain_includes' => $this->t('Domain includes'),
       'range_includes' => $this->t('Range includes'),

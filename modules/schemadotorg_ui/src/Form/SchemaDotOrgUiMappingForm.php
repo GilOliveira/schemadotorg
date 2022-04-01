@@ -25,6 +25,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   const ADD_FIELD = SchemaDotOrgUiFieldManagerInterface::ADD_FIELD;
 
   /**
+   * The theme manager.
+   *
+   * @var \Drupal\Core\Theme\ThemeManagerInterface
+   */
+  protected $themeManager;
+
+  /**
    * The Schema.org schema type manager.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
@@ -57,6 +64,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
+    $instance->themeManager = $container->get('theme.manager');
     $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
     $instance->schemaTypeBuilder = $container->get('schemadotorg.schema_type_builder');
     $instance->schemaEntityTypeBuilder = $container->get('schemadotorg.entity_type_builder');
@@ -130,6 +138,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
+
+    // Add the active theme name as a class to form.
+    $active_theme_name = $this->themeManager->getActiveTheme()->getName();
+    $form['#attributes']['class'][] = 'schemadotorg-ui-' . $active_theme_name;
 
     // Disable inline form errors for CLI (a.k.a Drush).
     // @see \Drupal\schemadotorg\Commands\SchemaDotOrgCommands::createType
