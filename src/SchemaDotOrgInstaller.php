@@ -13,7 +13,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   /**
    * Schema.org version.
    */
-  const VERSION = '13.0';
+  const VERSION = '14.0';
 
   /**
    * The database connection.

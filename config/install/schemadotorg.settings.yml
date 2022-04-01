@@ -55,7 +55,6 @@ schema_types:
       - startDate
     Organization:
       - address
-      - alternateName
       - award
       - contactPoint
       - description
@@ -70,7 +69,6 @@ schema_types:
       - additionalName
       - address
       - affiliation
-      - alternateName
       - alumniOf
       - award
       - birthDate
@@ -92,7 +90,6 @@ schema_types:
       - worksFor
     Place:
       - address
-      - alternateName
       - description
       - faxNumber
       - image
@@ -103,7 +100,6 @@ schema_types:
       - telephone
     Recipe:
       - abstract
-      - additionalName
       - alternativeHeadline
       - audience
       - author
@@ -173,10 +169,7 @@ schema_types:
       - width
     ContactPoint:
       - contactOption
-      - description
       - email
-      - faxNumber
-      - hoursAvailable
       - name
       - telephone
     OpeningHoursSpecification:
@@ -193,7 +186,6 @@ schema_types:
       - contactOption
       - description
       - email
-      - faxNumber
       - hoursAvailable
       - image
       - name

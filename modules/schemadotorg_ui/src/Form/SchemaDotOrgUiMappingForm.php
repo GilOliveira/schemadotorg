@@ -299,10 +299,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         if ($this->fieldStorageExists($field_name)) {
           // Create new field with existing field storage.
           $property_definition = $this->schemaTypeManager->getProperty($property_name);
+          $existing_field = $this->getField($field_name);
           $field = [
             'machine_name' => $field_name,
-            'label' => $this->getFieldLabel($field_name) ?: $property_definition['label'],
-            'description' => $this->schemaTypeBuilder->formatComment($property_definition['comment']),
+            'label' => $existing_field ? $existing_field->label() : $property_definition['label'],
+            'description' => $existing_field ? $existing_field->get('description') : '',
             'schema_property' => $property_name,
           ];
           $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
@@ -971,16 +972,16 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Gets a field's label from an existing field instance.
+   * Gets an existing field instance.
    *
    * @param string $field_name
    *   A field name.
    *
-   * @return \Drupal\Core\StringTranslation\TranslatableMarkup|string|null
-   *   A field's label from an existing field instance.
+   * @return \Drupal\Core\Entity\EntityInterface|null
+   *   An existing field instance.
    */
-  protected function getFieldLabel($field_name) {
-    return $this->schemaFieldManager->getFieldLabel(
+  protected function getField($field_name) {
+    return $this->schemaFieldManager->getField(
       $this->getTargetEntityTypeId(),
       $field_name
     );

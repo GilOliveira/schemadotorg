@@ -1,0 +1,74 @@
+<?php
+
+/**
+ * @file
+ * Sets entity/field descriptions to their corresponding Schema.org comments.
+ */
+
+use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\field\FieldConfigInterface;
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function schemadotorg_descriptions_form_schemadotorg_mapping_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if (!\Drupal::moduleHandler()->moduleExists('schemadotorg_ui')) {
+    return;
+  }
+
+  // Unset the entity's default value and append a note to the description.
+  if (isset($form['entity']['description'])) {
+    $form['entity']['description']['#default_value'] = '';
+    $form['entity']['description']['#description'] .= '<br/>'
+     . '<strong>' . t("If left blank, the description will be automatically set to the corresponding Schema.org type's comment") . '</strong>';
+  }
+
+  // Unset each field's default value and append a note to the description.
+  if (isset($form['properties'])) {
+    foreach ($form['properties'] as &$element) {
+      if (isset($element['field']['add']['description'])) {
+        $element['field']['add']['description']['#default_value'] = '';
+        $element['field']['add']['description']['#description'] .= '<br/>'
+          . '<strong>' . t("If left blank, the description will be automatically set to the corresponding Schema.org property's comment") . '</strong>';
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_prepare_form().
+ */
+function schemadotorg_descriptions_entity_prepare_form(EntityInterface $entity, $operation, FormStateInterface $form_state) {
+  if ($entity instanceof ConfigEntityBundleBase) {
+    $target_entity_type_id = $entity->getEntityType()->getBundleOf();
+    $target_bundle = $entity->id();
+    $mapping = SchemaDotOrgMapping::load("$target_entity_type_id.$target_bundle");
+    if ($mapping) {
+      $form_state->set('schemadotorg_descriptions', TRUE);
+    }
+  }
+  elseif ($entity instanceof FieldConfigInterface) {
+    $target_entity_type_id = $entity->getTargetEntityTypeId();
+    $target_bundle = $entity->getTargetBundle();
+    $field_name = $entity->getName();
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
+    $mapping = SchemaDotOrgMapping::load("$target_entity_type_id.$target_bundle");
+    if ($mapping && $mapping->getSchemaPropertyMapping($field_name)) {
+      $form_state->set('schemadotorg_descriptions', TRUE);
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function schemadotorg_descriptions_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_state->get('schemadotorg_descriptions')
+    && isset($form['description']['#description'])) {
+    $form['description']['#description'] .= '<br/>'
+      . '<strong>' . t("If left blank, the description will be automatically set to the corresponding Schema.org type's comment") . '</strong>';
+  }
+}

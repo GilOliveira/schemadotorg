@@ -137,7 +137,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet('/admin/structure/paragraphs_type/schemadotorg', ['query' => ['type' => 'ContactPoint']]);
     $this->submitForm([], 'Save');
     $assert_session->responseContains('The Paragraphs type <em class="placeholder">Contact Point</em> has been added.');
-    $assert_session->responseContains('Added <em class="placeholder">Contact option; Description; Email; Fax number; Hours available; Name; Telephone</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Contact option; Email; Name; Telephone</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">Contact Point</em> mapping.');
 
     // Check display warning that new Schema.org type is mapped.
@@ -181,18 +181,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
         ],
         'target_type' => 'taxonomy_term',
       ],
-      'schema_hours_available' => [
-        'handler' => 'schemadotorg_type',
-        'handler_settings' => [
-          'target_type' => 'node',
-          'schemadotorg_mapping' => [
-            'entity_type' => 'paragraph',
-            'bundle' => 'contact_point',
-            'field_name' => 'schema_hours_available',
-          ],
-        ],
-        'target_type' => 'node',
-      ],
     ];
     $actual_field_settings = [];
     foreach ($contact_point_field_definitions as $field_name => $contact_point_field_definition) {
@@ -205,9 +193,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $contact_point_form_display = $display_repository->getFormDisplay('paragraph', 'contact_point');
     $expected_form_components = [
       'schema_contact_option' => ['type' => 'options_select'],
-      'schema_description' => ['type' => 'text_textarea'],
       'schema_email' => ['type' => 'email_default'],
-      'schema_hours_available' => ['type' => 'entity_reference_autocomplete'],
       'schema_name' => ['type' => 'string_textfield'],
       'schema_telephone' => ['type' => 'telephone_default'],
     ];
@@ -221,9 +207,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->assertEquals('contact_point', $contact_point_mapping->getTargetBundle());
     $expected_schema_properties = [
       'schema_contact_option' => ['property' => 'contactOption'],
-      'schema_description' => ['property' => 'description'],
       'schema_email' => ['property' => 'email'],
-      'schema_hours_available' => ['property' => 'hoursAvailable'],
       'schema_name' => ['property' => 'name'],
       'schema_telephone' => ['property' => 'telephone'],
     ];
@@ -237,7 +221,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     // Create 'Person' user mapping.
     $this->drupalGet('/admin/config/people/accounts/schemedotorg');
     $this->submitForm([], 'Save');
-    $assert_session->responseContains('Added <em class="placeholder">Additional name; Address; Affiliation; Alternate name; Alumni of; Award; Birth date; Contact point; Description; Family name; Fax number; Gender; Given name; Honorific prefix; Honorific suffix; Job title; Knows language; Name; Nationality; Telephone; Works for</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Additional name; Address; Affiliation; Alumni of; Award; Birth date; Contact point; Description; Family name; Fax number; Gender; Given name; Honorific prefix; Honorific suffix; Job title; Knows language; Name; Nationality; Telephone; Works for</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">User</em> mapping.');
 
     // Check the 'Person' field settings.
@@ -245,7 +229,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $expected_field_storage_settings = [
       'schema_address' => ['cardinality' => -1],
       'schema_affiliation' => ['cardinality' => -1],
-      'schema_alternate_name' => ['cardinality' => -1],
       'schema_alumni_of' => ['cardinality' => -1],
       'schema_award' => ['cardinality' => -1],
       'schema_birth_date' => ['cardinality' => 1],
@@ -341,7 +324,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_additional_name' => ['type' => 'string_textfield'],
       'schema_address' => ['type' => 'entity_reference_autocomplete'],
       'schema_affiliation' => ['type' => 'entity_reference_autocomplete'],
-      'schema_alternate_name' => ['type' => 'string_textfield'],
       'schema_alumni_of' => ['type' => 'entity_reference_autocomplete'],
       'schema_award' => ['type' => 'string_textfield'],
       'schema_birth_date' => ['type' => 'datetime_default'],
@@ -372,7 +354,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_additional_name' => ['property' => 'additionalName'],
       'schema_address' => ['property' => 'address'],
       'schema_affiliation' => ['property' => 'affiliation'],
-      'schema_alternate_name' => ['property' => 'alternateName'],
       'schema_alumni_of' => ['property' => 'alumniOf'],
       'schema_award' => ['property' => 'award'],
       'schema_birth_date' => ['property' => 'birthDate'],
@@ -403,7 +384,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet('/admin/structure/types/schemadotorg', ['query' => ['type' => 'Place']]);
     $this->submitForm([], 'Save');
     $assert_session->responseContains('The content type <em class="placeholder">Place</em> has been added.');
-    $assert_session->responseContains('Added <em class="placeholder">Address; Alternate name; Description; Fax number; Image; Latitude; Longitude; Photo; Telephone</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Address; Description; Fax number; Image; Latitude; Longitude; Photo; Telephone</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">Place</em> mapping.');
   }
 

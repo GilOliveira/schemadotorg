@@ -41,17 +41,17 @@ interface SchemaDotOrgUiFieldManagerInterface {
   public function fieldStorageExists($entity_type_id, $field_name);
 
   /**
-   * Gets a field's label from an existing field instance.
+   * Gets an existing field instance.
    *
    * @param string $entity_type_id
    *   The entity type ID.
    * @param string $field_name
    *   A field name.
    *
-   * @return \Drupal\Core\StringTranslation\TranslatableMarkup|string|null
-   *   A field's label from an existing field instance.
+   * @return \Drupal\Core\Entity\EntityInterface|null
+   *   An existing field instance.
    */
-  public function getFieldLabel($entity_type_id, $field_name);
+  public function getField($entity_type_id, $field_name);
 
   /**
    * Gets a Schema.org property's available field types as options.

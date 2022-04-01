@@ -157,7 +157,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
     else {
       $item = $this->database->select($table_name, 't')
         ->fields('t', $fields)
-        ->condition('label', $id)
+        ->condition('label', (array) $id)
         ->execute()
         ->fetchAssoc();
       return $this->setItemDrupalFields($table, $item);
@@ -176,6 +176,48 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    */
   public function getProperty($property, array $fields = []) {
     return $this->getItem('properties', $property, $fields);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getItems($table, array $ids, array $fields = []) {
+    if (empty($ids)) {
+      return [];
+    }
+
+    $table_name = 'schemadotorg_' . $table;
+    if (empty($fields)) {
+      $result = $this->database->query('SELECT *
+        FROM {' . $this->database->escapeTable($table_name) . '}
+        WHERE label IN (:id[])', [':id[]' => $ids])->execute();
+    }
+    else {
+      $result = $this->database->select($table_name, 't')
+        ->fields('t', $fields)
+        ->condition('label', $ids, 'IN')
+        ->execute();
+    }
+
+    $items = [];
+    while ($record = $result->fetchAssoc()) {
+      $items[$record['label']] = $record;
+    }
+    return $items;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTypes(array $types, array $fields = []) {
+    return $this->getItems('types', $types, $fields);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getProperties(array $properties, array $fields = []) {
+    return $this->getItems('properties', $properties, $fields);
   }
 
   /**

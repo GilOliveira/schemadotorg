@@ -59,8 +59,8 @@ class SchemaDotOrgInstallerTest extends SchemaDotOrgKernelTestBase {
 
     // Check Schema.org types and properties table totals.
     $totals = [
-      'types' => 1329,
-      'properties' => 1442,
+      'types' => 1353,
+      'properties' => 1448,
     ];
     foreach ($totals as $table => $total) {
       $count = $connection->select('schemadotorg_' . $table)

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Integrates Schema.org mappings with Drupal core's RDF(a) mappi.
+ * Integrates Schema.org mappings with Drupal core's RDF(a) mapping.
  */
 
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;

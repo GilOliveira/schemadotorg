@@ -145,9 +145,12 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
    */
   public function formatComment($comment, array $options = []) {
     $options += [
-      'base_path' => $this->getDefaultBasePath(),
       'attributes' => [],
     ];
+
+    if (empty($options['base_path'])) {
+      $options['base_path'] = $this->getDefaultBasePath();
+    }
 
     if (strpos($comment, 'href="') === FALSE) {
       return $comment;

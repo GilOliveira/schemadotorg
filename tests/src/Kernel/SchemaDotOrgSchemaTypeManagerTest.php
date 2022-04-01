@@ -142,7 +142,6 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
       'additionalName' => 'additionalName',
       'address' => 'address',
       'affiliation' => 'affiliation',
-      'alternateName' => 'alternateName',
       'alumniOf' => 'alumniOf',
       'award' => 'award',
       'birthDate' => 'birthDate',
@@ -167,7 +166,6 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertEquals($expected_default_properties, $actual_default_properties);
     $expected_default_properties = [
       'address' => 'address',
-      'alternateName' => 'alternateName',
       'award' => 'award',
       'contactPoint' => 'contactPoint',
       'description' => 'description',

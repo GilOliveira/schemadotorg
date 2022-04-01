@@ -26,10 +26,10 @@ interface SchemaDotOrgMappingTypeStorageInterface extends ConfigEntityStorageInt
    * @param string $type
    *   The Schema.org type.
    *
-   * @return string|null
-   *   The default bundle for an entity type and Schema.org type.
+   * @return array
+   *   The default bundles for an entity type and Schema.org type.
    */
-  public function getDefaultSchemaTypeBundle($entity_type_id, $type);
+  public function getDefaultSchemaTypeBundles($entity_type_id, $type);
 
   /**
    * Gets default Schema.org type for an entity type and bundle.

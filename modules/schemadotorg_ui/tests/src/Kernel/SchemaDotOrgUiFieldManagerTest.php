@@ -119,11 +119,11 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertFalse($this->fieldManager->fieldStorageExists('not_node', 'schema_alternate_name'));
     $this->assertTrue($this->fieldManager->fieldStorageExists('node', 'schema_identifier'));
 
-    // Check getting a field's label from an existing field instance.
-    $this->assertEquals('Alternate name', $this->fieldManager->getFieldLabel('node', 'schema_alternate_name'));
-    $this->assertNull($this->fieldManager->getFieldLabel('node', 'not_schema_alternate_name'));
-    $this->assertNull($this->fieldManager->getFieldLabel('not_node', 'schema_alternate_name'));
-    $this->assertNull($this->fieldManager->getFieldLabel('node', 'schema_identifier'));
+    // Check getting an existing field instance.
+    $this->assertEquals('Alternate name', $this->fieldManager->getField('node', 'schema_alternate_name')->label());
+    $this->assertNull($this->fieldManager->getField('node', 'not_schema_alternate_name'));
+    $this->assertNull($this->fieldManager->getField('not_node', 'schema_alternate_name'));
+    $this->assertNull($this->fieldManager->getField('node', 'schema_identifier'));
 
     // Check getting a Schema.org property's available field types as options.
     $expected_field_type_options = [

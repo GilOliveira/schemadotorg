@@ -1,38 +1,20 @@
 Schema.org Blueprints
 ---------------------
-Slides: https://www.slidescarnival.com/valentine-free-presentation-template/234
 
-Provides blueprints for leveraging Schema.org to build and manage an SEO and API-first content architecture in Drupal.
+Improve form validation
 
-The goal is to demo a content building framework that allows for progressive enhancements.
+- JSON:API
+- \Drupal\jsonapi_extras\EventSubscriber\JsonApiBuildSubscriber
 
-# Demo
-- Create User:Person via UI
-  - Note that contact point is use content when it should be using a paragraph.
-- Create Media:Image via UI
-- Create Media:* via Drush
-- Create Paragragh:* via Drush
-- Create Node:Organization via UI
-
-- What is needed for solid demo?
-  - Work example types created in the correct order.
-- Example models.
-- Dummy content.
-
--------------------
-
-
-Drush commands
-
-Add help to types and properties reports.
-- Help text will better define the functionality.
-- Note Schema.org version.
-- Link to source CSV.
-
-Fix devel generate
-- Start simple and determine what is broken.
-
---------------------------------------------------------------------------------
+- Bonus types
+  - Blog
+  - FAQPage
+  - QAPage
+  - Movie
+  - Article
+  - Blog Post
+  - Web Site
+  - Web Page
 
 Ongoing
 - Determine the recommended types per entity type.
@@ -46,7 +28,12 @@ Subtyping
   - For example, an Event can be subtyped to be a BusinessEvent, CourseInstance, EducationEvent, FoodEvent, etc...
   - Subtype properties can be included via condition logic.
 
+
 # TBD
+
+- What default for field/properties should be configurable
+  - How to handle unlimited fields?
+  - Allow unlimited to be specified via drush???
 
 - How do we implement common content types and components?
   - teaser
@@ -66,44 +53,8 @@ Subtyping
 - Why are we seeing 1329 types? (/admin/reports/schemadotorg/docs/types)
 
 - How to handle translations for imported data?
+  - Include descriptions added via the schemadotorg_descriptions.module
 
 - How can we validate the generated JSON-LD?
 
-# Drush
-
-Quick start
-
-```
-drush schemadotorg:create-type -y media AudioObject DataDownload ImageObject VideoObject
-drush schemadotorg:create-type -y paragraph ContactPoint PostalAddress
-drush schemadotorg:create-type -y user Person
-drush schemadotorg:create-type -y node Person Organization Place Event CreativeWork
-```
-
-# References
-
-Drupal Entities & Field
-
-- [Drupal content entity 8.0.pages](https://paperzz.com/doc/7052675/drupal-content-entity-8.0.pages)
-- [Defining and using Content Entity Field definitions](https://www.drupal.org/docs/drupal-apis/entity-api/defining-and-using-content-entity-field-definitions)
-
-Related Issues
-
-- [Issue #2152459: \[Policy\] Deprecate RDF module and move it to contrib](https://www.drupal.org/project/ideas/issues/2152459)
-
-# Contrib modules
-
-Required
-- https://www.drupal.org/project/paragraphs
-
-Recommended
-- https://www.drupal.org/project/key_value_field
-- https://www.drupal.org/project/field_token_value
-- https://www.drupal.org/project/flexfield
-- https://www.drupal.org/project/field_group
-
-Other
-
-- https://www.drupal.org/project/computed_field
-- https://www.drupal.org/project/entity_reference_override
-- https://www.drupal.org/project/field_tools
+- Should all the fields be prefixed with schema_* for field_*?

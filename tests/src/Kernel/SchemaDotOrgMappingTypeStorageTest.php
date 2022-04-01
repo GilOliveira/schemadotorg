@@ -54,13 +54,13 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
 
     // Check getting default bundle for an entity type and Schema.org type.
     $tests = [
-      ['', '', ''],
-      ['not', 'Person', ''],
-      ['user', 'Person', 'user'],
-      ['media', 'AudioObject', 'audio'],
+      ['', '', []],
+      ['not', 'Person', []],
+      ['user', 'Person', ['user' => 'user']],
+      ['media', 'AudioObject', ['audio' => 'audio']],
     ];
     foreach ($tests as $test) {
-      $this->assertEquals($test[2], $this->storage->getDefaultSchemaTypeBundle($test[0], $test[1]));
+      $this->assertEquals($test[2], $this->storage->getDefaultSchemaTypeBundles($test[0], $test[1]));
     }
 
     // Check getting default Schema.org type for an entity type and bundle.

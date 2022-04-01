@@ -123,7 +123,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * @param string $id
    *   A Schema.org type or property ID.
    * @param array $fields
-   *   Fields to returned.
+   *   Optional. Fields to be returned.
    *
    * @return array
    *   An associative array containing Schema.org type or property item.
@@ -136,24 +136,69 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    *
    * @param string $type
    *   The Schema.org type.
+   * @param array $fields
+   *   Optional. Fields to be returned.
    *
    * @return array|false
    *   An associative array containing Schema.org type definition,
    *   or FALSE if there is no type found.
    */
-  public function getType($type);
+  public function getType($type, array $fields = []);
 
   /**
    * Gets Schema.org property.
    *
    * @param string $property
    *   The Schema.org property.
+   * @param array $fields
+   *   Optional. Fields to be returned.
    *
    * @return array|false
    *   An associative array containing Schema.org property definition,
    *   or FALSE if there is no property found.
    */
-  public function getProperty($property);
+  public function getProperty($property, array $fields = []);
+
+  /**
+   * Gets Schema.org type or property items.
+   *
+   * @param string $table
+   *   A Schema.org table.
+   * @param array $ids
+   *   An array of Schema.org type or property IDs.
+   * @param array $fields
+   *   Optional. Fields to be returned.
+   *
+   * @return array
+   *   An array containing Schema.org type or property items.
+   */
+  public function getItems($table, array $ids, array $fields = []);
+
+  /**
+   * Gets Schema.org types.
+   *
+   * @param array $types
+   *   The Schema.org types.
+   * @param array $fields
+   *   Optional. Fields to be returned.
+   *
+   * @return array
+   *   An array containing Schema.org types.
+   */
+  public function getTypes(array $types, array $fields = []);
+
+  /**
+   * Gets Schema.org properties.
+   *
+   * @param array $properties
+   *   The Schema.org properties.
+   * @param array $fields
+   *   Optional. Fields to be returned.
+   *
+   * @return array
+   *   An array containing Schema.org types.
+   */
+  public function getProperties(array $properties, array $fields = []);
 
   /**
    * Gets a Schema.org type's properties.

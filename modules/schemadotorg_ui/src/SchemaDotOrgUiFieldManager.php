@@ -106,15 +106,14 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function getFieldLabel($entity_type_id, $field_name) {
+  public function getField($entity_type_id, $field_name) {
     $field_ids = $this->entityTypeManager->getStorage('field_config')->getQuery()
       ->condition('entity_type', $entity_type_id)
       ->condition('field_name', $field_name)
       ->execute();
     if ($field_ids) {
-      $field_config = $this->entityTypeManager->getStorage('field_config')
+      return $this->entityTypeManager->getStorage('field_config')
         ->load(reset($field_ids));
-      return $field_config->label();
     }
     else {
       return NULL;

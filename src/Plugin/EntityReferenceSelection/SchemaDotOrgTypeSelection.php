@@ -41,9 +41,10 @@ class SchemaDotOrgTypeSelection extends SchemaDotOrgSelectionBase {
       $target_bundles_items = [];
       foreach ($target_mappings as $target_mapping) {
         $target_bundle = $target_entity_type_storage->load($target_mapping->getTargetBundle());
-        $target_bundles_items[] = $target_bundle
-          ->toLink($target_bundle->label(), 'add-form')
-          ->toRenderable() + ['#suffix' => ' (' . $target_mapping->getSchemaType() . ')'];
+        $target_bundles_items[] = $this->t('@label (@type)', [
+          '@label' => $target_bundle->label(),
+          '@type' => $target_mapping->getSchemaType(),
+        ]);
       }
 
       // Display message about entity reference selection.

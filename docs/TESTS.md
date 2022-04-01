@@ -19,6 +19,12 @@ SchemaDotOrgUiRouteTest
 SchemaDotOrgMappingTypeFormTest.php
 SchemaDotOrgUiMappingFormTest
 
+
+\Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface::getItems
+\Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface::getTypes
+\Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface::getProperties
+
+schemadotorg_descriptions.module
 SchemaDotOrgUiJavaScript
 SchemaDotOrgEnumerationSelection.php
 SchemaDotOrgSelectionBase.php

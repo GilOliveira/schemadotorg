@@ -194,22 +194,25 @@ class SchemaDotOrgCommands extends DrushCommands {
       // Get the default bundle for the schema type.
       // Default bundles are only defined for the 'media' and 'user'
       // entity types.
-      $bundle = $mapping_type_storage->getDefaultSchemaTypeBundle($entity_type, $schema_type);
+      $bundles = $mapping_type_storage->getDefaultSchemaTypeBundles($entity_type, $schema_type)
+        ?: [$this->schemaNames->toDrupalName('types', $schema_type)];
+      foreach ($bundles as $bundle) {
+        // Create a new Schema.org mapping.
+        $schemadotorg_mapping = SchemaDotOrgMapping::create([
+          'target_entity_type_id' => $entity_type,
+          'target_bundle' => $bundle,
+          'type' => $schema_type,
+        ]);
 
-      // Create a new Schema.org mapping.
-      $schemadotorg_mapping = SchemaDotOrgMapping::create([
-        'target_entity_type_id' => $entity_type,
-        'target_bundle' => $bundle,
-        'type' => $schema_type,
-      ]);
+        /** @var \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm $form_object */
+        $form_object = $this->entityTypeManager->getFormObject('schemadotorg_mapping', 'add');
+        $form_object->setEntity($schemadotorg_mapping);
 
-      /** @var \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm $form_object */
-      $form_object = $this->entityTypeManager->getFormObject('schemadotorg_mapping', 'add');
-      $form_object->setEntity($schemadotorg_mapping);
+        // Submit the form.
+        $form_state = new FormState();
+        $this->formBuilder->submitForm($form_object, $form_state);
+      }
 
-      // Submit the form.
-      $form_state = new FormState();
-      $this->formBuilder->submitForm($form_object, $form_state);
     }
   }
 
