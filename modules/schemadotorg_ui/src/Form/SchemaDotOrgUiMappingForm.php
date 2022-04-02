@@ -60,6 +60,20 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   protected $schemaFieldManager;
 
   /**
+   * Custom default properties.
+   *
+   * @var array
+   */
+  protected $defaultProperties;
+
+  /**
+   * Custom unlimited properties.
+   *
+   * @var array
+   */
+  protected $unlimitedProperties;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -519,8 +533,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $field_options = $this->getFieldOptions();
     $property_definitions = $this->getSchemaTypePropertyDefinitions();
     $property_mappings = $this->getSchemaTypePropertyMappings();
-    $property_defaults = $this->getSchemaTypePropertyDefaults();
-    $property_unlimited = $this->getSchemaTypePropertyUnlimited();
+
+    $property_defaults = $this->getSchemaTypeDefaultProperties();
+    $property_unlimited = $this->getSchemaTypeUnlimitedProperties();
 
     // Header.
     $header = [
@@ -580,7 +595,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         if ($this->fieldStorageExists($field_name)) {
           $field_name_default_value = $field_name;
         }
-        elseif (in_array($property, $property_defaults)) {
+        elseif (isset($property_defaults[$property])) {
           $field_name_default_value = static::ADD_FIELD;
         }
       }
@@ -655,11 +670,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
         '#default_value' => $this->schemaTypeBuilder->formatComment($property_definition['comment'], ['base_path' => 'https://schema.org/']),
       ];
-      $unlimited_default_value = isset($property_unlimited[$property]);
       $row['field']['add']['unlimited'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Unlimited number of values'),
-        '#default_value' => $unlimited_default_value,
+        '#default_value' => isset($property_unlimited[$property]),
       ];
 
       // Highlight mapped properties.
@@ -870,14 +884,38 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
+   * Set default Schema.org properties.
+   *
+   * @param array $properties
+   *   Default Schema.org properties.
+   */
+  public function setSchemaTypeDefaultProperties(array $properties) {
+    $this->defaultProperties = $properties;
+  }
+
+  /**
    * Gets default Schema.org properties.
    *
    * @return array
    *   Default Schema.org properties.
    */
-  protected function getSchemaTypePropertyDefaults() {
+  protected function getSchemaTypeDefaultProperties() {
     $schema_type = $this->getSchemaType();
-    return $this->schemaTypeManager->getTypeDefaultProperties($schema_type);
+    $default_properties = $this->schemaTypeManager->getTypeDefaultProperties($schema_type);
+    if ($this->defaultProperties) {
+      $default_properties += array_combine($this->defaultProperties, $this->defaultProperties);
+    }
+    return $default_properties;
+  }
+
+  /**
+   * Set unlimited Schema.org properties.
+   *
+   * @param array $properties
+   *   Unlimited Schema.org properties.
+   */
+  public function setSchemaTypeUnlimitedProperties(array $properties) {
+    $this->unlimitedProperties = $properties;
   }
 
   /**
@@ -886,10 +924,14 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * @return array
    *   Unlimited Schema.org properties.
    */
-  protected function getSchemaTypePropertyUnlimited() {
-    $unlimited_fields = $this->config('schemadotorg.settings')
+  protected function getSchemaTypeUnlimitedProperties() {
+    $unlimited_properties = $this->config('schemadotorg.settings')
       ->get('schema_properties.default_unlimited_fields');
-    return $unlimited_fields ? array_combine($unlimited_fields, $unlimited_fields) : [];
+    $unlimited_properties = $unlimited_properties ? array_combine($unlimited_properties, $unlimited_properties) : [];
+    if ($this->unlimitedProperties) {
+      $unlimited_properties += array_combine($this->unlimitedProperties, $this->unlimitedProperties);
+    }
+    return $unlimited_properties;
   }
 
   /* ************************************************************************ */

@@ -101,7 +101,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->createMediaType('image', ['id' => 'image', 'label' => 'Image']);
     $this->drupalGet('/admin/structure/media/manage/image/schemedotorg');
     $this->submitForm([], 'Save');
-    $assert_session->responseContains('Added <em class="placeholder">About; Author; Content size; Content URL; Date published; Description; Headline; Image; Keywords; Mentions; Text</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Author; Content size; Content URL; Date published; Description; Headline; Image; Keywords; Text</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">Image</em> mapping.');
 
     // Check the 'ImageObject' mapping.
@@ -110,7 +110,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->assertEquals('media', $image_object_mapping->getTargetEntityTypeId());
     $this->assertEquals('image', $image_object_mapping->getTargetBundle());
     $expected_schema_properties = [
-      'schema_about' => ['property' => 'about'],
       'schema_author' => ['property' => 'author'],
       'schema_content_size' => ['property' => 'contentSize'],
       'schema_content_url' => ['property' => 'contentUrl'],
@@ -121,7 +120,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_headline' => ['property' => 'headline'],
       'schema_image' => ['property' => 'image'],
       'schema_keywords' => ['property' => 'keywords'],
-      'schema_mentions' => ['property' => 'mentions'],
       'name' => ['property' => 'name'],
       'schema_text' => ['property' => 'text'],
       'thumbnail' => ['property' => 'thumbnail'],
@@ -221,7 +219,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     // Create 'Person' user mapping.
     $this->drupalGet('/admin/config/people/accounts/schemedotorg');
     $this->submitForm([], 'Save');
-    $assert_session->responseContains('Added <em class="placeholder">Additional name; Address; Affiliation; Alumni of; Award; Birth date; Contact point; Description; Family name; Fax number; Gender; Given name; Honorific prefix; Honorific suffix; Job title; Knows language; Name; Nationality; Telephone; Works for</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Additional name; Address; Affiliation; Alumni of; Award; Birth date; Contact point; Description; Family name; Gender; Given name; Honorific prefix; Honorific suffix; Job title; Knows language; Name; Nationality; Telephone; Works for</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">User</em> mapping.');
 
     // Check the 'Person' field settings.
@@ -381,7 +379,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet('/admin/structure/types/schemadotorg', ['query' => ['type' => 'Place']]);
     $this->submitForm([], 'Save');
     $assert_session->responseContains('The content type <em class="placeholder">Place</em> has been added.');
-    $assert_session->responseContains('Added <em class="placeholder">Address; Description; Fax number; Image; Latitude; Longitude; Photo; Telephone</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Address; Description; Image; Photo; Telephone</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">Place</em> mapping.');
   }
 

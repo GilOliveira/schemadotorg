@@ -9,33 +9,19 @@ schema_types:
       - description
       - headline
       - keywords
-      - mentions
       - name
     MediaObject:
-      - author
       - contentSize
       - contentUrl
-      - dateCreated
-      - dateModified
-      - datePublished
-      - description
-      - headline
-      - keywords
-      - mentions
-      - name
+      - thumbnail
       - text
     AudioObject:
-      - author
       - duration
-    DataDownload:
-      - author
     ImageObject:
       - image
-      - thumbnail
     VideoObject:
       - duration
       - image
-      - thumbnail
       - video
     Article:
       - articleBody

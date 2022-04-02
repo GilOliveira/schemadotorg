@@ -134,63 +134,77 @@ class SchemaDotOrgCommands extends DrushCommands {
     }
 
     $arguments = $commandData->getArgsWithoutAppName();
-    $schema_types = $arguments['schema_types'] ?? [];
-    $entity_type = $arguments['entity_type'] ?? NULL;
-
-    // Required Schema.org type.
-    if (empty($schema_types)) {
-      throw new \Exception(dt('Schema.org types are required'));
+    $types = $arguments['types'] ?? [];
+    if (empty($types)) {
+      throw new \Exception(dt('Schema.org types are required.'));
     }
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
-
-    // Check for allowed and valid entity type.
     $entity_types = $mapping_type_storage->getEntityTypes();
-    if (!in_array($entity_type, $entity_types)) {
-      $t_args = [
-        '@entity_type' => $entity_type,
-        '@entity_types' => implode(', ', $entity_types),
-      ];
-      throw new \Exception($this->t("The entity type '@entity_type' is not valid. Please select a entity type (@entity_types).", $t_args));
-    }
 
-    // Check for valid Schema.org types.
-    foreach ($schema_types as $schema_type) {
+    // Validate mapping type, entity type, Schema.org type.
+    foreach ($types as $type) {
+      // Validate mapping type.
+      if (strpos($type, ':') === FALSE) {
+        $t_args = ['@type' => $type];
+        $message = $this->t("The Schema.org mapping type '@type' is not valid. A Schema.org type must be defined with an entity type and Schema.org type delimited using a colon (:).", $t_args);
+        throw new \Exception($message);
+      }
+      [$entity_type_id, $schema_type] = explode(':', $type);
+
+      // Validate entity type.
+      if (!in_array($entity_type_id, $entity_types)) {
+        $t_args = [
+          '@entity_type' => $entity_type_id,
+          '@entity_types' => implode(', ', $entity_types),
+        ];
+        $message = $this->t("The entity type '@entity_type' is not valid. Please select a entity type (@entity_types).", $t_args);
+        throw new \Exception($message);
+      }
+
+      // Validate Schema.org type.
       if (!$this->schemaTypeManager->isType($schema_type)) {
-        $t_args = ['@type' => $schema_type];
-        throw new \Exception($this->t("The Schema.org type '@type' is not valid. Please go to https://schema.org to find valid Schema.org types.", $t_args));
+        $t_args = ['@schema_type' => $schema_type];
+        $message = $this->t("The Schema.org type '@schema_type' is not valid.", $t_args);
+        throw new \Exception($message);
       }
     }
   }
 
   /**
-   * Create Schema.org type.
+   * Create Schema.org types.
    *
-   * @param string $entity_type
-   *   An entity type.
-   * @param array $schema_types
-   *   A list of Schema.org types.
+   * @param array $types
+   *   A list of Schema.org mapping types.
+   * @param array $options
+   *   (optional) An array of options.
    *
    * @command schemadotorg:create-type
    *
-   * @usage drush schemadotorg:create-type user Person
-   * @usage drush schemadotorg:create-type media AudioObject DataDownload ImageObject VideoObject
-   * @usage drush schemadotorg:create-type paragraph ContactPoint PostalAddress
-   * @usage drush schemadotorg:create-type node Person Organization Place Event CreativeWork
+   * @usage drush schemadotorg:create-type user:Person
+   * @usage drush schemadotorg:create-type media:AudioObject media:DataDownload media:ImageObject media:VideoObject
+   * @usage drush schemadotorg:create-type paragraph:ContactPoint paragraph:PostalAddress
+   * @usage drush schemadotorg:create-type node:Person node:Organization node:Place node:Event node:CreativeWork
+   * @usage drush schemadotorg:create-type --default-properties=longitude,latitude node:Place
+   *
+   * @option default-properties A comma delimited list of additional default Schema.org properties.
+   * @option unlimited-properties A comma delimited list of additional unlimited Schema.org properties.
    *
    * @aliases socr
    */
-  public function createType($entity_type, array $schema_types) {
-    $t_args = ['@schema_types' => implode(', ', $schema_types)];
-    if (!$this->io()->confirm($this->t('Are you sure you want to create Schema.org types (@schema_types)?', $t_args))) {
+  public function createType(array $types, array $options = ['default-properties' => NULL, 'unlimited-properties' => NULL]) {
+    $t_args = ['@types' => implode(', ', $types)];
+    if (!$this->io()->confirm($this->t('Are you sure you want to create these types (@types)?', $t_args))) {
       throw new UserAbortException();
     }
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
 
-    foreach ($schema_types as $schema_type) {
+    foreach ($types as $type) {
+      [$entity_type, $schema_type] = explode(':', $type);
+
       // Get the default bundle for the schema type.
       // Default bundles are only defined for the 'media' and 'user'
       // entity types.
@@ -206,13 +220,26 @@ class SchemaDotOrgCommands extends DrushCommands {
 
         /** @var \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm $form_object */
         $form_object = $this->entityTypeManager->getFormObject('schemadotorg_mapping', 'add');
+
+        // Set the Schema.org mapping entity in the form object.
         $form_object->setEntity($schemadotorg_mapping);
+
+        // Set custom default and unlimited properties.
+        $custom_properties = [
+          'default-properties' => 'setSchemaTypeDefaultProperties',
+          'unlimited-properties' => 'setSchemaTypeUnlimitedProperties',
+        ];
+        foreach ($custom_properties as $option_name => $method) {
+          if (!empty($options[$option_name])) {
+            $properties = preg_split('/\s*,\s*/', $options[$option_name]);
+            $form_object->$method($properties);
+          }
+        }
 
         // Submit the form.
         $form_state = new FormState();
         $this->formBuilder->submitForm($form_object, $form_state);
       }
-
     }
   }
 
@@ -227,11 +254,10 @@ class SchemaDotOrgCommands extends DrushCommands {
    */
   public function deleteTypeValidate(CommandData $commandData) {
     $arguments = $commandData->getArgsWithoutAppName();
-    $entity_type = $arguments['entity_type'] ?? NULL;
-    $schema_types = $arguments['schema_types'] ?? [];
+    $types = $arguments['types'] ?? [];
 
-    // Required Schema.org type.
-    if (empty($schema_types)) {
+    // Require Schema.org types.
+    if (empty($types)) {
       throw new \Exception(dt('Schema.org types are required'));
     }
 
@@ -239,12 +265,15 @@ class SchemaDotOrgCommands extends DrushCommands {
     $schemadotorg_mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
 
     // Check for valid Schema.org mapping.
-    foreach ($schema_types as $schema_type) {
+    foreach ($types as $type) {
+      [$entity_type, $schema_type] = explode(':', $type);
+
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $schemadotorg_mappings */
       $schemadotorg_mappings = $schemadotorg_mapping_storage->loadByProperties([
         'target_entity_type_id' => $entity_type,
         'type' => $schema_type,
       ]);
+
       if (empty($schemadotorg_mappings)) {
         $t_args = ['@entity_type' => $entity_type, '@schema_type' => $schema_type];
         throw new \Exception($this->t("No Schema.org mapping exists for @schema_type (@entity_type).", $t_args));
@@ -255,28 +284,26 @@ class SchemaDotOrgCommands extends DrushCommands {
   /**
    * Delete Schema.org type.
    *
-   * @param string $entity_type
-   *   An entity type.
-   * @param array $schema_types
-   *   A list of Schema.org types.
+   * @param array $types
+   *   A list of Schema.org mapping types.
    * @param array $options
    *   (optional) An array of options.
    *
    * @command schemadotorg:delete-type
    *
-   * @usage drush schemadotorg:delete-type --delete-fields user Person
-   * @usage drush schemadotorg:delete-type --delete-fields media AudioObject DataDownload ImageObject VideoObject
-   * @usage drush schemadotorg:delete-type --delete-entity paragraph ContactPoint PostalAddress
-   * @usage drush schemadotorg:delete-type --delete-entity node Person Organization Place Event CreativeWork
+   * @usage drush schemadotorg:delete-type --delete-fields user:Person
+   * @usage drush schemadotorg:delete-type --delete-fields media:AudioObject media:DataDownload media:ImageObject media:VideoObject
+   * @usage drush schemadotorg:delete-type --delete-entity paragraph:ContactPoint paragraph:PostalAddress
+   * @usage drush schemadotorg:delete-type --delete-entity node:Person node:Organization node:Place node:Event node:CreativeWork
    *
    * @option delete-entity Delete the entity associated with the Schema.org type.
    * @option delimiter Delete the fields associated with the Schema.org type.
    *
    * @aliases sode
    */
-  public function deleteType($entity_type, array $schema_types, array $options = ['delete-entity' => FALSE, 'delete-fields' => FALSE]) {
-    $t_args = ['@schema_types' => implode(', ', $schema_types)];
-    if (!$this->io()->confirm($this->t('Are you sure you want to delete these Schema.org types (@schema_types) and their associated entities and fields?', $t_args))) {
+  public function deleteType(array $types, array $options = ['delete-entity' => FALSE, 'delete-fields' => FALSE]) {
+    $t_args = ['@types' => implode(', ', $types)];
+    if (!$this->io()->confirm($this->t('Are you sure you want to delete these Schema.org types (@types) and their associated entities and fields?', $t_args))) {
       throw new UserAbortException();
     }
 
@@ -290,7 +317,9 @@ class SchemaDotOrgCommands extends DrushCommands {
       $field_config_storage = $this->entityTypeManager->getStorage('field_config');
     }
 
-    foreach ($schema_types as $schema_type) {
+    foreach ($types as $type) {
+      [$entity_type, $schema_type] = explode(':', $type);
+
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $schemadotorg_mappings */
       $schemadotorg_mappings = $schemadotorg_mapping_storage->loadByProperties([
         'target_entity_type_id' => $entity_type,
