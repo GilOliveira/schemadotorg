@@ -60,11 +60,9 @@ schema_types:
       - startDate
     Organization:
       - address
-      - award
       - contactPoint
       - description
       - email
-      - faxNumber
       - image
       - location
       - name
@@ -81,7 +79,6 @@ schema_types:
       - description
       - email
       - familyName
-      - faxNumber
       - gender
       - givenName
       - honorificPrefix
@@ -96,40 +93,20 @@ schema_types:
     Place:
       - address
       - description
-      - faxNumber
       - image
-      - latitude
-      - longitude
       - name
       - photo
       - telephone
     Recipe:
-      - abstract
-      - alternativeHeadline
-      - audience
-      - author
-      - dateCreated
-      - dateModified
-      - datePublished
-      - description
-      - image
-      - keywords
-      - mentions
-      - name
       - nationality
       - nutrition
-      - organizer
-      - performer
-      - parentOrganization
       - photo
       - recipeCategory
       - recipeCuisine
       - recipeIngredient
       - recipeInstructions
       - recipeYield
-      - startDate
       - suitableForDiet
-      - telephone
       - text
       - totalTime
       - thumbnailUrl
@@ -172,16 +149,29 @@ schema_types:
       - sku
       - weight
       - width
+    StructuredValue:
+      - name
+    NutritionInformation:
+      - calories
+      - carbohydrateContent
+      - cholesterolContent
+      - fatContent
+      - fiberContent
+      - proteinContent
+      - saturatedFatContent
+      - servingSize
+      - sodiumContent
+      - sugarContent
+      - transFatContent
+      - unsaturatedFatContent
     ContactPoint:
       - contactOption
       - email
-      - name
       - telephone
     OpeningHoursSpecification:
       - closes
       - dayOfWeek
       - description
-      - name
       - opens
     PostalAddress:
       - addressCountry
@@ -193,19 +183,16 @@ schema_types:
       - email
       - hoursAvailable
       - image
-      - name
       - postOfficeBoxNumber
       - postalCode
       - streetAddress
       - telephone
     QuantitativeValue:
-      - name
       - value
       - valueReference
       - unitCode
       - unitText
     PropertyValue:
-      - name
       - value
       - valueReference
       - unitCode
@@ -301,6 +288,10 @@ schema_properties:
     - mentions
     - photo
     - relatedLink
+    - recipeCategory
+    - recipeCuisine
+    - recipeIngredient
+    - recipeInstructions
     - significantLink
     - sponsor
     - suitableForDiet

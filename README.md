@@ -3,6 +3,9 @@ Schema.org Blueprints
 
 Improve form validation
 
+drush schemadotorg:create-type media:AudioObject
+drush schemadotorg:delete-type --delete-fields user:Person
+
 - Bonus types
   - HowTo
   - FAQPage

@@ -360,7 +360,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       foreach ($types as $type => $item) {
         if (!isset($terms_lookup[$type])) {
           $term = $term_storage->create([
-            'name' => $this->schemaNames->toDrupalName('types', $item['label']),
+            'name' => $this->schemaNames->toDrupalLabel('types', $item['label']),
             'vid' => $vocabulary_id,
             'schema_type' => ['value' => $type],
           ]);
