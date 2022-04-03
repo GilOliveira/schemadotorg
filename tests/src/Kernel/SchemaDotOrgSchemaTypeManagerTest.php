@@ -130,6 +130,32 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertEquals('name', $property['label']);
     $this->assertEquals('The name of the item.', $property['comment']);
 
+    // Check getting Schema.org type or property items.
+    $items = $this->schemaTypeManager->getItems('types', ['Thing', 'Place']);
+    $this->assertEquals('https://schema.org/Thing', $items['Thing']['id']);
+    $this->assertEquals('Thing', $items['Thing']['label']);
+    $this->assertEquals('The most generic type of item.', $items['Thing']['comment']);
+    $this->assertEquals('https://schema.org/Place', $items['Place']['id']);
+    $this->assertEquals('Place', $items['Place']['label']);
+    $this->assertEquals('Entities that have a somewhat fixed, physical extension.', $items['Place']['comment']);
+
+    // Check getting Schema.org types.
+    $types = $this->schemaTypeManager->getTypes(['Thing', 'Place'], ['id', 'label']);
+    $this->assertEquals('https://schema.org/Thing', $types['Thing']['id']);
+    $this->assertEquals('Thing', $types['Thing']['label']);
+    $this->assertArrayNotHasKey('comment', $types['Thing']);
+    $this->assertEquals('https://schema.org/Place', $types['Place']['id']);
+    $this->assertEquals('Place', $types['Place']['label']);
+    $this->assertArrayNotHasKey('comment', $types['Place']);
+
+    // Check getting Schema.org properties.
+    $expected_properties = [
+      'alternateName' => ['label' => 'alternateName'],
+      'name' => ['label' => 'name'],
+    ];
+    $actual_properties = $this->schemaTypeManager->getProperties(['name', 'alternateName'], ['label']);
+    $this->assertEquals($expected_properties, $actual_properties);
+
     // Check getting a Schema.org type's properties.
     $type_properties = $this->schemaTypeManager->getTypeProperties('Thing', ['label']);
     $properties = ['additionalType', 'alternateName', 'description', 'disambiguatingDescription', 'identifier', 'image', 'name', 'url'];
@@ -149,7 +175,6 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
       'description' => 'description',
       'email' => 'email',
       'familyName' => 'familyName',
-      'faxNumber' => 'faxNumber',
       'gender' => 'gender',
       'givenName' => 'givenName',
       'honorificPrefix' => 'honorificPrefix',
@@ -166,15 +191,11 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertEquals($expected_default_properties, $actual_default_properties);
     $expected_default_properties = [
       'address' => 'address',
-      'award' => 'award',
       'contactPoint' => 'contactPoint',
       'description' => 'description',
       'email' => 'email',
-      'faxNumber' => 'faxNumber',
       'image' => 'image',
-      'latitude' => 'latitude',
       'location' => 'location',
-      'longitude' => 'longitude',
       'name' => 'name',
       'parentOrganization' => 'parentOrganization',
       'photo' => 'photo',

@@ -19,18 +19,18 @@ SchemaDotOrgUiRouteTest
 SchemaDotOrgMappingTypeFormTest.php
 SchemaDotOrgUiMappingFormTest
 
-
-\Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface::getItems
-\Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface::getTypes
-\Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface::getProperties
+SchemaDotOrgEnumerationSelection.php
+SchemaDotOrgSelectionBase.php
+SchemaDotOrgTypeSelection.php
+  \Drupal\KernelTests\Core\Entity\EntityReferenceSelection\EntityReferenceSelectionSortTest
+  \Drupal\Tests\taxonomy\Kernel\TermEntityReferenceTest
+  \Drupal\Tests\system\Kernel\Entity\EntityReferenceSelectionReferenceableTest
 
 schemadotorg_descriptions.module
 schemadotorg_jsonapi.module
 
 SchemaDotOrgUiJavaScript
-SchemaDotOrgEnumerationSelection.php
-SchemaDotOrgSelectionBase.php
-SchemaDotOrgTypeSelection.php
+
 SchemaDotOrgSettingsForm.php: Validation etc....
 SchemaDotOrgCommands.php
 

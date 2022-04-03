@@ -14,10 +14,12 @@ Ongoing
 - Build out the unlimited property list.
 
 Subtyping
-- schemadotorg_subtype use Thing
-- Add subtyping to entity type.
-  - Sub typing allows content editors to specify a more specific type for an entity.
+- Field is called schema_type use Thing
+- Enable subtyping for @type type.
+  - If checked, a custom 'Type' field will be added to the entity that allow content authors to specify a more specific type for an entity.
   - For example, an Event can be subtyped to be a BusinessEvent, CourseInstance, EducationEvent, FoodEvent, etc...
+  - Subtypes are pulled from the @vocabulary
+  - Only published subtypes will be displayed
   - Subtype properties can be included via condition logic.
 
 

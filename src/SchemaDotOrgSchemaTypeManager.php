@@ -190,7 +190,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
     if (empty($fields)) {
       $result = $this->database->query('SELECT *
         FROM {' . $this->database->escapeTable($table_name) . '}
-        WHERE label IN (:id[])', [':id[]' => $ids])->execute();
+        WHERE label IN (:ids[])', [':ids[]' => $ids]);
     }
     else {
       $result = $this->database->select($table_name, 't')
