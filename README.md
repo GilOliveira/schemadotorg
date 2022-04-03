@@ -14,6 +14,10 @@ Ongoing
 - Build out the unlimited property list.
 
 Subtyping
+SchemaDotOrgTypeSelection => SchemaDotOrgRangeIncludesSelection
+SchemaDotOrgEnumerationSelection => SchemaDotOrgEnumerationSelection
+SchemaDotOrgEnumerationSelection => SchemaDotOrgEnumerationSelection
+
 - Field is called schema_type use Thing
 - Enable subtyping for @type type.
   - If checked, a custom 'Type' field will be added to the entity that allow content authors to specify a more specific type for an entity.

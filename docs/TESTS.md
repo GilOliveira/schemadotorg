@@ -20,8 +20,6 @@ SchemaDotOrgMappingTypeFormTest.php
 SchemaDotOrgUiMappingFormTest
 SchemaDotOrgEnumerationSelection.php
 SchemaDotOrgSelectionBase.php
-
-
 SchemaDotOrgTypeSelection.php
 
 schemadotorg_descriptions.module

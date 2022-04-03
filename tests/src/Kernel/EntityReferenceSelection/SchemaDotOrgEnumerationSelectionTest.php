@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\system\Kernel\Entity;
+namespace Drupal\Tests\schemadotorg\Kernel\EntityReferenceSelection;
 
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Routing\RouteMatch;
@@ -107,13 +107,14 @@ class SchemaDotOrgEnumerationSelectionTest extends SchemaDotOrgKernelTestBase {
    * Tests SchemaDotOrgReportBreadcrumbBuilder::camelCaseToSnakeCase().
    */
   public function testEnumerationSelection() {
+    $form = [];
+    $form_state = new FormState();
+
     // Check referenceable entities.
     $referenceable_entities = $this->selectionHandler->getReferenceableEntities();
     $this->assertEquals(['Female', 'Male'], array_values($referenceable_entities['schema_enumeration']));
 
     // Check displaying message when the enumeration is found.
-    $form = [];
-    $form_state = new FormState();
     $form = $this->selectionHandler->buildConfigurationForm($form, $form_state);
     $this->assertEquals("<p>Taxonomy terms (Gender Type) will be automatically available based this field's associated Schema.org property enumeration.</p>", $form['message']['#markup']);
 

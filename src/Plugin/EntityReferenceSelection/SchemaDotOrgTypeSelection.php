@@ -73,6 +73,7 @@ class SchemaDotOrgTypeSelection extends SchemaDotOrgSelectionBase {
       ];
     }
     else {
+      // Display message that the field is not mapped.
       $t_args = [
         '@entity_type' => $bundle_entity_type->getSingularLabel(),
       ];
