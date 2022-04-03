@@ -13,13 +13,6 @@ use Drupal\Core\Language\LanguageInterface;
 class SchemaDotOrgMappingListBuilderTest extends SchemaDotOrgKernelTestBase {
 
   /**
-   * Modules to enable.
-   *
-   * @var array
-   */
-  protected static $modules = ['schemadotorg'];
-
-  /**
    * {@inheritdoc}
    */
   protected function setUp() {

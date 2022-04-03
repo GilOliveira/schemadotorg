@@ -19,13 +19,7 @@ class SchemaDotOrgInstallerTest extends SchemaDotOrgKernelTestBase {
    *
    * @var array
    */
-  protected static $modules = [
-    'user',
-    'field',
-    'text',
-    'taxonomy',
-    'schemadotorg',
-  ];
+  protected static $modules = ['user', 'field', 'text', 'taxonomy'];
 
   /**
    * The Schema.org installer service.

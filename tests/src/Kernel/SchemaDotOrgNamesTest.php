@@ -11,13 +11,6 @@ namespace Drupal\Tests\schemadotorg\Kernel;
 class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
 
   /**
-   * Modules to enable.
-   *
-   * @var array
-   */
-  protected static $modules = ['schemadotorg'];
-
-  /**
    * The Schema.org names service.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface

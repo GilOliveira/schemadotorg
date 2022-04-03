@@ -20,7 +20,7 @@ class SchemaDotOrgMappingFormTest extends SchemaDotOrgKernelTestBase {
    *
    * @var array
    */
-  protected static $modules = ['system', 'user', 'node', 'field', 'schemadotorg'];
+  protected static $modules = ['system', 'user', 'node', 'field'];
 
   /**
    * A node type.

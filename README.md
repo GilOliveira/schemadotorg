@@ -21,6 +21,7 @@ Subtyping
   - Subtypes are pulled from the @vocabulary
   - Only published subtypes will be displayed
   - Subtype properties can be included via condition logic.
+  - SchemaDotOrgTypeSelection => SchemaDotOrgTypeRangeIncludesSelection
 
 
 # TBD

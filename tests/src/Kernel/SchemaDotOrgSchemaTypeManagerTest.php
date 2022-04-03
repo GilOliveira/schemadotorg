@@ -13,13 +13,6 @@ use Drupal\Component\Utility\NestedArray;
 class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
 
   /**
-   * Modules to enable.
-   *
-   * @var array
-   */
-  protected static $modules = ['schemadotorg'];
-
-  /**
    * The Schema.org schema type manager.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface

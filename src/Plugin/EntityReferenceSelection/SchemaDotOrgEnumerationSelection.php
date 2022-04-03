@@ -29,6 +29,7 @@ class SchemaDotOrgEnumerationSelection extends SchemaDotOrgSelectionBase {
 
     $tids = $this->getSchemaEnumerationTermIds();
     if ($tids) {
+      // Display message when the enumeration is found.
       $entity_type_storage = $this->entityTypeManager->getStorage($entity_type_id);
       $terms = $entity_type_storage->loadMultiple($tids);
       $labels = [];
@@ -44,6 +45,7 @@ class SchemaDotOrgEnumerationSelection extends SchemaDotOrgSelectionBase {
       ];
     }
     else {
+      // Display message when the enumeration is not found.
       $t_args = [
         '@entity_type' => $entity_type->getSingularLabel(),
       ];

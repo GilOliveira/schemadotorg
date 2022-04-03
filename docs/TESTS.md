@@ -18,13 +18,11 @@ SchemaDotOrgUiFieldManagerTest
 SchemaDotOrgUiRouteTest
 SchemaDotOrgMappingTypeFormTest.php
 SchemaDotOrgUiMappingFormTest
-
 SchemaDotOrgEnumerationSelection.php
 SchemaDotOrgSelectionBase.php
+
+
 SchemaDotOrgTypeSelection.php
-  \Drupal\KernelTests\Core\Entity\EntityReferenceSelection\EntityReferenceSelectionSortTest
-  \Drupal\Tests\taxonomy\Kernel\TermEntityReferenceTest
-  \Drupal\Tests\system\Kernel\Entity\EntityReferenceSelectionReferenceableTest
 
 schemadotorg_descriptions.module
 schemadotorg_jsonapi.module

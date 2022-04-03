@@ -14,13 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 class SchemaDotOrgAutocompleteControllerTest extends SchemaDotOrgKernelTestBase {
 
   /**
-   * Modules to enable.
-   *
-   * @var array
-   */
-  protected static $modules = ['schemadotorg'];
-
-  /**
    * The Schema.org autocomplete controller.
    *
    * @var \Drupal\schemadotorg\Controller\SchemaDotOrgAutocompleteController

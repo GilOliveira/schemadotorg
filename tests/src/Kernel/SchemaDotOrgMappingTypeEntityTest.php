@@ -15,7 +15,7 @@ class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
    *
    * @var array
    */
-  protected static $modules = ['system', 'user', 'node', 'schemadotorg'];
+  protected static $modules = ['system', 'user', 'node'];
 
   /**
    * The Schema.org mapping storage.
