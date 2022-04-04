@@ -38,8 +38,15 @@
           // Enable links.
           // @see https://stackoverflow.com/questions/8378561/js-tree-links-not-active
           $jstree.on("activate_node.jstree", function (e, data) {
-            window.location.href = data.node.a_attr.href;
-          })
+            var href = data.node.a_attr.href;
+            if (Drupal.schemaDotOrgOpenDialog) {
+              Drupal.schemaDotOrgOpenDialog(href);
+            }
+            else {
+              window.location.href = href;
+            }
+            return false;
+          });
 
           // Create toggle button.
           var collapseLabel = Drupal.t('Collapse all');

@@ -79,6 +79,7 @@ class SchemaDotOrgTypeSelection extends SchemaDotOrgSelectionBase {
         '#title' => $this->t('More specific Schema.org subtypes'),
         'items' => $this->schemaTypeBuilder->buildTypeTree($tree),
       ];
+      $form['#attached']['library'][] = 'schemadotorg/schemadotorg.dialog';
     }
     elseif ($this->getSchemaMapping()) {
       // Display message when the Schema.org type has no subtypes.

@@ -13,7 +13,6 @@ Ongoing
 - Build out the default schema types properties.
 
 Subtyping
-- Subtype tree opens dialogs
 - Determine the 'Type' field description.
 
 # TBD

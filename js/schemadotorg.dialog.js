@@ -28,4 +28,25 @@
     }
   }
 
+  /**
+   * Programmatically open a Schema.org type or property in a dialog.
+   *
+   * @param {string} url
+   *   Webform URL.
+   */
+  Drupal.schemaDotOrgOpenDialog = function (url) {
+    if (url.indexOf('/admin/reports/schemadotorg/') === -1) {
+      window.location.href = url;
+    }
+    else {
+      // Create a div with link but don't attach it to the page.
+      var $div = $('<div><a href="' + url + '"></a></div>');
+      // Init the dialog behavior.
+      Drupal.behaviors.schemaDotOrgDialog.attach($div);
+      // Trigger the link.
+      $div.find('a').trigger('click');
+    }
+
+  };
+
 } (jQuery, Drupal));
