@@ -51,6 +51,9 @@ function schemadotorg_field_config_presave(EntityInterface $entity) {
 
 /**
  * Implements hook_ENTITY_TYPE_delete().
+ *
+ * @todo Move this to SchemaDotOrgMapping::onDependencyRemoval.
+ * @see \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::onDependencyRemoval
  */
 function schemadotorg_field_config_delete(EntityInterface $entity) {
   /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */

@@ -122,7 +122,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   public function setSchemaSubtype($subtype);
 
   /**
-   * Sets the Schema.org mapping supports subtyping.
+   * Gets Schema.org mapping supports subtyping.
    *
    * @return bool
    *   TRUE if the Schema.org mapping supports subtyping.

@@ -21,9 +21,9 @@ SchemaDotOrgUiMappingFormTest
 SchemaDotOrgEnumerationSelection.php
 SchemaDotOrgSelectionBase.php
 SchemaDotOrgRangeIncludesSelection.php
+SchemaDotOrgTypeSelection.php
 
-\Drupal\schemadotorg\Plugin\EntityReferenceSelection\SchemaDotOrgTypeSelection
-- Check depth
+\Drupal\schemadotorg\Plugin\EntityReferenceSelection\
 - Check unpublished.
 - Subtype testing.
 

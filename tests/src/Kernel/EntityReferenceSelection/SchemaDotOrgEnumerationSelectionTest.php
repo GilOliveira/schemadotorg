@@ -104,7 +104,7 @@ class SchemaDotOrgEnumerationSelectionTest extends SchemaDotOrgKernelTestBase {
   }
 
   /**
-   * Tests SchemaDotOrgReportBreadcrumbBuilder::camelCaseToSnakeCase().
+   * Tests enumeration selection.
    */
   public function testEnumerationSelection() {
     $form = [];

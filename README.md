@@ -15,6 +15,8 @@ Ongoing
 - Review all description.
 - Determine the 'Type' field description.
 
+Work \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
+
 # TBD
 
 - How do we implement common content types and components?

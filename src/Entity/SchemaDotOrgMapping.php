@@ -4,6 +4,8 @@ namespace Drupal\schemadotorg\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\FieldConfigInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
@@ -286,9 +288,12 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
     $changed = parent::onDependencyRemoval($dependencies);
     foreach ($dependencies['config'] as $entity) {
       if ($entity->getEntityTypeId() === 'field_config') {
+        /** @var \Drupal\field\FieldConfigInterface $entity */
         // Remove properties for fields that are being deleted.
-        $this->removeSchemaProperty($entity->getName());
-        $changed = TRUE;
+        if ($this->getSchemaPropertyMapping($entity->getName())) {
+          $this->removeSchemaProperty($entity->getName());
+          $changed = TRUE;
+        }
       }
     }
     return $changed;

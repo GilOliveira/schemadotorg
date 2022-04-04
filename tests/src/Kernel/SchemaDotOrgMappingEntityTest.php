@@ -8,6 +8,7 @@ use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\node\Entity\NodeType;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
  * Tests the Schema.org mapping entity.
@@ -82,12 +83,23 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
       'bundle' => 'thing',
       'field_name' => 'schema_alternate_name',
     ])->save();
+    FieldStorageConfig::create([
+      'entity_type' => 'node',
+      'field_name' => 'schema_type',
+      'type' => 'string',
+    ])->save();
+    FieldConfig::create([
+      'entity_type' => 'node',
+      'bundle' => 'thing',
+      'field_name' => 'schema_type',
+    ])->save();
 
     // Create Thing with mapping.
     $node_mapping = SchemaDotOrgMapping::create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'thing',
       'type' => 'Thing',
+      'subtype' => TRUE,
       'properties' => [
         'title' => ['property' => 'name'],
         'schema_alternate_name' => ['property' => 'alternateName'],
@@ -101,6 +113,7 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
       'target_entity_type_id' => 'user',
       'target_bundle' => 'user',
       'type' => 'Person',
+      'subtype' => FALSE,
       'properties' => [
         'name' => ['property' => 'name'],
       ],
@@ -173,6 +186,17 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     $this->assertEquals('Cat', $node_mapping->getSchemaType());
     $node_mapping->setSchemaType('Thing');
 
+    // Check getting the Schema.org subtype status.
+    $this->assertTrue($node_mapping->getSchemaSubtype());
+    $this->assertFalse($user_mapping->getSchemaSubtype());
+
+    // Check setting the Schema.org subtype status.
+    $user_mapping->setSchemaSubtype(TRUE);
+
+    // Check Schema.org mapping supports subtyping.
+    $this->assertTrue($node_mapping->supportsSubtyping());
+    $this->assertTrue($user_mapping->supportsSubtyping());
+
     // Check getting the mappings for all Schema.org properties.
     $expected_schema_properties = [
       'title' => ['property' => 'name'],
@@ -214,6 +238,26 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     $this->nodeType->delete();
     $this->storage->resetCache();
     $this->assertNull($this->storage->load('node.thing'));
+  }
+
+  /**
+   * Test Schema.org mapping entity subtype.
+   *
+   * @see schemadotorg_field_config_delete()
+   */
+  public function testSchemaDotOrgMappingEntitySubtype() {
+    // Check that thing supports subtyping.
+    $this->assertTrue($this->nodeMapping->supportsSubtyping());
+
+    // Delete the schema_type field.
+    FieldConfig::loadByName('node', 'thing', 'schema_type')->delete();
+
+    // Reload the thing mapping.
+    $this->storage->resetCache();
+    $this->nodeMapping = $this->storage->load('node.thing');
+
+    // Check that thing no longer supports subtyping.
+    $this->assertFalse($this->nodeMapping->supportsSubtyping());
   }
 
 }

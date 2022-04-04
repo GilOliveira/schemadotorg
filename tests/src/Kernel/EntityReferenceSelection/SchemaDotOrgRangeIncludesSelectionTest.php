@@ -123,7 +123,7 @@ class SchemaDotOrgRangeIncludesSelectionTest extends SchemaDotOrgKernelTestBase 
   }
 
   /**
-   * Tests SchemaDotOrgReportBreadcrumbBuilder::camelCaseToSnakeCase().
+   * Tests range includes selection.
    */
   public function testEnumerationSelection() {
     $form = [];
