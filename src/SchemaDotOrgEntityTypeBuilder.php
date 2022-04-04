@@ -392,7 +392,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
             break;
 
           default:
-            $handler = 'schemadotorg_type';
+            $handler = 'schemadotorg_range_includes';
             break;
         }
         $field_values['settings'] = [

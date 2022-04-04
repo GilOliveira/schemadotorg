@@ -13,10 +13,10 @@ require_once __DIR__ . '/includes/schemadotorg.allowed_values.inc';
  * Hook_entity_reference_selection_alter().
  */
 function schemadotorg_entity_reference_selection_alter(array &$definitions) {
-  if (isset($definitions['schemadotorg_type'])) {
+  if (isset($definitions['schemadotorg_range_includes'])) {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping_type');
-    $definitions['schemadotorg_type']['entity_types'] = $mapping_type_storage->getEntityTypes();
+    $definitions['schemadotorg_range_includes']['entity_types'] = $mapping_type_storage->getEntityTypes();
   }
 }
 

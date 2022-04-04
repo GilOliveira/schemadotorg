@@ -11,16 +11,16 @@ use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
  * The 'entity_types' are set via schemadotorg_entity_reference_selection_alter.
  *
  * @EntityReferenceSelection(
- *   id = "schemadotorg_type",
+ *   id = "schemadotorg_range_includes",
  *   label = @Translation("Scheme.org type"),
- *   group = "schemadotorg_type",
+ *   group = "default",
  *   entity_types = {},
  *   weight = 0
  * )
  *
  * @see schemadotorg_entity_reference_selection_alter()
  */
-class SchemaDotOrgTypeSelection extends SchemaDotOrgSelectionBase {
+class SchemaDotOrgRangeIncludesSelection extends SchemaDotOrgSelectionBase {
 
   /**
    * {@inheritdoc}

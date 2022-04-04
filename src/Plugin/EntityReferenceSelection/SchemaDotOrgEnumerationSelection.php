@@ -10,7 +10,7 @@ use Drupal\Core\Form\FormStateInterface;
  * @EntityReferenceSelection(
  *   id = "schemadotorg_enumeration",
  *   label = @Translation("Scheme.org enumeration"),
- *   group = "schemadotorg_enumeration",
+ *   group = "default",
  *   entity_types = {"taxonomy_term"},
  *   weight = 0
  * )

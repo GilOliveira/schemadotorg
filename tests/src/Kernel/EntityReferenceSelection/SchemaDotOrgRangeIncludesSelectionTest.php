@@ -17,7 +17,7 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelTestBase;
  * @group schemadotorg
  * @see \Drupal\Tests\system\Kernel\Entity\EntityReferenceSelectionReferenceableTest
  */
-class SchemaDotOrgTypeSelectionTest extends SchemaDotOrgKernelTestBase {
+class SchemaDotOrgRangeIncludesSelectionTest extends SchemaDotOrgKernelTestBase {
 
   use EntityReferenceTestTrait;
 
@@ -38,7 +38,7 @@ class SchemaDotOrgTypeSelectionTest extends SchemaDotOrgKernelTestBase {
   /**
    * The selection handler.
    *
-   * @var \Drupal\schemadotorg\Plugin\EntityReferenceSelection\SchemaDotOrgEnumerationSelection
+   * @var \Drupal\schemadotorg\Plugin\EntityReferenceSelection\SchemaDotOrgRangeIncludesSelection
    */
   protected $selectionHandler;
 
@@ -75,7 +75,7 @@ class SchemaDotOrgTypeSelectionTest extends SchemaDotOrgKernelTestBase {
       'bundle' => 'person',
       'field_name' => 'schema_works_for',
       'settings' => [
-        'handler' => 'schemadotorg_type',
+        'handler' => 'schemadotorg_range_includes',
         'handler_settings' => [
           'target_type' => 'node',
           'schemadotorg_mapping' => [

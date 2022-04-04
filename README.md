@@ -11,28 +11,29 @@ Improve form validation
 Ongoing
 - Determine the recommended types per entity type.
 - Build out the default schema types properties.
-- Build out the unlimited property list.
 
 Subtyping
-SchemaDotOrgTypeSelection => SchemaDotOrgRangeIncludesSelection
-SchemaDotOrgEnumerationSelection => SchemaDotOrgEnumerationSelection
-SchemaDotOrgEnumerationSelection => SchemaDotOrgEnumerationSelection
+- Add settings
+- Add Selection handler
 
 - Field is called schema_type use Thing
-- Enable subtyping for @type type.
-  - If checked, a custom 'Type' field will be added to the entity that allow content authors to specify a more specific type for an entity.
-  - For example, an Event can be subtyped to be a BusinessEvent, CourseInstance, EducationEvent, FoodEvent, etc...
-  - Subtypes are pulled from the @vocabulary
+- [Checkbox] Enable subtyping.
+  - If checked, a custom 'Type' (schema_type) field is added to the entity
+    which allows content authors to specify a more specific (sub)type for
+    the entity.
+  - Subtypes for @type included EventA, EventB, etc...
+  - Subtypes are pulled from the @vocabulary.
   - Only published subtypes will be displayed
+
+  - If checked, Subtyping is enabled.
+  - schema_types.default_subtypes
+    - Event
+  - Add --enable-subtype to drush create-type command
   - Subtype properties can be included via condition logic.
   - SchemaDotOrgTypeSelection => SchemaDotOrgTypeRangeIncludesSelection
 
 
 # TBD
-
-- What default for field/properties should be configurable
-  - How to handle unlimited fields?
-  - Allow unlimited to be specified via drush???
 
 - How do we implement common content types and components?
   - teaser
@@ -49,11 +50,9 @@ SchemaDotOrgEnumerationSelection => SchemaDotOrgEnumerationSelection
 - How do we handle sub-values (i.e. body.summary)?
   - Token field?
 
-- Why are we seeing 1329 types? (/admin/reports/schemadotorg/docs/types)
-
 - How to handle translations for imported data?
   - Include descriptions added via the schemadotorg_descriptions.module
 
 - How can we validate the generated JSON-LD?
 
-- Should all the fields be prefixed with schema_* for field_*?
+- Should all the fields be prefixed with schema_* or field_*?

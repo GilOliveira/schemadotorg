@@ -1,4 +1,4 @@
-entity_reference_selection.schemadotorg_type:
+entity_reference_selection.schemadotorg_range_includes:
   type: entity_reference_selection
   label: 'Scheme.org type handler settings'
   mapping:

@@ -246,7 +246,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     ];
     $expected_field_settings = [
       'schema_address' => [
-        'handler' => 'schemadotorg_type',
+        'handler' => 'schemadotorg_range_includes',
         'handler_settings' => [
           'target_type' => 'node',
           'schemadotorg_mapping' => [
@@ -258,7 +258,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
         'target_type' => 'node',
       ],
       'schema_contact_point' => [
-        'handler' => 'schemadotorg_type',
+        'handler' => 'schemadotorg_range_includes',
         'handler_settings' => [
           'target_type' => 'paragraph',
           'schemadotorg_mapping' => [
@@ -288,7 +288,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
         'allowed_values_function' => 'schemadotorg_allowed_values_country',
       ],
       'schema_works_for' => [
-        'handler' => 'schemadotorg_type',
+        'handler' => 'schemadotorg_range_includes',
         'handler_settings' => [
           'target_type' => 'node',
           'schemadotorg_mapping' => [
