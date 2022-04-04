@@ -16,19 +16,23 @@ class SchemaDotOrgMappingListBuilder extends ConfigEntityListBuilder {
   public function buildHeader() {
     $header['entity_type'] = [
       'data' => $this->t('Type'),
-      'width' => '15%',
+      'width' => '10%',
     ];
     $header['bundle_label'] = [
       'data' => $this->t('Name'),
-      'width' => '15%',
+      'width' => '10%',
     ];
     $header['bundle_id'] = [
       'data' => $this->t('ID'),
-      'width' => '15%',
+      'width' => '10%',
     ];
     $header['schema_type'] = [
       'data' => $this->t('Schema.org type'),
-      'width' => '15%',
+      'width' => '10%',
+    ];
+    $header['schema_subtype'] = [
+      'data' => $this->t('Schema.org subtyping'),
+      'width' => '10%',
     ];
     $header['schema_properties'] = [
       'data' => $this->t('Scheme.org properties'),
@@ -57,6 +61,8 @@ class SchemaDotOrgMappingListBuilder extends ConfigEntityListBuilder {
     $row['bundle_id'] = $entity_type_bundle ? $entity_type_bundle->id() : '';
 
     $row['schema_type'] = $entity->getSchemaType();
+
+    $row['schema_subtype'] = $entity->supportsSubtyping() ? $this->t('Yes') : $this->t('No');
 
     $properties = [];
     foreach ($entity->getSchemaProperties() as $mapping) {

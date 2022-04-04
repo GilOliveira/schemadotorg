@@ -16,6 +16,14 @@ interface SchemaDotOrgNamesInterface {
   public function getFieldPrefix();
 
   /**
+   * Gets the field name for Schema.org type subtyping.
+   *
+   * @return string
+   *   The field name for Schema.org type subtyping.
+   */
+  public function getSubtypeFieldName();
+
+  /**
    * Gets the max length for Schema.org type or property.
    *
    * Drupal limits type and field names to 32 characters.

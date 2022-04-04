@@ -12,14 +12,10 @@ Ongoing
 - Determine the recommended types per entity type.
 - Build out the default schema types properties.
 
-Subtyping
+- Review all description.
 - Determine the 'Type' field description.
 
 # TBD
-
-- Should subtype field be tracked?
-  Makes is easier to query.
-  Makes it possible to delete the field.
 
 - How do we implement common content types and components?
   - teaser

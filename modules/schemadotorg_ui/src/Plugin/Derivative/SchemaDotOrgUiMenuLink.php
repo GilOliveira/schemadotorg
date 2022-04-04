@@ -50,7 +50,7 @@ class SchemaDotOrgUiMenuLink extends DeriverBase implements ContainerDeriverInte
           'route_name' => "schemadotorg.{$entity_type_id}.type_add",
           'parent' => "entity.{$entity_type_id}.collection",
           'title' => $this->t('Add Schema.org type'),
-          'weight' => -1,
+          'weight' => -10,
         ] + $base_plugin_definition;
       }
     }

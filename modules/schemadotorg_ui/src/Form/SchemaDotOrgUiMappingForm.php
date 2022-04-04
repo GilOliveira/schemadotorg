@@ -46,6 +46,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   protected $schemaTypeBuilder;
 
   /**
+   * The Schema.org schema names services.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
+   */
+  protected $schemaNames;
+
+  /**
    * The Schema.org entity type builder.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilderInterface
@@ -88,6 +95,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $instance->themeManager = $container->get('theme.manager');
     $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
     $instance->schemaTypeBuilder = $container->get('schemadotorg.schema_type_builder');
+    $instance->schemaNames = $container->get('schemadotorg.names');
     $instance->schemaEntityTypeBuilder = $container->get('schemadotorg.entity_type_builder');
     $instance->schemaFieldManager = $container->get('schemadotorg_ui.field_manager');
     return $instance;
@@ -316,12 +324,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     $new_field_names = [];
 
-    // Add subtype field.
+    // Add subtype field and update the mapping.
     $subtype = $form_state->getValue('subtype') ?: [];
     if ($subtype['enable']) {
       $field = $subtype[static::ADD_FIELD];
       $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
       $new_field_names[$field['machine_name']] = $field['label'];
+      $mapping_entity->setSchemaSubtype(TRUE);
     }
 
     // Reset Schema.org properties.
@@ -556,7 +565,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       return $form;
     }
 
-    $subtype_field_name = $this->getFieldPrefix() . 'type';
+    $subtype_field_name = $this->getSubtypeFieldName();
     $subtype_exists = $this->fieldExists($subtype_field_name);
     $subtype_default = $this->getEntity()->isNew() && $this->getSchemaTypeSubtypes();
 
@@ -1202,7 +1211,17 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   The field suffix for Schema.org properties.
    */
   protected function getFieldPrefix() {
-    return $this->config('schemadotorg.settings')->get('field_prefix');
+    return $this->schemaNames->getFieldPrefix();
+  }
+
+  /**
+   * Gets the field name for Schema.org type subtyping.
+   *
+   * @return string
+   *   The field name for Schema.org type subtyping.
+   */
+  protected function getSubtypeFieldName() {
+    return $this->schemaNames->getSubtypeFieldName();
   }
 
 }

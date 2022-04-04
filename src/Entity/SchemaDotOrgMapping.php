@@ -44,6 +44,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
  *     "target_entity_type_id",
  *     "target_bundle",
  *     "type",
+ *     "subtype",
  *     "properties",
  *   }
  * )
@@ -79,6 +80,13 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    * @var string
    */
   protected $type;
+
+  /**
+   * Supports subtyping.
+   *
+   * @var boolean
+   */
+  protected $subtype;
 
   /**
    * List of property mapping, keyed by field name.
@@ -190,6 +198,28 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   public function setSchemaType($type) {
     $this->type = $type;
     return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSchemaSubtype() {
+    return $this->subtype;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setSchemaSubtype($subtype) {
+    $this->subtype = $subtype;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function supportsSubtyping() {
+    return $this->subtype;
   }
 
   /**

@@ -89,7 +89,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
    * Gets the Schema.org type to be mapped.
    *
    * @return string
-   *   TheSchema.org type to be mapped.
+   *   The Schema.org type to be mapped.
    */
   public function getSchemaType();
 
@@ -102,6 +102,32 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
    * @return $this
    */
   public function setSchemaType($type);
+
+  /**
+   * Gets the Schema.org subtype status.
+   *
+   * @return string
+   *   The Schema.org subtype status.
+   */
+  public function getSchemaSubtype();
+
+  /**
+   * Sets the Schema.org subtype status.
+   *
+   * @param bool $subtype
+   *   The Schema.org subtype status.
+   *
+   * @return $this
+   */
+  public function setSchemaSubtype($subtype);
+
+  /**
+   * Sets the Schema.org mapping supports subtyping.
+   *
+   * @return bool
+   *   TRUE if the Schema.org mapping supports subtyping.
+   */
+  public function supportsSubtyping();
 
   /**
    * Gets the mappings for all Schema.org properties.

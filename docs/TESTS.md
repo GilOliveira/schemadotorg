@@ -25,7 +25,7 @@ SchemaDotOrgRangeIncludesSelection.php
 \Drupal\schemadotorg\Plugin\EntityReferenceSelection\SchemaDotOrgTypeSelection
 - Check depth
 - Check unpublished.
-
+- Subtype testing.
 
 schemadotorg_descriptions.module
 schemadotorg_jsonapi.module

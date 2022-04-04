@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
 require_once __DIR__ . '/includes/schemadotorg.allowed_values.inc';
 
@@ -45,5 +46,24 @@ function schemadotorg_field_config_presave(EntityInterface $entity) {
     // @todo Determine why target type is being set.
     unset($settings['target_type']);
     $entity->set('settings', $settings);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function schemadotorg_field_config_delete(EntityInterface $entity) {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+  $schema_names = \Drupal::service('schemadotorg.names');
+
+  /** @var \Drupal\field\FieldConfigInterface $entity */
+  if ($entity->getName() === $schema_names->getSubtypeFieldName()) {
+    $entity_type = $entity->getTargetEntityTypeId();
+    $bundle = $entity->getTargetBundle();
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
+    $mapping = SchemaDotOrgMapping::load("$entity_type.$bundle");
+    if ($mapping) {
+      $mapping->setSchemaSubtype(FALSE)->save();
+    }
   }
 }
