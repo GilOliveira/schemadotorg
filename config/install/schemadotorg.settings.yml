@@ -226,6 +226,8 @@ schema_types:
     URL:
       - link
       - string
+  default_subtypes:
+    - Event
 schema_properties:
   default_field_types:
     articleBody:

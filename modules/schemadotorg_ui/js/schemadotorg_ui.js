@@ -8,27 +8,6 @@
   'use strict';
 
   /**
-   * Open Schema.org type and property report links in a modal dialog.
-   *
-   * @type {Drupal~behavior}
-   */
-  Drupal.behaviors.schemaDotOrgUiReportDialog = {
-    attach: function (context) {
-      $('a[href*="/admin/reports/schemadotorg/"]', context)
-        .once('schemadotorg-ui-report-dialog').each(function () {
-          Drupal.ajax({
-            progress: {type: 'fullscreen'},
-            url: $(this).attr('href'),
-            event: 'click',
-            dialogType: 'modal',
-            dialog: {width: '90%'},
-            element: this,
-          });
-        });
-    }
-  }
-
-  /**
    * Schema.org UI properties toggle behavior.
    *
    * @type {Drupal~behavior}
@@ -108,6 +87,13 @@
    */
   Drupal.behaviors.schemaDotOrgUiPropertyAddFieldSummary = {
     attach: function (context) {
+      $('details[data-schemadotorg-ui-summary]', context)
+        .once('schemadotorg-ui-property-summary')
+        .each(function () {
+          var $details = $(this);
+          var text = $details.data('schemadotorg-ui-summary')
+         $details.drupalSetSummary(text).trigger('summaryUpdated');
+        });
 
       $('table.schemadotorg-ui-properties .schemadotorg-ui--add-field', context)
         .once('schemadotorg-ui-property-summary')

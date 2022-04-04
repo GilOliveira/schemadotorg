@@ -13,27 +13,14 @@ Ongoing
 - Build out the default schema types properties.
 
 Subtyping
-- Add settings
-- Add Selection handler
-
-- Field is called schema_type use Thing
-- [Checkbox] Enable subtyping.
-  - If checked, a custom 'Type' (schema_type) field is added to the entity
-    which allows content authors to specify a more specific (sub)type for
-    the entity.
-  - Subtypes for @type included EventA, EventB, etc...
-  - Subtypes are pulled from the @vocabulary.
-  - Only published subtypes will be displayed
-
-  - If checked, Subtyping is enabled.
-  - schema_types.default_subtypes
-    - Event
-  - Add --enable-subtype to drush create-type command
-  - Subtype properties can be included via condition logic.
-  - SchemaDotOrgTypeSelection => SchemaDotOrgTypeRangeIncludesSelection
-
+- Subtype tree opens dialogs
+- Determine the 'Type' field description.
 
 # TBD
+
+- Should subtype field be tracked?
+  Makes is easier to query.
+  Makes it possible to delete the field.
 
 - How do we implement common content types and components?
   - teaser

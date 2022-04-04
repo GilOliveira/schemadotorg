@@ -74,6 +74,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   protected $unlimitedProperties;
 
   /**
+   * Schema.org entities that should be subtyped.
+   *
+   * @var array
+   */
+  protected $subtypes;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -307,12 +314,21 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $entity_type_id = $this->getTargetEntityTypeId();
     $bundle = $this->getTargetBundle();
 
+    $new_field_names = [];
+
+    // Add subtype field.
+    $subtype = $form_state->getValue('subtype') ?: [];
+    if ($subtype['enable']) {
+      $field = $subtype[static::ADD_FIELD];
+      $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
+      $new_field_names[$field['machine_name']] = $field['label'];
+    }
+
     // Reset Schema.org properties.
     // @todo Determine if we only remove existing fields.
     $mapping_entity->set('properties', []);
 
     // Get Schema.org property mappings.
-    $new_field_names = [];
     $properties = $form_state->getValue('properties');
     foreach ($properties as $property_name => $property_values) {
       $field_name = $property_values['field']['name'];
@@ -396,6 +412,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     if ($this->getEntity()->isNewTargetEntityTypeBundle()) {
       $this->buildAddEntityForm($form);
     }
+    // Build subtype form.
+    $this->buildSubtypeForm($form);
     // Build Schema.org type properties table.
     $this->buildSchemaPropertiesForm($form);
 
@@ -521,6 +539,92 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#description' => $this->t('This text will be displayed on the <em>Add new content</em> page.'),
       '#default_value' => $this->schemaTypeBuilder->formatComment($type_definition['comment'], ['base_path' => 'https://schema.org/']),
     ];
+  }
+
+  /**
+   * Build the subtype form.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   */
+  protected function buildSubtypeForm(array &$form) {
+    $schema_type = $this->getSchemaType();
+    $tree = $this->schemaTypeManager->getTypeTree($schema_type);
+
+    // Subtype is not displayed when there are no subtypes.
+    if (empty($tree) || empty($tree[$schema_type]['subtypes'])) {
+      return $form;
+    }
+
+    $subtype_field_name = $this->getFieldPrefix() . 'type';
+    $subtype_exists = $this->fieldExists($subtype_field_name);
+    $subtype_default = $this->getEntity()->isNew() && $this->getSchemaTypeSubtypes();
+
+    $form['subtype'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Schema.org subtyping'),
+      '#open' => !$subtype_exists && $subtype_default,
+      '#tree' => TRUE,
+    ];
+    if ($subtype_exists) {
+      $form['subtype']['enable'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Enable Schema.org subtyping'),
+        '#description' => $this->t("A 'Type' field has been added to the entity which allows content authors to specify a more specific (sub)type for the entity."),
+        '#return_value' => TRUE,
+        '#value' => TRUE,
+        '#disabled' => TRUE,
+      ];
+    }
+    else {
+      $form['subtype']['enable'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Enable Schema.org subtypes'),
+        '#description' => $this->t("If checked, a 'Type' field is added to the entity which allows content authors to specify a more specific (sub)type for the entity."),
+        '#return_value' => TRUE,
+        '#default_value' => $subtype_default,
+      ];
+      $form['subtype'][static::ADD_FIELD] = [
+        '#type' => 'details',
+        '#title' => $this->t('Add field'),
+        '#attributes' => ['data-schemadotorg-ui-summary' => $this->t('Taxonomy term')],
+        '#states' => [
+          'visible' => [
+            ':input[name="subtype[enable]"]' => ['checked' => TRUE],
+          ],
+        ],
+      ];
+      $form['subtype'][static::ADD_FIELD]['type'] = [
+        '#type' => 'item',
+        '#title' => $this->t('Type'),
+        '#markup' => $this->t('Taxonomy term'),
+        '#value' => 'field_ui:entity_reference:taxonomy_term',
+      ];
+      $form['subtype'][static::ADD_FIELD]['label'] = [
+        '#type' => 'item',
+        '#title' => $this->t('Label'),
+        '#markup' => $this->t('Type'),
+        '#value' => 'Type',
+      ];
+      $form['subtype'][static::ADD_FIELD]['machine_name'] = [
+        '#type' => 'item',
+        '#title' => $this->t('Machine-readable name'),
+        '#markup' => $subtype_field_name,
+        '#value' => $subtype_field_name,
+      ];
+      $form['subtype'][static::ADD_FIELD]['description'] = [
+        '#type' => 'textarea',
+        '#title' => $this->t('Description'),
+        '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
+        '#default_value' => '',
+      ];
+    }
+    $form['subtype']['tree'] = [
+      '#type' => 'details',
+      '#title' => $this->t('More specific Schema.org subtypes'),
+      'items' => $this->schemaTypeBuilder->buildTypeTree($tree),
+    ];
+    return $form;
   }
 
   /**
@@ -932,6 +1036,30 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $unlimited_properties += array_combine($this->unlimitedProperties, $this->unlimitedProperties);
     }
     return $unlimited_properties;
+  }
+
+  /**
+   * Set Schema.org types that support subtyping.
+   *
+   * @param array $subtypes
+   *   Schema.org types that support subtyping.
+   */
+  public function setSchemaTypeSubtypes(array $subtypes) {
+    $this->subtypes = $subtypes;
+  }
+
+  /**
+   * Determine if Schema.org type should be subtyped by default.
+   *
+   * @return bool
+   *   TRUE if Schema.org type should be subtyped by default.
+   */
+  protected function getSchemaTypeSubtypes() {
+    $subtypes = $this->subtypes
+      ?: $this->config('schemadotorg.settings')->get('schema_types.default_subtypes')
+        ?: [];
+    $schema_type = $this->getSchemaType();
+    return in_array($schema_type, $subtypes);
   }
 
   /* ************************************************************************ */

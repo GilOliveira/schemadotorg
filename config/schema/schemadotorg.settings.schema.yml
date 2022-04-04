@@ -27,6 +27,12 @@ schemadotorg.settings:
             sequence:
               type: string
               label: 'Field types'
+        default_subtypes:
+          type: sequence
+          label: 'Default subtypes'
+          sequence:
+            type: string
+            label: 'Subtype'
     schema_properties:
       type: mapping
       label: 'Schema.org properties'

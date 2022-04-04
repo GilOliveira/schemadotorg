@@ -12,8 +12,8 @@ use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
  *
  * @EntityReferenceSelection(
  *   id = "schemadotorg_range_includes",
- *   label = @Translation("Scheme.org type"),
- *   group = "default",
+ *   label = @Translation("Scheme.org range includes"),
+ *   group = "schemadotorg_range_includes",
  *   entity_types = {},
  *   weight = 0
  * )

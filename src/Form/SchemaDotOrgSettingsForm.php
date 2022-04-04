@@ -71,6 +71,13 @@ class SchemaDotOrgSettingsForm extends ConfigFormBase {
       '#default_value' => $this->nestedListString($config->get('schema_types.default_field_types')),
       '#element_validate' => ['::validateNestedList'],
     ];
+    $form['schema_types']['default_subtypes'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Default Schema.org subtypes'),
+      '#description' => $this->t('Enter one Schema.org type per line.'),
+      '#default_value' => $this->listString($config->get('schema_types.default_subtypes')),
+      '#element_validate' => ['::validateList'],
+    ];
 
     // Schema.org properties.
     $form['schema_properties'] = [

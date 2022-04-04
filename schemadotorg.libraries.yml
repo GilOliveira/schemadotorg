@@ -5,6 +5,14 @@ schemadotorg.autocomplete:
     - core/jquery
     - core/drupal
 
+schemadotorg.dialog:
+  js:
+    js/schemadotorg.dialog.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupal.dialog.ajax
+
 schemadotorg.jstree:
   css:
     component:

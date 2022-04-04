@@ -129,8 +129,11 @@ abstract class SchemaDotOrgSelectionBase extends SelectionPluginBase implements 
     $options = [];
     $entities = $this->entityTypeManager->getStorage($target_type)->loadMultiple($result);
     foreach ($entities as $entity_id => $entity) {
-      $bundle = $entity->bundle();
-      $options[$bundle][$entity_id] = Html::escape($this->entityRepository->getTranslationFromContext($entity)->label() ?? '');
+      // Never included unpublished terms (a.k.a. types and enumerations).
+      if ($entity->isPublished()) {
+        $bundle = $entity->bundle();
+        $options[$bundle][$entity_id] = Html::escape($this->entityRepository->getTranslationFromContext($entity)->label() ?? '');
+      }
     }
 
     return $options;

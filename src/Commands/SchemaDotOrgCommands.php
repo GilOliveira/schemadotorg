@@ -187,13 +187,15 @@ class SchemaDotOrgCommands extends DrushCommands {
    * @usage drush schemadotorg:create-type paragraph:ContactPoint paragraph:PostalAddress
    * @usage drush schemadotorg:create-type node:Person node:Organization node:Place node:Event node:CreativeWork
    * @usage drush schemadotorg:create-type --default-properties=longitude,latitude node:Place
+   * @usage drush schemadotorg:create-type --subtypes=Organization node:Organization
    *
    * @option default-properties A comma delimited list of additional default Schema.org properties.
    * @option unlimited-properties A comma delimited list of additional unlimited Schema.org properties.
+   * @option subtypes A comma delimited list of Schema.org types that should support subtyping.
    *
    * @aliases socr
    */
-  public function createType(array $types, array $options = ['default-properties' => NULL, 'unlimited-properties' => NULL]) {
+  public function createType(array $types, array $options = ['default-properties' => NULL, 'unlimited-properties' => NULL, 'subtypes' => NULL]) {
     $t_args = ['@types' => implode(', ', $types)];
     if (!$this->io()->confirm($this->t('Are you sure you want to create these types (@types)?', $t_args))) {
       throw new UserAbortException();
@@ -224,10 +226,11 @@ class SchemaDotOrgCommands extends DrushCommands {
         // Set the Schema.org mapping entity in the form object.
         $form_object->setEntity($schemadotorg_mapping);
 
-        // Set custom default and unlimited properties.
+        // Set properties and settings.
         $custom_properties = [
           'default-properties' => 'setSchemaTypeDefaultProperties',
           'unlimited-properties' => 'setSchemaTypeUnlimitedProperties',
+          'subtypes' => 'setSchemaTypeSubtypes',
         ];
         foreach ($custom_properties as $option_name => $method) {
           if (!empty($options[$option_name])) {

@@ -20,7 +20,12 @@ SchemaDotOrgMappingTypeFormTest.php
 SchemaDotOrgUiMappingFormTest
 SchemaDotOrgEnumerationSelection.php
 SchemaDotOrgSelectionBase.php
-SchemaDotOrgTypeSelection.php
+SchemaDotOrgRangeIncludesSelection.php
+
+\Drupal\schemadotorg\Plugin\EntityReferenceSelection\SchemaDotOrgTypeSelection
+- Check depth
+- Check unpublished.
+
 
 schemadotorg_descriptions.module
 schemadotorg_jsonapi.module
