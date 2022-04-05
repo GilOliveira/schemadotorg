@@ -3,7 +3,6 @@ Schema.org Blueprints
 
 Improve form validation
 
--
 Establish Common and recommend types.
 
 - Bonus types
@@ -15,6 +14,7 @@ Ongoing
 - Determine the recommended types per entity type.
 - Build out the default schema types properties.
 - Review all description.
+- Review patterns and tests.
 
 Improve browsing and adding.
 

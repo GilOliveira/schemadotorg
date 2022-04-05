@@ -73,29 +73,7 @@ class SchemaDotOrgTypeSelectionTest extends SchemaDotOrgKernelTestBase {
       'type' => 'person',
       'name' => 'Person',
     ])->save();
-    FieldStorageConfig::create([
-      'entity_type' => 'node',
-      'field_name' => 'schema_type',
-      'type' => 'entity_reference',
-      'settings' => ['target_type' => 'taxonomy_term'],
-    ])->save();
-    FieldConfig::create([
-      'entity_type' => 'node',
-      'bundle' => 'person',
-      'field_name' => 'schema_type',
-      'settings' => [
-        'handler' => 'schemadotorg_type',
-        'handler_settings' => [
-          'target_type' => 'taxonomy_term',
-          'depth' => 1,
-          'schemadotorg_mapping' => [
-            'entity_type' => 'node',
-            'bundle' => 'person',
-            'field_name' => 'schema_type',
-          ],
-        ],
-      ],
-    ])->save();
+    $this->createSubTypeField('node', 'person');
     $node_mapping = SchemaDotOrgMapping::create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'person',

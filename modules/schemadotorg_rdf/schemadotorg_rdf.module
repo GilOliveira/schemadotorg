@@ -5,6 +5,8 @@
  * Integrates Schema.org mappings with Drupal core's RDF(a) mapping.
  */
 
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
@@ -28,8 +30,7 @@ function schemadotorg_rdf_schemadotorg_mapping_insert(SchemaDotOrgMappingInterfa
   foreach ($schema_properties as $field_name => $schema_property) {
     $rdf_mapping->setFieldMapping($field_name, [
       'properties' => ['schema:' . $schema_property['property']],
-    ],
-    );
+    ]);
   }
 
   $rdf_mapping->save();
@@ -50,4 +51,66 @@ function schemadotorg_rdf_schemadotorg_mapping_delete(SchemaDotOrgMappingInterfa
   $bundle = $schemadotorg_mapping->getTargetBundle();
   $rdf_mapping = rdf_get_mapping($entity_type_id, $bundle);
   $rdf_mapping->delete();
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for user templates.
+ *
+ * @see rdf_preprocess_user()
+ */
+function schemadotorg_rdf_preprocess_user(&$variables) {
+  _schemadotorg_rdf_preprocess_entity($variables, $variables['elements']['#user']);
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for node templates.
+ *
+ * @see rdf_preprocess_node()
+ */
+function schemadotorg_rdf_preprocess_node(&$variables) {
+  _schemadotorg_rdf_preprocess_entity($variables, $variables['node']);
+}
+
+/**
+ * Replace the entity's RDF Schema.org type with the Schema.org subtype.
+ *
+ * @param array &$variables
+ *   The entity's template variables.
+ * @param EntityInterface $entity
+ *   The entity.
+ */
+function _schemadotorg_rdf_preprocess_entity(&$variables, EntityInterface $entity) {
+  // Get Schema.org mapping and check that it supports subtyping.
+  $entity_type_id = $entity->getEntityTypeId();
+  $bundle = $entity->bundle();
+  $schemadotorg_mapping = SchemaDotOrgMapping::load("$entity_type_id.$bundle");
+  if (!$schemadotorg_mapping || !$schemadotorg_mapping->supportsSubtyping()) {
+    return;
+  }
+
+  // Get the subtype field (i.e. schema_type) and check that is has a target id.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+  $schema_names = \Drupal::service('schemadotorg.names');
+  $subtype_field_name = $schema_names->getSubtypeFieldName();
+  if (!$entity->hasField($subtype_field_name)
+    || empty($entity->{$subtype_field_name}->target_id)) {
+    return;
+  }
+
+  // Get the Schema.org type from the term.
+  /** @var \Drupal\taxonomy\TermInterface $schema_subtype_term */
+  $schema_subtype_term = $entity->{$subtype_field_name}->entity;
+  $schema_subtype = $schema_subtype_term->schema_type->value;
+  if (!$schema_subtype) {
+    return;
+  }
+
+  // Replace the typeof attribute with the subtype
+  // (i.e. schema:Event => schema:BusinessEvent).
+  $schema_type = $schemadotorg_mapping->getSchemaType();
+  foreach ($variables['attributes']['typeof'] as $index => $typeof) {
+    if ($typeof === "schema:$schema_type") {
+      $variables['attributes']['typeof'][$index] = "schema:$schema_subtype";
+    }
+  }
 }

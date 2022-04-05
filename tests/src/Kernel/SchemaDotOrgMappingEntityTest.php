@@ -23,7 +23,7 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
    *
    * @var array
    */
-  protected static $modules = ['system', 'user', 'node', 'field'];
+  protected static $modules = ['system', 'user', 'node', 'taxonomy', 'field', 'text'];
 
   /**
    * A node type.
@@ -63,6 +63,8 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     $this->installEntitySchema('user');
     $this->installEntitySchema('node');
     $this->installEntitySchema('node_type');
+    $this->installEntitySchema('taxonomy_vocabulary');
+    $this->installEntitySchema('taxonomy_term');
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
     $this->installConfig(['schemadotorg']);
 
@@ -73,26 +75,8 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     ]);
     $node_type->save();
     $this->nodeType = $node_type;
-    FieldStorageConfig::create([
-      'entity_type' => 'node',
-      'field_name' => 'schema_alternate_name',
-      'type' => 'string',
-    ])->save();
-    FieldConfig::create([
-      'entity_type' => 'node',
-      'bundle' => 'thing',
-      'field_name' => 'schema_alternate_name',
-    ])->save();
-    FieldStorageConfig::create([
-      'entity_type' => 'node',
-      'field_name' => 'schema_type',
-      'type' => 'string',
-    ])->save();
-    FieldConfig::create([
-      'entity_type' => 'node',
-      'bundle' => 'thing',
-      'field_name' => 'schema_type',
-    ])->save();
+    $this->createField('node', 'thing');
+    $this->createSubTypeField('node', 'thing');
 
     // Create Thing with mapping.
     $node_mapping = SchemaDotOrgMapping::create([
