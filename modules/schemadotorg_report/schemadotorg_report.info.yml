@@ -4,6 +4,6 @@ description: Provides a report for browsing Schema.org types, properties, and na
 package: Schema.org
 core_version_requirement: ^9
 lifecycle: experimental
-configure: schemadotorg_reports
+configure: schemadotorg_report
 dependencies:
   - 'schemadotorg:schemadotorg'

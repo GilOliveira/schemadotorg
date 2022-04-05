@@ -7,7 +7,7 @@ use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Returns responses for Schema.org report routes.
+ * Base controller for Schema.org report routes.
  */
 abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
 
@@ -40,6 +40,13 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   protected $schemaTypeBuilder;
 
   /**
+   * The Schema.org report references service.
+   *
+   * @var \Drupal\schemadotorg_report\SchemaDotOrgReportReferencesInterface
+   */
+  protected $schemaReferences;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -48,6 +55,7 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
     $instance->formBuilder = $container->get('form_builder');
     $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
     $instance->schemaTypeBuilder = $container->get('schemadotorg.schema_type_builder');
+    $instance->schemaReferences = $container->get('schemadotorg_report.references');
     return $instance;
   }
 
@@ -131,7 +139,7 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   protected function buildTableCell($name, $value) {
     switch ($name) {
       case 'comment':
-        $options = ['base_path' => Url::fromRoute('schemadotorg_reports')->toString()];
+        $options = ['base_path' => Url::fromRoute('schemadotorg_report')->toString()];
         return ['data' => ['#markup' => $this->schemaTypeBuilder->formatComment($value, $options)]];
 
       default:

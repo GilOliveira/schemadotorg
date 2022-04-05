@@ -182,9 +182,9 @@ class SchemaDotOrgCommands extends DrushCommands {
    *
    * @command schemadotorg:create-type
    *
-   * @usage drush schemadotorg:create-type user:Person
-   * @usage drush schemadotorg:create-type media:AudioObject media:DataDownload media:ImageObject media:VideoObject
    * @usage drush schemadotorg:create-type paragraph:ContactPoint paragraph:PostalAddress
+   * @usage drush schemadotorg:create-type media:AudioObject media:DataDownload media:ImageObject media:VideoObject
+   * @usage drush schemadotorg:create-type user:Person
    * @usage drush schemadotorg:create-type node:Person node:Organization node:Place node:Event node:CreativeWork
    * @usage drush schemadotorg:create-type --default-properties=longitude,latitude node:Place
    * @usage drush schemadotorg:create-type --subtypes=Organization node:Organization

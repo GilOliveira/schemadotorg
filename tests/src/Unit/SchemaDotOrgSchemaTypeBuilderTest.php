@@ -84,7 +84,7 @@ class SchemaDotOrgSchemaTypeBuilderTest extends UnitTestCase {
     // is not installed.
     $item_url = $this->schemaTypeBuilder->getItemUrl('Thing');
     $this->assertFalse($item_url->isExternal());
-    $this->assertEquals('schemadotorg_reports', $item_url->getRouteName());
+    $this->assertEquals('schemadotorg_report', $item_url->getRouteName());
     $this->assertEquals(['id' => 'Thing'], $item_url->getRouteParameters());
   }
 

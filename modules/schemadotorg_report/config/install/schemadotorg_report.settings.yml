@@ -1,0 +1,105 @@
+about:
+  - https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
+  - https://jsonld.com/
+  - https://www.youtube.com/watch?v=hcahQfN5u9Y
+  - https://www.link-assistant.com/news/structured-data-for-seo.html
+types:
+  Article:
+    - https://developers.google.com/search/docs/advanced/structured-data/article
+    - https://jsonld.com/article/
+  BlogPosting:
+    - https://jsonld.com/blog-post/
+  Book:
+    - https://developers.google.com/search/docs/advanced/structured-data/book
+    - https://jsonld.com/book/
+  BreadcrumbList:
+    - https://developers.google.com/search/docs/advanced/structured-data/breadcrumb
+    - https://jsonld.com/breadcrumb/
+  Course:
+    - https://developers.google.com/search/docs/advanced/structured-data/course
+    - https://jsonld.com/json-ld-course/
+  CreativeWork:
+    - https://developers.google.com/search/docs/advanced/structured-data/paywalled-content
+  Dataset:
+    - https://developers.google.com/search/docs/advanced/structured-data/dataset
+  EducationalOccupationalProgram:
+    - https://developers.google.com/search/docs/advanced/structured-data/job-training
+    - https://jsonld.com/json-ld-course/job-training-vocational-training/
+  EmailMessage:
+    - https://jsonld.com/email-message/
+  EmployerAggregateRating:
+    - https://developers.google.com/search/docs/advanced/structured-data/employer-rating
+  Event:
+    - https://developers.google.com/search/docs/advanced/structured-data/event
+    - https://developers.google.com/search/docs/advanced/structured-data/home-activities
+    - https://jsonld.com/event/
+  FAQPage:
+    - https://developers.google.com/search/docs/advanced/structured-data/faqpage
+  HowTo:
+    - https://developers.google.com/search/docs/advanced/structured-data/how-to
+  ItemList:
+    - https://developers.google.com/search/docs/advanced/structured-data/carousel
+  MediaObject:
+    - https://developers.google.com/search/docs/advanced/structured-data/image-license-metadata
+  JobPosting:
+    - https://developers.google.com/search/docs/advanced/structured-data/job-posting
+    - https://jsonld.com/job-posting/
+  Occupation:
+    - https://developers.google.com/search/docs/advanced/structured-data/estimated-salary
+  LocalBusiness:
+    - https://developers.google.com/search/docs/advanced/structured-data/local-business
+    - https://jsonld.com/local-business/
+  MathSolver:
+    - https://developers.google.com/search/docs/advanced/structured-data/math-solvers
+  MusicEvent:
+    - https://jsonld.com/event/venue/
+    - https://jsonld.com/event/concert/
+    - https://jsonld.com/event/concert-multiple-performers/
+  Movie:
+    - https://developers.google.com/search/docs/advanced/structured-data/movie
+  NewsArticle:
+    - https://jsonld.com/news-article/
+  Organization:
+    - https://developers.google.com/search/docs/advanced/structured-data/logo
+    - https://jsonld.com/organization/
+    - https://jsonld.com/social-network-profiles/
+  Person:
+    - https://jsonld.com/person/
+    - https://jsonld.com/social-network-profiles/
+  Physician:
+    - https://jsonld.com/person/medical-professionals/
+  Product:
+    - https://developers.google.com/search/docs/advanced/structured-data/product
+    - https://jsonld.com/product/
+  QAPage:
+    - https://developers.google.com/search/docs/advanced/structured-data/qapage
+    - https://jsonld.com/question-and-answer/
+  Quiz:
+    - https://developers.google.com/search/docs/advanced/structured-data/practice-problems
+  Recipe:
+    - https://developers.google.com/search/docs/advanced/structured-data/recipe
+    - https://jsonld.com/recipe/
+  Review:
+    - https://developers.google.com/search/docs/advanced/structured-data/review-snippet
+    - https://jsonld.com/review/
+  Restaurant:
+    - https://jsonld.com/restaurant-menu-json-ld-sample/
+  SoftwareApplication:
+    - https://developers.google.com/search/docs/advanced/structured-data/software-app
+  SpeakableSpecification:
+    - https://developers.google.com/search/docs/advanced/structured-data/speakable
+    - https://jsonld.com/speakable-json-ld/
+  SpecialAnnouncement:
+    - https://developers.google.com/search/docs/advanced/structured-data/special-announcements
+    - https://developers.google.com/search/docs/advanced/structured-data/factcheck
+    - https://jsonld.com/covid-19-announcement-json-ld/
+  Table:
+    - https://jsonld.com/table/
+  Video:
+    - https://developers.google.com/search/docs/advanced/structured-data/video
+    - https://jsonld.com/video/
+  WebPage:
+    - https://jsonld.com/web-page/
+  WebSite:
+    - https://developers.google.com/search/docs/advanced/structured-data/sitelinks-searchbox
+    - https://jsonld.com/website/

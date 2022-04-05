@@ -176,8 +176,8 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
    *   mapped entity types and fields.
    */
   public function getDescriptionOverrides() {
-    if ($config = $this->cacheBackend->get(static::CACHE_ID)) {
-      return $config->data;
+    if ($cache = $this->cacheBackend->get(static::CACHE_ID)) {
+      return $cache->data;
     }
 
     $overrides = [];
@@ -192,7 +192,6 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
       $type = $config->get('type');
       $entity_type_id = $config->get('target_entity_type_id');
       $bundle = $config->get('target_bundle');
-      $subtype = $config->get('subtype');
 
       // Set entity type override.
       $type_overrides["$entity_type_id.type.$bundle"] = $type;

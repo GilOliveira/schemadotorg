@@ -19,7 +19,7 @@ class SchemaDotOrgReportBreadcrumbBuilder implements BreadcrumbBuilderInterface 
    * {@inheritdoc}
    */
   public function applies(RouteMatchInterface $route_match) {
-    return (strpos($route_match->getRouteName(), 'schemadotorg_reports.') === 0);
+    return (strpos($route_match->getRouteName(), 'schemadotorg_report.') === 0);
   }
 
   /**
@@ -30,7 +30,7 @@ class SchemaDotOrgReportBreadcrumbBuilder implements BreadcrumbBuilderInterface 
     $breadcrumb->addLink(Link::createFromRoute($this->t('Home'), '<front>'));
     $breadcrumb->addLink(Link::createFromRoute($this->t('Administration'), 'system.admin'));
     $breadcrumb->addLink(Link::createFromRoute($this->t('Reports'), 'system.admin_reports'));
-    $breadcrumb->addLink(Link::createFromRoute($this->t('Schema.org'), 'schemadotorg_reports'));
+    $breadcrumb->addLink(Link::createFromRoute($this->t('Schema.org'), 'schemadotorg_report'));
 
     // This breadcrumb builder is based on a route parameter, and hence it
     // depends on the 'route' cache context.

@@ -3,14 +3,19 @@ Schema.org Blueprints
 
 Improve form validation
 
-Establish Common and recommend types.
 
-- Bonus types
-  - HowTo
-  - FAQPage
-  - QAPage
+FAQPage
+- https://developers.google.com/search/docs/advanced/structured-data/faqpage
+- mainEntity: Question
+- https://schema.org/FAQPage
+- https://schema.org/Question
+- https://schema.org/acceptedAnswer
+- https://schema.org/Answer
 
-Ongoing
+HowTo
+- https://developers.google.com/search/docs/advanced/structured-data/how-to
+
+- Ongoing
 - Determine the recommended types per entity type.
 - Build out the default schema types properties.
 - Review all description.

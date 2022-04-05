@@ -14,8 +14,8 @@ function schemadotorg_report_menu_local_tasks_alter(&$data, $route_name) {
   // Always point to the About page/tab to the same URL, which it shares
   // with the type and property detail page.
   // @see \Drupal\schemadotorg_report\Controller\SchemaDotOrgReportItemController::index
-  if ($route_name === 'schemadotorg_reports'
-    && isset($data['tabs'][0]['schemadotorg_reports']['#link']['url'])) {
-    $data['tabs'][0]['schemadotorg_reports']['#link']['url'] = Url::fromRoute('schemadotorg_reports');
+  if ($route_name === 'schemadotorg_report'
+    && isset($data['tabs'][0]['schemadotorg_report']['#link']['url'])) {
+    $data['tabs'][0]['schemadotorg_report']['#link']['url'] = Url::fromRoute('schemadotorg_report');
   }
 }

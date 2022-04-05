@@ -1,0 +1,19 @@
+schemadotorg_report.settings:
+  type: config_entity
+  label: Schema.org Report settings
+  mapping:
+    about:
+      type: sequence
+      label: 'About URI'
+      sequence:
+        type: uri
+        label: 'URI'
+    types:
+      type: sequence
+      label: 'Schema.org types'
+      sequence:
+        type: sequence
+        label: 'Schema.org type URIs'
+        sequence:
+          type: uri
+          label: 'URI'

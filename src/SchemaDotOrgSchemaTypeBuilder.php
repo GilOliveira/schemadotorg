@@ -55,7 +55,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
   public function getItemUrl($id) {
     return ($this->moduleHandler->moduleExists('schemadotorg_report')
       && $this->currentUser->hasPermission('access site reports'))
-      ? Url::fromRoute('schemadotorg_reports', ['id' => $id])
+      ? Url::fromRoute('schemadotorg_report', ['id' => $id])
       : Url::fromUri('https://schema.org/' . $id);
   }
 
@@ -184,7 +184,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
   protected function getDefaultBasePath() {
     return ($this->moduleHandler->moduleExists('schemadotorg_report')
       && $this->currentUser->hasPermission('access site reports'))
-      ? Url::fromRoute('schemadotorg_reports')->setAbsolute()->toString() . '/'
+      ? Url::fromRoute('schemadotorg_report')->setAbsolute()->toString() . '/'
       : 'https://schema.org/';
   }
 

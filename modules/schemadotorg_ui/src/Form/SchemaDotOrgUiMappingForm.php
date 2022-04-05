@@ -819,12 +819,12 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function buildFindTypeForm(array &$form) {
     // Description top.
-    if ($this->moduleHandler->moduleExists('schemadotorg_reports')
+    if ($this->moduleHandler->moduleExists('schemadotorg_report')
       && $this->currentUser()->hasPermission('access site reports')) {
       $t_args = [
-        ':type_href' => Url::fromRoute('schemadotorg_reports.types')->toString(),
-        ':properties_href' => Url::fromRoute('schemadotorg_reports.properties')->toString(),
-        ':things_href' => Url::fromRoute('schemadotorg_reports.types.things')->toString(),
+        ':type_href' => Url::fromRoute('schemadotorg_report.types')->toString(),
+        ':properties_href' => Url::fromRoute('schemadotorg_report.properties')->toString(),
+        ':things_href' => Url::fromRoute('schemadotorg_report.types.things')->toString(),
       ];
       $description_top = $this->t('The schemas are a set of <a href=":types_href">types</a>, each associated with a set of <a href=":properties_href">properties</a>.', $t_args);
       $description_top .= ' ' . $this->t('The types are arranged in a <a href=":things_href">hierarchy</a>.', $t_args);

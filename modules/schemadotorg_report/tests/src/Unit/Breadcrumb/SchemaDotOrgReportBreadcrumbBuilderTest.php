@@ -72,8 +72,8 @@ class SchemaDotOrgReportBreadcrumbBuilderTest extends UnitTestCase {
   public function providerTestApplies() {
     return [
       [FALSE],
-      [FALSE, 'schemadotorg_reports'],
-      [TRUE, 'schemadotorg_reports.page'],
+      [FALSE, 'schemadotorg_report'],
+      [TRUE, 'schemadotorg_report.page'],
     ];
   }
 
@@ -103,7 +103,7 @@ class SchemaDotOrgReportBreadcrumbBuilderTest extends UnitTestCase {
       Link::createFromRoute('Home', '<front>'),
       Link::createFromRoute('Administration', 'system.admin'),
       Link::createFromRoute('Reports', 'system.admin_reports'),
-      Link::createFromRoute('Schema.org', 'schemadotorg_reports'),
+      Link::createFromRoute('Schema.org', 'schemadotorg_report'),
     ];
     $this->assertEquals($expected, $breadcrumb->getLinks());
 

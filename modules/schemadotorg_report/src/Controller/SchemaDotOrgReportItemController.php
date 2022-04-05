@@ -8,7 +8,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Returns responses for Schema.org report routes.
+ * Returns responses for Schema.org report about and item routes.
  */
 class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase {
 
@@ -91,9 +91,9 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
 
     // Description top.
     $t_args = [
-      ':type_href' => Url::fromRoute('schemadotorg_reports.types')->toString(),
-      ':properties_href' => Url::fromRoute('schemadotorg_reports.properties')->toString(),
-      ':things_href' => Url::fromRoute('schemadotorg_reports.types.things')->toString(),
+      ':type_href' => Url::fromRoute('schemadotorg_report.types')->toString(),
+      ':properties_href' => Url::fromRoute('schemadotorg_report.properties')->toString(),
+      ':things_href' => Url::fromRoute('schemadotorg_report.types.things')->toString(),
     ];
     $description_top = '<p>'
       . $this->t('The schemas are a set of <a href=":types_href">types</a>, each associated with a set of <a href=":properties_href">properties</a>.', $t_args)
@@ -118,7 +118,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     $description_bottom .= '<li>' . $this->t('<a title="Review" href="/Review">Review</a>, <a title="AggregateRating" href="/AggregateRating">AggregateRating</a>') . '</li>';
     $description_bottom .= '<li>' . $this->t('<a title="Action" href="/Action">Action</a>') . '</li>';
     $description_bottom .= '</ul>';
-    $path = Url::fromRoute('schemadotorg_reports')->toString();
+    $path = Url::fromRoute('schemadotorg_report')->toString();
     $build['description_bottom'] = ['#markup' => str_replace('href="/', 'href="' . $path . '/', $description_bottom)];
     return $build;
   }
@@ -162,6 +162,25 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
             '#title' => $value,
             '#url' => Url::fromUri($value),
           ];
+          $references = $this->schemaReferences->getReferences($id);
+          if ($references) {
+            $items = [];
+            foreach ($references as $uri => $title) {
+              $host = parse_url($uri, PHP_URL_HOST);
+              $items[] = [
+                '#type' => 'link',
+                '#title' => $title,
+                '#url' => Url::fromUri($uri),
+                '#suffix' => " ($host)<br/>",
+              ];
+            }
+            $build['references'] = [
+              '#type' => 'item',
+              '#title' => $this->t('References'),
+              'items' => $items,
+            ];
+          }
+
           break;
 
         case 'label':
@@ -169,7 +188,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
           break;
 
         case 'comment':
-          $options = ['base_path' => Url::fromRoute('schemadotorg_reports')->toString() . '/'];
+          $options = ['base_path' => Url::fromRoute('schemadotorg_report')->toString() . '/'];
           $build[$name]['#markup'] = $this->schemaTypeBuilder->formatComment($value, $options);
           break;
 

@@ -100,7 +100,7 @@ class SchemaDotOrgReportFilterFormTest extends UnitTestCase {
     $this->filterForm->submitForm($form, $form_state);
     /** @var \Drupal\Core\Url $redirect_url */
     $redirect_url = $form_state->getRedirect();
-    $this->assertEquals('schemadotorg_reports', $redirect_url->getRouteName());
+    $this->assertEquals('schemadotorg_report', $redirect_url->getRouteName());
     $this->assertEquals(['id' => 'Thing'], $redirect_url->getRouteParameters());
     $this->assertEquals([], $redirect_url->getOptions());
 
@@ -109,7 +109,7 @@ class SchemaDotOrgReportFilterFormTest extends UnitTestCase {
     $this->filterForm->submitForm($form, $form_state);
     /** @var \Drupal\Core\Url $redirect_url */
     $redirect_url = $form_state->getRedirect();
-    $this->assertEquals('schemadotorg_reports.types', $redirect_url->getRouteName());
+    $this->assertEquals('schemadotorg_report.types', $redirect_url->getRouteName());
     $this->assertEquals([], $redirect_url->getRouteParameters());
     $this->assertEquals(['query' => ['id' => 'Th']], $redirect_url->getOptions());
   }

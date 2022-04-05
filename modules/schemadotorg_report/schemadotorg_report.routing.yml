@@ -1,4 +1,16 @@
-schemadotorg_reports:
+# Settings
+
+schemadotorg_report.settings:
+  path: '/admin/structure/schemadotorg/settings/report'
+  defaults:
+    _title: 'Schema.org settings'
+    _form: 'Drupal\schemadotorg_report\Form\SchemaDotOrgReportSettingsForm'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+# Item
+
+schemadotorg_report:
   path: '/admin/reports/schemadotorg/{id}'
   defaults:
     _title_callback: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportItemController::title'
@@ -9,7 +21,7 @@ schemadotorg_reports:
 
 # Types
 
-schemadotorg_reports.types:
+schemadotorg_report.types:
   path: '/admin/reports/schemadotorg/docs/types'
   defaults:
     _title: 'Schema.org: Types'
@@ -18,7 +30,7 @@ schemadotorg_reports.types:
   requirements:
     _permission: 'access site reports'
 
-schemadotorg_reports.types.things:
+schemadotorg_report.types.things:
   path: '/admin/reports/schemadotorg/docs/things'
   defaults:
     _title: 'Schema.org: Things'
@@ -27,7 +39,7 @@ schemadotorg_reports.types.things:
   requirements:
     _permission: 'access site reports'
 
-schemadotorg_reports.types.intangibles:
+schemadotorg_report.types.intangibles:
   path: '/admin/reports/schemadotorg/docs/intangibles'
   defaults:
     _title: 'Schema.org: Intangibles'
@@ -36,7 +48,7 @@ schemadotorg_reports.types.intangibles:
   requirements:
     _permission: 'access site reports'
 
-schemadotorg_reports.types.enumerations:
+schemadotorg_report.types.enumerations:
   path: '/admin/reports/schemadotorg/docs/enumerations'
   defaults:
     _title: 'Schema.org: Enumerations'
@@ -45,7 +57,7 @@ schemadotorg_reports.types.enumerations:
   requirements:
     _permission: 'access site reports'
 
-schemadotorg_reports.types.structured_values:
+schemadotorg_report.types.structured_values:
   path: '/admin/reports/schemadotorg/docs/structured-values'
   defaults:
     _title: 'Schema.org: Structured Values'
@@ -54,7 +66,7 @@ schemadotorg_reports.types.structured_values:
   requirements:
     _permission: 'access site reports'
 
-schemadotorg_reports.types.data_types:
+schemadotorg_report.types.data_types:
   path: '/admin/reports/schemadotorg/docs/data-types'
   defaults:
     _title: 'Schema.org: Data types'
@@ -65,7 +77,7 @@ schemadotorg_reports.types.data_types:
 
 # Properties
 
-schemadotorg_reports.properties:
+schemadotorg_report.properties:
   path: '/admin/reports/schemadotorg/docs/properties'
   defaults:
     _title: 'Schema.org: Properties'
@@ -76,7 +88,7 @@ schemadotorg_reports.properties:
 
 # Names
 
-schemadotorg_reports.names:
+schemadotorg_report.names:
   path: '/admin/reports/schemadotorg/docs/names'
   defaults:
     _title: 'Schema.org: Names overview'
@@ -85,7 +97,7 @@ schemadotorg_reports.names:
   requirements:
     _permission: 'access site reports'
 
-schemadotorg_reports.names.all:
+schemadotorg_report.names.all:
   path: '/admin/reports/schemadotorg/docs/names/all'
   defaults:
     _title: 'Schema.org: All names'
@@ -94,7 +106,7 @@ schemadotorg_reports.names.all:
   requirements:
     _permission: 'access site reports'
 
-schemadotorg_reports.names.types:
+schemadotorg_report.names.types:
   path: '/admin/reports/schemadotorg/docs/names/types'
   defaults:
     _title: 'Schema.org: Type names'
@@ -103,7 +115,7 @@ schemadotorg_reports.names.types:
   requirements:
     _permission: 'access site reports'
 
-schemadotorg_reports.names.properties:
+schemadotorg_report.names.properties:
   path: '/admin/reports/schemadotorg/docs/names/properties'
   defaults:
     _title: 'Schema.org: Property names'
@@ -112,7 +124,7 @@ schemadotorg_reports.names.properties:
   requirements:
     _permission: 'access site reports'
 
-schemadotorg_reports.names.abbreviations:
+schemadotorg_report.names.abbreviations:
   path: '/admin/reports/schemadotorg/docs/names/abbreviations'
   defaults:
     _title: 'Schema.org: Abbreviated names'
@@ -121,3 +133,13 @@ schemadotorg_reports.names.abbreviations:
   requirements:
     _permission: 'access site reports'
 
+# References
+
+schemadotorg_report.references:
+  path: '/admin/reports/schemadotorg/docs/references'
+  defaults:
+    _title: 'Schema.org: References'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportReferencesController::index'
+    display: 'overview'
+  requirements:
+    _permission: 'access site reports'

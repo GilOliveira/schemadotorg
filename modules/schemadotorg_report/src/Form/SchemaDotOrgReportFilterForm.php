@@ -29,7 +29,7 @@ class SchemaDotOrgReportFilterForm extends FormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'schemadotorg_reports_filter_form';
+    return 'schemadotorg_report_filter_form';
   }
 
   /**
@@ -88,10 +88,10 @@ class SchemaDotOrgReportFilterForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $id = $form_state->getValue('id');
     if ($id && $this->schemaTypeManager->isId($this->table, $id)) {
-      $form_state->setRedirect('schemadotorg_reports', ['id' => $id]);
+      $form_state->setRedirect('schemadotorg_report', ['id' => $id]);
     }
     else {
-      $form_state->setRedirect('schemadotorg_reports.' . $this->table, [], ['query' => ['id' => $id]]);
+      $form_state->setRedirect('schemadotorg_report.' . $this->table, [], ['query' => ['id' => $id]]);
     }
   }
 

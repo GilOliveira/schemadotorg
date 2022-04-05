@@ -117,7 +117,7 @@ trait SchemaDotOrgFormTrait {
   }
 
   /**
-   * Generates a string representation of an array of grouped list .
+   * Generates a string representation of an array of grouped list.
    *
    * @param array $values
    *   An array containing grouped list.
@@ -134,6 +134,75 @@ trait SchemaDotOrgFormTrait {
       $label = $group['label'] ?? $name;
       $types = $group['types'] ?? [];
       $lines[] = $name . '|' . $label . '|' . ($types ? implode(',', $types) : '');
+    }
+    return implode("\n", $lines);
+  }
+
+  /* ************************************************************************ */
+  // Grouped list.
+  /* ************************************************************************ */
+
+  /**
+   * Element validate callback for grouped URLs.
+   *
+   * @param array $element
+   *   The form element whose value is being processed.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   */
+  public static function validateGroupedUrls(array $element, FormStateInterface $form_state) {
+    $values = static::extractGroupedUrls($element['#value']);
+    if (!is_array($values)) {
+      $form_state->setError($element, t('%title: invalid input.', ['%title' => $element['#title']]));
+      return;
+    }
+
+    $form_state->setValueForElement($element, $values);
+  }
+
+  /**
+   * Extracts the grouped list array from the grouped URLs element.
+   *
+   * @param string $string
+   *   The raw string to extract grouped URLs from.
+   *
+   * @return array
+   *   The array of extracted grouped URLs.
+   */
+  protected static function extractGroupedUrls($string) {
+    $values = [];
+    $list = static::extractList($string);
+    $group = NULL;
+    foreach ($list as $text) {
+      if (strpos($text, 'http') === 0) {
+        if ($group === NULL) {
+          return FALSE;
+        }
+        $values[$group][] = $text;
+      }
+      else {
+        $group = $text;
+        $values[$group] = [];
+      }
+    }
+    return $values;
+  }
+
+  /**
+   * Generates a string representation of an array of grouped URLs.
+   *
+   * @param array $values
+   *   An array containing grouped list.
+   *
+   * @return string
+   *   The string representation of a grouped URLs:
+   *    - Group and URLs separated by a carriage return.
+   */
+  protected function groupedUrlsString(array $values) {
+    $lines = [];
+    foreach ($values as $name => $urls) {
+      $lines[] = $name;
+      $lines = array_merge($lines, $urls);
     }
     return implode("\n", $lines);
   }
