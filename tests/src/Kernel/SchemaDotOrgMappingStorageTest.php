@@ -62,8 +62,8 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
       'target_bundle' => 'thing',
       'type' => 'Thing',
       'properties' => [
-        'title' => ['property' => 'name'],
-        'image' => ['property' => 'image'],
+        'title' => 'name',
+        'image' => 'image',
       ],
     ])->save();
     SchemaDotOrgMapping::create([
@@ -71,7 +71,7 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
       'target_bundle' => 'image_object',
       'type' => 'ImageObject',
       'properties' => [
-        'title' => ['property' => 'name'],
+        'title' => 'name',
       ],
     ])->save();
   }

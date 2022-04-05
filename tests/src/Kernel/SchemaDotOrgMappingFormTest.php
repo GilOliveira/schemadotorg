@@ -82,7 +82,7 @@ class SchemaDotOrgMappingFormTest extends SchemaDotOrgKernelTestBase {
       'target_bundle' => 'thing',
       'type' => 'Thing',
       'properties' => [
-        'title' => ['property' => 'name'],
+        'title' => 'name',
       ],
     ]);
     $node_mapping->save();

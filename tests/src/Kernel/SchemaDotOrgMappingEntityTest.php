@@ -85,8 +85,8 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
       'type' => 'Thing',
       'subtype' => TRUE,
       'properties' => [
-        'title' => ['property' => 'name'],
-        'schema_alternate_name' => ['property' => 'alternateName'],
+        'title' => 'name',
+        'schema_alternate_name' => 'alternateName',
       ],
     ]);
     $node_mapping->save();
@@ -99,7 +99,7 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
       'type' => 'Person',
       'subtype' => FALSE,
       'properties' => [
-        'name' => ['property' => 'name'],
+        'name' => 'name',
       ],
     ]);
     $user_mapping->save();
@@ -183,17 +183,17 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
 
     // Check getting the mappings for all Schema.org properties.
     $expected_schema_properties = [
-      'title' => ['property' => 'name'],
-      'schema_alternate_name' => ['property' => 'alternateName'],
+      'title' => 'name',
+      'schema_alternate_name' => 'alternateName',
     ];
     $this->assertEquals($expected_schema_properties, $node_mapping->getSchemaProperties());
 
     // Check getting the mapping set for a property.
-    $this->assertEquals(['property' => 'name'], $node_mapping->getSchemaPropertyMapping('title'));
+    $this->assertEquals('name', $node_mapping->getSchemaPropertyMapping('title'));
 
     // Check setting the mapping for a Schema.org property.
-    $node_mapping->setSchemaPropertyMapping('created', ['property' => 'dateCreated']);
-    $this->assertEquals(['property' => 'dateCreated'], $node_mapping->getSchemaPropertyMapping('created'));
+    $node_mapping->setSchemaPropertyMapping('created', 'dateCreated');
+    $this->assertEquals('dateCreated', $node_mapping->getSchemaPropertyMapping('created'));
 
     // Check removing the Schema.org property mapping.
     $node_mapping->removeSchemaProperty('created');
@@ -210,7 +210,7 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     $this->assertEquals($expected_dependencies, $actual_dependencies);
 
     // Check deleting field removes the property mapping.
-    $this->assertEquals(['property' => 'alternateName'], $node_mapping->getSchemaPropertyMapping('schema_alternate_name'));
+    $this->assertEquals('alternateName', $node_mapping->getSchemaPropertyMapping('schema_alternate_name'));
     FieldConfig::load('node.thing.schema_alternate_name')->delete();
     $this->storage->resetCache();
     $node_mapping = $this->storage->load('node.thing');

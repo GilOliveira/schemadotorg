@@ -19,11 +19,7 @@ schemadotorg.schemadotorg_mapping.*.*:
       label: 'Schema.org subtype enabled'
     properties:
       type: sequence
-      label: 'Property mappings'
+      label: 'Schema.org properties'
       sequence:
-        type: mapping
-        label: 'Property mapping'
-        mapping:
-          property:
-            type: string
-            label: 'Schema.org property'
+        type: string
+        label: 'Schema.org property'

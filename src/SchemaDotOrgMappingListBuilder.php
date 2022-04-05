@@ -64,11 +64,7 @@ class SchemaDotOrgMappingListBuilder extends ConfigEntityListBuilder {
 
     $row['schema_subtype'] = $entity->supportsSubtyping() ? $this->t('Yes') : $this->t('No');
 
-    $properties = [];
-    foreach ($entity->getSchemaProperties() as $mapping) {
-      $properties[] = $mapping['property'];
-    }
-    $row['schema_properties'] = implode('; ', $properties);
+    $row['schema_properties'] = implode('; ', $entity->getSchemaProperties());
 
     return $row + parent::buildRow($entity);
   }

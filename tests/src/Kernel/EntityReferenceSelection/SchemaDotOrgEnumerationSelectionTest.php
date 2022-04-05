@@ -71,7 +71,7 @@ class SchemaDotOrgEnumerationSelectionTest extends SchemaDotOrgKernelTestBase {
       'target_bundle' => 'user',
       'type' => 'Person',
       'properties' => [
-        'schema_gender' => ['property' => 'gender'],
+        'schema_gender' => 'gender',
       ],
     ]);
     $user_mapping->save();

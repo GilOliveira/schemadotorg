@@ -105,14 +105,14 @@ class SchemaDotOrgMappingForm extends EntityForm {
         'width' => '80%',
       ];
       $rows = [];
-      foreach ($schema_properties as $field_name => $mapping) {
+      foreach ($schema_properties as $field_name => $property) {
         $field_definition = $field_definitions[$field_name] ?? NULL;
         if (!$field_definition) {
           continue;
         }
         $row = [];
         $row['field'] = $field_definition->getLabel();
-        $property_definition = $this->schemaTypeManager->getProperty($mapping['property']);
+        $property_definition = $this->schemaTypeManager->getProperty($property);
         $row['property'] = [
           'data' => [
             'label' => [

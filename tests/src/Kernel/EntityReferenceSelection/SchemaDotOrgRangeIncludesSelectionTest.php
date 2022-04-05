@@ -91,7 +91,7 @@ class SchemaDotOrgRangeIncludesSelectionTest extends SchemaDotOrgKernelTestBase 
       'target_bundle' => 'person',
       'type' => 'Person',
       'properties' => [
-        'schema_works_for' => ['property' => 'worksFor'],
+        'schema_works_for' => 'worksFor',
       ],
     ])->save();
 

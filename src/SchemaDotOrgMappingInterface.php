@@ -153,13 +153,13 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
    * Sets the mapping for a Schema.org property.
    *
    * @param string $name
-   *   The field name of the Schema.org property mapping.
-   * @param array $mapping
-   *   The Schema.org property mapping.
+   *   The field name.
+   * @param string $property
+   *   The Schema.org property.
    *
    * @return $this
    */
-  public function setSchemaPropertyMapping($name, array $mapping = []);
+  public function setSchemaPropertyMapping($name, $property);
 
   /**
    * Removes the Schema.org property mapping.

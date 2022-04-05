@@ -61,8 +61,8 @@ class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
       'type' => 'Event',
       'subtype' => TRUE,
       'properties' => [
-        'title' => ['property' => 'name'],
-        'schema_alternate_name' => ['property' => 'alternateName'],
+        'title' => 'name',
+        'schema_alternate_name' => 'alternateName',
       ],
     ]);
     $node_mapping->save();

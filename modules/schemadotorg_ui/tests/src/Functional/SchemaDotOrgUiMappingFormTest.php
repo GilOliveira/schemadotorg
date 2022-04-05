@@ -110,19 +110,19 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->assertEquals('media', $image_object_mapping->getTargetEntityTypeId());
     $this->assertEquals('image', $image_object_mapping->getTargetBundle());
     $expected_schema_properties = [
-      'schema_author' => ['property' => 'author'],
-      'schema_content_size' => ['property' => 'contentSize'],
-      'schema_content_url' => ['property' => 'contentUrl'],
-      'created' => ['property' => 'dateCreated'],
-      'changed' => ['property' => 'dateModified'],
-      'schema_date_published' => ['property' => 'datePublished'],
-      'schema_description' => ['property' => 'description'],
-      'schema_headline' => ['property' => 'headline'],
-      'schema_image' => ['property' => 'image'],
-      'schema_keywords' => ['property' => 'keywords'],
-      'name' => ['property' => 'name'],
-      'schema_text' => ['property' => 'text'],
-      'thumbnail' => ['property' => 'thumbnail'],
+      'schema_author' => 'author',
+      'schema_content_size' => 'contentSize',
+      'schema_content_url' => 'contentUrl',
+      'created' => 'dateCreated',
+      'changed' => 'dateModified',
+      'schema_date_published' => 'datePublished',
+      'schema_description' => 'description',
+      'schema_headline' => 'headline',
+      'schema_image' => 'image',
+      'schema_keywords' => 'keywords',
+      'name' => 'name',
+      'schema_text' => 'text',
+      'thumbnail' => 'thumbnail',
     ];
     $actual_schema_properties = $image_object_mapping->getSchemaProperties();
     $this->assertEquals($expected_schema_properties, $actual_schema_properties);
@@ -204,10 +204,10 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->assertEquals('paragraph', $contact_point_mapping->getTargetEntityTypeId());
     $this->assertEquals('contact_point', $contact_point_mapping->getTargetBundle());
     $expected_schema_properties = [
-      'schema_contact_option' => ['property' => 'contactOption'],
-      'schema_email' => ['property' => 'email'],
-      'schema_name' => ['property' => 'name'],
-      'schema_telephone' => ['property' => 'telephone'],
+      'schema_contact_option' => 'contactOption',
+      'schema_email' => 'email',
+      'schema_name' => 'name',
+      'schema_telephone' => 'telephone',
     ];
     $actual_schema_properties = $contact_point_mapping->getSchemaProperties();
     $this->assertEquals($expected_schema_properties, $actual_schema_properties);
@@ -347,26 +347,26 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->assertEquals('user', $person_mapping->getTargetEntityTypeId());
     $this->assertEquals('user', $person_mapping->getTargetBundle());
     $expected_schema_properties = [
-      'schema_additional_name' => ['property' => 'additionalName'],
-      'schema_address' => ['property' => 'address'],
-      'schema_affiliation' => ['property' => 'affiliation'],
-      'schema_alumni_of' => ['property' => 'alumniOf'],
-      'schema_award' => ['property' => 'award'],
-      'schema_birth_date' => ['property' => 'birthDate'],
-      'schema_contact_point' => ['property' => 'contactPoint'],
-      'schema_description' => ['property' => 'description'],
-      'mail' => ['property' => 'email'],
-      'schema_family_name' => ['property' => 'familyName'],
-      'schema_gender' => ['property' => 'gender'],
-      'schema_given_name' => ['property' => 'givenName'],
-      'schema_honorific_prefix' => ['property' => 'honorificPrefix'],
-      'schema_honorific_suffix' => ['property' => 'honorificSuffix'],
-      'schema_job_title' => ['property' => 'jobTitle'],
-      'schema_knows_language' => ['property' => 'knowsLanguage'],
-      'schema_name' => ['property' => 'name'],
-      'schema_nationality' => ['property' => 'nationality'],
-      'schema_telephone' => ['property' => 'telephone'],
-      'schema_works_for' => ['property' => 'worksFor'],
+      'schema_additional_name' => 'additionalName',
+      'schema_address' => 'address',
+      'schema_affiliation' => 'affiliation',
+      'schema_alumni_of' => 'alumniOf',
+      'schema_award' => 'award',
+      'schema_birth_date' => 'birthDate',
+      'schema_contact_point' => 'contactPoint',
+      'schema_description' => 'description',
+      'mail' => 'email',
+      'schema_family_name' => 'familyName',
+      'schema_gender' => 'gender',
+      'schema_given_name' => 'givenName',
+      'schema_honorific_prefix' => 'honorificPrefix',
+      'schema_honorific_suffix' => 'honorificSuffix',
+      'schema_job_title' => 'jobTitle',
+      'schema_knows_language' => 'knowsLanguage',
+      'schema_name' => 'name',
+      'schema_nationality' => 'nationality',
+      'schema_telephone' => 'telephone',
+      'schema_works_for' => 'worksFor',
     ];
     $actual_schema_properties = $person_mapping->getSchemaProperties();
     $this->assertEquals($expected_schema_properties, $actual_schema_properties);

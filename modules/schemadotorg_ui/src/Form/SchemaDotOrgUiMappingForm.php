@@ -372,7 +372,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         }
       }
 
-      $mapping_entity->setSchemaPropertyMapping($field_name, ['property' => $property_name]);
+      $mapping_entity->setSchemaPropertyMapping($field_name, $property_name);
     }
 
     // Display message about new fields.
@@ -988,8 +988,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     // Load mapping from config entity.
     $properties = $mapping_entity->getSchemaProperties();
-    foreach ($properties as $field_name => $mapping) {
-      $property = $mapping['property'];
+    foreach ($properties as $field_name => $property) {
       $mappings[$property] = $field_name;
     }
 

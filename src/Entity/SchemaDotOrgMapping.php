@@ -241,8 +241,8 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function setSchemaPropertyMapping($name, array $mapping = []) {
-    $this->properties[$name] = $mapping;
+  public function setSchemaPropertyMapping($name, $property) {
+    $this->properties[$name] = $property;
     return $this;
   }
 

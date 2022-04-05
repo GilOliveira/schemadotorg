@@ -49,8 +49,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
     if (!$entity) {
       return NULL;
     }
-    $mapping = $entity->getSchemaPropertyMapping($field_name) ?: [];
-    return $mapping['property'] ?? NULL;
+    return $entity->getSchemaPropertyMapping($field_name) ?: NULL;
   }
 
   /**

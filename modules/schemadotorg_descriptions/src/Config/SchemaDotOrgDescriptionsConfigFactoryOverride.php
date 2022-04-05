@@ -199,8 +199,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
 
       // Set entity field instance override.
       $properties = $config->get('properties') ?: [];
-      foreach ($properties as $field_name => $property_item) {
-        $property = $property_item['property'];
+      foreach ($properties as $field_name => $property) {
         $property_overrides["field.field.$entity_type_id.$bundle.$field_name"] = $property;
       }
 

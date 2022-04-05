@@ -58,9 +58,9 @@ class SchemaDotOrgJsonApiBuildSubscriber implements EventSubscriberInterface {
 
     $fields = $event->getFields();
     $properties = $mapping->getSchemaProperties();
-    foreach ($properties as $internal_name => $property_mapping) {
+    foreach ($properties as $internal_name => $property) {
       if (isset($fields[$internal_name])) {
-        $event->setPublicFieldName($fields[$internal_name], $property_mapping['property']);
+        $event->setPublicFieldName($fields[$internal_name], $property);
       }
     }
   }
