@@ -149,9 +149,9 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     // Check validating the new field names before they are created.
     $edit = [
       'properties[additionalType][field][name]' => '_add_',
-      'properties[additionalType][field][add][machine_name]' => '',
+      'properties[additionalType][field][_add_][machine_name]' => '',
       'properties[alternateName][field][name]' => '_add_',
-      'properties[alternateName][field][add][machine_name]' => 'name',
+      'properties[alternateName][field][_add_][machine_name]' => 'name',
     ];
     $this->submitForm($edit, 'Save');
     $assert_session->responseContains('Machine-readable name field is required.');

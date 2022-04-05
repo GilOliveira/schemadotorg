@@ -274,7 +274,9 @@ schema_properties:
     - knowsLanguage
     - keywords
     - mentions
+    - performer
     - photo
+    - organizer
     - relatedLink
     - recipeCategory
     - recipeCuisine

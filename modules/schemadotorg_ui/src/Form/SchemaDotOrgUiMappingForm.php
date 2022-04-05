@@ -22,7 +22,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   /**
    * Add new field mapping option.
    */
-  const ADD_FIELD = SchemaDotOrgUiFieldManagerInterface::ADD_FIELD;
+  public const ADD_FIELD = SchemaDotOrgUiFieldManagerInterface::ADD_FIELD;
 
   /**
    * The theme manager.
@@ -241,15 +241,15 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       if ($property_values['field']['name'] === static::ADD_FIELD) {
         $required_element_names = ['type', 'label', 'machine_name'];
         foreach ($required_element_names as $required_element_name) {
-          if (empty($property_values['field']['add'][$required_element_name])) {
-            $element = NestedArray::getValue($form, ['properties', $property_name, 'field', 'add', $required_element_name]);
+          if (empty($property_values['field'][static::ADD_FIELD][$required_element_name])) {
+            $element = NestedArray::getValue($form, ['properties', $property_name, 'field', static::ADD_FIELD, $required_element_name]);
             $form_state->setError($element, $this->t('@name field is required.', ['@name' => $element['#title']]));
           }
         }
-        if (!empty($property_values['field']['add']['machine_name'])) {
-          $field_name = $this->getFieldPrefix() . $property_values['field']['add']['machine_name'];
+        if (!empty($property_values['field'][static::ADD_FIELD]['machine_name'])) {
+          $field_name = $this->getFieldPrefix() . $property_values['field'][static::ADD_FIELD]['machine_name'];
           if ($field_storage_config_storage->load($entity_type_id . '.' . $field_name)) {
-            $element = NestedArray::getValue($form, ['properties', $property_name, 'field', 'add', 'machine_name']);
+            $element = NestedArray::getValue($form, ['properties', $property_name, 'field', static::ADD_FIELD, 'machine_name']);
             $t_args = ['%name' => $field_name];
             $message = $this->t('A %name field already exists. Please enter a different name or select the existing field.', $t_args);
             $form_state->setError($element, $message);
@@ -325,7 +325,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $new_field_names = [];
 
     // Add subtype field and update the mapping.
-    $subtype = $form_state->getValue('subtype') ?: [];
+    $subtype = $form_state->getValue('subtyping') ?: [];
     if ($subtype['enable']) {
       $field = $subtype[static::ADD_FIELD];
       $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
@@ -361,7 +361,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         }
         elseif ($field_name === static::ADD_FIELD) {
           // Create new field and field storage.
-          $field = $property_values['field']['add'];
+          $field = $property_values['field'][static::ADD_FIELD];
           $field['schema_property'] = $property_name;
           $field['machine_name'] = $this->getFieldPrefix() . $field['machine_name'];
           $field_name = $field['machine_name'];
@@ -569,14 +569,14 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $subtype_exists = $this->fieldExists($subtype_field_name);
     $subtype_default = $this->getEntity()->isNew() && $this->getSchemaTypeSubtypes();
 
-    $form['subtype'] = [
+    $form['subtyping'] = [
       '#type' => 'details',
       '#title' => $this->t('Schema.org subtyping'),
       '#open' => !$subtype_exists && $subtype_default,
       '#tree' => TRUE,
     ];
     if ($subtype_exists) {
-      $form['subtype']['enable'] = [
+      $form['subtyping']['enable'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Enable Schema.org subtyping'),
         '#description' => $this->t("A 'Type' field has been added to the entity which allows content authors to specify a more specific (sub)type for the entity."),
@@ -586,14 +586,14 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       ];
     }
     else {
-      $form['subtype']['enable'] = [
+      $form['subtyping']['enable'] = [
         '#type' => 'checkbox',
-        '#title' => $this->t('Enable Schema.org subtypes'),
+        '#title' => $this->t('Enable Schema.org subtyping'),
         '#description' => $this->t("If checked, a 'Type' field is added to the entity which allows content authors to specify a more specific (sub)type for the entity."),
         '#return_value' => TRUE,
         '#default_value' => $subtype_default,
       ];
-      $form['subtype'][static::ADD_FIELD] = [
+      $form['subtyping'][static::ADD_FIELD] = [
         '#type' => 'details',
         '#title' => $this->t('Add field'),
         '#attributes' => ['data-schemadotorg-ui-summary' => $this->t('Taxonomy term')],
@@ -603,32 +603,32 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           ],
         ],
       ];
-      $form['subtype'][static::ADD_FIELD]['type'] = [
+      $form['subtyping'][static::ADD_FIELD]['type'] = [
         '#type' => 'item',
         '#title' => $this->t('Type'),
         '#markup' => $this->t('Taxonomy term'),
         '#value' => 'field_ui:entity_reference:taxonomy_term',
       ];
-      $form['subtype'][static::ADD_FIELD]['label'] = [
+      $form['subtyping'][static::ADD_FIELD]['label'] = [
         '#type' => 'item',
         '#title' => $this->t('Label'),
         '#markup' => $this->t('Type'),
         '#value' => 'Type',
       ];
-      $form['subtype'][static::ADD_FIELD]['machine_name'] = [
+      $form['subtyping'][static::ADD_FIELD]['machine_name'] = [
         '#type' => 'item',
         '#title' => $this->t('Machine-readable name'),
         '#markup' => $subtype_field_name,
         '#value' => $subtype_field_name,
       ];
-      $form['subtype'][static::ADD_FIELD]['description'] = [
+      $form['subtyping'][static::ADD_FIELD]['description'] = [
         '#type' => 'textarea',
         '#title' => $this->t('Description'),
         '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
         '#default_value' => '',
       ];
     }
-    $form['subtype']['tree'] = [
+    $form['subtyping']['tree'] = [
       '#type' => 'details',
       '#title' => $this->t('More specific Schema.org subtypes'),
       'items' => $this->schemaTypeBuilder->buildTypeTree($tree),
@@ -721,7 +721,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#default_value' => $field_name_default_value,
         '#empty_option' => $this->t('- Select or add field -'),
       ];
-      $row['field']['add'] = [
+      $row['field'][static::ADD_FIELD] = [
         '#type' => 'details',
         '#title' => $this->t('Add field'),
         '#attributes' => ['class' => ['schemadotorg-ui--add-field']],
@@ -737,7 +737,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $field_type_default_value = (isset($field_type_options[$recommended_category]))
         ? array_key_first($field_type_options[$recommended_category])
         : NULL;
-      $row['field']['add']['type'] = [
+      $row['field'][static::ADD_FIELD]['type'] = [
         '#type' => 'select',
         '#title' => $this->t('Field type'),
         '#empty_option' => $this->t('- Select a field type -'),
@@ -749,7 +749,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           ],
         ],
       ];
-      $row['field']['add']['label'] = [
+      $row['field'][static::ADD_FIELD]['label'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Label'),
         '#size' => 40,
@@ -760,7 +760,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           ],
         ],
       ];
-      $row['field']['add']['machine_name'] = [
+      $row['field'][static::ADD_FIELD]['machine_name'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Machine-readable name'),
         '#descripion' => 'A unique machine-readable name containing letters, numbers, and underscores.',
@@ -777,13 +777,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           ],
         ],
       ];
-      $row['field']['add']['description'] = [
+      $row['field'][static::ADD_FIELD]['description'] = [
         '#type' => 'textarea',
         '#title' => $this->t('Description'),
         '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
         '#default_value' => $this->schemaTypeBuilder->formatComment($property_definition['comment'], ['base_path' => 'https://schema.org/']),
       ];
-      $row['field']['add']['unlimited'] = [
+      $row['field'][static::ADD_FIELD]['unlimited'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Unlimited number of values'),
         '#default_value' => isset($property_unlimited[$property]),

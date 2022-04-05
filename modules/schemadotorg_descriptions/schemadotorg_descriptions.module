@@ -10,6 +10,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field\FieldConfigInterface;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
+use Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm;
 
 /**
  * Implements hook_form_BASE_FORM_ID_alter().
@@ -19,22 +20,30 @@ function schemadotorg_descriptions_form_schemadotorg_mapping_form_alter(&$form, 
     return;
   }
 
+  $add_field = SchemaDotOrgUiMappingForm::ADD_FIELD;
+
   // Unset the entity's default value and append a note to the description.
   if (isset($form['entity']['description'])) {
     $form['entity']['description']['#default_value'] = '';
     $form['entity']['description']['#description'] .= '<br/>'
-     . '<strong>' . t("If left blank, the description will be automatically set to the corresponding Schema.org type's comment") . '</strong>';
+     . '<strong>' . t("If left blank, the description will be automatically set to the corresponding Schema.org type's comment.") . '</strong>';
   }
 
   // Unset each field's default value and append a note to the description.
   if (isset($form['properties'])) {
     foreach ($form['properties'] as &$element) {
-      if (isset($element['field']['add']['description'])) {
-        $element['field']['add']['description']['#default_value'] = '';
-        $element['field']['add']['description']['#description'] .= '<br/>'
-          . '<strong>' . t("If left blank, the description will be automatically set to the corresponding Schema.org property's comment") . '</strong>';
+      if (isset($element['field'][$add_field]['description'])) {
+        $element['field'][$add_field]['description']['#default_value'] = '';
+        $element['field'][$add_field]['description']['#description'] .= '<br/>'
+          . '<strong>' . t("If left blank, the description will be automatically set to the corresponding Schema.org property's comment.") . '</strong>';
       }
     }
+  }
+
+  // Append a note to the subtype description.
+  if (isset($form['subtyping'][$add_field]['description'])) {
+    $form['subtyping'][$add_field]['description']['#description'] .= '<br/>'
+      . '<strong>' . t("If left blank, the description will be automatically set.") . '</strong>';
   }
 }
 
@@ -54,9 +63,15 @@ function schemadotorg_descriptions_entity_prepare_form(EntityInterface $entity, 
     $target_entity_type_id = $entity->getTargetEntityTypeId();
     $target_bundle = $entity->getTargetBundle();
     $field_name = $entity->getName();
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+    $schema_names = \Drupal::service('schemadotorg.names');
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
     $mapping = SchemaDotOrgMapping::load("$target_entity_type_id.$target_bundle");
-    if ($mapping && $mapping->getSchemaPropertyMapping($field_name)) {
+
+    $is_property_mapped = $mapping && $mapping->getSchemaPropertyMapping($field_name);
+    $is_subtype = ($schema_names->getSubtypeFieldName() === $field_name);
+    if ($is_property_mapped || $is_subtype) {
       $form_state->set('schemadotorg_descriptions', TRUE);
     }
   }

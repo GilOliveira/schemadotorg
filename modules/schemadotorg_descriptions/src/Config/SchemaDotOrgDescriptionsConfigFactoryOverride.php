@@ -11,6 +11,8 @@ use Drupal\Core\Config\ConfigFactoryOverrideBase;
 use Drupal\Core\Config\ConfigFactoryOverrideInterface;
 use Drupal\Core\Config\ConfigRenameEvent;
 use Drupal\Core\Config\StorageInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -24,6 +26,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @see https://www.drupal.org/docs/drupal-apis/configuration-api/configuration-override-system
  */
 class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrideBase implements ConfigFactoryOverrideInterface, EventSubscriberInterface {
+  use StringTranslationTrait;
 
   /**
    * The cache id.
@@ -177,6 +180,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
       return $config->data;
     }
 
+    $overrides = [];
     $type_overrides = [];
     $property_overrides = [];
 
@@ -188,6 +192,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
       $type = $config->get('type');
       $entity_type_id = $config->get('target_entity_type_id');
       $bundle = $config->get('target_bundle');
+      $subtype = $config->get('subtype');
 
       // Set entity type override.
       $type_overrides["$entity_type_id.type.$bundle"] = $type;
@@ -198,11 +203,14 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
         $property = $property_item['property'];
         $property_overrides["field.field.$entity_type_id.$bundle.$field_name"] = $property;
       }
+
+      // Set subtype overrides.
+      $this->setSubTypeDescriptionOverride($overrides, $entity_type_id, $bundle);
     }
 
     $this->setItemDescriptionOverrides('types', $type_overrides);
     $this->setItemDescriptionOverrides('properties', $property_overrides);
-    $overrides = $type_overrides + $property_overrides;
+    $overrides += $type_overrides + $property_overrides;
 
     $this->cacheBackend->set(static::CACHE_ID, $overrides);
 
@@ -234,6 +242,33 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
       }
     }
     return $overrides;
+  }
+
+  /**
+   * Set subtype description override.
+   *
+   * @param array $overrides
+   *   An array of override.
+   * @param string $entity_type_id
+   *   The entity type id.
+   * @param string $bundle
+   *   The entity bundle.
+   */
+  protected function setSubTypeDescriptionOverride(array &$overrides, $entity_type_id, $bundle) {
+    $field_prefix = $this->configFactory
+      ->getEditable('schemadotorg.settings')
+      ->get('field_prefix');
+    $subtype_field_name = $field_prefix . 'type';
+    $config_name = "field.field.$entity_type_id.$bundle.$subtype_field_name";
+    $data = $this->configFactory->getEditable($config_name)->getRawData();
+    if ($data && empty($data['description'])) {
+      $overrides["field.field.$entity_type_id.$bundle.$subtype_field_name"] = [
+        'description' => $this->t('A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.'),
+      ];
+    }
+    else {
+      $overrides["field.field.$entity_type_id.$bundle.$subtype_field_name"] = [];
+    }
   }
 
 }

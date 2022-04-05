@@ -3,6 +3,9 @@ Schema.org Blueprints
 
 Improve form validation
 
+-
+Establish Common and recommend types.
+
 - Bonus types
   - HowTo
   - FAQPage
@@ -11,11 +14,12 @@ Improve form validation
 Ongoing
 - Determine the recommended types per entity type.
 - Build out the default schema types properties.
-
 - Review all description.
-- Determine the 'Type' field description.
 
-Work \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
+Improve browsing and adding.
+
+Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
+to support subtype.
 
 # TBD
 
