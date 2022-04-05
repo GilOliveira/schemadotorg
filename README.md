@@ -16,7 +16,8 @@ Ongoing
 - Review all description.
 - Review patterns and tests.
 
-Improve browsing and adding.
+Improve browsing and adding types.
+- Add
 
 Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
 to support subtype.

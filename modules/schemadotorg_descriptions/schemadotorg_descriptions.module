@@ -42,6 +42,7 @@ function schemadotorg_descriptions_form_schemadotorg_mapping_form_alter(&$form, 
 
   // Append a note to the subtype description.
   if (isset($form['subtyping'][$add_field]['description'])) {
+    $form['subtyping'][$add_field]['description']['#default_value'] = '';
     $form['subtyping'][$add_field]['description']['#description'] .= '<br/>'
       . '<strong>' . t("If left blank, the description will be automatically set.") . '</strong>';
   }

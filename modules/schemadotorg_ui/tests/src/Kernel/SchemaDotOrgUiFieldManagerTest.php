@@ -70,7 +70,7 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
     ]);
     $node_type->save();
     $this->nodeType = $node_type;
-    $this->createField('node', 'thing');
+    $this->createSchemaDotOrgField('node', 'thing');
     FieldStorageConfig::create([
       'entity_type' => 'node',
       'field_name' => 'schema_identifier',

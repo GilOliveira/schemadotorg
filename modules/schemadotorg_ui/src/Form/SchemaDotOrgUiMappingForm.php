@@ -625,7 +625,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#type' => 'textarea',
         '#title' => $this->t('Description'),
         '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
-        '#default_value' => '',
+        '#default_value' => $this->t('A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.'),
       ];
     }
     $form['subtyping']['tree'] = [

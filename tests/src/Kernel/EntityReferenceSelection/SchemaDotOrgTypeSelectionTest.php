@@ -73,7 +73,7 @@ class SchemaDotOrgTypeSelectionTest extends SchemaDotOrgKernelTestBase {
       'type' => 'person',
       'name' => 'Person',
     ])->save();
-    $this->createSubTypeField('node', 'person');
+    $this->createSchemaDotOrgSubTypeField('node', 'person');
     $node_mapping = SchemaDotOrgMapping::create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'person',

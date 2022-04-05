@@ -75,8 +75,8 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     ]);
     $node_type->save();
     $this->nodeType = $node_type;
-    $this->createField('node', 'thing');
-    $this->createSubTypeField('node', 'thing');
+    $this->createSchemaDotOrgField('node', 'thing');
+    $this->createSchemaDotOrgSubTypeField('node', 'thing');
 
     // Create Thing with mapping.
     $node_mapping = SchemaDotOrgMapping::create([

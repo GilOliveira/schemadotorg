@@ -42,7 +42,7 @@ trait SchemaDotOrgTestTrait {
    * @param string $type
    *   (optional) The field type.  Defaults to 'string'.
    */
-  protected function createField(
+  protected function createSchemaDotOrgField(
     $entity_type_id,
     $bundle,
     $field_name = 'schema_alternate_name',
@@ -70,7 +70,7 @@ trait SchemaDotOrgTestTrait {
    * @param string $bundle
    *   The name of the bundle.
    */
-  protected function createSubTypeField($entity_type_id, $bundle) {
+  protected function createSchemaDotOrgSubTypeField($entity_type_id, $bundle) {
     FieldStorageConfig::create([
       'entity_type' => $entity_type_id,
       'field_name' => 'schema_type',
