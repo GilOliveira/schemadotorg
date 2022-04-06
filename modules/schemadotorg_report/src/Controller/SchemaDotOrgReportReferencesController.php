@@ -17,22 +17,13 @@ class SchemaDotOrgReportReferencesController extends SchemaDotOrgReportControlle
    *   A renderable array containing the Schema.org references.
    */
   public function index() {
-    $references = $this->schemaReferences->getReferences();
+    $config = $this->config('schemadotorg_report.settings');
 
     $build = [];
 
     // About.
-    if ($references['about']) {
-      $items = [];
-      foreach ($references['about'] as $uri => $title) {
-        $host = parse_url($uri, PHP_URL_HOST);
-        $items[] = [
-          '#type' => 'link',
-          '#title' => $title,
-          '#url' => Url::fromUri($uri),
-          '#suffix' => ' (' . $host . ')',
-        ];
-      }
+    $about = $config->get('about');
+    if ($about) {
       $build['about'] = [
         '#theme' => 'item_list',
         '#title' => [
@@ -40,23 +31,14 @@ class SchemaDotOrgReportReferencesController extends SchemaDotOrgReportControlle
           '#title' => $this->t('About'),
           '#url' => Url::fromRoute('schemadotorg_report'),
         ],
-        '#items' => $items,
+        '#items' => $this->buildReferenceLinks($about),
       ];
     }
 
     // Types.
-    if ($references['types']) {
-      foreach ($references['types'] as $type => $uris) {
-        $items = [];
-        foreach ($uris as $uri => $title) {
-          $host = parse_url($uri, PHP_URL_HOST);
-          $items[] = [
-            '#type' => 'link',
-            '#title' => $title,
-            '#url' => Url::fromUri($uri),
-            '#suffix' => ' (' . $host . ')',
-          ];
-        }
+    $types = $config->get('types');
+    if ($types) {
+      foreach ($types as $type => $links) {
         $build['types'][$type] = [
           '#theme' => 'item_list',
           '#title' => [
@@ -64,7 +46,7 @@ class SchemaDotOrgReportReferencesController extends SchemaDotOrgReportControlle
             '#title' => $type,
             '#url' => Url::fromRoute('schemadotorg_report', ['id' => $type]),
           ],
-          '#items' => $items,
+          '#items' => $this->buildReferenceLinks($links),
         ];
       }
     }

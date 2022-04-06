@@ -40,13 +40,6 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   protected $schemaTypeBuilder;
 
   /**
-   * The Schema.org report references service.
-   *
-   * @var \Drupal\schemadotorg_report\SchemaDotOrgReportReferencesInterface
-   */
-  protected $schemaReferences;
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -55,7 +48,6 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
     $instance->formBuilder = $container->get('form_builder');
     $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
     $instance->schemaTypeBuilder = $container->get('schemadotorg.schema_type_builder');
-    $instance->schemaReferences = $container->get('schemadotorg_report.references');
     return $instance;
   }
 
@@ -157,6 +149,29 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
           return ['data' => $links];
         }
     }
+  }
+
+  /**
+   * Build a reference links.
+   *
+   * @param array $links
+   *   An array of link titles and uris.
+   *
+   * @return array
+   *   A renderable containing reference links.
+   */
+  protected function buildReferenceLinks(array $links) {
+    $items = [];
+    foreach ($links as $link) {
+      $host = parse_url($link['uri'], PHP_URL_HOST);
+      $items[] = [
+        '#type' => 'link',
+        '#title' => $link['title'],
+        '#url' => Url::fromUri($link['uri']),
+        '#suffix' => ' (' . $host . ')',
+      ];
+    }
+    return $items;
   }
 
 }

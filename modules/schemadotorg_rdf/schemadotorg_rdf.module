@@ -76,10 +76,10 @@ function schemadotorg_rdf_preprocess_node(&$variables) {
  *
  * @param array &$variables
  *   The entity's template variables.
- * @param EntityInterface $entity
+ * @param \Drupal\Core\Entity\EntityInterface $entity
  *   The entity.
  */
-function _schemadotorg_rdf_preprocess_entity(&$variables, EntityInterface $entity) {
+function _schemadotorg_rdf_preprocess_entity(array &$variables, EntityInterface $entity) {
   // Get Schema.org mapping and check that it supports subtyping.
   $entity_type_id = $entity->getEntityTypeId();
   $bundle = $entity->bundle();

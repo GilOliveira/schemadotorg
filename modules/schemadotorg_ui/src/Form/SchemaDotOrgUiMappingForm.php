@@ -628,6 +628,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#default_value' => $this->t('A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.'),
       ];
     }
+    $item = $this->getSchmemaTypeDefinition();
+    $subtypes = $this->schemaTypeManager->parseIds($item['sub_types']);
+    $tree = $this->schemaTypeManager->getTypeTree($subtypes);
     $form['subtyping']['tree'] = [
       '#type' => 'details',
       '#title' => $this->t('More specific Schema.org subtypes'),

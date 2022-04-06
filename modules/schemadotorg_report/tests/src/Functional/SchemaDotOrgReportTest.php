@@ -161,6 +161,14 @@ class SchemaDotOrgReportTest extends SchemaDotOrgBrowserTestBase {
     // Check Schema.org property names tables.
     $this->drupalGet('/admin/reports/schemadotorg/docs/names/abbreviations');
     $assert_session->responseContains('<h1>Schema.org: Abbreviated names</h1>');
+
+    /* ********************************************************************** */
+
+    // Check Schema.org reference.
+    // @see \Drupal\schemadotorg_report\Controller\SchemaDotOrgReferencesController::index
+    $this->drupalGet('/admin/reports/schemadotorg/docs/references');
+    $assert_session->responseContains('<h1>Schema.org: References</h1>');
+
   }
 
 }

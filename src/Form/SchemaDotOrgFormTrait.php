@@ -139,19 +139,95 @@ trait SchemaDotOrgFormTrait {
   }
 
   /* ************************************************************************ */
-  // Grouped list.
+  // Links.
   /* ************************************************************************ */
 
   /**
-   * Element validate callback for grouped URLs.
+   * Element validate callback for links.
    *
    * @param array $element
    *   The form element whose value is being processed.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    */
-  public static function validateGroupedUrls(array $element, FormStateInterface $form_state) {
-    $values = static::extractGroupedUrls($element['#value']);
+  public static function validateLinks(array $element, FormStateInterface $form_state) {
+    $values = static::extractLinks($element['#value']);
+    $form_state->setValueForElement($element, $values);
+  }
+
+  /**
+   * Extracts the links array from the links element.
+   *
+   * @param string $string
+   *   The raw string to extract links from.
+   *
+   * @return array
+   *   The array of extracted links.
+   */
+  protected static function extractLinks($string) {
+    $values = [];
+    $list = static::extractList($string);
+    foreach ($list as $text) {
+      $items = preg_split('/\s*\|\s*/', $text);
+      $uri = $items[0];
+      $title = $items[1] ?? static::getLinkTitle($uri);
+      $values[] = ['uri' => $uri, 'title' => $title];
+    }
+    return $values;
+  }
+
+  /**
+   * Generates a string representation of an array of links.
+   *
+   * @param array $values
+   *   An array of links.
+   *
+   * @return string
+   *   The string representation of links pairs:
+   *    - Values are separated by a carriage return.
+   *    - Each value is in the format "uri|title" or "uri".
+   */
+  protected function linksString(array $values) {
+    $lines = [];
+    foreach ($values as $link) {
+      $lines[] = $link['uri'] . '|' . $link['title'];
+    }
+    return implode("\n", $lines);
+  }
+
+  /**
+   * Get a remote URI's page title.
+   *
+   * @param string $uri
+   *   A remote URI.
+   *
+   * @return string
+   *   A remote URI's page title.
+   */
+  protected static function getLinkTitle($uri) {
+    $contents = file_get_contents($uri);
+    $dom = new \DOMDocument();
+    @$dom->loadHTML($contents);
+    $title_node = $dom->getElementsByTagName('title');
+    $title = $title_node->item(0)->nodeValue;
+    [$title] = preg_split('/\s*\|\s*/', $title);
+    return $title;
+  }
+
+  /* ************************************************************************ */
+  // Grouped links.
+  /* ************************************************************************ */
+
+  /**
+   * Element validate callback for grouped links.
+   *
+   * @param array $element
+   *   The form element whose value is being processed.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   */
+  public static function validateGroupedLinks(array $element, FormStateInterface $form_state) {
+    $values = static::extractGroupedLinks($element['#value']);
     if (!is_array($values)) {
       $form_state->setError($element, t('%title: invalid input.', ['%title' => $element['#title']]));
       return;
@@ -161,15 +237,15 @@ trait SchemaDotOrgFormTrait {
   }
 
   /**
-   * Extracts the grouped list array from the grouped URLs element.
+   * Extracts the grouped list array from the grouped links element.
    *
    * @param string $string
-   *   The raw string to extract grouped URLs from.
+   *   The raw string to extract grouped links from.
    *
    * @return array
-   *   The array of extracted grouped URLs.
+   *   The array of extracted grouped links.
    */
-  protected static function extractGroupedUrls($string) {
+  protected static function extractGroupedLinks($string) {
     $values = [];
     $list = static::extractList($string);
     $group = NULL;
@@ -178,7 +254,10 @@ trait SchemaDotOrgFormTrait {
         if ($group === NULL) {
           return FALSE;
         }
-        $values[$group][] = $text;
+        $items = preg_split('/\s*\|\s*/', $text);
+        $uri = $items[0];
+        $title = $items[1] ?? static::getLinkTitle($uri);
+        $values[$group][] = ['uri' => $uri, 'title' => $title];
       }
       else {
         $group = $text;
@@ -189,20 +268,22 @@ trait SchemaDotOrgFormTrait {
   }
 
   /**
-   * Generates a string representation of an array of grouped URLs.
+   * Generates a string representation of an array of grouped links.
    *
    * @param array $values
-   *   An array containing grouped list.
+   *   An array containing grouped links.
    *
    * @return string
-   *   The string representation of a grouped URLs:
-   *    - Group and URLs separated by a carriage return.
+   *   The string representation of a grouped links:
+   *    - Group and links separated by a carriage return.
    */
-  protected function groupedUrlsString(array $values) {
+  protected function groupedLinksString(array $values) {
     $lines = [];
-    foreach ($values as $name => $urls) {
+    foreach ($values as $name => $links) {
       $lines[] = $name;
-      $lines = array_merge($lines, $urls);
+      foreach ($links as $link) {
+        $lines[] = $link['uri'] . '|' . $link['title'];
+      }
     }
     return implode("\n", $lines);
   }

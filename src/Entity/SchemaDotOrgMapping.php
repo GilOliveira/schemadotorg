@@ -86,7 +86,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * Supports subtyping.
    *
-   * @var boolean
+   * @var bool
    */
   protected $subtype;
 

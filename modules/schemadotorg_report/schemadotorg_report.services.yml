@@ -1,7 +1,4 @@
 services:
-  schemadotorg_report.references:
-    class: Drupal\schemadotorg_report\SchemaDotOrgReportReferences
-    arguments: ['@config.factory', '@cache.data']
   schemadotorg_report.breadcrumb:
     class: Drupal\schemadotorg_report\Breadcrumb\SchemaDotOrgReportBreadcrumbBuilder
     tags:

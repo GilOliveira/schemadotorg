@@ -4,7 +4,6 @@ namespace Drupal\schemadotorg_report\Controller;
 
 use Drupal\Core\Link;
 use Drupal\Core\Url;
-use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -162,25 +161,19 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
             '#title' => $value,
             '#url' => Url::fromUri($value),
           ];
-          $references = $this->schemaReferences->getReferences($id);
+          $references = $this->config('schemadotorg_report.settings')->get("types.$id");
           if ($references) {
-            $items = [];
-            foreach ($references as $uri => $title) {
-              $host = parse_url($uri, PHP_URL_HOST);
-              $items[] = [
-                '#type' => 'link',
-                '#title' => $title,
-                '#url' => Url::fromUri($uri),
-                '#suffix' => " ($host)<br/>",
-              ];
+            $reference_links = $this->buildReferenceLinks($references);
+            foreach ($reference_links as &$reference_link) {
+              $reference_link['#prefix'] = '<div>';
+              $reference_link['#suffix'] .= '</div>';
             }
             $build['references'] = [
               '#type' => 'item',
               '#title' => $this->t('References'),
-              'items' => $items,
+              'items' => $reference_links,
             ];
           }
-
           break;
 
         case 'label':

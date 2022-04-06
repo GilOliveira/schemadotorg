@@ -3,7 +3,6 @@ Schema.org Blueprints
 
 Improve form validation
 
-
 FAQPage
 - https://developers.google.com/search/docs/advanced/structured-data/faqpage
 - mainEntity: Question
@@ -20,9 +19,6 @@ HowTo
 - Build out the default schema types properties.
 - Review all description.
 - Review patterns and tests.
-
-Improve browsing and adding types.
-- Add
 
 Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
 to support subtype.
