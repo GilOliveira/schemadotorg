@@ -5,7 +5,7 @@ namespace Drupal\Tests\schemadotorg\Functional;
 /**
  * Tests the functionality of the Schema.org settings form.
  *
- * @covers \Drupal\schemadotorg\Form\SchemaDotOrgSettingsGeneralForm
+ * @covers \Drupal\schemadotorg\Form\SchemaDotOrgSettingsPropertiesForm
  * @covers \Drupal\schemadotorg\Form\SchemaDotOrgSettingsNamesForm
  * @group schemadotorg
  */
@@ -26,6 +26,7 @@ class SchemaDotOrgSettingsFormTest extends SchemaDotOrgBrowserTestBase {
    */
   public function testSchemaDotOrgSettingsForm() {
     $this->assertSaveSettingsConfigForm('schemadotorg.settings', '/admin/structure/schemadotorg/settings');
+    $this->assertSaveSettingsConfigForm('schemadotorg.settings', '/admin/structure/schemadotorg/settings/properties');
     $this->assertSaveSettingsConfigForm('schemadotorg.settings', '/admin/structure/schemadotorg/settings/names');
   }
 

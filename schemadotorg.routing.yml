@@ -2,7 +2,15 @@ schemadotorg.settings:
   path: '/admin/structure/schemadotorg/settings'
   defaults:
     _title: 'Schema.org settings'
-    _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsGeneralForm'
+    _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsTypesForm'
+  requirements:
+    _permission: 'administer schemadotorg'
+
+schemadotorg.settings.properties:
+  path: '/admin/structure/schemadotorg/settings/properties'
+  defaults:
+    _title: 'Schema.org settings'
+    _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsPropertiesForm'
   requirements:
     _permission: 'administer schemadotorg'
 

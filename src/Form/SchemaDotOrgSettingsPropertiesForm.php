@@ -7,9 +7,9 @@ use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Configure Schema.org settings for this site.
+ * Configure Schema.org properties settings for this site.
  */
-class SchemaDotOrgSettingsGeneralForm extends ConfigFormBase {
+class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
   use SchemaDotOrgFormTrait;
 
   /**
@@ -32,7 +32,7 @@ class SchemaDotOrgSettingsGeneralForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'schemadotorg_general_settings';
+    return 'schemadotorg_properties_settings';
   }
 
   /**
@@ -48,43 +48,8 @@ class SchemaDotOrgSettingsGeneralForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('schemadotorg.settings');
 
-    // Schema.org types.
-    $form['schema_types'] = [
-      '#type' => 'details',
-      '#title' => $this->t('Schema.org types'),
-      '#tree' => TRUE,
-      '#open' => TRUE,
-    ];
-    $form['schema_types']['default_properties'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Default Schema.org type properties'),
-      '#description' => $this->t('Enter one value per line, in the format format SchemaType|propertyName01,propertyName02,propertyName02.'),
-      '#attributes' => ['wrap' => 'off'],
-      '#default_value' => $this->nestedListString($config->get('schema_types.default_properties')),
-      '#element_validate' => ['::validateNestedList'],
-    ];
-    $form['schema_types']['default_field_types'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Default Schema.org type field types'),
-      '#description' => $this->t('Enter one value per line, in the format format SchemaType|field_type_01,field_type_02,field_type_03.'),
-      '#attributes' => ['wrap' => 'off'],
-      '#default_value' => $this->nestedListString($config->get('schema_types.default_field_types')),
-      '#element_validate' => ['::validateNestedList'],
-    ];
-    $form['schema_types']['default_subtypes'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Default Schema.org subtypes'),
-      '#description' => $this->t('Enter one Schema.org type per line.'),
-      '#default_value' => $this->listString($config->get('schema_types.default_subtypes')),
-      '#element_validate' => ['::validateList'],
-    ];
-
-    // Schema.org properties.
     $form['schema_properties'] = [
-      '#type' => 'details',
-      '#title' => $this->t('Schema.org properties'),
       '#tree' => TRUE,
-      '#open' => TRUE,
     ];
     $form['schema_properties']['field_prefix'] = [
       '#type' => 'textfield',
@@ -121,7 +86,6 @@ class SchemaDotOrgSettingsGeneralForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('schemadotorg.settings')
       ->set('field_prefix', $form_state->getValue('field_prefix'))
-      ->set('schema_types', $form_state->getValue('schema_types'))
       ->set('schema_properties', $form_state->getValue('schema_properties'))
       ->save();
     parent::submitForm($form, $form_state);

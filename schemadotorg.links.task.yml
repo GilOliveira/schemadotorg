@@ -10,11 +10,15 @@ schemadotorg.settings:
   title: Settings
   route_name: schemadotorg.settings
   base_route: entity.schemadotorg_mapping.collection
-schemadotorg.settings.general:
-  title: 'General'
+schemadotorg.settings.types:
+  title: Types
   route_name: schemadotorg.settings
   parent_id: schemadotorg.settings
+schemadotorg.settings.properties:
+  title: Properties
+  route_name: schemadotorg.settings.properties
+  parent_id: schemadotorg.settings
 schemadotorg.settings.name:
-  title: 'Names'
+  title: Names
   route_name: schemadotorg.settings.names
   parent_id: schemadotorg.settings

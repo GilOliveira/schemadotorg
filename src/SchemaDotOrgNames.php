@@ -114,7 +114,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
    * {@inheritdoc}
    */
   public function toDrupalName($table, $string) {
-    $length = $this->getNameMaxLength($table);
+    $max_length = $this->getNameMaxLength($table);
     $drupal_name = $this->camelCaseToSnakeCase($string);
 
     // Custom.
@@ -131,7 +131,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
 
     // Do not do any more abbreviations if the name has less than two words.
     if (substr_count($drupal_name, '_') <= 1
-      && (!$length || (strlen($drupal_name) < $length))) {
+      && (!$max_length || (strlen($drupal_name) < $max_length))) {
       return $drupal_name;
     }
 
@@ -142,7 +142,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
     }
 
     // Do not do any more abbreviations if the name is less than the limit.
-    if (!$length || strlen($drupal_name) < $length) {
+    if (!$max_length || strlen($drupal_name) < $max_length) {
       return $drupal_name;
     }
 
