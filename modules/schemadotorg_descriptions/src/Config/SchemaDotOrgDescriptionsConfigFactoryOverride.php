@@ -41,11 +41,18 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
   protected $configFactory;
 
   /**
-   * Cache backend instance.
+   * Default cache backend instance.
    *
    * @var \Drupal\Core\Cache\CacheBackendInterface
    */
-  protected $cacheBackend;
+  protected $defaultCacheBackend;
+
+  /**
+   * Discovery cache backend instance.
+   *
+   * @var \Drupal\Core\Cache\CacheBackendInterface
+   */
+  protected $discoveryCacheBackend;
 
   /**
    * The Schema.org schema type manager.
@@ -66,8 +73,10 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.
-   * @param \Drupal\Core\Cache\CacheBackendInterface $cacheBackend
-   *   The cache backend.
+   * @param \Drupal\Core\Cache\CacheBackendInterface $default_cache_backend
+   *   The default cache backend.
+   * @param \Drupal\Core\Cache\CacheBackendInterface $discovery_cache_backend
+   *   The discovery cache backend.
    * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
    *   The Schema.org schema type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface $schema_type_builder
@@ -75,12 +84,14 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
-    CacheBackendInterface $cacheBackend,
+    CacheBackendInterface $default_cache_backend,
+    CacheBackendInterface $discovery_cache_backend,
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
     SchemaDotOrgSchemaTypeBuilderInterface $schema_type_builder
   ) {
     $this->configFactory = $config_factory;
-    $this->cacheBackend = $cacheBackend;
+    $this->defaultCacheBackend = $default_cache_backend;
+    $this->discoveryCacheBackend = $discovery_cache_backend;
     $this->schemaTypeManager = $schema_type_manager;
     $this->schemaTypeBuilder = $schema_type_builder;
   }
@@ -157,15 +168,27 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
 
     // Purge cached overrides when any mapping is updated.
     if (strpos($name, 'schemadotorg.schemadotorg_mapping.') === 0) {
-      $this->cacheBackend->delete(static::CACHE_ID);
+      $this->resetDescriptionOverrides();
       return;
     }
 
     // Purge cached overrides when an entity or field definition is updated.
     $overrides = $this->getDescriptionOverrides();
     if (isset($overrides[$name])) {
-      $this->cacheBackend->delete(static::CACHE_ID);
+      $this->resetDescriptionOverrides();
     }
+  }
+
+  /**
+   * Reset Schema.org description configuration overrides.
+   */
+  public function resetDescriptionOverrides() {
+    // Reset config.
+    $this->configFactory->reset();
+    // Reset default cache item.
+    $this->defaultCacheBackend->delete(static::CACHE_ID);
+    // Reset the entire plugin discovery cache.
+    $this->discoveryCacheBackend->deleteAll();
   }
 
   /**
@@ -176,7 +199,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
    *   mapped entity types and fields.
    */
   public function getDescriptionOverrides() {
-    if ($cache = $this->cacheBackend->get(static::CACHE_ID)) {
+    if ($cache = $this->defaultCacheBackend->get(static::CACHE_ID)) {
       return $cache->data;
     }
 
@@ -210,7 +233,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
     $this->setItemDescriptionOverrides('properties', $property_overrides);
     $overrides += $type_overrides + $property_overrides;
 
-    $this->cacheBackend->set(static::CACHE_ID, $overrides);
+    $this->defaultCacheBackend->set(static::CACHE_ID, $overrides);
 
     return $overrides;
   }

@@ -3,18 +3,10 @@ Schema.org Blueprints
 
 Improve form validation
 
-FAQPage
-- https://developers.google.com/search/docs/advanced/structured-data/faqpage
-- mainEntity: Question
-- https://schema.org/FAQPage
-- https://schema.org/Question
-- https://schema.org/acceptedAnswer
-- https://schema.org/Answer
+title should map to name or headline
+- default_base_fields
 
-HowTo
-- https://developers.google.com/search/docs/advanced/structured-data/how-to
-
-- Ongoing
+Ongoing
 - Determine the recommended types per entity type.
 - Build out the default schema types properties.
 - Review all description.
@@ -25,14 +17,7 @@ to support subtype.
 
 # TBD
 
-- How do we implement common content types and components?
-  - teaser
-  - slideshow
-  - lists
-  - forms
-  - toc
-  - faq
-  - timeline
+- How do we implement common content types and components? @see TYPES.md
 
 - Should you be able to map the same field to multiple properties?
   - body => description and disambiguatingDescription

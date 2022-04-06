@@ -1,5 +1,5 @@
-Testing
--------
+Tests
+-----
 
 SchemaDotOrgInstaller.php
 SchemaDotOrgNames.php
