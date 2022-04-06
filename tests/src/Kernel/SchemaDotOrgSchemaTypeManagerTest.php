@@ -65,6 +65,11 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertFalse($this->schemaTypeManager->isDataType('name'));
     $this->assertTrue($this->schemaTypeManager->isDataType('Text'));
 
+    // Check determine if ID is a Schema.org Intangible.
+    $this->assertFalse($this->schemaTypeManager->isIntangible('Thing'));
+    $this->assertTrue($this->schemaTypeManager->isIntangible('Intangible'));
+    $this->assertTrue($this->schemaTypeManager->isIntangible('Enumeration'));
+
     // Check determining if ID is a Schema.org enumeration type.
     $this->assertTrue($this->schemaTypeManager->isEnumerationType('GenderType'));
     $this->assertFalse($this->schemaTypeManager->isEnumerationType('Thing'));

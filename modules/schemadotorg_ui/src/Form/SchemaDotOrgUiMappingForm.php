@@ -599,7 +599,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#attributes' => ['data-schemadotorg-ui-summary' => $this->t('Taxonomy term')],
         '#states' => [
           'visible' => [
-            ':input[name="subtype[enable]"]' => ['checked' => TRUE],
+            ':input[name="subtyping[enable]"]' => ['checked' => TRUE],
           ],
         ],
       ];

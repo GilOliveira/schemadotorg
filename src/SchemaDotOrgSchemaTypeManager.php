@@ -103,6 +103,27 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
+  public function isIntangible($id) {
+    if (!$this->isType($id)) {
+      return FALSE;
+    }
+    elseif ($id === 'Intangible') {
+      return TRUE;
+    }
+    else {
+      $breadcrumbs = $this->getTypeBreadcrumbs($id);
+      foreach ($breadcrumbs as $breadcrumb => $items) {
+        if (strpos($breadcrumb, '/Intangible/') !== FALSE) {
+          return TRUE;
+        }
+      }
+      return FALSE;
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function isEnumerationType($id) {
     return (boolean) $this->database->select('schemadotorg_types', 'types')
       ->fields('types', ['id'])

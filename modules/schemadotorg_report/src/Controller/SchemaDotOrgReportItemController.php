@@ -2,6 +2,7 @@
 
 namespace Drupal\schemadotorg_report\Controller;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -222,6 +223,12 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
 
     // Custom fields.
     if ($table === 'types') {
+      // Add type.
+      $add_type = $this->buildAddType($id);
+      if ($add_type) {
+        $build['add_type'] = $add_type;
+      }
+
       // Parents.
       $build['parents'] = [
         '#weight' => '-10',
@@ -259,6 +266,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       }
     }
 
+    $build['#attached']['library'][] = 'schemadotorg_report/schemadotorg_report';
     return $build;
   }
 
@@ -362,6 +370,74 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
         '#theme' => 'item_list',
         '#items' => $enumerations,
       ],
+    ];
+  }
+
+  /**
+   * Build add Schema.org type operation dropdown.
+   *
+   * @return array
+   *   A renderable array containing the add Schema.org type operation dropdown.
+   *
+   * @see \Drupal\schemadotorg_ui\Routing\SchemaDotOrgRouteSubscriber
+   */
+  protected function buildAddType($type) {
+    if (!$this->schemaTypeManager->isType($type)) {
+      return NULL;
+    }
+
+    $operations = [];
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
+    $mapping_type_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping_type');
+    $entity_types = $mapping_type_storage->getEntityTypes();
+    foreach ($this->entityTypeManager()->getDefinitions() as $entity_type_id => $entity_type) {
+      // Make sure the entity is supported.
+      if (!in_array($entity_type_id, $entity_types)) {
+        continue;
+      }
+
+      // Make sure the entity has a field UI.
+      $route_name = $entity_type->get('field_ui_base_route');
+      if (!$route_name) {
+        continue;
+      }
+
+      // Make sure the bundle entity exists and is not a media type.
+      $bundle_entity_type_id = $entity_type->getBundleEntityType();
+      if (!$bundle_entity_type_id || $entity_type_id === 'media') {
+        continue;
+      }
+
+      $bundle_entity_type_definition = $this->entityTypeManager()
+        ->getDefinition($bundle_entity_type_id);
+      $t_args = [
+        '@type' => $bundle_entity_type_definition->getSingularLabel(),
+      ];
+      $operations[$entity_type_id] = [
+        'title' => $this->t('Add Schema.org @type', $t_args),
+        'url' => Url::fromRoute("schemadotorg.{$bundle_entity_type_id}.type_add", ['type' => $type]),
+      ];
+    }
+
+    // Make sure there are operations.
+    if (!$operations) {
+      return NULL;
+    }
+
+    // Add the default operation.
+    $default_entity_type = $this->schemaTypeManager->isIntangible($type) ? 'paragraph' : 'node';
+    if (isset($operations[$default_entity_type])) {
+      $default_operation = $operations[$default_entity_type];
+      $default_operation['title'] = $this->t('Add Schema.org type');
+      $operations = ['default' => $default_operation] + $operations;
+    }
+
+    return [
+      '#weight' => '-10',
+      '#type' => 'operations',
+      '#links' => $operations,
+      '#prefix' => '<div class="schemadotorg-report-add-type">',
+      '#suffix' => '</div>',
     ];
   }
 

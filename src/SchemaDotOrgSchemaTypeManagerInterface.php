@@ -72,6 +72,17 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function isDataType($id);
 
   /**
+   * Determine if ID is a Schema.org Intangible.
+   *
+   * @param string $id
+   *   A Schema.org ID.
+   *
+   * @return bool
+   *   TRUE if ID is a Schema.org Intangible.
+   */
+  public function isIntangible($id);
+
+  /**
    * Determine if ID is a Schema.org enumeration type.
    *
    * @param string $id

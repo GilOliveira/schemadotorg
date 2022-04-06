@@ -1,0 +1,15 @@
+/**
+ * @file
+ * Schema.org report styles.
+ */
+
+.schemadotorg-report-add-type {
+  float: right;
+}
+
+@media (max-width: 768px) {
+  .schemadotorg-report-add-type {
+    float: none;
+    margin: 0 0 1em 0;
+  }
+}
