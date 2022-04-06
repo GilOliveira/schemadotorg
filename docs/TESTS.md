@@ -22,13 +22,13 @@ SchemaDotOrgEnumerationSelection.php
 SchemaDotOrgSelectionBase.php
 SchemaDotOrgRangeIncludesSelection.php
 SchemaDotOrgTypeSelection.php
+schemadotorg_descriptions.module
+schemadotorg_jsonapi.module
 
 \Drupal\schemadotorg\Plugin\EntityReferenceSelection\
 - Check unpublished.
 - Subtype testing.
 
-schemadotorg_descriptions.module
-schemadotorg_jsonapi.module
 
 SchemaDotOrgUiJavaScript
 
