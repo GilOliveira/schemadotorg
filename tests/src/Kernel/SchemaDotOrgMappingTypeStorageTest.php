@@ -2,6 +2,11 @@
 
 namespace Drupal\Tests\schemadotorg\Kernel;
 
+use Drupal\Core\Config\Entity\ConfigEntityType;
+use Drupal\Core\Entity\ContentEntityType;
+use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\paragraphs\Entity\ParagraphsType;
+
 /**
  * Tests the Schema.org type manager service.
  *
@@ -98,6 +103,16 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
     ];
     $actual_base_field_names = $this->storage->getBaseFieldNames('block_content');
     $this->assertEquals($expected_base_field_names, $actual_base_field_names);
+
+    // Check getting entity type bundles. (i.e node).
+    $actual_entity_type_bundles = $this->storage->getEntityTypeBundles();
+    $this->assertArrayHasKey('paragraph', $actual_entity_type_bundles);
+    $this->assertInstanceOf(ContentEntityType::class, $actual_entity_type_bundles['paragraph']);
+
+    // Check getting entity type bundle definitions. (i.e node_type).
+    $actual_entity_type_bundle_definitions = $this->storage->getEntityTypeBundleDefinitions();
+    $this->assertArrayHasKey('paragraph', $actual_entity_type_bundle_definitions);
+    $this->assertInstanceOf(ConfigEntityType::class, $actual_entity_type_bundle_definitions['paragraph']);
   }
 
 }

@@ -11,17 +11,11 @@ Todo
 
 Improve form validation
 
-Don't automatically add existing fieldss.
-\Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildSchemaPropertiesForm
-
-Add test coverage to...
-- \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage::getEntityTypeBundleDefinitions
-- \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildEntityTypesForm
-
 Ongoing
+- Review UX and workflow
+- Review all description.
 - Determine the recommended types per entity type.
 - Build out the default schema types properties.
-- Review all description.
 - Review patterns and tests.
 
 Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
