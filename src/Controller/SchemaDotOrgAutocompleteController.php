@@ -40,7 +40,7 @@ class SchemaDotOrgAutocompleteController extends ControllerBase {
   }
 
   /**
-   * Returns response for Schema.org  (types or properties) autocomplete request.
+   * Returns response for Schema.org (types or properties) autocomplete request.
    *
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The current request object containing the search string.

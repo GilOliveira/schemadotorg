@@ -37,19 +37,15 @@ entity.schemadotorg_mapping.collection:
   requirements:
     _permission: 'administer schemadotorg'
 
-entity.schemadotorg_mapping.add_form:
-  path: '/admin/structure/schemadotorg/add'
-  defaults:
-    _entity_form: 'schemadotorg_mapping.add'
-    _title: 'Add a Schema.org mapping'
-  requirements:
-    _permission: 'administer schemadotorg'
+# The 'Add Schema.org mapping' page (entity.schemadotorg_mapping.add_form) is only available
+# via the Schema.org UI.
+# @see modules/schemadotorg_ui/schemadotorg_ui.routing.yml
 
 entity.schemadotorg_mapping.edit_form:
   path: '/admin/structure/schemadotorg/{schemadotorg_mapping}'
   defaults:
     _entity_form: 'schemadotorg_mapping.edit'
-    _title: 'Edit a Schema.org mapping'
+    _title: 'Edit Schema.org mapping'
   requirements:
     _permission: 'administer schemadotorg'
 
@@ -73,7 +69,7 @@ entity.schemadotorg_mapping_type.add_form:
   path: '/admin/structure/schemadotorg/types/add'
   defaults:
     _entity_form: 'schemadotorg_mapping_type.add'
-    _title: 'Add a Schema.org mapping type'
+    _title: 'Add Schema.org mapping type'
   requirements:
     _permission: 'administer schemadotorg'
 
@@ -81,7 +77,7 @@ entity.schemadotorg_mapping_type.edit_form:
   path: '/admin/structure/schemadotorg/types/{schemadotorg_mapping_type}'
   defaults:
     _entity_form: 'schemadotorg_mapping_type.edit'
-    _title: 'Edit a Schema.org mapping type'
+    _title: 'Edit Schema.org mapping type'
   requirements:
     _permission: 'administer schemadotorg'
 

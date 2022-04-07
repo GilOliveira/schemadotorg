@@ -25,7 +25,12 @@ SchemaDotOrgTypeSelection.php
 schemadotorg_descriptions.module
 schemadotorg_jsonapi.module
 
-\Drupal\schemadotorg\Plugin\EntityReferenceSelection\
+
+\Drupal\schemadotorg_ui\Controller\SchemaDotOrgUiMappingController
+SchemaDotOrgMappingTypeStorage::getEntityTypeBundles();
+SchemaDotOrgMappingTypeStorage::getEntityTypeBundleDefinitions();
+
+* \Drupal\schemadotorg\Plugin\EntityReferenceSelection\
 - Check unpublished.
 
 SchemaDotOrgUiJavaScript
