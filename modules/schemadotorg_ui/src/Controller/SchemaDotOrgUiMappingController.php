@@ -56,13 +56,17 @@ class SchemaDotOrgUiMappingController extends ControllerBase {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping_type');
 
+    $content = [];
     $entity_type_definitions = $mapping_type_storage->getEntityTypeBundleDefinitions();
     foreach ($entity_type_definitions as $entity_type_id => $entity_type_definition) {
       $bundle_entity_type_id = $entity_type_definition->id();
-      $content[$entity_type_id] = [
-        'title' => $entity_type_definition->getLabel(),
-        'url' => Url::fromRoute("schemadotorg.{$bundle_entity_type_id}.type_add"),
-      ];
+      $url = Url::fromRoute("schemadotorg.{$bundle_entity_type_id}.type_add");
+      if ($url->access($this->currentUser())) {
+        $content[$entity_type_id] = [
+          'title' => $entity_type_definition->getLabel(),
+          'url' => $url,
+        ];
+      }
     }
     return $content;
   }
@@ -114,10 +118,13 @@ class SchemaDotOrgUiMappingController extends ControllerBase {
           $title .= ': ' . $entity->label();
         }
 
-        $content["$entity_type_id:$bundle"] = [
-          'title' => $this->t('@title (@type)', ['@title' => $title, '@type' => $schema_type]),
-          'url' => Url::fromRoute($route_name, $route_parameter),
-        ];
+        $url = Url::fromRoute($route_name, $route_parameter);
+        if ($url->access($this->currentUser())) {
+          $content["$entity_type_id:$bundle"] = [
+            'title' => $this->t('@title (@type)', ['@title' => $title, '@type' => $schema_type]),
+            'url' => Url::fromRoute($route_name, $route_parameter),
+          ];
+        }
       }
     }
     return $content;

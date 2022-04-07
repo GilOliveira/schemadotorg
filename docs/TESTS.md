@@ -24,11 +24,7 @@ SchemaDotOrgRangeIncludesSelection.php
 SchemaDotOrgTypeSelection.php
 schemadotorg_descriptions.module
 schemadotorg_jsonapi.module
-
-
-\Drupal\schemadotorg_ui\Controller\SchemaDotOrgUiMappingController
-SchemaDotOrgMappingTypeStorage::getEntityTypeBundles();
-SchemaDotOrgMappingTypeStorage::getEntityTypeBundleDefinitions();
+SchemaDotOrgUiMappingController
 
 * \Drupal\schemadotorg\Plugin\EntityReferenceSelection\
 - Check unpublished.
@@ -41,7 +37,7 @@ SchemaDotOrgCommands.php
 What is minimum for UI testing? JavaScript.
 
 # References
--
+
 - [PHPUnit in Drupal](https://www.drupal.org/docs/automated-testing/phpunit-in-drupal)
 - [Types of tests](https://www.drupal.org/docs/automated-testing/types-of-tests)
 - [PHPUnit Browser test tutorial](https://www.drupal.org/docs/automated-testing/phpunit-in-drupal/phpunit-browser-test-tutorial)

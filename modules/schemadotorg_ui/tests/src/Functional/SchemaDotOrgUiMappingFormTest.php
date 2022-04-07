@@ -56,7 +56,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
   }
 
   /**
-   * Test SSchema.org mapping form.
+   * Test Schema.org mapping form.
    */
   public function testMappingForm() {
     global $base_path;
