@@ -12,6 +12,7 @@ schema_types:
     MediaObject:
       - contentSize
       - contentUrl
+      - name
       - thumbnail
       - text
     AudioObject:

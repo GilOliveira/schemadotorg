@@ -648,10 +648,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   protected function buildSchemaPropertiesForm(array &$form) {
     $field_options = $this->getFieldOptions();
     $property_definitions = $this->getSchemaTypePropertyDefinitions();
-    $property_mappings = $this->getSchemaTypePropertyMappings();
-
     $property_defaults = $this->getSchemaTypeDefaultProperties();
     $property_unlimited = $this->getSchemaTypeUnlimitedProperties();
+    $property_mappings = $this->getSchemaTypePropertyMappings();
+
+    $base_field_mappings = $this->getSchemaBaseFieldMappings();
 
     // Header.
     $header = [
@@ -708,7 +709,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       }
       elseif ($this->getEntity()->isNew()
         && isset($property_defaults[$property])) {
-        $field_name_default_value = static::ADD_FIELD;
+        $field_name_default_value = $base_field_mappings[$property] ?? static::ADD_FIELD;
       }
       $row['field'] = [];
       $row['field']['name'] = [
@@ -960,37 +961,18 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function getSchemaTypePropertyMappings() {
     $mapping_entity = $this->getEntity();
-    $mappings = [];
+    return array_flip($mapping_entity->getSchemaProperties());
+  }
 
-    // For new mapping entities load mapping from existing fields.
-    // @todo Rework this to be a lot smarter.
-    if ($this->getEntity()->isNew()) {
-      $entity_type_id = $this->getTargetEntityTypeId();
-      $base_field_mappings = $this->getMappingTypeStorage()->getBaseFieldMappings($entity_type_id);
-
-      $property_definitions = $this->getSchemaTypePropertyDefinitions();
-      foreach ($property_definitions as $property => $property_definition) {
-        // Map base field which include name and createDate but allow a custom
-        // field to override this default mapping.
-        if (isset($base_field_mappings[$property])) {
-          $mappings[$property] = $base_field_mappings[$property];
-        }
-
-        $field_name = $this->getFieldPrefix() . $property_definition['drupal_name'];
-        if ($this->fieldExists($field_name)
-          || ($mapping_entity->isNewTargetEntityTypeBundle() && $this->fieldStorageExists($field_name))) {
-          $mappings[$property] = $field_name;
-        }
-      }
-    }
-
-    // Load mapping from config entity.
-    $properties = $mapping_entity->getSchemaProperties();
-    foreach ($properties as $field_name => $property) {
-      $mappings[$property] = $field_name;
-    }
-
-    return $mappings;
+  /**
+   * Gets an entity type's base field mappings.
+   *
+   * @return array
+   *   An entity type's base field mappings.
+   */
+  protected function getSchemaBaseFieldMappings() {
+    $entity_type_id = $this->getTargetEntityTypeId();
+    return $this->getMappingTypeStorage()->getBaseFieldMappings($entity_type_id);
   }
 
   /**

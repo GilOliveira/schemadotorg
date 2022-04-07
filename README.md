@@ -11,8 +11,6 @@ Todo
 
 Improve form validation
 
-Only use recommended properties and not base properties.
-
 Don't automatically add existing fieldss.
 \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildSchemaPropertiesForm
 
