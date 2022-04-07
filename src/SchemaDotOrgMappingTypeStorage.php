@@ -109,15 +109,17 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
   /**
    * {@inheritdoc}
    */
-  public function getEntityTypeBundleDefinitions() {
+  public function getEntityTypeBundles() {
     $entity_types = $this->getEntityTypes();
 
     $items = [];
-    foreach ($this->entityTypeManager->getDefinitions() as $entity_type_id => $entity_type) {
+    foreach ($entity_types as $entity_type_id) {
       // Make sure the entity is supported.
-      if (!in_array($entity_type_id, $entity_types)) {
+      if (!$this->entityTypeManager->hasDefinition($entity_type_id)) {
         continue;
       }
+
+      $entity_type = $this->entityTypeManager->getDefinition($entity_type_id);
 
       // Make sure the entity has a field UI.
       $route_name = $entity_type->get('field_ui_base_route');
@@ -125,12 +127,31 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
         continue;
       }
 
-      // Make sure the bundle entity exists and is not a media type.
-      $bundle_entity_type_id = $entity_type->getBundleEntityType();
-      if (!$bundle_entity_type_id || $entity_type_id === 'media') {
+      // Media bundles are not support because the add media form is
+      // not reusable.
+      if ($entity_type_id === 'media') {
         continue;
       }
 
+      // Make sure the bundle entity exists.
+      $bundle_entity_type_id = $entity_type->getBundleEntityType();
+      if (!$bundle_entity_type_id) {
+        continue;
+      }
+
+      $items[$entity_type_id] = $entity_type;
+    }
+    return $items;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityTypeBundleDefinitions() {
+    $items = [];
+    $entity_types = $this->getEntityTypeBundles();
+    foreach ($entity_types as $entity_type_id => $entity_type) {
+      $bundle_entity_type_id = $entity_type->getBundleEntityType();
       $items[$entity_type_id] = $this->entityTypeManager->getDefinition($bundle_entity_type_id);
     }
     return $items;

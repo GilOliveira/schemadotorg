@@ -908,22 +908,22 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   The Schema.org entity types form.
    */
   protected function buildEntityTypesForm(array $form) {
-    $items = [];
+    $content = [];
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
     $entity_type_definitions = $mapping_type_storage->getEntityTypeBundleDefinitions();
     foreach ($entity_type_definitions as $entity_type_id => $entity_type_definition) {
       $bundle_entity_type_id = $entity_type_definition->id();
-      $items[$entity_type_id] = [
-        '#type' => 'link',
-        '#title' => $entity_type_definition->getLabel(),
-        '#url' => Url::fromRoute("schemadotorg.{$bundle_entity_type_id}.type_add"),
-        '#prefix' => '<p>',
-        '#suffix' => '<p>',
+      $content[$entity_type_id] = [
+        'title' => $entity_type_definition->getLabel(),
+        'url' => Url::fromRoute("schemadotorg.{$bundle_entity_type_id}.type_add"),
       ];
     }
-    $form['types'] = $items;
-    return $form;
+
+    return [
+      '#theme' => 'admin_block_content',
+      '#content' => $content,
+    ];
   }
 
   /**
