@@ -50,10 +50,10 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     $form['default_base_fields'] = [
       '#type' => 'textarea',
       '#title' => 'Default base field mappings',
-      '#description' => $this->t('Enter one value per line, in the format base_field_name|property_name.')
+      '#description' => $this->t('Enter one value per line, in the format base_field_name|property_name_01,property_name_02')
       . '<br/>' . $this->t('The property_name value be left blank if you want the base field available but not mapped to a Schema.org property.'),
-      '#default_value' => $this->keyValuesString($entity->get('default_base_fields')),
-      '#element_validate' => ['::validateKeyValues'],
+      '#default_value' => $this->nestedListString($entity->get('default_base_fields')),
+      '#element_validate' => ['::validateNestedList'],
     ];
     $form['recommended_schema_types'] = [
       '#type' => 'textarea',

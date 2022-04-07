@@ -11,12 +11,12 @@ Todo
 
 Improve form validation
 
-Add test coverage to...
+Only use recommended properties and not base properties.
 
-- Update schemadotorg_mapping_type.settings
-- Update schemadotorg_mapping_type.settings schema
-- Update MappingType list builder
-- Update edit form using grouped list
+Don't automatically add existing fieldss.
+\Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildSchemaPropertiesForm
+
+Add test coverage to...
 - \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage::getEntityTypeBundleDefinitions
 - \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildEntityTypesForm
 
@@ -30,10 +30,6 @@ Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
 to support subtype.
 
 # TBD
-
-- Should node.title map to both headline and name?
-  - \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage::getBaseFieldMappings
-  - \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage::getBaseFieldNames
 
 - How do we implement common content types and components? @see TYPES.md
 

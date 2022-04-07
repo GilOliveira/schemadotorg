@@ -53,7 +53,14 @@ class SchemaDotOrgMappingTypeListBuilder extends ConfigEntityListBuilder {
   public function buildRow(EntityInterface $entity) {
     $row['entity_type'] = $entity->label();
     $row['default_schema_types'] = implode(', ', $entity->get('default_schema_types'));
-    $row['default_base_fields'] = implode(', ', array_filter($entity->get('default_base_fields')));
+    $default_base_fields = $entity->get('default_base_fields');
+    $properties = [];
+    foreach ($default_base_fields as $default_base_field_properties) {
+      if ($default_base_field_properties) {
+        $properties = array_merge($properties, $default_base_field_properties);
+      }
+    }
+    $row['default_base_fields'] = implode(', ', array_filter($properties));
     return $row + parent::buildRow($entity);
   }
 

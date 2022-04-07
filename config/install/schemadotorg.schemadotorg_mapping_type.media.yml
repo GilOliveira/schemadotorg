@@ -4,15 +4,19 @@ dependencies: {  }
 id: media
 target_entity_type_id: media
 default_base_fields:
-  uuid: NULL
-  revision_created: NULL
-  revision_user: NULL
-  uid: NULL
-  name: name
-  thumbnail: thumbnail
-  created: dateCreated
-  changed: dateModified
-  path: NULL
+  uuid: { }
+  revision_created: { }
+  revision_user: { }
+  uid: { }
+  name:
+    - name
+  thumbnail:
+    - thumbnail
+  created:
+    - dateCreated
+  changed:
+    - dateModified
+  path: { }
 recommended_schema_types:
   media_objects:
     label: 'Media objects'

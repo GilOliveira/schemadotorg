@@ -383,7 +383,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    * @see \Drupal\schemadotorg_ui\Routing\SchemaDotOrgRouteSubscriber
    */
   protected function buildAddType($type) {
-    if (!$this->schemaTypeManager->isType($type)) {
+    if (!$this->moduleHandler()->moduleExists('schemadotorg_ui')) {
       return NULL;
     }
 

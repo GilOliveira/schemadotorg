@@ -4,15 +4,19 @@ dependencies: {  }
 id: node
 target_entity_type_id: node
 default_base_fields:
-  uuid: NULL
-  revision_uid: NULL
-  uid: NULL
-  title: name
-  created: dateCreated
-  changed: dateChanged
-  promote: NULL
-  sticky: NULL
-  path: NULL
+  uuid: { }
+  revision_uid: { }
+  uid: { }
+  title:
+    - name
+    - headline
+  created:
+    - dateCreated
+  changed:
+    - dateChanged
+  promote: { }
+  sticky: { }
+  path: { }
 recommended_schema_types:
   common:
     label: Common

@@ -4,8 +4,8 @@ dependencies: {  }
 id: paragraph
 target_entity_type_id: paragraph
 default_base_fields:
-  uuid: NULL
-  created: NULL
+  uuid: { }
+  created: { }
 recommended_schema_types:
   common:
     label: Common

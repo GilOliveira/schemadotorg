@@ -4,12 +4,12 @@ dependencies: {  }
 id: block_content
 target_entity_type_id: block_content
 default_base_fields:
-  uuid: NULL
-  type: NULL
-  info: NULL
-  revision_created: NULL
-  revision_user: NULL
-  changed: NULL
+  uuid: { }
+  type: { }
+  info: { }
+  revision_created: { }
+  revision_user: { }
+  changed: { }
 recommended_schema_types:
   common:
     label: Common

@@ -4,10 +4,12 @@ dependencies: {  }
 id: user
 target_entity_type_id: user
 default_base_fields:
-  uuid: NULL
-  name: NULL
-  mail: email
-  user_picture: image
+  uuid: { }
+  name: { }
+  mail:
+    - email
+  user_picture:
+    - image
 recommended_schema_types: {  }
 default_schema_types:
   user: Person

@@ -9,7 +9,6 @@ schema_types:
       - description
       - headline
       - keywords
-      - name
     MediaObject:
       - contentSize
       - contentUrl

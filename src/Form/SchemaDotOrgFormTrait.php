@@ -329,7 +329,8 @@ trait SchemaDotOrgFormTrait {
 
       [$name, $types] = explode('|', $text);
       $name = trim($name);
-      $values[$name] = preg_split('/\s*,\s*/', trim($types));
+      $types = trim($types);
+      $values[$name] = $types ? preg_split('/\s*,\s*/', $types) : [];
     }
     return $values;
   }

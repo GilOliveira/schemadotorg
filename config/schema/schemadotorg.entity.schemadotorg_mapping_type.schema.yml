@@ -18,8 +18,11 @@ schemadotorg.schemadotorg_mapping_type.*:
       type: sequence
       label: 'Default base field mappings'
       sequence:
-        type: string
-        label: 'Default base field mapping'
+        type: sequence
+        label: 'Default base field'
+        sequence:
+          type: string
+          label: 'Schema.org property'
     recommended_schema_types:
       type: sequence
       label: 'Recommended Schema.org types'

@@ -88,8 +88,19 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
       return [];
     }
 
-    $default_base_fields = $mapping_type->get('default_base_fields') ?: [];
-    return $default_base_fields ? array_flip(array_filter($default_base_fields)) : [];
+    $base_fields = $mapping_type->get('default_base_fields') ?: [];
+    $base_fields = array_filter($base_fields);
+    if (empty($base_fields)) {
+      return [];
+    }
+
+    $mappings = [];
+    foreach ($base_fields as $field_name => $properties) {
+      foreach ($properties as $property) {
+        $mappings[$property] = $field_name;
+      }
+    }
+    return $mappings;
   }
 
   /**
