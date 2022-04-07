@@ -5,6 +5,7 @@ namespace Drupal\schemadotorg_report\Controller;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
+use Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -386,33 +387,15 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       return NULL;
     }
 
+    // Get operations.
     $operations = [];
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $schemadotorg_mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping_type');
-    $entity_types = $mapping_type_storage->getEntityTypes();
-    foreach ($this->entityTypeManager()->getDefinitions() as $entity_type_id => $entity_type) {
-      // Make sure the entity is supported.
-      if (!in_array($entity_type_id, $entity_types)) {
-        continue;
-      }
-
-      // Make sure the entity has a field UI.
-      $route_name = $entity_type->get('field_ui_base_route');
-      if (!$route_name) {
-        continue;
-      }
-
-      // Make sure the bundle entity exists and is not a media type.
-      $bundle_entity_type_id = $entity_type->getBundleEntityType();
-      if (!$bundle_entity_type_id || $entity_type_id === 'media') {
-        continue;
-      }
-
-      $bundle_entity_type_definition = $this->entityTypeManager()
-        ->getDefinition($bundle_entity_type_id);
-      $t_args = [
-        '@type' => $bundle_entity_type_definition->getSingularLabel(),
-      ];
+    /** @var \Drupal\Core\Config\Entity\ConfigEntityType[] $entity_type_definitions */
+    $entity_type_definitions = $mapping_type_storage->getEntityTypeBundleDefinitions();
+    foreach ($entity_type_definitions as $entity_type_id => $entity_type_definition) {
+      $bundle_entity_type_id = $entity_type_definition->id();
+      $t_args = ['@type' => $entity_type_definition->getSingularLabel()];
       $operations[$entity_type_id] = [
         'title' => $this->t('Add Schema.org @type', $t_args),
         'url' => Url::fromRoute("schemadotorg.{$bundle_entity_type_id}.type_add", ['type' => $type]),

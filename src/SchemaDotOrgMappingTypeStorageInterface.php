@@ -78,4 +78,12 @@ interface SchemaDotOrgMappingTypeStorageInterface extends ConfigEntityStorageInt
    */
   public function getBaseFieldNames($entity_type_id);
 
+  /**
+   * Get entity type bundle definitions.
+   *
+   * @return \Drupal\Core\Config\Entity\ConfigEntityTypeInterface[]
+   *   Entity type bundle definitions.
+   */
+  public function getEntityTypeBundleDefinitions();
+
 }

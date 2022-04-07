@@ -6,6 +6,10 @@ Improve form validation
 title should map to name or headline
 - default_base_fields
 
+Add test coverage to
+- \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage::getEntityTypeBundleDefinitions
+- \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildEntityTypesForm
+
 Ongoing
 - Determine the recommended types per entity type.
 - Build out the default schema types properties.

@@ -1,6 +1,8 @@
 entity.schemadotorg_mapping.add_form:
   route_name: 'entity.schemadotorg_mapping.add_form'
   title: 'Add Schema.org mapping'
+  dialog: 600
+  class: \Drupal\schemadotorg_ui\Plugin\Menu\LocalAction\SchemaDotOrgUiLocalAction
   appears_on:
     - entity.schemadotorg_mapping.collection
 

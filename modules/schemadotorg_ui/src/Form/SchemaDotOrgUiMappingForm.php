@@ -127,9 +127,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       return parent::getEntityFromRouteMatch($route_match, $entity_type_id);
     }
 
-    // Default the target entity type to be a node.
-    $target_entity_type_id = $target_entity_type_id ?? 'node';
-
     // Display warning that new Schema.org type is mapped.
     if ($mapping_storage->isSchemaTypeMapped($target_entity_type_id, $schema_type)) {
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
@@ -182,9 +179,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       // Display Schema.org type property to field mapping form.
       return $this->buildFieldTypeForm($form);
     }
-    else {
+    elseif ($this->getTargetEntityTypeId()) {
       // Display find Schema.org type form.
       return $this->buildFindTypeForm($form);
+    }
+    else {
+      // Display the Schema.org entity types form.
+      return $this->buildEntityTypesForm($form);
     }
   }
 
@@ -894,6 +895,34 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#title' => $this->t('Full list of Schema.org types'),
       'tree' => $this->schemaTypeBuilder->buildTypeTree($tree, ['base_path' => $base_path]),
     ];
+    return $form;
+  }
+
+  /**
+   * Build the Schema.org entity types form.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   *
+   * @return array
+   *   The Schema.org entity types form.
+   */
+  protected function buildEntityTypesForm(array $form) {
+    $items = [];
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
+    $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
+    $entity_type_definitions = $mapping_type_storage->getEntityTypeBundleDefinitions();
+    foreach ($entity_type_definitions as $entity_type_id => $entity_type_definition) {
+      $bundle_entity_type_id = $entity_type_definition->id();
+      $items[$entity_type_id] = [
+        '#type' => 'link',
+        '#title' => $entity_type_definition->getLabel(),
+        '#url' => Url::fromRoute("schemadotorg.{$bundle_entity_type_id}.type_add"),
+        '#prefix' => '<p>',
+        '#suffix' => '<p>',
+      ];
+    }
+    $form['types'] = $items;
     return $form;
   }
 

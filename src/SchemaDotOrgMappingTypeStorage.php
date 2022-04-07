@@ -3,11 +3,29 @@
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityStorage;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Storage controller class for "schemadotorg_mapping_type" configuration entities.
  */
 class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements SchemaDotOrgMappingTypeStorageInterface {
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
+    $instance = parent::createInstance($container, $entity_type);
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+    return $instance;
+  }
 
   /**
    * {@inheritdoc}
@@ -86,6 +104,36 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
     $default_base_fields = $mapping_type->get('default_base_fields') ?: [];
     $base_field_names = array_keys($default_base_fields);
     return array_combine($base_field_names, $base_field_names);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityTypeBundleDefinitions() {
+    $entity_types = $this->getEntityTypes();
+
+    $items = [];
+    foreach ($this->entityTypeManager->getDefinitions() as $entity_type_id => $entity_type) {
+      // Make sure the entity is supported.
+      if (!in_array($entity_type_id, $entity_types)) {
+        continue;
+      }
+
+      // Make sure the entity has a field UI.
+      $route_name = $entity_type->get('field_ui_base_route');
+      if (!$route_name) {
+        continue;
+      }
+
+      // Make sure the bundle entity exists and is not a media type.
+      $bundle_entity_type_id = $entity_type->getBundleEntityType();
+      if (!$bundle_entity_type_id || $entity_type_id === 'media') {
+        continue;
+      }
+
+      $items[$entity_type_id] = $this->entityTypeManager->getDefinition($bundle_entity_type_id);
+    }
+    return $items;
   }
 
 }
