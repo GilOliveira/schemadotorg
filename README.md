@@ -23,6 +23,11 @@ to support subtype.
 
 Add test to cover schemadotorg_field_config_load() to RangeInclude selection
 
+# Best Practices
+
+If two properties can address similar use-cases, use the more common property.
+- For example, Place can have an 'image' and 'photo'.
+  It is simpler to use 'image'.
 
 # TBD
 

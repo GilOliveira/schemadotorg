@@ -4,16 +4,15 @@ schema_types:
     CreativeWork:
       - dateCreated
       - dateModified
-      - datePublished
       - description
-      - keywords
     MediaObject:
-      - contentSize
-      - contentUrl
       - name
       - text
     AudioObject:
       - duration
+      - contentUrl
+    DataDownload:
+      - contentUrl
     ImageObject:
       - image
       - thumbnail
@@ -50,7 +49,6 @@ schema_types:
       - description
       - email
       - image
-      - location
       - name
       - parentOrganization
       - telephone
@@ -81,7 +79,6 @@ schema_types:
       - description
       - image
       - name
-      - photo
       - telephone
     Recipe:
       - nationality
@@ -253,6 +250,8 @@ schema_properties:
     image:
       - 'field_ui:entity_reference:media'
       - image
+    location:
+      - 'field_ui:entity_reference:node'
     telephone:
       - telephone
       - string
@@ -263,7 +262,6 @@ schema_properties:
       - string
   default_unlimited_fields:
     - audience
-    - address
     - about
     - affiliation
     - alumniOf
@@ -272,11 +270,10 @@ schema_properties:
     - award
     - contactPoint
     - knowsLanguage
-    - keywords
     - mentions
     - performer
-    - photo
     - organizer
+    - photo
     - relatedLink
     - recipeCategory
     - recipeCuisine
@@ -286,7 +283,6 @@ schema_properties:
     - sponsor
     - suitableForDiet
     - worksFor
-    - video
 names:
   prefixes:
     body_measurement: body_meas

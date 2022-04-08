@@ -37,7 +37,6 @@ drush devel-generate:media --kill 50
 drush devel-generate:content --kill --skip-fields=menu_link\
  --add-type-label\
  --bundles=person,organization,place,event,creative_work 50
-
 ```
 
 ## Teardown Schema.org types with example content.

@@ -432,6 +432,11 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
             }
             break;
 
+          case 'paragraph':
+            $widget_id = 'paragraphs';
+            $handler = 'schemadotorg_range_includes';
+            break;
+
           default:
             $handler = 'schemadotorg_range_includes';
             break;
