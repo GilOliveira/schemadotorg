@@ -4,6 +4,7 @@ namespace Drupal\schemadotorg;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
@@ -12,6 +13,13 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
  */
 class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInterface {
   use StringTranslationTrait;
+
+  /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
 
   /**
    * The entity type manager.
@@ -51,6 +59,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * Constructs a SchemaDotOrgBuilder object.
    *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository
@@ -63,12 +73,14 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *   The Schema.org schema type manager.
    */
   public function __construct(
+    ModuleHandlerInterface $module_handler,
     EntityTypeManagerInterface $entity_type_manager,
     EntityDisplayRepositoryInterface $display_repository,
     FieldTypePluginManagerInterface $field_type_plugin_manager,
     SchemaDotOrgNamesInterface $schema_names,
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
   ) {
+    $this->moduleHandler = $module_handler;
     $this->entityTypeManager = $entity_type_manager;
     $this->entityDisplayRepository = $display_repository;
     $this->fieldTypePluginManager = $field_type_plugin_manager;
@@ -400,6 +412,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       case 'entity_reference_revisions':
       case 'entity_reference':
         $target_type = $field_storage_values['settings']['target_type'] ?? 'node';
+
+        // Field values settings.
         switch ($target_type) {
           case 'taxonomy_term':
             if ($field_values['field_name'] === $this->schemaNames->getFieldPrefix() . 'type') {
@@ -408,6 +422,13 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
             else {
               $handler = 'schemadotorg_enumeration';
               $widget_id = 'options_select';
+            }
+            break;
+
+          case 'media':
+            $handler = 'schemadotorg_range_includes';
+            if ($this->moduleHandler->moduleExists('media_library')) {
+              $widget_id = 'media_library_widget';
             }
             break;
 
@@ -426,6 +447,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
             ],
           ],
         ];
+
         break;
 
       case 'list_string':

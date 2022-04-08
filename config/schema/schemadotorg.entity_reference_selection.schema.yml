@@ -5,6 +5,13 @@ entity_reference_selection.schemadotorg_range_includes:
     target_type:
       type: string
       label: 'Type of item to reference'
+    target_bundles:
+      type: sequence
+      label: 'types'
+      nullable: true
+      sequence:
+        type: string
+        label: 'Bundle'
     schemadotorg_mapping:
       type: mapping
       label: 'Schema.org field mapping'

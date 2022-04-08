@@ -23,6 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * The 'entity_types' are set via schemadotorg_entity_reference_selection_alter.
  *
  * @see \Drupal\Core\Entity\Plugin\EntityReferenceSelection\DefaultSelection
+ * @see \Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem::generateSampleValue
  * @see schemadotorg_entity_reference_selection_alter()
  */
 abstract class SchemaDotOrgSelectionBase extends SelectionPluginBase implements ContainerFactoryPluginInterface {
@@ -86,6 +87,9 @@ abstract class SchemaDotOrgSelectionBase extends SelectionPluginBase implements 
         'bundle' => NULL,
         'field_name' => NULL,
       ],
+      // Set 'auto_create = FALSE' to allow devel generate to work as expected.
+      'auto_create' => FALSE,
+      'auto_create_bundle' => NULL,
     ] + parent::defaultConfiguration();
   }
 

@@ -17,6 +17,19 @@ default_base_fields:
   changed:
     - dateModified
   path: { }
+  field_media_audio_file:
+    - contentUrl
+  field_media_document:
+    - contentUrl
+  field_media_image:
+    - image
+    - contentUrl
+  field_media_oembed_video:
+    - video
+    - contentUrl
+  field_media_video_file:
+    - video
+    - contentUrl
 recommended_schema_types:
   media_objects:
     label: 'Media objects'

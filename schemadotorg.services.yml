@@ -14,4 +14,4 @@ services:
 
   schemadotorg.entity_type_builder:
     class: Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder
-    arguments: ['@entity_type.manager', '@entity_display.repository', '@plugin.manager.field.field_type', '@schemadotorg.names', '@schemadotorg.schema_type_manager']
+    arguments: ['@module_handler', '@entity_type.manager', '@entity_display.repository', '@plugin.manager.field.field_type', '@schemadotorg.names', '@schemadotorg.schema_type_manager']

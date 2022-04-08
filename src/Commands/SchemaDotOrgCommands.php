@@ -3,6 +3,7 @@
 namespace Drupal\schemadotorg\Commands;
 
 use Consolidation\AnnotatedCommand\CommandData;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormBuilderInterface;
@@ -44,6 +45,13 @@ class SchemaDotOrgCommands extends DrushCommands {
   protected $entityTypeManager;
 
   /**
+   * The entity field manager.
+   *
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
+   */
+  protected $entityFieldManager;
+
+  /**
    * The Schema.org installer service.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface
@@ -73,6 +81,8 @@ class SchemaDotOrgCommands extends DrushCommands {
    *   The form builder.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
+   *   The entity field manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $schema_installer
    *   The Schema.org installer service.
    * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
@@ -84,6 +94,7 @@ class SchemaDotOrgCommands extends DrushCommands {
     ModuleHandlerInterface $module_handler,
     FormBuilderInterface $form_builder,
     EntityTypeManagerInterface $entity_type_manager,
+    EntityFieldManagerInterface $entity_field_manager,
     SchemaDotOrgInstallerInterface $schema_installer,
     SchemaDotOrgNamesInterface $schema_names,
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
@@ -92,6 +103,7 @@ class SchemaDotOrgCommands extends DrushCommands {
     $this->moduleHandler = $module_handler;
     $this->formBuilder = $form_builder;
     $this->entityTypeManager = $entity_type_manager;
+    $this->entityFieldManager = $entity_field_manager;
     $this->schemaInstaller = $schema_installer;
     $this->schemaNames = $schema_names;
     $this->schemaTypeManager = $schema_type_manager;
@@ -343,22 +355,25 @@ class SchemaDotOrgCommands extends DrushCommands {
         }
         else {
           if ($options['delete-fields']) {
-            $field_prefix = $this->schemaNames->getFieldPrefix();
+            $base_field_defintions = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
 
             $deleted_fields = [];
             $properties = array_keys($schemadotorg_mapping->getSchemaProperties());
             foreach ($properties as $field_name) {
-              if ($field_prefix && strpos($field_name, $field_prefix) === 0) {
-                $field_config = $field_config_storage->load($entity_type_id . '.' . $bundle . '.' . $field_name);
-                $field_storage_config = $field_storage_config_storage->load($entity_type_id . '.' . $field_name);
-                if ($field_storage_config && count($field_storage_config->getBundles()) <= 1) {
-                  $field_storage_config->delete();
-                  $deleted_fields[] = $field_name;
-                }
-                elseif ($field_config) {
-                  $field_config->delete();
-                  $deleted_fields[] = $field_name;
-                }
+              // Never delete a base field.
+              if (isset($base_field_defintions[$field_name])) {
+                continue;
+              }
+
+              $field_config = $field_config_storage->load($entity_type_id . '.' . $bundle . '.' . $field_name);
+              $field_storage_config = $field_storage_config_storage->load($entity_type_id . '.' . $field_name);
+              if ($field_storage_config && count($field_storage_config->getBundles()) <= 1) {
+                $field_storage_config->delete();
+                $deleted_fields[] = $field_name;
+              }
+              elseif ($field_config) {
+                $field_config->delete();
+                $deleted_fields[] = $field_name;
               }
             }
             $t_args['@fields'] = implode('; ', $deleted_fields);

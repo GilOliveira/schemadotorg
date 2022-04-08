@@ -22,6 +22,42 @@ function schemadotorg_entity_reference_selection_alter(array &$definitions) {
 }
 
 /**
+ * Implements hook_ENTITY_TYPE_load().
+ */
+function schemadotorg_field_config_load(array $entities) {
+  /** @var \Drupal\field\FieldConfigInterface $entity */
+  // Dynamically set the 'target_bundles' for fields that use the
+  // 'schemadotorg_range_includes' selection handler.
+  //
+  // The 'target_bundles' are required for the media library widget.
+  // @see \Drupal\media_library\Plugin\Field\FieldWidget\MediaLibraryWidget::formElement
+  foreach ($entities as $entity) {
+    if ($entity->getType() !== 'entity_reference') {
+      continue;
+    }
+
+    $handler = $entity->getSetting('handler') ?? '';
+    if ($handler !== 'schemadotorg_range_includes') {
+      continue;
+    }
+
+    $settings = $entity->get('settings');
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+    $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
+    $target_bundles = $mapping_storage->getSchemaPropertyTargetBundles(
+      $entity->getTargetEntityTypeId(),
+      $entity->getTargetBundle(),
+      $entity->getName(),
+      $settings['handler_settings']['target_type']
+    );
+    $settings['handler_settings']['target_bundles'] = $target_bundles;
+
+    $entity->set('settings', $settings);
+  }
+}
+
+/**
  * Implements hook_ENTITY_TYPE_presave().
  */
 function schemadotorg_field_config_presave(EntityInterface $entity) {

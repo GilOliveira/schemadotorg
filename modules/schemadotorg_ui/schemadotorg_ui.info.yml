@@ -1,7 +1,7 @@
-name: Schema.org UI
+name: Schema.org Blueprints UI
 type: module
 description: Allows administrators to attach custom Schema.org properties to fieldable types.
-package: Schema.org
+package: Schema.org Blueprints
 core_version_requirement: ^9
 lifecycle: experimental
 dependencies:

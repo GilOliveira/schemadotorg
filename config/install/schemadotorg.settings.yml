@@ -2,28 +2,28 @@ field_prefix: schema_
 schema_types:
   default_properties:
     CreativeWork:
-      - author
       - dateCreated
       - dateModified
       - datePublished
       - description
-      - headline
       - keywords
     MediaObject:
       - contentSize
       - contentUrl
       - name
-      - thumbnail
       - text
     AudioObject:
       - duration
     ImageObject:
       - image
+      - thumbnail
     VideoObject:
       - duration
       - image
+      - thumbnail
       - video
     Article:
+      - author
       - articleBody
       - headline
       - alternativeHeadline

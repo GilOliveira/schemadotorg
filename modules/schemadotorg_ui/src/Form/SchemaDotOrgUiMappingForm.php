@@ -703,13 +703,21 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       ];
 
       // Field.
+      $field_name = $this->getFieldPrefix() . $property_definition['drupal_name'];
       $field_name_default_value = NULL;
       if (isset($property_mappings[$property])) {
         $field_name_default_value = $property_mappings[$property];
       }
-      elseif ($this->getEntity()->isNew()
-        && isset($property_defaults[$property])) {
-        $field_name_default_value = $base_field_mappings[$property] ?? static::ADD_FIELD;
+      elseif ($this->getEntity()->isNew() && isset($property_defaults[$property])) {
+        if (isset($base_field_mappings[$property])) {
+          $field_name_default_value = $base_field_mappings[$property];
+        }
+        elseif ($this->fieldStorageExists($field_name)) {
+          $field_name_default_value = $field_name;
+        }
+        else {
+          $field_name_default_value = static::ADD_FIELD;
+        }
       }
       $row['field'] = [];
       $row['field']['name'] = [
