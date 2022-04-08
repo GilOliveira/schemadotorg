@@ -21,9 +21,7 @@ Ongoing
 Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
 to support subtype.
 
-Media requires bundles.
-- Might be able to set this dynamically via getConfiguration?
-- Set default form and view module for certain entity types or properties???
+Add test to cover schemadotorg_field_config_load() to RangeInclude selection
 
 
 # TBD
