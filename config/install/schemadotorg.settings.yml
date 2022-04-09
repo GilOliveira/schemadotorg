@@ -80,6 +80,11 @@ schema_types:
       - image
       - name
       - telephone
+    Movie:
+      - actor
+      - duration
+      - musicBy
+      - trailer
     Recipe:
       - nationality
       - nutrition
@@ -96,6 +101,38 @@ schema_types:
       - worksFor
       - video
       - yield
+    LocalBusiness:
+      - openingHours
+    Occupation:
+      - educationRequirements
+      - experienceRequirements
+      - occupationalCategory
+      - qualifications
+      - responsibilities
+      - skills
+    JobPosting:
+      - baseSalary
+      - benefits
+      - datePosted
+      - directApply
+      - educationRequirements
+      - eligibilityToWorkRequirement
+      - employerOverview
+      - employmentType
+      - estimatedSalary
+      - experienceRequirements
+      - industry
+      - jobBenefits
+      - jobImmediateStart
+      - jobLocation
+      - jobLocationType
+      - jobStartDate
+      - occupationalCategory
+      - physicalRequirement
+      - responsibilities
+      - skills
+      - validThrough
+      - workHours
     Product:
       - additionalProperty
       - additionalType
@@ -261,26 +298,34 @@ schema_properties:
     width:
       - string
   default_unlimited_fields:
-    - audience
+    - actor
     - about
     - affiliation
     - alumniOf
     - alternateName
     - attendee
+    - audience
     - award
     - contactPoint
+    - educationRequirements
+    - experienceRequirements
     - knowsLanguage
     - mentions
+    - musicBy
     - performer
+    - occupationalCategory
     - organizer
     - photo
+    - qualifications
     - relatedLink
     - recipeCategory
     - recipeCuisine
+    - responsibilities
     - recipeIngredient
     - recipeInstructions
     - significantLink
     - sponsor
+    - skills
     - suitableForDiet
     - worksFor
 names:
