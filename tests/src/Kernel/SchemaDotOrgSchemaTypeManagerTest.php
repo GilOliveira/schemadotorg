@@ -193,10 +193,11 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
       'description' => 'description',
       'email' => 'email',
       'image' => 'image',
-      'location' => 'location',
+      'isAcceptingNewPatients' => 'isAcceptingNewPatients',
+      'medicalSpecialty' => 'medicalSpecialty',
       'name' => 'name',
+      'openingHours' => 'openingHours',
       'parentOrganization' => 'parentOrganization',
-      'photo' => 'photo',
       'telephone' => 'telephone',
     ];
     $actual_default_properties = $this->schemaTypeManager->getTypeDefaultProperties('Physician');

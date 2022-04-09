@@ -101,8 +101,18 @@ schema_types:
       - worksFor
       - video
       - yield
+    CivicStructure:
+      - openingHours
     LocalBusiness:
       - openingHours
+    MedicalOrganization:
+      - isAcceptingNewPatients
+      - medicalSpecialty
+    SportsOrganization:
+      - sport
+    Hospital:
+      - availableService
+      - medicalSpecialty
     Occupation:
       - educationRequirements
       - experienceRequirements
@@ -305,11 +315,13 @@ schema_properties:
     - alternateName
     - attendee
     - audience
+    - availableService
     - award
     - contactPoint
     - educationRequirements
     - experienceRequirements
     - knowsLanguage
+    - medicalSpecialty
     - mentions
     - musicBy
     - performer

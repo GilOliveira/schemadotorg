@@ -11,6 +11,13 @@ Todo
 
 Improve form validation
 
+Intangibles
+
+Field group and ordering
+- Define global field group pattern.
+- Group all defined fields
+- Details which are always open.
+
 Ongoing
 - Review UX and workflow
 - Review all description.
