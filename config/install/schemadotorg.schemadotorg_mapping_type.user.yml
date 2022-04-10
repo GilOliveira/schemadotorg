@@ -44,3 +44,6 @@ default_field_groups:
       - telephone
       - fax
       - contactPoint
+default_field_group_form_type: 'details'
+default_field_group_view_type: 'fieldset'
+

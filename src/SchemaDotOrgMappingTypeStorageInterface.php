@@ -4,6 +4,7 @@ namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
 use Drupal\Core\Config\Entity\ImportableEntityStorageInterface;
+use Drupal\Core\Entity\Display\EntityDisplayInterface;
 
 /**
  * Provides an interface for 'schemadotorg_mapping_type' storage.
@@ -55,6 +56,32 @@ interface SchemaDotOrgMappingTypeStorageInterface extends ConfigEntityStorageInt
    *   specific entity type.
    */
   public function getDefaultFieldGroups($entity_type_id);
+
+  /**
+   * Gets default field group format type.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
+   *   The entity display.
+   *
+   * @return string
+   *   The default field group format type.
+   */
+  public function getDefaultFieldGroupFormatType($entity_type_id, EntityDisplayInterface $display);
+
+  /**
+   * Gets default field group format settings.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
+   *   The entity display.
+   *
+   * @return array
+   *   The default field group format settings.
+   */
+  public function getDefaultFieldGroupFormatSettings($entity_type_id, EntityDisplayInterface $display);
 
   /**
    * Gets common Schema.org types for a specific entity type.

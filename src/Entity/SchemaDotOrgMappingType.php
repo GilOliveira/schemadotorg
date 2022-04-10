@@ -44,6 +44,8 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *     "default_schema_types",
  *     "default_base_fields",
  *     "default_field_groups",
+ *     "default_field_group_form_type",
+ *     "default_field_group_view_type",
  *     "recommended_schema_types",
  *   }
  * )
@@ -84,6 +86,20 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * @var array
    */
   protected $default_field_groups = [];
+
+  /**
+   * Default field group form type.
+   *
+   * @var string
+   */
+  protected $default_field_group_form_type = '';
+
+  /**
+   * Default field group view type.
+   *
+   * @var string
+   */
+  protected $default_field_group_view_type = '';
 
   /**
    * An associative array of grouped recommended Schema.org types.

@@ -3,6 +3,8 @@
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityStorage;
+use Drupal\Core\Entity\Display\EntityDisplayInterface;
+use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -77,6 +79,35 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
     }
 
     return $mapping_type->get('default_field_groups') ?: [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultFieldGroupFormatType($entity_type_id, EntityDisplayInterface $display) {
+    $mapping_type = $this->load($entity_type_id);
+    if (!$mapping_type) {
+      return '';
+    }
+
+    $display_type = ($display instanceof EntityFormDisplayInterface) ? 'form' : 'view';
+    return $mapping_type->get('default_field_group_' . $display_type . '_type') ?: '';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultFieldGroupFormatSettings($entity_type_id, EntityDisplayInterface $display) {
+    $type = $this->getDefaultFieldGroupFormatType($entity_type_id, $display);
+    switch ($type) {
+      case 'details':
+        return ['open' => TRUE];
+
+      case 'fieldset':
+      case 'html_element':
+      default:
+        return [];
+    }
   }
 
   /**

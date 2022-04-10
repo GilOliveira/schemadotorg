@@ -57,15 +57,36 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     ];
     $form['default_field_groups'] = [
       '#type' => 'textarea',
-      '#title' => 'Default field groups',
+      '#title' => $this->t('Default field groups'),
       '#description' => $this->t('Enter one value per line, in the format group_name|group_label|property01,property02,property03.'),
       '#attributes' => ['wrap' => 'off'],
       '#default_value' => $this->groupedPropertiesListString($entity->get('default_field_groups')),
       '#element_validate' => ['::validateGroupedPropertiesList'],
     ];
+    $type_options = [
+      'details' => $this->t('Details'),
+      'html_element' => $this->t('HTML element'),
+      'fieldset' => $this->t('Fieldset'),
+    ];
+    $form['default_field_group_form_type'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Default field group form type'),
+      '#options' => $type_options,
+      '#default_value' => $entity->get('default_field_group_form_type'),
+      '#empty_value' => '',
+      '#empty_option' => $this->t('- None -'),
+    ];
+    $form['default_field_group_view_type'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Default field group view type'),
+      '#options' => $type_options,
+      '#default_value' => $entity->get('default_field_group_view_type'),
+      '#empty_value' => '',
+      '#empty_option' => $this->t('- None -'),
+    ];
     $form['recommended_schema_types'] = [
       '#type' => 'textarea',
-      '#title' => 'Recommended Schema.org types',
+      '#title' => $this->t('Recommended Schema.org types'),
       '#description' => $this->t('Enter one value per line, in the format group_name|group_label|SchemaType01,SchemaType01,SchemaType01.'),
       '#attributes' => ['wrap' => 'off'],
       '#default_value' => $this->groupedTypesListString($entity->get('recommended_schema_types')),

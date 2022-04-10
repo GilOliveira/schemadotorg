@@ -14,18 +14,20 @@ Improve form validation
 Intangibles
 
 Field group and ordering
-- Group all defined fields
-- Should group always be applied yes.
-- Group should only be applied to new properties.
-- Group types
-  - None
-  - Details
-  - Fieldset
-  - HTML element
+
+- Warning about updating field types.
+- Field group are left behind when fields are deleted.
+  - User is the best example.
+  - Add drush command to --delete-field-groups
 
 Tests
+- Field groups on create and updated.
+- Break the UI test into smaller tests.
 - \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage::getDefaultFieldGroups
-Ongoing
+- \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage::getDefaultFieldGroupFormatType
+- \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage::getDefaultFieldGroupViewType
+
+- Ongoing
 - Review UX and workflow
 - Review all description.
 - Determine the recommended types per entity type.

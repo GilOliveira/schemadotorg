@@ -376,6 +376,23 @@ class SchemaDotOrgCommands extends DrushCommands {
                 $deleted_fields[] = $field_name;
               }
             }
+
+            if ($this->moduleHandler->moduleExists('field_group')) {
+              $contexts = ['form', 'view'];
+              foreach ($contexts as $context) {
+                $groups = field_group_info_groups($entity_type_id, $bundle, $context, 'default');
+                foreach ($groups as $group) {
+                  $group->children = array_diff($group->children, $deleted_fields);
+                  if (empty($group->children)) {
+                    field_group_delete_field_group($group);
+                  }
+                  else {
+                    field_group_group_save($group);
+                  }
+                }
+              }
+            }
+
             $t_args['@fields'] = implode('; ', $deleted_fields);
             $this->output()->writeln($this->t('The associated Schema.org type @schema_type fields (@fields) have been deleted.', $t_args));
           }

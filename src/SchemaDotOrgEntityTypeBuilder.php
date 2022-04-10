@@ -397,7 +397,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       return;
     }
 
-    $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, 'default');
+    $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle);
     $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle);
     foreach ($properties as $field_name => $property) {
       $this->setEntityDisplayFieldGroup($form_display, $field_name, $property);
@@ -432,7 +432,9 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
     $default_field_groups = $mapping_type_storage->getDefaultFieldGroups($entity_type_id);
-    if (empty($default_field_groups)) {
+    $default_format_type = $mapping_type_storage->getDefaultFieldGroupFormatType($entity_type_id, $display);
+    $default_format_settings = $mapping_type_storage->getDefaultFieldGroupFormatSettings($entity_type_id, $display);
+    if (empty($default_field_groups) || empty($default_format_type)) {
       return;
     }
 
@@ -455,14 +457,13 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     // Get existing groups.
     $group = $display->getThirdPartySetting('field_group', $group_name);
     if (!$group) {
-      // @todo Set default format type and settings.
       $group = [
         'label' => $group_label,
         'children' => [],
         'parent_name' => '',
         'weight' => $group_weight,
-        'format_type' => 'details',
-        'format_settings' => ['open' => TRUE],
+        'format_type' => $default_format_type,
+        'format_settings' => $default_format_settings,
         'region' => 'content',
       ];
     }
