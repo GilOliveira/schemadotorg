@@ -1,6 +1,6 @@
 services:
   schemadotorg.commands:
     class: \Drupal\schemadotorg\Commands\SchemaDotOrgCommands
-    arguments: ['@module_handler', '@form_builder', '@entity_type.manager', '@entity_field.manager', '@schemadotorg.installer', '@schemadotorg.names', '@schemadotorg.schema_type_manager']
+    arguments: ['@schemadotorg.installer']
     tags:
       - { name: drush.command }

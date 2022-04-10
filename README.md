@@ -11,16 +11,28 @@ Todo
 
 Improve form validation
 
-Intangibles
+Recommended Types
+- Healthcare
+- Restaurant
+- Education
+- Government
+- Automotive
+- Commerce
+- Entertainment
+- Publishing
 
 Field group and ordering
-
 - Warning about updating field types.
-- Field group are left behind when fields are deleted.
-  - User is the best example.
-  - Add drush command to --delete-field-groups
 
 Tests
+
+Kernel
+- \Drupal\schemadotorg_ui\SchemaDotOrgUiApi::createTypeValidate
+- \Drupal\schemadotorg_ui\SchemaDotOrgUiApi::deleteTypeValidate
+Functional
+- \Drupal\schemadotorg_ui\SchemaDotOrgUiApi::createType
+- \Drupal\schemadotorg_ui\SchemaDotOrgUiApi::deleteType
+
 - Field groups on create and updated.
 - Break the UI test into smaller tests.
 - \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage::getDefaultFieldGroups

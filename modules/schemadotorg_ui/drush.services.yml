@@ -1,0 +1,6 @@
+services:
+  schemadotorg_ui.commands:
+    class: \Drupal\schemadotorg_ui\Commands\SchemaDotOrgUiCommands
+    arguments: ['@schemadotorg_ui.api']
+    tags:
+      - { name: drush.command }
