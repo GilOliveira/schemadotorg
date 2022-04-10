@@ -23,6 +23,22 @@ schemadotorg.schemadotorg_mapping_type.*:
         sequence:
           type: string
           label: 'Schema.org property'
+    default_field_groups:
+      type: sequence
+      label: 'Default field groups'
+      sequence:
+        type: mapping
+        label: 'Default field group'
+        mapping:
+          label:
+            type: string
+            label: 'Label'
+          properties:
+            type: sequence
+            label: 'Properties'
+            sequence:
+              type: string
+              label: 'Property'
     recommended_schema_types:
       type: sequence
       label: 'Recommended Schema.org types'

@@ -34,15 +34,21 @@ class SchemaDotOrgMappingTypeListBuilder extends ConfigEntityListBuilder {
   public function buildHeader() {
     $header['entity_type'] = [
       'data' => $this->t('Type'),
-      'width' => '20%',
     ];
     $header['default_schema_types'] = [
       'data' => $this->t('Default schema types'),
-      'width' => '40%',
+      'class' => [RESPONSIVE_PRIORITY_LOW],
+      'width' => '25%',
     ];
     $header['default_base_fields'] = [
       'data' => $this->t('Default base fields mapping'),
-      'width' => '40%',
+      'class' => [RESPONSIVE_PRIORITY_LOW],
+      'width' => '25%',
+    ];
+    $header['default_field_groups'] = [
+      'data' => $this->t('Default field groups'),
+      'class' => [RESPONSIVE_PRIORITY_LOW],
+      'width' => '25%',
     ];
     return $header + parent::buildHeader();
   }
@@ -51,8 +57,13 @@ class SchemaDotOrgMappingTypeListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
+    // Type.
     $row['entity_type'] = $entity->label();
+
+    // Default schema types.
     $row['default_schema_types'] = implode(', ', $entity->get('default_schema_types'));
+
+    // Default base fields mapping.
     $default_base_fields = $entity->get('default_base_fields');
     $properties = [];
     foreach ($default_base_fields as $default_base_field_properties) {
@@ -61,6 +72,15 @@ class SchemaDotOrgMappingTypeListBuilder extends ConfigEntityListBuilder {
       }
     }
     $row['default_base_fields'] = implode(', ', array_filter($properties));
+
+    // Default field groups.
+    $default_field_groups = $entity->get('default_field_groups');
+    $group_labels = [];
+    foreach ($default_field_groups as $default_field_group) {
+      $group_labels[] = $default_field_group['label'];
+    }
+    $row['default_field_groups'] = implode(', ', $group_labels);
+
     return $row + parent::buildRow($entity);
   }
 

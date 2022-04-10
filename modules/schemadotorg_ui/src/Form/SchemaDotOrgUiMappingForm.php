@@ -334,7 +334,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     }
 
     // Reset Schema.org properties.
-    // @todo Determine if we only remove existing fields.
+    $original_properties = $mapping_entity->get('properties');
     $mapping_entity->set('properties', []);
 
     // Get Schema.org property mappings.
@@ -374,6 +374,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
       $mapping_entity->setSchemaPropertyMapping($field_name, $property_name);
     }
+
+    // Get new properties and set entity display field groups.
+    $new_properties = array_diff_key($mapping_entity->get('properties'), $original_properties);
+    $this->schemaEntityTypeBuilder->setEntityDisplayFieldGroups($entity_type_id, $bundle, $new_properties);
 
     // Display message about new fields.
     if ($new_field_names) {

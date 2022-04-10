@@ -13,3 +13,34 @@ default_base_fields:
 recommended_schema_types: {  }
 default_schema_types:
   user: Person
+default_field_groups:
+  biographical:
+    label: Biographical
+    properties:
+      - name
+      - description
+      - givenName
+      - additionalName
+      - familyName
+      - honorificPrefix
+      - honorificSuffix
+      - gender
+      - birthDate
+      - knowsLanguage
+      - nationality
+  professional:
+    label: Professional
+    properties:
+      - jobTitle
+      - worksFor
+      - affiliation
+      - alumniOf
+      - award
+  contact:
+    label: Contact
+    properties:
+      - address
+      - email
+      - telephone
+      - fax
+      - contactPoint

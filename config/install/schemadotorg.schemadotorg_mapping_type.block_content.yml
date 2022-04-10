@@ -56,3 +56,4 @@ recommended_schema_types:
       - HealthInsurancePlan
       - ComputerLanguage
       - NutritionInformation
+default_field_groups: { }

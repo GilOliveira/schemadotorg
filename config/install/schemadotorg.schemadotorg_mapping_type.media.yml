@@ -49,3 +49,4 @@ default_schema_types:
   image: ImageObject
   remote_video: VideoObject
   video: VideoObject
+default_field_groups: { }

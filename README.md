@@ -14,10 +14,17 @@ Improve form validation
 Intangibles
 
 Field group and ordering
-- Define global field group pattern.
 - Group all defined fields
-- Details which are always open.
+- Should group always be applied yes.
+- Group should only be applied to new properties.
+- Group types
+  - None
+  - Details
+  - Fieldset
+  - HTML element
 
+Tests
+- \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage::getDefaultFieldGroups
 Ongoing
 - Review UX and workflow
 - Review all description.

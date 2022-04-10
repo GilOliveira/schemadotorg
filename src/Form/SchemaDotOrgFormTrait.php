@@ -71,6 +71,48 @@ trait SchemaDotOrgFormTrait {
   /* ************************************************************************ */
 
   /**
+   * Element validate callback for grouped types list.
+   */
+  public static function validateGroupedTypesList(array $element, FormStateInterface $form_state) {
+    static::validateGroupedList($element, $form_state, 'types');
+  }
+
+  /**
+   * Extracts the grouped list array from the grouped types list element.
+   */
+  protected static function extractGroupedTypesList($string) {
+    return static::extractGroupedList($string, 'types');
+  }
+
+  /**
+   * Generates a string representation of an array of grouped types list.
+   */
+  protected function groupedTypesListString(array $values) {
+    return $this->groupedListString($values, 'types');
+  }
+
+  /**
+   * Element validate callback for grouped properties list.
+   */
+  public static function validateGroupedPropertiesList(array $element, FormStateInterface $form_state) {
+    static::validateGroupedList($element, $form_state, 'properties');
+  }
+
+  /**
+   * Extracts the grouped list array from the grouped properties list element.
+   */
+  protected static function extractGroupedPropertiesList($string) {
+    return static::extractGroupedList($string, 'properties');
+  }
+
+  /**
+   * Generates a string representation of an array of grouped properties list.
+   */
+  protected function groupedPropertiesListString(array $values) {
+    return $this->groupedListString($values, 'properties');
+  }
+
+  /**
    * Element validate callback for grouped list.
    *
    * @param array $element
@@ -78,8 +120,8 @@ trait SchemaDotOrgFormTrait {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    */
-  public static function validateGroupedList(array $element, FormStateInterface $form_state) {
-    $values = static::extractGroupedList($element['#value']);
+  public static function validateGroupedList(array $element, FormStateInterface $form_state, $key) {
+    $values = static::extractGroupedList($element['#value'], $key);
     if (!is_array($values)) {
       $form_state->setError($element, t('%title: invalid input.', ['%title' => $element['#title']]));
       return;
@@ -97,7 +139,7 @@ trait SchemaDotOrgFormTrait {
    * @return array
    *   The array of extracted grouped list.
    */
-  protected static function extractGroupedList($string) {
+  protected static function extractGroupedList($string, $key) {
     $values = [];
     $list = static::extractList($string);
     foreach ($list as $text) {
@@ -105,12 +147,12 @@ trait SchemaDotOrgFormTrait {
         return FALSE;
       }
 
-      [$name, $label, $types] = explode('|', $text);
+      [$name, $label, $items] = explode('|', $text);
 
       $name = trim($name);
       $values[$name] = [
         'label' => $label ?? $name,
-        'types' => $types ? preg_split('/\s*,\s*/', trim($types)) : [],
+        $key => $items ? preg_split('/\s*,\s*/', trim($items)) : [],
       ];
     }
     return $values;
@@ -128,12 +170,12 @@ trait SchemaDotOrgFormTrait {
    *    - Each value begins with the group name, followed by the group label,
    *      and followed by a comma delimited list of types
    */
-  protected function groupedListString(array $values) {
+  protected function groupedListString(array $values, $key) {
     $lines = [];
     foreach ($values as $name => $group) {
       $label = $group['label'] ?? $name;
-      $types = $group['types'] ?? [];
-      $lines[] = $name . '|' . $label . '|' . ($types ? implode(',', $types) : '');
+      $items = $group[$key] ?? [];
+      $lines[] = $name . '|' . $label . '|' . ($items ? implode(',', $items) : '');
     }
     return implode("\n", $lines);
   }

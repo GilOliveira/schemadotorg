@@ -45,6 +45,18 @@ interface SchemaDotOrgMappingTypeStorageInterface extends ConfigEntityStorageInt
   public function getDefaultSchemaType($entity_type_id, $bundle);
 
   /**
+   * Gets default field groups for a specific entity type.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   *
+   * @return array
+   *   An associative array containing default field groups for a
+   *   specific entity type.
+   */
+  public function getDefaultFieldGroups($entity_type_id);
+
+  /**
    * Gets common Schema.org types for a specific entity type.
    *
    * @param string $entity_type_id

@@ -55,13 +55,21 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#default_value' => $this->nestedListString($entity->get('default_base_fields')),
       '#element_validate' => ['::validateNestedList'],
     ];
+    $form['default_field_groups'] = [
+      '#type' => 'textarea',
+      '#title' => 'Default field groups',
+      '#description' => $this->t('Enter one value per line, in the format group_name|group_label|property01,property02,property03.'),
+      '#attributes' => ['wrap' => 'off'],
+      '#default_value' => $this->groupedPropertiesListString($entity->get('default_field_groups')),
+      '#element_validate' => ['::validateGroupedPropertiesList'],
+    ];
     $form['recommended_schema_types'] = [
       '#type' => 'textarea',
       '#title' => 'Recommended Schema.org types',
       '#description' => $this->t('Enter one value per line, in the format group_name|group_label|SchemaType01,SchemaType01,SchemaType01.'),
       '#attributes' => ['wrap' => 'off'],
-      '#default_value' => $this->groupedListString($entity->get('recommended_schema_types')),
-      '#element_validate' => ['::validateGroupedList'],
+      '#default_value' => $this->groupedTypesListString($entity->get('recommended_schema_types')),
+      '#element_validate' => ['::validateGroupedTypesList'],
     ];
     return $form;
   }

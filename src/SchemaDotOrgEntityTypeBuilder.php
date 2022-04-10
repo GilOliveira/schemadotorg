@@ -2,6 +2,8 @@
 
 namespace Drupal\schemadotorg;
 
+use Drupal\Core\Entity\Display\EntityDisplayInterface;
+use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -284,12 +286,19 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
             $formatter_settings
         );
 
-        $this->entityTypeManager->getStorage('field_storage_config')->create($field_storage_values)->save();
+        $field_storage_config = $this->entityTypeManager->getStorage('field_storage_config')->create($field_storage_values);
+        $field_storage_config->save();
+
         $field = $this->entityTypeManager->getStorage('field_config')->create($field_values);
         $field->save();
 
-        $this->configureEntityFormDisplay($entity_type_id, $bundle, $field_name, $widget_id, $widget_settings);
-        $this->configureEntityViewDisplay($entity_type_id, $bundle, $field_name, $formatter_id, $formatter_settings);
+        $this->setEntityDisplays(
+          $field_values,
+          $widget_id,
+          $widget_settings,
+          $formatter_id,
+          $formatter_settings
+        );
       }
       catch (\Exception $e) {
         \Drupal::messenger()->addError($this->t('There was a problem creating field %label: @message', ['%label' => $field_label, '@message' => $e->getMessage()]));
@@ -312,8 +321,13 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         $field = $this->entityTypeManager->getStorage('field_config')->create($field_values);
         $field->save();
 
-        $this->configureEntityFormDisplay($entity_type_id, $bundle, $field_name, $widget_id, $widget_settings);
-        $this->configureEntityViewDisplay($entity_type_id, $bundle, $field_name, $formatter_id, $formatter_settings);
+        $this->setEntityDisplays(
+          $field_values,
+          $widget_id,
+          $widget_settings,
+          $formatter_id,
+          $formatter_settings
+        );
       }
       catch (\Exception $e) {
         \Drupal::messenger()->addError($this->t('There was a problem creating field %label: @message', ['%label' => $field_label, '@message' => $e->getMessage()]));
@@ -322,63 +336,148 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   }
 
   /**
-   * Configures the field for the default form mode.
+   * Set entity displays for a field.
    *
-   * @param string $entity_type_id
-   *   The entity type ID.
-   * @param string $bundle
-   *   The name of the bundle.
-   * @param string $field_name
-   *   The field name.
-   * @param string|null $widget_id
-   *   (optional) The plugin ID of the widget. Defaults to NULL.
+   * @param array $field_values
+   *   Field config values.
+   * @param string $widget_id
+   *   The plugin ID of the widget.
    * @param array $widget_settings
-   *   (optional) An array of widget settings. Defaults to an empty array.
+   *   An array of widget settings.
+   * @param string|null $formatter_id
+   *   The plugin ID of the formatter.
+   * @param array $formatter_settings
+   *   An array of formatter settings.
    */
-  protected function configureEntityFormDisplay($entity_type_id, $bundle, $field_name, $widget_id = NULL, array $widget_settings = []) {
-    $options = [];
-    if ($widget_id) {
-      $options['type'] = $widget_id;
-      if (!empty($widget_settings)) {
-        $options['settings'] = $widget_settings;
-      }
-    }
-    // Make sure the field is displayed in the 'default' form mode (using
-    // default widget and settings). It stays hidden for other form modes
-    // until it is explicitly configured.
-    $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, 'default')
-      ->setComponent($field_name, $options)
-      ->save();
+  protected function setEntityDisplays($field_values, $widget_id, $widget_settings, $formatter_id, $formatter_settings) {
+    $entity_type_id = $field_values['entity_type'];
+    $bundle = $field_values['bundle'];
+    $field_name = $field_values['field_name'];
+
+    // Form display.
+    $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, 'default');
+    $this->setEntityDisplayComponent($form_display, $field_name, $widget_id, $widget_settings);
+    $form_display->save();
+
+    // View display.
+    $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle);
+    $this->setEntityDisplayComponent($view_display, $field_name, $formatter_id, $formatter_settings);
+    $view_display->save();
   }
 
   /**
-   * Configures the field for the default view mode.
+   * Set entity display component.
    *
-   * @param string $entity_type_id
-   *   The entity type ID.
-   * @param string $bundle
-   *   The name of the bundle.
+   * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
+   *   An entity display.
    * @param string $field_name
-   *   The field name.
-   * @param string|null $formatter_id
-   *   (optional) The plugin ID of the formatter. Defaults to NULL.
-   * @param array $formatter_settings
-   *   (optional) An array of formatter settings. Defaults to an empty array.
+   *   The field name to be set.
+   * @param string $type
+   *   The component's plugin id.
+   * @param array $settings
+   *   The component's plugin settings.
    */
-  protected function configureEntityViewDisplay($entity_type_id, $bundle, $field_name, $formatter_id = NULL, array $formatter_settings = []) {
+  protected function setEntityDisplayComponent(EntityDisplayInterface $display, $field_name, $type, array $settings) {
     $options = [];
-    if ($formatter_id) {
-      $options['type'] = $formatter_id;
-      if (!empty($formatter_settings)) {
-        $options['settings'] = $formatter_settings;
+    if ($type) {
+      $options['type'] = $type;
+      if (!empty($settings)) {
+        $options['settings'] = $settings;
       }
     }
-    // Make sure the field is displayed in the 'default' view mode (using
-    // default formatter and settings). It stays hidden for other view
-    // modes until it is explicitly configured.
-    $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle)
-      ->setComponent($field_name, $options)
-      ->save();
+    $display->setComponent($field_name, $options);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setEntityDisplayFieldGroups($entity_type_id, $bundle, array $properties) {
+    // Make sure the field group module is enabled.
+    if (!$this->moduleHandler->moduleExists('field_group')) {
+      return;
+    }
+
+    $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, 'default');
+    $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle);
+    foreach ($properties as $field_name => $property) {
+      $this->setEntityDisplayFieldGroup($form_display, $field_name, $property);
+      $this->setEntityDisplayFieldGroup($view_display, $field_name, $property);
+    }
+    $form_display->save();
+    $view_display->save();
+  }
+
+  /**
+   * Set entity display field groups for a Schema.org property.
+   *
+   * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
+   *   An entity display.
+   * @param string $field_name
+   *   The field name to be set.
+   * @param string $schema_property
+   *   The field name's associated Schema.org property.
+   *
+   * @see field_group_group_save()
+   * @see field_group_field_overview_submit()
+   * @see \Drupal\field_group\Form\FieldGroupAddForm::submitForm
+   */
+  protected function setEntityDisplayFieldGroup(EntityDisplayInterface $display, $field_name, $schema_property) {
+    // Make sure the field component exists.
+    if (!$display->getComponent($field_name)) {
+      return;
+    }
+
+    $entity_type_id = $display->getTargetEntityTypeId();
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
+    $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
+    $default_field_groups = $mapping_type_storage->getDefaultFieldGroups($entity_type_id);
+    if (empty($default_field_groups)) {
+      return;
+    }
+
+    $group_weight = 0;
+    $field_weight = NULL;
+    $index = 0 - count($default_field_groups);
+    foreach ($default_field_groups as $default_field_group_name => $default_field_group) {
+      $group_name = $default_field_group_name;
+      $group_label = $default_field_group['label'];
+
+      $properties = array_flip($default_field_group['properties']);
+      if (isset($properties[$schema_property])) {
+        $group_weight = $index;
+        $field_weight = $properties[$schema_property];
+        break;
+      }
+      $index++;
+    }
+
+    // Get existing groups.
+    $group = $display->getThirdPartySetting('field_group', $group_name);
+    if (!$group) {
+      // @todo Set default format type and settings.
+      $group = [
+        'label' => $group_label,
+        'children' => [],
+        'parent_name' => '',
+        'weight' => $group_weight,
+        'format_type' => 'details',
+        'format_settings' => ['open' => TRUE],
+        'region' => 'content',
+      ];
+    }
+
+    // Append the field to the children.
+    $group['children'][] = $field_name;
+    $group['children'] = array_unique($group['children']);
+
+    // Set field group in the entity display.
+    $display->setThirdPartySetting('field_group', $group_name, $group);
+
+    // Set field component's weight.
+    $component = $display->getComponent($field_name);
+    $component['weight'] = $field_weight;
+    $display->setComponent($field_name, $component);
   }
 
   /**

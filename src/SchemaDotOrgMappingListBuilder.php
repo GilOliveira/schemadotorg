@@ -16,26 +16,30 @@ class SchemaDotOrgMappingListBuilder extends ConfigEntityListBuilder {
   public function buildHeader() {
     $header['entity_type'] = [
       'data' => $this->t('Type'),
-      'width' => '10%',
     ];
     $header['bundle_label'] = [
       'data' => $this->t('Name'),
+      'class' => [RESPONSIVE_PRIORITY_LOW],
       'width' => '10%',
     ];
     $header['bundle_id'] = [
       'data' => $this->t('ID'),
+      'class' => [RESPONSIVE_PRIORITY_LOW],
       'width' => '10%',
     ];
     $header['schema_type'] = [
       'data' => $this->t('Schema.org type'),
+      'class' => [RESPONSIVE_PRIORITY_LOW],
       'width' => '10%',
     ];
     $header['schema_subtype'] = [
       'data' => $this->t('Schema.org subtyping'),
+      'class' => [RESPONSIVE_PRIORITY_LOW],
       'width' => '10%',
     ];
     $header['schema_properties'] = [
       'data' => $this->t('Scheme.org properties'),
+      'class' => [RESPONSIVE_PRIORITY_LOW],
       'width' => '40%',
     ];
     return $header + parent::buildHeader();
