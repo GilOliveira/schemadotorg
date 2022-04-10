@@ -48,8 +48,6 @@ class SchemaDotOrgUiCommands extends DrushCommands {
       throw new \Exception(dt('Schema.org types are required.'));
     }
 
-    /** @var \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface $schema_api */
-    $schema_api = \Drupal::service('schemadotorg_ui.api');
     foreach ($types as $type) {
       // Validate mapping type.
       if (strpos($type, ':') === FALSE) {
@@ -59,7 +57,7 @@ class SchemaDotOrgUiCommands extends DrushCommands {
       }
 
       [$entity_type_id, $schema_type] = explode(':', $type);
-      $schema_api->createTypeValidate($entity_type_id, $schema_type);
+      $this->schemaApi->createTypeValidate($entity_type_id, $schema_type);
     }
   }
 
@@ -92,11 +90,9 @@ class SchemaDotOrgUiCommands extends DrushCommands {
       throw new UserAbortException();
     }
 
-    /** @var \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface $schema_api */
-    $schema_api = \Drupal::service('schemadotorg_ui.api');
     foreach ($types as $type) {
       [$entity_type, $schema_type] = explode(':', $type);
-      $schema_api->createType($entity_type, $schema_type, $options);
+      $this->schemaApi->createType($entity_type, $schema_type, $options);
     }
     $this->io()->writeln($this->t('Schema.org types (@types) created.', $t_args));
   }
@@ -119,11 +115,9 @@ class SchemaDotOrgUiCommands extends DrushCommands {
       throw new \Exception(dt('Schema.org types are required'));
     }
 
-    /** @var \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface $schema_api */
-    $schema_api = \Drupal::service('schemadotorg_ui.api');
     foreach ($types as $type) {
       [$entity_type, $schema_type] = explode(':', $type);
-      $schema_api->deleteTypeValidate($entity_type, $schema_type);
+      $this->schemaApi->deleteTypeValidate($entity_type, $schema_type);
     }
   }
 
@@ -153,11 +147,9 @@ class SchemaDotOrgUiCommands extends DrushCommands {
       throw new UserAbortException();
     }
 
-    /** @var \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface $schema_api */
-    $schema_api = \Drupal::service('schemadotorg_ui.api');
     foreach ($types as $type) {
       [$entity_type, $schema_type] = explode(':', $type);
-      $schema_api->deleteType($entity_type, $schema_type, $options);
+      $this->schemaApi->deleteType($entity_type, $schema_type, $options);
     }
     $this->io()->writeln($this->t('Schema.org types (@types) deleted.', $t_args));
   }

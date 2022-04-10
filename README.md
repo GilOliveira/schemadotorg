@@ -24,6 +24,14 @@ Recommended Types
 Field group and ordering
 - Warning about updating field types.
 
+Create SchemaDotOrgUiMappingsAddForm
+- entity.schemadotorg_mapping.add_group
+- /admin/structure/schemadotorg/add/{group}
+
+- Add Schema.org @group types
+- Table select
+  - Type/Description/Properties
+
 Tests
 
 Kernel
