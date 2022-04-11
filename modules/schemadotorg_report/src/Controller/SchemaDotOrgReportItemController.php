@@ -207,10 +207,18 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
               ],
             ];
           }
+          // Get all properties, excluding superseded properties.
+          $all_properties = $this->database->select('schemadotorg_properties', 'properties')
+            ->fields('properties', ['label'])
+            ->condition('label', $properties, 'IN')
+            ->condition('superseded_by', '')
+            ->orderBy('label')
+            ->execute()
+            ->fetchCol();
           $build[$name]['all_properties'] = [
             '#type' => 'item',
             '#title' => $this->t('All properties'),
-            'links' => $this->schemaTypeBuilder->buildItemsLinks($properties) + [
+            'links' => $this->schemaTypeBuilder->buildItemsLinks($all_properties) + [
               '#prefix' => $item['label'] . ' | ',
             ],
           ];

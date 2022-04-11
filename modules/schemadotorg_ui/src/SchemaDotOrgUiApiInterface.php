@@ -26,6 +26,9 @@ interface SchemaDotOrgUiApiInterface {
    *   The Schema.org type.
    * @param array $options
    *   (optional) An array of options.
+   *
+   * @return array
+   *   An array of all errors, keyed by the name of the form element.
    */
   public function createType($entity_type, $schema_type, array $options = []);
 

@@ -4,6 +4,9 @@ namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\Core\Config\Entity\ConfigEntityType;
 use Drupal\Core\Entity\ContentEntityType;
+use Drupal\Core\Entity\Display\EntityDisplayInterface;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\paragraphs\Entity\ParagraphsType;
 
@@ -79,10 +82,39 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
       $this->assertEquals($test[2], $this->storage->getDefaultSchemaType($test[0], $test[1]));
     }
 
+    // Check getting default field groups for a specific entity type.
+    $expected_default_field_group = [
+      'label' => 'General',
+      'properties' => [
+        'name',
+        'headline',
+        'alternativeHeadline',
+        'description',
+        'articleBody',
+        'text',
+        'author',
+      ],
+    ];
+    $actual_default_field_groups = $this->storage->getDefaultFieldGroups('node');
+    $this->assertEquals($expected_default_field_group, $actual_default_field_groups['general']);
+
+    // Check getting default field group format type.
+    $values = [
+      'targetEntityType' => 'paragraph',
+      'bundle' => 'some_bundle',
+      'mode' => 'default',
+    ];
+    $this->assertEquals('details', $this->storage->getDefaultFieldGroupFormatType('node', EntityFormDisplay::create($values)));
+    $this->assertEquals('fieldset', $this->storage->getDefaultFieldGroupFormatType('node', EntityViewDisplay::create($values)));
+
+    // Check getting default field group format settings.
+    $this->assertEquals(['open' => TRUE], $this->storage->getDefaultFieldGroupFormatSettings('node', EntityFormDisplay::create($values)));
+    $this->assertEquals([], $this->storage->getDefaultFieldGroupFormatSettings('node', EntityViewDisplay::create($values)));
+
     // Check getting common Schema.org types for a specific entity type.
     $recommended_schema_types = $this->storage->getRecommendedSchemaTypes('node');
     $this->assertEquals('Common', $recommended_schema_types['common']['label']);
-    $this->assertEquals('Thing', $recommended_schema_types['common']['types'][0]);
+    $this->assertEquals('Person', $recommended_schema_types['common']['types'][0]);
 
     // Check getting an entity type's base field mappings.
     $expected_base_field_mappings = [

@@ -10,42 +10,10 @@ Todo
 - Screen cast
 
 Improve form validation
+- Display warning when updating field types.
 
-Recommended Types
-- Healthcare
-- Restaurant
-- Education
-- Government
-- Automotive
-- Commerce
-- Entertainment
-- Publishing
-
-Field group and ordering
-- Warning about updating field types.
-
-Create SchemaDotOrgUiMappingsAddForm
-- entity.schemadotorg_mapping.add_group
-- /admin/structure/schemadotorg/add/{group}
-
-- Add Schema.org @group types
-- Table select
-  - Type/Description/Properties
-
-Tests
-
-Kernel
-- \Drupal\schemadotorg_ui\SchemaDotOrgUiApi::createTypeValidate
-- \Drupal\schemadotorg_ui\SchemaDotOrgUiApi::deleteTypeValidate
-Functional
-- \Drupal\schemadotorg_ui\SchemaDotOrgUiApi::createType
-- \Drupal\schemadotorg_ui\SchemaDotOrgUiApi::deleteType
-
-- Field groups on create and updated.
+Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgUiApiTest
 - Break the UI test into smaller tests.
-- \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage::getDefaultFieldGroups
-- \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage::getDefaultFieldGroupFormatType
-- \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage::getDefaultFieldGroupViewType
 
 - Ongoing
 - Review UX and workflow
@@ -56,8 +24,6 @@ Functional
 
 Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
 to support subtype.
-
-Add test to cover schemadotorg_field_config_load() to RangeInclude selection
 
 # Best Practices
 

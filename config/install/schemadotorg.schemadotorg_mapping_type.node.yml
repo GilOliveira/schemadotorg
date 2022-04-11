@@ -21,60 +21,130 @@ recommended_schema_types:
   common:
     label: Common
     types:
-      - Thing
       - Person
-      - Organization
       - Place
       - Event
-      - CreativeWork
-  content:
-    label: Content
+      - Organization
+  web_content:
+    label: Web Content
     types:
-      - Article
-      - NewsArticle
-      - Blog
-      - Book
-      - Recipe
-      - FAQPage
+      - WebContent
       - WebPage
-  business:
-    label: Business
+      - WebSite
+      - WebPageElement
+  creative_work:
+    label: Creative Work
     types:
-      - LocalBusiness
+      - CreativeWork
+      - Article
+      - Blog
+      - BlogPosting
+      - Book
+      - FAQPage
+      - HowTo
+      - NewsArticle
+      - QAPage
+      - SpecialAnnouncement
+  organization:
+    label: Organization
+    types:
       - Corporation
-      - Restaurant
-      - NGO
-  education:
-    label: Education
+      - GovernmentOrganization
+      - LocalBusiness
+      - NewsMediaOrganization
+      - SportsOrganization
+  automotive_business:
+    label: Automotive Business
     types:
-      - Course
+      - AutoBodyShop
+      - AutoDealer
+      - AutoPartsStore
+      - AutoRental
+      - AutoRepair
+      - AutoWash
+      - GasStation
+      - MotorcycleDealer
+      - MotorcycleRepair
+  automotive_vehicle:
+    label: Automotive Vehicle
+    types:
+      - BusOrCoach
+      - Car
+      - Motorcycle
+      - MotorizedBicycle
+  educational_organization:
+    label: Educational Organization
+    types:
       - CollegeOrUniversity
       - ElementarySchool
       - HighSchool
-  entertainment:
-    label: Entertainment
+      - MiddleSchool
+      - Preschool
+      - School
+      - LearningResource
+  entertainment_business:
+    label: Entertainment Business
     types:
-      - Movie
-      - MusicRecording
-      - TVSeries
-      - VideoGame
-  health:
-    label: Health
+      - AdultEntertainment
+      - AmusementPark
+      - ArtGallery
+      - Casino
+      - ComedyClub
+      - MovieTheater
+      - NightClub
+  food_establishment:
+    label: Food Establishment
     types:
-      - Physician
+      - Bakery
+      - BarOrPub
+      - Brewery
+      - Restaurant
+      - Winery
+      - Recipe
+      - Menu
+  healthcare:
+    label: Healthcare
+    types:
+      - HealthTopicContent
       - Patient
-      - Drug
+      - Dentist
+      - Optician
+      - Optometric
+      - Pharmacy
+      - Physician
+  medical_entity:
+    label: Medical Entity
+    types:
+      - MedicalCause
       - MedicalCondition
+      - MedicalContraindication
+      - MedicalDevice
       - MedicalGuideline
+      - MedicalIndication
+      - MedicalIntangible
+      - MedicalProcedure
+      - MedicalRiskEstimator
+      - MedicalRiskFactor
+      - MedicalStudy
+      - MedicalTest
+  medical_writing:
+    label: Medical Writing
+    types:
       - MedicalWebPage
       - MedicalScholarlyArticle
-      - ResearchProject
-  commerce:
-    label: Commerce
+  product:
+    label: Product
     types:
       - Product
+      - ProductCollection
+      - ProductGroup
       - Offer
       - Review
+  research_organization:
+    label: Research Organization
+    types:
+      - ResearchOrganization
+      - ResearchProject
 default_field_groups:
   general:
     label: General

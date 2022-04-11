@@ -168,6 +168,9 @@ class SchemaDotOrgUiApi implements SchemaDotOrgUiApiInterface {
       // Submit the form.
       $form_state = new FormState();
       $this->formBuilder->submitForm($form_object, $form_state);
+
+      // Return any errors.
+      return $form_state->getErrors();
     }
   }
 

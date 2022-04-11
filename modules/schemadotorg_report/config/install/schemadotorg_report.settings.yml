@@ -35,7 +35,7 @@ types:
     - title: 'Subscription and Paywalled Content'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/paywalled-content'
   Dataset:
-    - title: "Dataset \_"
+    - title: "Dataset"
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/dataset'
   EducationalOccupationalProgram:
     - title: 'Structured Data for Job Training (BETA)'
@@ -148,7 +148,7 @@ types:
   SpecialAnnouncement:
     - title: 'COVID-19 Announcements Structured Data'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/special-announcements'
-    - title: "Fact Check Markup for Search \_"
+    - title: "Fact Check Markup for Search"
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/factcheck'
     - title: 'COVID-19 Announcement JSON-LD'
       uri: 'https://jsonld.com/covid-19-announcement-json-ld/'
@@ -156,7 +156,7 @@ types:
     - title: Table
       uri: 'https://jsonld.com/table/'
   Video:
-    - title: "Get Videos on Google with Schema Markup \_"
+    - title: "Get Videos on Google with Schema Markup"
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/video'
     - title: Video
       uri: 'https://jsonld.com/video/'

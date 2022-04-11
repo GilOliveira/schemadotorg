@@ -30,6 +30,8 @@ schema_types:
       - primaryImageOfPage
       - relatedLink
       - significantLink
+    Blog:
+      - blogPost
     Event:
       - attendee
       - audience
@@ -143,6 +145,14 @@ schema_types:
       - skills
       - validThrough
       - workHours
+    Physician:
+      - availableService
+      - email
+      - faxNumber
+      - telephone
+    MedicalClinic:
+      - availableService
+      - medicalSpecialty
     Product:
       - additionalProperty
       - additionalType
@@ -305,6 +315,7 @@ schema_properties:
     - audience
     - availableService
     - award
+    - blogPost
     - contactPoint
     - educationRequirements
     - experienceRequirements

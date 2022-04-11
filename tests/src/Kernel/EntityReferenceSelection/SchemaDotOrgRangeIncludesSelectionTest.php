@@ -129,6 +129,14 @@ class SchemaDotOrgRangeIncludesSelectionTest extends SchemaDotOrgKernelTestBase 
     $form = [];
     $form_state = new FormState();
 
+    // Check target bundles are dynamically set.
+    // @see schemadotorg_field_config_load()
+    $settings = $this->fieldConfig->getSettings();
+    $this->assertEquals(
+      ['organization', 'educational_organization'],
+      array_keys($settings['handler_settings']['target_bundles'])
+    );
+
     // Check referenceable entities.
     $expected_referenceable_entities = [
       'organization' => [1 => 'Organization node'],
