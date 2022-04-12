@@ -42,8 +42,6 @@ default_field_groups:
   biographical:
     label: Biographical
     properties:
-      - name
-      - description
       - givenName
       - additionalName
       - familyName
@@ -53,6 +51,7 @@ default_field_groups:
       - birthDate
       - knowsLanguage
       - nationality
+      - description
   professional:
     label: Professional
     properties:
