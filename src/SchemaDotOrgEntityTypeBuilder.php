@@ -400,7 +400,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * {@inheritdoc}
    */
-  public function setEntityDisplayFieldGroups($entity_type_id, $bundle, array $properties) {
+  public function setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, array $properties) {
     // Make sure the field group module is enabled.
     if (!$this->moduleHandler->moduleExists('field_group')) {
       return;
@@ -409,8 +409,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle);
     $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle);
     foreach ($properties as $field_name => $property) {
-      $this->setEntityDisplayFieldGroup($form_display, $field_name, $property);
-      $this->setEntityDisplayFieldGroup($view_display, $field_name, $property);
+      $this->setEntityDisplayFieldGroup($form_display, $field_name, $schema_type, $property);
+      $this->setEntityDisplayFieldGroup($view_display, $field_name, $schema_type, $property);
     }
     $form_display->save();
     $view_display->save();
@@ -430,7 +430,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    * @see field_group_field_overview_submit()
    * @see \Drupal\field_group\Form\FieldGroupAddForm::submitForm
    */
-  protected function setEntityDisplayFieldGroup(EntityDisplayInterface $display, $field_name, $schema_property) {
+  protected function setEntityDisplayFieldGroup(EntityDisplayInterface $display, $field_name, $schema_type, $schema_property) {
     // Make sure the field component exists.
     if (!$display->getComponent($field_name)) {
       return;
@@ -464,9 +464,17 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       $index++;
     }
 
-    // Exit if no group is found.
+    // Automatically generate a default catch all field group for
+    // the Schema.org type.
     if (!$group_name) {
-      return;
+      // But don't generate a group for default fields.
+      $base_field_names = $mapping_type_storage->getBaseFieldNames($entity_type_id);
+      if (isset($base_field_names[$field_name])) {
+        return;
+      }
+      $group_name = $this->schemaNames->toDrupalName('types', $schema_type);
+      $group_label = $this->schemaNames->toDrupalLabel('types', $schema_type);
+      $field_weight = $index;
     }
 
     // Get existing groups.

@@ -376,8 +376,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     }
 
     // Get new properties and set entity display field groups.
+    $schema_type = $this->getSchemaType();
     $new_properties = array_diff_key($mapping_entity->get('properties'), $original_properties);
-    $this->schemaEntityTypeBuilder->setEntityDisplayFieldGroups($entity_type_id, $bundle, $new_properties);
+    $this->schemaEntityTypeBuilder->setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, $new_properties);
 
     // Display message about new fields.
     if ($new_field_names) {

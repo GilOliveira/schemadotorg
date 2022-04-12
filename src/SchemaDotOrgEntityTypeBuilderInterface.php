@@ -45,9 +45,11 @@ interface SchemaDotOrgEntityTypeBuilderInterface {
    *   The entity type ID.
    * @param string $bundle
    *   The name of the bundle.
+   * @param string $schema_type
+   *   The Schema.org type.
    * @param array $properties
    *   The Schema.org properties to be added to field groups.
    */
-  public function setEntityDisplayFieldGroups($entity_type_id, $bundle, array $properties);
+  public function setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, array $properties);
 
 }

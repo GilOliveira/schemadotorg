@@ -297,6 +297,7 @@ default_schema_type_properties:
     - musicBy
     - trailer
   Recipe:
+    - name
     - nationality
     - nutrition
     - photo
