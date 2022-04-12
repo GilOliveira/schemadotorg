@@ -226,16 +226,17 @@ class SchemaDotOrgUiApi implements SchemaDotOrgUiApiInterface {
 
     $base_field_definitions = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
 
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
+    $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
+    $base_field_names = $mapping_type_storage->getBaseFieldNames($entity_type_id);
+
     $deleted_fields = [];
     $properties = array_keys($mapping->getSchemaProperties());
     foreach ($properties as $field_name) {
-      // Never delete a base field.
-      if (isset($base_field_definitions[$field_name])) {
-        continue;
-      }
-
-      // Never delete a media base field.
-      if (strpos($field_name, 'field_media_') === 0) {
+      // Never delete a base field and default fields
+      // (i.e. user_picture, field_media_image).
+      if (isset($base_field_definitions[$field_name])
+        || isset($base_field_names[$field_name])) {
         continue;
       }
 

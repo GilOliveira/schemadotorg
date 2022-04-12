@@ -448,19 +448,25 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     }
 
     $group_weight = 0;
+    $group_name = NULL;
+    $group_label = NULL;
     $field_weight = NULL;
     $index = 0 - count($default_field_groups);
     foreach ($default_field_groups as $default_field_group_name => $default_field_group) {
-      $group_name = $default_field_group_name;
-      $group_label = $default_field_group['label'];
-
       $properties = array_flip($default_field_group['properties']);
       if (isset($properties[$schema_property])) {
+        $group_name = $default_field_group_name;
+        $group_label = $default_field_group['label'];
         $group_weight = $index;
         $field_weight = $properties[$schema_property];
         break;
       }
       $index++;
+    }
+
+    // Exit if no group is found.
+    if (!$group_name) {
+      return;
     }
 
     // Get existing groups.

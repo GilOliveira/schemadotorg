@@ -5,13 +5,10 @@ Schema.org Blueprints
 
 Top down exploration
 
-- How do we remove description for MediaObject?
-  - Similar challenge is happening for User, MediaObject, Paragraph.
-  - default_schema_type_properties:
-
-
 Improve form validation
 - Display warning when updating field types.
+
+Group unmapped properties under Schema.org type
 
 Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgUiApiTest
 - Break the UI test into smaller tests.
