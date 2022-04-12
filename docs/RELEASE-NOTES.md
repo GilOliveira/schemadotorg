@@ -102,7 +102,7 @@ Run PHPStan with level 2 to catch all deprecations.
 
 [Git Release Notes for Drush](https://www.drupal.org/project/grn)
 
-    drush release-notes --nouser 6.0.0-VERSION 6.x
+    drush release-notes --nouser 1.0.0-VERSION 6.x
 
 
 4. Tag and create a new release
@@ -112,9 +112,9 @@ Run PHPStan with level 2 to catch all deprecations.
 
     git checkout 6.x
     git up
-    git tag 6.0.0-VERSION
+    git tag 1.0.0-VERSION
     git push --tags
-    git push origin tag 6.0.0-VERSION
+    git push origin tag 1.0.0-VERSION
 
 [Create new release](https://www.drupal.org/node/add/project-release/2640714)
 
@@ -123,9 +123,9 @@ Run PHPStan with level 2 to catch all deprecations.
 ----------------------------------
 
     # Creete hotfix branch
-    git checkout 6.0.LATEST-VERSION
-    git checkout -b 6.0.NEXT-VERSION-hotfix
-    git push -u origin 6.0.NEXT-VERSION-hotfix
+    git checkout 1.0.LATEST-VERSION
+    git checkout -b 1.0.NEXT-VERSION-hotfix
+    git push -u origin 1.0.NEXT-VERSION-hotfix
 
     # Apply and commit remote patch
     curl https://www.drupal.org/files/issues/[project_name]-[issue-description]-[issue-number]-00.patch | git apply -
@@ -133,14 +133,14 @@ Run PHPStan with level 2 to catch all deprecations.
     git push
 
     # Tag hotfix release.
-    git tag 6.0.NEXT-VERSION
+    git tag 1.0.NEXT-VERSION
     git push --tags
-    git push origin tag 6.0.NEXT-VERSION
+    git push origin tag 1.0.NEXT-VERSION
 
     # Merge hotfix release with HEAD.
     git checkout 6.x
-    git merge 6.0.NEXT-VERSION-hotfix
+    git merge 1.0.NEXT-VERSION-hotfix
 
     # Delete hotfix release.
-    git branch -D 6.0.NEXT-VERSION-hotfix
-    git push origin :6.0.NEXT-VERSION-hotfix
+    git branch -D 1.0.NEXT-VERSION-hotfix
+    git push origin :1.0.NEXT-VERSION-hotfix

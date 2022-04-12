@@ -7,9 +7,7 @@ schema_types:
       - description
     MediaObject:
       - name
-      - text
     AudioObject:
-      - duration
       - contentUrl
     DataDownload:
       - contentUrl
@@ -17,8 +15,6 @@ schema_types:
       - image
       - thumbnail
     VideoObject:
-      - duration
-      - image
       - thumbnail
       - video
     Article:

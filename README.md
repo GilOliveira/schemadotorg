@@ -1,13 +1,7 @@
 Schema.org Blueprints
 ---------------------
 
-Todo
-- Project page
-- Dev release
-- Tests
-- Outline
-- Blog post
-- Screen cast
+# Todo
 
 Improve form validation
 - Display warning when updating field types.
@@ -24,6 +18,11 @@ Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgUiApiTest
 
 Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
 to support subtype.
+
+# Testing
+
+- JavaScript test coverage for UI and Report.
+- FormValidation test coverage for SchemaDotOrgFormTrait
 
 # Best Practices
 

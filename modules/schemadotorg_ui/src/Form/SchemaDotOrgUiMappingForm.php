@@ -714,7 +714,17 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       }
       elseif ($this->getEntity()->isNew() && isset($property_defaults[$property])) {
         if (isset($base_field_mappings[$property])) {
-          $field_name_default_value = $base_field_mappings[$property];
+          if (count($base_field_mappings[$property]) === 1) {
+            $field_name_default_value = reset($base_field_mappings[$property]);
+          }
+          else {
+            foreach ($base_field_mappings[$property] as $base_field_name) {
+              if ($this->fieldExists($base_field_name)) {
+                $field_name_default_value = $base_field_name;
+                break;
+              }
+            }
+          }
         }
         elseif ($this->fieldStorageExists($field_name)) {
           $field_name_default_value = $field_name;

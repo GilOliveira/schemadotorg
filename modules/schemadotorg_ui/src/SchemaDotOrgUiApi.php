@@ -224,13 +224,18 @@ class SchemaDotOrgUiApi implements SchemaDotOrgUiApiInterface {
     /** @var \Drupal\field\FieldConfigStorage $field_config_storage */
     $field_config_storage = $this->entityTypeManager->getStorage('field_config');
 
-    $base_field_defintions = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
+    $base_field_definitions = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
 
     $deleted_fields = [];
     $properties = array_keys($mapping->getSchemaProperties());
     foreach ($properties as $field_name) {
       // Never delete a base field.
-      if (isset($base_field_defintions[$field_name])) {
+      if (isset($base_field_definitions[$field_name])) {
+        continue;
+      }
+
+      // Never delete a media base field.
+      if (strpos($field_name, 'field_media_') === 0) {
         continue;
       }
 

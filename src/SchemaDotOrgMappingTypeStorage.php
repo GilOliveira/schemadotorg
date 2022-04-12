@@ -140,7 +140,7 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
     $mappings = [];
     foreach ($base_fields as $field_name => $properties) {
       foreach ($properties as $property) {
-        $mappings[$property] = $field_name;
+        $mappings[$property][$field_name] = $field_name;
       }
     }
     return $mappings;

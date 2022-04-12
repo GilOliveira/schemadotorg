@@ -118,8 +118,8 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
 
     // Check getting an entity type's base field mappings.
     $expected_base_field_mappings = [
-      'email' => 'mail',
-      'image' => 'user_picture',
+      'email' => ['mail' => 'mail'],
+      'image' => ['user_picture' => 'user_picture'],
     ];
     $actual_base_field_mappings = $this->storage->getBaseFieldMappings('user');
     $this->assertEquals($expected_base_field_mappings, $actual_base_field_mappings);

@@ -114,6 +114,21 @@ class SchemaDotOrgEnumerationSelectionTest extends SchemaDotOrgKernelTestBase {
     $referenceable_entities = $this->selectionHandler->getReferenceableEntities();
     $this->assertEquals(['Female', 'Male'], array_values($referenceable_entities['schema_enumeration']));
 
+    // Unpublish the 'Male' term.
+    $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+    $entity_ids = $term_storage->getQuery()
+      ->condition('vid', 'schema_enumeration')
+      ->condition('schema_type', 'Male')
+      ->execute();
+    /** @var \Drupal\taxonomy\TermInterface $term */
+    $term = $term_storage->load(reset($entity_ids));
+    $term->setUnpublished()->save();
+
+    // Check published referenceable entities.
+    $referenceable_entities = $this->selectionHandler->getReferenceableEntities();
+    $this->assertNotEquals(['Female', 'Male'], array_values($referenceable_entities['schema_enumeration']));
+    $this->assertEquals(['Female'], array_values($referenceable_entities['schema_enumeration']));
+
     // Check displaying message when the enumeration is found.
     $form = $this->selectionHandler->buildConfigurationForm($form, $form_state);
     $this->assertEquals("<p>Taxonomy terms (Gender Type) will be automatically available based this field's associated Schema.org property enumeration.</p>", $form['message']['#markup']);
