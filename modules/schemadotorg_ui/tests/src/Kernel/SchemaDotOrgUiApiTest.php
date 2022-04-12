@@ -73,7 +73,7 @@ class SchemaDotOrgUiApiTest extends SchemaDotOrgKernelTestBase {
       $this->api->createTypeValidate('not_entity', 'not_schema');
     }
     catch (\Exception $exception) {
-      $this->assertEquals($exception->getMessage(), "The entity type 'not_entity' is not valid. Please select a entity type (block_content, media, node, paragraph, user).");
+      $this->assertEquals($exception->getMessage(), "The entity type 'not_entity' is not valid. Please select a entity type (media, node, paragraph, user).");
     }
 
     // Check create schema type validation.

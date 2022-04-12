@@ -3,6 +3,13 @@ Schema.org Blueprints
 
 # Todo
 
+Top down exploration
+
+- How do we remove description for MediaObject?
+  - Similar challenge is happening for User, MediaObject, Paragraph.
+  - default_schema_type_properties:
+
+
 Improve form validation
 - Display warning when updating field types.
 
@@ -18,6 +25,10 @@ Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgUiApiTest
 
 Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
 to support subtype.
+
+Wrap example in <code> tag "...in the format <code>example</code>."
+
+- https://www.lullabot.com/articles/write-better-code-typed-entity
 
 # Testing
 

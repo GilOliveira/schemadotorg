@@ -35,20 +35,35 @@ class SchemaDotOrgMappingTypeListBuilder extends ConfigEntityListBuilder {
     $header['entity_type'] = [
       'data' => $this->t('Type'),
     ];
-    $header['default_schema_types'] = [
-      'data' => $this->t('Default schema types'),
+    $header['recommended_schema_types'] = [
+      'data' => $this->t('Recommended Schema.org types'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '25%',
+      'width' => '15%',
+    ];
+    $header['default_schema_types'] = [
+      'data' => $this->t('Default Schema.org types'),
+      'class' => [RESPONSIVE_PRIORITY_LOW],
+      'width' => '15%',
+    ];
+    $header['default_schema_type_properties'] = [
+      'data' => $this->t('Defined Schema.org type'),
+      'class' => [RESPONSIVE_PRIORITY_LOW],
+      'width' => '15%',
+    ];
+    $header['default_schema_type_subtypes'] = [
+      'data' => $this->t('Schema.org subtypes'),
+      'class' => [RESPONSIVE_PRIORITY_LOW],
+      'width' => '15%',
     ];
     $header['default_base_fields'] = [
-      'data' => $this->t('Default base fields mapping'),
+      'data' => $this->t('Base field mappings'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '25%',
+      'width' => '15%',
     ];
     $header['default_field_groups'] = [
-      'data' => $this->t('Default field groups'),
+      'data' => $this->t('Field groups'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '25%',
+      'width' => '15%',
     ];
     return $header + parent::buildHeader();
   }
@@ -60,18 +75,35 @@ class SchemaDotOrgMappingTypeListBuilder extends ConfigEntityListBuilder {
     // Type.
     $row['entity_type'] = $entity->label();
 
+    // Recommended Schema.org types.
+    $recommended_schema_types = $entity->get('recommended_schema_types');
+    $recommended_schema_type_labels = [];
+    foreach ($recommended_schema_types as $recommended_schema_type) {
+      $recommended_schema_type_labels[$recommended_schema_type['label']] = $recommended_schema_type['label'];
+    }
+    $row['recommended_schema_types'] = implode(', ', $recommended_schema_type_labels);
+
     // Default schema types.
     $row['default_schema_types'] = implode(', ', $entity->get('default_schema_types'));
+
+    // Default schema properties.
+    $keys = array_keys($entity->get('default_schema_type_properties'));
+    $row['default_schema_type_properties'] = implode(', ', $keys);
+
+    // Default subtypes.
+    $row['default_schema_type_subtypes'] = implode(', ', $entity->get('default_schema_type_subtypes'));
 
     // Default base fields mapping.
     $default_base_fields = $entity->get('default_base_fields');
     $properties = [];
     foreach ($default_base_fields as $default_base_field_properties) {
       if ($default_base_field_properties) {
-        $properties = array_merge($properties, $default_base_field_properties);
+        $default_base_field_properties = array_filter($default_base_field_properties);
+        $properties += array_combine($default_base_field_properties, $default_base_field_properties);
       }
     }
-    $row['default_base_fields'] = implode(', ', array_filter($properties));
+    ksort($properties);
+    $row['default_base_fields'] = implode(', ', $properties);
 
     // Default field groups.
     $default_field_groups = $entity->get('default_field_groups');

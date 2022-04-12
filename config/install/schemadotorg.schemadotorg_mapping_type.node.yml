@@ -3,20 +3,6 @@ status: true
 dependencies: {  }
 id: node
 target_entity_type_id: node
-default_base_fields:
-  uuid: { }
-  revision_uid: { }
-  uid: { }
-  title:
-    - name
-    - headline
-  created:
-    - dateCreated
-  changed:
-    - dateChanged
-  promote: { }
-  sticky: { }
-  path: { }
 recommended_schema_types:
   common:
     label: Common
@@ -145,6 +131,20 @@ recommended_schema_types:
     types:
       - ResearchOrganization
       - ResearchProject
+default_base_fields:
+  uuid: { }
+  revision_uid: { }
+  uid: { }
+  title:
+    - name
+    - headline
+  created:
+    - dateCreated
+  changed:
+    - dateChanged
+  promote: { }
+  sticky: { }
+  path: { }
 default_field_groups:
   general:
     label: General
@@ -224,6 +224,169 @@ default_field_groups:
   additional:
     label: Additional
     properties: {  }
+default_schema_types: { }
+default_schema_type_properties:
+  CreativeWork:
+    - dateCreated
+    - dateModified
+    - description
+  Article:
+    - author
+    - articleBody
+    - headline
+    - alternativeHeadline
+  WebPage:
+    - primaryImageOfPage
+    - relatedLink
+    - significantLink
+  Blog:
+    - blogPost
+  Event:
+    - attendee
+    - audience
+    - description
+    - duration
+    - endDate
+    - eventStatus
+    - image
+    - location
+    - name
+    - organizer
+    - performer
+    - startDate
+  Organization:
+    - address
+    - contactPoint
+    - description
+    - email
+    - image
+    - name
+    - parentOrganization
+    - telephone
+  Person:
+    - additionalName
+    - address
+    - affiliation
+    - alumniOf
+    - award
+    - birthDate
+    - contactPoint
+    - description
+    - email
+    - familyName
+    - gender
+    - givenName
+    - honorificPrefix
+    - honorificSuffix
+    - image
+    - jobTitle
+    - knowsLanguage
+    - name
+    - nationality
+    - telephone
+    - worksFor
+  Place:
+    - address
+    - description
+    - image
+    - name
+    - telephone
+  Movie:
+    - actor
+    - duration
+    - musicBy
+    - trailer
+  Recipe:
+    - nationality
+    - nutrition
+    - photo
+    - recipeCategory
+    - recipeCuisine
+    - recipeIngredient
+    - recipeInstructions
+    - recipeYield
+    - suitableForDiet
+    - text
+    - totalTime
+    - thumbnailUrl
+    - worksFor
+    - video
+    - yield
+  CivicStructure:
+    - openingHours
+  LocalBusiness:
+    - openingHours
+  MedicalOrganization:
+    - isAcceptingNewPatients
+    - medicalSpecialty
+  SportsOrganization:
+    - sport
+  Hospital:
+    - availableService
+    - medicalSpecialty
+  Occupation:
+    - educationRequirements
+    - experienceRequirements
+    - occupationalCategory
+    - qualifications
+    - responsibilities
+    - skills
+  JobPosting:
+    - baseSalary
+    - benefits
+    - datePosted
+    - directApply
+    - educationRequirements
+    - eligibilityToWorkRequirement
+    - employerOverview
+    - employmentType
+    - estimatedSalary
+    - experienceRequirements
+    - industry
+    - jobBenefits
+    - jobImmediateStart
+    - jobLocation
+    - jobLocationType
+    - jobStartDate
+    - occupationalCategory
+    - physicalRequirement
+    - responsibilities
+    - skills
+    - validThrough
+    - workHours
+  Physician:
+    - availableService
+    - email
+    - faxNumber
+    - telephone
+  MedicalClinic:
+    - availableService
+    - medicalSpecialty
+  Product:
+    - additionalProperty
+    - additionalType
+    - aggregateRating
+    - alternateName
+    - audience
+    - brand
+    - category
+    - color
+    - depth
+    - description
+    - height
+    - image
+    - isRelatedTo
+    - itemCondition
+    - logo
+    - manufacturer
+    - material
+    - model
+    - name
+    - size
+    - sku
+    - weight
+    - width
+default_schema_type_subtypes:
+  - Event
 default_field_group_form_type: 'details'
 default_field_group_view_type: 'fieldset'
-

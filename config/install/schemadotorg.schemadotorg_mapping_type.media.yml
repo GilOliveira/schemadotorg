@@ -3,6 +3,19 @@ status: true
 dependencies: {  }
 id: media
 target_entity_type_id: media
+recommended_schema_types:
+  media_objects:
+    label: 'Common'
+    types:
+      - AudioObject
+      - ImageObject
+      - VideoObject
+      - DataDownload
+  other:
+    label: 'Other'
+    types:
+      - 3DModel
+      - Photograph
 default_base_fields:
   uuid: { }
   revision_created: { }
@@ -30,25 +43,28 @@ default_base_fields:
   field_media_video_file:
     - video
     - contentUrl
-recommended_schema_types:
-  media_objects:
-    label: 'Media objects'
-    types:
-      - AudioObject
-      - ImageObject
-      - VideoObject
-      - 3DModel
-      - DataDownload
-  other:
-    label: 'Other types'
-    types:
-      - Photograph
 default_schema_types:
   audio: AudioObject
   document: DataDownload
   image: ImageObject
   remote_video: VideoObject
   video: VideoObject
+default_schema_type_properties:
+  MediaObject:
+    - name
+    - dateCreated
+    - dateModified
+  AudioObject:
+    - contentUrl
+  DataDownload:
+    - contentUrl
+  ImageObject:
+    - image
+    - thumbnail
+  VideoObject:
+    - thumbnail
+    - video
+default_schema_type_subtypes: { }
 default_field_groups: { }
 default_field_group_form_type: 'details'
 default_field_group_view_type: 'fieldset'

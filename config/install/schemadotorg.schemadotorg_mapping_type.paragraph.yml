@@ -3,9 +3,6 @@ status: true
 dependencies: {  }
 id: paragraph
 target_entity_type_id: paragraph
-default_base_fields:
-  uuid: { }
-  created: { }
 recommended_schema_types:
   common:
     label: Common
@@ -52,6 +49,60 @@ recommended_schema_types:
       - HealthInsurancePlan
       - ComputerLanguage
       - NutritionInformation
+default_base_fields:
+  uuid: { }
+  created: { }
+default_schema_types: { }
+default_schema_type_properties:
+  StructuredValue:
+    - name
+  NutritionInformation:
+    - calories
+    - carbohydrateContent
+    - cholesterolContent
+    - fatContent
+    - fiberContent
+    - proteinContent
+    - saturatedFatContent
+    - servingSize
+    - sodiumContent
+    - sugarContent
+    - transFatContent
+    - unsaturatedFatContent
+  ContactPoint:
+    - contactOption
+    - email
+    - telephone
+  OpeningHoursSpecification:
+    - closes
+    - dayOfWeek
+    - description
+    - opens
+  PostalAddress:
+    - addressCountry
+    - addressLocality
+    - addressRegion
+    - alternateName
+    - contactOption
+    - description
+    - email
+    - hoursAvailable
+    - image
+    - postOfficeBoxNumber
+    - postalCode
+    - streetAddress
+    - telephone
+  QuantitativeValue:
+    - value
+    - valueReference
+    - unitCode
+    - unitText
+  PropertyValue:
+    - value
+    - valueReference
+    - unitCode
+    - unitText
+default_schema_type_subtypes: { }
 default_field_groups: { }
 default_field_group_form_type: 'details'
 default_field_group_view_type: 'fieldset'

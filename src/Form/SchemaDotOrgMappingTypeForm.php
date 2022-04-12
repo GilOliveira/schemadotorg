@@ -40,12 +40,35 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
         '#markup' => $entity->label(),
       ];
     }
+    $form['recommended_schema_types'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Recommended Schema.org types'),
+      '#description' => $this->t('Enter one value per line, in the format group_name|group_label|SchemaType01,SchemaType01,SchemaType01.'),
+      '#attributes' => ['wrap' => 'off'],
+      '#default_value' => $this->groupedTypesListString($entity->get('recommended_schema_types')),
+      '#element_validate' => ['::validateGroupedTypesList'],
+    ];
     $form['default_schema_types'] = [
       '#type' => 'textarea',
       '#title' => 'Default Schema.org types',
       '#description' => $this->t('Enter one value per line, in the format entity_type|schema_type.'),
       '#default_value' => $this->keyValuesString($entity->get('default_schema_types')),
       '#element_validate' => ['::validateKeyValues'],
+    ];
+    $form['default_schema_type_properties'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Default Schema.org type properties'),
+      '#description' => $this->t('Enter one value per line, in the format SchemaType|propertyName01,propertyName02,propertyName02.'),
+      '#attributes' => ['wrap' => 'off'],
+      '#default_value' => $this->nestedListString($entity->get('default_schema_type_properties')),
+      '#element_validate' => ['::validateNestedList'],
+    ];
+    $form['default_schema_type_subtypes'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Default Schema.org type subtyping'),
+      '#description' => $this->t('Enter one Schema.org type per line.'),
+      '#default_value' => $this->listString($entity->get('default_schema_type_subtypes')),
+      '#element_validate' => ['::validateList'],
     ];
     $form['default_base_fields'] = [
       '#type' => 'textarea',
@@ -83,14 +106,6 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#default_value' => $entity->get('default_field_group_view_type'),
       '#empty_value' => '',
       '#empty_option' => $this->t('- None -'),
-    ];
-    $form['recommended_schema_types'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Recommended Schema.org types'),
-      '#description' => $this->t('Enter one value per line, in the format group_name|group_label|SchemaType01,SchemaType01,SchemaType01.'),
-      '#attributes' => ['wrap' => 'off'],
-      '#default_value' => $this->groupedTypesListString($entity->get('recommended_schema_types')),
-      '#element_validate' => ['::validateGroupedTypesList'],
     ];
     return $form;
   }

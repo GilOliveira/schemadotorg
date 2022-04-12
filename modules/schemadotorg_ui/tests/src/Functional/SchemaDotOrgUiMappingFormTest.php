@@ -101,7 +101,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->createMediaType('image', ['id' => 'image', 'label' => 'Image']);
     $this->drupalGet('/admin/structure/media/manage/image/schemedotorg');
     $this->submitForm([], 'Save');
-    $assert_session->responseContains('Added <em class="placeholder">Description; Text</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">Image</em> mapping.');
 
     // Check the 'ImageObject' mapping.
@@ -112,9 +111,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $expected_schema_properties = [
       'created' => 'dateCreated',
       'changed' => 'dateModified',
-      'schema_description' => 'description',
       'name' => 'name',
-      'schema_text' => 'text',
       'thumbnail' => 'thumbnail',
       'field_media_image' => 'image',
     ];
@@ -213,7 +210,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     // Create 'Person' user mapping.
     $this->drupalGet('/admin/config/people/accounts/schemedotorg');
     $this->submitForm([], 'Save');
-    $assert_session->responseContains('Added <em class="placeholder">Additional name; Address; Affiliation; Alumni of; Award; Birth date; Contact point; Description; Family name; Gender; Given name; Honorific prefix; Honorific suffix; Job title; Knows language; Name; Nationality; Telephone; Works for</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Additional name; Address; Affiliation; Alumni of; Award; Birth date; Contact point; Description; Family name; Gender; Given name; Honorific prefix; Honorific suffix; Job title; Knows language; Nationality; Telephone; Works for</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">User</em> mapping.');
 
     // Check the 'Person' field settings.
@@ -233,7 +230,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_honorific_suffix' => ['cardinality' => 1],
       'schema_job_title' => ['cardinality' => 1],
       'schema_knows_language' => ['cardinality' => -1],
-      'schema_name' => ['cardinality' => 1],
       'schema_nationality' => ['cardinality' => 1],
       'schema_telephone' => ['cardinality' => 1],
       'schema_works_for' => ['cardinality' => -1],
@@ -327,7 +323,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_honorific_suffix' => ['type' => 'string_textfield'],
       'schema_job_title' => ['type' => 'string_textfield'],
       'schema_knows_language' => ['type' => 'options_select'],
-      'schema_name' => ['type' => 'string_textfield'],
       'schema_nationality' => ['type' => 'options_select'],
       'schema_telephone' => ['type' => 'telephone_default'],
       'schema_works_for' => ['type' => 'entity_reference_autocomplete'],
@@ -350,6 +345,8 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_contact_point' => 'contactPoint',
       'schema_description' => 'description',
       'mail' => 'email',
+
+      'name' => 'name',
       'schema_family_name' => 'familyName',
       'schema_gender' => 'gender',
       'schema_given_name' => 'givenName',
@@ -357,7 +354,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_honorific_suffix' => 'honorificSuffix',
       'schema_job_title' => 'jobTitle',
       'schema_knows_language' => 'knowsLanguage',
-      'schema_name' => 'name',
       'schema_nationality' => 'nationality',
       'schema_telephone' => 'telephone',
       'schema_works_for' => 'worksFor',

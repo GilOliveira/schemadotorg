@@ -262,25 +262,6 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getTypeDefaultProperties($type) {
-    $config = $this->configFactory->get('schemadotorg.settings');
-    $breadcrumbs = $this->getTypeBreadcrumbs($type);
-    $default_properties = [];
-    foreach ($breadcrumbs as $breadcrumb) {
-      foreach ($breadcrumb as $breadcrumb_type) {
-        $breadcrumb_type_properties = $config->get('schema_types.default_properties.' . $breadcrumb_type);
-        if ($breadcrumb_type_properties) {
-          $default_properties += array_combine($breadcrumb_type_properties, $breadcrumb_type_properties);
-        }
-      }
-    }
-    ksort($default_properties);
-    return $default_properties;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getTypeChildren($type) {
     $type_definition = $this->getType($type, ['sub_types']);
 

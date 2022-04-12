@@ -39,7 +39,13 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
     parent::setUp();
 
     $this->installEntitySchema('schemadotorg_mapping_type');
+    $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
     $this->installConfig(['schemadotorg']);
+
+    // Import CSV data into the Schema.org type and properties tables.
+    /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
+    $installer = $this->container->get('schemadotorg.installer');
+    $installer->importTables();
 
     // Set Schema.org mapping storage.
     $this->storage = $this->container->get('entity_type.manager')->getStorage('schemadotorg_mapping_type');
@@ -51,7 +57,6 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
   public function testSchemaDotOrgMappingTypeStorage() {
     // Check getting entity types that implement Schema.org.
     $expected_entity_types = [
-      'block_content' => 'block_content',
       'media' => 'media',
       'node' => 'node',
       'paragraph' => 'paragraph',
@@ -81,6 +86,21 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
     foreach ($tests as $test) {
       $this->assertEquals($test[2], $this->storage->getDefaultSchemaType($test[0], $test[1]));
     }
+
+    // Check getting default Schema.org type's default properties.
+    $expected_default_type_properties = [
+      'dateCreated' => 'dateCreated',
+      'dateModified' => 'dateModified',
+      'image' => 'image',
+      'name' => 'name',
+      'thumbnail' => 'thumbnail',
+    ];
+    $actual_default_type_properties = $this->storage->getDefaultSchemaTypeProperties('media', 'ImageObject');
+    $this->assertEquals($expected_default_type_properties, $actual_default_type_properties);
+
+    // Check getting default Schema.org type's subtypes.
+    $actual_default_type_subtype = $this->storage->getDefaultSchemaTypeSubtypes('node');
+    $this->assertEquals(['Event'], $actual_default_type_subtype);
 
     // Check getting default field groups for a specific entity type.
     $expected_default_field_group = [
@@ -119,6 +139,7 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
     // Check getting an entity type's base field mappings.
     $expected_base_field_mappings = [
       'email' => ['mail' => 'mail'],
+      'name' => ['name' => 'name'],
       'image' => ['user_picture' => 'user_picture'],
     ];
     $actual_base_field_mappings = $this->storage->getBaseFieldMappings('user');
@@ -127,13 +148,21 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
     // Check getting an entity type's base fields names.
     $expected_base_field_names = [
       'uuid' => 'uuid',
-      'type' => 'type',
-      'info' => 'info',
       'revision_created' => 'revision_created',
       'revision_user' => 'revision_user',
+      'uid' => 'uid',
+      'name' => 'name',
+      'thumbnail' => 'thumbnail',
+      'created' => 'created',
       'changed' => 'changed',
+      'path' => 'path',
+      'field_media_audio_file' => 'field_media_audio_file',
+      'field_media_document' => 'field_media_document',
+      'field_media_image' => 'field_media_image',
+      'field_media_oembed_video' => 'field_media_oembed_video',
+      'field_media_video_file' => 'field_media_video_file',
     ];
-    $actual_base_field_names = $this->storage->getBaseFieldNames('block_content');
+    $actual_base_field_names = $this->storage->getBaseFieldNames('media');
     $this->assertEquals($expected_base_field_names, $actual_base_field_names);
 
     // Check getting entity type bundles. (i.e node).

@@ -195,18 +195,6 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
             '#open' => TRUE,
             'items' => $this->buildTypeProperties($properties),
           ];
-          $default_properties = $this->schemaTypeManager->getTypeDefaultProperties($item['label']);
-          if ($default_properties) {
-            $default_properties = array_intersect_assoc($default_properties, $properties);
-            ksort($default_properties);
-            $build[$name]['default_properties'] = [
-              '#type' => 'item',
-              '#title' => $this->t('Default properties'),
-              'links' => $this->schemaTypeBuilder->buildItemsLinks($default_properties) + [
-                '#prefix' => $item['label'] . ' | ',
-              ],
-            ];
-          }
           // Get all properties, excluding superseded properties.
           $all_properties = $this->database->select('schemadotorg_properties', 'properties')
             ->fields('properties', ['label'])

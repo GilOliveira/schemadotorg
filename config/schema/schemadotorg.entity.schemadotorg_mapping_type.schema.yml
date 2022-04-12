@@ -8,12 +8,43 @@ schemadotorg.schemadotorg_mapping_type.*:
     target_entity_type_id:
       type: string
       label: 'Target entity type'
+    recommended_schema_types:
+      type: sequence
+      label: 'Recommended Schema.org types'
+      sequence:
+        type: mapping
+        label: 'Recommended Schema.org type'
+        mapping:
+          label:
+            type: string
+            label: 'Label'
+          types:
+            type: sequence
+            label: 'Types'
+            sequence:
+              type: string
+              label: 'Type'
     default_schema_types:
       type: sequence
       label: 'Default Schema.org types'
       sequence:
         type: string
         label: 'Default Schema.org type'
+    default_schema_type_properties:
+      type: sequence
+      label: 'Default Schema.org type properties'
+      sequence:
+        type: sequence
+        label: 'Schema.org type'
+        sequence:
+          type: string
+          label: 'Schema.org property'
+    default_schema_type_subtypes:
+      type: sequence
+      label: 'Default Schema.org type subtypes'
+      sequence:
+        type: string
+        label: 'Subtype'
     default_base_fields:
       type: sequence
       label: 'Default base field mappings'
@@ -45,19 +76,4 @@ schemadotorg.schemadotorg_mapping_type.*:
     default_field_group_view_type:
       type: string
       label: 'Default field group view type'
-    recommended_schema_types:
-      type: sequence
-      label: 'Recommended Schema.org types'
-      sequence:
-        type: mapping
-        label: 'Recommended Schema.org type'
-        mapping:
-          label:
-            type: string
-            label: 'Label'
-          types:
-            type: sequence
-            label: 'Types'
-            sequence:
-              type: string
-              label: 'Type'
+

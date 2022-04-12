@@ -3,16 +3,41 @@ status: true
 dependencies: {  }
 id: user
 target_entity_type_id: user
+recommended_schema_types: {  }
 default_base_fields:
   uuid: { }
-  name: { }
+  name:
+    - name
   mail:
     - email
   user_picture:
     - image
-recommended_schema_types: {  }
 default_schema_types:
   user: Person
+default_schema_type_properties:
+  Person:
+    - additionalName
+    - address
+    - affiliation
+    - alumniOf
+    - award
+    - birthDate
+    - contactPoint
+    - description
+    - email
+    - familyName
+    - gender
+    - givenName
+    - honorificPrefix
+    - honorificSuffix
+    - image
+    - jobTitle
+    - knowsLanguage
+    - name
+    - nationality
+    - telephone
+    - worksFor
+default_schema_type_subtypes: { }
 default_field_groups:
   biographical:
     label: Biographical
@@ -46,4 +71,3 @@ default_field_groups:
       - contactPoint
 default_field_group_form_type: 'details'
 default_field_group_view_type: 'fieldset'
-

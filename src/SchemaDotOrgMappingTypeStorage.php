@@ -21,11 +21,19 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
   protected $entityTypeManager;
 
   /**
+   * The Schema.org schema type manager.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
+   */
+  protected $schemaTypeManager;
+
+  /**
    * {@inheritdoc}
    */
   public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
     $instance = parent::createInstance($container, $entity_type);
     $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
     return $instance;
   }
 
@@ -67,6 +75,42 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
 
     $schema_types = $mapping_type->get('default_schema_types') ?: [];
     return $schema_types[$bundle] ?? NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultSchemaTypeProperties($entity_type_id, $schema_type) {
+    $mapping_type = $this->load($entity_type_id);
+    if (!$mapping_type) {
+      return NULL;
+    }
+
+    $type_properties = $mapping_type->get('default_schema_type_properties');
+    $breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs($schema_type);
+    $default_properties = [];
+    foreach ($breadcrumbs as $breadcrumb) {
+      foreach ($breadcrumb as $breadcrumb_type) {
+        $breadcrumb_type_properties = $type_properties[$breadcrumb_type] ?? NULL;
+        if ($breadcrumb_type_properties) {
+          $default_properties += array_combine($breadcrumb_type_properties, $breadcrumb_type_properties);
+        }
+      }
+    }
+    ksort($default_properties);
+    return $default_properties;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultSchemaTypeSubtypes($entity_type_id) {
+    $mapping_type = $this->load($entity_type_id);
+    if (!$mapping_type) {
+      return NULL;
+    }
+
+    return $mapping_type->get('default_schema_type_subtypes');
   }
 
   /**

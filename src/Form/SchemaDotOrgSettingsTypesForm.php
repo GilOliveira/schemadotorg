@@ -35,14 +35,6 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
     $form['schema_types'] = [
       '#tree' => TRUE,
     ];
-    $form['schema_types']['default_properties'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Default Schema.org type properties'),
-      '#description' => $this->t('Enter one value per line, in the format format SchemaType|propertyName01,propertyName02,propertyName02.'),
-      '#attributes' => ['wrap' => 'off'],
-      '#default_value' => $this->nestedListString($config->get('schema_types.default_properties')),
-      '#element_validate' => ['::validateNestedList'],
-    ];
     $form['schema_types']['default_field_types'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Default Schema.org type field types'),
@@ -50,13 +42,6 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
       '#attributes' => ['wrap' => 'off'],
       '#default_value' => $this->nestedListString($config->get('schema_types.default_field_types')),
       '#element_validate' => ['::validateNestedList'],
-    ];
-    $form['schema_types']['default_subtypes'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Default Schema.org subtypes'),
-      '#description' => $this->t('Enter one Schema.org type per line.'),
-      '#default_value' => $this->listString($config->get('schema_types.default_subtypes')),
-      '#element_validate' => ['::validateList'],
     ];
     return parent::buildForm($form, $form_state);
   }

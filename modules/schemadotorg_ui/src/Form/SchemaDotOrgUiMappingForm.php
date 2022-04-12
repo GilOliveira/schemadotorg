@@ -1038,7 +1038,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function getSchemaTypeDefaultProperties() {
     $schema_type = $this->getSchemaType();
-    $default_properties = $this->schemaTypeManager->getTypeDefaultProperties($schema_type);
+    $entity_type_id = $this->getTargetEntityTypeId();
+    $default_properties = $this->getMappingTypeStorage()->getDefaultSchemaTypeProperties($entity_type_id, $schema_type);
     if ($this->defaultProperties) {
       $default_properties += array_combine($this->defaultProperties, $this->defaultProperties);
     }
@@ -1088,9 +1089,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   TRUE if Schema.org type should be subtyped by default.
    */
   protected function getSchemaTypeSubtypes() {
-    $subtypes = $this->subtypes
-      ?: $this->config('schemadotorg.settings')->get('schema_types.default_subtypes')
-        ?: [];
+    $entity_type_id = $this->getTargetEntityTypeId();
+    $subtypes = $this->getMappingTypeStorage()->getDefaultSchemaTypeSubtypes($entity_type_id);
     $schema_type = $this->getSchemaType();
     return in_array($schema_type, $subtypes);
   }
