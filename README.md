@@ -8,11 +8,9 @@ Top down exploration
 Improve form validation
 - Display warning when updating field types.
 
-Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgUiApiTest
-- Break the UI test into smaller tests.
-
 Subtyping and field groups
 - Ongoing
+- Review Report: Names
 - Review UX and workflow
 - Review all description.
 - Determine the recommended types per entity type.
@@ -22,12 +20,12 @@ Subtyping and field groups
 Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
 to support subtype.
 
-Wrap example in <code> tag "...in the format <code>example</code>."
-
 - https://www.lullabot.com/articles/write-better-code-typed-entity
 
 # Testing
 
+- Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgUiApiTest
+- Create SchemaDotOrgUiMappingForm kernel test.
 - JavaScript test coverage for UI and Report.
 - FormValidation test coverage for SchemaDotOrgFormTrait
 

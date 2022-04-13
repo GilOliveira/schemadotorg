@@ -34,14 +34,14 @@ class SchemaDotOrgReportSettingsForm extends ConfigFormBase {
     $form['about'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Schema.org about links'),
-      '#description' => $this->t('Enter one link per line, in the format format uri|title.'),
+      '#description' => $this->t('Enter one link per line, in the format <code>uri|title</code>.'),
       '#default_value' => $this->linksString($config->get('about')),
       '#element_validate' => ['::validateLinks'],
     ];
     $form['types'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Schema.org type specific links'),
-      '#description' => $this->t('Enter one item per line. Enter Schema.org type followed by individual links, in the format format uri|title.'),
+      '#description' => $this->t('Enter one item per line. Enter Schema.org type followed by individual links, in the format <code>uri|title</code>.'),
       '#default_value' => $this->groupedLinksString($config->get('types')),
       '#element_validate' => ['::validateGroupedLinks'],
     ];

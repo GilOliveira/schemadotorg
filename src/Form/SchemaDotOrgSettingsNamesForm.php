@@ -59,35 +59,35 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
     $form['names']['prefixes'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Prefixes'),
-      '#description' => $this->t('Enter one value per line, in the format search|replace.'),
+      '#description' => $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
       '#default_value' => $this->keyValuesString($config->get('names.prefixes')),
       '#element_validate' => ['::validateKeyValues'],
     ];
     $form['names']['suffixes'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Suffixes'),
-      '#description' => $this->t('Enter one value per line, in the format search|replace.'),
+      '#description' => $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
       '#default_value' => $this->keyValuesString($config->get('names.suffixes')),
       '#element_validate' => ['::validateKeyValues'],
     ];
     $form['names']['abbreviations'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Abbreviations'),
-      '#description' => $this->t('Enter one value per line, in the format search|replace.'),
+      '#description' => $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
       '#default_value' => $this->keyValuesString($config->get('names.abbreviations')),
       '#element_validate' => ['::validateKeyValues'],
     ];
     $form['names']['custom_names'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Custom names'),
-      '#description' => $this->t('Enter one value per line, in the format search|replace.'),
+      '#description' => $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
       '#default_value' => $this->keyValuesString($config->get('names.custom_names')),
       '#element_validate' => ['::validateKeyValues'],
     ];
     $form['names']['custom_titles'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Custom titles'),
-      '#description' => $this->t('Enter one value per line, in the format search|replace.'),
+      '#description' => $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
       '#default_value' => $this->keyValuesString($config->get('names.custom_titles')),
       '#element_validate' => ['::validateKeyValues'],
     ];

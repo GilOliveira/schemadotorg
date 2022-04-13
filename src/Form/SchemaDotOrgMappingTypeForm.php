@@ -43,7 +43,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     $form['recommended_schema_types'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Recommended Schema.org types'),
-      '#description' => $this->t('Enter one value per line, in the format group_name|group_label|SchemaType01,SchemaType01,SchemaType01.'),
+      '#description' => $this->t('Enter one value per line, in the format <code>group_name|group_label|SchemaType01,SchemaType01,SchemaType01</code>.'),
       '#attributes' => ['wrap' => 'off'],
       '#default_value' => $this->groupedTypesListString($entity->get('recommended_schema_types')),
       '#element_validate' => ['::validateGroupedTypesList'],
@@ -51,14 +51,14 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     $form['default_schema_types'] = [
       '#type' => 'textarea',
       '#title' => 'Default Schema.org types',
-      '#description' => $this->t('Enter one value per line, in the format entity_type|schema_type.'),
+      '#description' => $this->t('Enter one value per line, in the <code>format entity_type|schema_type</code>.'),
       '#default_value' => $this->keyValuesString($entity->get('default_schema_types')),
       '#element_validate' => ['::validateKeyValues'],
     ];
     $form['default_schema_type_properties'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Default Schema.org type properties'),
-      '#description' => $this->t('Enter one value per line, in the format SchemaType|propertyName01,propertyName02,propertyName02.'),
+      '#description' => $this->t('Enter one value per line, in the format <code>SchemaType|propertyName01,propertyName02,propertyName02</code>.'),
       '#attributes' => ['wrap' => 'off'],
       '#default_value' => $this->nestedListString($entity->get('default_schema_type_properties')),
       '#element_validate' => ['::validateNestedList'],
@@ -73,7 +73,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     $form['default_base_fields'] = [
       '#type' => 'textarea',
       '#title' => 'Default base field mappings',
-      '#description' => $this->t('Enter one value per line, in the format base_field_name|property_name_01,property_name_02')
+      '#description' => $this->t('Enter one value per line, in the format <code>base_field_name|property_name_01,property_name_02</code>.')
       . '<br/>' . $this->t('The property_name value be left blank if you want the base field available but not mapped to a Schema.org property.'),
       '#default_value' => $this->nestedListString($entity->get('default_base_fields')),
       '#element_validate' => ['::validateNestedList'],
@@ -81,7 +81,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     $form['default_field_groups'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Default field groups'),
-      '#description' => $this->t('Enter one value per line, in the format group_name|group_label|property01,property02,property03.'),
+      '#description' => $this->t('Enter one value per line, in the format <code>group_name|group_label|property01,property02,property03</code>.'),
       '#attributes' => ['wrap' => 'off'],
       '#default_value' => $this->groupedPropertiesListString($entity->get('default_field_groups')),
       '#element_validate' => ['::validateGroupedPropertiesList'],
