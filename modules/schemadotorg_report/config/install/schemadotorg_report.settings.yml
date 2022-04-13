@@ -1,4 +1,6 @@
 about:
+  - title: 'Schema.org Documentation'
+    uri: 'https://schema.org/docs/documents.html'
   - title: 'Understand How Structured Data Works'
     uri: 'https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data'
   - title: 'Steal Our JSON-LD'
@@ -83,6 +85,9 @@ types:
   MathSolver:
     - title: 'Math Solvers Structured Data'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/math-solvers'
+  MedicalEntity:
+    - title: 'Documentation for health/medical types'
+      uri: 'https://schema.org/docs/meddocs.html'
   MusicEvent:
     - title: Venue
       uri: 'https://jsonld.com/event/venue/'

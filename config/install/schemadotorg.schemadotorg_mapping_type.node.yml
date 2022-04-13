@@ -100,21 +100,19 @@ recommended_schema_types:
   medical_entity:
     label: Medical Entity
     types:
+      - AnatomicalStructure
+      - AnatomicalSystem
       - MedicalCause
       - MedicalCondition
-      - MedicalContraindication
-      - MedicalDevice
       - MedicalGuideline
-      - MedicalIndication
-      - MedicalIntangible
       - MedicalProcedure
-      - MedicalRiskEstimator
       - MedicalRiskFactor
       - MedicalStudy
       - MedicalTest
   medical_writing:
     label: Medical Writing
     types:
+      - Diet
       - MedicalWebPage
       - MedicalScholarlyArticle
   product:
@@ -287,6 +285,57 @@ default_schema_type_properties:
     - image
     - name
     - telephone
+  MedicalEntity:
+    - name
+    - description
+    - medicineSyste
+    - relevantSpecialty
+  AnatomicalStructure:
+    - bodyLocation
+    - connectedTo
+    - partOfSystem
+    - subStructure
+  AnatomicalSystem:
+    - associatedPathophysiology
+    - comprisedOf
+    - relatedCondition
+    - relatedStructure
+    - relatedTherapy
+  MedicalCause:
+    - causeOf
+  MedicalCondition:
+    - epidemiology
+    - expectedPrognosis
+    - possibleComplication
+    - possibleTreatment
+    - primaryPrevention
+    - riskFactor
+    - signOrSymptom
+  MedicalSignOrSymptom:
+    - possibleTreatment
+  MedicalProcedure:
+    - bodyLocation
+    - followup
+    - howPerformed
+    - preparation
+    - procedureType
+  MedicalRiskFactor:
+    - increasesRiskOf
+  MedicalStudy:
+    - healthCondition
+    - studyLocation
+    - studySubject
+  MedicalTest:
+    - affectedBy
+    - usedToDiagnose
+    - usesDevice
+  MedicalWebPage:
+    - medicalAudience
+  Diet:
+    - dietFeatures
+    - expertConsiderations
+    - physiologicalBenefits
+    - risks
   Movie:
     - actor
     - director
@@ -365,29 +414,32 @@ default_schema_type_properties:
     - availableService
     - medicalSpecialty
   Product:
-    - additionalProperty
-    - additionalType
-    - aggregateRating
     - alternateName
-    - audience
     - brand
     - category
-    - color
-    - depth
     - description
-    - height
     - image
-    - isRelatedTo
-    - itemCondition
-    - logo
     - manufacturer
     - material
     - model
     - name
-    - size
-    - sku
-    - weight
-    - width
+  Vehicle:
+    - accelerationTime
+    - bodyType
+    - cargoVolume
+    - driveWheelConfiguration
+    - fuelCapacity
+    - fuelConsumption
+    - fuelEfficiency
+    - fuelType
+    - numberOfDoors
+    - productionDate
+    - seatingCapacity
+    - speed
+    - vehicleConfiguration
+    - vehicleEngine
+    - vehicleModelDate
+    - vehicleSeatingCapacity
 default_schema_type_subtypes:
   - Event
 default_field_group_form_type: 'details'
