@@ -42,6 +42,7 @@ default_field_groups:
   biographical:
     label: Biographical
     properties:
+      - type
       - givenName
       - additionalName
       - familyName

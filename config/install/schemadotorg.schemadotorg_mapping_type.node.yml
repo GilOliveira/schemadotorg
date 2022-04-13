@@ -149,6 +149,7 @@ default_field_groups:
   general:
     label: General
     properties:
+      - type
       - name
       - headline
       - alternativeHeadline

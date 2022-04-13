@@ -332,6 +332,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
       $new_field_names[$field['machine_name']] = $field['label'];
       $mapping_entity->setSchemaSubtype(TRUE);
+      $this->schemaEntityTypeBuilder->setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, [$field['machine_name'] => 'type']);
     }
 
     // Reset Schema.org properties.
