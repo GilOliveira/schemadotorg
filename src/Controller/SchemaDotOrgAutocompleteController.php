@@ -56,14 +56,27 @@ class SchemaDotOrgAutocompleteController extends ControllerBase {
       return new JsonResponse([]);
     }
 
-    $query = $this->database->select('schemadotorg_' . $table, $table);
-    $query->addField($table, 'label', 'value');
-    $query->addField($table, 'label', 'label');
-    $query->condition('label', '%' . $input . '%', 'LIKE');
-    $query->orderBy('label');
-    $query->range(0, 10);
-    $labels = $query->execute()->fetchAllAssoc('label');
-    return new JsonResponse(array_values($labels));
+    if ($table === 'schema_thing') {
+      $query = $this->database->select('taxonomy_term__schema_type', $table);
+      $query->addField($table, 'schema_type_value', 'value');
+      $query->addField($table, 'schema_type_value', 'label');
+      $query->condition('bundle', $table);
+      $query->condition('schema_type_value', '%' . $input . '%', 'LIKE');
+      $query->orderBy('label');
+      $query->range(0, 10);
+      $labels = $query->execute()->fetchAllAssoc('label');
+      return new JsonResponse(array_values($labels));
+    }
+    else {
+      $query = $this->database->select('schemadotorg_' . $table, $table);
+      $query->addField($table, 'label', 'value');
+      $query->addField($table, 'label', 'label');
+      $query->condition('label', '%' . $input . '%', 'LIKE');
+      $query->orderBy('label');
+      $query->range(0, 10);
+      $labels = $query->execute()->fetchAllAssoc('label');
+      return new JsonResponse(array_values($labels));
+    }
   }
 
 }

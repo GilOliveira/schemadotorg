@@ -95,7 +95,6 @@ recommended_schema_types:
       - Patient
       - Dentist
       - Optician
-      - Optometric
       - Pharmacy
       - Physician
   medical_entity:
@@ -192,6 +191,9 @@ default_field_groups:
     label: Business
     properties:
       - openingHours
+      - servesCuisine
+      - hasMenu
+      - acceptsReservations
   contact:
     label: Contact
     properties:
@@ -292,6 +294,10 @@ default_schema_type_properties:
     - musicBy
     - productionCompany
     - trailer
+  FoodEstablishment:
+    - servesCuisine
+    - hasMenu
+    - acceptsReservations
   Recipe:
     - cookTime
     - cookingMethod

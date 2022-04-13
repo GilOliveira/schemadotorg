@@ -115,8 +115,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $schema_type = $this->getRequest()->query->get('type');
 
     // Validate the schema type before continuing.
-    if ($schema_type
-      && !$this->schemaTypeManager->isType($schema_type)) {
+    if ($schema_type && !$this->isSchemaType($schema_type)) {
       $t_args = ['%type' => $schema_type];
       $this->messenger()->addWarning($this->t("The Schema.org type %type is not valid.", $t_args));
       $schema_type = NULL;
@@ -871,7 +870,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#placeholder' => $this->t('Find a Schema.org @label', $t_args),
       '#size' => 30,
       '#autocomplete_route_name' => 'schemadotorg.autocomplete',
-      '#autocomplete_route_parameters' => ['table' => 'types'],
+      '#autocomplete_route_parameters' => ['table' => 'schema_thing'],
       '#attributes' => ['class' => ['schemadotorg-autocomplete']],
       '#attached' => ['library' => ['schemadotorg/schemadotorg.autocomplete']],
     ];
@@ -967,6 +966,21 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   /* ************************************************************************ */
   // Schema.org methods.
   /* ************************************************************************ */
+
+  /**
+   * Determine if a Schema.org type is valid.
+   *
+   * @param string $schema_type
+   *   The Schema.org type.
+   *
+   * @return bool
+   *   TRUE if a Schema.org type is valid.
+   */
+  protected function isSchemaType($schema_type) {
+    return $this->schemaTypeManager->isType($schema_type)
+      && !$this->schemaTypeManager->isEnumerationType($schema_type)
+      && !$this->schemaTypeManager->isEnumerationValue($schema_type);
+  }
 
   /**
    * Gets the Schema.org type.

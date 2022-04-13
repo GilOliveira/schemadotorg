@@ -5,17 +5,15 @@ Schema.org Blueprints
 
 Top down exploration
 
-Improve form validation
-- Display warning when updating field types.
+- http://localhost/so/admin/structure/types/schemadotorg?type=Optometric
 
-Subtyping and field groups
-- Ongoing
-- Review Report: Names
-- Review UX and workflow
-- Review all description.
+Ongoing
 - Determine the recommended types per entity type.
 - Build out the default schema types properties.
 - Review patterns and tests.
+
+- Add hook_help() to Schema.org Structure and Reports.
+- Add details usage to #description to admin settings.
 
 Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
 to support subtype.

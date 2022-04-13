@@ -14,6 +14,13 @@ use Symfony\Component\HttpFoundation\Request;
 class SchemaDotOrgAutocompleteControllerTest extends SchemaDotOrgKernelTestBase {
 
   /**
+   * Modules to enable.
+   *
+   * @var array
+   */
+  protected static $modules = ['user', 'field', 'text', 'taxonomy'];
+
+  /**
    * The Schema.org autocomplete controller.
    *
    * @var \Drupal\schemadotorg\Controller\SchemaDotOrgAutocompleteController
@@ -27,12 +34,14 @@ class SchemaDotOrgAutocompleteControllerTest extends SchemaDotOrgKernelTestBase 
     parent::setUp();
 
     $this->installEntitySchema('schemadotorg_mapping_type');
+    $this->installEntitySchema('taxonomy_vocabulary');
+    $this->installEntitySchema('taxonomy_term');
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
     $this->installConfig(['schemadotorg']);
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
     $installer = $this->container->get('schemadotorg.installer');
-    $installer->importTables();
+    $installer->install();
 
     $this->controller = SchemaDotOrgAutocompleteController::create($this->container);
   }
@@ -53,6 +62,15 @@ class SchemaDotOrgAutocompleteControllerTest extends SchemaDotOrgKernelTestBase 
     $result = $this->controller->autocomplete(new Request(['q' => 'Thing']), 'properties');
     $this->assertEquals('[]', $result->getContent());
 
+    // Check searching for 'Male' within Schema.org types returns Gender
+    // enumeration values.
+    $result = $this->controller->autocomplete(new Request(['q' => 'Male']), 'types');
+    $this->assertEquals('[{"value":"Female","label":"Female"},{"value":"Male","label":"Male"}]', $result->getContent());
+
+    // Check searching for 'Male' within Schema.org Thing vocabulary does NOT
+    // return Gender enumeration values.
+    $result = $this->controller->autocomplete(new Request(['q' => 'Male']), 'schema_thing');
+    $this->assertEquals('[]', $result->getContent());
   }
 
 }

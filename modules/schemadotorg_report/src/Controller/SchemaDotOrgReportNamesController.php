@@ -222,6 +222,11 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
       '#type' => 'details',
       '#title' => $title,
     ];
+    $build['table'] = [
+      '#type' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+    ];
     $build['replacements'] = [
       '#type' => 'details',
       '#title' => $this->t('Replacements'),
@@ -230,11 +235,6 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
         '#header' => [$label, $this->t('Replacement')],
         '#rows' => $replacements_rows,
       ],
-    ];
-    $build['table'] = [
-      '#type' => 'table',
-      '#header' => $header,
-      '#rows' => $rows,
     ];
     return $build;
   }

@@ -109,6 +109,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     // Create vocabulary.
     $vocabulary_id = $this->getTypeVocabularyId($type);
     $vocabulary_name = 'Schema.org: ' . $type_definition['drupal_label'];
+    $vocabulary_description = 'This vocabulary is used when users search for Schema.org types or enumerations';
 
     /** @var \Drupal\taxonomy\VocabularyStorage $vocabulary_storage */
     $vocabulary_storage = $this->entityTypeManager->getStorage('taxonomy_vocabulary');
@@ -116,6 +117,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     if (!$vocabulary) {
       $vocabulary = $vocabulary_storage->create([
         'name' => $vocabulary_name,
+        'description' => $vocabulary_description,
         'vid' => $vocabulary_id,
       ]);
       $vocabulary->save();
