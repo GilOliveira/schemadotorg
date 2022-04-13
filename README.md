@@ -8,11 +8,10 @@ Top down exploration
 Improve form validation
 - Display warning when updating field types.
 
-Group unmapped properties under Schema.org type
-
 Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgUiApiTest
 - Break the UI test into smaller tests.
 
+Subtyping and field groups
 - Ongoing
 - Review UX and workflow
 - Review all description.

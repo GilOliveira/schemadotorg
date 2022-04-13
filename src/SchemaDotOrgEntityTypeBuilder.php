@@ -3,12 +3,12 @@
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Entity\Display\EntityDisplayInterface;
-use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\field_group\Form\FieldGroupAddForm;
 
 /**
  * Schema.org entity type builder service.
@@ -472,10 +472,14 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       if (isset($base_field_names[$field_name])) {
         return;
       }
+
       $group_name = $this->schemaNames->toDrupalName('types', $schema_type);
       $group_label = $this->schemaNames->toDrupalLabel('types', $schema_type);
       $field_weight = $index;
     }
+
+    // Prefix group name.
+    $group_name = FieldGroupAddForm::GROUP_PREFIX . $group_name;
 
     // Get existing groups.
     $group = $display->getThirdPartySetting('field_group', $group_name);
