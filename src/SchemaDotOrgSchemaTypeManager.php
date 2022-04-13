@@ -363,6 +363,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
       ->orderBy('label')
       ->execute()
       ->fetchCol();
+    $types = array_combine($types, $types);
 
     // Remove ignored types.
     if ($types) {

@@ -106,6 +106,7 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
     $expected_default_field_group = [
       'label' => 'General',
       'properties' => [
+        'type',
         'name',
         'headline',
         'alternativeHeadline',

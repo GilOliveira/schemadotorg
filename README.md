@@ -3,21 +3,20 @@ Schema.org Blueprints
 
 # Todo
 
-Top down exploration
-
-- http://localhost/so/admin/structure/types/schemadotorg?type=Optometric
-
 Ongoing
 - Determine the recommended types per entity type.
 - Build out the default schema types properties.
 - Review patterns and tests.
 
+Documentation
 - Add hook_help() to Schema.org Structure and Reports.
 - Add details usage to #description to admin settings.
 
-Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
-to support subtype.
+Code
+- Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
+  to support subtype.
 
+Research
 - https://www.lullabot.com/articles/write-better-code-typed-entity
 
 # Testing
@@ -29,13 +28,15 @@ to support subtype.
 
 # Best Practices
 
-If two properties can address similar use-cases, use the more common property.
-- For example, Place can have an 'image' and 'photo'.
-  It is simpler to use 'image'.
+- If two properties can address similar use-cases, use the more common property.
+  - For example, Place can have an 'image' and 'photo'.
+    It is simpler to use 'image'.
+- For high-level types, which are inherited from, we want to keep the
+  default properties as simple as possible.
+- For specific and important types, include Recipe, we should be specific
+  as needed with the default properties.
 
 # TBD
-
-- How do we implement common content types and components? @see TYPES.md
 
 - Should you be able to map the same field to multiple properties?
   - body => description and disambiguatingDescription
@@ -47,5 +48,3 @@ If two properties can address similar use-cases, use the more common property.
   - Include descriptions added via the schemadotorg_descriptions.module
 
 - How can we validate the generated JSON-LD?
-
-- Should all the fields be prefixed with schema_* or field_*?

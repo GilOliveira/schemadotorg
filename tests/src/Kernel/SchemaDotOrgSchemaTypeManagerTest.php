@@ -263,6 +263,10 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertIsArray(NestedArray::getValue($type_tree, ['Product', 'subtypes', 'Vehicle', 'subtypes', 'BusOrCoach', 'subtypes']));
     $this->assertIsArray(NestedArray::getValue($type_tree, ['Product', 'subtypes', 'Vehicle', 'subtypes', 'BusOrCoach', 'enumerations']));
 
+    // Check getting Schema.org type hierarchical tree with ignored types.
+    $type_tree = $this->schemaTypeManager->getTypeTree('Product', ['IndividualProduct']);
+    $this->assertIsNotArray(NestedArray::getValue($type_tree, ['Product', 'subtypes', 'IndividualProduct', 'subtypes']));
+
     // Check getting Schema.org type breadcrumbs.
     $expected_breadcrumbs = [
       'Thing/Organization/LocalBusiness' => [

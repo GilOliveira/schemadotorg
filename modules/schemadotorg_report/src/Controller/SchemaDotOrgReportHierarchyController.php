@@ -29,7 +29,7 @@ class SchemaDotOrgReportHierarchyController extends SchemaDotOrgReportController
       $ignored_types = ['Intangible', 'Enumeration', 'StructuredValue'];
       $ignored_types = array_combine($ignored_types, $ignored_types);
       unset($ignored_types[$type]);
-      $tree = $this->schemaTypeManager->getTypeTree($type);
+      $tree = $this->schemaTypeManager->getTypeTree($type, $ignored_types);
       $count = count($this->schemaTypeManager->getAllTypeChildren($type, ['label'], $ignored_types));
     }
     $build = [];
