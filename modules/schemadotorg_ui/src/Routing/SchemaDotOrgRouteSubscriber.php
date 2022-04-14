@@ -101,10 +101,14 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
         // @see \Drupal\media\MediaTypeForm::form
         && $entity_type_id !== 'media') {
         $entity_collection_path = $entity_collection_route->getPath();
+        $bundle_entity_type_label = ($entity_type_id === 'paragraph')
+          ? 'paragraph type'
+          : $this->entityTypeManager->getDefinition($bundle_entity_type)->getSingularLabel();
+
         $route = new Route(
           "$entity_collection_path/schemadotorg",
           [
-            '_title' => 'Add Schema.org type',
+            '_title' => 'Add Schema.org ' . $bundle_entity_type_label,
             '_entity_form' => 'schemadotorg_mapping.add',
           ] + $defaults,
           $requirements,

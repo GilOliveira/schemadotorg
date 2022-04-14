@@ -46,10 +46,13 @@ class SchemaDotOrgUiMenuLink extends DeriverBase implements ContainerDeriverInte
         // Block media from being created because it requires a source to be defined.
         // @see \Drupal\media\MediaTypeForm::form
         && $bundle_of !== 'media') {
+        $entity_type_label = ($entity_type_id === 'paragraphs_type')
+          ? $this->t('paragraph type')
+          : $entity_type->getSingularLabel();
         $this->derivatives["schemadotorg.{$entity_type_id}.type_add"] = [
           'route_name' => "schemadotorg.{$entity_type_id}.type_add",
           'parent' => "entity.{$entity_type_id}.collection",
-          'title' => $this->t('Add Schema.org type'),
+          'title' => $this->t('Add Schema.org @type', ['@type' => $entity_type_label]),
           'weight' => -10,
         ] + $base_plugin_definition;
       }

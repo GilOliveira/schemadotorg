@@ -3,6 +3,9 @@ Schema.org Blueprints
 
 # Todo
 
+TBD
+- Sorting fields without field groups.
+
 Ongoing
 - Determine the recommended types per entity type.
 - Build out the default schema types properties.
@@ -31,8 +34,10 @@ Research
 - If two properties can address similar use-cases, use the more common property.
   - For example, Place can have an 'image' and 'photo'.
     It is simpler to use 'image'.
+
 - For high-level types, which are inherited from, we want to keep the
   default properties as simple as possible.
+
 - For specific and important types, include Recipe, we should be specific
   as needed with the default properties.
 
