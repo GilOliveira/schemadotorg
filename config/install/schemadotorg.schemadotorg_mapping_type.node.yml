@@ -376,6 +376,8 @@ default_schema_type_properties:
     - yield
   CivicStructure:
     - openingHours
+  MovieTheater:
+    - screenCount
   LocalBusiness:
     - openingHours
   MedicalOrganization:
