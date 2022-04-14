@@ -54,6 +54,12 @@ schemadotorg.schemadotorg_mapping_type.*:
         sequence:
           type: string
           label: 'Schema.org property'
+    default_field_weights:
+      type: sequence
+      label: 'Default field weights'
+      sequence:
+        type: string
+        label: 'Default field weight'
     default_field_groups:
       type: sequence
       label: 'Default field groups'

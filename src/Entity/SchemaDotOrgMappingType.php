@@ -43,6 +43,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *     "target_entity_type_id",
  *     "default_schema_types",
  *     "default_base_fields",
+ *     "default_field_weights",
  *     "default_field_groups",
  *     "default_field_group_form_type",
  *     "default_field_group_view_type",
@@ -95,6 +96,13 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * @var array
    */
   protected $default_base_fields = [];
+
+  /**
+   * An array of default field weights for Schema.org properties.
+   *
+   * @var array
+   */
+  protected $default_field_weights = [];
 
   /**
    * An associative array of default field groups for Schema.org properties.

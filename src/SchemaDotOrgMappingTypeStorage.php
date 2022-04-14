@@ -49,12 +49,7 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
    * {@inheritdoc}
    */
   public function getDefaultSchemaTypeBundles($entity_type_id, $type) {
-    $mapping_type = $this->load($entity_type_id);
-    if (!$mapping_type) {
-      return [];
-    }
-
-    $schema_types = $mapping_type->get('default_schema_types') ?: [];
+    $schema_types = $this->getEntityTypeProperty($entity_type_id, 'default_schema_types');
     $bundles = [];
     foreach ($schema_types as $bundle => $schema_type) {
       if ($type === $schema_type) {
@@ -68,12 +63,7 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
    * {@inheritdoc}
    */
   public function getDefaultSchemaType($entity_type_id, $bundle) {
-    $mapping_type = $this->load($entity_type_id);
-    if (!$mapping_type) {
-      return NULL;
-    }
-
-    $schema_types = $mapping_type->get('default_schema_types') ?: [];
+    $schema_types = $this->getEntityTypeProperty($entity_type_id, 'default_schema_types');
     return $schema_types[$bundle] ?? NULL;
   }
 
@@ -81,12 +71,11 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
    * {@inheritdoc}
    */
   public function getDefaultSchemaTypeProperties($entity_type_id, $schema_type) {
-    $mapping_type = $this->load($entity_type_id);
-    if (!$mapping_type) {
+    $type_properties = $this->getEntityTypeProperty($entity_type_id, 'default_schema_type_properties');
+    if (empty($type_properties)) {
       return NULL;
     }
 
-    $type_properties = $mapping_type->get('default_schema_type_properties');
     $breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs($schema_type);
     $default_properties = [];
     foreach ($breadcrumbs as $breadcrumb) {
@@ -105,37 +94,35 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
    * {@inheritdoc}
    */
   public function getDefaultSchemaTypeSubtypes($entity_type_id) {
-    $mapping_type = $this->load($entity_type_id);
-    if (!$mapping_type) {
-      return NULL;
-    }
+    return $this->getEntityTypeProperty($entity_type_id, 'default_schema_type_subtypes');
+  }
 
-    return $mapping_type->get('default_schema_type_subtypes');
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultFieldWeights($entity_type_id) {
+    $weights = $this->getEntityTypeProperty($entity_type_id, 'default_field_weights');
+    $weights = array_flip($weights);
+    // Start field weights at 1 since most default fields are set to 0.
+    array_walk($weights, function (&$weight) {
+      $weight += 1;
+    });
+    return $weights;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getDefaultFieldGroups($entity_type_id) {
-    $mapping_type = $this->load($entity_type_id);
-    if (!$mapping_type) {
-      return [];
-    }
-
-    return $mapping_type->get('default_field_groups') ?: [];
+    return $this->getEntityTypeProperty($entity_type_id, 'default_field_groups');
   }
 
   /**
    * {@inheritdoc}
    */
   public function getDefaultFieldGroupFormatType($entity_type_id, EntityDisplayInterface $display) {
-    $mapping_type = $this->load($entity_type_id);
-    if (!$mapping_type) {
-      return '';
-    }
-
     $display_type = ($display instanceof EntityFormDisplayInterface) ? 'form' : 'view';
-    return $mapping_type->get('default_field_group_' . $display_type . '_type') ?: '';
+    return $this->getEntityTypeProperty($entity_type_id, 'default_field_group_' . $display_type . '_type', '');
   }
 
   /**
@@ -158,12 +145,7 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
    * {@inheritdoc}
    */
   public function getRecommendedSchemaTypes($entity_type_id) {
-    $mapping_type = $this->load($entity_type_id);
-    if (!$mapping_type) {
-      return [];
-    }
-
-    return $mapping_type->get('recommended_schema_types') ?: [];
+    return $this->getEntityTypeProperty($entity_type_id, 'recommended_schema_types');
   }
 
   /**
@@ -253,6 +235,29 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
       $items[$entity_type_id] = $this->entityTypeManager->getDefinition($bundle_entity_type_id);
     }
     return $items;
+  }
+
+  /**
+   * Gets an entity type's property with a default value.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $property_name
+   *   The property name.
+   * @param mixed $default_value
+   *   The default value.
+   *
+   * @return mixed
+   *   An entity type's property or the default value.
+   */
+  protected function getEntityTypeProperty($entity_type_id, $property_name, $default_value = []) {
+    $mapping_type = $this->load($entity_type_id);
+    if (!$mapping_type) {
+      return $default_value;
+    }
+    else {
+      return $mapping_type->get($property_name) ?: $default_value;
+    }
   }
 
 }

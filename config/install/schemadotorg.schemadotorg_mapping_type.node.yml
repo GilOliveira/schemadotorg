@@ -142,6 +142,7 @@ default_base_fields:
   promote: { }
   sticky: { }
   path: { }
+default_field_weights: { }
 default_field_groups:
   general:
     label: General

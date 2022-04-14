@@ -3,8 +3,8 @@ Schema.org Blueprints
 
 # Todo
 
-TBD
-- Sorting fields without field groups.
+UI/UX
+- Improve mapping type listing page, reduce the number of columns.
 
 Ongoing
 - Determine the recommended types per entity type.
@@ -26,6 +26,7 @@ Research
 
 - Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgUiApiTest
 - Create SchemaDotOrgUiMappingForm kernel test.
+  - Check all functionality.
 - JavaScript test coverage for UI and Report.
 - FormValidation test coverage for SchemaDotOrgFormTrait
 

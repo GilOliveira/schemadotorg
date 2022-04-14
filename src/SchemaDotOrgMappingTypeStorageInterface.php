@@ -70,6 +70,18 @@ interface SchemaDotOrgMappingTypeStorageInterface extends ConfigEntityStorageInt
   public function getDefaultSchemaTypeSubtypes($entity_type_id);
 
   /**
+   * Gets default field weight for a specific entity type.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   *
+   * @return array
+   *   An array containing default field weights for a
+   *   specific entity type.
+   */
+  public function getDefaultFieldWeights($entity_type_id);
+
+  /**
    * Gets default field groups for a specific entity type.
    *
    * @param string $entity_type_id

@@ -326,7 +326,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     // Add subtype field and update the mapping.
     $subtype = $form_state->getValue('subtyping') ?: [];
-    if ($subtype['enable']) {
+    if (!empty($subtype['enable'])) {
       $field = $subtype[static::ADD_FIELD];
       $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
       $new_field_names[$field['machine_name']] = $field['label'];
@@ -376,8 +376,15 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $mapping_entity->setSchemaPropertyMapping($field_name, $property_name);
     }
 
-    // Get new properties and set entity display field groups.
+    // Get new properties and set entity display field weights and groups.
     $new_properties = array_diff_key($mapping_entity->get('properties'), $original_properties);
+
+    // Set field weights for new mappings.
+    if ($mapping_entity->isNew()) {
+      $this->schemaEntityTypeBuilder->setEntityDisplayFieldWeights($entity_type_id, $bundle, $new_properties);
+    }
+
+    // Always set field groups when supported and available.
     $this->schemaEntityTypeBuilder->setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, $new_properties);
 
     // Display message about new fields.

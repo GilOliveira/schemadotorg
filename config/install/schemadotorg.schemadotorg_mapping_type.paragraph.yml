@@ -130,6 +130,40 @@ default_schema_type_properties:
     - unitCode
     - unitText
 default_schema_type_subtypes: { }
+default_field_weights:
+  - name
+  - alternateName
+  - description
+  - image
+  - telephone
+  - streetAddress
+  - postOfficeBoxNumber
+  - addressLocality
+  - addressRegion
+  - addressCountry
+  - postalCode
+  - contactOption
+  - email
+  - opens
+  - closes
+  - dayOfWeek
+  - hoursAvailable
+  - value
+  - valueReference
+  - unitText
+  - unitCode
+  - servingSize
+  - calories
+  - fatContent
+  - saturatedFatContent
+  - unsaturatedFatContent
+  - transFatContent
+  - cholesterolContent
+  - sodiumContent
+  - carbohydrateContent
+  - fiberContent
+  - sugarContent
+  - proteinContent
 default_field_groups: { }
 default_field_group_form_type: 'details'
 default_field_group_view_type: 'fieldset'

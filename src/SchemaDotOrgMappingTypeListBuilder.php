@@ -38,32 +38,37 @@ class SchemaDotOrgMappingTypeListBuilder extends ConfigEntityListBuilder {
     $header['recommended_schema_types'] = [
       'data' => $this->t('Recommended Schema.org types'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '15%',
+      'width' => '12%',
     ];
     $header['default_schema_types'] = [
       'data' => $this->t('Default Schema.org types'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '15%',
+      'width' => '12%',
     ];
     $header['default_schema_type_properties'] = [
       'data' => $this->t('Defined Schema.org type'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '15%',
+      'width' => '12%',
     ];
     $header['default_schema_type_subtypes'] = [
       'data' => $this->t('Schema.org subtypes'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '15%',
+      'width' => '12%',
     ];
     $header['default_base_fields'] = [
       'data' => $this->t('Base field mappings'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '15%',
+      'width' => '12%',
+    ];
+    $header['default_field_weights'] = [
+      'data' => $this->t('Field weights'),
+      'class' => [RESPONSIVE_PRIORITY_LOW],
+      'width' => '12%',
     ];
     $header['default_field_groups'] = [
       'data' => $this->t('Field groups'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '15%',
+      'width' => '12%',
     ];
     return $header + parent::buildHeader();
   }
@@ -104,6 +109,9 @@ class SchemaDotOrgMappingTypeListBuilder extends ConfigEntityListBuilder {
     }
     ksort($properties);
     $row['default_base_fields'] = implode(', ', $properties);
+
+    // Default field weights.
+    $row['default_field_weights'] = implode(', ', $entity->get('default_field_weights'));
 
     // Default field groups.
     $default_field_groups = $entity->get('default_field_groups');

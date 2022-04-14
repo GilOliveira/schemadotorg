@@ -400,6 +400,55 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   }
 
   /**
+   * Set entity display field weights for Schema.org properties.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $bundle
+   *   The name of the bundle.
+   * @param array $properties
+   *   The Schema.org properties to be weighted.
+   */
+  public function setEntityDisplayFieldWeights($entity_type_id, $bundle, array $properties) {
+    $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle);
+    $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle);
+    foreach ($properties as $field_name => $property) {
+      $this->setEntityDisplayFieldWeight($form_display, $field_name, $property);
+      $this->setEntityDisplayFieldWeight($view_display, $field_name, $property);
+    }
+    $form_display->save();
+    $view_display->save();
+  }
+
+  /**
+   * Set entity display field weight for a Schema.org property.
+   *
+   * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
+   *   An entity display.
+   * @param string $field_name
+   *   The field name to be set.
+   * @param string $schema_property
+   *   The field name's associated Schema.org property.
+   */
+  protected function setEntityDisplayFieldWeight(EntityDisplayInterface $display, $field_name, $schema_property) {
+    // Make sure the field component exists.
+    if (!$display->getComponent($field_name)) {
+      return;
+    }
+
+    $entity_type_id = $display->getTargetEntityTypeId();
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
+    $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
+    $default_field_weights = $mapping_type_storage->getDefaultFieldWeights($entity_type_id);
+    if (isset($default_field_weights[$schema_property])) {
+      $component = $display->getComponent($field_name);
+      $component['weight'] = $default_field_weights[$schema_property];
+      $display->setComponent($field_name, $component);
+    }
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, array $properties) {
@@ -425,6 +474,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *   An entity display.
    * @param string $field_name
    *   The field name to be set.
+   * @param string $schema_type
+   *   The field name's associated Schema.org type.
    * @param string $schema_property
    *   The field name's associated Schema.org property.
    *

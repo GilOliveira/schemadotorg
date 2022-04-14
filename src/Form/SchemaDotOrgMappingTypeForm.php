@@ -78,6 +78,13 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#default_value' => $this->nestedListString($entity->get('default_base_fields')),
       '#element_validate' => ['::validateNestedList'],
     ];
+    $form['default_field_weights'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Default field weights'),
+      '#description' => $this->t('Enter one Schema.org property per line.'),
+      '#default_value' => $this->listString($entity->get('default_field_weights')),
+      '#element_validate' => ['::validateList'],
+    ];
     $form['default_field_groups'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Default field groups'),

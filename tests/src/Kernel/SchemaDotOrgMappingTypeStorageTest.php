@@ -102,6 +102,12 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
     $actual_default_type_subtype = $this->storage->getDefaultSchemaTypeSubtypes('node');
     $this->assertEquals(['Event'], $actual_default_type_subtype);
 
+    // Check getting default field weight for a specific entity type.
+    $default_field_weights = $this->storage->getDefaultFieldWeights('paragraph');
+    $this->assertEquals(1, $default_field_weights['name']);
+    $this->assertEquals(2, $default_field_weights['alternateName']);
+    $this->assertEquals(3, $default_field_weights['description']);
+
     // Check getting default field groups for a specific entity type.
     $expected_default_field_group = [
       'label' => 'General',

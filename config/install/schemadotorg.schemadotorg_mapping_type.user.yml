@@ -38,6 +38,7 @@ default_schema_type_properties:
     - telephone
     - worksFor
 default_schema_type_subtypes: { }
+default_field_weights: { }
 default_field_groups:
   biographical:
     label: Biographical
