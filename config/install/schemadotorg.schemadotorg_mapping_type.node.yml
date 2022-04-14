@@ -230,16 +230,44 @@ default_schema_type_properties:
     - articleBody
     - headline
     - alternativeHeadline
+  TechArticle:
+    - dependencies
+    - proficiencyLevel
   LearningResource:
     - educationalAlignment
     - educationalLevel
     - educationalUse
     - learningResourceType
     - teaches
+  VisualArtwork:
+    - artMedium
+    - artworkSurface
+    - artform
+    - artist
   Course:
     - coursePrerequisites
     - educationalCredentialAwarded
     - numberOfCredits
+  Game:
+    - characterAttribute
+    - gameItem
+    - quest
+  VideoGame:
+    - gamePlatform
+    - musicBy
+    - playMode
+  CreativeWorkSeason:
+    - actor
+    - director
+    - endDate
+    - episode
+    - numberOfEpisodes
+    - productionCompany
+    - seasonNumber
+    - startDate
+    - trailer
+  Quotation:
+    - spokenByCharacter
   WebPage:
     - primaryImageOfPage
     - relatedLink
@@ -296,10 +324,16 @@ default_schema_type_properties:
     - image
     - name
     - telephone
+  TouristAttraction:
+    - availableLanguage
+    - touristType
+  TouristDestination:
+    - includesAttraction
+    - touristType
   MedicalEntity:
     - name
     - description
-    - medicineSyste
+    - medicineSystem
     - relevantSpecialty
   AnatomicalStructure:
     - bodyLocation

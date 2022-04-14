@@ -84,14 +84,29 @@ schema_properties:
     - affiliation
     - alumniOf
     - alternateName
+    - amenityFeature
+    - applicationSubCategory
+    - artMedium
+    - artform
+    - artist
     - attendee
     - audience
     - availableService
     - award
+    - bccRecipient
+    - benefits
     - blogPost
+    - category
+    - children
     - contactPoint
+    - colleague
+    - dietFeatures
+    - epidemiology
+    - episode
     - educationRequirements
     - experienceRequirements
+    - gamePlatform
+    - increasesRiskOf
     - knowsLanguage
     - medicalSpecialty
     - mentions
@@ -100,13 +115,21 @@ schema_properties:
     - occupationalCategory
     - organizer
     - photo
+    - possibleComplication
+    - possibleTreatment
+    - primaryPrevention
+    - physiologicalBenefits
     - qualifications
     - relatedLink
     - recipeCategory
     - recipeCuisine
+    - relevantSpecialty
     - responsibilities
     - recipeIngredient
     - recipeInstructions
+    - risks
+    - riskFactor
+    - signOrSymptom
     - significantLink
     - sponsor
     - skills
