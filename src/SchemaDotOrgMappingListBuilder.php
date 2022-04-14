@@ -105,8 +105,7 @@ class SchemaDotOrgMappingListBuilder extends ConfigEntityListBuilder {
     // @see \Drupal\Core\Config\Entity\ConfigEntityBase::sort
     // @see \Drupal\Core\Entity\EntityListBuilder::getEntityIds
     $entity_ids = $this->getEntityIds();
-    $entities = $this->storage->loadMultipleOverrideFree($entity_ids);
-    return $entities;
+    return $this->storage->loadMultipleOverrideFree($entity_ids);
   }
 
 }
