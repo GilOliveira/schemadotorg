@@ -230,6 +230,16 @@ default_schema_type_properties:
     - articleBody
     - headline
     - alternativeHeadline
+  LearningResource:
+    - educationalAlignment
+    - educationalLevel
+    - educationalUse
+    - learningResourceType
+    - teaches
+  Course:
+    - coursePrerequisites
+    - educationalCredentialAwarded
+    - numberOfCredits
   WebPage:
     - primaryImageOfPage
     - relatedLink

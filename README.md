@@ -5,7 +5,7 @@ Schema.org Blueprints
 
 UI/UX
 - Improve mapping type listing page, reduce the number of columns.
-
+- Suffix field groups with 'information.'
 Ongoing
 - Determine the recommended types per entity type.
 - Build out the default schema types properties.
