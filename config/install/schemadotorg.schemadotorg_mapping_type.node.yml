@@ -142,83 +142,6 @@ default_base_fields:
   promote: { }
   sticky: { }
   path: { }
-default_field_weights: { }
-default_field_groups:
-  general:
-    label: General
-    properties:
-      - type
-      - name
-      - headline
-      - alternativeHeadline
-      - description
-      - articleBody
-      - text
-      - author
-  media:
-    label: Media
-    properties:
-      - image
-      - photo
-      - primaryImageOfPage
-      - video
-      - thumbnail
-      - thumbnailUrl
-      - duration
-      - contentUrl
-  biographical:
-    label: Biographical
-    properties:
-      - givenName
-      - additionalName
-      - familyName
-      - honorificPrefix
-      - honorificSuffix
-      - gender
-      - birthDate
-      - knowsLanguage
-      - nationality
-  professional:
-    label: Professional
-    properties:
-      - jobTitle
-      - worksFor
-      - affiliation
-      - alumniOf
-      - award
-  business:
-    label: Business
-    properties:
-      - openingHours
-      - servesCuisine
-      - hasMenu
-      - acceptsReservations
-  contact:
-    label: Contact
-    properties:
-      - address
-      - contactPoint
-      - telephone
-      - fax
-      - email
-  event:
-    label: Event
-    properties:
-      - startDate
-      - endDate
-      - eventStatus
-      - duration
-      - performer
-      - audience
-      - attendee
-      - organizer
-      - location
-  medical:
-    label: Medical
-    properties:
-      - medicalSpecialty
-      - availableService
-      - isAcceptingNewPatients
 default_schema_types: { }
 default_schema_type_properties:
   CreativeWork:
@@ -489,5 +412,82 @@ default_schema_type_properties:
     - vehicleSeatingCapacity
 default_schema_type_subtypes:
   - Event
+default_field_weights: { }
+default_field_groups:
+  general:
+    label: General
+    properties:
+      - type
+      - name
+      - headline
+      - alternativeHeadline
+      - description
+      - articleBody
+      - text
+      - author
+  media:
+    label: Media
+    properties:
+      - image
+      - photo
+      - primaryImageOfPage
+      - video
+      - thumbnail
+      - thumbnailUrl
+      - duration
+      - contentUrl
+  biographical:
+    label: Biographical
+    properties:
+      - givenName
+      - additionalName
+      - familyName
+      - honorificPrefix
+      - honorificSuffix
+      - gender
+      - birthDate
+      - knowsLanguage
+      - nationality
+  professional:
+    label: Professional
+    properties:
+      - jobTitle
+      - worksFor
+      - affiliation
+      - alumniOf
+      - award
+  business:
+    label: Business
+    properties:
+      - openingHours
+      - servesCuisine
+      - hasMenu
+      - acceptsReservations
+  contact:
+    label: Contact
+    properties:
+      - address
+      - contactPoint
+      - telephone
+      - fax
+      - email
+  event:
+    label: Event
+    properties:
+      - startDate
+      - endDate
+      - eventStatus
+      - duration
+      - performer
+      - audience
+      - attendee
+      - organizer
+      - location
+  medical:
+    label: Medical
+    properties:
+      - medicalSpecialty
+      - availableService
+      - isAcceptingNewPatients
 default_field_group_form_type: 'details'
 default_field_group_view_type: 'fieldset'
