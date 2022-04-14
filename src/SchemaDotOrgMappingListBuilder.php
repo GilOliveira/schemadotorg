@@ -20,22 +20,17 @@ class SchemaDotOrgMappingListBuilder extends ConfigEntityListBuilder {
     $header['bundle_label'] = [
       'data' => $this->t('Name'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '10%',
-    ];
-    $header['bundle_id'] = [
-      'data' => $this->t('ID'),
-      'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '10%',
+      'width' => '15%',
     ];
     $header['schema_type'] = [
       'data' => $this->t('Schema.org type'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '10%',
+      'width' => '15%',
     ];
     $header['schema_subtype'] = [
       'data' => $this->t('Schema.org subtyping'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '10%',
+      'width' => '15%',
     ];
     $header['schema_properties'] = [
       'data' => $this->t('Scheme.org properties'),
@@ -61,8 +56,6 @@ class SchemaDotOrgMappingListBuilder extends ConfigEntityListBuilder {
     $row['bundle_label'] = $entity_type_bundle
       ? ['data' => $entity_type_bundle->toLink($entity_type_bundle->label(), 'edit-form')->toRenderable()]
       : '';
-
-    $row['bundle_id'] = $entity_type_bundle ? $entity_type_bundle->id() : '';
 
     $row['schema_type'] = $entity->getSchemaType();
 

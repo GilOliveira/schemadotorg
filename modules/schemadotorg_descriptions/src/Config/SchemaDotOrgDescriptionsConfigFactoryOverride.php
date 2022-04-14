@@ -284,7 +284,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
     $data = $this->configFactory->getEditable($config_name)->getRawData();
     if ($data && empty($data['description'])) {
       $overrides["field.field.$entity_type_id.$bundle.$subtype_field_name"] = [
-        'description' => $this->t('A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.'),
+        'description' => 'A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.',
       ];
     }
     else {
