@@ -303,8 +303,8 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $expected_form_components = [
       'schema_additional_name' => ['type' => 'string_textfield'],
       'schema_address' => ['type' => 'entity_reference_autocomplete'],
-      'schema_affiliation' => ['type' => 'entity_reference_autocomplete'],
-      'schema_alumni_of' => ['type' => 'entity_reference_autocomplete'],
+      'schema_affiliation' => ['type' => 'string_textfield'],
+      'schema_alumni_of' => ['type' => 'string_textfield'],
       'schema_award' => ['type' => 'string_textfield'],
       'schema_birth_date' => ['type' => 'datetime_default'],
       'schema_contact_point' => ['type' => 'paragraphs'],
