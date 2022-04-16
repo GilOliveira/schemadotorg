@@ -4,12 +4,14 @@ dependencies: {  }
 id: paragraph
 target_entity_type_id: paragraph
 recommended_schema_types:
-  common:
-    label: Common
+  place:
+    label: Place
     types:
       - ContactPoint
       - PostalAddress
       - OpeningHoursSpecification
+      - LocationFeatureSpecification
+      - Audience
   items:
     label: Items
     types:

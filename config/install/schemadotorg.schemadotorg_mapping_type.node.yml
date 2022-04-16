@@ -337,6 +337,14 @@ default_schema_type_properties:
     - screenCount
   LocalBusiness:
     - openingHours
+  LodgingBusiness:
+    - amenityFeature
+    - audience
+    - checkinTime
+    - checkoutTime
+    - numberOfRooms
+    - petsAllowed
+    - starRating
   MedicalOrganization:
     - isAcceptingNewPatients
     - medicalSpecialty

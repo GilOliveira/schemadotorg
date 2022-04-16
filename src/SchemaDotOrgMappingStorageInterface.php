@@ -63,7 +63,7 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    * @param string $field_name
    *   The field name.
    * @param string $target_type
-   *   The taraet entity type ID.
+   *   The target entity type ID.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface[]
    *   The Schema.org property target mappings.
@@ -80,12 +80,25 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    * @param string $field_name
    *   The field name.
    * @param string $target_type
-   *   The taraet entity type ID.
+   *   The target entity type ID.
    *
    * @return array
    *   The Schema.org property target bundles.
    */
   public function getSchemaPropertyTargetBundles($entity_type_id, $bundle, $field_name, $target_type);
+
+  /**
+   * Gets the Schema.org range includes target bundles.
+   *
+   * @param string $target_type
+   *   The target entity type ID.
+   * @param array $range_includes
+   *   An array of Schema.org types.
+   *
+   * @return array
+   *   The Schema.org range includes target bundles.
+   */
+  public function getRangeIncludesTargetBundles($target_type, array $range_includes);
 
   /**
    * Determine if Schema.org type is mapped to an entity.

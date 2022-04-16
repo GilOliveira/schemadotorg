@@ -10,6 +10,7 @@ Ongoing
 - Determine the recommended types per entity type.
 - Build out the default schema types properties.
 - Review patterns and tests.
+- Hotel time
 
 Documentation
 - Add hook_help() to Schema.org Structure and Reports.
@@ -24,6 +25,8 @@ Research
 
 # Testing
 
+- If entity reference exists recommend it as field type otherwise recommend plain text.
+- \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface::getRangeIncludesTargetBundles
 - Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgUiApiTest
 - Create SchemaDotOrgUiMappingForm kernel test.
   - Check all functionality.

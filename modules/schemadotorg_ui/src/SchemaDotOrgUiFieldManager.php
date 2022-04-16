@@ -124,7 +124,6 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
    * {@inheritdoc}
    */
   public function getPropertyFieldTypeOptions($property) {
-    $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
     $recommended_field_types = $this->getSchemaPropertyFieldTypes($property);
     $recommended_category = (string) $this->t('Recommended');
 
@@ -223,9 +222,7 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     $field_definitions = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
     $options = [];
 
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
-    $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
-    $base_field_names = $mapping_type_storage->getBaseFieldNames($entity_type_id);
+    $base_field_names = $this->getMappingTypeStorage()->getBaseFieldNames($entity_type_id);
     if ($base_field_names) {
       foreach ($base_field_names as $field_name) {
         if (isset($field_definitions[$field_name])) {
@@ -332,39 +329,63 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
       }
     }
 
-    // Set a default field type to an entity reference and string (a.k.a. name).
-    if (!$field_types) {
-      $entity_reference_field_type = $this->getDefaultEntityReferenceFieldType($range_includes);
-      $field_types += [
-        $entity_reference_field_type => $entity_reference_field_type,
-        'string' => 'string',
-      ];
-    }
-
-    return $field_types;
+    return $field_types ?: $this->getDefaultRecommendedFieldTypes($range_includes);
   }
 
   /**
-   * Gets the entity reference field type based on an array Schema.org types.
+   * Gets default recommended field types for a list Schema.org types.
+   *
+   * @param array $range_includes
+   *   An array of Schema.org types.
+   *
+   * @return string[]
+   *   An array of default recommended field types.
+   */
+  protected function getDefaultRecommendedFieldTypes(array $range_includes) {
+    $entity_type = $this->getDefaultEntityReferenceEntityType($range_includes);
+    $field_type = ($entity_type === 'paragraph')
+      ? 'field_ui:entity_reference_revisions:paragraph'
+      : "field_ui:entity_reference:$entity_type";
+
+    // If the entity reference target bundles exist recommend the entity
+    // reference field, otherwise recommend a single text field.
+    $target_bundles = $this->getMappingStorage()->getRangeIncludesTargetBundles($entity_type, $range_includes);
+    if ($target_bundles) {
+      return [
+        $field_type => $field_type,
+        'string' => 'string',
+      ];
+    }
+    else {
+      return [
+        'string' => 'string',
+        $field_type => $field_type,
+      ];
+    }
+  }
+
+  /**
+   * Gets the entity reference entity type based on an array Schema.org types.
    *
    * @param array $types
    *   Schema.org types, extracted from a property's range includes.
    *
    * @return string
-   *   The entity reference field type.
+   *   The entity reference entity type.
    */
-  protected function getDefaultEntityReferenceFieldType(array $types) {
+  protected function getDefaultEntityReferenceEntityType(array $types) {
     $sub_types = $this->schemaTypeManager->getAllSubTypes($types);
     if (empty($sub_types)) {
-      return 'field_ui:entity_reference:node';
+      return 'node';
     }
 
-    $schemadotorg_mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+    $schemadotorg_mapping_storage = $this->getMappingStorage();
+
     $entity_ids = $schemadotorg_mapping_storage->getQuery()
       ->condition('type', $sub_types, 'IN')
       ->execute();
     if (empty($entity_ids)) {
-      return 'field_ui:entity_reference:node';
+      return 'node';
     }
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $schemadotorg_mappings */
@@ -385,11 +406,27 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     $entity_types = array_filter($entity_types);
 
     // Get first entity type.
-    $entity_type = reset($entity_types);
+    return reset($entity_types);
+  }
 
-    return ($entity_type === 'paragraph')
-      ? 'field_ui:entity_reference_revisions:paragraph'
-      : "field_ui:entity_reference:$entity_type";
+  /**
+   * Gets Schema.org mapping storage.
+   *
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface
+   *   The Schema.org mapping storage.
+   */
+  protected function getMappingStorage() {
+    return $this->entityTypeManager->getStorage('schemadotorg_mapping');
+  }
+
+  /**
+   * Gets Schema.org mapping type storage.
+   *
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface
+   *   The Schema.org mapping type storage.
+   */
+  protected function getMappingTypeStorage() {
+    return $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
   }
 
 }

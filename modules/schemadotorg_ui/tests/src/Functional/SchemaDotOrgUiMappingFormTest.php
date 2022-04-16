@@ -278,16 +278,9 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
         'allowed_values_function' => 'schemadotorg_allowed_values_country',
       ],
       'schema_works_for' => [
-        'handler' => 'schemadotorg_range_includes',
-        'handler_settings' => [
-          'target_type' => 'node',
-          'schemadotorg_mapping' => [
-            'entity_type' => 'user',
-            'bundle' => 'user',
-            'field_name' => 'schema_works_for',
-          ],
-        ],
-        'target_type' => 'node',
+        'max_length' => 255,
+        'case_sensitive' => FALSE,
+        'is_ascii' => FALSE,
       ],
     ];
     $actual_field_storage_settings = [];
@@ -325,7 +318,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_knows_language' => ['type' => 'options_select'],
       'schema_nationality' => ['type' => 'options_select'],
       'schema_telephone' => ['type' => 'telephone_default'],
-      'schema_works_for' => ['type' => 'entity_reference_autocomplete'],
+      'schema_works_for' => ['type' => 'string_textfield'],
     ];
     $actual_form_components = $person_form_display->getComponents();
     $this->assertEntityArraySubset($expected_form_components, $actual_form_components);
@@ -345,7 +338,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_contact_point' => 'contactPoint',
       'schema_description' => 'description',
       'mail' => 'email',
-
       'name' => 'name',
       'schema_family_name' => 'familyName',
       'schema_gender' => 'gender',
