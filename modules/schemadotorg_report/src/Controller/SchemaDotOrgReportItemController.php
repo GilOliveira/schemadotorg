@@ -235,6 +235,24 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
             ],
           ];
 
+          // Get all range includes.
+          $range_includes_ids = $this->database->select('schemadotorg_properties', 'properties')
+            ->fields('properties', ['range_includes'])
+            ->condition('label', $properties, 'IN')
+            ->orderBy('label')
+            ->execute()
+            ->fetchCol();
+          $all_range_includes = [];
+          foreach ($range_includes_ids as $range_include_ids) {
+            $ids = $this->schemaTypeManager->parseIds($range_include_ids);
+            $all_range_includes += array_combine($ids, $ids);
+          }
+          ksort($all_range_includes);
+          $build[$name]['all_range_includes'] = [
+            '#type' => 'item',
+            '#title' => $this->t('All range includes'),
+            'links' => $this->schemaTypeBuilder->buildItemsLinks($all_range_includes),
+          ];
           break;
 
         default:
@@ -272,19 +290,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       $build['enumerations'] = $this->buildTypeEnumerations($id);
 
       // Appears in.
-      $appears_in = $this->database->select('schemadotorg_properties', 'properties')
-        ->fields('properties', ['label'])
-        ->condition('range_includes', '%' . $item['id'] . '%', 'LIKE')
-        ->orderBy('label')
-        ->execute()
-        ->fetchCol();
-      if ($appears_in) {
-        $build['appears_in'] = [
-          '#type' => 'item',
-          '#title' => $this->t('Appears in (via range includes)'),
-          'items' => $this->schemaTypeBuilder->buildItemsLinks($appears_in),
-        ];
-      }
+      $build['appears_in'] = $this->buildTypeAppearsIn($id);
     }
 
     $build['#attached']['library'][] = 'schemadotorg_report/schemadotorg_report';
@@ -390,6 +396,62 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       'items' => [
         '#theme' => 'item_list',
         '#items' => $enumerations,
+      ],
+    ];
+  }
+
+  /**
+   * Build Schema.org type appears inc.
+   *
+   * @param string $type
+   *   The Schema.org type.
+   *
+   * @return array
+   *   A renderable array containing Schema.org type appears in.
+   */
+  protected function buildTypeAppearsIn($type) {
+    $header = [
+      'label' => [
+        'data' => $this->t('Label'),
+      ],
+      'domain_includes' => [
+        'data' => $this->t('Domain includes'),
+      ],
+      'comment' => [
+        'data' => $this->t('Comment'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+      ],
+    ];
+
+    // Query.
+    $result = $this->database->select('schemadotorg_properties', 'properties')
+      ->fields('properties', ['label', 'domain_includes', 'comment'])
+      ->condition('range_includes', '%' . $type . '%', 'LIKE')
+      ->orderBy('label')
+      ->execute();
+
+    // Rows.
+    $rows = [];
+    while ($record = $result->fetchAssoc()) {
+      $row = [];
+      foreach ($record as $name => $value) {
+        $row[$name] = $this->buildTableCell($name, $value);
+      }
+      $rows[] = $row;
+    }
+    if (!$rows) {
+      return [];
+    }
+
+    return [
+      '#type' => 'details',
+      '#title' => $this->t('Appears in (via range includes)'),
+      '#description' => $this->t('Instances of @type may appear as a value for the following properties', ['@type' => $type]),
+      '#open' => TRUE,
+      'table' => [
+        '#type' => 'table',
+        '#header' => $header,
+        '#rows' => $rows,
       ],
     ];
   }

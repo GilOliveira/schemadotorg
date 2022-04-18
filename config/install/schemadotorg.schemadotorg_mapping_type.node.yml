@@ -36,9 +36,20 @@ recommended_schema_types:
     types:
       - Corporation
       - GovernmentOrganization
-      - LocalBusiness
+      - FinancialService
       - NewsMediaOrganization
       - SportsOrganization
+      - WorkersUnion
+  local_business:
+    label: Local Business
+    types:
+      - LocalBusiness
+      - Hotel
+      - Library
+      - RealEstateAgent
+      - Store
+      - TravelAgency
+
   automotive_business:
     label: Automotive Business
     types:
@@ -153,32 +164,18 @@ default_schema_type_properties:
     - articleBody
     - headline
     - alternativeHeadline
-  TechArticle:
-    - dependencies
-    - proficiencyLevel
-  LearningResource:
-    - educationalAlignment
-    - educationalLevel
-    - educationalUse
-    - learningResourceType
-    - teaches
-  VisualArtwork:
-    - artMedium
-    - artworkSurface
-    - artform
+  Blog:
+    - blogPost
+  ComicIssue:
     - artist
+    - colorist
+    - inker
+    - letterer
+    - penciler
   Course:
     - coursePrerequisites
     - educationalCredentialAwarded
     - numberOfCredits
-  Game:
-    - characterAttribute
-    - gameItem
-    - quest
-  VideoGame:
-    - gamePlatform
-    - musicBy
-    - playMode
   CreativeWorkSeason:
     - actor
     - director
@@ -189,14 +186,87 @@ default_schema_type_properties:
     - seasonNumber
     - startDate
     - trailer
+  Game:
+    - characterAttribute
+    - gameItem
+    - quest
+  LearningResource:
+    - educationalAlignment
+    - educationalLevel
+    - educationalUse
+    - learningResourceType
+    - teaches
+  Movie:
+    - actor
+    - director
+    - duration
+    - musicBy
+    - productionCompany
+    - trailer
+  NewsArticle:
+    - dateline
+    - printColumn
+    - printEdition
+    - printPage
+    - printSection
+  PublicationIssue:
+   - issueNumber
   Quotation:
     - spokenByCharacter
+  Recipe:
+    - cookTime
+    - cookingMethod
+    - name
+    - nationality
+    - nutrition
+    - image
+    - recipeCategory
+    - recipeCuisine
+    - recipeIngredient
+    - recipeInstructions
+    - recipeYield
+    - suitableForDiet
+    - text
+    - totalTime
+    - yield
+  SoftwareApplication:
+    - applicationCategory
+    - applicationSubCategory
+    - downloadUrl
+    - featureList
+    - memoryRequirements
+    - operatingSystem
+    - releaseNotes
+    - screenshot
+    - softwareAddOn
+    - softwareHelp
+    - softwareRequirements
+    - softwareVersion
+    - storageRequirements
+  SoftwareSourceCode:
+    - codeRepositor
+    - codeSampleType
+    - programmingLanguage
+    - runtimePlatform
+    - targetProduct
+  TechArticle:
+    - dependencies
+    - proficiencyLevel
+  VideoGame:
+    - gamePlatform
+    - musicBy
+    - playMode
+  VisualArtwork:
+    - artMedium
+    - artworkSurface
+    - artform
+    - artist
+  WebApplication:
+    - browserRequirements
   WebPage:
     - primaryImageOfPage
     - relatedLink
     - significantLink
-  Blog:
-    - blogPost
   Event:
     - attendee
     - audience
@@ -210,6 +280,14 @@ default_schema_type_properties:
     - organizer
     - performer
     - startDate
+  PublicationEvent:
+    - publishedBy
+    - publishedOn
+  BroadcastEvent:
+    - broadcastOfEvent
+    - isLiveBroadcast
+    - subtitleLanguage
+    - videoFormat
   Organization:
     - address
     - contactPoint
@@ -219,6 +297,37 @@ default_schema_type_properties:
     - name
     - parentOrganization
     - telephone
+  FoodEstablishment:
+    - servesCuisine
+    - hasMenu
+    - acceptsReservations
+  CivicStructure:
+    - openingHours
+  Hospital:
+    - availableService
+    - medicalSpecialty
+  LocalBusiness:
+    - openingHours
+  LodgingBusiness:
+    - amenityFeature
+    - audience
+    - checkinTime
+    - checkoutTime
+    - numberOfRooms
+    - petsAllowed
+    - starRating
+  MedicalOrganization:
+    - isAcceptingNewPatients
+    - medicalSpecialty
+  MovieTheater:
+    - screenCount
+  Physician:
+    - availableService
+    - email
+    - faxNumber
+    - telephone
+  SportsOrganization:
+    - sport
   Person:
     - additionalName
     - address
@@ -241,6 +350,36 @@ default_schema_type_properties:
     - nationality
     - telephone
     - worksFor
+  JobPosting:
+    - baseSalary
+    - benefits
+    - datePosted
+    - directApply
+    - educationRequirements
+    - eligibilityToWorkRequirement
+    - employerOverview
+    - employmentType
+    - estimatedSalary
+    - experienceRequirements
+    - industry
+    - jobBenefits
+    - jobImmediateStart
+    - jobLocation
+    - jobLocationType
+    - jobStartDate
+    - occupationalCategory
+    - physicalRequirement
+    - responsibilities
+    - skills
+    - validThrough
+    - workHours
+  Occupation:
+    - educationRequirements
+    - experienceRequirements
+    - occupationalCategory
+    - qualifications
+    - responsibilities
+    - skills
   Place:
     - address
     - description
@@ -304,90 +443,6 @@ default_schema_type_properties:
     - expertConsiderations
     - physiologicalBenefits
     - risks
-  Movie:
-    - actor
-    - director
-    - duration
-    - musicBy
-    - productionCompany
-    - trailer
-  FoodEstablishment:
-    - servesCuisine
-    - hasMenu
-    - acceptsReservations
-  Recipe:
-    - cookTime
-    - cookingMethod
-    - name
-    - nationality
-    - nutrition
-    - image
-    - recipeCategory
-    - recipeCuisine
-    - recipeIngredient
-    - recipeInstructions
-    - recipeYield
-    - suitableForDiet
-    - text
-    - totalTime
-    - yield
-  CivicStructure:
-    - openingHours
-  MovieTheater:
-    - screenCount
-  LocalBusiness:
-    - openingHours
-  LodgingBusiness:
-    - amenityFeature
-    - audience
-    - checkinTime
-    - checkoutTime
-    - numberOfRooms
-    - petsAllowed
-    - starRating
-  MedicalOrganization:
-    - isAcceptingNewPatients
-    - medicalSpecialty
-  SportsOrganization:
-    - sport
-  Hospital:
-    - availableService
-    - medicalSpecialty
-  Occupation:
-    - educationRequirements
-    - experienceRequirements
-    - occupationalCategory
-    - qualifications
-    - responsibilities
-    - skills
-  JobPosting:
-    - baseSalary
-    - benefits
-    - datePosted
-    - directApply
-    - educationRequirements
-    - eligibilityToWorkRequirement
-    - employerOverview
-    - employmentType
-    - estimatedSalary
-    - experienceRequirements
-    - industry
-    - jobBenefits
-    - jobImmediateStart
-    - jobLocation
-    - jobLocationType
-    - jobStartDate
-    - occupationalCategory
-    - physicalRequirement
-    - responsibilities
-    - skills
-    - validThrough
-    - workHours
-  Physician:
-    - availableService
-    - email
-    - faxNumber
-    - telephone
   MedicalClinic:
     - availableService
     - medicalSpecialty

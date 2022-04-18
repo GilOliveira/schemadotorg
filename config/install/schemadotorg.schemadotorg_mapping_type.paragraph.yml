@@ -4,6 +4,13 @@ dependencies: {  }
 id: paragraph
 target_entity_type_id: paragraph
 recommended_schema_types:
+  person:
+    label: Person
+    types:
+      - Language
+      - Occupation
+      - OccupationalExperienceRequirements
+      - ProgramMembership
   place:
     label: Place
     types:
@@ -11,7 +18,54 @@ recommended_schema_types:
       - PostalAddress
       - OpeningHoursSpecification
       - LocationFeatureSpecification
+  organization:
+    label: Organization
+    types:
       - Audience
+      - Brand
+      - EducationalOccupationalCredential
+      - OwnershipInfo
+      - ProgramMembership
+      - Invoice
+      - JobPosting
+  event:
+    label: Event/Travel
+    types:
+      - Audience
+      - Seat
+      - Schedule
+      - Reservation
+      - Ticket
+      - Trip
+      - VirtualLocation
+  commerce:
+    label: Commerce
+    types:
+      - MerchantReturnPolicy
+      - MerchantReturnPolicySeasonalOverride
+      - MonetaryAmount
+      - OfferShippingDetails
+      - Offer
+      - Order
+      - OrderItem
+      - ParcelDelivery
+      - PriceSpecification
+      - Rating
+      - Service
+  health:
+    label: Health
+    types:
+      - HealthInsurancePlan
+      - HealthPlanCostSharingSpecification
+      - HealthPlanFormulary
+      - HealthPlanNetwork
+      - NutritionInformation
+  software:
+    label: Software
+    types:
+      - ComputerLanguage
+      - DigitalDocumentPermission
+      - GameServer
   items:
     label: Items
     types:
@@ -29,64 +83,13 @@ recommended_schema_types:
       - Quantity
       - Rating
       - Role
-  business:
-    label: Business
-    types:
-      - Audience
-      - Brand
-      - Invoice
-      - JobPosting
-      - OwnershipInfo
-      - Occupation
-      - OccupationalExperienceRequirements
-      - VirtualLocation
-  commerce:
-    label: Commerce
-    types:
-      - MerchantReturnPolicy
-      - MerchantReturnPolicySeasonalOverride
-      - MonetaryAmount
-      - OfferShippingDetails
-      - Offer
-      - Offer
-      - Order
-      - OrderItem
-      - ParcelDelivery
-      - PriceSpecification
-      - Rating
-      - Service
-  event_travel:
-    label: 'Events/Travel'
-    types:
-      - Audience
-      - Seat
-      - Schedule
-      - Reservation
-      - Ticket
-      - Trip
-  health:
-    label: Health
-    types:
-      - HealthInsurancePlan
-      - HealthPlanCostSharingSpecification
-      - HealthPlanFormulary
-      - HealthPlanNetwork
-      - NutritionInformation
-  software:
-    label: Software
-    types:
-      - ComputerLanguage
-      - DigitalDocumentPermission
-      - GameServer
 default_base_fields:
   uuid: { }
   created: { }
 default_schema_types: { }
 default_schema_type_properties:
-  StructuredValue:
-    - name
   ContactPoint:
-    - contactOption
+    - contactType
     - email
     - telephone
   NutritionInformation:
@@ -122,11 +125,13 @@ default_schema_type_properties:
     - streetAddress
     - telephone
   PropertyValue:
+    - name
     - value
     - valueReference
     - unitCode
     - unitText
   QuantitativeValue:
+    - name
     - value
     - valueReference
     - unitCode
