@@ -142,15 +142,15 @@ default_field_weights:
   - alternateName
   - description
   - image
+  - contactType
   - telephone
+  - email
   - streetAddress
   - postOfficeBoxNumber
   - addressLocality
   - addressRegion
   - addressCountry
   - postalCode
-  - contactOption
-  - email
   - opens
   - closes
   - dayOfWeek

@@ -5,12 +5,20 @@ Schema.org Blueprints
 
 UI/UX
 - Improve mapping type listing page, reduce the number of columns.
-- Suffix field groups with 'information.'
+- How to handle time (ie Hotel open/close)
+  - https://www.drupal.org/project/time_field
+  - https://gole.ms/blog/useful-drupal-modules-and-options-date-and-time-formatting
+- Confirm that a field type exist before recommending it.
+  - \Drupal\schemadotorg_ui\SchemaDotOrgUiFieldManager::getSchemaPropertyFieldTypes
+  - \Drupal\schemadotorg_ui\SchemaDotOrgUiFieldManager::getPropertiesDefaultFieldTypes
+  - \Drupal\schemadotorg_ui\SchemaDotOrgUiFieldManager::getTypesDefaultFieldTypes
+  - 'schema_properties.default_field_types'
+  - 'schema_types.default_field_types'
+
 Ongoing
 - Determine the recommended types per entity type.
 - Build out the default schema types properties.
 - Review patterns and tests.
-- Hotel time
 
 Documentation
 - Add hook_help() to Schema.org Structure and Reports.

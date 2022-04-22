@@ -315,7 +315,6 @@ default_schema_type_properties:
     - checkoutTime
     - numberOfRooms
     - petsAllowed
-    - starRating
   MedicalOrganization:
     - isAcceptingNewPatients
     - medicalSpecialty
