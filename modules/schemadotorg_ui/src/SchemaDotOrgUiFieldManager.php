@@ -374,6 +374,10 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
    *   The entity reference entity type.
    */
   protected function getDefaultEntityReferenceEntityType(array $types) {
+    // Remove 'Thing' from $types because it is too generic.
+    $types = array_combine($types, $types);
+    unset($types['Thing']);
+
     $sub_types = $this->schemaTypeManager->getAllSubTypes($types);
     if (empty($sub_types)) {
       return 'node';

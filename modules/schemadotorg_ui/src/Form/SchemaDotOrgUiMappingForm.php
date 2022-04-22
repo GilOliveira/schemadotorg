@@ -114,14 +114,14 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $target_bundle = $route_parameters['bundle'] ?? NULL;
     $schema_type = $this->getRequest()->query->get('type');
 
-    // Validate the schema type before continuing.
+    // Validate the Schema.org type before continuing.
     if ($schema_type && !$this->isSchemaType($schema_type)) {
       $t_args = ['%type' => $schema_type];
       $this->messenger()->addWarning($this->t("The Schema.org type %type is not valid.", $t_args));
       $schema_type = NULL;
     }
 
-    // Get the Schema.org mapping using route matching.
+    // Get the Schema.org mapping from the current route match.
     if (!$target_entity_type_id && !$schema_type) {
       return parent::getEntityFromRouteMatch($route_match, $entity_type_id);
     }
@@ -129,7 +129,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     // Default the target entity type to be a node.
     $target_entity_type_id = $target_entity_type_id ?? 'node';
 
-    // Display warning that new Schema.org type is mapped.
+    // Display warning that new Schema.org type is already mapped.
     if ($mapping_storage->isSchemaTypeMapped($target_entity_type_id, $schema_type)) {
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
       $entity = $mapping_storage->loadBySchemaType($target_entity_type_id, $schema_type);
@@ -143,7 +143,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $this->messenger()->addWarning($this->t('%type is currently mapped to <a href=":href">@label</a> (@id).', $t_args));
     }
 
-    // Set default schema type for the current target entity type and bundle.
+    // Set default Schema.org type for the current target entity type and bundle.
     $schema_type = $schema_type
       ?: $mapping_type_storage->getDefaultSchemaType($target_entity_type_id, $target_bundle);
 
@@ -191,7 +191,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * {@inheritdoc}
    */
   protected function actions(array $form, FormStateInterface $form_state) {
-    // Hide actions when no Schema.org type is selected.
+    // Hide form actions when no Schema.org type is selected.
     if (!$this->getSchemaType()) {
       return [];
     }
@@ -206,6 +206,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
+    // Do not validate the form is Schema.org type is being selected.
     if ($form_state->getValue('find_schema_type')) {
       return;
     }
@@ -238,6 +239,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $properties = $form_state->getValue('properties');
     foreach ($properties as $property_name => $property_values) {
       if ($property_values['field']['name'] === static::ADD_FIELD) {
+        // Validate required field properties.
         $required_element_names = ['type', 'label', 'machine_name'];
         foreach ($required_element_names as $required_element_name) {
           if (empty($property_values['field'][static::ADD_FIELD][$required_element_name])) {
@@ -245,6 +247,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
             $form_state->setError($element, $this->t('@name field is required.', ['@name' => $element['#title']]));
           }
         }
+
+        // Validate that a new field name does not already exist.
         if (!empty($property_values['field'][static::ADD_FIELD]['machine_name'])) {
           $field_name = $this->getFieldPrefix() . $property_values['field'][static::ADD_FIELD]['machine_name'];
           if ($field_storage_config_storage->load($entity_type_id . '.' . $field_name)) {
@@ -347,9 +351,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         continue;
       }
 
+      // Create new field instance if the selected field instance does not exist.
       if (!$this->fieldExists($field_name)) {
         if ($this->fieldStorageExists($field_name)) {
-          // Create new field with existing field storage.
+          // Create new field instance using existing field storage.
           $property_definition = $this->schemaTypeManager->getProperty($property_name);
           $existing_field = $this->getField($field_name);
           $field = [
@@ -361,7 +366,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
         }
         elseif ($field_name === static::ADD_FIELD) {
-          // Create new field and field storage.
+          // Create new field storage and field instance.
           $field = $property_values['field'][static::ADD_FIELD];
           $field['schema_property'] = $property_name;
           $field['machine_name'] = $this->getFieldPrefix() . $field['machine_name'];
@@ -384,7 +389,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $this->schemaEntityTypeBuilder->setEntityDisplayFieldWeights($entity_type_id, $bundle, $new_properties);
     }
 
-    // Always set field groups when supported and available.
+    // Always set field groups when field groups are supported and available.
     $this->schemaEntityTypeBuilder->setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, $new_properties);
 
     // Display message about new fields.
@@ -531,6 +536,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   protected function buildAddEntityForm(array &$form) {
     $target_entity_type_bundle_definition = $this->getEntity()->getTargetEntityTypeBundleDefinition();
     $type_definition = $this->getSchmemaTypeDefinition();
+
     $t_args = ['@name' => $target_entity_type_bundle_definition->getSingularLabel()];
 
     $form['entity'] = [
@@ -572,7 +578,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $schema_type = $this->getSchemaType();
     $tree = $this->schemaTypeManager->getTypeTree($schema_type);
 
-    // Subtype is not displayed when there are no subtypes.
+    // Subtype is not displayed when there are no subtypes for the
+    // current Schema.org type.
     if (empty($tree) || empty($tree[$schema_type]['subtypes'])) {
       return $form;
     }

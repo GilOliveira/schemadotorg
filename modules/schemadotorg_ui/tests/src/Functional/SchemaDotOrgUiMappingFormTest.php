@@ -126,7 +126,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet('/admin/structure/paragraphs_type/schemadotorg', ['query' => ['type' => 'ContactPoint']]);
     $this->submitForm([], 'Save');
     $assert_session->responseContains('The Paragraphs type <em class="placeholder">Contact Point</em> has been added.');
-    $assert_session->responseContains('Added <em class="placeholder">Contact option; Email; Name; Telephone</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Contact type; Email; Telephone</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">Contact Point</em> mapping.');
 
     // Check display warning that new Schema.org type is mapped.
@@ -141,12 +141,12 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $edit = [
       'properties[additionalType][field][name]' => '_add_',
       'properties[additionalType][field][_add_][machine_name]' => '',
-      'properties[alternateName][field][name]' => '_add_',
-      'properties[alternateName][field][_add_][machine_name]' => 'name',
+      'properties[contactType][field][name]' => '_add_',
+      'properties[contactType][field][_add_][machine_name]' => 'contact_type',
     ];
     $this->submitForm($edit, 'Save');
     $assert_session->responseContains('Machine-readable name field is required.');
-    $assert_session->responseContains('A <em class="placeholder">schema_name</em> field already exists. Please enter a different name or select the existing field.');
+    $assert_session->responseContains('A <em class="placeholder">schema_contact_type</em> field already exists. Please enter a different name or select the existing field.');
 
     // Check the 'Contact Point' paragraph id, title, and description.
     /** @var \Drupal\paragraphs\ParagraphsTypeInterface $contact_point */
@@ -155,35 +155,11 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->assertEquals('Contact Point', $contact_point->label());
     $this->assertEquals('A contact point&#x2014;for example, a Customer Complaints department.', $contact_point->get('description'));
 
-    // Check the 'Contact Point' paragraph field settings.
-    $contact_point_field_definitions = $entity_field_manager->getFieldDefinitions('paragraph', 'contact_point');
-    $expected_field_settings = [
-      'schema_contact_option' => [
-        'handler' => 'schemadotorg_enumeration',
-        'handler_settings' => [
-          'target_type' => 'taxonomy_term',
-          'schemadotorg_mapping' => [
-            'entity_type' => 'paragraph',
-            'bundle' => 'contact_point',
-            'field_name' => 'schema_contact_option',
-          ],
-        ],
-        'target_type' => 'taxonomy_term',
-      ],
-    ];
-    $actual_field_settings = [];
-    foreach ($contact_point_field_definitions as $field_name => $contact_point_field_definition) {
-      $actual_field_settings[$field_name] = $contact_point_field_definition->getSettings();
-    }
-    $this->convertMarkupToStrings($actual_field_settings);
-    $this->assertEntityArraySubset($expected_field_settings, $actual_field_settings);
-
     // Check the 'Contact Point' paragraph form display.
     $contact_point_form_display = $display_repository->getFormDisplay('paragraph', 'contact_point');
     $expected_form_components = [
-      'schema_contact_option' => ['type' => 'options_select'],
+      'schema_contact_type' => ['type' => 'string_textfield'],
       'schema_email' => ['type' => 'email_default'],
-      'schema_name' => ['type' => 'string_textfield'],
       'schema_telephone' => ['type' => 'telephone_default'],
     ];
     $actual_form_components = $contact_point_form_display->getComponents();
@@ -195,9 +171,8 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->assertEquals('paragraph', $contact_point_mapping->getTargetEntityTypeId());
     $this->assertEquals('contact_point', $contact_point_mapping->getTargetBundle());
     $expected_schema_properties = [
-      'schema_contact_option' => 'contactOption',
+      'schema_contact_type' => 'contactType',
       'schema_email' => 'email',
-      'schema_name' => 'name',
       'schema_telephone' => 'telephone',
     ];
     $actual_schema_properties = $contact_point_mapping->getSchemaProperties();
