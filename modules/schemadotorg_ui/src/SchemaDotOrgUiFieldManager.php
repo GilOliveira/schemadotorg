@@ -290,18 +290,19 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
    * {@inheritdoc}
    */
   public function getSchemaPropertyFieldTypes($property) {
-    $property_mappings = $this->config->get('schema_properties.default_field_types');
-    $type_mappings = $this->config->get('schema_types.default_field_types');
+    $field_types = [];
 
-    $property_definition = $this->schemaTypeManager->getProperty($property);
+    // Get type and property mappings.
+    $type_mappings = $this->getFieldTypeMapping('types');
+    $property_mappings = $this->getFieldTypeMapping('properties');
 
     // Set property specific field types.
-    $field_types = [];
     if (isset($property_mappings[$property])) {
-      $field_types += array_combine($property_mappings[$property], $property_mappings[$property]);
+      $field_types += $property_mappings[$property];
     }
 
     // Set range include field types.
+    $property_definition = $this->schemaTypeManager->getProperty($property);
     $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
 
     // Prioritize enumerations and types (not data types).
@@ -330,6 +331,33 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     }
 
     return $field_types ?: $this->getDefaultRecommendedFieldTypes($range_includes);
+  }
+
+  /**
+   * Get Schema.org type or property field type mapping.
+   *
+   * @param string $table
+   *   Types or properties table name.
+   *
+   * @return array
+   *   Schema.org type or property field type mapping.
+   */
+  protected function getFieldTypeMapping($table) {
+    $mapping = &drupal_static(__FUNCTION__ . '_' . $table);
+    if (!isset($mapping)) {
+      $field_type_definitions = $this->fieldTypePluginManager->getDefinitions();
+      $name = 'schema_' . $table . '.default_field_types';
+      $mapping = $this->config->get($name);
+      foreach ($mapping as $id => $field_types) {
+        $mapping[$id] = array_combine($field_types, $field_types);
+        foreach ($mapping[$id] as $field_type) {
+          if (!isset($field_type_definitions[$field_type])) {
+            unset($mapping[$id][$field_type]);
+          }
+        }
+      }
+    }
+    return $mapping;
   }
 
   /**

@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\schemadotorg_ui\Kernel;
 
-use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\filter\Entity\FilterFormat;
 use Drupal\node\Entity\NodeType;
 use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
@@ -22,12 +22,23 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
    *
    * @var array
    */
-  protected static $modules = ['system', 'user', 'node', 'paragraphs', 'file', 'field', 'schemadotorg', 'schemadotorg_ui'];
+  protected static $modules = [
+    'system',
+    'user',
+    'node',
+    'paragraphs',
+    'file',
+    'field',
+    'filter',
+    'text',
+    'schemadotorg',
+    'schemadotorg_ui',
+  ];
 
   /**
    * The Schema.org UI field manager.
    *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeManagerInterface
+   * @var \Drupal\schemadotorg_ui\SchemaDotOrgUiFieldManagerInterface
    */
   protected $fieldManager;
 
@@ -62,6 +73,13 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
     /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
     $installer = $this->container->get('schemadotorg.installer');
     $installer->importTables();
+
+    // Create a text format.
+    FilterFormat::create([
+      'format' => 'filtered_html',
+      'name' => 'Filtered HTML',
+      'weight' => 0,
+    ])->save();
 
     // Create Thing node with field.
     $node_type = NodeType::create([
@@ -120,6 +138,9 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
       'Recommended' => [
         'string' => 'Text (plain)',
         'string_long' => 'Text (plain, long)',
+        'text' => 'Text (formatted)',
+        'text_long' => 'Text (formatted, long)',
+        'text_with_summary' => 'Text (formatted, long, with summary)',
       ],
       'General' => [
         'boolean' => 'Boolean',
@@ -173,7 +194,6 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
         [
           'string' => 'string',
           'string_long' => 'string_long',
-          'list_string' => 'list_string',
           'text' => 'text',
           'text_long' => 'text_long',
           'text_with_summary' => 'text_with_summary',
