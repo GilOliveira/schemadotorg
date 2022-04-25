@@ -69,28 +69,21 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository */
     $display_repository = \Drupal::service('entity_display.repository');
 
-    // Check displaying find Schema.org type form.
-    $this->drupalGet('/admin/structure/paragraphs_type/schemadotorg');
-    $assert_session->fieldExists('type');
-    $assert_session->buttonExists('Find');
-
-    // Checking hiding actions when no Schema.org type is selected.
-    $assert_session->buttonNotExists('Save');
-
-    // Check displaying recommended Schema.org types.
-    $assert_session->linkByHrefExists($base_path . 'admin/structure/paragraphs_type/schemadotorg?type=ContactPoint');
-    $assert_session->linkExists('ContactPoint');
+    /* ********************************************************************** */
+    // Validation.
+    /* ********************************************************************** */
 
     // Check validating the schema type before continuing.
-    $this->submitForm(['type' => 'NotThing'], 'Find');
+    $this->drupalGet('/admin/structure/paragraphs_type/schemadotorg', ['query' => ['type' => 'NotThing']]);
     $assert_session->responseContains('The Schema.org type <em class="placeholder">NotThing</em> is not valid.');
-    $assert_session->fieldExists('type');
+    $assert_session->buttonExists('Find');
+    $assert_session->buttonNotExists('Save');
 
     // Check displaying Schema.org type property to field mapping form.
+    $this->drupalGet('/admin/structure/paragraphs_type/schemadotorg');
     $this->submitForm(['type' => 'ContactPoint'], 'Find');
-    $assert_session->fieldNotExists('type');
-    $assert_session->buttonNotExists('Find');
     $assert_session->addressEquals('/admin/structure/paragraphs_type/schemadotorg?type=ContactPoint');
+    $assert_session->buttonNotExists('Find');
     $assert_session->buttonExists('Save');
 
     /* ********************************************************************** */
