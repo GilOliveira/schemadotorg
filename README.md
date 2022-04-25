@@ -5,15 +5,15 @@ Schema.org Blueprints
 
 UI/UX
 - Improve mapping type listing page, reduce the number of columns.
-- How to handle time (ie Hotel open/close)
-  - https://www.drupal.org/project/time_field
-  - https://gole.ms/blog/useful-drupal-modules-and-options-date-and-time-formatting
-- Determine recommend modules
-  - Address
-  - Time field
-  - Field group
-  - Flex field
+- Document recommended modules
+  - Address - https://www.drupal.org/project/address
+  - Time field - https://www.drupal.org/project/time_field
+  - Field group - https://www.drupal.org/project/field_group
 
+- TDB
+  - Flex field - https://www.drupal.org/project/flexfield
+  - Key value field - https://www.drupal.org/project/key_value_field
+  - Duration Field - https://www.drupal.org/project/duration_field
 
 Ongoing
 - Determine the recommended types per entity type.

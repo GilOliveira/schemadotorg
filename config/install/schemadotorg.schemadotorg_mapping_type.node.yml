@@ -49,7 +49,6 @@ recommended_schema_types:
       - RealEstateAgent
       - Store
       - TravelAgency
-
   automotive_business:
     label: Automotive Business
     types:
@@ -518,6 +517,10 @@ default_field_groups:
       - affiliation
       - alumniOf
       - award
+  organization:
+    label: Organization
+    properties:
+      - parentOrganization
   business:
     label: Business
     properties:

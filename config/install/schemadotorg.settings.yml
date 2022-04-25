@@ -1,6 +1,36 @@
 field_prefix: schema_
 schema_types:
   default_field_types:
+    DefinedTerm:
+      - string
+      - list_string
+      - 'field_ui:entity_reference:taxonomy_term'
+    PostalAddress:
+      - address
+      - entity_reference
+      - text
+    URL:
+      - link
+      - string
+    Time:
+      - time
+      - string
+      - datetime
+    DateTime:
+      - datetime
+    Date:
+      - datetime
+    Boolean:
+      - boolean
+    Integer:
+      - integer
+      - list_integer
+    Number:
+      - integer
+      - float
+      - decimal
+      - list_integer
+      - list_float
     Text:
       - string
       - string_long
@@ -8,41 +38,6 @@ schema_types:
       - text
       - text_long
       - text_with_summary
-    Number:
-      - integer
-      - float
-      - decimal
-      - list_integer
-      - list_float
-    DateTime:
-      - datetime
-    Date:
-      - datetime
-    Integer:
-      - integer
-      - list_integer
-    Boolean:
-      - boolean
-    Time:
-      - datetime
-      - string
-    PostalAddress:
-      - address
-      - entity_reference
-      - text
-    DefinedTerm:
-      - string
-      - list_string
-      - 'field_ui:entity_reference:taxonomy_term'
-    Duration:
-      - string
-    QuantitativeValue:
-      - string
-    Quantity:
-      - string
-    URL:
-      - link
-      - string
 schema_properties:
   default_field_types:
     articleBody:
@@ -61,8 +56,7 @@ schema_properties:
       - telephone
       - string
     identifier:
-      - key_value
-      - key_value_long
+      - string
     height:
       - string
     image:
