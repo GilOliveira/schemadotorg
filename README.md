@@ -4,7 +4,20 @@ Schema.org Blueprints
 # Todo
 
 UI/UX
+- Use Ajax for the add field form.
+  - Use Thing for testing
+  - Examples
+    - \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildSchemaPropertiesForm
+    - \Drupal\form_api_example\Form\AjaxAddMore
+    - Drupal.behaviors.fileAutoUpload
+  - Steps
+    - Pass $form_state to properties
+    - Validate and massage properties
+    - SchemaDotOrgUiField element
+      - name, type, description, unlimited, etc...
+
 - Improve mapping type listing page, reduce the number of columns.
+
 - Document recommended modules
   - Address - https://www.drupal.org/project/address
   - Time field - https://www.drupal.org/project/time_field
@@ -65,3 +78,39 @@ Research
   - Include descriptions added via the schemadotorg_descriptions.module
 
 - How can we validate the generated JSON-LD?
+
+```
+      $row['field']['add_field'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Add field'),
+        '#submit' => ['::addField'],
+        '#validate' => ['::noValidate'],
+//        '#ajax' => [
+//          'callback' => '::addFieldCallback',
+//          'wrapper' => $wrapper_id,
+//        ],
+      ];
+
+  /**
+   * No validate handler for the "add-field" button.
+   */
+  public function noValidate(array &$form, FormStateInterface $form_state) {
+    // Do nothing.
+  }
+
+  /**
+   * Submit handler for the "add-field" button.
+   */
+  public function addField(array &$form, FormStateInterface $form_state) {
+    $form_state->setRebuild();
+  }
+
+  /**
+   * Callback for the "add-field" button.
+   */
+  public function addFieldCallback(array &$form, FormStateInterface $form_state) {
+    $button = $form_state->getTriggeringElement();
+    $element = NestedArray::getValue($form, array_slice($button['#array_parents'], 0, -1));
+    return $element[static::ADD_FIELD];
+  }
+```

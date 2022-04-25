@@ -71,7 +71,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
 
     // Check displaying find Schema.org type form.
     $this->drupalGet('/admin/structure/paragraphs_type/schemadotorg');
-    $assert_session->fieldExists('find_schema_type');
+    $assert_session->fieldExists('type');
     $assert_session->buttonExists('Find');
 
     // Checking hiding actions when no Schema.org type is selected.
@@ -82,13 +82,13 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $assert_session->linkExists('ContactPoint');
 
     // Check validating the schema type before continuing.
-    $this->submitForm(['find_schema_type' => 'NotThing'], 'Find');
+    $this->submitForm(['type' => 'NotThing'], 'Find');
     $assert_session->responseContains('The Schema.org type <em class="placeholder">NotThing</em> is not valid.');
-    $assert_session->fieldExists('find_schema_type');
+    $assert_session->fieldExists('type');
 
     // Check displaying Schema.org type property to field mapping form.
-    $this->submitForm(['find_schema_type' => 'ContactPoint'], 'Find');
-    $assert_session->fieldNotExists('find_schema_type');
+    $this->submitForm(['type' => 'ContactPoint'], 'Find');
+    $assert_session->fieldNotExists('type');
     $assert_session->buttonNotExists('Find');
     $assert_session->addressEquals('/admin/structure/paragraphs_type/schemadotorg?type=ContactPoint');
     $assert_session->buttonExists('Save');

@@ -25,6 +25,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   public const ADD_FIELD = SchemaDotOrgUiFieldManagerInterface::ADD_FIELD;
 
   /**
+   * The service container.
+   *
+   * @var \Symfony\Component\DependencyInjection\ContainerInterface
+   */
+  protected $container;
+
+  /**
    * The theme manager.
    *
    * @var \Drupal\Core\Theme\ThemeManagerInterface
@@ -92,6 +99,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
+    $instance->container = $container;
     $instance->themeManager = $container->get('theme.manager');
     $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
     $instance->schemaTypeBuilder = $container->get('schemadotorg.schema_type_builder');
@@ -116,8 +124,12 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     // Validate the Schema.org type before continuing.
     if ($schema_type && !$this->isSchemaType($schema_type)) {
-      $t_args = ['%type' => $schema_type];
-      $this->messenger()->addWarning($this->t("The Schema.org type %type is not valid.", $t_args));
+      // Only display a warning when an invalid type is passed via
+      // the query string.
+      if ($this->getRequest()->isMethod('get')) {
+        $t_args = ['%type' => $schema_type];
+        $this->messenger()->addWarning($this->t("The Schema.org type %type is not valid.", $t_args));
+      }
       $schema_type = NULL;
     }
 
@@ -182,8 +194,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       return $this->buildFieldTypeForm($form);
     }
     else {
-      // Display find Schema.org type form.
-      return $this->buildFindTypeForm($form);
+      $entity_type_id = $this->getTargetEntityTypeId();
+      return SchemaDotOrgUiMappingTypeSelectForm::create($this->container)
+        ->buildForm($form, $form_state, $entity_type_id);
     }
   }
 
@@ -206,11 +219,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    // Do not validate the form is Schema.org type is being selected.
-    if ($form_state->getValue('find_schema_type')) {
-      return;
-    }
-
     $mapping_entity = $this->getEntity();
 
     // Validate the bundle entity before it is created.
@@ -267,13 +275,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
-
-    // Handle the find Schema.org type form submission.
-    $find_schema_type = $form_state->getValue('find_schema_type');
-    if ($find_schema_type) {
-      $form_state->setRedirect('<current>', [], ['query' => ['type' => $find_schema_type]]);
-      return;
-    }
 
     $mapping_entity = $this->getEntity();
 
@@ -842,115 +843,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#sticky' => TRUE,
       '#attributes' => ['class' => ['schemadotorg-ui-properties']],
     ] + $rows;
-  }
-
-  /**
-   * Build the find a Schema.org type form.
-   *
-   * @param array $form
-   *   An associative array containing the structure of the form.
-   *
-   * @return array
-   *   The find a Schema.org type form.
-   */
-  protected function buildFindTypeForm(array &$form) {
-    // Description top.
-    if ($this->moduleHandler->moduleExists('schemadotorg_report')
-      && $this->currentUser()->hasPermission('access site reports')) {
-      $t_args = [
-        ':type_href' => Url::fromRoute('schemadotorg_report.types')->toString(),
-        ':properties_href' => Url::fromRoute('schemadotorg_report.properties')->toString(),
-        ':things_href' => Url::fromRoute('schemadotorg_report.types.things')->toString(),
-      ];
-      $description_top = $this->t('The schemas are a set of <a href=":types_href">types</a>, each associated with a set of <a href=":properties_href">properties</a>.', $t_args);
-      $description_top .= ' ' . $this->t('The types are arranged in a <a href=":things_href">hierarchy</a>.', $t_args);
-    }
-    else {
-      $description_top = $this->t("The schemas are a set of 'types', each associated with a set of properties.");
-      $description_top .= ' ' . $this->t('The types are arranged in a hierarchy.');
-    }
-    $form['description'] = ['#markup' => $description_top];
-
-    // Find.
-    $t_args = ['@label' => $this->t('type')];
-    $form['find'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['container-inline']],
-    ];
-    $form['find']['find_schema_type'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Find a @label', $t_args),
-      '#title_display' => 'invisible',
-      '#placeholder' => $this->t('Find a Schema.org @label', $t_args),
-      '#size' => 30,
-      '#autocomplete_route_name' => 'schemadotorg.autocomplete',
-      '#autocomplete_route_parameters' => ['table' => 'schema_thing'],
-      '#attributes' => ['class' => ['schemadotorg-autocomplete']],
-      '#attached' => ['library' => ['schemadotorg/schemadotorg.autocomplete']],
-    ];
-    $form['find']['submit'] = [
-      '#type' => 'submit',
-      '#button_type' => 'primary',
-      '#value' => $this->t('Find'),
-    ];
-
-    // Description bottom.
-    // Display recommended Schema.org types.
-    $entity_type_id = $this->getTargetEntityTypeId() ?? 'node';
-    $recommended_types = $this->getMappingTypeStorage()->getRecommendedSchemaTypes($entity_type_id);
-    $items = [];
-    foreach ($recommended_types as $group_name => $group) {
-      $item = [];
-      $item['group'] = [
-        '#markup' => $group['label'],
-        '#prefix' => '<strong>',
-        '#suffix' => ':</strong> ',
-      ];
-      foreach ($group['types'] as $type) {
-        $item[$type] = $this->buildSchemaTypeItem($type)
-          + ['#prefix' => (count($item) > 1) ? ', ' : ''];
-      }
-      $items[$group_name] = $item;
-    }
-    $form['description_bottom'] = [
-      'intro' => ['#markup' => '<p>' . $this->t('Or you can jump directly to a commonly used type:') . '</p>'],
-      'items' => [
-        '#theme' => 'item_list',
-        '#items' => $items,
-      ],
-    ];
-
-    // Types tree.
-    $tree = $this->schemaTypeManager->getTypeTree('Thing');
-    $base_path = Url::fromRoute('<current>', [], ['query' => ['type' => '']])->setAbsolute()->toString();
-    $form['types'] = [
-      '#type' => 'details',
-      '#title' => $this->t('Full list of Schema.org types'),
-      'tree' => $this->schemaTypeBuilder->buildTypeTree($tree, ['base_path' => $base_path]),
-    ];
-
-    // Drush commands.
-    $commands = [];
-    foreach ($recommended_types as $group_name => $group) {
-      $arguments = [];
-      foreach ($group['types'] as $type) {
-        $arguments[] = "$entity_type_id:$type";
-      }
-      $commands[] = '# ' . $group['label'];
-      $commands[] = 'drush create:type ' . implode(' ', $arguments);
-      $commands[] = '';
-    }
-    $form['drush'] = [
-      '#type' => 'details',
-      '#title' => $this->t('Drush commands'),
-      '#description' => $this->t('Use the below drush commands to create commonly used types.'),
-      'commands' => [
-        '#type' => 'html_tag',
-        '#tag' => 'pre',
-        '#value' => implode(PHP_EOL, $commands),
-      ],
-    ];
-    return $form;
   }
 
   /**
