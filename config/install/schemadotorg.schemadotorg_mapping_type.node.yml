@@ -163,14 +163,21 @@ default_schema_type_properties:
     - articleBody
     - headline
     - alternativeHeadline
+  Atlas:
+    - name
+  Book:
+    - name
   Blog:
     - blogPost
   ComicIssue:
     - artist
     - colorist
+    - name
     - inker
     - letterer
     - penciler
+  ComicStory:
+    - name
   Course:
     - coursePrerequisites
     - educationalCredentialAwarded
@@ -185,31 +192,52 @@ default_schema_type_properties:
     - seasonNumber
     - startDate
     - trailer
+  Drawing:
+    - name
+  Episode:
+    - name
+  ExercisePlan:
+    - name
   Game:
     - characterAttribute
+    - name
     - gameItem
     - quest
+  Guide:
+    - name
   LearningResource:
     - educationalAlignment
     - educationalLevel
     - educationalUse
     - learningResourceType
+    - name
     - teaches
   Movie:
     - actor
     - director
     - duration
     - musicBy
+    - name
     - productionCompany
     - trailer
+  MusicComposition:
+    - name
+  MusicPlaylist:
+    - name
+  MusicRecording:
+    - name
   NewsArticle:
     - dateline
     - printColumn
     - printEdition
     - printPage
     - printSection
+  Painting:
+    - name
+  Photograph:
+    - name
   PublicationIssue:
-   - issueNumber
+    - issueNumber
   Quotation:
     - spokenByCharacter
   Recipe:
@@ -228,6 +256,14 @@ default_schema_type_properties:
     - text
     - totalTime
     - yield
+  Sculpture:
+    - name
+  SheetMusic:
+    - name
+  ShortStory:
+    - name
+  SpecialAnnouncement:
+    - name
   SoftwareApplication:
     - applicationCategory
     - applicationSubCategory
@@ -251,6 +287,10 @@ default_schema_type_properties:
   TechArticle:
     - dependencies
     - proficiencyLevel
+  TVSeries:
+    - name
+  Thesis:
+    - name
   VideoGame:
     - gamePlatform
     - musicBy
@@ -260,9 +300,15 @@ default_schema_type_properties:
     - artworkSurface
     - artform
     - artist
+    - name
+  WebContent:
+    - name
   WebApplication:
     - browserRequirements
+  WebSite:
+    - name
   WebPage:
+    - name
     - primaryImageOfPage
     - relatedLink
     - significantLink
