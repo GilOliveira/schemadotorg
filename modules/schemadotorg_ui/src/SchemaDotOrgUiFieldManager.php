@@ -302,16 +302,29 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     $property_definition = $this->schemaTypeManager->getProperty($property);
     $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
 
+    // Set default entity reference type and field type.
+    $entity_reference_entity_type = $this->getDefaultEntityReferenceEntityType($range_includes);
+    $entity_reference_field_type = $this->getDefaultEntityReferenceFieldType($entity_reference_entity_type);
+
+    // Check if entity reference target bundles (a.k.a. range_includes) exist.
+    $entity_reference_target_bundles = $this->getMappingStorage()->getRangeIncludesTargetBundles($entity_reference_entity_type, $range_includes);
+    if ($entity_reference_target_bundles) {
+      $field_types[$entity_reference_field_type] = $entity_reference_field_type;
+    }
+
     // Check for enumerations and allowed values.
-    foreach ($range_includes as $range_include) {
-      if ($this->schemaTypeManager->isEnumerationType($range_include)) {
-        $field_types['field_ui:entity_reference:taxonomy_term'] = 'field_ui:entity_reference:taxonomy_term';
-        break;
-      }
-      // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::alterFieldValues
-      $allowed_values_function = 'schemadotorg_allowed_values_' . strtolower($range_include);
-      if (function_exists($allowed_values_function)) {
-        $field_types['list_string'] = 'list_string';
+    if (empty($field_types)) {
+      foreach ($range_includes as $range_include) {
+        if ($this->schemaTypeManager->isEnumerationType($range_include)) {
+          $field_types['field_ui:entity_reference:taxonomy_term'] = 'field_ui:entity_reference:taxonomy_term';
+          return $field_types;
+        }
+        // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::alterFieldValues
+        $allowed_values_function = 'schemadotorg_allowed_values_' . strtolower($range_include);
+        if (function_exists($allowed_values_function)) {
+          $field_types['list_string'] = 'list_string';
+          return $field_types;
+        }
       }
     }
 
@@ -321,12 +334,19 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
       foreach ($type_mappings as $type => $type_mapping) {
         if (isset($range_includes[$type])) {
           $field_types += $type_mapping;
-          break;
         }
       }
     }
 
-    return $field_types ?: $this->getDefaultRecommendedFieldTypes($range_includes);
+    // Set default field types to string and entity reference.
+    if (empty($field_types)) {
+      $field_types += [
+        'string' => 'string',
+        $entity_reference_field_type => $entity_reference_field_type,
+      ];
+    }
+
+    return $field_types;
   }
 
   /**
@@ -341,7 +361,7 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
   protected function getFieldTypeMapping($table) {
     $mapping = &drupal_static(__FUNCTION__ . '_' . $table);
     if (!isset($mapping)) {
-      $field_type_definitions = $this->fieldTypePluginManager->getDefinitions();
+      $field_type_definitions = $this->fieldTypePluginManager->getUiDefinitions();
       $name = 'schema_' . $table . '.default_field_types';
       $mapping = $this->config->get($name);
       foreach ($mapping as $id => $field_types) {
@@ -357,35 +377,18 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
   }
 
   /**
-   * Gets default recommended field types for a list Schema.org types.
+   * Get default entity reference field type.
    *
-   * @param array $range_includes
-   *   An array of Schema.org types.
+   * @param string $entity_type_id
+   *   The entity type ID.
    *
-   * @return string[]
-   *   An array of default recommended field types.
+   * @return string
+   *   Default entity reference field type.
    */
-  protected function getDefaultRecommendedFieldTypes(array $range_includes) {
-    $entity_type = $this->getDefaultEntityReferenceEntityType($range_includes);
-    $field_type = ($entity_type === 'paragraph')
+  protected function getDefaultEntityReferenceFieldType($entity_type_id) {
+    return ($entity_type_id === 'paragraph')
       ? 'field_ui:entity_reference_revisions:paragraph'
-      : "field_ui:entity_reference:$entity_type";
-
-    // If the entity reference target bundles exist recommend the entity
-    // reference field, otherwise recommend a single text field.
-    $target_bundles = $this->getMappingStorage()->getRangeIncludesTargetBundles($entity_type, $range_includes);
-    if ($target_bundles) {
-      return [
-        $field_type => $field_type,
-        'string' => 'string',
-      ];
-    }
-    else {
-      return [
-        'string' => 'string',
-        $field_type => $field_type,
-      ];
-    }
+      : "field_ui:entity_reference:$entity_type_id";
   }
 
   /**

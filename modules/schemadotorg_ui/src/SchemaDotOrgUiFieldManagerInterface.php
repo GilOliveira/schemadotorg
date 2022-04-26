@@ -82,10 +82,10 @@ interface SchemaDotOrgUiFieldManagerInterface {
    *
    * Field types are determined via the following order.
    * - Schema.org property mappings.
+   * - Schema.org (data) type mappings.
    * - Schema.org enumerations.
    * - Drupal allowed values.
-   * - Schema.org (data) type mappings.
-   * - String or content (entity reference).
+   * - String or entity reference.
    *
    * @param string $property
    *   The Schema.org property.
