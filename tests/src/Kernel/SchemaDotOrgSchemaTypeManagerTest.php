@@ -57,8 +57,17 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     // Check determining ID is a Schema.org type.
     $this->assertTrue($this->schemaTypeManager->isType('Thing'));
     $this->assertTrue($this->schemaTypeManager->isType('Text'));
+    $this->assertTrue($this->schemaTypeManager->isType('Enumeration'));
+    $this->assertTrue($this->schemaTypeManager->isType('Intangible'));
     $this->assertFalse($this->schemaTypeManager->isType('name'));
     $this->assertFalse($this->schemaTypeManager->isType('xxx'));
+
+    // Check determining if ID is a Schema.org Thing type.
+    $this->assertTrue($this->schemaTypeManager->isThing('Thing'));
+    $this->assertFalse($this->schemaTypeManager->isThing('Text'));
+    $this->assertFalse($this->schemaTypeManager->isThing('Url'));
+    $this->assertFalse($this->schemaTypeManager->isThing('Enumeration'));
+    $this->assertFalse($this->schemaTypeManager->isThing('Intangible'));
 
     // Check determining ID is a Schema.org data type.
     $this->assertFalse($this->schemaTypeManager->isDataType('Thing'));

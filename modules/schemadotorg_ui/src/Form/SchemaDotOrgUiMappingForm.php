@@ -123,7 +123,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $schema_type = $this->getRequest()->query->get('type');
 
     // Validate the Schema.org type before continuing.
-    if ($schema_type && !$this->isSchemaType($schema_type)) {
+    if ($schema_type && !$this->isSchemaThing($schema_type)) {
       // Only display a warning when an invalid type is passed via
       // the query string.
       if ($this->getRequest()->isMethod('get')) {
@@ -671,6 +671,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $property_defaults = $this->getSchemaTypeDefaultProperties();
     $property_unlimited = $this->getSchemaTypeUnlimitedProperties();
     $property_mappings = $this->getSchemaTypePropertyMappings();
+    $property_maxlength = $this->schemaNames->getNameMaxLength('properties');
 
     $base_field_mappings = $this->getSchemaBaseFieldMappings();
 
@@ -768,6 +769,14 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           ],
         ],
       ];
+
+      // NOTE:
+      // Setting .form-required via #label_attributes instead of using
+      // #states to improve the page load time.
+      // phpcs:ignore
+      // $required_property = ['#states' => ['required' => [':input[name="properties[' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD]]]];
+      $required_property = ['#label_attributes' => ['class' => ['form-required']]];
+
       // Get Schema.org property field type options with optgroups.
       $field_type_options = $this->getPropertyFieldTypeOptions($property);
       $recommended_category = (string) $this->t('Recommended');
@@ -780,40 +789,25 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#empty_option' => $this->t('- Select a field type -'),
         '#options' => $field_type_options,
         '#default_value' => $field_type_default_value,
-        '#states' => [
-          'required' => [
-            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD],
-          ],
-        ],
-      ];
+      ] + $required_property;
       $row['field'][static::ADD_FIELD]['label'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Label'),
         '#size' => 40,
         '#default_value' => $property_definition['drupal_label'],
-        '#states' => [
-          'required' => [
-            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD],
-          ],
-        ],
-      ];
+      ] + $required_property;
       $row['field'][static::ADD_FIELD]['machine_name'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Machine-readable name'),
-        '#descripion' => 'A unique machine-readable name containing letters, numbers, and underscores.',
-        '#maxlength' => 26,
-        '#size' => 26,
+        '#descripion' => $this->t('A unique machine-readable name containing letters, numbers, and underscores.'),
+        '#maxlength' => $property_maxlength,
+        '#size' => $property_maxlength,
         '#pattern' => '[_0-9a-z]+',
         '#field_prefix' => $this->getFieldPrefix(),
         '#default_value' => $property_definition['drupal_name'],
-        '#attributes' => ['style' => 'width: 200px'],
+        '#attributes' => ['style' => 'width: 20em'],
         '#wrapper_attributes' => ['style' => 'white-space: nowrap'],
-        '#states' => [
-          'required' => [
-            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD],
-          ],
-        ],
-      ];
+      ] + $required_property;
       $row['field'][static::ADD_FIELD]['description'] = [
         '#type' => 'textarea',
         '#title' => $this->t('Description'),
@@ -874,18 +868,16 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   /* ************************************************************************ */
 
   /**
-   * Determine if a Schema.org type is valid.
+   * Determine if a Schema.org type is a valid Thing.
    *
    * @param string $schema_type
    *   The Schema.org type.
    *
    * @return bool
-   *   TRUE if a Schema.org type is valid.
+   *   TRUE if a Schema.org type is a valid Thing.
    */
-  protected function isSchemaType($schema_type) {
-    return $this->schemaTypeManager->isType($schema_type)
-      && !$this->schemaTypeManager->isEnumerationType($schema_type)
-      && !$this->schemaTypeManager->isEnumerationValue($schema_type);
+  protected function isSchemaThing($schema_type) {
+    return $this->schemaTypeManager->isThing($schema_type);
   }
 
   /**

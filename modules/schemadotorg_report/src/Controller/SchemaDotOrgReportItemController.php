@@ -469,6 +469,10 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       return NULL;
     }
 
+    if (!$this->schemaTypeManager->isThing($type)) {
+      return NULL;
+    }
+
     // Get operations.
     $operations = [];
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $schemadotorg_mapping_type_storage */

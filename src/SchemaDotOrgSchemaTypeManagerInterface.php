@@ -61,6 +61,18 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function isType($id);
 
   /**
+   * Determine if ID is a Schema.org Thing type.
+   *
+   * @param string $id
+   *   A Schema.org ID.
+   *
+   * @return bool
+   *   TRUE if ID is a Schema.org Thing type, excludes data types
+   *   and enumerations.
+   */
+  public function isThing($id);
+
+  /**
    * Determine if ID is a Schema.org data type.
    *
    * @param string $id

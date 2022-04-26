@@ -109,7 +109,6 @@
             });
           setPropertyAddFieldSummary($details);
         });
-
     }
   };
 

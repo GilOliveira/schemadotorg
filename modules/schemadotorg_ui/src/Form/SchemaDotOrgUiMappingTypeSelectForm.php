@@ -178,10 +178,7 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
     $type = $form_state->getValue('type');
     /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
     $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
-    $is_schema_type = $schema_type_manager->isType($type)
-      && !$schema_type_manager->isEnumerationType($type)
-      && !$schema_type_manager->isEnumerationValue($type);
-    if (!$is_schema_type) {
+    if (!$schema_type_manager->isThing($type)) {
       $t_args = ['%type' => $type];
       $form_state->setErrorByName('type', t("The Schema.org type %type is not valid.", $t_args));
     }

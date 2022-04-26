@@ -95,6 +95,17 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
+  public function isThing($id) {
+    $type_definition = $this->getType($id);
+    return (!empty($type_definition)
+      && !empty($type_definition['properties'])
+      && !in_array($id, ['Enumeration', 'Intangible'])
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function isDataType($id) {
     $data_types = $this->getDataTypes();
     return (isset($data_types[$id]));
