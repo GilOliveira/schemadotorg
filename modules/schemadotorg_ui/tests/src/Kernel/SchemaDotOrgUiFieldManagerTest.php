@@ -29,7 +29,10 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
     'paragraphs',
     'file',
     'field',
+    'field_ui',
     'filter',
+    'link',
+    'media',
     'text',
     'schemadotorg',
     'schemadotorg_ui',
@@ -146,6 +149,7 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
         'boolean' => 'Boolean',
         'email' => 'Email',
         'timestamp' => 'Timestamp',
+        'link' => 'Link',
       ],
       'Number' => [
         'decimal' => 'Number (decimal)',
@@ -157,6 +161,7 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
         'file' => 'File',
         'entity_reference' => 'Entity reference',
         'field_ui:entity_reference:user' => 'User',
+        'field_ui:entity_reference:media' => 'Media',
       ],
     ];
     $actual_field_type_options = $this->fieldManager->getPropertyFieldTypeOptions('alternateName');
@@ -208,21 +213,27 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
       [
         'worksFor',
         [
-          'field_ui:entity_reference:node' => 'field_ui:entity_reference:node',
           'string' => 'string',
+          'field_ui:entity_reference:node' => 'field_ui:entity_reference:node',
         ],
       ],
       [
         'contactPoint',
         [
           'field_ui:entity_reference_revisions:paragraph' => 'field_ui:entity_reference_revisions:paragraph',
-          'string' => 'string',
         ],
       ],
-
+      [
+        'video',
+        [
+          'field_ui:entity_reference:media' => 'field_ui:entity_reference:media',
+          'link' => 'link',
+        ],
+      ],
     ];
     foreach ($tests as $test) {
-      $this->assertEquals($test[1], $this->fieldManager->getSchemaPropertyFieldTypes($test[0]));
+      // Checking keys which also checks the sort order of the field types.
+      $this->assertEquals(array_keys($test[1]), array_keys($this->fieldManager->getSchemaPropertyFieldTypes($test[0])));
     }
   }
 

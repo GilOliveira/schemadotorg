@@ -9,6 +9,20 @@ schema_types:
       - address
       - entity_reference
       - text
+    AudioObject:
+      - 'field_ui:entity_reference:media'
+      - link
+    ImageObject:
+      - 'field_ui:entity_reference:media'
+      - image
+      - link
+    VideoObject:
+      - 'field_ui:entity_reference:media'
+      - link
+    DataDownload:
+      - 'field_ui:entity_reference:media'
+      - file
+      - link
     URL:
       - link
       - string
@@ -59,9 +73,6 @@ schema_properties:
       - string
     height:
       - string
-    image:
-      - 'field_ui:entity_reference:media'
-      - image
     location:
       - 'field_ui:entity_reference:node'
     telephone:
