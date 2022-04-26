@@ -2,32 +2,12 @@
 
 namespace Drupal\schemadotorg;
 
-use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\Core\Url;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a listing of Schema.org mapping types.
  */
-class SchemaDotOrgMappingTypeListBuilder extends ConfigEntityListBuilder {
-
-  /**
-   * The current request.
-   *
-   * @var \Symfony\Component\HttpFoundation\Request
-   */
-  protected $request;
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
-    $instance = parent::createInstance($container, $entity_type);
-    $instance->request = $container->get('request_stack')->getCurrentRequest();
-    return $instance;
-  }
+class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBuilderBase {
 
   /**
    * {@inheritdoc}
@@ -77,7 +57,7 @@ class SchemaDotOrgMappingTypeListBuilder extends ConfigEntityListBuilder {
     else {
       $header['entity_type'] = [
         'data' => $this->t('Type'),
-        'width' => '90%',
+        'width' => '100%',
       ];
     }
     return $header + parent::buildHeader();
@@ -135,43 +115,6 @@ class SchemaDotOrgMappingTypeListBuilder extends ConfigEntityListBuilder {
     }
 
     return $row + parent::buildRow($entity);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function render() {
-    $build = [];
-
-    // Details links.
-    // @see \Drupal\Core\Render\Element\SystemCompactLink
-    $details_toggle = $this->getDetailsToggle();
-    $build['details_link'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['compact-link']],
-      'link' => [
-        '#type' => 'link',
-        '#title' => $details_toggle ? $this->t('Hide details') : $this->t('Show details'),
-        '#url' => Url::fromRoute('<current>', [], ['query' => ['details' => (int) !$details_toggle]]),
-        '#attributes' => [
-          'title' => $details_toggle ? $this->t('Hide Schema.org mapping type details') : $this->t('Show Schema.org mapping type details'),
-        ],
-      ],
-    ];
-
-    $build += parent::render();
-
-    return $build;
-  }
-
-  /**
-   * Get the current request details toggle state.
-   *
-   * @return bool|int
-   *   The current request details toggle state.
-   */
-  protected function getDetailsToggle() {
-    return (boolean) $this->request->query->get('details') ?? 0;
   }
 
 }

@@ -2,41 +2,51 @@
 
 namespace Drupal\schemadotorg;
 
-use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Provides a listing of Schema.org mappings.
  */
-class SchemaDotOrgMappingListBuilder extends ConfigEntityListBuilder {
+class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilderBase {
 
   /**
    * {@inheritdoc}
    */
   public function buildHeader() {
+
     $header['entity_type'] = [
       'data' => $this->t('Type'),
+      'width' => '10%',
     ];
     $header['bundle_label'] = [
       'data' => $this->t('Name'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '15%',
+      'width' => '40%',
     ];
     $header['schema_type'] = [
       'data' => $this->t('Schema.org type'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '15%',
+      'width' => '40%',
     ];
     $header['schema_subtype'] = [
       'data' => $this->t('Schema.org subtyping'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
       'width' => '15%',
     ];
-    $header['schema_properties'] = [
-      'data' => $this->t('Scheme.org properties'),
-      'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '40%',
-    ];
+
+    $details_toggle = $this->getDetailsToggle();
+    if ($details_toggle) {
+      $header['entity_type']['width'] = '10%';
+      $header['bundle_label']['width'] = '20%';
+      $header['schema_type']['width'] = '20%';
+      $header['schema_subtype']['width'] = '10%';
+      $header['schema_properties'] = [
+        'data' => $this->t('Scheme.org properties'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+        'width' => '40%',
+      ];
+    }
+
     return $header + parent::buildHeader();
   }
 
@@ -61,7 +71,10 @@ class SchemaDotOrgMappingListBuilder extends ConfigEntityListBuilder {
 
     $row['schema_subtype'] = $entity->supportsSubtyping() ? $this->t('Yes') : $this->t('No');
 
-    $row['schema_properties'] = implode('; ', $entity->getSchemaProperties());
+    $details_toggle = $this->getDetailsToggle();
+    if ($details_toggle) {
+      $row['schema_properties'] = implode('; ', $entity->getSchemaProperties());
+    }
 
     return $row + parent::buildRow($entity);
   }

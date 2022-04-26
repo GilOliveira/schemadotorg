@@ -559,6 +559,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#description' => $this->t('A unique machine-readable name for this content type. It must only contain lowercase letters, numbers, and underscores. This name will be used for constructing the URL of the Add content page.'),
       '#required' => TRUE,
       '#pattern' => '[_0-9a-z]+',
+      '#maxlength' => $this->schemaNames->getNameMaxLength('types'),
       '#default_value' => $type_definition['drupal_name'],
     ];
     $form['entity']['description'] = [
