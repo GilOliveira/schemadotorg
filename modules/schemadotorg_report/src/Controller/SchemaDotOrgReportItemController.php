@@ -92,7 +92,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
 
     // Description top.
     $t_args = [
-      ':type_href' => Url::fromRoute('schemadotorg_report.types')->toString(),
+      ':types_href' => Url::fromRoute('schemadotorg_report.types')->toString(),
       ':properties_href' => Url::fromRoute('schemadotorg_report.properties')->toString(),
       ':things_href' => Url::fromRoute('schemadotorg_report.types.things')->toString(),
     ];

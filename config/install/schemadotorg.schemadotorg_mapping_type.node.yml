@@ -294,7 +294,6 @@ default_schema_type_properties:
     - email
     - image
     - name
-    - parentOrganization
     - telephone
   FoodEstablishment:
     - servesCuisine

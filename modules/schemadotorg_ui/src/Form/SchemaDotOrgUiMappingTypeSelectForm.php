@@ -67,7 +67,7 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
     if ($this->moduleHandler->moduleExists('schemadotorg_report')
       && $this->currentUser()->hasPermission('access site reports')) {
       $t_args = [
-        ':type_href' => Url::fromRoute('schemadotorg_report.types')->toString(),
+        ':types_href' => Url::fromRoute('schemadotorg_report.types')->toString(),
         ':properties_href' => Url::fromRoute('schemadotorg_report.properties')->toString(),
         ':things_href' => Url::fromRoute('schemadotorg_report.types.things')->toString(),
       ];
