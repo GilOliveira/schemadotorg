@@ -3,19 +3,11 @@ Schema.org Blueprints
 
 # Todo
 
-UI/UX
-- Document recommended modules
-  - Address - https://www.drupal.org/project/address
-  - Time field - https://www.drupal.org/project/time_field
-  - Field group - https://www.drupal.org/project/field_group
-
-- TDB
-  - Flex field - https://www.drupal.org/project/flexfield
-  - Key value field - https://www.drupal.org/project/key_value_field
-  - Duration Field - https://www.drupal.org/project/duration_field
-
 Ongoing
 - Determine the recommended types per entity type.
+- Determine supported/recommend contributed modules
+  - Key value field
+  - Flex field
 - Build out the default schema types properties.
 - Review patterns and tests.
 
@@ -30,10 +22,8 @@ Code
 Research
 - https://www.lullabot.com/articles/write-better-code-typed-entity
 
-# Testing
+# Test  coverage
 
-- If entity reference exists recommend it as field type otherwise recommend plain text.
-- \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface::getRangeIncludesTargetBundles
 - Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgUiApiTest
 - Create SchemaDotOrgUiMappingForm kernel test.
   - Check all functionality.
@@ -49,7 +39,7 @@ Research
 - For high-level types, which are inherited from, we want to keep the
   default properties as simple as possible.
 
-- For specific and important types, include Recipe, we should be specific
+- For specific and important types, including Recipe, we should be as specific
   as needed with the default properties.
 
 # TBD
