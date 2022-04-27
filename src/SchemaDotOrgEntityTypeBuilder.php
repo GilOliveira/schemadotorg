@@ -614,6 +614,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
             if ($this->moduleHandler->moduleExists('media_library')) {
               $widget_id = 'media_library_widget';
             }
+            $formatter_id = 'entity_reference_entity_view';
             break;
 
           case 'paragraph':

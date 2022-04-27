@@ -7,10 +7,10 @@ recommended_schema_types:
   common:
     label: Common
     types:
-      - Person
       - Place
-      - Event
       - Organization
+      - Person
+      - Event
   web_content:
     label: Web Content
     types:

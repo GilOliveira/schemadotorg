@@ -178,7 +178,7 @@ types:
       uri: 'https://jsonld.com/table/'
   Vehicle:
     - title: 'Markup for Autos'
-      url: 'https://schema.org/docs/automotive.html'
+      uri: 'https://schema.org/docs/automotive.html'
   Video:
     - title: "Get Videos on Google with Schema Markup"
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/video'
