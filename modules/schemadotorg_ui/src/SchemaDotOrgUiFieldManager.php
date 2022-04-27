@@ -293,6 +293,13 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     // Set range includes.
     $property_definition = $this->schemaTypeManager->getProperty($property);
     $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
+    // Remove generic Schema.org types from range includes.
+    $specific_range_includes = $range_includes;
+    unset(
+      $specific_range_includes['Thing'],
+      $specific_range_includes['CreativeWork'],
+      $specific_range_includes['Intangible'],
+    );
 
     // Set default entity reference type and field type.
     $entity_reference_entity_type = $this->getDefaultEntityReferenceEntityType($range_includes);
@@ -300,8 +307,9 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
 
     $field_types = [];
 
-    // Check if entity reference target bundles (a.k.a. range_includes) exist.
-    $entity_reference_target_bundles = $this->getMappingStorage()->getRangeIncludesTargetBundles($entity_reference_entity_type, $range_includes);
+    // Check if specific entity reference target bundles
+    // (a.k.a. range_includes) exist.
+    $entity_reference_target_bundles = $this->getMappingStorage()->getRangeIncludesTargetBundles($entity_reference_entity_type, $specific_range_includes);
     if ($entity_reference_target_bundles) {
       $field_types[$entity_reference_field_type] = $entity_reference_field_type;
     }
@@ -335,6 +343,15 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
         if (isset($range_includes[$type])) {
           $field_types += $type_mapping;
         }
+      }
+    }
+
+    // Check if generic entity reference target bundles
+    // (a.k.a. range_includes) exist.
+    if ($range_includes !== $specific_range_includes) {
+      $entity_reference_target_bundles = $this->getMappingStorage()->getRangeIncludesTargetBundles($entity_reference_entity_type, $range_includes);
+      if ($entity_reference_target_bundles) {
+        $field_types[$entity_reference_field_type] = $entity_reference_field_type;
       }
     }
 

@@ -148,7 +148,7 @@ default_base_fields:
   created:
     - dateCreated
   changed:
-    - dateChanged
+    - dateModified
   promote: { }
   sticky: { }
   path: { }
@@ -255,7 +255,6 @@ default_schema_type_properties:
     - suitableForDiet
     - text
     - totalTime
-    - yield
   Sculpture:
     - name
   SheetMusic:
