@@ -60,6 +60,15 @@ types:
   FAQPage:
     - title: 'Mark Up FAQs with Structured Data'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/faqpage'
+  Hotel:
+    - title: 'Markup for Hotels'
+      uri: 'https://schema.org/docs/hotels.html'
+    - title: 'Hotel Schema Examples'
+      uri: 'https://onlineownership.com/hotel-schema-examples/'
+    - title: 'Schema Markup for Hotels, B&B and Resorts – A Complete Guide'
+      uri: 'https://wordlift.io/blog/en/schema-markup-for-hotels-bb-and-resorts-a-complete-guide/'
+    - title: 'Google Hotel APIs: Hotel Content'
+      uri: 'https://developers.google.com/hotels/hotel-content/proto-reference/lodging-schema'
   HowTo:
     - title: 'Add Structured Data To Your How-To Pages'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/how-to'
@@ -160,6 +169,9 @@ types:
   Table:
     - title: Table
       uri: 'https://jsonld.com/table/'
+  Vehicle:
+    - title: 'Markup for Autos'
+      url: 'https://schema.org/docs/automotive.html'
   Video:
     - title: "Get Videos on Google with Schema Markup"
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/video'

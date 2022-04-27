@@ -130,6 +130,10 @@ default_schema_type_properties:
     - valueReference
     - unitCode
     - unitText
+  LocationFeatureSpecification:
+    - hoursAvailable
+    - validFrom
+    - validThrough
   QuantitativeValue:
     - name
     - value

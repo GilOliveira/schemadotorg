@@ -351,6 +351,7 @@ default_schema_type_properties:
     - availableService
     - medicalSpecialty
   LocalBusiness:
+    - employee
     - openingHours
   LodgingBusiness:
     - amenityFeature
