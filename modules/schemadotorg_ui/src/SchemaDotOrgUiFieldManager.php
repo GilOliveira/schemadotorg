@@ -349,7 +349,8 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     // Check if generic entity reference target bundles
     // (a.k.a. range_includes) exist.
     if ($range_includes !== $specific_range_includes) {
-      $entity_reference_target_bundles = $this->getMappingStorage()->getRangeIncludesTargetBundles($entity_reference_entity_type, $range_includes);
+      $generic_range_includes = array_diff_key($range_includes, $specific_range_includes);
+      $entity_reference_target_bundles = $this->getMappingStorage()->getRangeIncludesTargetBundles($entity_reference_entity_type, $generic_range_includes);
       if ($entity_reference_target_bundles) {
         $field_types[$entity_reference_field_type] = $entity_reference_field_type;
       }
