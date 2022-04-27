@@ -494,6 +494,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
     $default_field_groups = $mapping_type_storage->getDefaultFieldGroups($entity_type_id);
+    $default_label_suffix = $mapping_type_storage->getDefaultFieldGroupLabelSuffix($entity_type_id);
     $default_format_type = $mapping_type_storage->getDefaultFieldGroupFormatType($entity_type_id, $display);
     $default_format_settings = $mapping_type_storage->getDefaultFieldGroupFormatSettings($entity_type_id, $display);
     if (empty($default_field_groups) || empty($default_format_type)) {
@@ -528,6 +529,9 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
 
       $group_name = $this->schemaNames->toDrupalName('types', $schema_type);
       $group_label = $this->schemaNames->toDrupalLabel('types', $schema_type);
+      if ($default_label_suffix) {
+        $group_label .= ' ' . $default_label_suffix;
+      }
       $field_weight = $index;
     }
 

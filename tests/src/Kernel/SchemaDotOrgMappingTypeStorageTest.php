@@ -110,7 +110,7 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
 
     // Check getting default field groups for a specific entity type.
     $expected_default_field_group = [
-      'label' => 'General',
+      'label' => 'General information',
       'properties' => [
         'type',
         'name',
@@ -124,6 +124,9 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
     ];
     $actual_default_field_groups = $this->storage->getDefaultFieldGroups('node');
     $this->assertEquals($expected_default_field_group, $actual_default_field_groups['general']);
+
+    // Check getting default field group label suffix.
+    $this->assertEquals('information', $this->storage->getDefaultFieldGroupLabelSuffix('node'));
 
     // Check getting default field group format type.
     $values = [

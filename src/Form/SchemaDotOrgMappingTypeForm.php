@@ -98,6 +98,11 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       'html_element' => $this->t('HTML element'),
       'fieldset' => $this->t('Fieldset'),
     ];
+    $form['default_field_group_label_suffix'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Default field group label suffix'),
+      '#default_value' => $entity->get('default_field_group_label_suffix'),
+    ];
     $form['default_field_group_form_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Default field group form type'),

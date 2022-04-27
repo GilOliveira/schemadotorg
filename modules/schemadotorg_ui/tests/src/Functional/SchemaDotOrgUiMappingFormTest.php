@@ -204,16 +204,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     ];
     $expected_field_settings = [
       'schema_address' => [
-        'handler' => 'schemadotorg_range_includes',
-        'handler_settings' => [
-          'target_type' => 'node',
-          'schemadotorg_mapping' => [
-            'entity_type' => 'user',
-            'bundle' => 'user',
-            'field_name' => 'schema_address',
-          ],
-        ],
-        'target_type' => 'node',
+        'max_length' => 255,
       ],
       'schema_contact_point' => [
         'handler' => 'schemadotorg_range_includes',
@@ -264,13 +255,14 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->convertMarkupToStrings($actual_field_storage_settings);
     $this->convertMarkupToStrings($actual_field_settings);
     $this->assertEntityArraySubset($expected_field_storage_settings, $actual_field_storage_settings);
+    $actual_field_settings = array_intersect_key($actual_field_settings, $expected_field_settings);
     $this->assertEntityArraySubset($expected_field_settings, $actual_field_settings);
 
     // Check the 'Person' form display.
     $person_form_display = $display_repository->getFormDisplay('user', 'user');
     $expected_form_components = [
       'schema_additional_name' => ['type' => 'string_textfield'],
-      'schema_address' => ['type' => 'entity_reference_autocomplete'],
+      'schema_address' => ['type' => 'text_textfield'],
       'schema_affiliation' => ['type' => 'string_textfield'],
       'schema_alumni_of' => ['type' => 'string_textfield'],
       'schema_award' => ['type' => 'string_textfield'],
@@ -289,6 +281,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_works_for' => ['type' => 'string_textfield'],
     ];
     $actual_form_components = $person_form_display->getComponents();
+    $actual_form_components = array_intersect_key($actual_form_components, $expected_form_components);
     $this->assertEntityArraySubset($expected_form_components, $actual_form_components);
 
     // Check the 'Person' mapping.

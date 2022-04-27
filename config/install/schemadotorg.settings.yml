@@ -7,7 +7,6 @@ schema_types:
       - 'field_ui:entity_reference:taxonomy_term'
     PostalAddress:
       - address
-      - entity_reference
       - text
     AudioObject:
       - 'field_ui:entity_reference:media'
@@ -73,8 +72,6 @@ schema_properties:
       - string
     height:
       - string
-    location:
-      - 'field_ui:entity_reference:node'
     telephone:
       - telephone
       - string

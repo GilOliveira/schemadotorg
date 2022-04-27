@@ -521,7 +521,7 @@ default_schema_type_subtypes:
 default_field_weights: { }
 default_field_groups:
   general:
-    label: General
+    label: 'General information'
     properties:
       - type
       - name
@@ -532,7 +532,7 @@ default_field_groups:
       - text
       - author
   media:
-    label: Media
+    label: 'Media/Assets'
     properties:
       - image
       - photo
@@ -540,10 +540,9 @@ default_field_groups:
       - video
       - thumbnail
       - thumbnailUrl
-      - duration
       - contentUrl
   biographical:
-    label: Biographical
+    label: 'Biographical information'
     properties:
       - givenName
       - additionalName
@@ -555,7 +554,7 @@ default_field_groups:
       - knowsLanguage
       - nationality
   professional:
-    label: Professional
+    label: 'Professional information'
     properties:
       - jobTitle
       - worksFor
@@ -563,18 +562,18 @@ default_field_groups:
       - alumniOf
       - award
   organization:
-    label: Organization
+    label: 'Organization information'
     properties:
       - parentOrganization
   business:
-    label: Business
+    label: 'Business information'
     properties:
       - openingHours
       - servesCuisine
       - hasMenu
       - acceptsReservations
   contact:
-    label: Contact
+    label: 'Contact information'
     properties:
       - address
       - contactPoint
@@ -582,7 +581,7 @@ default_field_groups:
       - fax
       - email
   event:
-    label: Event
+    label: 'Event information'
     properties:
       - startDate
       - endDate
@@ -594,10 +593,11 @@ default_field_groups:
       - organizer
       - location
   medical:
-    label: Medical
+    label: 'Medical information'
     properties:
       - medicalSpecialty
       - availableService
       - isAcceptingNewPatients
-default_field_group_form_type: 'details'
-default_field_group_view_type: 'fieldset'
+default_field_group_label_suffix: information
+default_field_group_form_type: details
+default_field_group_view_type: fieldset

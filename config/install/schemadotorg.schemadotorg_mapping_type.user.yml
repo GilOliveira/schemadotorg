@@ -41,7 +41,7 @@ default_schema_type_subtypes: { }
 default_field_weights: { }
 default_field_groups:
   biographical:
-    label: Biographical
+    label: 'Biographical information'
     properties:
       - type
       - givenName
@@ -55,7 +55,7 @@ default_field_groups:
       - nationality
       - description
   professional:
-    label: Professional
+    label: 'Professional information'
     properties:
       - jobTitle
       - worksFor
@@ -63,12 +63,13 @@ default_field_groups:
       - alumniOf
       - award
   contact:
-    label: Contact
+    label: 'Contact information'
     properties:
       - address
       - email
       - telephone
       - fax
       - contactPoint
-default_field_group_form_type: 'details'
-default_field_group_view_type: 'fieldset'
+default_field_group_label_suffix: 'information'
+default_field_group_form_type: details
+default_field_group_view_type: fieldset

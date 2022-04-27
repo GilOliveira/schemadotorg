@@ -290,14 +290,6 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
    * {@inheritdoc}
    */
   public function getSchemaPropertyFieldTypes($property) {
-    $field_types = [];
-
-    // Set property specific field types.
-    $property_mappings = $this->getFieldTypeMapping('properties');
-    if (isset($property_mappings[$property])) {
-      $field_types += $property_mappings[$property];
-    }
-
     // Set range includes.
     $property_definition = $this->schemaTypeManager->getProperty($property);
     $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
@@ -306,10 +298,18 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     $entity_reference_entity_type = $this->getDefaultEntityReferenceEntityType($range_includes);
     $entity_reference_field_type = $this->getDefaultEntityReferenceFieldType($entity_reference_entity_type);
 
+    $field_types = [];
+
     // Check if entity reference target bundles (a.k.a. range_includes) exist.
     $entity_reference_target_bundles = $this->getMappingStorage()->getRangeIncludesTargetBundles($entity_reference_entity_type, $range_includes);
     if ($entity_reference_target_bundles) {
       $field_types[$entity_reference_field_type] = $entity_reference_field_type;
+    }
+
+    // Set property specific field types.
+    $property_mappings = $this->getFieldTypeMapping('properties');
+    if (isset($property_mappings[$property])) {
+      $field_types += $property_mappings[$property];
     }
 
     // Check for enumerations and allowed values.

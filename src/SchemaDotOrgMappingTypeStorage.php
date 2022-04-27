@@ -120,6 +120,13 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
   /**
    * {@inheritdoc}
    */
+  public function getDefaultFieldGroupLabelSuffix($entity_type_id) {
+    return $this->getEntityTypeProperty($entity_type_id, 'default_field_group_label_suffix');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getDefaultFieldGroupFormatType($entity_type_id, EntityDisplayInterface $display) {
     $display_type = ($display instanceof EntityFormDisplayInterface) ? 'form' : 'view';
     return $this->getEntityTypeProperty($entity_type_id, 'default_field_group_' . $display_type . '_type', '');

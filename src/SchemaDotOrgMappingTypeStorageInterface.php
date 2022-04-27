@@ -94,6 +94,17 @@ interface SchemaDotOrgMappingTypeStorageInterface extends ConfigEntityStorageInt
   public function getDefaultFieldGroups($entity_type_id);
 
   /**
+   * Gets default field group label suffix.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   *
+   * @return string
+   *   The default field group label suffix.
+   */
+  public function getDefaultFieldGroupLabelSuffix($entity_type_id);
+
+  /**
    * Gets default field group format type.
    *
    * @param string $entity_type_id

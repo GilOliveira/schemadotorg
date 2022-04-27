@@ -67,5 +67,6 @@ default_schema_type_properties:
 default_schema_type_subtypes: { }
 default_field_weights: { }
 default_field_groups: { }
-default_field_group_form_type: 'details'
-default_field_group_view_type: 'fieldset'
+default_field_group_label_suffix: 'information'
+default_field_group_form_type: details
+default_field_group_view_type: fieldset

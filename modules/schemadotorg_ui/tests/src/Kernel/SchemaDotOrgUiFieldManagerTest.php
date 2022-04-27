@@ -31,6 +31,7 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
     'field',
     'field_ui',
     'filter',
+    'address',
     'link',
     'media',
     'text',
@@ -145,6 +146,11 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
         'text_long' => 'Text (formatted, long)',
         'text_with_summary' => 'Text (formatted, long, with summary)',
       ],
+      'Address' => [
+        'address' => 'Address',
+        'address_country' => 'Country',
+        'address_zone' => 'Zone',
+      ],
       'General' => [
         'boolean' => 'Boolean',
         'email' => 'Email',
@@ -228,6 +234,17 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
         [
           'field_ui:entity_reference:media' => 'field_ui:entity_reference:media',
           'link' => 'link',
+        ],
+      ],
+      [
+        'location',
+        [
+          'address' => 'address',
+          'text' => 'text',
+          'string' => 'string',
+          'string_long' => 'string_long',
+          'text_long' => 'text_long',
+          'text_with_summary' => 'text_with_summary',
         ],
       ],
     ];

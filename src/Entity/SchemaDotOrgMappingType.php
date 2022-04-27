@@ -45,6 +45,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *     "default_base_fields",
  *     "default_field_weights",
  *     "default_field_groups",
+ *     "default_field_group_label_suffix",
  *     "default_field_group_form_type",
  *     "default_field_group_view_type",
  *     "recommended_schema_types",
@@ -110,6 +111,13 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * @var array
    */
   protected $default_field_groups = [];
+
+  /**
+   * Default field group label suffix.
+   *
+   * @var string
+   */
+  protected $default_field_group_label_suffix = '';
 
   /**
    * Default field group form type.
