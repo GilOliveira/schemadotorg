@@ -341,9 +341,11 @@ default_schema_type_properties:
     - name
     - telephone
   FoodEstablishment:
+    - acceptsReservations
     - servesCuisine
     - hasMenu
-    - acceptsReservations
+    - paymentAccepted
+    - priceRange
   CivicStructure:
     - openingHours
   Hospital:

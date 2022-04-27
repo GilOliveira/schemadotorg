@@ -622,21 +622,25 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
             break;
 
           default:
-            $handler = 'schemadotorg_range_includes';
+            $supports_bundles = $this->entityTypeManager
+              ->getDefinition($target_type)
+              ->getBundleEntityType();
+            $handler = ($supports_bundles) ? 'schemadotorg_range_includes' : NULL;
             break;
         }
-        $field_values['settings'] = [
-          'handler' => $handler,
-          'handler_settings' => [
-            'target_type' => $target_type,
-            'schemadotorg_mapping' => [
-              'entity_type' => $field_values['field_name'],
-              'bundle' => $field_values['bundle'],
-              'field_name' => $field_values['entity_type'],
+        if ($handler) {
+          $field_values['settings'] = [
+            'handler' => $handler,
+            'handler_settings' => [
+              'target_type' => $target_type,
+              'schemadotorg_mapping' => [
+                'entity_type' => $field_values['field_name'],
+                'bundle' => $field_values['bundle'],
+                'field_name' => $field_values['entity_type'],
+              ],
             ],
-          ],
-        ];
-
+          ];
+        }
         break;
 
       case 'list_string':

@@ -41,8 +41,29 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
    * {@inheritdoc}
    */
   public function getEntityTypes() {
-    $entity_types = array_keys($this->loadMultiple());
-    return array_combine($entity_types, $entity_types);
+    $entity_type_ids = array_keys($this->loadMultiple());
+    $entity_types = [];
+    foreach ($entity_type_ids as $entity_type_id) {
+      if ($this->entityTypeManager->hasDefinition($entity_type_id)) {
+        $entity_types[$entity_type_id] = $entity_type_id;
+      }
+    }
+    return $entity_types;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityTypesWithBundles() {
+    $entity_type_ids = array_keys($this->loadMultiple());
+    $entity_types = [];
+    foreach ($entity_type_ids as $entity_type_id) {
+      if ($this->entityTypeManager->hasDefinition($entity_type_id)
+        && $this->entityTypeManager->getDefinition($entity_type_id)->getBundleEntityType()) {
+        $entity_types[$entity_type_id] = $entity_type_id;
+      }
+    }
+    return $entity_types;
   }
 
   /**

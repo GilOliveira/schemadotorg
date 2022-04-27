@@ -307,20 +307,20 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
 
     $field_types = [];
 
-    // Check if specific entity reference target bundles
+    // Check specific Schema.org type entity reference target bundles
     // (a.k.a. range_includes) exist.
     $entity_reference_target_bundles = $this->getMappingStorage()->getRangeIncludesTargetBundles($entity_reference_entity_type, $specific_range_includes);
     if ($entity_reference_target_bundles) {
       $field_types[$entity_reference_field_type] = $entity_reference_field_type;
     }
 
-    // Set property specific field types.
+    // Set Schema.org property specific field types.
     $property_mappings = $this->getFieldTypeMapping('properties');
     if (isset($property_mappings[$property])) {
       $field_types += $property_mappings[$property];
     }
 
-    // Check for enumerations and allowed values.
+    // Check for Schema.org enumerations and Drupal allowed values.
     if (empty($field_types)) {
       foreach ($range_includes as $range_include) {
         if ($this->schemaTypeManager->isEnumerationType($range_include)) {
@@ -346,7 +346,7 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
       }
     }
 
-    // Check if generic entity reference target bundles
+    // Check generic Schema.org type entity reference target bundles
     // (a.k.a. range_includes) exist.
     if ($range_includes !== $specific_range_includes) {
       $generic_range_includes = array_diff_key($range_includes, $specific_range_includes);

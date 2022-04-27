@@ -9,6 +9,8 @@ about:
     uri: 'https://www.youtube.com/watch?v=hcahQfN5u9Y'
   - title: 'Schema Markup for SEO: The Complete Guide'
     uri: 'https://www.link-assistant.com/news/structured-data-for-seo.html'
+  - title: 'Unlocking Hidden Gems Within Schema.org'
+    uri: 'https://moz.com/blog/schema-hidden-gems'
 types:
   Article:
     - title: 'Learn About Article Schema Markup'
@@ -151,6 +153,11 @@ types:
   Restaurant:
     - title: 'Restaurant Menu JSON-LD Sample'
       uri: 'https://jsonld.com/restaurant-menu-json-ld-sample/'
+    - title: 'How to Correctly Implement the Restaurant Schema Markup'
+      uri: 'https://www.restaurant-website-builder.com/implement-restaurant-schema-markup'
+  RestaurantMenu:
+    - title: 'Schema.org Just Released New Restaurant Menu Markup — Here''s How to Get Started'
+      uri: 'https://moz.com/blog/schema-new-restaurant-menu-markup'
   SoftwareApplication:
     - title: 'Software Application Schema'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/software-app'

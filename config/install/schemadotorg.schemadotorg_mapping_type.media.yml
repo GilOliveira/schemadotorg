@@ -59,8 +59,8 @@ default_schema_type_properties:
   DataDownload:
     - contentUrl
   ImageObject:
-    - image
     - thumbnail
+    - image
   VideoObject:
     - thumbnail
     - video

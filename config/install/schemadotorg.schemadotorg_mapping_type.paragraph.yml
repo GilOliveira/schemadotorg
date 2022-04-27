@@ -115,7 +115,6 @@ default_schema_type_properties:
     - addressLocality
     - addressRegion
     - alternateName
-    - contactOption
     - description
     - email
     - hoursAvailable

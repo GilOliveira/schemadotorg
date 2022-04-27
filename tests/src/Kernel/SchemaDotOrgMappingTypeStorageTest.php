@@ -23,7 +23,7 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
    *
    * @var array
    */
-  protected static $modules = ['paragraphs', 'file'];
+  protected static $modules = ['paragraphs', 'node', 'user', 'file'];
 
   /**
    * The Schema.org mapping type storage.
@@ -57,13 +57,20 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
   public function testSchemaDotOrgMappingTypeStorage() {
     // Check getting entity types that implement Schema.org.
     $expected_entity_types = [
-      'media' => 'media',
       'node' => 'node',
       'paragraph' => 'paragraph',
       'user' => 'user',
     ];
     $actual_entity_types = $this->storage->getEntityTypes();
     $this->assertEquals($expected_entity_types, $actual_entity_types);
+
+    // Check getting entity types with bundles that implement Schema.org.
+    $expected_bundle_entity_types = [
+      'node' => 'node',
+      'paragraph' => 'paragraph',
+    ];
+    $actual_bundle_entity_types = $this->storage->getEntityTypesWithBundles();
+    $this->assertEquals($expected_bundle_entity_types, $actual_bundle_entity_types);
 
     // Check getting default bundle for an entity type and Schema.org type.
     $tests = [
