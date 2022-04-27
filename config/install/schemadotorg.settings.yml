@@ -85,7 +85,6 @@ schema_properties:
     - about
     - affiliation
     - alumniOf
-    - alternateName
     - amenityFeature
     - applicationSubCategory
     - artMedium

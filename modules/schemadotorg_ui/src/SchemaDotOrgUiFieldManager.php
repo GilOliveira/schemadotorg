@@ -423,39 +423,44 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     $types = array_combine($types, $types);
     unset($types['Thing']);
 
-    $sub_types = $this->schemaTypeManager->getAllSubTypes($types);
-    if (empty($sub_types)) {
-      return 'node';
-    }
-
     $schemadotorg_mapping_storage = $this->getMappingStorage();
 
-    $entity_ids = $schemadotorg_mapping_storage->getQuery()
-      ->condition('type', $sub_types, 'IN')
-      ->execute();
-    if (empty($entity_ids)) {
-      return 'node';
+    // Loop through the types to respect the ordering and prioritization.
+    foreach ($types as $type) {
+      $sub_types = $this->schemaTypeManager->getAllSubTypes([$type]);
+      if (empty($sub_types)) {
+        continue;
+      }
+
+      $entity_ids = $schemadotorg_mapping_storage->getQuery()
+        ->condition('type', $sub_types, 'IN')
+        ->execute();
+      if (empty($entity_ids)) {
+        continue;
+      }
+
+      /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $schemadotorg_mappings */
+      $schemadotorg_mappings = $schemadotorg_mapping_storage->loadMultiple($entity_ids);
+
+      // Define the default order for found entity types.
+      $entity_types = [
+        'paragraph' => NULL,
+        'media' => NULL,
+        'node' => NULL,
+        'user' => NULL,
+      ];
+      foreach ($schemadotorg_mappings as $schemadotorg_mapping) {
+        $entity_types[$schemadotorg_mapping->getTargetEntityTypeId()] = $schemadotorg_mapping->getTargetEntityTypeId();
+      }
+
+      // Filter the entity types so that only found entity types are included.
+      $entity_types = array_filter($entity_types);
+
+      // Get first entity type.
+      return reset($entity_types);
     }
 
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $schemadotorg_mappings */
-    $schemadotorg_mappings = $schemadotorg_mapping_storage->loadMultiple($entity_ids);
-
-    // Define the default order for found entity types.
-    $entity_types = [
-      'paragraph' => NULL,
-      'media' => NULL,
-      'node' => NULL,
-      'user' => NULL,
-    ];
-    foreach ($schemadotorg_mappings as $schemadotorg_mapping) {
-      $entity_types[$schemadotorg_mapping->getTargetEntityTypeId()] = $schemadotorg_mapping->getTargetEntityTypeId();
-    }
-
-    // Filter the entity types so that only found entity types are included.
-    $entity_types = array_filter($entity_types);
-
-    // Get first entity type.
-    return reset($entity_types);
+    return 'node';
   }
 
   /**
