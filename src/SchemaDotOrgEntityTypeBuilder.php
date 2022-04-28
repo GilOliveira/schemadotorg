@@ -593,8 +593,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     array &$formatter_settings
   ) {
     switch ($field_storage_values['type']) {
-      case 'entity_reference_revisions':
       case 'entity_reference':
+      case 'entity_reference_revisions':
         $target_type = $field_storage_values['settings']['target_type'] ?? 'node';
 
         // Field values settings.

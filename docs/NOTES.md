@@ -1,10 +1,6 @@
 Schema.org Blueprints
 ---------------------
 
-# Issues
-When user is the entity reference the SchemaDotOrgRangeIncludesSelection is broken.
-\Drupal\schemadotorg\SchemaDotOrgMappingTypeStorage::getEntityTypesWithBundles
-
 # Todo
 
 Ongoing

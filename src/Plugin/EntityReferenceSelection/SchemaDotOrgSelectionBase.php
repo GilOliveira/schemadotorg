@@ -116,6 +116,21 @@ abstract class SchemaDotOrgSelectionBase extends SelectionPluginBase implements 
   /**
    * {@inheritdoc}
    */
+  public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {
+    // Since we are dynamically defining the handle settings we need to make
+    // sure they are applied when the form is submitted.
+    // @see schemadotorg_field_config_load()
+    // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::alterFieldValues
+    // @see \Drupal\schemadotorg\Plugin\EntityReferenceSelection\SchemaDotOrgSelectionBase::buildConfigurationForm
+    $settings = $form_state->getValue('settings');
+    $settings += ['handler_settings' => []];
+    $settings['handler_settings'] += $this->getConfiguration();
+    $form_state->setValue('settings', $settings);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getReferenceableEntities($match = NULL, $match_operator = 'CONTAINS', $limit = 0) {
     $target_type = $this->getConfiguration()['target_type'];
 

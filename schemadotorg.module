@@ -29,10 +29,11 @@ function schemadotorg_field_config_load(array $entities) {
   // Dynamically set the 'target_bundles' for fields that use the
   // 'schemadotorg_range_includes' selection handler.
   //
-  // The 'target_bundles' are required for the media library widget.
+  // The 'target_bundles' are required for the media library and paragraphs widget.
   // @see \Drupal\media_library\Plugin\Field\FieldWidget\MediaLibraryWidget::formElement
+  // @see \Drupal\paragraphs\Plugin\Field\FieldWidget\ParagraphsWidget::getAllowedTypes
   foreach ($entities as $entity) {
-    if ($entity->getType() !== 'entity_reference') {
+    if (!in_array($entity->getType(), ['entity_reference', 'entity_reference_revisions'])) {
       continue;
     }
 
