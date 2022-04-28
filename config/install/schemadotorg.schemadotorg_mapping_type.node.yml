@@ -145,9 +145,6 @@ default_base_fields:
   title:
     - name
     - headline
-  body:
-    - description
-    - articleBody
   created:
     - dateCreated
   changed:
@@ -155,6 +152,11 @@ default_base_fields:
   promote: { }
   sticky: { }
   path: { }
+  field_image:
+    - image
+  body:
+    - description
+    - articleBody
 default_schema_types:
   article: Article
   page: WebPage
