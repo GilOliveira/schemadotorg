@@ -43,22 +43,28 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     $form['recommended_schema_types'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Recommended Schema.org types'),
-      '#description' => $this->t('Enter one value per line, in the format <code>group_name|group_label|SchemaType01,SchemaType01,SchemaType01</code>.'),
+      '#description' => $this->t('Enter recommended Schema.org types to be displayed when creating a new Schema.org type. Recommended Schema.org types will only be displayed on entity types that support adding new Schema.org types.')
+      . ' '
+      . $this->t('Enter one value per line, in the format <code>group_name|group_label|SchemaType01,SchemaType01,SchemaType01</code>.'),
       '#attributes' => ['wrap' => 'off'],
       '#default_value' => $this->groupedTypesListString($entity->get('recommended_schema_types')),
       '#element_validate' => ['::validateGroupedTypesList'],
     ];
     $form['default_schema_types'] = [
       '#type' => 'textarea',
-      '#title' => 'Default Schema.org types',
-      '#description' => $this->t('Enter one value per line, in the <code>format entity_type|schema_type</code>.'),
+      '#title' => $this->t('Default Schema.org types'),
+      '#description' => $this->t('Enter default Schema.org types that will automatically be assigned to an existing entity type/bundle.')
+      . '<br/><br/>'
+      . $this->t('Enter one value per line, in the <code>format entity_type|schema_type</code>.'),
       '#default_value' => $this->keyValuesString($entity->get('default_schema_types')),
       '#element_validate' => ['::validateKeyValues'],
     ];
     $form['default_schema_type_properties'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Default Schema.org type properties'),
-      '#description' => $this->t('Enter one value per line, in the format <code>SchemaType|propertyName01,propertyName02,propertyName02</code>.'),
+      '#description' => $this->t('Enter default Schema.org type properties that are used when a Schema.org type mapping is being created or added to an entity.')
+      . '<br/><br/>'
+      . $this->t('Enter one value per line, in the format <code>SchemaType|propertyName01,propertyName02,propertyName02</code>.'),
       '#attributes' => ['wrap' => 'off'],
       '#default_value' => $this->nestedListString($entity->get('default_schema_type_properties')),
       '#element_validate' => ['::validateNestedList'],
@@ -66,29 +72,37 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     $form['default_schema_type_subtypes'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Default Schema.org type subtyping'),
-      '#description' => $this->t('Enter one Schema.org type per line.'),
+      '#description' => $this->t('Enter default Schema.org type subtyping, which is used to enable subtyping when a Schema.org type is being created automatically.')
+      . '<br/><br/>'
+      . $this->t('Enter one Schema.org type per line.'),
       '#default_value' => $this->listString($entity->get('default_schema_type_subtypes')),
       '#element_validate' => ['::validateList'],
     ];
     $form['default_base_fields'] = [
       '#type' => 'textarea',
-      '#title' => 'Default base field mappings',
-      '#description' => $this->t('Enter one value per line, in the format <code>base_field_name|property_name_01,property_name_02</code>.')
-      . '<br/>' . $this->t('The property_name value be left blank if you want the base field available but not mapped to a Schema.org property.'),
+      '#title' => $this->t('Default base field mappings'),
+      '#description' => $this->t('Enter default base field mappings from existing entity properties and fields to Schema.org properties.')
+      . ' ' . $this->t('Leave the property_name value blank to allow the base field to be available but not mapped to a Schema.org property.')
+      . '<br/><br/>'
+      . $this->t('Enter one value per line, in the format <code>base_field_name|property_name_01,property_name_02</code>.'),
       '#default_value' => $this->nestedListString($entity->get('default_base_fields')),
       '#element_validate' => ['::validateNestedList'],
     ];
     $form['default_field_weights'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Default field weights'),
-      '#description' => $this->t('Enter one Schema.org property per line.'),
+      '#description' => $this->t('Enter Schema.org property default field weights to help org Schema.org as they are added to entity types.')
+      . '<br/><br/>'
+      . $this->t('Enter one Schema.org property per line.'),
       '#default_value' => $this->listString($entity->get('default_field_weights')),
       '#element_validate' => ['::validateList'],
     ];
     $form['default_field_groups'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Default field groups'),
-      '#description' => $this->t('Enter one value per line, in the format <code>group_name|group_label|property01,property02,property03</code>.'),
+      '#description' => $this->t('Enter the default field groups and field order used to group Schema.org properties as they are added to entity types.')
+      . '<br/><br/>'
+      . $this->t('Enter one value per line, in the format <code>group_name|group_label|property01,property02,property03</code>.'),
       '#attributes' => ['wrap' => 'off'],
       '#default_value' => $this->groupedPropertiesListString($entity->get('default_field_groups')),
       '#element_validate' => ['::validateGroupedPropertiesList'],
@@ -101,11 +115,13 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     $form['default_field_group_label_suffix'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Default field group label suffix'),
+      '#description' => $this->t('Enter the field group label suffix used when creating new field groups.'),
       '#default_value' => $entity->get('default_field_group_label_suffix'),
     ];
     $form['default_field_group_form_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Default field group form type'),
+      '#description' => $this->t("Select the default field group type used when adding a field group to a entity type's default form."),
       '#options' => $type_options,
       '#default_value' => $entity->get('default_field_group_form_type'),
       '#empty_value' => '',
@@ -114,6 +130,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     $form['default_field_group_view_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Default field group view type'),
+      '#description' => $this->t("Select the default field group type used when adding a field group to a entity type's default view display."),
       '#options' => $type_options,
       '#default_value' => $entity->get('default_field_group_view_type'),
       '#empty_value' => '',

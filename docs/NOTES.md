@@ -14,7 +14,6 @@ Ongoing
 Documentation
 - Create README.md
 - Add hook_help() to Schema.org Structure and Reports.
-- Add details about configuration usage to #description to admin settings.
 
 Code
 - Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies

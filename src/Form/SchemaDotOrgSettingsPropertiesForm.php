@@ -54,7 +54,9 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
     $form['schema_properties']['field_prefix'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Schema.org property field prefix'),
-      '#description' => $this->t('Schema.org property field prefix cannot be updated after mappings have been created.'),
+      '#description' => $this->t('Enter the field prefix to be prepended to a Schema.org property when added to an entity type.')
+      . ' '
+      . $this->t('Schema.org property field prefix cannot be updated after mappings have been created.'),
       '#default_value' => $config->get('field_prefix'),
       '#parents' => ['field_prefix'],
     ];
@@ -65,7 +67,9 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
     $form['schema_properties']['default_field_types'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Default Schema.org property field types'),
-      '#description' => $this->t('Enter one value per line, in the format <code>propertyName|field_type_01,field_type_02,field_type_03</code>.'),
+      '#description' => $this->t('Enter default Schema.org property field types used when adding Schema.org properties to an entity type.')
+      . '<br/><br/>'
+      . $this->t('Enter one value per line, in the format <code>propertyName|field_type_01,field_type_02,field_type_03</code>.'),
       '#attributes' => ['wrap' => 'off'],
       '#default_value' => $this->nestedListString($config->get('schema_properties.default_field_types')),
       '#element_validate' => ['::validateNestedList'],
@@ -73,7 +77,9 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
     $form['schema_properties']['default_unlimited_fields'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Default unlimited Schema.org properties'),
-      '#description' => $this->t('Enter one Schema.org property per line.'),
+      '#description' => $this->t('Enter Schema.org properties that should default to supporting unlimited values.')
+      . '<br/><br/>'
+      . $this->t('Enter one Schema.org property per line.'),
       '#default_value' => $this->listString($config->get('schema_properties.default_unlimited_fields')),
       '#element_validate' => ['::validateList'],
     ];

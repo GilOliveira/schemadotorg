@@ -38,9 +38,11 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
     $form['schema_types']['default_field_types'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Default Schema.org type field types'),
-      '#description' => $this->t('Enter one value per line, in the format <code>SchemaType|field_type_01,field_type_02,field_type_03</code>.') .
-      '<br/>' .
-      $this->t('Field types are applied in the order that they are entered.'),
+      '#description' => $this->t('Enter the field types applied to a Schema.org type when a property is added to an entity type.')
+      . ' '
+      . $this->t('Field types are applied in the order that they are entered.')
+      . '<br/><br/>'
+      . $this->t('Enter one value per line, in the format <code>SchemaType|field_type_01,field_type_02,field_type_03</code>.'),
       '#attributes' => ['wrap' => 'off'],
       '#default_value' => $this->nestedListString($config->get('schema_types.default_field_types')),
       '#element_validate' => ['::validateNestedList'],

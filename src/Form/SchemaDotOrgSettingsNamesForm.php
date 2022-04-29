@@ -59,49 +59,63 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
     $form['names']['prefixes'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Prefixes'),
-      '#description' => $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
+      '#description' => $this->t('Enter replacement prefixes used when Schema.org types and names are converted to Drupal entity and field machine names.')
+      . '<br/><br/>'
+      . $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
       '#default_value' => $this->keyValuesString($config->get('names.prefixes')),
       '#element_validate' => ['::validateKeyValues'],
     ];
     $form['names']['suffixes'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Suffixes'),
-      '#description' => $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
+      '#description' => $this->t('Enter replacement suffixes used when Schema.org types and names are converted to Drupal entity and field machine names.')
+      . '<br/><br/>'
+      . $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
       '#default_value' => $this->keyValuesString($config->get('names.suffixes')),
       '#element_validate' => ['::validateKeyValues'],
     ];
     $form['names']['abbreviations'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Abbreviations'),
-      '#description' => $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
+      '#description' => $this->t('Enter replacement abbreviation used when Schema.org types and names are converted to Drupal entity and field machine names.')
+      . '<br/><br/>'
+      . $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
       '#default_value' => $this->keyValuesString($config->get('names.abbreviations')),
       '#element_validate' => ['::validateKeyValues'],
     ];
     $form['names']['custom_names'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Custom names'),
-      '#description' => $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
+      '#description' => $this->t('Enter custom names used when Schema.org types and names are converted to Drupal entity and field machine names.')
+      . '<br/><br/>'
+      . $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
       '#default_value' => $this->keyValuesString($config->get('names.custom_names')),
       '#element_validate' => ['::validateKeyValues'],
     ];
     $form['names']['custom_titles'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Custom titles'),
-      '#description' => $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
+      '#description' => $this->t('Enter titles used when Schema.org types and names are converted to Drupal entity and field machine names.')
+      . '<br/><br/>'
+      . $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
       '#default_value' => $this->keyValuesString($config->get('names.custom_titles')),
       '#element_validate' => ['::validateKeyValues'],
     ];
     $form['names']['acronyms'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Acronyms'),
-      '#description' => $this->t('Enter one value per line.'),
+      '#description' => $this->t('Enter acronyms used when creating labels.')
+      . '<br/><br/>'
+      . $this->t('Enter one value per line.'),
       '#default_value' => $this->listString($config->get('names.acronyms')),
       '#element_validate' => ['::validateList'],
     ];
     $form['names']['minor_words'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Minor words'),
-      '#description' => $this->t('Enter one value per line.'),
+      '#description' => $this->t('Enter minor word used when creating capitalized labels.')
+      . '<br/><br/>'
+      . $this->t('Enter one value per line.'),
       '#default_value' => $this->listString($config->get('names.minor_words')),
       '#element_validate' => ['::validateList'],
     ];
