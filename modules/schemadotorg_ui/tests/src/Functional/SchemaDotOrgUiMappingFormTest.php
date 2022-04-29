@@ -322,7 +322,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet('/admin/structure/types/schemadotorg', ['query' => ['type' => 'Place']]);
     $this->submitForm([], 'Save');
     $assert_session->responseContains('The content type <em class="placeholder">Place</em> has been added.');
-    $assert_session->responseContains('Added <em class="placeholder">Address; Description; Image; Telephone</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Address; Image; Telephone</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">Place</em> mapping.');
   }
 

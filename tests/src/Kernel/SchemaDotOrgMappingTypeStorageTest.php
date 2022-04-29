@@ -151,7 +151,7 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
     // Check getting common Schema.org types for a specific entity type.
     $recommended_schema_types = $this->storage->getRecommendedSchemaTypes('node');
     $this->assertEquals('Common', $recommended_schema_types['common']['label']);
-    $this->assertEquals('Person', $recommended_schema_types['common']['types'][0]);
+    $this->assertEquals('Place', $recommended_schema_types['common']['types'][0]);
 
     // Check getting an entity type's base field mappings.
     $expected_base_field_mappings = [

@@ -528,7 +528,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       }
 
       $group_name = $this->schemaNames->toDrupalName('types', $schema_type);
-      $group_label = $this->schemaNames->toDrupalLabel('types', $schema_type);
+      $group_label = $this->schemaNames->camelCaseToSentenceCase($schema_type);
       if ($default_label_suffix) {
         $group_label .= ' ' . $default_label_suffix;
       }
