@@ -38,3 +38,16 @@ details.schemadotorg-ui--add-field {
     display: none;
   }
 }
+
+/**
+ * Hide properties table.
+ *
+ * This approach blocks user with JS disabled from managing the mappings.
+ *
+ * Using `htmls.js .schemadotorg-ui-properties` causes a massive content flicker.
+ *
+ * @todo Determine a more accessible was to hide the table only when JS is enabled.
+ */
+table.schemadotorg-ui-properties {
+  display: none;
+}

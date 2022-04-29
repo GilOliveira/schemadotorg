@@ -23,30 +23,45 @@
           var showMappedLabel = Drupal.t('Show mapped properties');
           var showAllLabel = Drupal.t('Show all properties');
 
+          var toggleKey = 'schemadotorg-ui-properties-toggle';
+
+          // If toggle key does not exist, set its default state.
+          if (localStorage.getItem(toggleKey) === null) {
+            localStorage.setItem(toggleKey, '0');
+          }
+
           // Create toggle button.
-          var button = '<button type="button" class="schemadotorg-ui-properties-toggle link action-link">' + showMappedLabel + '</button>';
-          var $toggle = $(button)
-            .on('click', function (e) {
-              var toggle = $table.data('toggle') || false;
+          var button = '<button type="button" class="schemadotorg-ui-properties-toggle link action-link"></button>';
+          var $toggleButton = $(button).on('click', function toggleButtonClick() {
+            var toggle = localStorage.getItem(toggleKey);
+            localStorage.setItem(toggleKey, (toggle === '1') ? '0' : '1');
+            toggleProperties();
+          });
 
-              // Toggle all table rows.
-              $table.find('tbody tr').toggle(toggle);
-
-              // Toggle the button's label.
-              $(this).html(toggle ? showMappedLabel : showAllLabel);
-
-              // If we are showing mapped, we should show the mapped properties.
-              if (!toggle) {
-                $table.find('tbody tr.color-warning, tr.color-success').show();
-              }
-
-              $table.data('toggle', !toggle);
-            })
+          // Prepend toggle element with wrapper the table.
+          var $toggle = $toggleButton
             .wrap('<div class="schemadotorg-ui-properties-toggle-wrapper"></div>')
             .parent();
-
-          // Prepend toggle button.
           $table.before($toggle);
+
+          // Initialize properties toggle.
+          toggleProperties();
+
+          // Show the table after it has been fully initialized.
+          $table.show();
+
+          function toggleProperties() {
+            var showAll = (localStorage.getItem('schemadotorg-ui-properties-toggle') === '0');
+            if (showAll) {
+              $toggleButton.html(showMappedLabel);
+              $table.find('tbody tr').show();
+            }
+            else {
+              $toggleButton.html(showAllLabel);
+              $table.find('tbody tr').hide();
+              $table.find('tbody tr.color-warning, tbody tr.color-success').show();
+            }
+          }
         });
     }
   };
