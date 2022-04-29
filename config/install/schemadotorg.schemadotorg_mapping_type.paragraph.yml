@@ -4,13 +4,6 @@ dependencies: {  }
 id: paragraph
 target_entity_type_id: paragraph
 recommended_schema_types:
-  person:
-    label: Person
-    types:
-      - Language
-      - Occupation
-      - OccupationalExperienceRequirements
-      - ProgramMembership
   place:
     label: Place
     types:
@@ -28,6 +21,13 @@ recommended_schema_types:
       - ProgramMembership
       - Invoice
       - JobPosting
+  person:
+    label: Person
+    types:
+      - Language
+      - Occupation
+      - OccupationalExperienceRequirements
+      - ProgramMembership
   event:
     label: Event/Travel
     types:

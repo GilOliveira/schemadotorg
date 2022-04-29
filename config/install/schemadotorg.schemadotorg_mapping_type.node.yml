@@ -152,8 +152,6 @@ default_base_fields:
   promote: { }
   sticky: { }
   path: { }
-  field_image:
-    - image
   body:
     - description
     - articleBody

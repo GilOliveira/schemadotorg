@@ -83,6 +83,14 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   /**
    * {@inheritdoc}
    */
+  public function getSchemaPropertyTargetSchemaTypes($entity_type_id, $bundle, $field_name, $target_type) {
+    $range_includes = $this->getSchemaPropertyRangeIncludes($entity_type_id, $bundle, $field_name);
+    return $this->getRangeIncludesTargetSchemaTypes($target_type, $range_includes);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getSchemaPropertyTargetBundles($entity_type_id, $bundle, $field_name, $target_type) {
     $range_includes = $this->getSchemaPropertyRangeIncludes($entity_type_id, $bundle, $field_name);
     return $this->getRangeIncludesTargetBundles($target_type, $range_includes);
@@ -92,6 +100,30 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
    * {@inheritdoc}
    */
   public function getRangeIncludesTargetBundles($target_type, array $range_includes) {
+    return $this->getRangeIncludesTargets($target_type, $range_includes, 'bundles');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRangeIncludesTargetSchemaTypes($target_type, array $range_includes) {
+    return $this->getRangeIncludesTargets($target_type, $range_includes, 'schema_types');
+  }
+
+  /**
+   * Gets the Schema.org range includes targets (bundles or schema_types).
+   *
+   * @param string $target_type
+   *   The target entity type ID.
+   * @param array $range_includes
+   *   An array of Schema.org types.
+   * @param string $target
+   *   The target (bundle or Schema.org type).
+   *
+   * @return array
+   *   The Schema.org Schema.org range includes targets (bundles or schema_types).
+   */
+  protected function getRangeIncludesTargets($target_type, array $range_includes, $target) {
     $subtypes = $this->schemaTypeManager->getAllSubTypes($range_includes);
     $entity_ids = $this->getQuery()
       ->condition('target_entity_type_id', $target_type)
@@ -103,12 +135,13 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $entities */
     $entities = $this->loadMultiple($entity_ids);
-
-    $bundles = [];
+    $method = ($target === 'schema_types') ? 'getSchemaType' : 'getTargetBundle';
+    $targets = [];
     foreach ($entities as $entity) {
-      $bundles[$entity->getTargetBundle()] = $entity->getTargetBundle();
+      $target = $entity->$method();
+      $targets[$target] = $target;
     }
-    return $bundles;
+    return $targets;
   }
 
   /**
