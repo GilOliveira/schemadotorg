@@ -157,7 +157,7 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
           ? implode(', ', $target_schema_types)
           : $this->t('Missing'),
         ],
-        '#suffix' => '<br/>',
+        '#prefix' => $relationships ? '<br/><br/>' : '',
       ];
     }
 

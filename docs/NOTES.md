@@ -21,6 +21,7 @@ Code
 
 Research
 - https://www.lullabot.com/articles/write-better-code-typed-entity
+- https://www.drupal.org/project/erd
 
 # Test  coverage
 
