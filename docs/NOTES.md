@@ -12,8 +12,9 @@ Ongoing
 - Review patterns and tests.
 
 Documentation
+- Create README.md
 - Add hook_help() to Schema.org Structure and Reports.
-- Add details usage to #description to admin settings.
+- Add details about configuration usage to #description to admin settings.
 
 Code
 - Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
@@ -22,6 +23,9 @@ Code
 Research
 - https://www.lullabot.com/articles/write-better-code-typed-entity
 - https://www.drupal.org/project/erd
+- https://www.drupal.org/project/yild
+- https://www.wikidata.org/wiki/Wikidata:Introduction
+- https://iptc.org/
 
 # Test  coverage
 
@@ -30,18 +34,6 @@ Research
   - Check all functionality.
 - JavaScript test coverage for UI and Report.
 - FormValidation test coverage for SchemaDotOrgFormTrait
-
-# Best Practices
-
-- If two properties can address similar use-cases, use the more common property.
-  - For example, Place can have an 'image' and 'photo'.
-    It is simpler to use 'image'.
-
-- For high-level types, which are inherited from, we want to keep the
-  default properties as simple as possible.
-
-- For specific and important types, including Recipe, we should be as specific
-  as needed with the default properties.
 
 # TBD
 

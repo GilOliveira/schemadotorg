@@ -3,6 +3,10 @@
  * Schema.org UI styles.
  */
 
+.schemadotorg-mapping-form .form-actions {
+  clear: both;
+}
+
 details.schemadotorg-ui--add-field {
   display: none;
 }

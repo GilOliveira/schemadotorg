@@ -449,10 +449,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $form['#attached']['library'][] = 'schemadotorg/schemadotorg.jstree';
     $form['#attached']['library'][] = 'schemadotorg_ui/schemadotorg_ui';
 
-    // Display warning when creating a new entity or fields.
+    // Display warning when creating a new entity or fields to UI and not CLI.
     $is_new = $this->getEntity()->isNew();
     $is_get = ($this->getRequest()->getMethod() === 'GET');
-    if ($is_new && $is_get) {
+    $is_cli = (PHP_SAPI === 'cli');
+    if ($is_new && $is_get && !$is_cli) {
       if ($this->getEntity()->isTargetEntityTypeBundle()) {
         $type_definition = $this->getSchmemaTypeDefinition();
         $target_entity_type_bundle_definition = $this->getEntity()->getTargetEntityTypeBundleDefinition();
