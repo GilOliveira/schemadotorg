@@ -832,6 +832,21 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $rows[$property] = $row;
     }
 
+    $form['filter'] = [
+      '#type' => 'search',
+      '#title' => $this->t('Filter'),
+      '#title_display' => 'invisible',
+      '#size' => 30,
+      '#placeholder' => $this->t('Filter by property'),
+      '#attributes' => [
+        'class' => ['schemadotorg-ui-properties-filter-text'],
+        'title' => $this->t('Enter a keyword to filter properties by.'),
+      ],
+      '#wrapper_attributes' => [
+        'class' => ['schemadotorg-ui-properties-filter'],
+      ],
+    ];
+
     $form['properties'] = [
       '#type' => 'table',
       '#header' => $header,

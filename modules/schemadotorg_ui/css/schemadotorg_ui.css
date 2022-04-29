@@ -19,6 +19,27 @@ details.schemadotorg-ui--add-field {
   text-align: right;
 }
 
+/* Filter */
+.schemadotorg-ui-properties-filter.form-item {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  float: left;
+}
+.schemadotorg-ui-properties-filter-matches tbody > tr {
+  display: none !important;
+}
+
+.schemadotorg-ui-properties-filter-matches tbody > tr.schemadotorg-ui-properties-filter-match {
+  display: table-row !important;
+}
+
+.schemadotorg-ui-gin .schemadotorg-ui-properties-toggle-wrapper {
+  float: right;
+  display: inline-block;
+  min-height: 3rem;
+  line-height: 3rem;
+}
+
 /* Claro theme enhancements */
 .schemadotorg-ui-claro tr.color-success {
   border: 4px solid #325e1c;

@@ -3,9 +3,51 @@
  * Schema.org UI behaviors.
  */
 
-(function ($, Drupal) {
+(function ($, Drupal, debounce, once) {
 
   'use strict';
+
+  /**
+   * Schema.org UI properties filter by text.
+   *
+   * @type {Drupal~behavior}
+   */
+  Drupal.behaviors.schemaDotOrgUiPropertiesFilterByText = {
+    attach: function attach(context, settings) {
+      var $input = $(once('schemadotorg-ui-properties-filter-text', 'input.schemadotorg-ui-properties-filter-text'));
+      var $table = $('table.schemadotorg-ui-properties');
+      var $filterRows;
+
+      function filterBlockList(e) {
+        var query = $(e.target).val().toLowerCase();
+
+        function toggleBlockEntry(index, label) {
+          var $label = $(label);
+          var $row = $label.parent().parent();
+          var textMatch = $label.text().toLowerCase().includes(query);
+          $row.toggleClass('schemadotorg-ui-properties-filter-match', textMatch);
+        }
+
+        // Use CSS to hide/show matches that the hide/show mapped properties
+        // state is preserved.
+        if (query.length >= 2) {
+          $table.addClass('schemadotorg-ui-properties-filter-matches');
+          $filterRows.each(toggleBlockEntry);
+          Drupal.announce(Drupal.formatPlural($table.find('tr:visible').length - 1, '1 property is available in the modified list.', '@count properties are available in the modified list.'));
+        } else {
+          $table.removeClass('schemadotorg-ui-properties-filter-matches');
+          $filterRows.each(function () {
+            $(this).parent().parent().removeClass('schemadotorg-ui-properties-filter-match');
+          });
+        }
+      }
+
+      if ($table.length) {
+        $filterRows = $table.find('div.schemadotorg-ui-property');
+        $input.on('keyup', debounce(filterBlockList, 200));
+      }
+    }
+  };
 
   /**
    * Schema.org UI properties toggle behavior.
@@ -135,4 +177,4 @@
     $details.drupalSetSummary(text).trigger('summaryUpdated');
   }
 
-} (jQuery, Drupal));
+} (jQuery, Drupal, Drupal.debounce, once));

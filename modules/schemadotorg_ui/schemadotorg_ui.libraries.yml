@@ -5,6 +5,9 @@ schemadotorg_ui:
     component:
       css/schemadotorg_ui.css: {}
   dependencies:
-    - core/jquery
     - core/drupal
+    - core/drupal.announce
+    - core/drupal.debounce
+    - core/jquery
+    - core/jquery.once
     - schemadotorg/schemadotorg.dialog
