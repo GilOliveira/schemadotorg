@@ -276,10 +276,13 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
    *   The entity bundle.
    */
   protected function setSubTypeDescriptionOverride(array &$overrides, $entity_type_id, $bundle) {
+    // Can't call \Drupal\schemadotorg\SchemaDotOrgNames::getSubtypeFieldName
+    // because it triggers a recursive loading of configuration settings.
     $field_prefix = $this->configFactory
       ->getEditable('schemadotorg.settings')
       ->get('field_prefix');
-    $subtype_field_name = $field_prefix . 'type';
+    $subtype_field_name = $field_prefix . 'subtype';
+
     $config_name = "field.field.$entity_type_id.$bundle.$subtype_field_name";
     $data = $this->configFactory->getEditable($config_name)->getRawData();
     if ($data && empty($data['description'])) {

@@ -635,7 +635,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#type' => 'item',
         '#title' => $this->t('Label'),
         '#markup' => $this->t('Type'),
-        '#value' => 'Type',
+        '#value' => 'Subtype',
       ];
       $form['subtyping'][static::ADD_FIELD]['machine_name'] = [
         '#type' => 'item',

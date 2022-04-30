@@ -84,7 +84,7 @@ class SchemaDotOrgTypeSelectionTest extends SchemaDotOrgKernelTestBase {
     $node_mapping->save();
     $this->nodeMapping = $node_mapping;
 
-    $this->fieldConfig = FieldConfig::loadByName('node', 'person', 'schema_type');
+    $this->fieldConfig = FieldConfig::loadByName('node', 'person', 'schema_subtype');
     $this->selectionHandler = $this->container->get('plugin.manager.entity_reference_selection')->getSelectionHandler($this->fieldConfig);
   }
 

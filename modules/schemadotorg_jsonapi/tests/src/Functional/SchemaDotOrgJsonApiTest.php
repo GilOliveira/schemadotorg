@@ -79,7 +79,14 @@ class SchemaDotOrgJsonApiTest extends SchemaDotOrgBrowserTestBase {
    */
   public function testJsonApi() {
     $assert_session = $this->assertSession();
+
     $this->drupalGet('/jsonapi/node/event/' . $this->node->uuid());
+
+    // Check subtype.
+    $assert_session->responseContains('"subtype":');
+    $assert_session->responseNotContains('"schema_subtype":');
+
+    // Check properties.
     $assert_session->responseContains('"alternateName":"Another event"');
     $assert_session->responseNotContains('"schema_alternate_name":"Another event"');
   }

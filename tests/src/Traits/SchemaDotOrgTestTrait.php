@@ -73,14 +73,14 @@ trait SchemaDotOrgTestTrait {
   protected function createSchemaDotOrgSubTypeField($entity_type_id, $bundle) {
     FieldStorageConfig::create([
       'entity_type' => $entity_type_id,
-      'field_name' => 'schema_type',
+      'field_name' => 'schema_subtype',
       'type' => 'entity_reference',
       'settings' => ['target_type' => 'taxonomy_term'],
     ])->save();
     FieldConfig::create([
       'entity_type' => $entity_type_id,
       'bundle' => $bundle,
-      'field_name' => 'schema_type',
+      'field_name' => 'schema_subtype',
       'settings' => [
         'handler' => 'schemadotorg_type',
         'handler_settings' => [
@@ -89,7 +89,7 @@ trait SchemaDotOrgTestTrait {
           'schemadotorg_mapping' => [
             'entity_type' => $entity_type_id,
             'bundle' => $bundle,
-            'field_name' => 'schema_type',
+            'field_name' => 'schema_subtype',
           ],
         ],
       ],

@@ -234,7 +234,7 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     $this->assertTrue($this->nodeMapping->supportsSubtyping());
 
     // Delete the schema_type field.
-    FieldConfig::loadByName('node', 'thing', 'schema_type')->delete();
+    FieldConfig::loadByName('node', 'thing', 'schema_subtype')->delete();
 
     // Reload the thing mapping.
     $this->storage->resetCache();

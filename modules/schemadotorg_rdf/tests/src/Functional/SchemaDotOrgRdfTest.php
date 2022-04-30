@@ -52,7 +52,7 @@ class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
     $display_repository = \Drupal::service('entity_display.repository');
     $display_repository->getViewDisplay('node', 'event')
       ->setComponent('schema_alternate_name')
-      ->setComponent('schema_type')->save();
+      ->setComponent('schema_subtype')->save();
 
     // Create Event with mapping.
     $node_mapping = SchemaDotOrgMapping::create([
@@ -91,7 +91,7 @@ class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
     $tids = \Drupal::entityQuery('taxonomy_term')
       ->condition('schema_type.value', 'BusinessEvent')
       ->execute();
-    $this->node->schema_type->target_id = reset($tids);
+    $this->node->schema_subtype->target_id = reset($tids);
     $this->node->save();
 
     // Check replacing the RDF Schema.org type with the Schema.org subtype.
