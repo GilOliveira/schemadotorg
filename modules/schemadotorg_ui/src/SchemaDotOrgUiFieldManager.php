@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\field\FieldStorageConfigInterface;
+use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 
 /**
@@ -380,7 +381,7 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     $mapping = &drupal_static(__FUNCTION__ . '_' . $table);
     if (!isset($mapping)) {
       $field_type_definitions = $this->fieldTypePluginManager->getUiDefinitions();
-      $name = 'schema_' . $table . '.default_field_types';
+      $name = SchemaDotOrgNamesInterface::DEFAULT_PREFIX . $table . '.default_field_types';
       $mapping = $this->config->get($name);
       foreach ($mapping as $id => $field_types) {
         $mapping[$id] = array_combine($field_types, $field_types);

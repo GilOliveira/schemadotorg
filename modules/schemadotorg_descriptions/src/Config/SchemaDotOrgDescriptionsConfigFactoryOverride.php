@@ -276,13 +276,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
    *   The entity bundle.
    */
   protected function setSubTypeDescriptionOverride(array &$overrides, $entity_type_id, $bundle) {
-    // Can't call \Drupal\schemadotorg\SchemaDotOrgNames::getSubtypeFieldName
-    // because it triggers a recursive loading of configuration settings.
-    $field_prefix = $this->configFactory
-      ->getEditable('schemadotorg.settings')
-      ->get('field_prefix');
-    $subtype_field_name = $field_prefix . 'subtype';
-
+    $subtype_field_name = $this->getSubtypeFieldName();
     $config_name = "field.field.$entity_type_id.$bundle.$subtype_field_name";
     $data = $this->configFactory->getEditable($config_name)->getRawData();
     if ($data && empty($data['description'])) {
@@ -293,6 +287,24 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
     else {
       $overrides["field.field.$entity_type_id.$bundle.$subtype_field_name"] = [];
     }
+  }
+
+  /**
+   * Gets the field name for Schema.org type subtyping.
+   *
+   * Can't call \Drupal\schemadotorg\SchemaDotOrgNames::getSubtypeFieldName
+   * because it triggers a recursive loading of configuration settings.
+   *
+   * @return string
+   *   The field name for Schema.org type subtyping.
+   *
+   * @see \Drupal\schemadotorg\SchemaDotOrgNames::getSubtypeFieldName
+   */
+  protected function getSubtypeFieldName() {
+    $field_prefix = $this->configFactory
+      ->getEditable('schemadotorg.settings')
+      ->get('field_prefix');
+    return $field_prefix . SchemaDotOrgNamesInterface::SUBTYPE_ID;
   }
 
 }

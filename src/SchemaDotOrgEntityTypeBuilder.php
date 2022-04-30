@@ -97,7 +97,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     // The field suffix for type vocabularies needs to be hardcode because
     // type vocabularies are created when the module is installed.
     // @see \Drupal\schemadotorg\SchemaDotOrgInstaller::updateTypeVocabularies
-    return 'schema_' . $this->schemaNames->camelCaseToSnakeCase($type);
+    return SchemaDotOrgNamesInterface::DEFAULT_PREFIX . $this->schemaNames->camelCaseToSnakeCase($type);
   }
 
   /**

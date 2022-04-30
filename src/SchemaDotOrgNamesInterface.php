@@ -8,6 +8,20 @@ namespace Drupal\schemadotorg;
 interface SchemaDotOrgNamesInterface {
 
   /**
+   * Default prefix for Schema.org table and field names.
+   *
+   * @var string
+   */
+  const DEFAULT_PREFIX = 'schema_';
+
+  /**
+   * Schema.org subtype ID.
+   *
+   * @var string
+   */
+  const SUBTYPE_ID = 'subtype';
+
+  /**
    * Gets the field suffix for Schema.org properties.
    *
    * @return string
