@@ -119,6 +119,8 @@ trait SchemaDotOrgFormTrait {
    *   The form element whose value is being processed.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
+   * @param string $key
+   *   The grouped list name.
    */
   public static function validateGroupedList(array $element, FormStateInterface $form_state, $key) {
     $values = static::extractGroupedList($element['#value'], $key);
@@ -135,6 +137,8 @@ trait SchemaDotOrgFormTrait {
    *
    * @param string $string
    *   The raw string to extract grouped list from.
+   * @param string $key
+   *   The grouped list name.
    *
    * @return array
    *   The array of extracted grouped list.
@@ -163,6 +167,8 @@ trait SchemaDotOrgFormTrait {
    *
    * @param array $values
    *   An array containing grouped list.
+   * @param string $key
+   *   The grouped list name.
    *
    * @return string
    *   The string representation of a grouped list :

@@ -6,9 +6,135 @@
  */
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
 require_once __DIR__ . '/includes/schemadotorg.allowed_values.inc';
+
+/**
+ * Implements hook_help()
+ */
+function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'entity.schemadotorg_mapping.collection':
+      $uri = Url::fromRoute('help.page', ['name' => 'schemadotorg'])->toString();
+      return '<p>'
+        . t('The <strong>Schema.org mappings</strong> page lists all available mappings from Drupal entity types to Schema.org types.')
+        . '<br/>'
+        . '<a href="' . $uri . '">' . t('Learn more about the Schema.org Blueprints module') . '</a>'
+        . '<p>';
+
+    case 'entity.schemadotorg_mapping_type.collection':
+      return '<p>' . t('The <strong>Schema.org mapping types</strong> page lists all available mapping types with default settings for available Drupal entity types.') . '<p>';
+
+    case 'schemadotorg.settings':
+      return '<p>' . t('The <strong>Schema.org types settings</strong> page allows administrators to configure the default settings for Schema.org types.') . '<p>';
+
+    case 'schemadotorg.settings.properties':
+      return '<p>' . t('The <strong>Schema.org properties settings</strong> page allows administrators to configure the default settings for Schema.org properties.') . '<p>';
+
+    case 'schemadotorg.settings.names':
+      $t_args = [
+        ':href' => 'https://schema.org/docs/styleguide.html',
+      ];
+      return '<p>'
+        . t("The <strong>Schema.org names settings</strong> page allows administrators to configure how Schema.org's <a href=\":href\">naming conventions</a> for types and properties are converted to Drupal's naming conventions.", $t_args)
+        . ' '
+        . t('For example, Schema.org uses camel case (camelCase) and Drupal uses snake case (snake_case) and Drupal limits all entity ids and field names to 32 characters.')
+
+        . '<p>';
+
+    case 'schemadotorg_report.settings':
+      return '<p>' . t('The <strong>Schema.org references settings</strong> page allows administrators to configure links to general and specific information about Schema.org types.') . '<p>';
+
+    case 'help.page.schemadotorg':
+      $build = [];
+      $t_args = [
+        ':schemadotorga_href' => 'https://www.drupal.org/project/schemadotorg',
+        ':about_href' => 'https://schema.org',
+        ':schemas_href' => 'https://schema.org/docs/schemas.html',
+      ];
+      $build['intro'] = [
+        '#markup' =>
+        '<p>' . t('The best way to get started with using the <a href=":schemadotorga_href">Schema.org Blueprints</a> module is to read about <a href=":about_href">Schema.org</a> and browse the available <a href=":schemas_href">schemas</a>.', $t_args) . '<p>' .
+        '<p>' . t('Once you have a fundamental understanding of Schema.org, please watch a short overview or full demo of the Schema.org Blueprints module.') . '<p>',
+      ];
+      $videos = [
+        [
+          'title' => t('Schema.org - What, How, Why?'),
+          'content' => t("This presentation explains why search engines now want metadata, how it works, and what you need to know as a dev (as seen in the context of Yandex, Russia's most used search engine, and schema.org)."),
+          'youtube_id' => 'hcahQfN5u9Y',
+        ],
+      ];
+
+      $rows = [];
+      foreach ($videos as $video) {
+        $video_url = Url::fromUri('https://youtu.be/' . $video['youtube_id']);
+        $video_thumbnail = [
+          '#theme' => 'image',
+          '#uri' => 'https://img.youtube.com/vi/' . $video['youtube_id'] . '/0.jpg',
+          '#alt' => $video['title'],
+        ];
+
+        $row = [];
+        $row['thumbnail'] = [
+          'data' => [
+            '#type' => 'link',
+            '#url' => $video_url,
+            '#title' => $video_thumbnail,
+          ],
+        ];
+        // Content.
+        $row['content'] = [
+          'data' => [
+            'title' => [
+              '#markup' => $video['title'],
+              '#prefix' => '<h3>',
+              '#suffix' => '</h3>',
+            ],
+            'content' => [
+              '#markup' => $video['content'],
+              '#prefix' => '<p>',
+              '#suffix' => '</p>',
+            ],
+            'link' => [
+              '#type' => 'link',
+              '#url' => $video_url,
+              '#title' => t('▶ Watch video'),
+              '#attributes' => ['class' => ['button', 'button--small']],
+            ],
+          ],
+        ];
+        $rows[] = ['data' => $row, 'no_striping' => TRUE];
+      }
+
+      $build['table'] = [
+        '#theme' => 'table',
+        '#header' => [
+          'thumbnail' => [
+            'data' => '',
+            'width' => '200',
+            'style' => 'padding:0; border-top-color: transparent',
+            'class' => [RESPONSIVE_PRIORITY_LOW],
+          ],
+          'content' => [
+            'data' => '',
+            'style' => 'padding:0; border-top-color: transparent',
+          ],
+        ],
+        '#rows' => $rows,
+        '#attributes' => [
+          'border' => 0,
+          'cellpadding' => 2,
+          'cellspacing' => 0,
+        ],
+      ];
+
+      return $build;
+
+  }
+}
 
 /**
  * Hook_entity_reference_selection_alter().

@@ -351,7 +351,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    * @param array $formatter_settings
    *   An array of formatter settings.
    */
-  protected function setEntityDisplays($field_values, $widget_id, $widget_settings, $formatter_id, $formatter_settings) {
+  protected function setEntityDisplays(array $field_values, $widget_id, array $widget_settings, $formatter_id, array $formatter_settings) {
     $entity_type_id = $field_values['entity_type'];
     $bundle = $field_values['bundle'];
     $field_name = $field_values['field_name'];

@@ -3,6 +3,10 @@ Schema.org Blueprints
 
 # Todo
 
+Ajax
+- Add Ajax to mapping form add field UI/UX
+  - @see \Drupal\jsonapi_extras\Form\JsonapiResourceConfigForm
+
 Ongoing
 - Determine the recommended types per entity type.
 - Determine supported/recommend contributed modules
@@ -10,10 +14,6 @@ Ongoing
   - Flex field
 - Build out the default schema types properties.
 - Review patterns and tests.
-
-Documentation
-- Create README.md
-- Add hook_help() to Schema.org Structure and Reports.
 
 Code
 - Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
@@ -25,6 +25,11 @@ Research
 - https://www.drupal.org/project/yild
 - https://www.wikidata.org/wiki/Wikidata:Introduction
 - https://iptc.org/
+
+# Ideas
+
+- Automatically generate an associated with a Schema.org type mapping (node and media)
+  - Huge amount of work to understand the Views entity and APIs.
 
 # Test  coverage
 

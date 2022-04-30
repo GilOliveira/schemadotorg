@@ -38,7 +38,7 @@ class SchemaDotOrgUiControllerTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test SSchema.org UI controller.
    */
-  public function testController(){
+  public function testController() {
     $assert_session = $this->assertSession();
 
     // Check that access is denied to 'Add Schema.org type' page.

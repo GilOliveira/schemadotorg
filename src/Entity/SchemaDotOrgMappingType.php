@@ -140,7 +140,6 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    */
   protected $recommended_schema_types = [];
 
-
   /**
    * {@inheritdoc}
    */

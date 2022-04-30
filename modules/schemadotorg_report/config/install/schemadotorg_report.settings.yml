@@ -5,12 +5,12 @@ about:
     uri: 'https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data'
   - title: 'Steal Our JSON-LD'
     uri: 'https://jsonld.com/'
-  - title: 'Schema.org - What, How, Why? - YouTube'
-    uri: 'https://www.youtube.com/watch?v=hcahQfN5u9Y'
   - title: 'Schema Markup for SEO: The Complete Guide'
     uri: 'https://www.link-assistant.com/news/structured-data-for-seo.html'
   - title: 'Unlocking Hidden Gems Within Schema.org'
     uri: 'https://moz.com/blog/schema-hidden-gems'
+  - title: 'Schema.org - What, How, Why?'
+    uri: 'https://www.youtube.com/watch?v=hcahQfN5u9Y'
 types:
   Article:
     - title: 'Learn About Article Schema Markup'

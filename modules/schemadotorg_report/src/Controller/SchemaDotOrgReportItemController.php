@@ -107,7 +107,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
 
     // Description bottom.
     $description_bottom = '<p>' . $this->t('Or you can jump directly to a commonly used type:') . '</p>';
-    $description_bottom .= '<ul>';
+    $description_bottom .= '<ul class="item-list">';
     $description_bottom .= '<li>' . $this->t('Creative works: <a title="CreativeWork" href="/CreativeWork">CreativeWork</a>, <a title="Book" href="/Book">Book</a>, <a title="Movie" href="/Movie">Movie</a>, <a title="MusicRecording" href="/MusicRecording">MusicRecording</a>, <a title="Recipe" href="/Recipe">Recipe</a>, <a title="TVSeries" href="/TVSeries">TVSeries</a> ...') . '</li>';
     $description_bottom .= '<li>' . $this->t('Embedded non-text objects: <a title="AudioObject" href="/AudioObject">AudioObject</a>, <a title="ImageObject" href="/ImageObject">ImageObject</a>, <a title="VideoObject" href="/VideoObject">VideoObject</a>') . '</li>';
     $description_bottom .= '<li>' . $this->t('<a title="Event" href="/Event">Event</a>') . '</li>';
@@ -121,6 +121,21 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     $description_bottom .= '</ul>';
     $path = Url::fromRoute('schemadotorg_report')->toString();
     $build['description_bottom'] = ['#markup' => str_replace('href="/', 'href="' . $path . '/', $description_bottom)];
+
+    // About.
+    $about = $this->config('schemadotorg_report.settings')->get('about');
+    if ($about) {
+      $build['about'] = [
+        'title' => [
+          '#markup' => '<p>' . $this->t('Learn more about Schema.org') . '</p>',
+        ],
+        'links' => [
+          '#theme' => 'item_list',
+          '#items' => $this->buildReferenceLinks($about),
+        ],
+      ];
+    }
+
     return $build;
   }
 

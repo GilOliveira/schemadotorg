@@ -174,7 +174,7 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    */
-  static public function validateTypeForm(array &$form, FormStateInterface $form_state) {
+  public static function validateTypeForm(array &$form, FormStateInterface $form_state) {
     $type = $form_state->getValue('type');
     /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
     $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
@@ -192,7 +192,7 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    */
-  static public function submitTypeForm(array &$form, FormStateInterface $form_state) {
+  public static function submitTypeForm(array &$form, FormStateInterface $form_state) {
     $type = $form_state->getValue('type');
     $form_state->setRedirect('<current>', [], ['query' => ['type' => $type]]);
   }
@@ -208,6 +208,8 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
   /**
    * Build Schema.org type item to be displayed in comma or hierarchical lists.
    *
+   * @param string $entity_type_id
+   *   The entity type ID.
    * @param string $type
    *   The Schema.org type.
    *
