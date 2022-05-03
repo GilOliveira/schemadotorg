@@ -172,6 +172,6 @@ default_field_weights:
   - sugarContent
   - proteinContent
 default_field_groups: { }
-default_field_group_label_suffix: 'information'
-default_field_group_form_type: details
+default_field_group_label_suffix: ''
+default_field_group_form_type: ''
 default_field_group_view_type: fieldset

@@ -99,6 +99,10 @@ types:
   MedicalEntity:
     - title: 'Documentation for health/medical types'
       uri: 'https://schema.org/docs/meddocs.html'
+    - title: 'The Definitive Guide To Healthcare Structured Data'
+      uri: 'https://www.schemaapp.com/healthcare-schema-markup-definitive-guide/'
+    - title: 'Schema Markup for the Healthcare Industry'
+      uri: 'https://www.youtube.com/watch?v=xLEzdjMd-2w'
   MusicEvent:
     - title: Venue
       uri: 'https://jsonld.com/event/venue/'

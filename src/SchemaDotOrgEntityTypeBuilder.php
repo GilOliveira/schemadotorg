@@ -499,7 +499,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $default_label_suffix = $mapping_type_storage->getDefaultFieldGroupLabelSuffix($entity_type_id);
     $default_format_type = $mapping_type_storage->getDefaultFieldGroupFormatType($entity_type_id, $display);
     $default_format_settings = $mapping_type_storage->getDefaultFieldGroupFormatSettings($entity_type_id, $display);
-    if (empty($default_field_groups) || empty($default_format_type)) {
+    if (empty($default_field_groups) && empty($default_format_type)) {
       return;
     }
 
@@ -602,7 +602,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         // Field values settings.
         switch ($target_type) {
           case 'taxonomy_term':
-            if ($field_values['field_name'] === $this->schemaNames->getFieldPrefix() . 'type') {
+            if ($field_values['field_name'] === $this->schemaNames->getSubtypeFieldName()) {
               $handler = 'schemadotorg_type';
             }
             else {

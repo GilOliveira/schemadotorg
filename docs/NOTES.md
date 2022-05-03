@@ -3,19 +3,15 @@ Schema.org Blueprints
 
 # Todo
 
-JSON:API
-- schemadotorg_jsonapi_extras.module - DONE
-- hook_schemadotorg_mapping_insert() - DONE
-- hook_schemadotorg_mapping_update() - DONE
-- hook_field_config_insert() - DONE
-- Global configuration = DONE
-- Add requirements that 'Disable resources by default' is 'enabled'. - DONE
-- Enabling and cleaning Enumeration taxonomy - /api/Enumeration - DONE
-
 - JSON:API Extras Tests.
   - Add comments to SchemaDotOrgJsonApiExtras.php.
   - SchemaDotOrgJsonApiExtrasTest
   - SchemaDotOrgJsonApiExtrasMappingListBuilderTest
+
+- Custom Drupal labels
+  - custom_drupal_label
+    - contactPoint => Contact points
+    - attendee => Attendees
 
 ListBuilder
 - Add download CSV functionality to help content architects.
@@ -44,6 +40,9 @@ Research
 - https://iptc.org/
 
 JSON:API
+- Automatically include all relationships
+  - Generate the example URL
+  - Provide a help ?schemadotorg_jsonapi_relationships=1
 - Is there any way to alter the json api response for any entity?
   https://www.drupal.org/project/jsonapi/issues/2840935
 - How to alter JSON responses with Drupal 8's JSON:API and REST Web Service?
@@ -51,8 +50,23 @@ JSON:API
 
 # Ideas
 
-- Automatically generate an associated with a Schema.org type mapping (node and media)
+- Schema.org Blueprints Export
+  - Generate a CSV containing mapping types.
+  - Allows content architects to review and revise configuration.
+
+- Automatically generate corresponding View for Schema.org mapping (node and media)
   - Huge amount of work to understand the Views entity and APIs.
+  - Each Schema.org type could be automatically added below the 'Content' item.
+  - Maybe a default admin view could be setup and cloned
+  - Fields
+    - Label
+    - Type
+    - Subtype
+    - Enumeration
+    - Terms
+    - Keywords
+    - startDate
+    - endDate
 
 # Test coverage
 
@@ -87,3 +101,8 @@ JSON:API
     - node:Person user:Person
     - taxonomy:Thing node:Thing paragraph:Thing
   - Search for conflicting resource type by searching from properties.
+
+- Should unlimited field labels be pluralized?
+  - Contact points
+  - Attendees
+  - etc...

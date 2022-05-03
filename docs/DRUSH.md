@@ -53,3 +53,14 @@ drush schemadotorg:delete-type -y --delete-fields media:AudioObject media:DataDo
 drush schemadotorg:delete-type -y --delete-entity paragraph:ContactPoint paragraph:PostalAddress
 drush schemadotorg:delete-type -y --delete-entity node:Person node:Organization node:Place node:Event
 ```
+
+## Demo
+
+```
+drush schemadotorg:create-type -y paragraph:ContactPoint
+drush schemadotorg:create-type -y media:ImageObject
+drush schemadotorg:create-type -y node:Place node:Organization node:Person node:Event
+drush schemadotorg:create-type -y node:Article node:WebPage
+drush devel-generate:users --kill 50
+drush devel-generate:content --kill --add-type-label  50
+```

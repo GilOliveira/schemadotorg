@@ -96,7 +96,7 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
 
     $details_toggle = $this->getDetailsToggle();
     if ($details_toggle) {
-      $row['schema_properties'] = implode('; ', $entity->getSchemaProperties());
+      $row['schema_properties'] = implode(', ', $entity->getSchemaProperties());
 
       $row['schema_relationships'] = $this->buildSchemaRelationships($entity);
     }
