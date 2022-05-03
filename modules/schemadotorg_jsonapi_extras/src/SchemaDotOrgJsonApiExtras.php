@@ -342,7 +342,7 @@ class SchemaDotOrgJsonApiExtras implements SchemaDotOrgJsonApiExtrasInterface {
 
     $property = $mapping->getSchemaPropertyMapping($field_name);
     if ($property) {
-      $resource_fields[$field_name] =
+      $resource_fields[$field_name] = [
         'disabled' => FALSE,
         'fieldName' => $field_name,
         'publicName' => $property,
