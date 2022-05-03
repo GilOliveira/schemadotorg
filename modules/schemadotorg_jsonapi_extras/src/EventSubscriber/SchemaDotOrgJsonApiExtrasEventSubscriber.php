@@ -3,8 +3,15 @@
 namespace Drupal\schemadotorg_jsonapi_extras\EventSubscriber;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\Url;
+use Drupal\jsonapi\ResourceType\ResourceType;
 use Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository;
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -34,6 +41,20 @@ class SchemaDotOrgJsonApiExtrasEventSubscriber extends ServiceProviderBase imple
   protected $routeMatch;
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * The entity field manager.
+   *
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
+   */
+  protected $fieldManager;
+
+  /**
    * The JSON:API configurable resource type repository.
    *
    * @var \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository
@@ -47,12 +68,18 @@ class SchemaDotOrgJsonApiExtrasEventSubscriber extends ServiceProviderBase imple
    *   The configuration object factory.
    * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
    *   The RouteMatch service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager
+   *   The entity field manager.
    * @param \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository $resource_type_respository
    *   The JSON:API configurable resource type repository.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, RouteMatchInterface $routeMatch, ConfigurableResourceTypeRepository $resource_type_respository) {
+  public function __construct(ConfigFactoryInterface $config_factory, RouteMatchInterface $routeMatch, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $field_manager, ConfigurableResourceTypeRepository $resource_type_respository) {
     $this->configFactory = $config_factory;
     $this->routeMatch = $routeMatch;
+    $this->entityTypeManager = $entity_type_manager;
+    $this->fieldManager = $field_manager;
     $this->resourceTypeRepository = $resource_type_respository;
   }
 
@@ -91,19 +118,62 @@ class SchemaDotOrgJsonApiExtrasEventSubscriber extends ServiceProviderBase imple
       ->get('jsonapi_extras.settings')
       ->get('path_prefix');
     foreach ($result['table']['#rows'] as $id => &$row) {
-      $resource_id = str_replace('.', '--', $id);
+      [$entity_type_id, $bundle] = explode('.', $id);
+
+      $resource_id = "$entity_type_id--$bundle";
       $resource_type = $this->resourceTypeRepository->getByTypeName($resource_id);
+      $resource_path = sprintf('/%s%s', $path_prefix, $resource_type->getPath());
+      $resource_includes = $this->getResourceIncludes($resource_type);
+      $resource_options = $resource_includes
+      ? ['query' => ['include' => implode(',', $resource_includes)]]
+      : [];
       $row_cell = [
         'data' => [
-          '#type' => 'html_tag',
-          '#tag' => 'code',
-          '#value' => sprintf('/%s%s', $path_prefix, $resource_type->getPath()),
+          '#type' => 'link',
+          '#title' => $resource_path,
+          '#url' => Url::fromUri('base:' . $resource_path, $resource_options),
+          '#prefix' => '<code>',
+          '#suffix' => '</code>',
         ],
       ];
       $this->insertAfter($row, 'bundle_label', 'jsonapi', $row_cell);
     }
 
     $event->setControllerResult($result);
+  }
+
+  /**
+   * Get resource type's entity reference fields as an array of includes.
+   *
+   * @param \Drupal\jsonapi\ResourceType\ResourceType $resource_type
+   *   The resource type.
+   *
+   * @return array
+   *   An array of entity reference field public names to be used as includes.
+   */
+  protected function getResourceIncludes(ResourceType $resource_type) {
+    $entity_type_id = $resource_type->getEntityTypeId();
+    $bundle = $resource_type->getBundle();
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
+    $mapping = $this->entityTypeManager
+      ->getStorage('schemadotorg_mapping')
+      ->load("$entity_type_id.$bundle");
+
+    $field_definitions = $this->fieldManager->getFieldDefinitions($entity_type_id, $bundle);
+    $field_names = array_keys($mapping->getAllSchemaProperties());
+
+    $includes = [];
+    foreach ($field_names as $field_name) {
+      if (isset($field_definitions[$field_name])
+        && in_array($field_definitions[$field_name]->getType(), ['entity_reference', 'entity_reference_revisions'])) {
+        $field = $resource_type->getFieldByInternalName($field_name);
+        if ($field) {
+          $includes[] = $field->getPublicName();
+        }
+      }
+    }
+    return $includes;
   }
 
   /**
