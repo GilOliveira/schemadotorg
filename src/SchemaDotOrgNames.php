@@ -69,9 +69,9 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
     $intermediate = preg_replace('/(?!^)([[:upper:]][[:lower:]]+)/', ' $0', $string);
     $title = preg_replace('/(?!^)([[:lower:]])([[:upper:]])/', '$1 $2', $intermediate);
 
-    // Custom.
-    $custom_titles = $this->getConfig()->get('names.custom_titles');
-    foreach ($custom_titles as $search => $replace) {
+    // Custom words.
+    $custom_words = $this->getConfig()->get('names.custom_words');
+    foreach ($custom_words as $search => $replace) {
       $title = str_replace($search, $replace, $title);
     }
 
@@ -105,6 +105,12 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
    * {@inheritdoc}
    */
   public function toDrupalLabel($table, $string) {
+    // Custom labels.
+    $custom_labels = $this->getConfig()->get('names.custom_labels');
+    if (isset($custom_labels[$string])) {
+      return $custom_labels[$string];
+    }
+
     return ($table === 'types')
       ? $this->camelCaseToTitleCase($string)
       : $this->camelCaseToSentenceCase($string);
@@ -117,10 +123,10 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
     $max_length = $this->getNameMaxLength($table);
     $drupal_name = $this->camelCaseToSnakeCase($string);
 
-    // Custom.
-    $custom = $this->getConfig()->get('names.custom_names');
-    if (isset($custom[$drupal_name])) {
-      return $custom[$drupal_name];
+    // Custom names.
+    $custom_names = $this->getConfig()->get('names.custom_names');
+    if (isset($custom_names[$drupal_name])) {
+      return $custom_names[$drupal_name];
     }
 
     // Prefixes.

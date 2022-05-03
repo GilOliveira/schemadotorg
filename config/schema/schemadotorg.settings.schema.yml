@@ -65,12 +65,18 @@ schemadotorg.settings:
             sequence:
               type: string
               label: Custom name
-          custom_titles:
+          custom_words:
             type: sequence
-            label: Custom titles
+            label: Custom words
             sequence:
               type: string
               label: Custom title
+          custom_labels:
+            type: sequence
+            label: Custom labels
+            sequence:
+              type: string
+              label: Custom label
           acronyms:
             type: sequence
             label: Acronyms

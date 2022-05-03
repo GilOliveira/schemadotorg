@@ -92,13 +92,24 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
       '#default_value' => $this->keyValuesString($config->get('names.custom_names')),
       '#element_validate' => ['::validateKeyValues'],
     ];
-    $form['names']['custom_titles'] = [
+    $form['names']['custom_words'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Custom titles'),
       '#description' => $this->t('Enter titles used when Schema.org types and names are converted to Drupal entity and field machine names.')
       . '<br/><br/>'
       . $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
-      '#default_value' => $this->keyValuesString($config->get('names.custom_titles')),
+      '#default_value' => $this->keyValuesString($config->get('names.custom_words')),
+      '#element_validate' => ['::validateKeyValues'],
+    ];
+    $form['names']['custom_labels'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Custom labels'),
+      '#description' => $this->t('Enter replacement labels used when Schema.org types and names are displayed as a Drupal entity and field machine label.')
+      . ' '
+      . $this->t('Schema.org type and property names are case-sensitive and must be an exact match.')
+      . '<br/><br/>'
+      . $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
+      '#default_value' => $this->keyValuesString($config->get('names.custom_labels')),
       '#element_validate' => ['::validateKeyValues'],
     ];
     $form['names']['acronyms'] = [

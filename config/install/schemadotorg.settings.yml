@@ -287,10 +287,20 @@ names:
     provides_broadcast_service: provides_broadcast_serv
     public_transport_closures_info: pub_trans_closures_info
     vehicle_identification_number: vin
-  custom_titles:
+  custom_words:
     Nonprofit501: 'Nonprofit 501'
     gtin: GTIN
     rxcui: RxCUI
+  custom_labels:
+    affiliation: Affiliations
+    attendee: Attendees
+    audience: Audiences
+    award: Awards
+    contactPoint: 'Contact points'
+    familyName: 'Last name'
+    givenName: 'First name'
+    knowsLanguage: 'Knows languages'
+    performer: Performer
   acronyms:
     - cvd
     - id
