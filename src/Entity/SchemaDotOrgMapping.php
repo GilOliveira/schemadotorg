@@ -234,6 +234,19 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
+  public function getAllSchemaProperties() {
+    $properties = $this->getSchemaProperties();
+    if ($this->supportsSubtyping()) {
+      /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+      $schema_names = \Drupal::service('schemadotorg.names');
+      $properties[$schema_names->getSubtypeFieldName()] = 'subtype';
+    }
+    return $properties;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getSchemaPropertyMapping($name) {
     return $this->properties[$name] ?? NULL;
   }

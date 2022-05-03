@@ -332,11 +332,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     // Add subtype field and update the mapping.
     $subtype = $form_state->getValue('subtyping') ?: [];
     if (!empty($subtype['enable'])) {
-      $field = $subtype[static::ADD_FIELD];
-      $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
-      $new_field_names[$field['machine_name']] = $field['label'];
+      if (isset($subtype[static::ADD_FIELD])) {
+        $field = $subtype[static::ADD_FIELD];
+        $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
+        $new_field_names[$field['machine_name']] = $field['label'];
+        $this->schemaEntityTypeBuilder->setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, [$field['machine_name'] => 'type']);
+      }
       $mapping_entity->setSchemaSubtype(TRUE);
-      $this->schemaEntityTypeBuilder->setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, [$field['machine_name'] => 'type']);
     }
 
     // Reset Schema.org properties.

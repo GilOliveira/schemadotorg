@@ -1,0 +1,13 @@
+services:
+  schemadotorg_jsonapi_extras:
+    class: Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtras
+    arguments: ['@config.factory', '@redirect.destination', '@entity_type.manager', '@entity_field.manager']
+  schemadotorg_jsonapi_extras.breadcrumb:
+    class: Drupal\schemadotorg_jsonapi_extras\Breadcrumb\SchemaDotOrgJsonApiExtrasBreadcrumbBuilder
+    tags:
+      - { name: breadcrumb_builder, priority: 1000 }
+  schemadotorg_jsonapi_extras.event_subscriber:
+    class: Drupal\schemadotorg_jsonapi_extras\EventSubscriber\SchemaDotOrgJsonApiExtrasEventSubscriber
+    arguments: ['@config.factory', '@current_route_match', '@jsonapi.resource_type.repository']
+    tags:
+      - { name: event_subscriber }

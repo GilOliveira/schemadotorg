@@ -181,12 +181,26 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     $this->assertTrue($node_mapping->supportsSubtyping());
     $this->assertTrue($user_mapping->supportsSubtyping());
 
-    // Check getting the mappings for all Schema.org properties.
+    // Check getting the mappings for Schema.org properties.
     $expected_schema_properties = [
       'title' => 'name',
       'schema_alternate_name' => 'alternateName',
     ];
     $this->assertEquals($expected_schema_properties, $node_mapping->getSchemaProperties());
+
+    // Check getting the mappings for all Schema.org properties
+    // including subtype.
+    $expected_schema_properties = [
+      'title' => 'name',
+      'schema_alternate_name' => 'alternateName',
+      'schema_subtype' => 'subtype',
+    ];
+    $this->assertEquals($expected_schema_properties, $node_mapping->getAllSchemaProperties());
+    $user_mapping->setSchemaSubtype(FALSE);
+    $expected_schema_properties = [
+      'name' => 'name',
+    ];
+    $this->assertEquals($expected_schema_properties, $user_mapping->getAllSchemaProperties());
 
     // Check getting the mapping set for a property.
     $this->assertEquals('name', $node_mapping->getSchemaPropertyMapping('title'));

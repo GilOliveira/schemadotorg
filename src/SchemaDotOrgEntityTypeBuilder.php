@@ -292,6 +292,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         $field_storage_config->save();
 
         $field = $this->entityTypeManager->getStorage('field_config')->create($field_values);
+        $field->schemaDotOrgAddFieldToEntity = TRUE;
         $field->save();
 
         $this->setEntityDisplays(
@@ -321,6 +322,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         );
 
         $field = $this->entityTypeManager->getStorage('field_config')->create($field_values);
+        $field->schemaDotOrgAddFieldToEntity = TRUE;
         $field->save();
 
         $this->setEntityDisplays(

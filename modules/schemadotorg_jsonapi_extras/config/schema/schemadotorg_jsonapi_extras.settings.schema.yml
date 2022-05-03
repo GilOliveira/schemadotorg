@@ -1,0 +1,13 @@
+schemadotorg_jsonapi_extras.settings:
+  type: config_entity
+  label: Schema.org JSON:API settings
+  mapping:
+    default_enabled_fields:
+      type: sequence
+      label: 'Default enabled fields'
+      sequence:
+        type: string
+        label: 'Default enabled field'
+    disable_requirements:
+      type: boolean
+      label: 'Disable Schema.org JSON:API requirements checking'

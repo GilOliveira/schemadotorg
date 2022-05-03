@@ -130,12 +130,21 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   public function supportsSubtyping();
 
   /**
-   * Gets the mappings for all Schema.org properties.
+   * Gets the mappings for Schema.org properties.
    *
    * @return array
    *   The array of Schema.org property mappings, keyed by field name.
    */
   public function getSchemaProperties();
+
+  /**
+   * Gets the mappings for all Schema.org properties including subtype.
+   *
+   * @return array
+   *   The array of Schema.org property mappings including subtype,
+   *   keyed by field name.
+   */
+  public function getAllSchemaProperties();
 
   /**
    * Gets the mapping set for a property.

@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * Requirements functions for the Schema.org JSON:API extras module.
+ */
+
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_jsonapi_extras_install() {
+  /** @var \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtrasInterface $schemadotorg_jsonapi_extras */
+  $schemadotorg_jsonapi_extras = \Drupal::service('schemadotorg_jsonapi_extras');
+  $schemadotorg_jsonapi_extras->install();
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function schemadotorg_jsonapi_extras_requirements($phase) {
+  if ($phase !== 'runtime') {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtrasInterface $schemadotorg_jsonapi_extras */
+  $schemadotorg_jsonapi_extras = \Drupal::service('schemadotorg_jsonapi_extras');
+  return $schemadotorg_jsonapi_extras->requirements($phase);
+}

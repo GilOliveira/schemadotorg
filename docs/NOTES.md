@@ -3,6 +3,23 @@ Schema.org Blueprints
 
 # Todo
 
+JSON:API
+- schemadotorg_jsonapi_extras.module - DONE
+- hook_schemadotorg_mapping_insert() - DONE
+- hook_schemadotorg_mapping_update() - DONE
+- hook_field_config_insert() - DONE
+- Global configuration = DONE
+- Add requirements that 'Disable resources by default' is 'enabled'. - DONE
+- Enabling and cleaning Enumeration taxonomy - /api/Enumeration - DONE
+
+- JSON:API Extras Tests.
+  - Add comments to SchemaDotOrgJsonApiExtras.php.
+  - SchemaDotOrgJsonApiExtrasTest
+  - SchemaDotOrgJsonApiExtrasMappingListBuilderTest
+
+ListBuilder
+- Add download CSV functionality to help content architects.
+
 Ajax
 - Add Ajax to mapping form add field UI/UX
   - @see \Drupal\jsonapi_extras\Form\JsonapiResourceConfigForm
@@ -26,12 +43,18 @@ Research
 - https://www.wikidata.org/wiki/Wikidata:Introduction
 - https://iptc.org/
 
+JSON:API
+- Is there any way to alter the json api response for any entity?
+  https://www.drupal.org/project/jsonapi/issues/2840935
+- How to alter JSON responses with Drupal 8's JSON:API and REST Web Service?
+  ttps://medium.com/@chris.geelhoed/how-to-alter-json-responses-with-drupal-8s-json-api-and-rest-web-service-7671f9c16658
+
 # Ideas
 
 - Automatically generate an associated with a Schema.org type mapping (node and media)
   - Huge amount of work to understand the Views entity and APIs.
 
-# Test  coverage
+# Test coverage
 
 - Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgUiApiTest
 - Create SchemaDotOrgUiMappingForm kernel test.
@@ -51,3 +74,16 @@ Research
   - Include descriptions added via the schemadotorg_descriptions.module
 
 - How can we validate the generated JSON-LD?
+
+- How do we handle Schema.org types being used in multiple entity types?
+  (i.e. node:Person and user:Person)
+  - Recommend that people do not this
+  - Require them to manually alter there API types and paths
+
+- Should Schema.org JSON:API resources path and type be lowercase?
+
+- How do we handle JSON:API resources paths?
+  - Known conflicts
+    - node:Person user:Person
+    - taxonomy:Thing node:Thing paragraph:Thing
+  - Search for conflicting resource type by searching from properties.

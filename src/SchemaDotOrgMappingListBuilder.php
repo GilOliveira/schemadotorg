@@ -4,8 +4,6 @@ namespace Drupal\schemadotorg;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\field\Entity\FieldConfig;
-use Drupal\field\FieldConfigStorage;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -51,7 +49,7 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
     $header['schema_subtype'] = [
       'data' => $this->t('Schema.org subtyping'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '15%',
+      'width' => '10%',
     ];
 
     $details_toggle = $this->getDetailsToggle();

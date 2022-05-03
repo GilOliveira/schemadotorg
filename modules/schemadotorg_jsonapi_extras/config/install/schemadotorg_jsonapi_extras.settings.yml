@@ -1,0 +1,4 @@
+default_enabled_fields:
+  - langcode
+  - status
+disable_requirements: false
