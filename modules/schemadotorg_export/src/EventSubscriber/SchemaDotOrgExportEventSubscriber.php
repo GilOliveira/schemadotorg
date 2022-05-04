@@ -51,7 +51,7 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
       '#type' => 'link',
       '#title' => $this->t('<u>⇩</u> Download CSV'),
       '#url' => Url::fromRoute('entity.schemadotorg_mapping.export'),
-      '#attributes' => ['class' => ['button', 'button--small']],
+      '#attributes' => ['class' => ['button', 'button--small', 'button--extrasmall']],
       '#prefix' => '<p>',
       '#suffix' => '</p>',
     ];
