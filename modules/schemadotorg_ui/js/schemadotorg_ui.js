@@ -62,8 +62,8 @@
         .each(function () {
           var $table = $(this);
 
-          var showMappedLabel = Drupal.t('Show mapped properties');
-          var showAllLabel = Drupal.t('Show all properties');
+          var hideUnmappedLabel = Drupal.t('Hide unmapped');
+          var showUnmappedLabel = Drupal.t('Show unmapped');
 
           var toggleKey = 'schemadotorg-ui-properties-toggle';
 
@@ -73,7 +73,7 @@
           }
 
           // Create toggle button.
-          var button = '<button type="button" class="schemadotorg-ui-properties-toggle link action-link"></button>';
+          var button = '<button type="button" class="schemadotorg-ui-properties-toggle link action-link action-link--extrasmall"></button>';
           var $toggleButton = $(button).on('click', function toggleButtonClick() {
             var toggle = localStorage.getItem(toggleKey);
             localStorage.setItem(toggleKey, (toggle === '1') ? '0' : '1');
@@ -95,11 +95,17 @@
           function toggleProperties() {
             var showAll = (localStorage.getItem('schemadotorg-ui-properties-toggle') === '0');
             if (showAll) {
-              $toggleButton.html(showMappedLabel);
+              $toggleButton
+                .html(hideUnmappedLabel)
+                .removeClass('action-link--icon-show')
+                .addClass('action-link--icon-hide');
               $table.find('tbody tr').show();
             }
             else {
-              $toggleButton.html(showAllLabel);
+              $toggleButton
+                .html(showUnmappedLabel)
+                .removeClass('action-link--icon-hide')
+                .addClass('action-link--icon-show');
               $table.find('tbody tr').hide();
               $table.find('tbody tr.color-warning, tbody tr.color-success').show();
             }

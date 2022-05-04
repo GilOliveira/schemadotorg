@@ -55,7 +55,14 @@ abstract class SchemaDotOrgConfigEntityListBuilderBase extends ConfigEntityListB
         '#type' => 'link',
         '#title' => $title,
         '#url' => $url,
-        '#attributes' => ['title' => $attributes_title],
+        '#attributes' => [
+          'title' => $attributes_title,
+          'class' => [
+            'action-link',
+            'action-link--extrasmall',
+            'action-link--icon-' . ($details_toggle ? 'hide' : 'show'),
+          ],
+        ],
       ],
     ];
 
