@@ -8,18 +8,6 @@ Schema.org Blueprints
   - SchemaDotOrgJsonApiExtrasTest
   - SchemaDotOrgJsonApiExtrasMappingListBuilderTest
 
-- Custom labels
-  - drupal_labels
-    - contactPoint|Contact points
-    - attendee|Attendees
-
-ListBuilder
-- Add download CSV functionality to help content architects.
-- schemadotorg_export.module
-  - Controller
-  - Route 
-  - Download CSV
-
 Ajax
 - Add Ajax to mapping form add field UI/UX
   - @see \Drupal\jsonapi_extras\Form\JsonapiResourceConfigForm
