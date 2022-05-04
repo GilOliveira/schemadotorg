@@ -13,39 +13,61 @@
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.schemaDotOrgUiPropertiesFilterByText = {
-    attach: function attach(context, settings) {
-      var $input = $(once('schemadotorg-ui-properties-filter-text', 'input.schemadotorg-ui-properties-filter-text'));
-      var $table = $('table.schemadotorg-ui-properties');
-      var $filterRows;
+    attach: function attach(context) {
+      $('input.schemadotorg-ui-properties-filter-text', context)
+        .once('schemadotorg-ui-properties-filter-text')
+        .each( function () {
+          // Input
+          var $input = $(this);
 
-      function filterBlockList(e) {
-        var query = $(e.target).val().toLowerCase();
+          // Reset.
+          var $reset = $('<input class="schemadotorg-ui-properties-filter-reset" type="button" title="Clear the search query." value="✕" style="display: none" />');
+          $reset.on('click', resetFilter);
+          $reset.insertAfter($input);
 
-        function toggleBlockEntry(index, label) {
-          var $label = $(label);
-          var $row = $label.parent().parent();
-          var textMatch = $label.text().toLowerCase().includes(query);
-          $row.toggleClass('schemadotorg-ui-properties-filter-match', textMatch);
-        }
+          // Filter rows.
+          var $filterRows;
+          var $table = $('table.schemadotorg-ui-properties');
+          if ($table.length) {
+            $filterRows = $table.find('div.schemadotorg-ui-property');
+            $input.on('keyup', debounce(filterBlockList, 200));
+          }
 
-        // Use CSS to hide/show matches that the hide/show mapped properties
-        // state is preserved.
-        if (query.length >= 2) {
-          $table.addClass('schemadotorg-ui-properties-filter-matches');
-          $filterRows.each(toggleBlockEntry);
-          Drupal.announce(Drupal.formatPlural($table.find('tr:visible').length - 1, '1 property is available in the modified list.', '@count properties are available in the modified list.'));
-        } else {
-          $table.removeClass('schemadotorg-ui-properties-filter-matches');
-          $filterRows.each(function () {
-            $(this).parent().parent().removeClass('schemadotorg-ui-properties-filter-match');
-          });
-        }
-      }
+          // Make sure the filter input is alway empty when the page loadis
+          setTimeout(function () {$input.val('');}, 100);
 
-      if ($table.length) {
-        $filterRows = $table.find('div.schemadotorg-ui-property');
-        $input.on('keyup', debounce(filterBlockList, 200));
-      }
+          function resetFilter() {
+            $input.val('').keyup();
+            $input.trigger('focus');
+          }
+
+          function filterBlockList(e) {
+            var query = $(e.target).val().toLowerCase();
+
+            function toggleBlockEntry(index, label) {
+              var $label = $(label);
+              var $row = $label.parent().parent();
+              var textMatch = $label.text().toLowerCase().includes(query);
+              $row.toggleClass('schemadotorg-ui-properties-filter-match', textMatch);
+            }
+
+            // Use CSS to hide/show matches that the hide/show mapped properties
+            // state is preserved.
+            if (query.length >= 2) {
+              $table.addClass('schemadotorg-ui-properties-filter-matches');
+              $filterRows.each(toggleBlockEntry);
+              Drupal.announce(Drupal.formatPlural($table.find('tr:visible').length - 1, '1 property is available in the modified list.', '@count properties are available in the modified list.'));
+            } else {
+              $table.removeClass('schemadotorg-ui-properties-filter-matches');
+              $filterRows.each(function () {
+                $(this).parent().parent().removeClass('schemadotorg-ui-properties-filter-match');
+              });
+            }
+
+            // Hide/show reset.
+            $reset[query.length ? 'show' : 'hide']();
+          }
+        });
     }
   };
 

@@ -24,11 +24,31 @@ details.schemadotorg-ui--add-field {
 }
 
 /* Filter */
+.schemadotorg-ui-properties-filter {
+  position: relative;
+  display: inline-block;
+}
+
+.schemadotorg-ui-properties-filter input.schemadotorg-ui-properties-filter-reset {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1em;
+  border: none;
+  background-color: transparent;
+  line-height: 1;
+}
+
+.schemadotorg-ui-properties-filter.form-item input.schemadotorg-ui-properties-filter-text {
+  padding-right: 2em;
+}
+
 .schemadotorg-ui-properties-filter.form-item {
   margin-top: 0;
   margin-bottom: 1rem;
   float: left;
 }
+
 .schemadotorg-ui-properties-filter-matches tbody > tr {
   display: none !important;
 }
