@@ -292,15 +292,45 @@ names:
     gtin: GTIN
     rxcui: RxCUI
   custom_labels:
-    affiliation: Affiliations
-    attendee: Attendees
-    audience: Audiences
-    award: Awards
-    contactPoint: 'Contact points'
     familyName: 'Last name'
     givenName: 'First name'
+    additionalName: 'Middle name'
+    actor: Actors
+    affiliation: Affiliations
+    amenityFeature: 'Amenity features'
+    applicationSubCategory: 'Application sub-categories'
+    artMedium: 'Art mediums'
+    artform: Artforms
+    artist: Artists
+    attendee: Attendees
+    audience: Audiences
+    availableService: 'Available services'
+    award: Awards
+    bccRecipient: 'BCC recipients'
+    blogPost: 'Blog posts'
+    category: Categories
+    contactPoint: 'Contact points'
+    colleague: Colleagues
+    episode: Episodes
+    gamePlatform: 'Game platforms'
     knowsLanguage: 'Knows languages'
-    performer: Performer
+    medicalSpecialty: 'Medical specialties'
+    performer: Performers
+    occupationalCategory: 'Occupational categories'
+    organizer: Organizers
+    possibleComplication: 'Possible complications'
+    possibleTreatment: 'Possible treatments'
+    primaryPrevention: 'Primary preventions'
+    relatedLink: 'Related links'
+    recipeCategory: 'Recipe categories'
+    recipeCuisine: 'Recipe cuisines'
+    relevantSpecialty: 'Relevant specialties'
+    recipeIngredient: 'Recipe ingredients'
+    riskFactor: 'Risk factors'
+    signOrSymptom: 'Sign or symptoms'
+    significantLink: 'Significant links'
+    sponsor: Sponsors
+    suitableForDiet: 'Suitable for diets'
   acronyms:
     - cvd
     - id
