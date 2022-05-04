@@ -31,20 +31,7 @@ Research
 - https://www.wikidata.org/wiki/Wikidata:Introduction
 - https://iptc.org/
 
-JSON:API
-- Automatically include all relationships
-  - Generate the example URL
-  - Provide a help ?schemadotorg_jsonapi_relationships=1
-- Is there any way to alter the json api response for any entity?
-  https://www.drupal.org/project/jsonapi/issues/2840935
-- How to alter JSON responses with Drupal 8's JSON:API and REST Web Service?
-  ttps://medium.com/@chris.geelhoed/how-to-alter-json-responses-with-drupal-8s-json-api-and-rest-web-service-7671f9c16658
-
 # Ideas
-
-- Schema.org Blueprints Export
-  - Generate a CSV containing mapping types.
-  - Allows content architects to review and revise configuration.
 
 - Automatically generate corresponding View for Schema.org mapping (node and media)
   - Huge amount of work to understand the Views entity and APIs.
@@ -94,7 +81,3 @@ JSON:API
     - taxonomy:Thing node:Thing paragraph:Thing
   - Search for conflicting resource type by searching from properties.
 
-- Should unlimited field labels be pluralized?
-  - Contact points
-  - Attendees
-  - etc...

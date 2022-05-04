@@ -17,10 +17,11 @@ recommended_schema_types:
       - 3DModel
       - Photograph
 default_base_fields:
-  uuid: { }
+  path: { }
   revision_created: { }
   revision_user: { }
   uid: { }
+  uuid: { }
   name:
     - name
   thumbnail:
@@ -29,7 +30,6 @@ default_base_fields:
     - dateCreated
   changed:
     - dateModified
-  path: { }
   field_media_audio_file:
     - contentUrl
   field_media_document:

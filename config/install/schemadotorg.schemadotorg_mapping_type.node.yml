@@ -142,19 +142,19 @@ default_base_fields:
   uuid: { }
   revision_uid: { }
   uid: { }
+  promote: { }
+  sticky: { }
+  path: { }
   title:
     - name
     - headline
+  body:
+    - description
+    - articleBody
   created:
     - dateCreated
   changed:
     - dateModified
-  promote: { }
-  sticky: { }
-  path: { }
-  body:
-    - description
-    - articleBody
 default_schema_types:
   article: Article
   page: WebPage
@@ -345,6 +345,12 @@ default_schema_type_properties:
     - image
     - name
     - telephone
+  EducationalOrganization:
+    - alumni
+    - founder
+    - member
+    - memberOf
+    - nonprofitStatus
   FoodEstablishment:
     - acceptsReservations
     - servesCuisine
@@ -376,8 +382,16 @@ default_schema_type_properties:
     - email
     - faxNumber
     - telephone
+  Project:
+    - founder
+    - member
+    - memberOf
   SportsOrganization:
     - sport
+  ResearchOrganization:
+    - founder
+    - member
+    - memberOf
   Person:
     - additionalName
     - address

@@ -147,19 +147,10 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
         $field_name,
         $target_type
       );
-      $relationships[$field_name] = [
-        'property' => ['#markup' => $property],
-        'relationship' => ['#markup' => ' → '],
-        'schema_types' => [
-          '#markup' => ($target_schema_types)
-          ? implode(', ', $target_schema_types)
-          : $this->t('Missing'),
-        ],
-        '#prefix' => $relationships ? '<br/>' : '',
-      ];
+      $relationships[$property] = $target_schema_types;
     }
 
-    return ['data' => $relationships, 'nowrap' => TRUE];
+    return $this->buildSourceDestinationMapping($relationships);
   }
 
   /**

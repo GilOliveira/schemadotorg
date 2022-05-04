@@ -81,7 +81,7 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
       $row['recommended_schema_types'] = implode(', ', $recommended_schema_type_labels);
 
       // Default schema types.
-      $row['default_schema_types'] = implode(', ', $entity->get('default_schema_types'));
+      $row['default_schema_types'] = $this->buildSourceDestinationMapping($entity->get('default_schema_types'));
 
       // Default schema properties.
       $keys = array_keys($entity->get('default_schema_type_properties'));
@@ -91,16 +91,7 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
       $row['default_schema_type_subtypes'] = implode(', ', $entity->get('default_schema_type_subtypes'));
 
       // Default base fields mapping.
-      $default_base_fields = $entity->get('default_base_fields');
-      $properties = [];
-      foreach ($default_base_fields as $default_base_field_properties) {
-        if ($default_base_field_properties) {
-          $default_base_field_properties = array_filter($default_base_field_properties);
-          $properties += array_combine($default_base_field_properties, $default_base_field_properties);
-        }
-      }
-      ksort($properties);
-      $row['default_base_fields'] = implode(', ', $properties);
+      $row['default_base_fields'] = $this->buildSourceDestinationMapping($entity->get('default_base_fields'));
 
       // Default field weights.
       $row['default_field_weights'] = implode(', ', $entity->get('default_field_weights'));

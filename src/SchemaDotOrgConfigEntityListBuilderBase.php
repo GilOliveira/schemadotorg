@@ -74,4 +74,31 @@ abstract class SchemaDotOrgConfigEntityListBuilderBase extends ConfigEntityListB
     return (boolean) $this->request->query->get('details') ?? 0;
   }
 
+  /**
+   * Build a source to destination mapping.
+   *
+   * @param array $items
+   *   An associative array with the source as the key and destination
+   *   as the value.
+   *
+   * @return array
+   *   A renderable array containing a source to destination mapping.
+   */
+  protected function buildSourceDestinationMapping(array $items) {
+    $build = [];
+    foreach ($items as $source => $destination) {
+      $build[] = [
+        'source' => ['#markup' => $source],
+        'relationship' => ['#markup' => ($destination) ? ' → ' : ''],
+        'destination' => [
+          '#markup' => ($destination)
+          ? (is_array($destination) ? implode(', ', $destination) : $destination)
+          : '',
+        ],
+        '#prefix' => $build ? '<br/>' : '',
+      ];
+    }
+    return ['data' => $build, 'nowrap' => TRUE];
+  }
+
 }
