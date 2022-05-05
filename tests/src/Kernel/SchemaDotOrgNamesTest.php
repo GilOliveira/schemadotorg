@@ -29,6 +29,39 @@ class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
   }
 
   /**
+   * Tests SchemaDotOrgReportBreadcrumbBuilder::snakeCaseToCamelCase().
+   *
+   * @covers ::snakeCasetoCamelCase
+   */
+  public function testSnakeCaseToCamelCase() {
+    $tests = [
+      ['one', 'one'],
+      ['one_two', 'oneTwo'],
+      ['one_two_three', 'oneTwoThree'],
+    ];
+    foreach ($tests as $test) {
+      $this->assertEquals($test[1], $this->names->snakeCaseToCamelCase($test[0]));
+    }
+  }
+
+  /**
+   * Tests SchemaDotOrgReportBreadcrumbBuilder::snakeCaseToUpperCamelCase().
+   *
+   * @covers ::snakeCasetoCamelCase
+   */
+  public function testSnakeCaseToUpperCamelCase() {
+    $tests = [
+      ['one', 'One'],
+      ['one', 'One'],
+      ['one_two', 'OneTwo'],
+      ['one_two_three', 'OneTwoThree'],
+    ];
+    foreach ($tests as $test) {
+      $this->assertEquals($test[1], $this->names->snakeCaseToUpperCamelCase($test[0]));
+    }
+  }
+
+  /**
    * Tests SchemaDotOrgReportBreadcrumbBuilder::camelCaseToSnakeCase().
    *
    * @covers ::camelCaseToSnakeCase

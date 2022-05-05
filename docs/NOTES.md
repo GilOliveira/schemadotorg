@@ -71,10 +71,3 @@ Research
   - Require them to manually alter there API types and paths
 
 - Should Schema.org JSON:API resources path and type be lowercase?
-
-- How do we handle JSON:API resources paths?
-  - Known conflicts
-    - node:Person user:Person
-    - taxonomy:Thing node:Thing paragraph:Thing
-  - Search for conflicting resource type by searching from properties.
-

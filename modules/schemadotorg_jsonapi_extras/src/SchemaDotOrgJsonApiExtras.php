@@ -13,6 +13,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\field\FieldConfigInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 
 /**
  * Schema.org JSON:API extras service.
@@ -49,6 +50,13 @@ class SchemaDotOrgJsonApiExtras implements SchemaDotOrgJsonApiExtrasInterface {
   protected $fieldManager;
 
   /**
+   * The Schema.org names service.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
+   */
+  protected $schemaNames;
+
+  /**
    * Constructs a SchemaDotOrgJsonApiExtras object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -59,12 +67,21 @@ class SchemaDotOrgJsonApiExtras implements SchemaDotOrgJsonApiExtrasInterface {
    *   The entity type manager.
    * @param \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager
    *   The entity field manager.
+   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
+   *   The Schema.org names service.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, RedirectDestinationInterface $redirect_destination, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $field_manager) {
+  public function __construct(
+    ConfigFactoryInterface $config_factory,
+    RedirectDestinationInterface $redirect_destination,
+    EntityTypeManagerInterface $entity_type_manager,
+    EntityFieldManagerInterface $field_manager,
+    SchemaDotOrgNamesInterface $schema_names
+  ) {
     $this->configFactory = $config_factory;
     $this->redirectDestination = $redirect_destination;
     $this->entityTypeManager = $entity_type_manager;
     $this->fieldManager = $field_manager;
+    $this->schemaNames = $schema_names;
   }
 
   /**
@@ -80,13 +97,15 @@ class SchemaDotOrgJsonApiExtras implements SchemaDotOrgJsonApiExtrasInterface {
       return [];
     }
 
+
+    $requirements = [];
+
+    // Resources disabled by default.
     $default_disabled = $this->configFactory
       ->get('jsonapi_extras.settings')
       ->get('default_disabled');
-
-    $requirements = [];
     if ($default_disabled) {
-      $requirements['schemadotorg_jsonapi_extras'] = [
+      $requirements['schemadotorg_jsonapi_extras_default_disabled'] = [
         'title' => $this->t('Schema.org Blueprints JSON:API Extras'),
         'value' => $this->t('Resources disabled by default'),
         'severity' => REQUIREMENT_OK,
@@ -97,7 +116,7 @@ class SchemaDotOrgJsonApiExtras implements SchemaDotOrgJsonApiExtrasInterface {
       $jsonapi_href = Url::fromRoute('jsonapi_extras.settings', [], $options)->toString();
       $schemadotorg_href = Url::fromRoute('schemadotorg_jsonapi_extras.settings', [], $options)->toString();
 
-      $requirements['schemadotorg_jsonapi_extras'] = [
+      $requirements['schemadotorg_jsonapi_extras_default_disabled'] = [
         'title' => $this->t('Schema.org Blueprints JSON:API Extras'),
         'value' => $this->t('Resources enabled by default'),
         'description' => [
@@ -108,6 +127,36 @@ class SchemaDotOrgJsonApiExtras implements SchemaDotOrgJsonApiExtrasInterface {
         'severity' => REQUIREMENT_WARNING,
       ];
     }
+
+    // Required resources disabled.
+    $resources = [
+      'file--file' => $this->entityTypeManager->getStorage('file')->getEntityType()->getLabel(),
+    ];
+    $missing = [];
+    foreach ($resources as $resource_id => $label) {
+      if (!$this->getResourceConfigStorage()->load($resource_id)) {
+        $t_args = ['@label' => $label, '@id' => $resource_id];
+        $missing[] = $this->t('@label (@id)', $t_args);
+      }
+    }
+    if ($missing) {
+      $t_args = [
+        ':href' => Url::fromRoute('entity.jsonapi_resource_config.collection')->toString(),
+      ];
+      $requirements['schemadotorg_jsonapi_extras_resource_disabled'] = [
+        'title' => $this->t('Schema.org Blueprints JSON:API Extras'),
+        'value' => $this->t('Required resources disabled'),
+        'description' => [
+          '#markup' => $this->t('It is recommended that the below <a href=":href">JSON:API resources</a> be enabled', $t_args),
+          'resources' => [
+            '#theme' => 'item_list',
+            '#items' => $missing,
+          ],
+        ],
+        'severity' => REQUIREMENT_WARNING,
+      ];
+    }
+
     return $requirements;
   }
 
@@ -172,8 +221,8 @@ class SchemaDotOrgJsonApiExtras implements SchemaDotOrgJsonApiExtrasInterface {
     $this->getResourceConfigStorage()->create([
       'id' => $resource_id,
       'disabled' => FALSE,
-      'path' => $type . 's',
-      'resourceType' => $type . 's',
+      'path' => $type,
+      'resourceType' => $type,
       'resourceFields' => $resource_fields,
     ])->save();
   }
@@ -211,14 +260,66 @@ class SchemaDotOrgJsonApiExtras implements SchemaDotOrgJsonApiExtrasInterface {
       }
     }
 
+    $name = $this->getResourceConfigPath($mapping);
     ksort($resource_fields);
     $this->getResourceConfigStorage()->create([
       'id' => $this->getResourceId($mapping),
       'disabled' => FALSE,
-      'path' => $mapping->getSchemaType(),
-      'resourceType' => $mapping->getSchemaType(),
+      'path' => $name,
+      'resourceType' => $name,
       'resourceFields' => $resource_fields,
     ])->save();
+  }
+
+  /**
+   * Get JSON:API resource config path.
+   *
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
+   *   A Schema.org mapping.
+   *
+   * @return string
+   *   JSON:API resource config path.
+   */
+  protected function getResourceConfigPath(SchemaDotOrgMappingInterface $mapping) {
+    if ($mapping->isTargetEntityTypeBundle()) {
+      // Use the bundle machine name which could be more specific
+      // (i.e. contact_point_phone => ContactPointPhone).
+      $bundle = $this->schemaNames->snakeCaseToUpperCamelCase($mapping->getTargetBundle());
+      if (!$this->isExistingResourceConfigPath($bundle)) {
+        return $bundle;
+      }
+
+      // Use the entity type label as the prefix.
+      // (i.e. NodePerson, BlockContentContactPoint, UserPerson, etc...).
+      $entity_type_id = $this->schemaNames->snakeCaseToUpperCamelCase($mapping->getTargetEntityTypeId());
+      return $entity_type_id . $bundle;
+    }
+    else {
+      // Use the Schema.org type.
+      // (i.e. Person).
+      $schema_type = $mapping->getSchemaType();
+      if (!$this->isExistingResourceConfigPath($schema_type)) {
+        return $schema_type;
+      }
+
+      // Use the entity type label as the prefix.
+      // (i.e. NodePerson, BlockContentContactPointPhone, UserPerson, etc...).
+      $entity_type_id = $this->schemaNames->snakeCaseToUpperCamelCase($mapping->getTargetEntityTypeId());
+      return $entity_type_id . $schema_type;
+    }
+  }
+
+  /**
+   * Determine if a JSON:API resource config path exists.
+   *
+   * @param string $path
+   *   A JSON:API resource config path.
+   *
+   * @return bool
+   *   TRUE if a JSON:API resource config path exists.
+   */
+  protected function isExistingResourceConfigPath($path) {
+    return (boolean) $this->getResourceConfigStorage()->loadByProperties(['path' => $path]);
   }
 
   /**

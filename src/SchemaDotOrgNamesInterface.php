@@ -54,6 +54,28 @@ interface SchemaDotOrgNamesInterface {
   public function getNameMaxLength($table);
 
   /**
+   * Convert snake case (snake_case) to upper camel case (CamelCase).
+   *
+   * @param string $string
+   *   A snake case string.
+   *
+   * @return string
+   *   The snake case (snake_case) to upper camel case (CamelCase).
+   */
+  public function snakeCaseToUpperCamelCase($string);
+
+  /**
+   * Convert snake case (snake_case) to camel case (CamelCase).
+   *
+   * @param string $string
+   *   A snake case string.
+   *
+   * @return string
+   *   The snake case (snake_case) to camel case (CamelCase).
+   */
+  public function snakeCaseToCamelCase($string);
+
+  /**
    * Convert camel case (camelCase) to snake case (snake_case).
    *
    * @param string $string
