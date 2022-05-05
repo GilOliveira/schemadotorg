@@ -57,6 +57,18 @@ Research
 
 # TBD
 
+What Schema.org types should we document?
+- Recipe
+- Restaurant
+- Logging business: Hotel
+- Person
+- LocalBusiness
+- Physician
+- Movie
+- Blogpost
+- CreativeWork: FAQ
+- HowTo
+
 - How do we handle sub-values (i.e. body.summary)?
   - Token field?
 

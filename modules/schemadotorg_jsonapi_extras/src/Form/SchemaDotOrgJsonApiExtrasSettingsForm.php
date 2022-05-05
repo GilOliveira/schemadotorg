@@ -40,6 +40,17 @@ class SchemaDotOrgJsonApiExtrasSettingsForm extends ConfigFormBase {
       '#default_value' => $this->listString($config->get('default_enabled_fields')),
       '#element_validate' => ['::validateList'],
     ];
+    $form['path_prefixes'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Resource path prefixes'),
+      '#description' => $this->t('Enter path prefixes to prepended to a Schema.org JSON:API resource when there is a conflicting resource path.')
+      . ' '
+      . $this->t('For example, adding Person Schema.org type a node and user would create a conflict, that will be resolved by prepending Person with a path prefix (i.e. ContentPerson or UserPerson).')
+      . '<br/><br/>'
+      . $this->t('Enter one value per line, in the <code>entity_type|prefix</code>.'),
+      '#default_value' => $this->keyValuesString($config->get('path_prefixes')),
+      '#element_validate' => ['::validateKeyValues'],
+    ];
     $form['disable_requirements'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Disable Schema.org JSON:API requirements checking'),

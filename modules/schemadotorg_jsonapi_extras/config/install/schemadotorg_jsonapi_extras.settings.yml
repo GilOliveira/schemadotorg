@@ -1,4 +1,9 @@
 default_enabled_fields:
   - langcode
   - status
+path_prefixes:
+  node: Content
+  paragraph: Paragraph
+  user: User
+  media: Media
 disable_requirements: false

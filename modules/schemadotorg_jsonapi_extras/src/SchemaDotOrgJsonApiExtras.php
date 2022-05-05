@@ -97,7 +97,6 @@ class SchemaDotOrgJsonApiExtras implements SchemaDotOrgJsonApiExtrasInterface {
       return [];
     }
 
-
     $requirements = [];
 
     // Resources disabled by default.
@@ -281,31 +280,31 @@ class SchemaDotOrgJsonApiExtras implements SchemaDotOrgJsonApiExtrasInterface {
    *   JSON:API resource config path.
    */
   protected function getResourceConfigPath(SchemaDotOrgMappingInterface $mapping) {
+    // Get the entity type's resource path prefix used to prevent conflicts.
+    // (i.e. ContentPerson, BlockContactPoint, UserPerson, etc...).
+    $path_prefixes = $this->configFactory
+      ->get('schemadotorg_jsonapi_extras.settings')
+      ->get('path_prefixes');
+    $entity_type_id = $mapping->getTargetEntityTypeId();
+    $path_prefix = (isset($path_prefixes[$entity_type_id]))
+      ? $path_prefixes[$entity_type_id]
+      : $this->schemaNames->snakeCaseToUpperCamelCase($entity_type_id);
+
     if ($mapping->isTargetEntityTypeBundle()) {
       // Use the bundle machine name which could be more specific
       // (i.e. contact_point_phone => ContactPointPhone).
       $bundle = $this->schemaNames->snakeCaseToUpperCamelCase($mapping->getTargetBundle());
-      if (!$this->isExistingResourceConfigPath($bundle)) {
-        return $bundle;
-      }
-
-      // Use the entity type label as the prefix.
-      // (i.e. NodePerson, BlockContentContactPoint, UserPerson, etc...).
-      $entity_type_id = $this->schemaNames->snakeCaseToUpperCamelCase($mapping->getTargetEntityTypeId());
-      return $entity_type_id . $bundle;
+      return ($this->isExistingResourceConfigPath($bundle))
+        ? $path_prefix . $bundle
+        : $bundle;
     }
     else {
       // Use the Schema.org type.
       // (i.e. Person).
       $schema_type = $mapping->getSchemaType();
-      if (!$this->isExistingResourceConfigPath($schema_type)) {
-        return $schema_type;
-      }
-
-      // Use the entity type label as the prefix.
-      // (i.e. NodePerson, BlockContentContactPointPhone, UserPerson, etc...).
-      $entity_type_id = $this->schemaNames->snakeCaseToUpperCamelCase($mapping->getTargetEntityTypeId());
-      return $entity_type_id . $schema_type;
+      return ($this->isExistingResourceConfigPath($schema_type))
+        ? $path_prefix . $schema_type
+        : $schema_type;
     }
   }
 
