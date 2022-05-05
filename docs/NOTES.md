@@ -57,9 +57,6 @@ Research
 
 # TBD
 
-- Should you be able to map the same field to multiple properties?
-  - body => description and disambiguatingDescription
-
 - How do we handle sub-values (i.e. body.summary)?
   - Token field?
 

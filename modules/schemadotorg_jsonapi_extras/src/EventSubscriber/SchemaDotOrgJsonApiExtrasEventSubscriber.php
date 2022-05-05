@@ -160,19 +160,20 @@ class SchemaDotOrgJsonApiExtrasEventSubscriber extends ServiceProviderBase imple
       ->getStorage('schemadotorg_mapping')
       ->load("$entity_type_id.$bundle");
 
-    $field_definitions = $this->fieldManager->getFieldDefinitions($entity_type_id, $bundle);
-    $field_names = array_keys($mapping->getAllSchemaProperties());
-
     $includes = [];
+
+    $relationships = $resource_type->getRelatableResourceTypes();
+    $field_names = array_keys($mapping->getAllSchemaProperties());
     foreach ($field_names as $field_name) {
-      if (isset($field_definitions[$field_name])
-        && in_array($field_definitions[$field_name]->getType(), ['entity_reference', 'entity_reference_revisions'])) {
-        $field = $resource_type->getFieldByInternalName($field_name);
-        if ($field) {
-          $includes[] = $field->getPublicName();
+      $field = $resource_type->getFieldByInternalName($field_name);
+      if ($field) {
+        $public_name = $field->getPublicName();
+        if (isset($relationships[$public_name])) {
+          $includes[] = $public_name;
         }
       }
     }
+
     return $includes;
   }
 
