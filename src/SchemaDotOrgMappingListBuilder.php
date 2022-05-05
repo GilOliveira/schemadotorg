@@ -34,11 +34,11 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
 
     $header['entity_type'] = [
       'data' => $this->t('Type'),
+      'class' => [RESPONSIVE_PRIORITY_LOW],
       'width' => '10%',
     ];
     $header['bundle_label'] = [
       'data' => $this->t('Name'),
-      'class' => [RESPONSIVE_PRIORITY_LOW],
       'width' => '40%',
     ];
     $header['schema_type'] = [
@@ -96,7 +96,7 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
 
     $details_toggle = $this->getDetailsToggle();
     if ($details_toggle) {
-      $row['schema_properties'] = implode(', ', $entity->getSchemaProperties());
+      $row['schema_properties'] = $this->buildItems($entity->getSchemaProperties());
 
       $row['schema_relationships'] = $this->buildSchemaRelationships($entity);
     }
@@ -150,7 +150,7 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
       $relationships[$property] = $target_schema_types;
     }
 
-    return $this->buildSourceDestinationMapping($relationships);
+    return $this->buildAssociationItems($relationships);
   }
 
   /**

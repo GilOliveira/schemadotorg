@@ -78,23 +78,23 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
       foreach ($recommended_schema_types as $recommended_schema_type) {
         $recommended_schema_type_labels[$recommended_schema_type['label']] = $recommended_schema_type['label'];
       }
-      $row['recommended_schema_types'] = implode(', ', $recommended_schema_type_labels);
+      $row['recommended_schema_types'] = $this->buildItems($recommended_schema_type_labels);
 
       // Default schema types.
-      $row['default_schema_types'] = $this->buildSourceDestinationMapping($entity->get('default_schema_types'));
+      $row['default_schema_types'] = $this->buildAssociationItems($entity->get('default_schema_types'));
 
       // Default schema properties.
       $keys = array_keys($entity->get('default_schema_type_properties'));
-      $row['default_schema_type_properties'] = implode(', ', $keys);
+      $row['default_schema_type_properties'] = $this->buildItems($keys);
 
       // Default subtypes.
-      $row['default_schema_type_subtypes'] = implode(', ', $entity->get('default_schema_type_subtypes'));
+      $row['default_schema_type_subtypes'] = $this->buildItems($entity->get('default_schema_type_subtypes'));
 
       // Default base fields mapping.
-      $row['default_base_fields'] = $this->buildSourceDestinationMapping($entity->get('default_base_fields'));
+      $row['default_base_fields'] = $this->buildAssociationItems($entity->get('default_base_fields'));
 
       // Default field weights.
-      $row['default_field_weights'] = implode(', ', $entity->get('default_field_weights'));
+      $row['default_field_weights'] = $this->buildItems($entity->get('default_field_weights'));
 
       // Default field groups.
       $default_field_groups = $entity->get('default_field_groups');
@@ -102,7 +102,7 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
       foreach ($default_field_groups as $default_field_group) {
         $group_labels[] = $default_field_group['label'];
       }
-      $row['default_field_groups'] = implode(', ', $group_labels);
+      $row['default_field_groups'] = $this->buildItems($group_labels);
     }
 
     return $row + parent::buildRow($entity);

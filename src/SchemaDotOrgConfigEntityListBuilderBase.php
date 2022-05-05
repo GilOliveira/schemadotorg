@@ -31,6 +31,17 @@ abstract class SchemaDotOrgConfigEntityListBuilderBase extends ConfigEntityListB
   /**
    * {@inheritdoc}
    */
+  public function buildHeader() {
+    $row['operations'] = [
+      'data' => $this->t('Operations'),
+      'width' => '1%',
+    ];
+    return $row;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function render() {
     $build = [];
 
@@ -68,6 +79,8 @@ abstract class SchemaDotOrgConfigEntityListBuilderBase extends ConfigEntityListB
 
     $build += parent::render();
 
+    $build['table']['#sticky'] = TRUE;
+
     return $build;
   }
 
@@ -82,30 +95,53 @@ abstract class SchemaDotOrgConfigEntityListBuilderBase extends ConfigEntityListB
   }
 
   /**
-   * Build a source to destination mapping.
+   * Build items.
+   *
+   * @param array $items
+   *   An indexed array.
+   *
+   * @return array
+   *   A renderable array containing itemss.
+   */
+  protected function buildItems(array $items) {
+    return [
+      'data' => [
+        '#markup' => implode('<br/>', $items),
+      ],
+      'nowrap' => TRUE,
+    ];
+  }
+
+  /**
+   * Build a source to destination association.
    *
    * @param array $items
    *   An associative array with the source as the key and destination
    *   as the value.
    *
    * @return array
-   *   A renderable array containing a source to destination mapping.
+   *   A renderable array containing a source to destination association.
    */
-  protected function buildSourceDestinationMapping(array $items) {
-    $build = [];
+  protected function buildAssociationItems(array $items) {
+    $data = [];
     foreach ($items as $source => $destination) {
-      $build[] = [
-        'source' => ['#markup' => $source],
-        'relationship' => ['#markup' => ($destination) ? ' → ' : ''],
-        'destination' => [
-          '#markup' => ($destination)
-          ? (is_array($destination) ? implode(', ', $destination) : $destination)
-          : '',
-        ],
-        '#prefix' => $build ? '<br/>' : '',
-      ];
+      $prefix = $data ? '<br/>' : '';
+      if ($destination) {
+        $data[] = [
+          'source' => ['#markup' => $source],
+          'relationship' => ['#markup' => ' → '],
+          'destination' => ['#markup' => (is_array($destination) ? implode(', ', $destination) : $destination)],
+          '#prefix' => $prefix,
+        ];
+      }
+      else {
+        $data[] = [
+          '#markup' => $source,
+          '#prefix' => $prefix,
+        ];
+      }
     }
-    return ['data' => $build, 'nowrap' => TRUE];
+    return ['data' => $data, 'nowrap' => TRUE];
   }
 
 }
