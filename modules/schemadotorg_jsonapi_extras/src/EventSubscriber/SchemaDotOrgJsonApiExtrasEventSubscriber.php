@@ -9,9 +9,6 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\jsonapi\ResourceType\ResourceType;
 use Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository;
-use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
-use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
-use Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -187,7 +184,7 @@ class SchemaDotOrgJsonApiExtrasEventSubscriber extends ServiceProviderBase imple
    * @param string $new_key
    *   The key to insert.
    * @param mixed $new_value
-   *   An value to insert.
+   *   A value to insert.
    */
   protected function insertAfter(array &$array, $target_key, $new_key, $new_value) {
     $new = [];
