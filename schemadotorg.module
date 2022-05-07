@@ -62,6 +62,16 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
       ];
       $videos = [
         [
+          'title' => t('Schema.org Blueprints - Short Overview'),
+          'content' => t('This short presentation explains the what and why behind the Schema.org Blueprints module and shows how to use it to build a Schema.org Event content type in Drupal.'),
+          'youtube_id' => 'XkZP6QjJkWs',
+        ],
+        [
+        'title' => t('Schema.org Blueprints - Full Demo'),
+        'content' => t('This extended presentation walks through the background, configuration, and future of the Schema.org Blueprints module. It provides an in-depth demo of building an entire website architecture that leverages Schema.org type, properties, and enumerations in 5 minutes.'),
+        'youtube_id' => '_kk97O1SEw0',
+        ],
+        [
           'title' => t('Schema.org - What, How, Why?'),
           'content' => t("This presentation explains why search engines now want metadata, how it works, and what you need to know as a dev (as seen in the context of Yandex, Russia's most used search engine, and schema.org)."),
           'youtube_id' => 'hcahQfN5u9Y',
@@ -102,7 +112,7 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
               '#type' => 'link',
               '#url' => $video_url,
               '#title' => t('▶ Watch video'),
-              '#attributes' => ['class' => ['button', 'button--small']],
+              '#attributes' => ['class' => ['button', 'button--small', 'button--extrasmall']],
             ],
           ],
         ];
