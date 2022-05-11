@@ -69,6 +69,10 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     // Login as root user since we are not testing node access.
     $this->drupalLogin($this->rootUser);
 
+    // Check that the description is automatically added to the node types page.
+    $this->drupalGet('/admin/structure/types');
+    $assert_session->responseContains('The most generic type of item.');
+
     // Check that the descriptions is automatically added to the node add page.
     $this->drupalGet('/node/add');
     $assert_session->responseContains('The most generic type of item.');

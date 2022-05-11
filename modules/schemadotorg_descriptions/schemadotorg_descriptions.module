@@ -13,6 +13,40 @@ use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm;
 
 /**
+ * Implements hook_entity_load().
+ */
+function schemadotorg_descriptions_entity_load(array $entities, $entity_type_id) {
+  // Only alter description on the entity type collection page.
+  if (\Drupal::routeMatch()->getRouteName() !== "entity.$entity_type_id.collection") {
+    return;
+  }
+
+  /** @var \Drupal\Core\Config\Entity\ConfigEntityType $entity_type_definition */
+  $entity_type_definition = \Drupal::entityTypeManager()->getDefinition($entity_type_id);
+  $target_entity_type_id = $entity_type_definition->getBundleOf();
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+
+  /** @var \Drupal\Core\Entity\EntityInterface[] $entities */
+  foreach ($entities as $entity) {
+    // Only set description if it is empty.
+    if (!empty($entity->get('description'))) {
+      continue;
+    }
+
+    $target_bundle = $entity->id();
+    $mapping = SchemaDotOrgMapping::load("$target_entity_type_id.$target_bundle");
+    if ($mapping) {
+      $type = $schema_type_manager->getType($mapping->getSchemaType());
+      if ($type) {
+        $entity->set('description', $type['comment']);
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_form_BASE_FORM_ID_alter().
  */
 function schemadotorg_descriptions_form_schemadotorg_mapping_form_alter(&$form, FormStateInterface $form_state, $form_id) {
