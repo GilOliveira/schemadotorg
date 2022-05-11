@@ -50,6 +50,7 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
 
     case 'help.page.schemadotorg':
       $build = [];
+      // Intro.
       $t_args = [
         ':schemadotorga_href' => 'https://www.drupal.org/project/schemadotorg',
         ':about_href' => 'https://schema.org',
@@ -60,6 +61,7 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
         '<p>' . t('The best way to get started with using the <a href=":schemadotorga_href">Schema.org Blueprints</a> module is to read about <a href=":about_href">Schema.org</a> and browse the available <a href=":schemas_href">schemas</a>.', $t_args) . '<p>' .
         '<p>' . t('Once you have a fundamental understanding of Schema.org, please watch a short overview or full demo of the Schema.org Blueprints module.') . '<p>',
       ];
+      // Videos.
       $videos = [
         [
           'title' => t('Schema.org Blueprints - Short Overview'),
@@ -67,9 +69,14 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
           'youtube_id' => 'XkZP6QjJkWs',
         ],
         [
-        'title' => t('Schema.org Blueprints - Full Demo'),
-        'content' => t('This extended presentation walks through the background, configuration, and future of the Schema.org Blueprints module. It provides an in-depth demo of building an entire website architecture that leverages Schema.org type, properties, and enumerations in 5 minutes.'),
-        'youtube_id' => '_kk97O1SEw0',
+          'title' => t('Schema.org Blueprints - Full Demo'),
+          'content' => t('This extended presentation walks through the background, configuration, and future of the Schema.org Blueprints module. It provides an in-depth demo of building an entire website architecture that leverages Schema.org type, properties, and enumerations in 5 minutes.'),
+          'youtube_id' => '_kk97O1SEw0',
+        ],
+        [
+          'title' => t('What is the Drupal Schema.org Blueprints Module?'),
+          'content' => t('A box-opening of the new schema.org blueprints module by the wonderful Jacob Rockowitz!'),
+          'youtube_id' => 'mG7Ic91SOq4',
         ],
         [
           'title' => t('Schema.org - What, How, Why?'),
@@ -77,7 +84,6 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
           'youtube_id' => 'hcahQfN5u9Y',
         ],
       ];
-
       $rows = [];
       foreach ($videos as $video) {
         $video_url = Url::fromUri('https://youtu.be/' . $video['youtube_id']);
@@ -119,7 +125,7 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
         $rows[] = ['data' => $row, 'no_striping' => TRUE];
       }
 
-      $build['table'] = [
+      $build['videos'] = [
         '#theme' => 'table',
         '#header' => [
           'thumbnail' => [

@@ -33,6 +33,18 @@ Research
 
 # Ideas
 
+- Schema.org Blueprint Configuration module
+  - Established the best practice of collecting configuration settings in a
+    field type
+  - Configuration field type is automatically included via APIs.
+  - Configuration field data is simple key/values.
+  - Configuration field data is not displayed on the page.
+  - Add Configuration details to the entity edit form
+  - Create a Schema.org type specific flexfield.
+  - Label 'Custom configuration'
+  - Can be preconfigured and altered as needed.
+
+
 - Automatically generate corresponding View for Schema.org mapping (node and media)
   - Huge amount of work to understand the Views entity and APIs.
   - Each Schema.org type could be automatically added below the 'Content' item.
@@ -46,6 +58,17 @@ Research
     - Keywords
     - startDate
     - endDate
+
+- Schema.org Blueprint Speakable module
+  - https://schema.org/speakable
+  - Unlimited text field which can be filled with CSS selectors
+  - Adds 'Set speakable context link' to page.
+  - Selector can be set via sidebar that highlights and tracks what is being
+    clicked.
+  - Algorithm determines the unique selector.
+  - Sidebar has a Save button
+  - JS blocks all click events
+  - Speakable preview would pull the CSS selector text into a report/table
 
 # Test coverage
 
