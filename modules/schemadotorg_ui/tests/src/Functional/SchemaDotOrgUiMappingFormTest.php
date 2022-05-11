@@ -178,7 +178,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     // Create 'Person' user mapping.
     $this->drupalGet('/admin/config/people/accounts/schemedotorg');
     $this->submitForm([], 'Save');
-    $assert_session->responseContains('Added <em class="placeholder">Additional name; Address; Affiliations; Alumni of; Awards; Birth date; Contact points; Description; Last name; Gender; First name; Honorific prefix; Honorific suffix; Job title; Knows languages; Nationality; Telephone; Works for</em>');
+    $assert_session->responseContains('Added <em class="placeholder">Middle name; Address; Affiliations; Alumni of; Awards; Birth date; Contact points; Description; Last name; Gender; First name; Honorific prefix; Honorific suffix; Job title; Knows languages; Nationality; Telephone; Works for</em>');
 
     $assert_session->responseContains('Created <em class="placeholder">User</em> mapping.');
 
