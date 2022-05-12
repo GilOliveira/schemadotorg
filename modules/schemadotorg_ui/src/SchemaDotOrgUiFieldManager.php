@@ -325,6 +325,7 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     if (empty($field_types)) {
       foreach ($range_includes as $range_include) {
         if ($this->schemaTypeManager->isEnumerationType($range_include)) {
+          $field_types['list_string'] = 'list_string';
           $field_types['field_ui:entity_reference:taxonomy_term'] = 'field_ui:entity_reference:taxonomy_term';
           return $field_types;
         }

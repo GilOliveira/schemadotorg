@@ -765,11 +765,28 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         $property_definition = $this->schemaTypeManager->getProperty($property);
         $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
         foreach ($range_includes as $range_include) {
+          // Set allowed values function if it exists.
+          // @see schemadotorg.allowed_values.inc
+          // @see schemadotorg_allowed_values_country()
+          // @see schemadotorg_allowed_values_language()
           $allowed_values_function = 'schemadotorg_allowed_values_' . strtolower($range_include);
           if (function_exists($allowed_values_function)) {
             $field_storage_values['settings'] = [
               'allowed_values' => [],
               'allowed_values_function' => $allowed_values_function,
+            ];
+            break;
+          }
+
+          // Copy enumeration values into allowed values.
+          if ($this->schemaTypeManager->isEnumerationType($range_include)) {
+            $enumerations = $this->schemaTypeManager->getEnumerations($range_include);
+            array_walk($enumerations, function (&$value) {
+              $value = $this->schemaNames->camelCaseToTitleCase($value);
+            });
+            $field_storage_values['settings'] = [
+              'allowed_values' => $enumerations,
+              'allowed_values_function' => '',
             ];
             break;
           }

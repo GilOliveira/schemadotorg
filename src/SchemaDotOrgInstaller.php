@@ -356,6 +356,11 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
         $this->typeVocabularies
       );
 
+      // Remove 'Enumeration' as the root term since it is not needed.
+      if ($type_vocabulary === 'Enumeration') {
+        unset($types['Enumeration']);
+      }
+
       // First pass: Insert new Schema.org types.
       foreach ($types as $type => $item) {
         if (!isset($terms_lookup[$type])) {

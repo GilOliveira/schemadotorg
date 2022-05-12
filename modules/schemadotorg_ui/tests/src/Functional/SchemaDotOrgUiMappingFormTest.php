@@ -220,16 +220,10 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
         'target_type' => 'paragraph',
       ],
       'schema_gender' => [
-        'handler' => 'schemadotorg_enumeration',
-        'handler_settings' => [
-          'target_type' => 'taxonomy_term',
-          'schemadotorg_mapping' => [
-            'entity_type' => 'user',
-            'bundle' => 'user',
-            'field_name' => 'schema_gender',
-          ],
+        'allowed_values' => [
+          'Female' => 'Female',
+          'Male' => 'Male',
         ],
-        'target_type' => 'taxonomy_term',
       ],
       'schema_knows_language' => [
         'allowed_values_function' => 'schemadotorg_allowed_values_language',
