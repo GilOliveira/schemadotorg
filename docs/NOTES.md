@@ -6,9 +6,7 @@ Schema.org Blueprints
 - Explore enhance field storage default values
   - @see schemadotorg_ui_field_ui_preconfigured_options_alter
   - @see https://www.drupal.org/project/drupal/issues/2446511
-
-- Add key/help to mapping create page.
-
+-
 - JSON:API Extras Tests.
   - Add comments to SchemaDotOrgJsonApiExtras.php.
   - SchemaDotOrgJsonApiExtrasTest
@@ -31,12 +29,35 @@ Code
   to support subtype.
 
 Research
-- https://www.drupal.org/project/double_field
+- https://www.drupal.org/project/double_field - Only provides two fields with fixed names
+- https://www.drupal.org/project/field_union
 - https://www.lullabot.com/articles/write-better-code-typed-entity
-- https://www.drupal.org/project/erd
 - https://www.drupal.org/project/yild
 - https://www.wikidata.org/wiki/Wikidata:Introduction
 - https://iptc.org/
+
+# Roadmap
+
+Pre-Alpha (Dev)
+- Fix issue as the come up with or without issues or MRs.
+- Build Schema.org Blueprint JSON-LD module
+
+Alpha
+- Define baseline Schema.org types and properties
+- Establish sub-modules and feature list
+- Ensure baseline test coverage
+
+Beta
+- Find co-maintainers and sponsoring organizations
+- Improve documentation with in-line help
+- Create and document hooks and APIs
+- Determine upgrade path between Schema.org versions
+- Ensure regression test coverage
+
+Stable
+- Add Schema.org types and properties as needed
+- Require tests coverage for all changes
+- Provide additional enhancements via custom code or contrib modules
 
 # Ideas
 
