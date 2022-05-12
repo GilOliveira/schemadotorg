@@ -8,4 +8,3 @@ configure: entity.schemadotorg_mapping.collection
 dependencies:
   - 'drupal:media'
   - 'drupal:taxonomy'
-  - 'paragraphs:paragraphs'
