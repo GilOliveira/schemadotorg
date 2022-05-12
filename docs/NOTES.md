@@ -3,6 +3,8 @@ Schema.org Blueprints
 
 # Todo
 
+- Explore enhance field storage default values
+  - @see schemadotorg_ui_field_ui_preconfigured_options_alter
 - Add key/help to mapping create page.
 
 - JSON:API Extras Tests.
@@ -46,7 +48,6 @@ Research
   - Create a Schema.org type specific flexfield.
   - Label 'Custom configuration'
   - Can be preconfigured and altered as needed.
-
 
 - Automatically generate corresponding View for Schema.org mapping (node and media)
   - Huge amount of work to understand the Views entity and APIs.

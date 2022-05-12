@@ -12,3 +12,21 @@ function schemadotorg_ui_entity_type_build(array &$entity_types) {
   $entity_types['schemadotorg_mapping']->setFormClass('add', '\Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm');
   $entity_types['schemadotorg_mapping']->setFormClass('edit', '\Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm');
 }
+
+/**
+ * Implements hook_field_ui_preconfigured_options_alter().
+ */
+function schemadotorg_ui_field_ui_preconfigured_options_alter(array &$options, $field_type) {
+  if ($field_type === 'entity_reference'
+    && !isset($options['block_content'])
+    && \Drupal::moduleHandler()->moduleExists('block_content')) {
+    $options['block_content'] = [
+      'label' => t('Custom block'),
+      'field_storage_config' => [
+        'settings' => [
+          'target_type' => 'block_content',
+        ],
+      ],
+    ];
+  }
+}
