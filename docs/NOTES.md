@@ -5,6 +5,8 @@ Schema.org Blueprints
 
 - Explore enhance field storage default values
   - @see schemadotorg_ui_field_ui_preconfigured_options_alter
+  - @see https://www.drupal.org/project/drupal/issues/2446511
+
 - Add key/help to mapping create page.
 
 - JSON:API Extras Tests.
