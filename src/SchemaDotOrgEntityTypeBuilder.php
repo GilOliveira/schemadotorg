@@ -594,6 +594,120 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     &$formatter_id,
     array &$formatter_settings
   ) {
+    // See if we can copy existing field instance values from another bundle.
+    $copied_existing_values = $this->copyExistingFieldValues(
+      $field_values,
+      $widget_id,
+      $widget_settings,
+      $formatter_id,
+      $formatter_settings
+    );
+
+    // If we can't copy existing field instance values,
+    // set default field values.
+    if (!$copied_existing_values) {
+      $this->setDefaultFieldValues(
+        $property,
+        $field_storage_values,
+        $field_values,
+        $widget_id,
+        $widget_settings,
+        $formatter_id,
+        $formatter_settings
+      );
+    }
+  }
+
+  /**
+   * Copy existing field, form, and view settings.
+   *
+   * @param array $field_values
+   *   Field config values.
+   * @param string $widget_id
+   *   The plugin ID of the widget.
+   * @param array $widget_settings
+   *   An array of widget settings.
+   * @param string|null $formatter_id
+   *   The plugin ID of the formatter.
+   * @param array $formatter_settings
+   *   An array of formatter settings.
+   */
+  protected function copyExistingFieldValues(
+    array &$field_values,
+    &$widget_id,
+    array &$widget_settings,
+    &$formatter_id,
+    array &$formatter_settings
+  ) {
+    // Get the entity type id and field.
+    $entity_type_id = $field_values['entity_type'];
+    $field_name = $field_values['field_name'];
+
+    // Look for existing field instance and copy field, form, and view settings.
+    /** @var \Drupal\field\FieldConfigStorage $field_config_storage */
+    $field_config_storage = $this->entityTypeManager->getStorage('field_config');
+    $existing_field_configs = $field_config_storage->loadByProperties([
+      'entity_type' => $entity_type_id,
+      'field_name' => $field_name,
+    ]);
+    if (!$existing_field_configs) {
+      return FALSE;
+    }
+
+    /** @var \Drupal\field\FieldConfigInterface $existing_field_config */
+    $existing_field_config = reset($existing_field_configs);
+    $existing_bundle = $existing_field_config->getTargetBundle();
+
+    // Set field settings.
+    // @todo Determine if the settings needs to be massaged. (i.e. set bundle)
+    $field_values['settings'] = $existing_field_config->getSettings();
+
+    // Set widget id and settings from existing form display.
+    $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $existing_bundle);
+    $existing_form_component = $form_display->getComponent($field_name);
+    if ($existing_form_component) {
+      $widget_id = $existing_form_component['type'];
+      $widget_settings = $existing_form_component['settings'];
+    }
+
+    // Set formatter id and settings from existing view display.
+    $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $existing_bundle);
+    $existing_view_component = $view_display->getComponent($field_name);
+    if ($existing_view_component) {
+      $formatter_id = $existing_view_component['type'];
+      $formatter_settings = $existing_view_component['settings'];
+    }
+
+    return TRUE;
+  }
+
+  /**
+   * Default default field, form, and view settings.
+   *
+   * @param string $property
+   *   The Schema.org property.
+   * @param array $field_storage_values
+   *   Field storage config values.
+   * @param array $field_values
+   *   Field config values.
+   * @param string $widget_id
+   *   The plugin ID of the widget.
+   * @param array $widget_settings
+   *   An array of widget settings.
+   * @param string|null $formatter_id
+   *   The plugin ID of the formatter.
+   * @param array $formatter_settings
+   *   An array of formatter settings.
+   */
+  protected function setDefaultFieldValues(
+    $property,
+    array &$field_storage_values,
+    array &$field_values,
+    &$widget_id,
+    array &$widget_settings,
+    &$formatter_id,
+    array &$formatter_settings
+  ) {
     switch ($field_storage_values['type']) {
       case 'entity_reference':
       case 'entity_reference_revisions':

@@ -3,6 +3,8 @@ Schema.org Blueprints
 
 # Todo
 
+- Add key/help to mapping create page.
+
 - JSON:API Extras Tests.
   - Add comments to SchemaDotOrgJsonApiExtras.php.
   - SchemaDotOrgJsonApiExtrasTest
@@ -25,6 +27,7 @@ Code
   to support subtype.
 
 Research
+- https://www.drupal.org/project/double_field
 - https://www.lullabot.com/articles/write-better-code-typed-entity
 - https://www.drupal.org/project/erd
 - https://www.drupal.org/project/yild
