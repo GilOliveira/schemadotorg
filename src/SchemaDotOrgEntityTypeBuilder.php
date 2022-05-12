@@ -621,6 +621,10 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * Copy existing field, form, and view settings.
    *
+   * Issue #2717319: Provide better default configuration when re-using
+   * an existing field.
+   * https://www.drupal.org/project/drupal/issues/2717319
+   *
    * @param array $field_values
    *   Field config values.
    * @param string $widget_id
@@ -658,9 +662,20 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $existing_field_config = reset($existing_field_configs);
     $existing_bundle = $existing_field_config->getTargetBundle();
 
-    // Set field settings.
-    // @todo Determine if the settings needs to be massaged. (i.e. set bundle)
-    $field_values['settings'] = $existing_field_config->getSettings();
+    // Set field properties.
+    $field_property_names = [
+      'required',
+      'default_value',
+      'default_value_callback',
+      'settings',
+    ];
+    foreach ($field_property_names as $field_property_name) {
+      $field_values[$field_property_name] = $existing_field_config->get($field_property_name);
+    }
+    // Only set the description if a custom one is not set.
+    if (empty($field_values['description'])) {
+      $field_values['description'] = $existing_field_config->get('description');
+    }
 
     // Set widget id and settings from existing form display.
     $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $existing_bundle);

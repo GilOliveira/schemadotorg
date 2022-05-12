@@ -3,10 +3,6 @@ Schema.org Blueprints
 
 # Todo
 
-- Explore enhance field storage default values
-  - @see schemadotorg_ui_field_ui_preconfigured_options_alter
-  - @see https://www.drupal.org/project/drupal/issues/2446511
--
 - JSON:API Extras Tests.
   - Add comments to SchemaDotOrgJsonApiExtras.php.
   - SchemaDotOrgJsonApiExtrasTest
