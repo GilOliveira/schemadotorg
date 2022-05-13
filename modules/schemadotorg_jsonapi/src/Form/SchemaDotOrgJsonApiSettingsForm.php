@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\schemadotorg_jsonapi_extras\Form;
+namespace Drupal\schemadotorg_jsonapi\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -9,28 +9,28 @@ use Drupal\schemadotorg\Form\SchemaDotOrgFormTrait;
 /**
  * Configure Schema.org JSON:API settings for this site.
  */
-class SchemaDotOrgJsonApiExtrasSettingsForm extends ConfigFormBase {
+class SchemaDotOrgJsonApiSettingsForm extends ConfigFormBase {
   use SchemaDotOrgFormTrait;
 
   /**
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'schemadotorg_jsonapi_extras_settings';
+    return 'schemadotorg_jsonapi_settings';
   }
 
   /**
    * {@inheritdoc}
    */
   protected function getEditableConfigNames() {
-    return ['schemadotorg_jsonapi_extras.settings'];
+    return ['schemadotorg_jsonapi.settings'];
   }
 
   /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('schemadotorg_jsonapi_extras.settings');
+    $config = $this->config('schemadotorg_jsonapi.settings');
     $form['default_enabled_fields'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Default enabled fields'),
@@ -65,7 +65,7 @@ class SchemaDotOrgJsonApiExtrasSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->config('schemadotorg_jsonapi_extras.settings')
+    $this->config('schemadotorg_jsonapi.settings')
       ->set('default_enabled_fields', $form_state->getValue('default_enabled_fields'))
       ->set('disable_requirements', $form_state->getValue('disable_requirements'))
       ->save();

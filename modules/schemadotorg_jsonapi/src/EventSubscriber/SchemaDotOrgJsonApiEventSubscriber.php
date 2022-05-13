@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\schemadotorg_jsonapi_extras\EventSubscriber;
+namespace Drupal\schemadotorg_jsonapi\EventSubscriber;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
@@ -20,7 +20,7 @@ use Drupal\Core\DependencyInjection\ServiceProviderBase;
  *
  * @see \Drupal\schemadotorg\SchemaDotOrgMappingListBuilder
  */
-class SchemaDotOrgJsonApiExtrasEventSubscriber extends ServiceProviderBase implements EventSubscriberInterface {
+class SchemaDotOrgJsonApiEventSubscriber extends ServiceProviderBase implements EventSubscriberInterface {
   use StringTranslationTrait;
 
   /**
@@ -59,7 +59,7 @@ class SchemaDotOrgJsonApiExtrasEventSubscriber extends ServiceProviderBase imple
   protected $resourceTypeRepository;
 
   /**
-   * Constructs an SchemaDotOrgJsonApiExtrasEventSubscriber object.
+   * Constructs an SchemaDotOrgJsonApiEventSubscriber object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.

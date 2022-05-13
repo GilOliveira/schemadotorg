@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\schemadotorg_jsonapi_extras\Unit;
+namespace Drupal\Tests\schemadotorg_jsonapi\Unit;
 
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Link;
@@ -8,10 +8,10 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
- * @coversDefaultClass \Drupal\schemadotorg_jsonapi_extras\Breadcrumb\SchemaDotOrgJsonApiExtrasBreadcrumbBuilder
+ * @coversDefaultClass \Drupal\schemadotorg_jsonapi\Breadcrumb\SchemaDotOrgJsonApiBreadcrumbBuilder
  * @group schemadotorg
  */
-class SchemaDotOrgJsonApiExtrasBreadcrumbBuilderTest extends UnitTestCase {
+class SchemaDotOrgJsonApiBreadcrumbBuilderTest extends UnitTestCase {
 
   /**
    * {@inheritdoc}
@@ -38,10 +38,10 @@ class SchemaDotOrgJsonApiExtrasBreadcrumbBuilderTest extends UnitTestCase {
   }
 
   /**
-   * Tests SchemaDotOrgJsonApiExtrasBreadcrumbBuilder::applies().
+   * Tests SchemaDotOrgJsonApiBreadcrumbBuilder::applies().
    *
    * @param bool $expected
-   *   SchemaDotOrgJsonApiExtrasBreadcrumbBuilder::applies() expected result.
+   *   SchemaDotOrgJsonApiBreadcrumbBuilder::applies() expected result.
    * @param string|null $route_name
    *   (optional) A route name.
    *
@@ -49,7 +49,7 @@ class SchemaDotOrgJsonApiExtrasBreadcrumbBuilderTest extends UnitTestCase {
    * @covers ::applies
    */
   public function testApplies($expected, $route_name = NULL) {
-    $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg_jsonapi_extras\Breadcrumb\SchemaDotOrgJsonApiExtrasBreadcrumbBuilder')
+    $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg_jsonapi\Breadcrumb\SchemaDotOrgJsonApiBreadcrumbBuilder')
       ->onlyMethods([])
       ->getMock();
 
@@ -66,14 +66,14 @@ class SchemaDotOrgJsonApiExtrasBreadcrumbBuilderTest extends UnitTestCase {
    *
    * @return array
    *   Array of datasets for testApplies(). Structured as such:
-   *   - SchemaDotOrgJsonApiExtrasBreadcrumbBuilder::applies() expected result.
-   *   - SchemaDotOrgJsonApiExtrasBreadcrumbBuilder::applies() route name.
+   *   - SchemaDotOrgJsonApiBreadcrumbBuilder::applies() expected result.
+   *   - SchemaDotOrgJsonApiBreadcrumbBuilder::applies() route name.
    */
   public function providerTestApplies() {
     return [
       [FALSE],
       [FALSE, 'schemadotorg'],
-      [TRUE, 'schemadotorg_jsonapi_extras.settings'],
+      [TRUE, 'schemadotorg_jsonapi.settings'],
     ];
   }
 
@@ -86,7 +86,7 @@ class SchemaDotOrgJsonApiExtrasBreadcrumbBuilderTest extends UnitTestCase {
    */
   public function testBuild() {
     // Build a breadcrumb builder to test.
-    $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg_jsonapi_extras\Breadcrumb\SchemaDotOrgJsonApiExtrasBreadcrumbBuilder')
+    $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg_jsonapi\Breadcrumb\SchemaDotOrgJsonApiBreadcrumbBuilder')
       ->onlyMethods([])
       ->getMock();
 

@@ -1,14 +1,14 @@
 <?php
 
-namespace Drupal\schemadotorg_jsonapi_extras;
+namespace Drupal\schemadotorg_jsonapi;
 
 use Drupal\field\FieldConfigInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
- * Schema.org JSON:API extras interface.
+ * Schema.org JSON:API interface.
  */
-interface SchemaDotOrgJsonApiExtrasManagerInterface {
+interface SchemaDotOrgJsonApiManagerInterface {
 
   /**
    * Check installation requirements.

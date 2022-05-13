@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\schemadotorg_jsonapi_extras\Kernel;
+namespace Drupal\Tests\schemadotorg_jsonapi\Kernel;
 
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
@@ -8,12 +8,12 @@ use Drupal\node\Entity\NodeType;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelTestBase;
 
 /**
- * Tests the functionality of the Schema.org JSON:API extras manager.
+ * Tests the functionality of the Schema.org JSON:API manager.
  *
- * @covers \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtrasManager;
+ * @covers \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManager;
  * @group schemadotorg
  */
-class SchemaDotOrgJsonApiExtrasManagerTest extends SchemaDotOrgKernelTestBase {
+class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
 
   /**
    * Modules to install.
@@ -31,7 +31,7 @@ class SchemaDotOrgJsonApiExtrasManagerTest extends SchemaDotOrgKernelTestBase {
     'text',
     'user',
     'file',
-    'schemadotorg_jsonapi_extras',
+    'schemadotorg_jsonapi',
   ];
 
   /**
@@ -49,9 +49,9 @@ class SchemaDotOrgJsonApiExtrasManagerTest extends SchemaDotOrgKernelTestBase {
   protected $mappingStorage;
 
   /**
-   * Schema.org JSON:API extras manager.
+   * Schema.org JSON:API manager.
    *
-   * @var \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtrasManagerInterface
+   * @var \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface
    */
   protected $manager;
 
@@ -70,33 +70,33 @@ class SchemaDotOrgJsonApiExtrasManagerTest extends SchemaDotOrgKernelTestBase {
     $this->installEntitySchema('file');
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
     $this->installConfig(['schemadotorg']);
-    $this->installConfig(['schemadotorg_jsonapi_extras']);
+    $this->installConfig(['schemadotorg_jsonapi']);
 
     $this->installer = $this->container->get('schemadotorg.installer');
     $this->installer->install();
 
     $this->mappingStorage = $this->container->get('entity_type.manager')->getStorage('schemadotorg_mapping');
     $this->resourceStorage = $this->container->get('entity_type.manager')->getStorage('jsonapi_resource_config');
-    $this->manager = $this->container->get('schemadotorg_jsonapi_extras.manager');
+    $this->manager = $this->container->get('schemadotorg_jsonapi.manager');
   }
 
   /**
-   * Test Schema.org JSON:API extras services.
+   * Test Schema.org JSON:API services.
    */
-  public function testSchemaDotOrgJsonApiExtras() {
+  public function testSchemaDotOrgJsonApi() {
 
     /* ********************************************************************** */
     // Test installing Schema.org mapping JSON:API resource config.
-    // @see \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtras::install
-    // @see schemadotorg_jsonapi_extras_install()
+    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApi::install
+    // @see schemadotorg_jsonapi_install()
     /* ********************************************************************** */
 
-    // Trigger installation of the Schema.org JSON:API extras module.
+    // Trigger installation of the Schema.org JSON:API module.
     $this->manager->install();
 
     // Check JSON:API resources are imported and created on installation.
     // @see jsonapi_extras.jsonapi_resource_config.file--file.yml
-    // @see \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtras::installTaxonomyResource
+    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApi::installTaxonomyResource
     $resources = $this->resourceStorage->loadMultiple([
       'file--file',
       'taxonomy_term--schema_thing',
@@ -126,7 +126,7 @@ class SchemaDotOrgJsonApiExtrasManagerTest extends SchemaDotOrgKernelTestBase {
 
     /* ********************************************************************** */
     // Insert Schema.org mapping JSON:API resource config.
-    // @see \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtras::insertMappingResourceConfig
+    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApi::insertMappingResourceConfig
     /* ********************************************************************** */
 
     // Create Thing node with field.
@@ -177,7 +177,7 @@ class SchemaDotOrgJsonApiExtrasManagerTest extends SchemaDotOrgKernelTestBase {
 
     /* ********************************************************************** */
     // Update Schema.org mapping JSON:API resource config.
-    // @see \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtras::updateMappingResourceConfig
+    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApi::updateMappingResourceConfig
     /* ********************************************************************** */
 
     // Remove alterateName from mapping.
@@ -192,7 +192,7 @@ class SchemaDotOrgJsonApiExtrasManagerTest extends SchemaDotOrgKernelTestBase {
 
     /* ********************************************************************** */
     // Insert field into JSON:API resource config.
-    // @see \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtras::insertFieldConfigResource
+    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApi::insertFieldConfigResource
     /* ********************************************************************** */
 
     // Insert new field outside of the mapping.
@@ -220,7 +220,7 @@ class SchemaDotOrgJsonApiExtrasManagerTest extends SchemaDotOrgKernelTestBase {
     // Set add field to entity flag, which ensure the JSON:API resource is
     // not updated until the mapping is saved.
     // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::addFieldToEntity
-    // @see \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtras::insertMappingFieldConfigResource
+    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApi::insertMappingFieldConfigResource
     $field_config->schemaDotOrgAddFieldToEntity = TRUE;
     $field_config->save();
 
@@ -243,7 +243,7 @@ class SchemaDotOrgJsonApiExtrasManagerTest extends SchemaDotOrgKernelTestBase {
 
     /* ********************************************************************** */
     // Handling conflicting JSON:API resource paths.
-    // @see \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtras::getResourceConfigPath
+    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApi::getResourceConfigPath
     /* ********************************************************************** */
 
     // Create node:person.

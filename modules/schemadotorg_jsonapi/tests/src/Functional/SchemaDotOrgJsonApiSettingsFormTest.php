@@ -1,23 +1,23 @@
 <?php
 
-namespace Drupal\Tests\schemadotorg_jsonapi_extras\Functional;
+namespace Drupal\Tests\schemadotorg_jsonapi\Functional;
 
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 
 /**
  * Tests the functionality of the Schema.org JSON:API settings form.
  *
- * @covers \Drupal\schemadotorg_jsonapi_extras\Form\SchemaDotOrgJsonApiExtrasSettingsForm
+ * @covers \Drupal\schemadotorg_jsonapi\Form\SchemaDotOrgJsonApiSettingsForm
  * @group schemadotorg
  */
-class SchemaDotOrgJsonApiExtrasSettingsFormTest extends SchemaDotOrgBrowserTestBase {
+class SchemaDotOrgJsonApiSettingsFormTest extends SchemaDotOrgBrowserTestBase {
 
   /**
    * Modules to enable.
    *
    * @var array
    */
-  protected static $modules = ['schemadotorg_jsonapi_extras'];
+  protected static $modules = ['schemadotorg_jsonapi'];
 
   /**
    * {@inheritdoc}
@@ -33,7 +33,7 @@ class SchemaDotOrgJsonApiExtrasSettingsFormTest extends SchemaDotOrgBrowserTestB
    * Test Schema.org JSON:API settings form.
    */
   public function testSchemaDotOrgSettingsForm() {
-    $this->assertSaveSettingsConfigForm('schemadotorg_jsonapi_extras.settings', '/admin/structure/schemadotorg/settings/jsonapi');
+    $this->assertSaveSettingsConfigForm('schemadotorg_jsonapi.settings', '/admin/structure/schemadotorg/settings/jsonapi');
   }
 
 }

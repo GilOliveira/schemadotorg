@@ -1,4 +1,4 @@
-schemadotorg_jsonapi_extras.settings:
+schemadotorg_jsonapi.settings:
   type: config_entity
   label: Schema.org JSON:API settings
   mapping:

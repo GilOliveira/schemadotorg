@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\schemadotorg_jsonapi_extras\Functional;
+namespace Drupal\Tests\schemadotorg_jsonapi\Functional;
 
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
@@ -8,17 +8,17 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 /**
  * Tests the functionality of the Schema.org JSON:API list builder enhancements.
  *
- * @covers \Drupal\schemadotorg_jsonapi_extras\EventSubscriber\SchemaDotOrgJsonApiExtrasEventSubscriber
+ * @covers \Drupal\schemadotorg_jsonapi\EventSubscriber\SchemaDotOrgJsonApiEventSubscriber
  * @group schemadotorg
  */
-class SchemaDotOrgJsonApiExtrasListBuilderTest extends SchemaDotOrgBrowserTestBase {
+class SchemaDotOrgJsonApiListBuilderTest extends SchemaDotOrgBrowserTestBase {
 
   /**
    * Modules to install.
    *
    * @var string[]
    */
-  protected static $modules = ['user', 'node', 'schemadotorg_jsonapi_extras'];
+  protected static $modules = ['user', 'node', 'schemadotorg_jsonapi'];
 
   /**
    * {@inheritdoc}

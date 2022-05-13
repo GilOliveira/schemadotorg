@@ -3,7 +3,6 @@ Schema.org Blueprints
 
 # Todo
 
-Change SchemaDotOrgJsonApiExtras to SchemaDotOrgJsonApiManager.
 Add test coverage for \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtrasManager::requirements
 
 Ajax

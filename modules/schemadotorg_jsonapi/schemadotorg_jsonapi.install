@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * Requirements functions for the Schema.org JSON:API module.
+ */
+
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_jsonapi_install() {
+  /** @var \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface $manager */
+  $manager = \Drupal::service('schemadotorg_jsonapi.manager');
+  $manager->install();
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function schemadotorg_jsonapi_requirements($phase) {
+  if ($phase !== 'runtime') {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface $manager */
+  $manager = \Drupal::service('schemadotorg_jsonapi.manager');
+  return $manager->requirements($phase);
+}

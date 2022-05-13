@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\schemadotorg_jsonapi_extras;
+namespace Drupal\schemadotorg_jsonapi;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
@@ -16,9 +16,9 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 
 /**
- * Schema.org JSON:API extras manager.
+ * Schema.org JSON:API manager.
  */
-class SchemaDotOrgJsonApiExtrasManager implements SchemaDotOrgJsonApiExtrasManagerInterface {
+class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface {
   use StringTranslationTrait;
 
   /**
@@ -57,7 +57,7 @@ class SchemaDotOrgJsonApiExtrasManager implements SchemaDotOrgJsonApiExtrasManag
   protected $schemaNames;
 
   /**
-   * Constructs a SchemaDotOrgJsonApiExtras object.
+   * Constructs a SchemaDotOrgJsonApi object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.
@@ -92,7 +92,7 @@ class SchemaDotOrgJsonApiExtrasManager implements SchemaDotOrgJsonApiExtrasManag
       return [];
     }
 
-    $schemadotorg_config = $this->configFactory->get('schemadotorg_jsonapi_extras.settings');
+    $schemadotorg_config = $this->configFactory->get('schemadotorg_jsonapi.settings');
     if ($schemadotorg_config->get('disable_requirements')) {
       return [];
     }
@@ -104,8 +104,8 @@ class SchemaDotOrgJsonApiExtrasManager implements SchemaDotOrgJsonApiExtrasManag
       ->get('jsonapi_extras.settings')
       ->get('default_disabled');
     if ($default_disabled) {
-      $requirements['schemadotorg_jsonapi_extras_default_disabled'] = [
-        'title' => $this->t('Schema.org Blueprints JSON:API Extras'),
+      $requirements['schemadotorg_jsonapi_default_disabled'] = [
+        'title' => $this->t('Schema.org Blueprints JSON:API'),
         'value' => $this->t('Resources disabled by default'),
         'severity' => REQUIREMENT_OK,
       ];
@@ -113,10 +113,10 @@ class SchemaDotOrgJsonApiExtrasManager implements SchemaDotOrgJsonApiExtrasManag
     else {
       $options = ['query' => $this->redirectDestination->getAsArray()];
       $jsonapi_href = Url::fromRoute('jsonapi_extras.settings', [], $options)->toString();
-      $schemadotorg_href = Url::fromRoute('schemadotorg_jsonapi_extras.settings', [], $options)->toString();
+      $schemadotorg_href = Url::fromRoute('schemadotorg_jsonapi.settings', [], $options)->toString();
 
-      $requirements['schemadotorg_jsonapi_extras_default_disabled'] = [
-        'title' => $this->t('Schema.org Blueprints JSON:API Extras'),
+      $requirements['schemadotorg_jsonapi_default_disabled'] = [
+        'title' => $this->t('Schema.org Blueprints JSON:API'),
         'value' => $this->t('Resources enabled by default'),
         'description' => [
           '#markup' => $this->t('It is recommended that JSON:API resources are <a href=":href">disabled by default</a>.', [':href' => $jsonapi_href])
@@ -142,8 +142,8 @@ class SchemaDotOrgJsonApiExtrasManager implements SchemaDotOrgJsonApiExtrasManag
       $t_args = [
         ':href' => Url::fromRoute('entity.jsonapi_resource_config.collection')->toString(),
       ];
-      $requirements['schemadotorg_jsonapi_extras_resource_disabled'] = [
-        'title' => $this->t('Schema.org Blueprints JSON:API Extras'),
+      $requirements['schemadotorg_jsonapi_resource_disabled'] = [
+        'title' => $this->t('Schema.org Blueprints JSON:API'),
         'value' => $this->t('Required resources disabled'),
         'description' => [
           '#markup' => $this->t('It is recommended that the below <a href=":href">JSON:API resources</a> be enabled', $t_args),
@@ -284,7 +284,7 @@ class SchemaDotOrgJsonApiExtrasManager implements SchemaDotOrgJsonApiExtrasManag
     // Get the entity type's resource path prefix used to prevent conflicts.
     // (i.e. ContentPerson, BlockContactPoint, UserPerson, etc...).
     $path_prefixes = $this->configFactory
-      ->get('schemadotorg_jsonapi_extras.settings')
+      ->get('schemadotorg_jsonapi.settings')
       ->get('path_prefixes');
     $entity_type_id = $mapping->getTargetEntityTypeId();
     $path_prefix = (isset($path_prefixes[$entity_type_id]))
@@ -517,7 +517,7 @@ class SchemaDotOrgJsonApiExtrasManager implements SchemaDotOrgJsonApiExtrasManag
    */
   protected function isFieldEnabled($field_name) {
     $default_enabled_fields = $this->configFactory
-      ->get('schemadotorg_jsonapi_extras.settings')
+      ->get('schemadotorg_jsonapi.settings')
       ->get('default_enabled_fields');
     return in_array($field_name, $default_enabled_fields);
   }

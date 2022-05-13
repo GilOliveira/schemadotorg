@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\schemadotorg_jsonapi_extras\Breadcrumb;
+namespace Drupal\schemadotorg_jsonapi\Breadcrumb;
 
 use Drupal\Core\Breadcrumb\Breadcrumb;
 use Drupal\Core\Breadcrumb\BreadcrumbBuilderInterface;
@@ -9,16 +9,16 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Provides a breadcrumb builder for Schema.org JSON:API extras.
+ * Provides a breadcrumb builder for Schema.org JSON:API.
  */
-class SchemaDotOrgJsonApiExtrasBreadcrumbBuilder implements BreadcrumbBuilderInterface {
+class SchemaDotOrgJsonApiBreadcrumbBuilder implements BreadcrumbBuilderInterface {
   use StringTranslationTrait;
 
   /**
    * {@inheritdoc}
    */
   public function applies(RouteMatchInterface $route_match) {
-    return ($route_match->getRouteName() === 'schemadotorg_jsonapi_extras.settings');
+    return ($route_match->getRouteName() === 'schemadotorg_jsonapi.settings');
   }
 
   /**

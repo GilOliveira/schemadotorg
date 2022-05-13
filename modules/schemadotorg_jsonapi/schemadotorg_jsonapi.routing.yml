@@ -1,7 +1,7 @@
-schemadotorg_jsonapi_extras.settings:
+schemadotorg_jsonapi.settings:
   path: '/admin/structure/schemadotorg/settings/jsonapi'
   defaults:
     _title: 'Schema.org JSON:API settings'
-    _form: 'Drupal\schemadotorg_jsonapi_extras\Form\SchemaDotOrgJsonApiExtrasSettingsForm'
+    _form: 'Drupal\schemadotorg_jsonapi\Form\SchemaDotOrgJsonApiSettingsForm'
   requirements:
     _permission: 'administer schemadotorg'
