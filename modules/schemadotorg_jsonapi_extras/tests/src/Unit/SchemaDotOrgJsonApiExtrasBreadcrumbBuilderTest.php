@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\schemadotorg\Unit\Breadcrumb;
+namespace Drupal\Tests\schemadotorg_jsonapi_extras\Unit;
 
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Link;
@@ -8,10 +8,10 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
- * @coversDefaultClass \Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder
+ * @coversDefaultClass \Drupal\schemadotorg_jsonapi_extras\Breadcrumb\SchemaDotOrgJsonApiExtrasBreadcrumbBuilder
  * @group schemadotorg
  */
-class SchemaDotOrgReportBuilderTest extends UnitTestCase {
+class SchemaDotOrgJsonApiExtrasBreadcrumbBuilderTest extends UnitTestCase {
 
   /**
    * {@inheritdoc}
@@ -38,10 +38,10 @@ class SchemaDotOrgReportBuilderTest extends UnitTestCase {
   }
 
   /**
-   * Tests SchemaDotOrgBreadcrumbBuilder::applies().
+   * Tests SchemaDotOrgJsonApiExtrasBreadcrumbBuilder::applies().
    *
    * @param bool $expected
-   *   SchemaDotOrgBreadcrumbBuilder::applies() expected result.
+   *   SchemaDotOrgJsonApiExtrasBreadcrumbBuilder::applies() expected result.
    * @param string|null $route_name
    *   (optional) A route name.
    *
@@ -49,7 +49,7 @@ class SchemaDotOrgReportBuilderTest extends UnitTestCase {
    * @covers ::applies
    */
   public function testApplies($expected, $route_name = NULL) {
-    $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder')
+    $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg_jsonapi_extras\Breadcrumb\SchemaDotOrgJsonApiExtrasBreadcrumbBuilder')
       ->onlyMethods([])
       ->getMock();
 
@@ -66,16 +66,14 @@ class SchemaDotOrgReportBuilderTest extends UnitTestCase {
    *
    * @return array
    *   Array of datasets for testApplies(). Structured as such:
-   *   - SchemaDotOrgBreadcrumbBuilder::applies() expected result.
-   *   - SchemaDotOrgBreadcrumbBuilder::applies() route name.
+   *   - SchemaDotOrgJsonApiExtrasBreadcrumbBuilder::applies() expected result.
+   *   - SchemaDotOrgJsonApiExtrasBreadcrumbBuilder::applies() route name.
    */
   public function providerTestApplies() {
     return [
       [FALSE],
       [FALSE, 'schemadotorg'],
-      [TRUE, 'schemadotorg.settings'],
-      [TRUE, 'entity.schemadotorg_mapping'],
-      [TRUE, 'entity.schemadotorg_mapping.add_form'],
+      [TRUE, 'schemadotorg_jsonapi_extras.settings'],
     ];
   }
 
@@ -88,7 +86,7 @@ class SchemaDotOrgReportBuilderTest extends UnitTestCase {
    */
   public function testBuild() {
     // Build a breadcrumb builder to test.
-    $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder')
+    $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg_jsonapi_extras\Breadcrumb\SchemaDotOrgJsonApiExtrasBreadcrumbBuilder')
       ->onlyMethods([])
       ->getMock();
 
@@ -112,32 +110,6 @@ class SchemaDotOrgReportBuilderTest extends UnitTestCase {
 
     // Check the breadcrumb cache max-age.
     $this->assertEquals(Cache::PERMANENT, $breadcrumb->getCacheMaxAge());
-
-    // Check the mapping  add breadcrumb links.
-    $route_match = $this->createMock('Drupal\Core\Routing\RouteMatchInterface');
-    $route_match->method('getRouteName')->willReturn('entity.schemadotorg_mapping.add_form');
-    $breadcrumb = $breadcrumb_builder->build($route_match);
-    $expected = [
-      Link::createFromRoute('Home', '<front>'),
-      Link::createFromRoute('Administration', 'system.admin'),
-      Link::createFromRoute('Structure', 'system.admin_structure'),
-      Link::createFromRoute('Schema.org', 'entity.schemadotorg_mapping.collection'),
-      Link::createFromRoute('Mappings', 'entity.schemadotorg_mapping.collection'),
-    ];
-    $this->assertEquals($expected, $breadcrumb->getLinks());
-
-    // Check the mapping type add breadcrumb links.
-    $route_match = $this->createMock('Drupal\Core\Routing\RouteMatchInterface');
-    $route_match->method('getRouteName')->willReturn('entity.schemadotorg_mapping_type.add_form');
-    $breadcrumb = $breadcrumb_builder->build($route_match);
-    $expected = [
-      Link::createFromRoute('Home', '<front>'),
-      Link::createFromRoute('Administration', 'system.admin'),
-      Link::createFromRoute('Structure', 'system.admin_structure'),
-      Link::createFromRoute('Schema.org', 'entity.schemadotorg_mapping.collection'),
-      Link::createFromRoute('Mapping types', 'entity.schemadotorg_mapping_type.collection'),
-    ];
-    $this->assertEquals($expected, $breadcrumb->getLinks());
   }
 
 }

@@ -12,7 +12,6 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
  * Provides a breadcrumb builder for Schema.org JSON:API extras.
  */
 class SchemaDotOrgJsonApiExtrasBreadcrumbBuilder implements BreadcrumbBuilderInterface {
-
   use StringTranslationTrait;
 
   /**

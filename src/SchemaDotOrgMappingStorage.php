@@ -121,7 +121,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
    *   The target (bundle or Schema.org type).
    *
    * @return array
-   *   The Schema.org Schema.org range includes targets (bundles or schema_types).
+   *   The Schema.org range includes targets (bundles or schema_types).
    */
   protected function getRangeIncludesTargets($target_type, array $range_includes, $target) {
     $subtypes = $this->schemaTypeManager->getAllSubTypes($range_includes);

@@ -8,7 +8,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 /**
  * Schema.org JSON:API extras interface.
  */
-interface SchemaDotOrgJsonApiExtrasInterface {
+interface SchemaDotOrgJsonApiExtrasManagerInterface {
 
   /**
    * Check installation requirements.

@@ -73,7 +73,7 @@ interface SchemaDotOrgMappingTypeStorageInterface extends ConfigEntityStorageInt
    *   The entity type ID.
    *
    * @return array
-   *   A Schema.org Schema.org type's default subtypes.
+   *   A Schema.org type's default subtypes.
    */
   public function getDefaultSchemaTypeSubtypes($entity_type_id);
 

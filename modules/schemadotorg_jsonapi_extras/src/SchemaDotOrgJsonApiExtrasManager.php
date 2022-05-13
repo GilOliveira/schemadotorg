@@ -16,9 +16,9 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 
 /**
- * Schema.org JSON:API extras service.
+ * Schema.org JSON:API extras manager.
  */
-class SchemaDotOrgJsonApiExtras implements SchemaDotOrgJsonApiExtrasInterface {
+class SchemaDotOrgJsonApiExtrasManager implements SchemaDotOrgJsonApiExtrasManagerInterface {
   use StringTranslationTrait;
 
   /**
@@ -186,6 +186,7 @@ class SchemaDotOrgJsonApiExtras implements SchemaDotOrgJsonApiExtrasInterface {
 
     $resource_fields = [];
 
+    // Enable selected schema taxonomy fields.
     $enabled_field_names = [
       // Name is used for translations.
       'name' => 'name',
@@ -378,7 +379,7 @@ class SchemaDotOrgJsonApiExtras implements SchemaDotOrgJsonApiExtrasInterface {
     // In the JSON:API resource config does not exist for Enumeration,
     // we need to create it.
     if (!$resource_config) {
-      return $this->installEnumeration();
+      return $this->installTaxonomyResource('Enumeration');
     }
 
     $field_name = $field->getName();

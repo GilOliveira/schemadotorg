@@ -12,11 +12,8 @@ schemadotorg_jsonapi_extras.settings:
       type: sequence
       label: 'Path prefixes'
       sequence:
-        type: sequence
-        label: 'Entity type'
-        sequence:
-          type: string
-          label: 'Path prefix'
+        type: string
+        label: 'Path prefix'
     disable_requirements:
       type: boolean
       label: 'Disable Schema.org JSON:API requirements checking'

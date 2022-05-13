@@ -1,6 +1,6 @@
 services:
-  schemadotorg_jsonapi_extras:
-    class: Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtras
+  schemadotorg_jsonapi_extras.manager:
+    class: Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtrasManager
     arguments: ['@config.factory', '@redirect.destination', '@entity_type.manager', '@entity_field.manager', '@schemadotorg.names']
   schemadotorg_jsonapi_extras.breadcrumb:
     class: Drupal\schemadotorg_jsonapi_extras\Breadcrumb\SchemaDotOrgJsonApiExtrasBreadcrumbBuilder

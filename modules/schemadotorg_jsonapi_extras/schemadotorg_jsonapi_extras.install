@@ -11,8 +11,8 @@ use Drupal\Core\Url;
  * Implements hook_install().
  */
 function schemadotorg_jsonapi_extras_install() {
-  /** @var \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtrasInterface $schemadotorg_jsonapi_extras */
-  $schemadotorg_jsonapi_extras = \Drupal::service('schemadotorg_jsonapi_extras');
+  /** @var \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtrasManagerInterface $schemadotorg_jsonapi_extras */
+  $schemadotorg_jsonapi_extras = \Drupal::service('schemadotorg_jsonapi_extras.manager');
   $schemadotorg_jsonapi_extras->install();
 }
 
@@ -24,7 +24,7 @@ function schemadotorg_jsonapi_extras_requirements($phase) {
     return;
   }
 
-  /** @var \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtrasInterface $schemadotorg_jsonapi_extras */
-  $schemadotorg_jsonapi_extras = \Drupal::service('schemadotorg_jsonapi_extras');
+  /** @var \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtrasManagerInterface $schemadotorg_jsonapi_extras */
+  $schemadotorg_jsonapi_extras = \Drupal::service('schemadotorg_jsonapi_extras.manager');
   return $schemadotorg_jsonapi_extras->requirements($phase);
 }

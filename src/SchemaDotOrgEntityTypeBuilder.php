@@ -292,6 +292,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         $field_storage_config->save();
 
         $field = $this->entityTypeManager->getStorage('field_config')->create($field_values);
+        // @see \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtras::insertMappingFieldConfigResource
         $field->schemaDotOrgAddFieldToEntity = TRUE;
         $field->save();
 

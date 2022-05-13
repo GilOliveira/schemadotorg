@@ -3,10 +3,8 @@ Schema.org Blueprints
 
 # Todo
 
-- JSON:API Extras Tests.
-  - Add comments to SchemaDotOrgJsonApiExtras.php.
-  - SchemaDotOrgJsonApiExtrasTest
-  - SchemaDotOrgJsonApiExtrasMappingListBuilderTest
+Change SchemaDotOrgJsonApiExtras to SchemaDotOrgJsonApiManager.
+Add test coverage for \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtrasManager::requirements
 
 Ajax
 - Add Ajax to mapping form add field UI/UX

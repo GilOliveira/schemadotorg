@@ -40,7 +40,7 @@ class SchemaDotOrgMappingTypeFormTest extends SchemaDotOrgBrowserTestBase {
   }
 
   /**
-   * Test Schema.org Schema.org mapping type form.
+   * Test Schema.org mapping type form.
    */
   public function testSchemaDotOrgMappingTypeForm() {
     $assert_session = $this->assertSession();
