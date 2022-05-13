@@ -3,8 +3,6 @@ Schema.org Blueprints
 
 # Todo
 
-Add test coverage for \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtrasManager::requirements
-
 Ajax
 - Add Ajax to mapping form add field UI/UX
   - @see \Drupal\jsonapi_extras\Form\JsonapiResourceConfigForm

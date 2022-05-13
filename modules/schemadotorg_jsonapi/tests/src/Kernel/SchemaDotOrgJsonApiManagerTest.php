@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\schemadotorg_jsonapi\Kernel;
 
+use Drupal\Core\Url;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\node\Entity\NodeType;
@@ -84,6 +85,51 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
    * Test Schema.org JSON:API services.
    */
   public function testSchemaDotOrgJsonApi() {
+
+    /* ********************************************************************** */
+    // Test requirements for Schema.org JSON:API module.
+    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApi::requirements
+    // @see schemadotorg_jsonapi_requirements()
+    /* ********************************************************************** */
+
+    // Check that resources are NOT disabled by default.
+    $requirements = $this->manager->requirements('runtime');
+    $this->assertNotEquals(REQUIREMENT_OK, $requirements['schemadotorg_jsonapi_default_disabled']['severity']);
+    $this->assertEquals(REQUIREMENT_WARNING, $requirements['schemadotorg_jsonapi_default_disabled']['severity']);
+
+    // Set disabled by default.
+    \Drupal::configFactory()
+      ->getEditable('jsonapi_extras.settings')
+      ->set('default_disabled', TRUE)
+      ->save();
+
+    // Check that resources are NOT disabled by default.
+    $requirements = $this->manager->requirements('runtime');
+    $this->assertEquals(REQUIREMENT_OK, $requirements['schemadotorg_jsonapi_default_disabled']['severity']);
+    $this->assertNotEquals(REQUIREMENT_WARNING, $requirements['schemadotorg_jsonapi_default_disabled']['severity']);
+
+    // Check required resources disabled.
+    $requirements = $this->manager->requirements('runtime');
+    $this->assertArrayNotHasKey('schemadotorg_jsonapi_resource_disabled', $requirements);
+
+    // Disable file resource.
+    $file_resource = $this->loadResource('file--file');
+    $file_resource->set('disabled', TRUE);
+    $file_resource->save();
+
+    // Check required resources disabled.
+    $requirements = $this->manager->requirements('runtime');
+    $this->assertArrayHasKey('schemadotorg_jsonapi_resource_disabled', $requirements);
+
+    // Set disabled requirements.
+    \Drupal::configFactory()
+      ->getEditable('schemadotorg_jsonapi.settings')
+      ->set('disable_requirements', TRUE)
+      ->save();
+
+    // Check disabling requirements.
+    $requirements = $this->manager->requirements('runtime');
+    $this->assertEmpty($requirements);
 
     /* ********************************************************************** */
     // Test installing Schema.org mapping JSON:API resource config.

@@ -133,7 +133,8 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
     ];
     $missing = [];
     foreach ($resources as $resource_id => $label) {
-      if (!$this->getResourceConfigStorage()->load($resource_id)) {
+      $resource = $this->getResourceConfigStorage()->load($resource_id);
+      if (!$resource || $resource->get('disabled')) {
         $t_args = ['@label' => $label, '@id' => $resource_id];
         $missing[] = $this->t('@label (@id)', $t_args);
       }
