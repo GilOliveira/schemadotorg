@@ -3,9 +3,6 @@ Schema.org Blueprints
 
 # Todo
 
-Make media dependency optional.
-- Only require fields, text, and options to support baseline.
-
 Ajax
 - Add Ajax to mapping form add field UI/UX
   - @see \Drupal\jsonapi_extras\Form\JsonapiResourceConfigForm

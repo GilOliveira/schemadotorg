@@ -16,7 +16,7 @@ class SchemaDotOrgReportTest extends SchemaDotOrgBrowserTestBase {
    *
    * @var array
    */
-  protected static $modules = ['schemadotorg_report', 'block'];
+  protected static $modules = ['block', 'schemadotorg_report'];
 
   /**
    * A user with permission to access site reports.

@@ -22,16 +22,16 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
    * @var string[]
    */
   protected static $modules = [
-    'jsonapi',
-    'jsonapi_extras',
-    'field',
-    'node',
-    'serialization',
     'system',
+    'user',
+    'node',
+    'field',
     'text',
     'options',
-    'user',
     'file',
+    'serialization',
+    'jsonapi',
+    'jsonapi_extras',
     'schemadotorg_jsonapi',
   ];
 

@@ -6,5 +6,6 @@ core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental
 configure: entity.schemadotorg_mapping.collection
 dependencies:
+  - 'drupal:field'
+  - 'drupal:text'
   - 'drupal:options'
-  - 'drupal:media'
