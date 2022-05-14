@@ -3,10 +3,6 @@ Schema.org Blueprints
 
 # Todo
 
-Merge
-- SchemaDotOrgRangeIncludesSelection.php
-- SchemaDotOrgSelectionBase.php
-
 Make media dependency optional.
 - Only require fields, text, and options to support baseline.
 
@@ -39,11 +35,14 @@ Research
 Pre-Alpha (Dev)
 - Fix issue as the come up with or without issues or MRs.
 - Build Schema.org Blueprint JSON-LD module
+- Implement core submodules.
+- Define core dependencies.
 
 Alpha
 - Define baseline Schema.org types and properties
 - Establish sub-modules and feature list
 - Ensure baseline test coverage
+- Finalize core dependencies
 
 Beta
 - Find co-maintainers and sponsoring organizations
