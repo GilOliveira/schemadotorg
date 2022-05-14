@@ -57,9 +57,8 @@ class SchemaDotOrgJsonApiListBuilderTest extends SchemaDotOrgBrowserTestBase {
     // Check JSON:API header.
     $assert_session->responseContains('<th class="priority-low" width="27%">JSON:API</th>');
 
-    // Check link to /jsonapi/ContentThing JSON:API endpoint because
-    // '/jsonapi/Thing' is already being used by the schema_thing taxonomy.
-    $assert_session->linkExists('/jsonapi/ContentThing');
+    // Check link to /jsonapi/Content JSON:API endpoint exists.
+    $assert_session->linkExists('/jsonapi/Thing');
 
     // Check link to /jsonapi/Person JSON:API endpoint exists.
     $assert_session->linkExists('/jsonapi/Person');

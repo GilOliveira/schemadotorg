@@ -3,6 +3,13 @@ Schema.org Blueprints
 
 # Todo
 
+Merge
+- SchemaDotOrgRangeIncludesSelection.php
+- SchemaDotOrgSelectionBase.php
+
+Make media dependency optional.
+- Only require fields, text, and options to support baseline.
+
 Ajax
 - Add Ajax to mapping form add field UI/UX
   - @see \Drupal\jsonapi_extras\Form\JsonapiResourceConfigForm

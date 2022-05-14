@@ -296,6 +296,17 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
+  public function getTypeChildrenAsOptions($type) {
+    $options = $this->getTypeChildren($type);
+    array_walk($options, function (&$value) {
+      $value = $this->schemaNames->camelCaseToTitleCase($value);
+    });
+    return $options;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getSubtypes($type) {
     $type_definition = $this->getType($type, ['sub_types']);
     return $this->parseIds($type_definition['sub_types']);

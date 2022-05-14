@@ -26,7 +26,6 @@ class SchemaDotOrgUiApiTest extends SchemaDotOrgKernelTestBase {
     'file',
     'datetime',
     'image',
-    'taxonomy',
     'telephone',
     'text',
     'link',

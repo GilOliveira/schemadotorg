@@ -4,6 +4,7 @@ namespace Drupal\schemadotorg\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
+use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,13 +22,23 @@ class SchemaDotOrgAutocompleteController extends ControllerBase {
   protected $database;
 
   /**
+   * The Schema.org schema type manager.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
+   */
+  protected $schemaTypeManager;
+
+  /**
    * The controller constructor.
    *
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   *   The Schema.org schema type manager.
    */
-  public function __construct(Connection $database) {
+  public function __construct(Connection $database, SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager) {
     $this->database = $database;
+    $this->schemaTypeManager = $schema_type_manager;
   }
 
   /**
@@ -35,7 +46,8 @@ class SchemaDotOrgAutocompleteController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('database')
+      $container->get('database'),
+      $container->get('schemadotorg.schema_type_manager'),
     );
   }
 
@@ -56,22 +68,30 @@ class SchemaDotOrgAutocompleteController extends ControllerBase {
       return new JsonResponse([]);
     }
 
-    if ($table === 'schema_thing') {
-      $query = $this->database->select('taxonomy_term__schema_type', $table);
-      $query->addField($table, 'schema_type_value', 'value');
-      $query->addField($table, 'schema_type_value', 'label');
-      $query->condition('bundle', $table);
-      $query->condition('schema_type_value', '%' . $input . '%', 'LIKE');
-      $query->orderBy('label');
-      $query->range(0, 10);
-      $labels = $query->execute()->fetchAllAssoc('label');
-      return new JsonResponse(array_values($labels));
+    $types = NULL;
+    if ($this->schemaTypeManager->isType($table)) {
+      // @todo Possibly cache the children to reduce the number of db queries.
+      $children = array_keys($this->schemaTypeManager->getAllTypeChildren($table, ['label'], ['Enumeration']));
+      sort($children);
+      $labels = [];
+      foreach ($children as $child) {
+        if (stripos($child, $input) !== FALSE) {
+          $labels[] = ['value' => $child, 'label' => $child];
+        }
+        if (count($labels) === 10) {
+          break;
+        }
+      }
+      return new JsonResponse($labels);
     }
     else {
       $query = $this->database->select('schemadotorg_' . $table, $table);
       $query->addField($table, 'label', 'value');
       $query->addField($table, 'label', 'label');
       $query->condition('label', '%' . $input . '%', 'LIKE');
+      if ($types) {
+        $query->condition('label', $types, 'IN');
+      }
       $query->orderBy('label');
       $query->range(0, 10);
       $labels = $query->execute()->fetchAllAssoc('label');

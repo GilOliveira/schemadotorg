@@ -22,11 +22,6 @@ interface SchemaDotOrgJsonApiManagerInterface {
   public function requirements($phase);
 
   /**
-   * Install Schema.org mapping JSON:API resource config.
-   */
-  public function install();
-
-  /**
    * Insert Schema.org mapping JSON:API resource config.
    *
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping

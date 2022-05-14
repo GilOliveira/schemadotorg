@@ -23,7 +23,14 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
    *
    * @var array
    */
-  protected static $modules = ['system', 'user', 'node', 'taxonomy', 'field', 'text'];
+  protected static $modules = [
+    'system',
+    'user',
+    'node',
+    'field',
+    'text',
+    'options',
+  ];
 
   /**
    * A node type.
@@ -63,8 +70,6 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     $this->installEntitySchema('user');
     $this->installEntitySchema('node');
     $this->installEntitySchema('node_type');
-    $this->installEntitySchema('taxonomy_vocabulary');
-    $this->installEntitySchema('taxonomy_term');
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
     $this->installConfig(['schemadotorg']);
 
@@ -193,7 +198,7 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     $expected_schema_properties = [
       'title' => 'name',
       'schema_alternate_name' => 'alternateName',
-      'schema_subtype' => 'subtype',
+      'schema_thing_subtype' => 'subtype',
     ];
     $this->assertEquals($expected_schema_properties, $node_mapping->getAllSchemaProperties());
     $user_mapping->setSchemaSubtype(FALSE);
@@ -248,7 +253,7 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     $this->assertTrue($this->nodeMapping->supportsSubtyping());
 
     // Delete the schema_subtype field.
-    FieldConfig::loadByName('node', 'thing', 'schema_subtype')->delete();
+    FieldConfig::loadByName('node', 'thing', 'schema_thing_subtype')->delete();
 
     // Reload the thing mapping.
     $this->storage->resetCache();

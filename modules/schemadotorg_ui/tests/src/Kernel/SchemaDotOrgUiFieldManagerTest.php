@@ -214,7 +214,6 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
         'gender',
         [
           'list_string' => 'list_string',
-          'field_ui:entity_reference:taxonomy_term' => 'field_ui:entity_reference:taxonomy_term',
         ],
       ],
       [

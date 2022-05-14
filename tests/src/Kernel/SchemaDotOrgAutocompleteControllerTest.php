@@ -18,7 +18,7 @@ class SchemaDotOrgAutocompleteControllerTest extends SchemaDotOrgKernelTestBase 
    *
    * @var array
    */
-  protected static $modules = ['user', 'field', 'text', 'taxonomy'];
+  protected static $modules = ['user', 'field', 'text'];
 
   /**
    * The Schema.org autocomplete controller.
@@ -34,8 +34,6 @@ class SchemaDotOrgAutocompleteControllerTest extends SchemaDotOrgKernelTestBase 
     parent::setUp();
 
     $this->installEntitySchema('schemadotorg_mapping_type');
-    $this->installEntitySchema('taxonomy_vocabulary');
-    $this->installEntitySchema('taxonomy_term');
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
     $this->installConfig(['schemadotorg']);
 
@@ -67,9 +65,9 @@ class SchemaDotOrgAutocompleteControllerTest extends SchemaDotOrgKernelTestBase 
     $result = $this->controller->autocomplete(new Request(['q' => 'Male']), 'types');
     $this->assertEquals('[{"value":"Female","label":"Female"},{"value":"Male","label":"Male"}]', $result->getContent());
 
-    // Check searching for 'Male' within Schema.org Thing vocabulary does NOT
+    // Check searching for 'Male' within Schema.org Thing does NOT
     // return Gender enumeration values.
-    $result = $this->controller->autocomplete(new Request(['q' => 'Male']), 'schema_thing');
+    $result = $this->controller->autocomplete(new Request(['q' => 'Male']), 'Thing');
     $this->assertEquals('[]', $result->getContent());
   }
 

@@ -94,7 +94,7 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
       '#size' => 30,
       '#required' => TRUE,
       '#autocomplete_route_name' => 'schemadotorg.autocomplete',
-      '#autocomplete_route_parameters' => ['table' => 'schema_thing'],
+      '#autocomplete_route_parameters' => ['table' => 'Thing'],
       '#attributes' => ['class' => ['schemadotorg-autocomplete']],
       '#attached' => ['library' => ['schemadotorg/schemadotorg.autocomplete']],
     ];

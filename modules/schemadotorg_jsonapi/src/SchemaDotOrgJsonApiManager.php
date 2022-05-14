@@ -163,74 +163,6 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function install() {
-    $this->installTaxonomyResource('Thing');
-    $this->installTaxonomyResource('Enumeration');
-  }
-
-  /**
-   * Install Schema.org taxonomy term JSON:API resource configuration.
-   *
-   * @param string $type
-   *   The taxonomy vocabulary id.
-   */
-  protected function installTaxonomyResource($type) {
-    $bundle = 'schema_' . strtolower($type);
-    $resource_id = 'taxonomy_term--' . $bundle;
-    $resource_config = $this->getResourceConfigStorage()->load($resource_id);
-    // Never adjust an existing JSON:API resource configuration.
-    if ($resource_config) {
-      return;
-    }
-
-    $entity_type = $this->entityTypeManager->getStorage('taxonomy_term')->getEntityType();
-
-    $resource_fields = [];
-
-    // Enable selected schema taxonomy fields.
-    $enabled_field_names = [
-      // Name is used for translations.
-      'name' => 'name',
-      // Status is used to hide a Schema.org type.
-      'status' => 'status',
-      // Use value instead of Schema.org type, because having a 'type'
-      // property is invalid.
-      'schema_type' => 'value',
-    ];
-
-    $field_names = $this->getAllFieldNames($entity_type, $bundle);
-    foreach ($field_names as $field_name) {
-      if (isset($enabled_field_names[$field_name])) {
-        $resource_fields[$field_name] = [
-          'disabled' => FALSE,
-          'fieldName' => $field_name,
-          'publicName' => $enabled_field_names[$field_name],
-          'enhancer' => ['id' => ''],
-        ];
-      }
-      else {
-        $resource_fields[$field_name] = [
-          'disabled' => !$this->isFieldEnabled($field_name),
-          'fieldName' => $field_name,
-          'publicName' => $field_name,
-          'enhancer' => ['id' => ''],
-        ];
-      }
-    }
-
-    ksort($resource_fields);
-    $this->getResourceConfigStorage()->create([
-      'id' => $resource_id,
-      'disabled' => FALSE,
-      'path' => $type,
-      'resourceType' => $type,
-      'resourceFields' => $resource_fields,
-    ])->save();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function insertMappingResourceConfig(SchemaDotOrgMappingInterface $mapping) {
     $resource_config = $this->loadResourceConfig($mapping);
     if ($resource_config) {
@@ -360,49 +292,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
   public function insertFieldConfigResource(FieldConfigInterface $field) {
     $entity_type_id = $field->getTargetEntityTypeId();
     $bundle = $field->getTargetBundle();
-    if ($entity_type_id === 'taxonomy_term' && $bundle === 'schema_enumeration') {
-      $this->insertEnumerationFieldConfigResource($field);
-    }
-    else {
-      $this->insertMappingFieldConfigResource($field);
-    }
-  }
-
-  /**
-   * Insert Schema.org enumeration field into JSON:API resource config.
-   *
-   * @param \Drupal\field\FieldConfigInterface $field
-   *   The field.
-   */
-  protected function insertEnumerationFieldConfigResource(FieldConfigInterface $field) {
-    $resource_id = 'taxonomy_term--schema_enumeration';
-    $resource_config = $this->getResourceConfigStorage()->load($resource_id);
-    // In the JSON:API resource config does not exist for Enumeration,
-    // we need to create it.
-    if (!$resource_config) {
-      return $this->installTaxonomyResource('Enumeration');
-    }
-
-    $field_name = $field->getName();
-
-    // Never update an existing resource field.
-    // Ensures that an API field is never changed after it has been created.
-    $resource_fields = $resource_config->get('resourceFields');
-    if (isset($resource_fields[$field_name])) {
-      return;
-    }
-
-    $resource_fields[$field_name] = [
-      'disabled' => !$this->isFieldEnabled($field_name),
-      'fieldName' => $field_name,
-      'publicName' => $field_name,
-      'enhancer' => ['id' => ''],
-    ];
-
-    ksort($resource_fields);
-    $resource_config
-      ->set('resourceFields', $resource_fields)
-      ->save();
+    $this->insertMappingFieldConfigResource($field);
   }
 
   /**

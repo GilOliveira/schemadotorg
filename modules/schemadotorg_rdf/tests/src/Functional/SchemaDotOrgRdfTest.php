@@ -19,7 +19,7 @@ class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
    *
    * @var array
    */
-  protected static $modules = ['schemadotorg_rdf'];
+  protected static $modules = ['node', 'schemadotorg_rdf'];
 
   /**
    * A test node.
@@ -88,10 +88,7 @@ class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
     $this->assertSession()->responseContains('<div property="schema:alternateName">Another event</div>');
 
     // Set the subtype.
-    $tids = \Drupal::entityQuery('taxonomy_term')
-      ->condition('schema_type.value', 'BusinessEvent')
-      ->execute();
-    $this->node->schema_subtype->target_id = reset($tids);
+    $this->node->schema_event_subtype->value = 'BusinessEvent';
     $this->node->save();
 
     // Check replacing the RDF Schema.org type with the Schema.org subtype.

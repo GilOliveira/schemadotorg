@@ -4,9 +4,11 @@ namespace Drupal\schemadotorg_ui\Form;
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityForm;
+use Drupal\Core\Field\FieldFilteredMarkup;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
+use Drupal\schemadotorg\Form\SchemaDotOrgFormTrait;
 use Drupal\schemadotorg_ui\SchemaDotOrgUiFieldManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -18,6 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @property \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity
  */
 class SchemaDotOrgUiMappingForm extends EntityForm {
+  use SchemaDotOrgFormTrait;
 
   /**
    * Add new field mapping option.
@@ -334,6 +337,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     if (!empty($subtype['enable'])) {
       if (isset($subtype[static::ADD_FIELD])) {
         $field = $subtype[static::ADD_FIELD];
+        $field['machine_name'] = $this->getSubtypeFieldName();
         $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
         $new_field_names[$field['machine_name']] = $field['label'];
         $this->schemaEntityTypeBuilder->setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, [$field['machine_name'] => 'type']);
@@ -620,7 +624,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $form['subtyping'][static::ADD_FIELD] = [
         '#type' => 'details',
         '#title' => $this->t('Add field'),
-        '#attributes' => ['data-schemadotorg-ui-summary' => $this->t('Taxonomy term')],
+        '#attributes' => ['data-schemadotorg-ui-summary' => $this->t('List (text)')],
         '#states' => [
           'visible' => [
             ':input[name="subtyping[enable]"]' => ['checked' => TRUE],
@@ -630,13 +634,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $form['subtyping'][static::ADD_FIELD]['type'] = [
         '#type' => 'item',
         '#title' => $this->t('Type'),
-        '#markup' => $this->t('Taxonomy term'),
-        '#value' => 'field_ui:entity_reference:taxonomy_term',
+        '#markup' => $this->t('List (text)'),
+        '#value' => 'list_string',
       ];
       $form['subtyping'][static::ADD_FIELD]['label'] = [
         '#type' => 'item',
         '#title' => $this->t('Label'),
-        '#markup' => $this->t('Type'),
+        '#markup' => $this->t('Subtype'),
         '#value' => 'Subtype',
       ];
       $form['subtyping'][static::ADD_FIELD]['machine_name'] = [
@@ -651,15 +655,20 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
         '#default_value' => $this->t('A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.'),
       ];
+      $allowed_values = $this->schemaTypeManager->getTypeChildrenAsOptions($schema_type);
+      $form['subtyping'][static::ADD_FIELD]['allowed_values'] = [
+        '#type' => 'textarea',
+        '#title' => $this->t('Allowed values'),
+        '#description' => '<p>'
+        . $this->t('The possible values this field can contain. Enter one value per line, in the format key|label.') . '<br/>'
+        . $this->t('The key is the stored value. The label will be used in displayed values and edit forms.') . '<br/>'
+        . $this->t('The label is optional: if a line contains a single string, it will be used as key and label.')
+        . '</p>'
+        . '<p>' . $this->t('Allowed HTML tags in labels: @tags', ['@tags' => FieldFilteredMarkup::displayAllowedTags()]) . '</p>',
+        '#default_value' => $this->keyValuesString($allowed_values),
+        '#element_validate' => ['::validateKeyValues'],
+      ];
     }
-    $item = $this->getSchmemaTypeDefinition();
-    $subtypes = $this->schemaTypeManager->parseIds($item['sub_types']);
-    $tree = $this->schemaTypeManager->getTypeTree($subtypes);
-    $form['subtyping']['tree'] = [
-      '#type' => 'details',
-      '#title' => $this->t('More specific Schema.org subtypes'),
-      'items' => $this->schemaTypeBuilder->buildTypeTree($tree),
-    ];
     return $form;
   }
 
@@ -1178,7 +1187,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   The field name for Schema.org type subtyping.
    */
   protected function getSubtypeFieldName() {
-    return $this->schemaNames->getSubtypeFieldName();
+    $bundle = $this->getTargetBundle() ?: '{machine-name}';
+    return $this->schemaNames->getSubtypeFieldName($bundle);
   }
 
 }

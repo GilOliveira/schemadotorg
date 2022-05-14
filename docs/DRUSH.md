@@ -10,7 +10,7 @@ Available commands:
 schemadotorg:
 schemadotorg:create-type (socr)   Create Schema.org types.
 schemadotorg:delete-type (sode)   Delete Schema.org type.
-schemadotorg:update-schema (soup) Update Schema.org data and taxonomy.
+schemadotorg:update-schema (soup) Update Schema.org data.
 ```
 
 # Usage

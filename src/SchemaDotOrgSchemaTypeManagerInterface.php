@@ -248,6 +248,17 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getTypeChildren($type);
 
   /**
+   * Gets all child Schema.org types below a specified type.
+   *
+   * @param string $type
+   *   The Schema.org type.
+   *
+   * @return array
+   *   An associative array of Schema.org types as options
+   */
+  public function getTypeChildrenAsOptions($type);
+
+  /**
    * Gets Schema.org subtypes.
    *
    * @param string $type

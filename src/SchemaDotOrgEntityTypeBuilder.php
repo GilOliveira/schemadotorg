@@ -90,76 +90,6 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $this->schemaTypeManager = $schema_type_manager;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getTypeVocabularyId($type) {
-    // The field suffix for type vocabularies needs to be hardcode because
-    // type vocabularies are created when the module is installed.
-    // @see \Drupal\schemadotorg\SchemaDotOrgInstaller::updateTypeVocabularies
-    return SchemaDotOrgNamesInterface::DEFAULT_PREFIX . $this->schemaNames->camelCaseToSnakeCase($type);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function createTypeVocabulary($type) {
-    $type_definition = $this->schemaTypeManager->getType($type);
-
-    // Create vocabulary.
-    $vocabulary_id = $this->getTypeVocabularyId($type);
-    $vocabulary_name = 'Schema.org: ' . $type_definition['drupal_label'];
-    $vocabulary_description = 'This vocabulary is used when users search for Schema.org types or enumerations';
-
-    /** @var \Drupal\taxonomy\VocabularyStorage $vocabulary_storage */
-    $vocabulary_storage = $this->entityTypeManager->getStorage('taxonomy_vocabulary');
-    $vocabulary = $vocabulary_storage->load($vocabulary_id);
-    if (!$vocabulary) {
-      $vocabulary = $vocabulary_storage->create([
-        'name' => $vocabulary_name,
-        'description' => $vocabulary_description,
-        'vid' => $vocabulary_id,
-      ]);
-      $vocabulary->save();
-    }
-
-    // Add 'schema_type' field to the schema type vocabulary.
-    $entity_type_id = 'taxonomy_term';
-    $bundle = $vocabulary_id;
-    $field_name = 'schema_type';
-    $field_label = 'Schema.org: Type';
-
-    /** @var \Drupal\field\FieldStorageConfigInterface $field_storage_config_storage */
-    $field_storage_config_storage = $this->entityTypeManager->getStorage('field_storage_config');
-    if (!$field_storage_config_storage->load($entity_type_id . '.' . $field_name)) {
-      $field_storage_config_storage->create([
-        'field_name' => $field_name,
-        'entity_type' => $entity_type_id,
-        'type' => 'string',
-        'settings' => ['max_length' => 255],
-      ])->save();
-    }
-
-    /** @var \Drupal\field\FieldConfigInterface $field_storage_config */
-    $field_config_storage = $this->entityTypeManager->getStorage('field_config');
-    if (!$field_config_storage->load($entity_type_id . '.' . $bundle . '.' . $field_name)) {
-      $field_config_storage->create([
-        'entity_type' => $entity_type_id,
-        'bundle' => $bundle,
-        'field_name' => $field_name,
-        'label' => $field_label,
-      ])->save();
-    }
-
-    $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle)
-      ->setComponent($field_name, ['type' => 'string_textfield'])
-      ->save();
-
-    $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle)
-      ->setComponent($field_name, ['type' => 'string'])
-      ->save();
-  }
-
   /* ************************************************************************ */
   // Field creation methods copied from FieldStorageAddForm.
   // @see \Drupal\field_ui\Form\FieldStorageAddForm
@@ -192,6 +122,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       'label' => NULL,
       'description' => '',
       'unlimited' => NULL,
+      'allowed_values' => [],
       'schema_property' => NULL,
     ];
 
@@ -205,6 +136,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $field_label = $field['label'];
     $field_description = $field['description'];
     $field_unlimited = $field['unlimited'];
+    $field_allowed_values = $field['allowed_values'];
     $schema_property = $field['schema_property'];
 
     $new_storage_type = !$field_storage_config;
@@ -227,6 +159,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         'entity_type' => $entity_type_id,
         'type' => $field_type,
         'cardinality' => $field_unlimited ? -1 : 1,
+        'allowed_values' => $field_allowed_values,
       ];
     }
 
@@ -731,16 +664,6 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
 
         // Field values settings.
         switch ($target_type) {
-          case 'taxonomy_term':
-            if ($field_values['field_name'] === $this->schemaNames->getSubtypeFieldName()) {
-              $handler = 'schemadotorg_type';
-            }
-            else {
-              $handler = 'schemadotorg_enumeration';
-              $widget_id = 'options_select';
-            }
-            break;
-
           case 'media':
             $handler = 'schemadotorg_range_includes';
             if ($this->moduleHandler->moduleExists('media_library')) {
@@ -777,34 +700,40 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         break;
 
       case 'list_string':
-        // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager::getSchemaPropertyFieldTypes
-        $property_definition = $this->schemaTypeManager->getProperty($property);
-        $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
-        foreach ($range_includes as $range_include) {
-          // Set allowed values function if it exists.
-          // @see schemadotorg.allowed_values.inc
-          // @see schemadotorg_allowed_values_country()
-          // @see schemadotorg_allowed_values_language()
-          $allowed_values_function = 'schemadotorg_allowed_values_' . strtolower($range_include);
-          if (function_exists($allowed_values_function)) {
-            $field_storage_values['settings'] = [
-              'allowed_values' => [],
-              'allowed_values_function' => $allowed_values_function,
-            ];
-            break;
-          }
+        if (!empty($field_storage_values['allowed_values'])) {
+          $field_storage_values['settings'] = [
+            'allowed_values' => $field_storage_values['allowed_values'],
+            'allowed_values_function' => '',
+          ];
+          unset($field_storage_values['allowed_values']);
+        }
+        else {
+          // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager::getSchemaPropertyFieldTypes
+          $property_definition = $this->schemaTypeManager->getProperty($property);
+          $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
+          foreach ($range_includes as $range_include) {
+            // Set allowed values function if it exists.
+            // @see schemadotorg.allowed_values.inc
+            // @see schemadotorg_allowed_values_country()
+            // @see schemadotorg_allowed_values_language()
+            $allowed_values_function = 'schemadotorg_allowed_values_' . strtolower($range_include);
+            if (function_exists($allowed_values_function)) {
+              $field_storage_values['settings'] = [
+                'allowed_values' => [],
+                'allowed_values_function' => $allowed_values_function,
+              ];
+              break;
+            }
 
-          // Copy enumeration values into allowed values.
-          if ($this->schemaTypeManager->isEnumerationType($range_include)) {
-            $enumerations = $this->schemaTypeManager->getEnumerations($range_include);
-            array_walk($enumerations, function (&$value) {
-              $value = $this->schemaNames->camelCaseToTitleCase($value);
-            });
-            $field_storage_values['settings'] = [
-              'allowed_values' => $enumerations,
-              'allowed_values_function' => '',
-            ];
-            break;
+            // Copy enumeration values into allowed values.
+            if ($this->schemaTypeManager->isEnumerationType($range_include)) {
+              $allowed_values = $this->schemaTypeManager->getTypeChildrenAsOptions($range_include);
+              $field_storage_values['settings'] = [
+                'allowed_values' => $allowed_values,
+                'allowed_values_function' => '',
+              ];
+              break;
+            }
           }
         }
         break;

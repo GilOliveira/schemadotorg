@@ -38,8 +38,8 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
   /**
    * {@inheritdoc}
    */
-  public function getSubtypeFieldName() {
-    return $this->getFieldPrefix() . static::SUBTYPE_ID;
+  public function getSubtypeFieldName($bundle) {
+    return $this->getFieldPrefix() . $bundle . '_' . static::SUBTYPE_ID;
   }
 
   /**

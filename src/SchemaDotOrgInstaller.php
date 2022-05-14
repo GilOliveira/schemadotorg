@@ -43,22 +43,6 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    */
   protected $schemaTypeManager;
 
-  /**
-   * The Schema.org entity type builder service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilderInterface
-   */
-  protected $schemaEntityTypeBuilder;
-
-  /**
-   * Schema.org type vocabularies.
-   *
-   * @var string[]
-   */
-  protected $typeVocabularies = [
-    'Thing',
-    'Enumeration',
-  ];
 
   /**
    * Constructs a SchemaDotOrgInstaller object.
@@ -71,21 +55,17 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    *   The Schema.org names service.
    * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
    *   The Schema.org schema type manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilderInterface $schema_entity_type_builder
-   *   The Schema.org entity type  service.
    */
   public function __construct(
       Connection $database,
       EntityTypeManagerInterface $entity_type_manager,
       SchemaDotOrgNamesInterface $schema_names,
-      SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
-      SchemaDotOrgEntityTypeBuilderInterface $schema_entity_type_builder
+      SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
   ) {
     $this->database = $database;
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaNames = $schema_names;
     $this->schemaTypeManager = $schema_type_manager;
-    $this->schemaEntityTypeBuilder = $schema_entity_type_builder;
   }
 
   /**
@@ -100,10 +80,6 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
     // Import Schema.org types and properties tables.
     $this->importTable('types');
     $this->importTable('properties');
-
-    // Create and update Schema.org type vocabularies.
-    $this->createTypeVocabularies();
-    $this->updateTypeVocabularies();
   }
 
   /**
@@ -316,81 +292,6 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
         $this->database->schema()->dropTable($name);
       }
       $this->database->schema()->createTable($name, $table);
-    }
-  }
-
-  /* ************************************************************************ */
-  // Type vocabularies.
-  /* ************************************************************************ */
-
-  /**
-   * Create type vocabularies.
-   */
-  protected function createTypeVocabularies() {
-    foreach ($this->typeVocabularies as $type_vocabulary) {
-      $this->schemaEntityTypeBuilder->createTypeVocabulary($type_vocabulary);
-    }
-  }
-
-  /**
-   * Update the Schema.org type vocabularies.
-   */
-  protected function updateTypeVocabularies() {
-    /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
-    $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
-
-    foreach ($this->typeVocabularies as $type_vocabulary) {
-      $vocabulary_id = $this->schemaEntityTypeBuilder->getTypeVocabularyId($type_vocabulary);
-
-      // Create terms lookup table.
-      /** @var \Drupal\taxonomy\TermInterface[] $terms_lookup */
-      $terms_lookup = [];
-      $terms = $term_storage->loadByProperties(['vid' => $vocabulary_id]);
-      foreach ($terms as $term) {
-        $terms_lookup[$term->schema_type->value] = $term;
-      }
-
-      $types = $this->schemaTypeManager->getAllTypeChildren(
-        $type_vocabulary,
-        ['label', 'sub_type_of'],
-        $this->typeVocabularies
-      );
-
-      // Remove 'Enumeration' as the root term since it is not needed.
-      if ($type_vocabulary === 'Enumeration') {
-        unset($types['Enumeration']);
-      }
-
-      // First pass: Insert new Schema.org types.
-      foreach ($types as $type => $item) {
-        if (!isset($terms_lookup[$type])) {
-          $term = $term_storage->create([
-            'name' => $this->schemaNames->toDrupalLabel('types', $item['label']),
-            'vid' => $vocabulary_id,
-            'schema_type' => ['value' => $type],
-          ]);
-          $term->save();
-          $terms_lookup[$type] = $term;
-        }
-      }
-
-      // Second pass: Build Schema.org type hierarchy.
-      foreach ($types as $type => $item) {
-        // Get parent values.
-        $value = [];
-        $parent_types = $this->schemaTypeManager->parseIds($item['sub_type_of']);
-        foreach ($parent_types as $parent_type) {
-          if (isset($terms_lookup[$parent_type])) {
-            $parent_term = $terms_lookup[$parent_type];
-            $value[] = ['target_id' => $parent_term->id()];
-          }
-        }
-
-        // Re-save the term.
-        $term = $terms_lookup[$type];
-        $term->parent->setValue($value);
-        $term->save();
-      }
     }
   }
 

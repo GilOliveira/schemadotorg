@@ -32,7 +32,7 @@ class SchemaDotOrgCommands extends DrushCommands {
   }
 
   /**
-   * Update Schema.org data and taxonomy.
+   * Update Schema.org data.
    *
    * @command schemadotorg:update-schema
    *
@@ -41,12 +41,12 @@ class SchemaDotOrgCommands extends DrushCommands {
    * @aliases soup
    */
   public function update() {
-    if (!$this->io()->confirm($this->t('Are you sure you want to update Schema.org data and taxonomy?'))) {
+    if (!$this->io()->confirm($this->t('Are you sure you want to update Schema.org data?'))) {
       throw new UserAbortException();
     }
 
     $this->schemaInstaller->install();
-    $this->output()->writeln($this->t('Schema.org data and taxonomy updated.'));
+    $this->output()->writeln($this->t('Schema.org data.'));
   }
 
 }

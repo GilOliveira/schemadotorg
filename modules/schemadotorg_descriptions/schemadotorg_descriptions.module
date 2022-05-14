@@ -103,9 +103,10 @@ function schemadotorg_descriptions_entity_prepare_form(EntityInterface $entity, 
     $schema_names = \Drupal::service('schemadotorg.names');
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
     $mapping = SchemaDotOrgMapping::load("$target_entity_type_id.$target_bundle");
-
+    $bundle = $mapping->getTargetBundle();
+    $subtype_field_name = $schema_names->getSubtypeFieldName($bundle);
     $is_property_mapped = $mapping && $mapping->getSchemaPropertyMapping($field_name);
-    $is_subtype = ($schema_names->getSubtypeFieldName() === $field_name);
+    $is_subtype = ($subtype_field_name === $field_name);
     if ($is_property_mapped || $is_subtype) {
       $form_state->set('schemadotorg_descriptions', TRUE);
     }

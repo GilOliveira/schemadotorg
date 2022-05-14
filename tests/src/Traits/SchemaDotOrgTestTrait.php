@@ -69,30 +69,19 @@ trait SchemaDotOrgTestTrait {
    *   The entity type ID.
    * @param string $bundle
    *   The name of the bundle.
+   * @param string $schema_type
+   *   The Schema.org type.
    */
-  protected function createSchemaDotOrgSubTypeField($entity_type_id, $bundle) {
+  protected function createSchemaDotOrgSubTypeField($entity_type_id, $bundle, $schema_type = '') {
     FieldStorageConfig::create([
       'entity_type' => $entity_type_id,
-      'field_name' => 'schema_subtype',
-      'type' => 'entity_reference',
-      'settings' => ['target_type' => 'taxonomy_term'],
+      'field_name' => 'schema_' . $bundle . '_subtype',
+      'type' => 'list_string',
     ])->save();
     FieldConfig::create([
       'entity_type' => $entity_type_id,
       'bundle' => $bundle,
-      'field_name' => 'schema_subtype',
-      'settings' => [
-        'handler' => 'schemadotorg_type',
-        'handler_settings' => [
-          'target_type' => 'taxonomy_term',
-          'depth' => 1,
-          'schemadotorg_mapping' => [
-            'entity_type' => $entity_type_id,
-            'bundle' => $bundle,
-            'field_name' => 'schema_subtype',
-          ],
-        ],
-      ],
+      'field_name' => 'schema_' . $bundle . '_subtype',
     ])->save();
   }
 

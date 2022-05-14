@@ -91,22 +91,15 @@ function _schemadotorg_rdf_preprocess_entity(array &$variables, EntityInterface 
   // Get the subtype field (i.e. schema_type) and check that is has a target id.
   /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
   $schema_names = \Drupal::service('schemadotorg.names');
-  $subtype_field_name = $schema_names->getSubtypeFieldName();
+  $subtype_field_name = $schema_names->getSubtypeFieldName($bundle);
   if (!$entity->hasField($subtype_field_name)
-    || empty($entity->{$subtype_field_name}->target_id)) {
-    return;
-  }
-
-  // Get the Schema.org type from the term.
-  /** @var \Drupal\taxonomy\TermInterface $schema_subtype_term */
-  $schema_subtype_term = $entity->{$subtype_field_name}->entity;
-  $schema_subtype = $schema_subtype_term->schema_type->value;
-  if (!$schema_subtype) {
+    || empty($entity->{$subtype_field_name}->value)) {
     return;
   }
 
   // Replace the typeof attribute with the subtype
   // (i.e. schema:Event => schema:BusinessEvent).
+  $schema_subtype = $entity->{$subtype_field_name}->value;
   $schema_type = $schemadotorg_mapping->getSchemaType();
   foreach ($variables['attributes']['typeof'] as $index => $typeof) {
     if ($typeof === "schema:$schema_type") {

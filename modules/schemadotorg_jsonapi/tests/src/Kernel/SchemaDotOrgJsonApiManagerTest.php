@@ -28,8 +28,8 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     'node',
     'serialization',
     'system',
-    'taxonomy',
     'text',
+    'options',
     'user',
     'file',
     'schemadotorg_jsonapi',
@@ -66,8 +66,6 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     $this->installEntitySchema('schemadotorg_mapping_type');
     $this->installEntitySchema('node');
     $this->installEntitySchema('user');
-    $this->installEntitySchema('taxonomy_vocabulary');
-    $this->installEntitySchema('taxonomy_term');
     $this->installEntitySchema('file');
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
     $this->installConfig(['schemadotorg']);
@@ -133,42 +131,14 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
 
     /* ********************************************************************** */
     // Test installing Schema.org mapping JSON:API resource config.
-    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApi::install
-    // @see schemadotorg_jsonapi_install()
     /* ********************************************************************** */
-
-    // Trigger installation of the Schema.org JSON:API module.
-    $this->manager->install();
 
     // Check JSON:API resources are imported and created on installation.
     // @see jsonapi_extras.jsonapi_resource_config.file--file.yml
-    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApi::installTaxonomyResource
     $resources = $this->resourceStorage->loadMultiple([
       'file--file',
-      'taxonomy_term--schema_thing',
-      'taxonomy_term--schema_enumeration',
     ]);
-    $this->assertEquals(3, count($resources));
-
-    // Get 'Thing' resource fields.
-    /** @var \Drupal\jsonapi_extras\Entity\JsonapiResourceConfig $resource */
-    $resource = $resources['taxonomy_term--schema_thing'];
-    $resource_fields = $resource->get('resourceFields');
-
-    // Check enabling selected Schema.org taxonomy fields.
-    $this->assertFalse($resource_fields['name']['disabled']);
-    $this->assertFalse($resource_fields['status']['disabled']);
-    $this->assertFalse($resource_fields['schema_type']['disabled']);
-
-    // Check disabling internal taxonomy fields.
-    $this->assertTrue($resource_fields['vid']['disabled']);
-    $this->assertTrue($resource_fields['tid']['disabled']);
-    $this->assertTrue($resource_fields['weight']['disabled']);
-
-    // Check taxonomy field public names.
-    $this->assertEquals('name', $resource_fields['name']['publicName']);
-    $this->assertEquals('status', $resource_fields['status']['publicName']);
-    $this->assertEquals('value', $resource_fields['schema_type']['publicName']);
+    $this->assertEquals(1, count($resources));
 
     /* ********************************************************************** */
     // Insert Schema.org mapping JSON:API resource config.
@@ -207,7 +177,7 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertFalse($resource_fields['status']['disabled']);
     $this->assertFalse($resource_fields['langcode']['disabled']);
     $this->assertFalse($resource_fields['title']['disabled']);
-    $this->assertFalse($resource_fields['schema_subtype']['disabled']);
+    $this->assertFalse($resource_fields['schema_thing_subtype']['disabled']);
     $this->assertFalse($resource_fields['schema_alternate_name']['disabled']);
 
     // Check disabling internal fields.
@@ -218,7 +188,7 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
 
     // Check field public names.
     $this->assertEquals('name', $resource_fields['title']['publicName']);
-    $this->assertEquals('subtype', $resource_fields['schema_subtype']['publicName']);
+    $this->assertEquals('subtype', $resource_fields['schema_thing_subtype']['publicName']);
     $this->assertEquals('alternateName', $resource_fields['schema_alternate_name']['publicName']);
 
     /* ********************************************************************** */

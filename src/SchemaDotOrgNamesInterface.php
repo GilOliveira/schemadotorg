@@ -32,10 +32,13 @@ interface SchemaDotOrgNamesInterface {
   /**
    * Gets the field name for Schema.org type subtyping.
    *
+   * @param string $bundle
+   *   The name of the bundle.
+   *
    * @return string
    *   The field name for Schema.org type subtyping.
    */
-  public function getSubtypeFieldName();
+  public function getSubtypeFieldName($bundle);
 
   /**
    * Gets the max length for Schema.org type or property.

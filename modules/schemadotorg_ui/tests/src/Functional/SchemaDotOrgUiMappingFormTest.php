@@ -33,6 +33,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     'image',
     'telephone',
     'link',
+    'text',
     'options',
     'schemadotorg_ui',
   ];

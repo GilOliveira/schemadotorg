@@ -235,13 +235,14 @@ function schemadotorg_field_config_presave(EntityInterface $entity) {
  * @see \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::onDependencyRemoval
  */
 function schemadotorg_field_config_delete(EntityInterface $entity) {
+  $bundle = $entity->getTargetBundle();
+  $entity_type = $entity->getTargetEntityTypeId();
+
   /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
   $schema_names = \Drupal::service('schemadotorg.names');
 
   /** @var \Drupal\field\FieldConfigInterface $entity */
-  if ($entity->getName() === $schema_names->getSubtypeFieldName()) {
-    $entity_type = $entity->getTargetEntityTypeId();
-    $bundle = $entity->getTargetBundle();
+  if ($entity->getName() === $schema_names->getSubtypeFieldName($bundle)) {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
     $mapping = SchemaDotOrgMapping::load("$entity_type.$bundle");
     if ($mapping) {
