@@ -9,7 +9,6 @@ JSON-LD
   - SchemaDotOrgJsonLdBuilder::getEntityData(EntityInterface $entity)
   - SchemaDotOrgJsonLdBuilder::getFieldData($data, $property, $mapping
 
-
 - Add view JSON-LD permission.
 - Alter entity view to display JSON-LD.
 - Add links to online validator and chrome extension
@@ -143,10 +142,10 @@ Stable
 # Test coverage
 
 - Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgUiApiTest
+- Improve \Drupal\Tests\schemadotorg\Functional\SchemaDotOrgSettingsElementTest
 - Create SchemaDotOrgUiMappingForm kernel test.
   - Check all functionality.
 - JavaScript test coverage for UI and Report.
-- FormValidation test coverage for SchemaDotOrgFormTrait
 
 # TBD
 

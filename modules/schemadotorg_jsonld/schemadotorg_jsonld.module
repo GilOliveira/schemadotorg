@@ -37,7 +37,7 @@ function schemadotorg_jsonld_page_attachments_alter(array &$attachments) {
  *
  * @see metatag_get_route_entity()
  */
-function schemadotorg_jsonld_route_entity() {
+function schemadotorg_jsonld_get_route_entity() {
   $route_match = \Drupal::routeMatch();
   $route_name = $route_match->getRouteName();
 

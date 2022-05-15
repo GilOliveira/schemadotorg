@@ -4,13 +4,12 @@ namespace Drupal\schemadotorg_report\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\schemadotorg\Form\SchemaDotOrgFormTrait;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 
 /**
  * Configure Schema.org report settings for this site.
  */
 class SchemaDotOrgReportSettingsForm extends ConfigFormBase {
-  use SchemaDotOrgFormTrait;
 
   /**
    * {@inheritdoc}
@@ -32,22 +31,18 @@ class SchemaDotOrgReportSettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('schemadotorg_report.settings');
     $form['about'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::LINKS,
       '#title' => $this->t('Schema.org about links'),
-      '#description' => $this->t('Enter links to general information about Schema.org.')
-      . '<br/><br/>'
-      . $this->t('Enter one link per line, in the format <code>uri|title</code>.'),
-      '#default_value' => $this->linksString($config->get('about')),
-      '#element_validate' => ['::validateLinks'],
+      '#description' => $this->t('Enter links to general information about Schema.org.'),
+      '#default_value' => $config->get('about'),
     ];
     $form['types'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::LINKS_GROUPED,
       '#title' => $this->t('Schema.org type specific links'),
-      '#description' => $this->t('Enter links to specific information about Schema.org types.')
-      . '<br/><br/>'
-      . $this->t('Enter one item per line. Enter Schema.org type followed by individual links, in the format <code>uri|title</code>.'),
-      '#default_value' => $this->groupedLinksString($config->get('types')),
-      '#element_validate' => ['::validateGroupedLinks'],
+      '#description' => $this->t('Enter links to specific information about Schema.org types.'),
+      '#default_value' => $config->get('types'),
     ];
     return parent::buildForm($form, $form_state);
   }

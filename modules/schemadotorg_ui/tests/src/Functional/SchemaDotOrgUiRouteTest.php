@@ -95,8 +95,8 @@ class SchemaDotOrgUiRouteTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet("/admin/structure/types/manage/$content_type_id/fields");
     $assert_session->statusCodeEquals(200);
     $assert_session->linkExists('Schema.org');
-    $assert_session->linkByHrefExists($base_path . "admin/structure/types/manage/$content_type_id/schemedotorg");
-    $this->drupalGet("/admin/structure/types/manage/$content_type_id/schemedotorg");
+    $assert_session->linkByHrefExists($base_path . "admin/structure/types/manage/$content_type_id/schemadotorg");
+    $this->drupalGet("/admin/structure/types/manage/$content_type_id/schemadotorg");
     $assert_session->statusCodeEquals(200);
 
     // Check that media 'Schema.org' task exists.
@@ -105,16 +105,16 @@ class SchemaDotOrgUiRouteTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet("/admin/structure/media/manage/$media_type_id/fields");
     $assert_session->statusCodeEquals(200);
     $assert_session->linkExists('Schema.org');
-    $assert_session->linkByHrefExists($base_path . "admin/structure/media/manage/$media_type_id/schemedotorg");
-    $this->drupalGet("/admin/structure/media/manage/$media_type_id/schemedotorg");
+    $assert_session->linkByHrefExists($base_path . "admin/structure/media/manage/$media_type_id/schemadotorg");
+    $this->drupalGet("/admin/structure/media/manage/$media_type_id/schemadotorg");
     $assert_session->statusCodeEquals(200);
 
     // Check that user 'Schema.org' task exists.
     $this->drupalGet("/admin/config/people/accounts/fields");
     $assert_session->statusCodeEquals(200);
     $assert_session->linkExists('Schema.org');
-    $assert_session->linkByHrefExists($base_path . "admin/config/people/accounts/schemedotorg");
-    $this->drupalGet("/admin/config/people/accounts/schemedotorg");
+    $assert_session->linkByHrefExists($base_path . "admin/config/people/accounts/schemadotorg");
+    $this->drupalGet("/admin/config/people/accounts/schemadotorg");
     $assert_session->statusCodeEquals(200);
 
     /* ********************************************************************** */

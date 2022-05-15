@@ -4,13 +4,13 @@ namespace Drupal\schemadotorg\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Configure Schema.org settings for this site.
  */
 class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
-  use SchemaDotOrgFormTrait;
 
   /**
    * The entity type manager.
@@ -57,78 +57,68 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
       '#type' => 'container',
     ];
     $form['names']['prefixes'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'search|replace',
       '#title' => $this->t('Prefixes'),
-      '#description' => $this->t('Enter replacement prefixes used when Schema.org types and names are converted to Drupal entity and field machine names.')
-      . '<br/><br/>'
-      . $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
-      '#default_value' => $this->keyValuesString($config->get('names.prefixes')),
-      '#element_validate' => ['::validateKeyValues'],
+      '#description' => $this->t('Enter replacement prefixes used when Schema.org types and names are converted to Drupal entity and field machine names.'),
+      '#default_value' => $config->get('names.prefixes'),
     ];
     $form['names']['suffixes'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'search|replace',
       '#title' => $this->t('Suffixes'),
-      '#description' => $this->t('Enter replacement suffixes used when Schema.org types and names are converted to Drupal entity and field machine names.')
-      . '<br/><br/>'
-      . $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
-      '#default_value' => $this->keyValuesString($config->get('names.suffixes')),
-      '#element_validate' => ['::validateKeyValues'],
+      '#description' => $this->t('Enter replacement suffixes used when Schema.org types and names are converted to Drupal entity and field machine names.'),
+      '#default_value' => $config->get('names.suffixes'),
     ];
     $form['names']['abbreviations'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'search|replace',
       '#title' => $this->t('Abbreviations'),
-      '#description' => $this->t('Enter replacement abbreviation used when Schema.org types and names are converted to Drupal entity and field machine names.')
-      . '<br/><br/>'
-      . $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
-      '#default_value' => $this->keyValuesString($config->get('names.abbreviations')),
-      '#element_validate' => ['::validateKeyValues'],
+      '#description' => $this->t('Enter replacement abbreviation used when Schema.org types and names are converted to Drupal entity and field machine names.'),
+      '#default_value' => $config->get('names.abbreviations'),
     ];
     $form['names']['custom_names'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'search|replace',
       '#title' => $this->t('Custom names'),
-      '#description' => $this->t('Enter custom names used when Schema.org types and names are converted to Drupal entity and field machine names.')
-      . '<br/><br/>'
-      . $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
-      '#default_value' => $this->keyValuesString($config->get('names.custom_names')),
-      '#element_validate' => ['::validateKeyValues'],
+      '#description' => $this->t('Enter custom names used when Schema.org types and names are converted to Drupal entity and field machine names.'),
+      '#default_value' => $config->get('names.custom_names'),
     ];
     $form['names']['custom_words'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'search|replace',
       '#title' => $this->t('Custom titles'),
-      '#description' => $this->t('Enter titles used when Schema.org types and names are converted to Drupal entity and field machine names.')
-      . '<br/><br/>'
-      . $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
-      '#default_value' => $this->keyValuesString($config->get('names.custom_words')),
-      '#element_validate' => ['::validateKeyValues'],
+      '#description' => $this->t('Enter titles used when Schema.org types and names are converted to Drupal entity and field machine names.'),
+      '#default_value' => $config->get('names.custom_words'),
     ];
     $form['names']['custom_labels'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'search|replace',
       '#title' => $this->t('Custom labels'),
       '#description' => $this->t('Enter replacement labels used when Schema.org types and names are displayed as a Drupal entity and field machine label.')
       . ' '
-      . $this->t('Schema.org type and property names are case-sensitive and must be an exact match.')
-      . '<br/><br/>'
-      . $this->t('Enter one value per line, in the format <code>search|replace</code>.'),
-      '#default_value' => $this->keyValuesString($config->get('names.custom_labels')),
-      '#element_validate' => ['::validateKeyValues'],
+      . $this->t('Schema.org type and property names are case-sensitive and must be an exact match.'),
+      '#default_value' => $config->get('names.custom_labels'),
     ];
     $form['names']['acronyms'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_types' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Acronyms'),
-      '#description' => $this->t('Enter acronyms used when creating labels.')
-      . '<br/><br/>'
-      . $this->t('Enter one value per line.'),
-      '#default_value' => $this->listString($config->get('names.acronyms')),
-      '#element_validate' => ['::validateList'],
+      '#description' => $this->t('Enter acronyms used when creating labels.'),
+      '#default_value' => $config->get('names.acronyms'),
     ];
     $form['names']['minor_words'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_types' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Minor words'),
-      '#description' => $this->t('Enter minor word used when creating capitalized labels.')
-      . '<br/><br/>'
-      . $this->t('Enter one value per line.'),
-      '#default_value' => $this->listString($config->get('names.minor_words')),
-      '#element_validate' => ['::validateList'],
+      '#description' => $this->t('Enter minor word used when creating capitalized labels.'),
+      '#default_value' => $config->get('names.minor_words'),
     ];
     return parent::buildForm($form, $form_state);
   }

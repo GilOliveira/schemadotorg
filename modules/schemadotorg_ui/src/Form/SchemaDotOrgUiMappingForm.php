@@ -8,7 +8,7 @@ use Drupal\Core\Field\FieldFilteredMarkup;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
-use Drupal\schemadotorg\Form\SchemaDotOrgFormTrait;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Drupal\schemadotorg_ui\SchemaDotOrgUiFieldManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -20,7 +20,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @property \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity
  */
 class SchemaDotOrgUiMappingForm extends EntityForm {
-  use SchemaDotOrgFormTrait;
 
   /**
    * Add new field mapping option.
@@ -657,7 +656,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       ];
       $allowed_values = $this->schemaTypeManager->getTypeChildrenAsOptions($schema_type);
       $form['subtyping'][static::ADD_FIELD]['allowed_values'] = [
-        '#type' => 'textarea',
+        '#type' => 'schemadotorg_settings',
+        '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+        '#settings_description' => FALSE,
         '#title' => $this->t('Allowed values'),
         '#description' => '<p>'
         . $this->t('The possible values this field can contain. Enter one value per line, in the format key|label.') . '<br/>'
@@ -665,8 +666,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         . $this->t('The label is optional: if a line contains a single string, it will be used as key and label.')
         . '</p>'
         . '<p>' . $this->t('Allowed HTML tags in labels: @tags', ['@tags' => FieldFilteredMarkup::displayAllowedTags()]) . '</p>',
-        '#default_value' => $this->keyValuesString($allowed_values),
-        '#element_validate' => ['::validateKeyValues'],
+        '#default_value' => $allowed_values,
       ];
     }
     return $form;

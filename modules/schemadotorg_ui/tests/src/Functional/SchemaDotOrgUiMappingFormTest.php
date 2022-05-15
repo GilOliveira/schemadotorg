@@ -93,7 +93,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
 
     // Create 'Image' media type and mapping.
     $this->createMediaType('image', ['id' => 'image', 'label' => 'Image']);
-    $this->drupalGet('/admin/structure/media/manage/image/schemedotorg');
+    $this->drupalGet('/admin/structure/media/manage/image/schemadotorg');
     $this->submitForm([], 'Save');
     $assert_session->responseContains('Created <em class="placeholder">Image</em> mapping.');
 
@@ -177,7 +177,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     /* ********************************************************************** */
 
     // Create 'Person' user mapping.
-    $this->drupalGet('/admin/config/people/accounts/schemedotorg');
+    $this->drupalGet('/admin/config/people/accounts/schemadotorg');
     $this->submitForm([], 'Save');
     $assert_session->responseContains('Added <em class="placeholder">Middle name; Address; Affiliations; Alumni of; Awards; Birth date; Contact points; Description; Last name; Gender; First name; Honorific prefix; Honorific suffix; Job title; Knows languages; Nationality; Telephone; Works for</em>');
 

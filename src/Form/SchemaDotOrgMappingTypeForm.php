@@ -5,7 +5,7 @@ namespace Drupal\schemadotorg\Form;
 use Drupal\Core\Entity\ContentEntityTypeInterface;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 
 /**
  * Schema.org mapping type form.
@@ -13,7 +13,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @property \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $entity
  */
 class SchemaDotOrgMappingTypeForm extends EntityForm {
-  use SchemaDotOrgFormTrait;
 
   /**
    * {@inheritdoc}
@@ -41,71 +40,62 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       ];
     }
     $form['recommended_schema_types'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED_NAMED,
+      '#settings_format' => 'group_name|group_label|SchemaType01,SchemaType01,SchemaType01',
+      '#group_name' => 'label',
+      '#array_name' => 'types',
       '#title' => $this->t('Recommended Schema.org types'),
-      '#description' => $this->t('Enter recommended Schema.org types to be displayed when creating a new Schema.org type. Recommended Schema.org types will only be displayed on entity types that support adding new Schema.org types.')
-      . ' '
-      . $this->t('Enter one value per line, in the format <code>group_name|group_label|SchemaType01,SchemaType01,SchemaType01</code>.'),
-      '#attributes' => ['wrap' => 'off'],
-      '#default_value' => $this->groupedTypesListString($entity->get('recommended_schema_types')),
-      '#element_validate' => ['::validateGroupedTypesList'],
+      '#description' => $this->t('Enter recommended Schema.org types to be displayed when creating a new Schema.org type. Recommended Schema.org types will only be displayed on entity types that support adding new Schema.org types.'),
+      '#default_value' => $entity->get('recommended_schema_types'),
     ];
     $form['default_schema_types'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'format entity_type|schema_type',
       '#title' => $this->t('Default Schema.org types'),
-      '#description' => $this->t('Enter default Schema.org types that will automatically be assigned to an existing entity type/bundle.')
-      . '<br/><br/>'
-      . $this->t('Enter one value per line, in the <code>format entity_type|schema_type</code>.'),
-      '#default_value' => $this->keyValuesString($entity->get('default_schema_types')),
-      '#element_validate' => ['::validateKeyValues'],
+      '#description' => $this->t('Enter default Schema.org types that will automatically be assigned to an existing entity type/bundle.'),
+      '#default_value' => $entity->get('default_schema_types'),
     ];
     $form['default_schema_type_properties'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
+      '#settings_format' => 'SchemaType|propertyName01,propertyName02,propertyName02',
       '#title' => $this->t('Default Schema.org type properties'),
-      '#description' => $this->t('Enter default Schema.org type properties that are used when a Schema.org type mapping is being created or added to an entity.')
-      . '<br/><br/>'
-      . $this->t('Enter one value per line, in the format <code>SchemaType|propertyName01,propertyName02,propertyName02</code>.'),
-      '#attributes' => ['wrap' => 'off'],
-      '#default_value' => $this->nestedListString($entity->get('default_schema_type_properties')),
-      '#element_validate' => ['::validateNestedList'],
+      '#default_value' => $entity->get('default_schema_type_properties'),
     ];
     $form['default_schema_type_subtypes'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_types' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Default Schema.org type subtyping'),
-      '#description' => $this->t('Enter default Schema.org type subtyping, which is used to enable subtyping when a Schema.org type is being created automatically.')
-      . '<br/><br/>'
-      . $this->t('Enter one Schema.org type per line.'),
-      '#default_value' => $this->listString($entity->get('default_schema_type_subtypes')),
-      '#element_validate' => ['::validateList'],
+      '#description' => $this->t('Enter default Schema.org type subtyping, which is used to enable subtyping when a Schema.org type is being created automatically.'),
+      '#default_value' => $entity->get('default_schema_type_subtypes'),
     ];
     $form['default_base_fields'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
+      '#settings_format' => 'base_field_name|property_name_01,property_name_02',
       '#title' => $this->t('Default base field mappings'),
       '#description' => $this->t('Enter default base field mappings from existing entity properties and fields to Schema.org properties.')
-      . ' ' . $this->t('Leave the property_name value blank to allow the base field to be available but not mapped to a Schema.org property.')
-      . '<br/><br/>'
-      . $this->t('Enter one value per line, in the format <code>base_field_name|property_name_01,property_name_02</code>.'),
-      '#default_value' => $this->nestedListString($entity->get('default_base_fields')),
-      '#element_validate' => ['::validateNestedList'],
+      . ' ' . $this->t('Leave the property_name value blank to allow the base field to be available but not mapped to a Schema.org property.'),
+      '#default_value' => $entity->get('default_base_fields'),
     ];
     $form['default_field_weights'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_types' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Default field weights'),
-      '#description' => $this->t('Enter Schema.org property default field weights to help org Schema.org as they are added to entity types.')
-      . '<br/><br/>'
-      . $this->t('Enter one Schema.org property per line.'),
-      '#default_value' => $this->listString($entity->get('default_field_weights')),
-      '#element_validate' => ['::validateList'],
+      '#description' => $this->t('Enter Schema.org property default field weights to help org Schema.org as they are added to entity types.'),
+      '#default_value' => $entity->get('default_field_weights'),
     ];
     $form['default_field_groups'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED_NAMED,
+      '#settings_format' => 'group_name|group_label|property01,property02,property03',
+      '#group_name' => 'label',
+      '#array_name' => 'properties',
       '#title' => $this->t('Default field groups'),
-      '#description' => $this->t('Enter the default field groups and field order used to group Schema.org properties as they are added to entity types.')
-      . '<br/><br/>'
-      . $this->t('Enter one value per line, in the format <code>group_name|group_label|property01,property02,property03</code>.'),
-      '#attributes' => ['wrap' => 'off'],
-      '#default_value' => $this->groupedPropertiesListString($entity->get('default_field_groups')),
-      '#element_validate' => ['::validateGroupedPropertiesList'],
+      '#description' => $this->t('Enter the default field groups and field order used to group Schema.org properties as they are added to entity types.'),
+      '#default_value' => $entity->get('default_field_groups'),
     ];
     $type_options = [
       'details' => $this->t('Details'),

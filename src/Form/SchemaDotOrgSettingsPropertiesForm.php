@@ -4,13 +4,13 @@ namespace Drupal\schemadotorg\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Configure Schema.org properties settings for this site.
  */
 class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
-  use SchemaDotOrgFormTrait;
 
   /**
    * The entity type manager.
@@ -65,23 +65,19 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
       $form['schema_properties']['field_prefix']['#value'] = $config->get('field_prefix');
     }
     $form['schema_properties']['default_field_types'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
       '#title' => $this->t('Default Schema.org property field types'),
-      '#description' => $this->t('Enter default Schema.org property field types used when adding Schema.org properties to an entity type.')
-      . '<br/><br/>'
-      . $this->t('Enter one value per line, in the format <code>propertyName|field_type_01,field_type_02,field_type_03</code>.'),
-      '#attributes' => ['wrap' => 'off'],
-      '#default_value' => $this->nestedListString($config->get('schema_properties.default_field_types')),
-      '#element_validate' => ['::validateNestedList'],
+      '#description' => $this->t('Enter default Schema.org property field types used when adding Schema.org properties to an entity type.'),
+      '#settings_format' => 'propertyName|field_type_01,field_type_02,field_type_03',
+      '#default_value' => $config->get('schema_properties.default_field_types'),
     ];
     $form['schema_properties']['default_unlimited_fields'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Default unlimited Schema.org properties'),
-      '#description' => $this->t('Enter Schema.org properties that should default to supporting unlimited values.')
-      . '<br/><br/>'
-      . $this->t('Enter one Schema.org property per line.'),
-      '#default_value' => $this->listString($config->get('schema_properties.default_unlimited_fields')),
-      '#element_validate' => ['::validateList'],
+      '#description' => $this->t('Enter Schema.org properties that should default to supporting unlimited values.'),
+      '#default_value' => $config->get('schema_properties.default_unlimited_fields'),
     ];
     return parent::buildForm($form, $form_state);
   }

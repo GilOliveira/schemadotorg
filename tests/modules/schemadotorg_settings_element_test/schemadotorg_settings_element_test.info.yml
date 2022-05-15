@@ -1,0 +1,7 @@
+name: 'Schema.org Blueprint Settings Element test'
+type: module
+description: 'Support module for Schema.org Blueprint Settings element testing.'
+package: Schema.org Blueprints Testing
+core_version_requirement: '^8.9 || ^9'
+dependencies:
+  - 'schemadotorg:schemadotorg'

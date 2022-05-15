@@ -4,13 +4,13 @@ namespace Drupal\schemadotorg\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Configure Schema.org types settings for this site.
  */
 class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
-  use SchemaDotOrgFormTrait;
 
   /**
    * {@inheritdoc}
@@ -36,16 +36,14 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
       '#tree' => TRUE,
     ];
     $form['schema_types']['default_field_types'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
+      '#settings_format' => 'SchemaType|field_type_01,field_type_02,field_type_03',
       '#title' => $this->t('Default Schema.org type field types'),
       '#description' => $this->t('Enter the field types applied to a Schema.org type when a property is added to an entity type.')
       . ' '
-      . $this->t('Field types are applied in the order that they are entered.')
-      . '<br/><br/>'
-      . $this->t('Enter one value per line, in the format <code>SchemaType|field_type_01,field_type_02,field_type_03</code>.'),
-      '#attributes' => ['wrap' => 'off'],
-      '#default_value' => $this->nestedListString($config->get('schema_types.default_field_types')),
-      '#element_validate' => ['::validateNestedList'],
+      . $this->t('Field types are applied in the order that they are entered.'),
+      '#default_value' => $config->get('schema_types.default_field_types'),
     ];
     return parent::buildForm($form, $form_state);
   }

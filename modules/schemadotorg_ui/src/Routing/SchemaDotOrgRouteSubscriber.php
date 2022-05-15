@@ -83,7 +83,7 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
 
       // Add 'Manage Schema.org fields' route.
       $route = new Route(
-        "$path/schemedotorg",
+        "$path/schemadotorg",
         [
           '_title' => 'Manage Schema.org fields',
           '_entity_form' => 'schemadotorg_mapping.edit',

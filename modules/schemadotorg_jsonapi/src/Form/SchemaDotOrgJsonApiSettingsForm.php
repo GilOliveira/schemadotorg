@@ -4,13 +4,12 @@ namespace Drupal\schemadotorg_jsonapi\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\schemadotorg\Form\SchemaDotOrgFormTrait;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 
 /**
  * Configure Schema.org JSON:API settings for this site.
  */
 class SchemaDotOrgJsonApiSettingsForm extends ConfigFormBase {
-  use SchemaDotOrgFormTrait;
 
   /**
    * {@inheritdoc}
@@ -32,24 +31,21 @@ class SchemaDotOrgJsonApiSettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('schemadotorg_jsonapi.settings');
     $form['default_enabled_fields'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_types' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Default enabled fields'),
-      '#description' => $this->t('Enter fields that should default to enabled when they are added to a Schema.org JSON:API resource.')
-      . '<br/><br/>'
-      . $this->t('Enter one field per line.'),
-      '#default_value' => $this->listString($config->get('default_enabled_fields')),
-      '#element_validate' => ['::validateList'],
+      '#description' => $this->t('Enter fields that should default to enabled when they are added to a Schema.org JSON:API resource.'),
+      '#default_value' => $config->get('default_enabled_fields'),
     ];
     $form['path_prefixes'] = [
-      '#type' => 'textarea',
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'entity_type|prefix',
       '#title' => $this->t('Resource path prefixes'),
       '#description' => $this->t('Enter path prefixes to prepended to a Schema.org JSON:API resource when there is a conflicting resource path.')
       . ' '
-      . $this->t('For example, adding Person Schema.org type a node and user would create a conflict, that will be resolved by prepending Person with a path prefix (i.e. ContentPerson or UserPerson).')
-      . '<br/><br/>'
-      . $this->t('Enter one value per line, in the <code>entity_type|prefix</code>.'),
-      '#default_value' => $this->keyValuesString($config->get('path_prefixes')),
-      '#element_validate' => ['::validateKeyValues'],
+      . $this->t('For example, adding Person Schema.org type a node and user would create a conflict, that will be resolved by prepending Person with a path prefix (i.e. ContentPerson or UserPerson).'),
+      '#default_value' => $config->get('path_prefixes'),
     ];
     $form['disable_requirements'] = [
       '#type' => 'checkbox',
