@@ -96,7 +96,7 @@ class SchemaDotOrgSettings extends Textarea {
         static::ASSOCIATIVE_GROUPED => 'name|key_1:value_1,key_2:value_2,key_3:value_3',
         static::ASSOCIATIVE_GROUPED_NAMED => 'name|label|key_1:value_1,key_2:value_2,key_3:value_3',
         static::LINKS => 'url|title',
-        static::LINKS_GROUPED => 'name or url|title',
+        static::LINKS_GROUPED => 'group or url|title',
       ];
       $element['#description'] .= (!empty($element['#description'])) ? '<br/><br/>' : '';
       $format = $element['#settings_format'] ?: $formats[$element['#settings_type']];
@@ -108,7 +108,6 @@ class SchemaDotOrgSettings extends Textarea {
         $element['#description'] .= t('Enter one value per line.');
       }
     }
-
 
     // Set validation.
     $element += ['#element_validate' => []];
