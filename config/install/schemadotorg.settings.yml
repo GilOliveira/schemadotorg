@@ -69,6 +69,7 @@ schema_properties:
       - telephone
       - string
     identifier:
+      - flexfield
       - string
     height:
       - string

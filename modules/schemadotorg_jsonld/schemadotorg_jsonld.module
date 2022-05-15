@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Adds Schema.org's structured data as JSON LD in the head of web pages.
+ */
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function schemadotorg_jsonld_page_attachments_alter(array &$attachments) {
+  if (empty($attachments['#attached']['html_head'])) {
+    return;
+  }
+
+  $entity = schemadotorg_jsonld_get_route_entity();
+  $jsonld = "{test: '123'}";
+  if (!empty($jsonld)) {
+    $attachments['#attached']['html_head'][] = [
+      [
+        '#type' => 'html_tag',
+        '#tag' => 'script',
+        '#value' => $jsonld,
+        '#attributes' => ['type' => 'application/ld+json'],
+      ],
+      'schemadotorg_jsonld',
+    ];
+  }
+
+}
+
+/**
+ * Returns the entity of the current route.
+ *
+ * @return Drupal\Core\Entity\EntityInterface
+ *   The entity or NULL if this is not an entity route.
+ *
+ * @see metatag_get_route_entity()
+ */
+function schemadotorg_jsonld_route_entity() {
+  $route_match = \Drupal::routeMatch();
+  $route_name = $route_match->getRouteName();
+
+  // Look for a canonical entity view page, e.g. node/{nid}, user/{uid}, etc.
+  $matches = [];
+  preg_match('/entity\.(.*)\.(latest[_-]version|canonical)/', $route_name, $matches);
+  if (!empty($matches[1])) {
+    $entity_type = $matches[1];
+    return $route_match->getParameter($entity_type);
+  }
+
+  return NULL;
+}

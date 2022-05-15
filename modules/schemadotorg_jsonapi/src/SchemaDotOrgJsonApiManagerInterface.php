@@ -6,7 +6,7 @@ use Drupal\field\FieldConfigInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
- * Schema.org JSON:API interface.
+ * Schema.org JSON:API manager interface.
  */
 interface SchemaDotOrgJsonApiManagerInterface {
 

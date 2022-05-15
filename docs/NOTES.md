@@ -3,15 +3,21 @@ Schema.org Blueprints
 
 # Todo
 
-Ajax
-- Add Ajax to mapping form add field UI/UX
-  - @see \Drupal\jsonapi_extras\Form\JsonapiResourceConfigForm
+JSON-LD
+- Build JSON-LD
+  - SchemaDotOrgJsonLdBuilder::build(EntityInterface $entity)
+  - SchemaDotOrgJsonLdBuilder::getEntityData(EntityInterface $entity)
+  - SchemaDotOrgJsonLdBuilder::getFieldData($data, $property, $mapping
+
+
+- Add view JSON-LD permission.
+- Alter entity view to display JSON-LD.
+- Add links to online validator and chrome extension
+  - https://validator.schema.org/
+  - https://chrome.google.com/webstore/detail/schema-builder-tester-for/klohjdodjjeocpbpadmkcndjoadijgjg?hl=en-US
 
 Ongoing
 - Determine the recommended types per entity type.
-- Determine supported/recommend contributed modules
-  - Key value field
-  - Flex field
 - Build out the default schema types properties.
 - Review patterns and tests.
 
@@ -19,13 +25,56 @@ Code
 - Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
   to support subtype.
 
-Research
-- https://www.drupal.org/project/double_field - Only provides two fields with fixed names
-- https://www.drupal.org/project/field_union
+# Backlog
+
+Ajax
+- Add Ajax to mapping form add field UI/UX
+  - @see \Drupal\jsonapi_extras\Form\JsonapiResourceConfigForm
+
+# Research
+
+- https://www.drupal.org/docs/drupal-apis/entity-api/dynamicvirtual-field-values-using-computed-field-property-classes
 - https://www.lullabot.com/articles/write-better-code-typed-entity
 - https://www.drupal.org/project/yild
 - https://www.wikidata.org/wiki/Wikidata:Introduction
 - https://iptc.org/
+
+# Modules
+
+## Recommended Core Modules
+
+- [Email](https://www.drupal.org/docs/8/core/modules/email)
+- [Datetime](https://www.drupal.org/docs/8/core/modules/datetime)
+- [Link](https://www.drupal.org/docs/8/core/modules/liunk)
+- [Media](https://www.drupal.org/docs/8/core/modules/media)
+- [Media Library](https://www.drupal.org/docs/8/core/modules/media_library)
+- [Telephone](https://www.drupal.org/docs/8/core/modules/telephone)
+
+## Recommended Contribute Modules
+
+### UI/UX
+
+_The below modules improve the Schema.org Blueprints module's user experience._
+
+- [Field Group](https://www.drupal.org/project/field_group)
+
+### Field Collections
+
+_The below modules provide different ways to create and manage a collection of fields._
+
+- [Paragraphs](https://www.drupal.org/project/paragraphs)
+- [Inline Entity Form](https://www.drupal.org/project/inline_entity_form)
+- [FlexField](https://www.drupal.org/project/flexfield)
+
+### Field Types
+
+_The below modules provide more specific field types and behaviors._
+
+- [Address](https://www.drupal.org/project/address)
+- [Computed Field](https://www.drupal.org/project/computed_field)
+- [Field Token Value](https://www.drupal.org/project/field_token_value)
+- [Key value field](https://www.drupal.org/project/key_value_field)
+- [Time Field](https://www.drupal.org/project/time_field)
 
 # Roadmap
 
@@ -102,6 +151,7 @@ Stable
 # TBD
 
 What Schema.org types should we document?
+- Thing
 - Recipe
 - Restaurant
 - Logging business: Hotel
@@ -120,10 +170,4 @@ What Schema.org types should we document?
   - Include descriptions added via the schemadotorg_descriptions.module
 
 - How can we validate the generated JSON-LD?
-
-- How do we handle Schema.org types being used in multiple entity types?
-  (i.e. node:Person and user:Person)
-  - Recommend that people do not this
-  - Require them to manually alter there API types and paths
-
-- Should Schema.org JSON:API resources path and type be lowercase?
+  - Chrome extension and online

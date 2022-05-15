@@ -80,9 +80,9 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
   }
 
   /**
-   * Test Schema.org JSON:API services.
+   * Test Schema.org JSON:API manager.
    */
-  public function testSchemaDotOrgJsonApi() {
+  public function testSchemaDotOrgJsonApiManager() {
 
     /* ********************************************************************** */
     // Test requirements for Schema.org JSON:API module.

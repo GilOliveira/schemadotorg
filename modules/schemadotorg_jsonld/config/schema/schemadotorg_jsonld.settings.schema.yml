@@ -1,0 +1,7 @@
+schemadotorg_jsonld.settings:
+  type: config_entity
+  label: Schema.org JSON-LD settings
+  mapping:
+    status:
+      type: boolean
+      label: Status
