@@ -4,6 +4,7 @@ namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
 use Drupal\Core\Config\Entity\ImportableEntityStorageInterface;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Provides an interface for 'schemadotorg_mapping' storage.
@@ -11,7 +12,18 @@ use Drupal\Core\Config\Entity\ImportableEntityStorageInterface;
 interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterface, ImportableEntityStorageInterface {
 
   /**
-   * Determine if an entity type and bundle are mapped to Schema.org.
+   * Determine if an entity is mapped to a Schema.org type.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity.
+   *
+   * @return bool
+   *   TRUE if the entity is mapped to a Schema.org type.
+   */
+  public function isEntityMapped(EntityInterface $entity);
+
+  /**
+   * Determine if an entity type and bundle are mapped to a Schema.org type.
    *
    * @param string $entity_type_id
    *   The entity type ID.
@@ -19,7 +31,7 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    *   The name of the bundle.
    *
    * @return bool
-   *   TRUE if an entity type and bundle are mapped to Schema.org.
+   *   TRUE if an entity type and bundle are mapped to a Schema.org type.
    */
   public function isBundleMapped($entity_type_id, $bundle);
 
@@ -156,4 +168,14 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    */
   public function loadBySchemaType($entity_type_id, $type);
 
+  /**
+   * Load by entity.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity.
+   *
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null
+   *   A Schema.org mapping entity.
+   */
+  public function loadByEntity(EntityInterface $entity);
 }

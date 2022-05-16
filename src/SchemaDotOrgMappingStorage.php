@@ -33,6 +33,13 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   /**
    * {@inheritdoc}
    */
+  public function isEntityMapped(EntityInterface $entity) {
+    return $this->isBundleMapped($entity->getEntityTypeId(), $entity->bundle());
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function isBundleMapped($entity_type_id, $bundle) {
     return (boolean) $this->getQuery()
       ->condition('target_entity_type_id', $entity_type_id)
@@ -161,6 +168,17 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
     $entities = $this->loadByProperties([
       'target_entity_type_id' => $entity_type_id,
       'type' => $type,
+    ]);
+    return ($entities) ? reset($entities) : NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function loadByEntity(EntityInterface $entity) {
+    $entities = $this->loadByProperties([
+      'target_entity_type_id' => $entity->getEntityTypeId(),
+      'target_bundle' => $entity->bundle(),
     ]);
     return ($entities) ? reset($entities) : NULL;
   }

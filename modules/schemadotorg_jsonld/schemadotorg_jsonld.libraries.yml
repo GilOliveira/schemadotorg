@@ -1,0 +1,10 @@
+schemadotorg_jsonld:
+  js:
+    js/schemadotorg_jsonld.js: {}
+  css:
+    component:
+      css/schemadotorg_jsonld.css: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once

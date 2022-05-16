@@ -3,21 +3,15 @@ Schema.org Blueprints
 
 # Todo
 
+Address::generateSampleValue https://www.drupal.org/project/address/issues/2819251
+
+Add test
+- \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface::isEntityMapped
+- \Drupal\schemadotorg\SchemaDotOrgMappingStorage::loadByEntity
+
 JSON-LD
-- Build JSON-LD
-  - SchemaDotOrgJsonLdBuilder::build(EntityInterface $entity)
-  - SchemaDotOrgJsonLdBuilder::getEntityData(EntityInterface $entity)
-  - SchemaDotOrgJsonLdBuilder::getFieldData($data, $property, $mapping
-
-- Add view JSON-LD permission.
-- Alter entity view to display JSON-LD.
-- Add links to online validator and chrome extension
-  - https://validator.schema.org/
-  - https://chrome.google.com/webstore/detail/schema-builder-tester-for/klohjdodjjeocpbpadmkcndjoadijgjg?hl=en-US
-
-- https://moz.com/blog/json-ld-for-beginners
-- https://datalanguage.com/blog/publishing-json-ld-for-developers
-- https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
+- Test coverage
+- TDB
 
 Ongoing
 - Determine the recommended types per entity type.

@@ -30,8 +30,8 @@ function schemadotorg_descriptions_entity_load(array $entities, $entity_type_id)
 
   /** @var \Drupal\Core\Entity\EntityInterface[] $entities */
   foreach ($entities as $entity) {
-    // Only set description if it is empty.
-    if (!empty($entity->get('description'))) {
+    // Only set description for config entity bundles and if it is empty.
+    if (!$entity instanceof ConfigEntityBundleBase || !empty($entity->get('description'))) {
       continue;
     }
 

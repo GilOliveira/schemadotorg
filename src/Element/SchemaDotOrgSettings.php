@@ -419,8 +419,9 @@ class SchemaDotOrgSettings extends Textarea {
     $items = static::convertStringToIndexedArray($string, $item_delimiter);
     $array = [];
     foreach ($items as $item) {
-      $value = NULL;
-      [$key, $value] = explode($assoc_delimiter, $item);
+      $parts = explode($assoc_delimiter, $item);
+      $key = $parts[0];
+      $value = $parts[1] ?? NULL;
       $array[trim($key)] = (!is_null($value)) ? trim($value) : $value;
     }
     return $array;
