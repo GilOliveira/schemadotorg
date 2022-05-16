@@ -160,7 +160,7 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    * @return array
    *   A renderable containing reference links.
    */
-  protected function buildReferenceLinks(array $links) {
+  protected function buildReportLinks(array $links) {
     $items = [];
     foreach ($links as $link) {
       $host = parse_url($link['uri'], PHP_URL_HOST);

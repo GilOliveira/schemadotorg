@@ -15,6 +15,10 @@ JSON-LD
   - https://validator.schema.org/
   - https://chrome.google.com/webstore/detail/schema-builder-tester-for/klohjdodjjeocpbpadmkcndjoadijgjg?hl=en-US
 
+- https://moz.com/blog/json-ld-for-beginners
+- https://datalanguage.com/blog/publishing-json-ld-for-developers
+- https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data
+
 Ongoing
 - Determine the recommended types per entity type.
 - Build out the default schema types properties.
@@ -74,7 +78,9 @@ _The below modules provide more specific field types and behaviors._
 - [Field Token Value](https://www.drupal.org/project/field_token_value)
 - [Key value field](https://www.drupal.org/project/key_value_field)
 - [Time Field](https://www.drupal.org/project/time_field)
-
+- [Gender](https://www.drupal.org/project/gender)
+- [Select (or other)](https://www.drupal.org/project/select_or_other)
+- [Select Text Value](https://www.drupal.org/project/select_text_value)
 # Roadmap
 
 Pre-Alpha (Dev)

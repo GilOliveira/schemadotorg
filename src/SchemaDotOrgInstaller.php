@@ -43,7 +43,6 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    */
   protected $schemaTypeManager;
 
-
   /**
    * Constructs a SchemaDotOrgInstaller object.
    *
@@ -57,10 +56,10 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    *   The Schema.org schema type manager.
    */
   public function __construct(
-      Connection $database,
-      EntityTypeManagerInterface $entity_type_manager,
-      SchemaDotOrgNamesInterface $schema_names,
-      SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+    Connection $database,
+    EntityTypeManagerInterface $entity_type_manager,
+    SchemaDotOrgNamesInterface $schema_names,
+    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
   ) {
     $this->database = $database;
     $this->entityTypeManager = $entity_type_manager;

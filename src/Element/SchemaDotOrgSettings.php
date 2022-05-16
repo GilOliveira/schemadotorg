@@ -58,18 +58,20 @@ class SchemaDotOrgSettings extends Textarea {
   public function getInfo() {
     $class = get_class($this);
     return [
-      '#attributes' => ['wrap' => 'off'],
       '#process' => [
         [$class, 'processSchemaDotOrgSettings'],
         [$class, 'processAjaxForm'],
         [$class, 'processGroup'],
       ],
       '#settings_type' => static::INDEXED,
-      '#group_name' => 'name',
+      '#group_name' => 'label',
       '#array_name' => 'items',
-      '#settings_format' => '',
       '#settings_description' => TRUE,
+      '#settings_format' => '',
       '#description' => '',
+      '#attributes' => [
+        'wrap' => 'off',
+      ],
     ] + parent::getInfo();
   }
 
@@ -86,23 +88,12 @@ class SchemaDotOrgSettings extends Textarea {
    * Processes a 'schemadotorg_settings' element.
    */
   public static function processSchemaDotOrgSettings(&$element, FormStateInterface $form_state, &$complete_form) {
-    // Append description with or without format.
+    // Append settings description with or without settings format.
     if ($element['#settings_description']) {
-      $formats = [
-        static::INDEXED => '',
-        static::INDEXED_GROUPED => 'name|item_1,item_2,item_3',
-        static::INDEXED_GROUPED_NAMED => 'name|label|item_1,item_2,item_3',
-        static::ASSOCIATIVE => 'key|value',
-        static::ASSOCIATIVE_GROUPED => 'name|key_1:value_1,key_2:value_2,key_3:value_3',
-        static::ASSOCIATIVE_GROUPED_NAMED => 'name|label|key_1:value_1,key_2:value_2,key_3:value_3',
-        static::LINKS => 'url|title',
-        static::LINKS_GROUPED => 'group or url|title',
-      ];
       $element['#description'] .= (!empty($element['#description'])) ? '<br/><br/>' : '';
-      $format = $element['#settings_format'] ?: $formats[$element['#settings_type']];
+      $format = static::getSettingsFormat($element);
       if ($format) {
-        $t_args = ['@format' => $format];
-        $element['#description'] .= t('Enter one value per line, in the format <code>@format</code>.', $t_args);
+        $element['#description'] .= t('Enter one value per line, in the format <code>@format</code>.', ['@format' => $format]);
       }
       else {
         $element['#description'] .= t('Enter one value per line.');
@@ -126,6 +117,29 @@ class SchemaDotOrgSettings extends Textarea {
     else {
       $form_state->setValueForElement($element, $settings);
     }
+  }
+
+  /**
+   * Get the array item format for Schema.org settings form element.
+   *
+   * @param array $element
+   *   A Schema.org settings form element.
+   *
+   * @return string
+   *   The array item format for Schema.org settings form element.
+   */
+  protected static function getSettingsFormat(array $element) {
+    $formats = [
+      static::INDEXED => '',
+      static::INDEXED_GROUPED => 'name|item_1,item_2,item_3',
+      static::INDEXED_GROUPED_NAMED => 'name|label|item_1,item_2,item_3',
+      static::ASSOCIATIVE => 'key|value',
+      static::ASSOCIATIVE_GROUPED => 'name|key_1:value_1,key_2:value_2,key_3:value_3',
+      static::ASSOCIATIVE_GROUPED_NAMED => 'name|label|key_1:value_1,key_2:value_2,key_3:value_3',
+      static::LINKS => 'url|title',
+      static::LINKS_GROUPED => 'group or url|title',
+    ];
+    return $element['#settings_format'] ?: $formats[$element['#settings_type']];
   }
 
   /**

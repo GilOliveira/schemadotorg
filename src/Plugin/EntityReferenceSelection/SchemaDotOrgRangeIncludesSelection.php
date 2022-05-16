@@ -91,16 +91,16 @@ class SchemaDotOrgRangeIncludesSelection extends SelectionPluginBase implements 
    */
   public function defaultConfiguration() {
     return [
-        // Schema.org mapping info is set via schemadotorg_field_config_presave().
-        'schemadotorg_mapping' => [
-          'entity_type' => NULL,
-          'bundle' => NULL,
-          'field_name' => NULL,
-        ],
-        // Set 'auto_create = FALSE' to allow devel generate to work as expected.
-        'auto_create' => FALSE,
-        'auto_create_bundle' => NULL,
-      ] + parent::defaultConfiguration();
+      // Schema.org mapping info is set via schemadotorg_field_config_presave().
+      'schemadotorg_mapping' => [
+        'entity_type' => NULL,
+        'bundle' => NULL,
+        'field_name' => NULL,
+      ],
+      // Set 'auto_create = FALSE' to allow devel generate to work as expected.
+      'auto_create' => FALSE,
+      'auto_create_bundle' => NULL,
+    ] + parent::defaultConfiguration();
   }
 
   /**
@@ -162,7 +162,7 @@ class SchemaDotOrgRangeIncludesSelection extends SelectionPluginBase implements 
       ];
       $form['message'] = [
         '#markup' => '<p>' . $this->t("There are no @entity_types that will be automatically available based this field's associated Schema.org property.", $t_args) . '</p>'
-          . '<p><strong>' . $this->t('Please create a new @entity_type and map it to one of the following Schema.org types (@range_includes).', $t_args) . '</strong></p>',
+        . '<p><strong>' . $this->t('Please create a new @entity_type and map it to one of the following Schema.org types (@range_includes).', $t_args) . '</strong></p>',
       ];
     }
     else {
@@ -172,7 +172,7 @@ class SchemaDotOrgRangeIncludesSelection extends SelectionPluginBase implements 
       ];
       $form['message'] = [
         '#markup' => '<p>' . $this->t('This field is not mapped to a Schema.org property.') . '</p>'
-          . '<p><strong>' . $this->t("Please update this @entity_type's Schema.org type mapping.", $t_args) . '</strong></p>',
+        . '<p><strong>' . $this->t("Please update this @entity_type's Schema.org type mapping.", $t_args) . '</strong></p>',
       ];
     }
 

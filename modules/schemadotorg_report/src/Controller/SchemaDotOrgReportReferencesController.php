@@ -3,7 +3,6 @@
 namespace Drupal\schemadotorg_report\Controller;
 
 use Drupal\Core\Url;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Returns responses for Schema.org report references routes.
@@ -25,29 +24,43 @@ class SchemaDotOrgReportReferencesController extends SchemaDotOrgReportControlle
     $about = $config->get('about');
     if ($about) {
       $build['about'] = [
-        '#theme' => 'item_list',
-        '#title' => [
-          '#type' => 'link',
-          '#title' => $this->t('About'),
-          '#url' => Url::fromRoute('schemadotorg_report'),
+        'title' => [
+          '#markup' => $this->t('About'),
+          '#prefix' => '<h2>',
+          '#suffix' => '</h2>',
         ],
-        '#items' => $this->buildReferenceLinks($about),
+        'links' => [
+          '#theme' => 'item_list',
+          '#items' => $this->buildReportLinks($about),
+        ],
       ];
     }
 
-    // Types.
-    $types = $config->get('types');
-    if ($types) {
-      foreach ($types as $type => $links) {
-        $build['types'][$type] = [
-          '#theme' => 'item_list',
-          '#title' => [
-            '#type' => 'link',
-            '#title' => $type,
-            '#url' => Url::fromRoute('schemadotorg_report', ['id' => $type]),
-          ],
-          '#items' => $this->buildReferenceLinks($links),
+    // Links to references and issues/discussions.
+    $links = [
+      'types' => $this->t('References'),
+      'issues' => $this->t('Issues/Discussions'),
+    ];
+    foreach ($links as $name => $title) {
+      $type_links = $config->get($name);
+      if ($type_links) {
+        $build[$name]['title'] = [
+          '#markup' => $title,
+          '#prefix' => '<h2>',
+          '#suffix' => '</h2>',
         ];
+        $build[$name]['types'] = [];
+        foreach ($type_links as $type => $links) {
+          $build[$name]['types'][$type] = [
+            '#theme' => 'item_list',
+            '#title' => [
+              '#type' => 'link',
+              '#title' => $type,
+              '#url' => Url::fromRoute('schemadotorg_report', ['id' => $type]),
+            ],
+            '#items' => $this->buildReportLinks($links),
+          ];
+        }
       }
     }
 

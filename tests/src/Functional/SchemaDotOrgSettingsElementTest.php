@@ -41,13 +41,13 @@ indexed_grouped:
     - six
 indexed_grouped_named:
   A:
-    name: 'Group A'
+    label: 'Group A'
     items:
       - one
       - two
       - three
   B:
-    name: 'Group B'
+    label: 'Group B'
     items:
       - four
       - five
@@ -67,13 +67,13 @@ associative_grouped:
     six: Six
 associative_grouped_named:
   A:
-    name: 'Group A'
+    label: 'Group A'
     items:
       one: One
       two: Two
       three: Three
   B:
-    name: 'Group B'
+    label: 'Group B'
     items:
       four: Four
       five: Five

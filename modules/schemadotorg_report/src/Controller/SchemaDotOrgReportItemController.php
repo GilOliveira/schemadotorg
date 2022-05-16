@@ -2,10 +2,8 @@
 
 namespace Drupal\schemadotorg_report\Controller;
 
-use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
-use Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -131,7 +129,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
         ],
         'links' => [
           '#theme' => 'item_list',
-          '#items' => $this->buildReferenceLinks($about),
+          '#items' => $this->buildReportLinks($about),
         ],
       ];
     }
@@ -178,18 +176,24 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
             '#title' => $value,
             '#url' => Url::fromUri($value),
           ];
-          $references = $this->config('schemadotorg_report.settings')->get("types.$id");
-          if ($references) {
-            $reference_links = $this->buildReferenceLinks($references);
-            foreach ($reference_links as &$reference_link) {
-              $reference_link['#prefix'] = '<div>';
-              $reference_link['#suffix'] .= '</div>';
+          $links = [
+            'types' => $this->t('References'),
+            'issues' => $this->t('Issues/Discussions'),
+          ];
+          foreach ($links as $name => $title) {
+            $type_items = $this->config('schemadotorg_report.settings')->get("$name.$id");
+            if ($type_items) {
+              $type_links = $this->buildReportLinks($type_items);
+              foreach ($type_links as &$ype_link) {
+                $ype_link['#prefix'] = '<div>';
+                $ype_link['#suffix'] .= '</div>';
+              }
+              $build[$name] = [
+                '#type' => 'item',
+                '#title' => $title,
+                'items' => $type_links,
+              ];
             }
-            $build['references'] = [
-              '#type' => 'item',
-              '#title' => $this->t('References'),
-              'items' => $reference_links,
-            ];
           }
           break;
 

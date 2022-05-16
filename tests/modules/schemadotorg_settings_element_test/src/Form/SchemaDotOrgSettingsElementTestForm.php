@@ -63,7 +63,7 @@ class SchemaDotOrgSettingsElementTestForm extends FormBase {
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED_NAMED,
       '#default_value' => [
         'A' => [
-          'name' => 'Group A',
+          'label' => 'Group A',
           'items' => [
             'one',
             'two',
@@ -71,7 +71,7 @@ class SchemaDotOrgSettingsElementTestForm extends FormBase {
           ],
         ],
         'B' => [
-          'name' => 'Group B',
+          'label' => 'Group B',
           'items' => [
             'four',
             'five',
@@ -117,7 +117,7 @@ class SchemaDotOrgSettingsElementTestForm extends FormBase {
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED_NAMED,
       '#default_value' => [
         'A' => [
-          'name' => 'Group A',
+          'label' => 'Group A',
           'items' => [
             'one' => 'One',
             'two' => 'Two',
@@ -125,7 +125,7 @@ class SchemaDotOrgSettingsElementTestForm extends FormBase {
           ],
         ],
         'B' => [
-          'name' => 'Group B',
+          'label' => 'Group B',
           'items' => [
             'four' => 'Four',
             'five' => 'Five',

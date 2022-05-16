@@ -44,6 +44,13 @@ class SchemaDotOrgReportSettingsForm extends ConfigFormBase {
       '#description' => $this->t('Enter links to specific information about Schema.org types.'),
       '#default_value' => $config->get('types'),
     ];
+    $form['issues'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::LINKS_GROUPED,
+      '#title' => $this->t('Schema.org type issues/discussions links'),
+      '#description' => $this->t('Enter links to specific issues/discussions about Schema.org types.'),
+      '#default_value' => $config->get('issues'),
+    ];
     return parent::buildForm($form, $form_state);
   }
 
@@ -54,6 +61,7 @@ class SchemaDotOrgReportSettingsForm extends ConfigFormBase {
     $this->config('schemadotorg_report.settings')
       ->set('about', $form_state->getValue('about'))
       ->set('types', $form_state->getValue('types'))
+      ->set('issues', $form_state->getValue('issues'))
       ->save();
 
     parent::submitForm($form, $form_state);

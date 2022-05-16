@@ -196,3 +196,7 @@ types:
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/sitelinks-searchbox'
     - title: 'WebSite JSON-LD Sample Code'
       uri: 'https://jsonld.com/website/'
+issues:
+  Person:
+    - title: 'Quasi-enumerable value for gender #541 '
+      uri: 'https://github.com/schemaorg/schemaorg/issues/541'

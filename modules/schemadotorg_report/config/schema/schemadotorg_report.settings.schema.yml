@@ -31,3 +31,19 @@ schemadotorg_report.settings:
             uri:
               type: uri
               label: 'URI'
+    issues:
+      type: sequence
+      label: 'Schema.org issues/discussions'
+      sequence:
+        type: sequence
+        label: 'Scheme.org type links'
+        sequence:
+          type: mapping
+          label: 'Scheme.org type link'
+          mapping:
+            title:
+              type: string
+              label: 'Title'
+            uri:
+              type: uri
+              label: 'URI'
