@@ -11,9 +11,9 @@ field_type_mappings:
       address_line1: streetAddress
       address_line2: streetAddress
       organization: name
-      given_name: null
-      additional_name: null
-      family_name: null
+      given_name: name
+      additional_name: name
+      family_name: name
 field_type_properties:
   link: uri
   text: value

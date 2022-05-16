@@ -3,8 +3,6 @@ Schema.org Blueprints
 
 # Todo
 
-Address::generateSampleValue https://www.drupal.org/project/address/issues/2819251
-
 Add test
 - \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface::isEntityMapped
 - \Drupal\schemadotorg\SchemaDotOrgMappingStorage::loadByEntity

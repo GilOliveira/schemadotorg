@@ -203,7 +203,12 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       $data = ['@type' => $mapping['type']];
       foreach ($mapping['properties'] as $field_property => $schema_property) {
         if ($schema_property && isset($values[$field_property]) && !is_null($values[$field_property])) {
-          $data[$schema_property] = $values[$field_property];
+          if (isset($data[$schema_property])) {
+            $data[$schema_property] .= ' ' . $values[$field_property];
+          }
+          else {
+            $data[$schema_property] = $values[$field_property];
+          }
         }
       }
       return $data;

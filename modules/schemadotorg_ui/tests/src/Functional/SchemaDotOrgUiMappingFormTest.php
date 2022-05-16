@@ -179,7 +179,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     // Create 'Person' user mapping.
     $this->drupalGet('/admin/config/people/accounts/schemadotorg');
     $this->submitForm([], 'Save');
-    $assert_session->responseContains('Added <em class="placeholder">Middle name; Address; Affiliations; Alumni of; Awards; Birth date; Contact points; Description; Last name; Gender; First name; Honorific prefix; Honorific suffix; Job title; Knows languages; Nationality; Telephone; Works for</em>');
+    $assert_session->responseContains('Added <em class="placeholder">Middle name; Address; Affiliations; Alumni of; Awards; Birth date; Contact points; Description; Last name; First name; Honorific prefix; Honorific suffix; Job title; Knows languages; Nationality; Telephone; Works for</em>');
 
     $assert_session->responseContains('Created <em class="placeholder">User</em> mapping.');
 
@@ -194,7 +194,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_contact_point' => ['cardinality' => -1],
       'schema_description' => ['cardinality' => 1],
       'schema_family_name' => ['cardinality' => 1],
-      'schema_gender' => ['cardinality' => 1],
       'schema_given_name' => ['cardinality' => 1],
       'schema_honorific_prefix' => ['cardinality' => 1],
       'schema_honorific_suffix' => ['cardinality' => 1],
@@ -219,12 +218,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
           ],
         ],
         'target_type' => 'paragraph',
-      ],
-      'schema_gender' => [
-        'allowed_values' => [
-          'Female' => 'Female',
-          'Male' => 'Male',
-        ],
       ],
       'schema_knows_language' => [
         'allowed_values_function' => 'schemadotorg_allowed_values_language',
@@ -266,7 +259,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_contact_point' => ['type' => 'paragraphs'],
       'schema_description' => ['type' => 'text_textarea'],
       'schema_family_name' => ['type' => 'string_textfield'],
-      'schema_gender' => ['type' => 'options_select'],
       'schema_given_name' => ['type' => 'string_textfield'],
       'schema_honorific_prefix' => ['type' => 'string_textfield'],
       'schema_honorific_suffix' => ['type' => 'string_textfield'],
@@ -297,7 +289,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'mail' => 'email',
       'name' => 'name',
       'schema_family_name' => 'familyName',
-      'schema_gender' => 'gender',
       'schema_given_name' => 'givenName',
       'schema_honorific_prefix' => 'honorificPrefix',
       'schema_honorific_suffix' => 'honorificSuffix',

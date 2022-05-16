@@ -403,7 +403,6 @@ default_schema_type_properties:
     - description
     - email
     - familyName
-    - gender
     - givenName
     - honorificPrefix
     - honorificSuffix
