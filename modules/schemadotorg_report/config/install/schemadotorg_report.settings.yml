@@ -198,5 +198,8 @@ types:
       uri: 'https://jsonld.com/website/'
 issues:
   Person:
-    - title: 'Quasi-enumerable value for gender #541 '
+    - title: 'Quasi-enumerable value for gender #541'
       uri: 'https://github.com/schemaorg/schemaorg/issues/541'
+    - title: 'Genders other than Male and Female #2898'
+      uri: 'https://github.com/schemaorg/schemaorg/issues/2898'
+
