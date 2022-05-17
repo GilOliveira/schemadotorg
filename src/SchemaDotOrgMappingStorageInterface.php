@@ -178,4 +178,5 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    *   A Schema.org mapping entity.
    */
   public function loadByEntity(EntityInterface $entity);
+
 }

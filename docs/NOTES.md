@@ -3,13 +3,9 @@ Schema.org Blueprints
 
 # Todo
 
-Add test
-- \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface::isEntityMapped
-- \Drupal\schemadotorg\SchemaDotOrgMappingStorage::loadByEntity
-
 JSON-LD
 - Test coverage
-- TDB
+- Remove RDF module.
 
 Ongoing
 - Determine the recommended types per entity type.

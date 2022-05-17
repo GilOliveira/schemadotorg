@@ -3,26 +3,14 @@
 namespace Drupal\schemadotorg_jsonld;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Config\Entity\ConfigEntityInterface;
-use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem;
-use Drupal\Core\Image\ImageInterface;
-use Drupal\Core\Routing\RedirectDestinationInterface;
+use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Core\Url;
-use Drupal\field\FieldConfigInterface;
 use Drupal\file\FileInterface;
-use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
-use Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface;
-use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
-use phpDocumentor\Reflection\Types\False_;
 
 /**
  * Schema.org JSON-LD builder.
@@ -38,6 +26,13 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   protected $configFactory;
 
   /**
+   * The file URL generator.
+   *
+   * @var \Drupal\Core\File\FileUrlGeneratorInterface
+   */
+  protected $fileUrlGenerator;
+
+  /**
    * The entity type manager.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
@@ -45,30 +40,24 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   protected $entityTypeManager;
 
   /**
-   * The entity field manager.
-   *
-   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
-   */
-  protected $fieldManager;
-
-  /**
    * Constructs a SchemaDotOrgJsonLd object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.
+   * @param \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator
+   *   The file URL generator.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
-   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager
-   *   The entity field manager.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
+    FileUrlGeneratorInterface $file_url_generator,
     EntityTypeManagerInterface $entity_type_manager,
     EntityFieldManagerInterface $field_manager
   ) {
     $this->configFactory = $config_factory;
+    $this->fileUrlGenerator = $file_url_generator;
     $this->entityTypeManager = $entity_type_manager;
-    $this->fieldManager = $field_manager;
   }
 
   /**
@@ -116,7 +105,15 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       }
     }
 
-    return ($data) ? ['@type' => $type] + $data : [];
+    if (!$data) {
+      return FALSE;
+    }
+
+    $default_data = ['@type' => $type];
+    if ($entity->hasLinkTemplate('canonical')) {
+      $default_data['@url'] = $entity->toUrl('canonical')->setAbsolute()->toString();
+    }
+    return $default_data + $data;
   }
 
   /**
@@ -134,12 +131,6 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $field_definition = $items->getFieldDefinition();
     $field_storage_definition = $field_definition->getFieldStorageDefinition();
 
-    $property_names = $field_storage_definition->getPropertyNames();
-    $property_names = array_combine($property_names, $property_names);
-
-    // Entity references.
-    // Files.
-    // Properties.
     if ($field_storage_definition->getCardinality() === 1) {
       return $this->getSchemaPropertyDataFromFieldItem($property, $items->get(0));
     }
@@ -179,18 +170,22 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     if ($item->entity && $item->entity instanceof EntityInterface) {
       if ($item->entity instanceof FileInterface) {
         $file_uri = $item->entity->getFileUri();
-        // Return image style.
+
+        // Return an image style URL.
         $style = $config->get('property_image_styles.' . $property);
         if ($field_type === 'image' && $style) {
-          $image_style = $this->entityTypeManager->getStorage('image_style')->load($style);
+          $image_style_storage = $this->entityTypeManager->getStorage('image_style');
+          $image_style = $image_style_storage->load($style);
           if ($image_style) {
             return $image_style->buildUrl($file_uri);
           }
         }
-        return \Drupal::service('file_url_generator')->generateAbsoluteString($file_uri);
+
+        // Default the file's URL.
+        return $this->fileUrlGenerator->generateAbsoluteString($file_uri);
       }
       else {
-        return $this->buildEntityData($item->entity);
+        return $this->buildEntityData($item->entity) ?: $item->entity->label();
       }
     }
 
@@ -218,6 +213,20 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $property_name = $config->get('field_type_properties.' . $field_type);
     if ($property_name && isset($values[$property_name])) {
       return $values[$property_name];
+    }
+
+    // Handle property data types.
+    $property_definitions = $field_storage_definition->getPropertyDefinitions();
+    if (count($property_definitions) === 1) {
+      $property_definition = reset($property_definitions);
+      $value = reset($values);
+      switch ($property_definition->getDataType()) {
+        case 'timestamp';
+          return \Drupal::service('date.formatter')->format($value, 'custom', 'Y-m-d H:i:s P');
+
+        default:
+          return $value;
+      }
     }
 
     // Default to returning the first property when possible.

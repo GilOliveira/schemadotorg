@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\schemadotorg\Kernel;
 
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
@@ -48,6 +50,12 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
     // Set Schema.org mapping storage.
     $this->storage = $this->container->get('entity_type.manager')->getStorage('schemadotorg_mapping');
 
+    // Create page.
+    NodeType::create([
+      'type' => 'page',
+      'name' => 'Page',
+    ])->save();
+
     // Create Thing and Image node with mappings.
     NodeType::create([
       'type' => 'thing',
@@ -80,6 +88,16 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
    * Test Schema.org mapping storage.
    */
   public function testSchemaDotOrgMappingStorage() {
+    $page_node = Node::create(['type' => 'page', 'title' => 'Page']);
+    $page_node->save();
+
+    $thing_node = Node::create(['type' => 'thing', 'title' => 'Thing']);
+    $thing_node->save();
+
+    // Check determining if an entity is mapped to a Schema.org type.
+    $this->assertFalse($this->storage->isEntityMapped($page_node));
+    $this->assertTrue($this->storage->isEntityMapped($thing_node));
+
     // Check determining if an entity type and bundle are mapped to Schema.org.
     $this->assertFalse($this->storage->isBundleMapped('node', 'page'));
     $this->assertTrue($this->storage->isBundleMapped('node', 'thing'));
@@ -118,6 +136,10 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
     // Check loading by target entity id and Schema.org type.
     $this->assertEquals('node.thing', $this->storage->loadBySchemaType('node', 'Thing')->id());
     $this->assertNull($this->storage->loadBySchemaType('node', 'NotThing'));
+
+    // Check loading by entity.
+    $this->assertEquals('node.thing', $this->storage->loadByEntity($thing_node)->id());
+    $this->assertNull($this->storage->loadByEntity($page_node));
   }
 
 }
