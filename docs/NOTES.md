@@ -7,6 +7,9 @@ JSON-LD
 - Test coverage
 - Remove RDF module.
 - How do we handle processed body field value.
+- How to share JSON-LD via decoupled architecture?
+  - Dedicated endpoint
+  - meta
 - Determine how to handle recursion and nesting.
   - Add nesting levels to configuration.
 - Add hooks to schemadotorg_jsonld.module
