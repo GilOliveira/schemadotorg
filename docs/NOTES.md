@@ -6,6 +6,14 @@ Schema.org Blueprints
 JSON-LD
 - Test coverage
 - Remove RDF module.
+- How do we handle processed body field value.
+- Determine how to handle recursion and nesting.
+  - Add nesting levels to configuration.
+- Add hooks to schemadotorg_jsonld.module
+  - schemadotorg_jsonld_entity_data_alter(&$data, EntityInterface $entity, SchemaDotOrgMapping $mapping)
+  - schemadotorg_jsonld_field_item_alter(&$data, FieldItem $field_item, $property)
+
+Contributed module field support
 
 Ongoing
 - Determine the recommended types per entity type.
@@ -69,24 +77,26 @@ _The below modules provide more specific field types and behaviors._
 - [Gender](https://www.drupal.org/project/gender)
 - [Select (or other)](https://www.drupal.org/project/select_or_other)
 - [Select Text Value](https://www.drupal.org/project/select_text_value)
+- [SmartDate](https://www.drupal.org/project/smart_date)
+
 # Roadmap
 
 Pre-Alpha (Dev)
 - Fix issue as the come up with or without issues or MRs.
-- Build Schema.org Blueprint JSON-LD module
-- Implement core submodules.
 - Define core dependencies.
+- Implement core submodules.
 
 Alpha
 - Define baseline Schema.org types and properties
 - Establish sub-modules and feature list
+- Create hooks and APIs
 - Ensure baseline test coverage
 - Finalize core dependencies
 
 Beta
 - Find co-maintainers and sponsoring organizations
 - Improve documentation with in-line help
-- Create and document hooks and APIs
+- Finalize and document hooks and APIs
 - Determine upgrade path between Schema.org versions
 - Ensure regression test coverage
 

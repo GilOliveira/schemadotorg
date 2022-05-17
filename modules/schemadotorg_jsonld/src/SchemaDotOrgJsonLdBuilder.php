@@ -52,8 +52,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   public function __construct(
     ConfigFactoryInterface $config_factory,
     FileUrlGeneratorInterface $file_url_generator,
-    EntityTypeManagerInterface $entity_type_manager,
-    EntityFieldManagerInterface $field_manager
+    EntityTypeManagerInterface $entity_type_manager
   ) {
     $this->configFactory = $config_factory;
     $this->fileUrlGenerator = $file_url_generator;
@@ -110,7 +109,8 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     }
 
     $default_data = ['@type' => $type];
-    if ($entity->hasLinkTemplate('canonical')) {
+    if ($entity->hasLinkTemplate('canonical')
+      && $entity->access('view')) {
       $default_data['@url'] = $entity->toUrl('canonical')->setAbsolute()->toString();
     }
     return $default_data + $data;
@@ -130,7 +130,6 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   protected function getSchemaPropertyDataFromFieldItems($property, FieldItemListInterface $items) {
     $field_definition = $items->getFieldDefinition();
     $field_storage_definition = $field_definition->getFieldStorageDefinition();
-
     if ($field_storage_definition->getCardinality() === 1) {
       return $this->getSchemaPropertyDataFromFieldItem($property, $items->get(0));
     }
@@ -163,6 +162,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
 
     $field_storage_definition = $item->getFieldDefinition()->getFieldStorageDefinition();
     $field_type = $field_storage_definition->getType();
+
     $property_names = $field_storage_definition->getPropertyNames();
     $property_names = array_combine($property_names, $property_names);
 

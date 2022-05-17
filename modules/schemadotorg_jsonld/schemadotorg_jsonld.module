@@ -71,7 +71,6 @@ function schemadotorg_jsonld_entity_view_alter(array &$build, EntityInterface $e
   $build['schemadotorg_jsonid'] = [
     '#type' => 'details',
     '#title' => t('Schema.org JSON-LD'),
-    '#open' => TRUE,
     '#weight' => 1000,
     '#attached' => ['library' => ['schemadotorg_jsonld/schemadotorg_jsonld']],
     '#attributes' => ['class' => ['schemadotorg-jsonld', 'js-schemadotorg-jsonld']],
@@ -107,7 +106,7 @@ function schemadotorg_jsonld_entity_view_alter(array &$build, EntityInterface $e
 /**
  * Returns the entity of the current route.
  *
- * @return Drupal\Core\Entity\EntityInterface
+ * @return Drupal\Core\Entity\EntityInterface|null
  *   The entity or NULL if this is not an entity route.
  *
  * @see metatag_get_route_entity()
@@ -116,7 +115,7 @@ function schemadotorg_jsonld_get_route_entity() {
   $route_match = \Drupal::routeMatch();
   $route_name = $route_match->getRouteName();
   if (!preg_match('/entity\.(.*)\.(latest[_-]version|canonical)/', $route_name, $matches)) {
-    return;
+    return NULL;
   }
   return $route_match->getParameter($matches[1]);
 }
