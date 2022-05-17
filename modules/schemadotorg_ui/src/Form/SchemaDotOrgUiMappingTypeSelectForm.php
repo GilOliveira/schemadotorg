@@ -141,28 +141,6 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
       '#title' => $this->t('Full list of Schema.org types'),
       'tree' => $this->schemaTypeBuilder->buildTypeTree($tree, ['base_path' => $base_path]),
     ];
-
-    // Drush commands.
-    $commands = [];
-    foreach ($recommended_types as $group_name => $group) {
-      $arguments = [];
-      foreach ($group['types'] as $type) {
-        $arguments[] = "$entity_type_id:$type";
-      }
-      $commands[] = '# ' . $group['label'];
-      $commands[] = 'drush create:type ' . implode(' ', $arguments);
-      $commands[] = '';
-    }
-    $form['drush'] = [
-      '#type' => 'details',
-      '#title' => $this->t('Drush commands'),
-      '#description' => $this->t('Use the below drush commands to create commonly used types.'),
-      'commands' => [
-        '#type' => 'html_tag',
-        '#tag' => 'pre',
-        '#value' => implode(PHP_EOL, $commands),
-      ],
-    ];
     return $form;
   }
 
