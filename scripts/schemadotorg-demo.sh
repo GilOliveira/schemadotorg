@@ -61,7 +61,6 @@ function install() {
     admin_toolbar_tools\
     anonymous_redirect\
     coffee\
-    config_inspector\
     devel\
     devel_generate\
     features\
