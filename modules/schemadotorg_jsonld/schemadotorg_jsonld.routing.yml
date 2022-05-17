@@ -1,3 +1,6 @@
+route_callbacks:
+  - '\Drupal\schemadotorg_jsonld\Routing\SchemaDotOrgJsonLdRoutes::routes'
+
 schemadotorg_jsonld.settings:
   path: '/admin/structure/schemadotorg/settings/jsonld'
   defaults:

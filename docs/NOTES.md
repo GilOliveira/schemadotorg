@@ -5,16 +5,18 @@ Schema.org Blueprints
 
 JSON-LD
 - Test coverage
-- Remove RDF module.
-- How do we handle processed body field value.
+
+- Add hooks to schemadotorg_jsonld.module
+  - schemadotorg_jsonld_entity_alter(&$data, EntityInterface $entity, SchemaDotOrgMapping $mapping)
+  - schemadotorg_jsonld_field_item_alter(&$data, FieldItem $field_item, $property)
+
+- How to format certain fields types, including telephone, units, etc?
+- Determine how to handle recursion and nesting.
+  - Add nesting levels to configuration.
+- How do we handle formatted/processed body field value?
 - How to share JSON-LD via decoupled architecture?
   - Dedicated endpoint
   - meta
-- Determine how to handle recursion and nesting.
-  - Add nesting levels to configuration.
-- Add hooks to schemadotorg_jsonld.module
-  - schemadotorg_jsonld_entity_data_alter(&$data, EntityInterface $entity, SchemaDotOrgMapping $mapping)
-  - schemadotorg_jsonld_field_item_alter(&$data, FieldItem $field_item, $property)
 
 Contributed module field support
 

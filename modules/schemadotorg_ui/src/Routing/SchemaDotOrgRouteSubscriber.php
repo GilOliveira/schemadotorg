@@ -71,7 +71,6 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
 
       $defaults = [
         'entity_type_id' => $entity_type_id,
-
       ];
       // If the entity type has no bundles and it doesn't use {bundle} in its
       // admin path, use the entity type.

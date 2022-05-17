@@ -30,3 +30,9 @@ schemadotorg_jsonld.settings:
       sequence:
         type: string
         label: 'Field name image style'
+    entity_type_resource_paths:
+      type: sequence
+      label: 'Entity type resource paths'
+      sequence:
+        type: string
+        label: 'Entity type resource path'

@@ -124,10 +124,15 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    * @param \Drupal\Core\Field\FieldItemListInterface $items
    *   FieldItemList containing the values to be displayed.
    *
-   * @return array
+   * @return array|null
    *   An array containing the Schema.org property data.
+   *   NULL if the user does not have access to the field.
    */
   protected function getSchemaPropertyDataFromFieldItems($property, FieldItemListInterface $items) {
+    if (!$items->access('view')) {
+      return NULL;
+    }
+
     $field_definition = $items->getFieldDefinition();
     $field_storage_definition = $field_definition->getFieldStorageDefinition();
     if ($field_storage_definition->getCardinality() === 1) {

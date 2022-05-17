@@ -22,7 +22,7 @@
   }());
 
   /**
-   * Tracks Schema.org JSON-LD details open state.
+   * Tracks Schema.org JSON-LD detail open state.
    *
    * @type {Drupal~behavior}
    */
@@ -58,14 +58,14 @@
     attach: function attach(context) {
       $(context).find('.js-schemadotorg-jsonld').once('schemadotorg-jsonld-copy').each(function () {
         var $container = $(this);
-        var $pre = $container.find('pre');
+        var $input = $container.find('input:hidden');
         var $button = $container.find(':submit, :button');
         var $message = $container.find('.schemadotorg-jsonld-copy-message');
         // Copy code from textarea to the clipboard.
         // @see https://stackoverflow.com/questions/47879184/document-execcommandcopy-not-working-on-chrome/47880284
         $button.on('click', function () {
           if (window.navigator.clipboard) {
-            window.navigator.clipboard.writeText($pre.html());
+            window.navigator.clipboard.writeText($input.val());
           }
           $message.show().delay(1500).fadeOut('slow');
           Drupal.announce(Drupal.t('JSON-LD copied to clipboard…'));
