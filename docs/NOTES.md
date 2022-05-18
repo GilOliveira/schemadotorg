@@ -4,19 +4,8 @@ Schema.org Blueprints
 # Todo
 
 JSON-LD
-- Move all business logic in SchemaDotOrgJsonLdBuilder into small reusable
-  and customizable alter hooks.
-  - All that we are doing is massaging data types and associative arrays.
-  - Schema.org JSON-LD module should be executed before all other alter hooks.
-  - Move formatting dependencies out of the builder.
-  - Maybe move formatters into *.inc files
-    - MODULE.schemadotorg_jsonld.inc
-  - Parameters
-    - $property
-    - FieldItemInterface $item
-    - $options (processed, etc...)
-    - $context ($entity, $mapping)
-  - Allow field type, entity type, and data type options to be configured.
+- Create SchemaDotOrgJsonLdBuilderFormatter service.
+- Possibly call the formatter service before the alter hooks.
 - Field types that will remain problems
   - Date range
   - Repeating events (SmartDates)

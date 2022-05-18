@@ -1,7 +1,7 @@
 services:
   schemadotorg_jsonld.builder:
     class: Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilder
-    arguments: ['@config.factory', '@date.formatter', '@file_url_generator', '@entity_type.manager']
+    arguments: ['@config.factory', '@module_handler', '@entity_type.manager']
   schemadotorg_jsonld.breadcrumb:
     class: Drupal\schemadotorg_jsonld\Breadcrumb\SchemaDotOrgJsonLdBreadcrumbBuilder
     tags:

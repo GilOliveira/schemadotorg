@@ -2,28 +2,6 @@ schemadotorg_jsonld.settings:
   type: config_entity
   label: Schema.org JSON-LD settings
   mapping:
-    field_type_mappings:
-      type: sequence
-      label: 'Field type mappings'
-      sequence:
-        type: mapping
-        label: 'Field type'
-        mapping:
-          type:
-            type: string
-            label: 'Schema.org type'
-          properties:
-            type: sequence
-            label: 'Properties'
-            sequence:
-              type: string
-              label: 'Property'
-    field_type_properties:
-      type: sequence
-      label: 'Field type properties'
-      sequence:
-        type: string
-        label: 'Field type property'
     property_image_styles:
       type: sequence
       label: 'Field name image styles'

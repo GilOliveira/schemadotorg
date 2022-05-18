@@ -1,24 +1,3 @@
-field_type_mappings:
-  address:
-    type: PostalAddress
-    properties:
-      country_code: addressCountry
-      administrative_area: addressRegion
-      locality: addressLocality
-      dependent_locality: addressLocality
-      postal_code: postalCode
-      sorting_code: postOfficeBoxNumber
-      address_line1: streetAddress
-      address_line2: streetAddress
-      organization: name
-      given_name: name
-      additional_name: name
-      family_name: name
-field_type_properties:
-  link: uri
-  text: value
-  text_long: value--processed
-  text_with_summary: value--processed
 property_image_styles:
   image: large
   thumbnail: thumbnail
