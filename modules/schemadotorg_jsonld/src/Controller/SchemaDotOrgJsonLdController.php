@@ -4,6 +4,7 @@ namespace Drupal\schemadotorg_jsonld\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -44,6 +45,19 @@ class SchemaDotOrgJsonLdController extends ControllerBase {
       throw new NotFoundHttpException();
     }
     return new JsonResponse($data);
+  }
+
+  /**
+   * Checks view access to an entity.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity.
+   *
+   * @return \Drupal\Core\Access\AccessResultInterface
+   *   The access result.
+   */
+  public function access(AccountInterface $account, EntityInterface $entity) {
+    return $entity->access('view', $account, TRUE);
   }
 
 }

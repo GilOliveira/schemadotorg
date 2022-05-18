@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Adds Schema.org's structured data as JSON LD in the head of web pages.
+ * Adds Schema.org's structured data as JSON-LD in the head of web pages.
  */
 
 use Drupal\Core\Entity\EntityInterface;
@@ -13,15 +13,18 @@ use Drupal\Core\Url;
  * Implements hook_page_attachments_alter().
  */
 function schemadotorg_jsonld_page_attachments_alter(array &$attachments) {
+  // Make sure the page has an HTML <head> section.
   if (empty($attachments['#attached']['html_head'])) {
     return;
   }
 
+  // Get the current route's entity.
   $entity = schemadotorg_jsonld_get_route_entity();
   if (!$entity) {
     return;
   }
 
+  // Build the entity's Schema.org data.
   /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface $builder */
   $builder = \Drupal::service('schemadotorg_jsonld.builder');
   $data = $builder->build($entity);
@@ -29,13 +32,16 @@ function schemadotorg_jsonld_page_attachments_alter(array &$attachments) {
     return;
   }
 
+  // If preprocess is disable, make the JSON pretty.
   $preprocess = \Drupal::config('system.performance')->get('js.preprocess');
-  $json = json_encode($data, $preprocess ? 0 : JSON_PRETTY_PRINT);
+  $json_flags = $preprocess ? 0 : JSON_PRETTY_PRINT;
+
+  // Add the <script type="application/ld+json"> to <head> section of the page.
   $attachments['#attached']['html_head'][] = [
     [
       '#type' => 'html_tag',
       '#tag' => 'script',
-      '#value' => $json,
+      '#value' => json_encode($data, $json_flags),
       '#attributes' => ['type' => 'application/ld+json'],
     ],
     'schemadotorg_jsonld',
@@ -47,19 +53,23 @@ function schemadotorg_jsonld_page_attachments_alter(array &$attachments) {
  * Implements hook_entity_view_alter().
  */
 function schemadotorg_jsonld_entity_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
+  // Only display the JSON-LD on an entity's full page view mode.
   if ($build['#view_mode'] !== 'full') {
     return;
   }
 
+  // Check that the current user can view the Schema.org JSON-LD.
   if (!\Drupal::currentUser()->hasPermission('view schemadotorg jsonld')) {
     return;
   }
 
+  // Get the current route's entity and make sure it is being viewed.
   $route_entity = schemadotorg_jsonld_get_route_entity();
   if (!$route_entity || ($route_entity !== $entity)) {
     return;
   }
 
+  // Build the entity's Schema.org data.
   /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface $builder */
   $builder = \Drupal::service('schemadotorg_jsonld.builder');
   $data = $builder->build($entity);
@@ -67,12 +77,41 @@ function schemadotorg_jsonld_entity_view_alter(array &$build, EntityInterface $e
     return;
   }
 
-  $jsonld_url = Url::fromRoute(
-    'schemadotorg_jsonld.' . $entity->getEntityTypeId(),
-    ['entity' => $entity->id()],
-    ['absolute' => TRUE],
-  );
+  // Display the JSON-LD using a details element.
+  $build['schemadotorg_jsonid'] = [
+    '#type' => 'details',
+    '#title' => t('Schema.org JSON-LD'),
+    '#weight' => 1000,
+    '#attributes' => ['class' => ['schemadotorg-jsonld', 'js-schemadotorg-jsonld']],
+    '#attached' => ['library' => ['schemadotorg_jsonld/schemadotorg_jsonld']],
+  ];
 
+  // Make it easy for someone to copy the JSON.
+  $t_args = [':href' => 'https://validator.schema.org/',];
+  $description = t('Please copy-n-paste the below JSON-LD into the <a href=":href">Schema Markup Validator</a>.', $t_args);
+  $build['schemadotorg_jsonid']['copy'] = [
+    '#type' => 'container',
+    '#attributes' => ['class' => ['schemadotorg-jsonld-copy']],
+    'description' => [
+      '#type' => 'container',
+      '#markup' => $description,
+    ],
+    'button' => [
+      '#type' => 'button',
+      '#button_type' => 'small',
+      '#attributes' => ['class' => ['schemadotorg-jsonld-copy-button', 'button--extrasmall']],
+      '#value' => t('Copy JSON-LD'),
+    ],
+    'message' => [
+      '#type' => 'html_tag',
+      '#tag' => 'span',
+      '#attributes' => ['class' => ['schemadotorg-jsonld-copy-message']],
+      '#plain_text' => t('JSON-LD copied to clipboard…'),
+    ],
+  ];
+
+  // JSON.
+  // Make the JSON pretty and enhance it.
   $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
   // Escape HTML special characters.
   $json_markup = htmlspecialchars($json);
@@ -80,51 +119,30 @@ function schemadotorg_jsonld_entity_view_alter(array &$build, EntityInterface $e
   $json_markup = preg_replace('/&quot;([^&]+)&quot;: /', '<span>&quot;$1&quot;</span>": ', $json_markup);
   // Add links to URLs.
   $json_markup = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.-]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $json_markup);
-
-  $t_args = [':href' => 'https://validator.schema.org/',];
-
-  $build['schemadotorg_jsonid'] = [
-    '#type' => 'details',
-    '#title' => t('Schema.org JSON-LD'),
-    '#weight' => 1000,
-    '#attached' => ['library' => ['schemadotorg_jsonld/schemadotorg_jsonld']],
-    '#attributes' => ['class' => ['schemadotorg-jsonld', 'js-schemadotorg-jsonld']],
-    'copy' => [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['schemadotorg-jsonld-copy']],
-      'description' => [
-        '#type' => 'container',
-        '#markup' => t('Please copy-n-paste the below JSON-LD into the <a href=":href">Schema Markup Validator</a>.', $t_args),
-      ],
-      'button' => [
-        '#type' => 'button',
-        '#button_type' => 'small',
-        '#attributes' => ['class' => ['schemadotorg-jsonld-copy-button', 'button--extrasmall']],
-        '#value' => t('Copy JSON-LD'),
-      ],
-      'message' => [
-        '#type' => 'html_tag',
-        '#tag' => 'span',
-        '#attributes' => ['class' => ['schemadotorg-jsonld-copy-message']],
-        '#plain_text' => t('JSON-LD copied to clipboard…'),
-      ],
-    ],
-    'json' => [
+  $build['schemadotorg_jsonid']['json'] = [
+    'input' => [
       '#type' => 'hidden',
       '#value' => $json,
     ],
-    'markup' => [
+    'code' => [
       '#type' => 'html_tag',
       '#tag' => 'pre',
-      '#attributes' => ['class' => ['schemadotorg-jsonld-javascript']],
-      'content' => ['#markup' => $json_markup],
+      '#attributes' => ['class' => ['schemadotorg-jsonld-code']],
+      '#value' => $json_markup,
     ],
-    'url' => [
-      '#type' => 'link',
-      '#url' => $jsonld_url,
-      '#title' => $jsonld_url->toString(),
-      '#prefix' => t('JSON-LD URI:') . ' ',
-    ],
+  ];
+
+  // JSON-LD URI.
+  $jsonld_url = Url::fromRoute(
+    'schemadotorg_jsonld.' . $entity->getEntityTypeId(),
+    ['entity' => $entity->id()],
+    ['absolute' => TRUE],
+  );
+  $build['schemadotorg_jsonid']['uri'] = [
+    '#type' => 'link',
+    '#url' => $jsonld_url,
+    '#title' => $jsonld_url->toString(),
+    '#prefix' => t('JSON-LD URI:') . ' ',
   ];
 }
 
@@ -139,8 +157,10 @@ function schemadotorg_jsonld_entity_view_alter(array &$build, EntityInterface $e
 function schemadotorg_jsonld_get_route_entity() {
   $route_match = \Drupal::routeMatch();
   $route_name = $route_match->getRouteName();
-  if (!preg_match('/entity\.(.*)\.(latest[_-]version|canonical)/', $route_name, $matches)) {
+  if (preg_match('/entity\.(.*)\.(latest[_-]version|canonical)/', $route_name, $matches)) {
+    return $route_match->getParameter($matches[1]);
+  }
+  else {
     return NULL;
   }
-  return $route_match->getParameter($matches[1]);
 }

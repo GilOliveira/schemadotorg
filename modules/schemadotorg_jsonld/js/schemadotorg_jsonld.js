@@ -61,6 +61,7 @@
         var $input = $container.find('input:hidden');
         var $button = $container.find(':submit, :button');
         var $message = $container.find('.schemadotorg-jsonld-copy-message');
+
         // Copy code from textarea to the clipboard.
         // @see https://stackoverflow.com/questions/47879184/document-execcommandcopy-not-working-on-chrome/47880284
         $button.on('click', function () {

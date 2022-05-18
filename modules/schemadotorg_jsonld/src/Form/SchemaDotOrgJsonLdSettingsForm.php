@@ -61,7 +61,7 @@ class SchemaDotOrgJsonLdSettingsForm extends ConfigFormBase {
     $form['field_type_properties'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#settings_format' => 'field_type|field_property',
+      '#settings_format' => 'field_type|field_property or field_type|field_property--format',
       '#title' => $this->t('Field type properties'),
       '#description' => $this->t('Enter the field types and properties to be used as the Schema.org property data type.'),
       '#default_value' => $config->get('field_type_properties'),

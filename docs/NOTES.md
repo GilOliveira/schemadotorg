@@ -4,19 +4,23 @@ Schema.org Blueprints
 # Todo
 
 JSON-LD
+- Move all business logic in SchemaDotOrgJsonLdBuilder into small reusable
+  and customizable alter hooks.
+  - All that we are doing is massaging data types and associative arrays.
+  - Schema.org JSON-LD module should be executed before all other alter hooks.
+  - Move formatting dependencies out of the builder.
+  - Maybe move formatters into *.inc files
+    - MODULE.schemadotorg_jsonld.inc
+  - Parameters
+    - $property
+    - FieldItemInterface $item
+    - $options (processed, etc...)
+    - $context ($entity, $mapping)
+  - Allow field type, entity type, and data type options to be configured.
+- Field types that will remain problems
+  - Date range
+  - Repeating events (SmartDates)
 - Test coverage
-
-- Add hooks to schemadotorg_jsonld.module
-  - schemadotorg_jsonld_entity_alter(&$data, EntityInterface $entity, SchemaDotOrgMapping $mapping)
-  - schemadotorg_jsonld_field_item_alter(&$data, FieldItem $field_item, $property)
-
-- How to format certain fields types, including telephone, units, etc?
-- Determine how to handle recursion and nesting.
-  - Add nesting levels to configuration.
-- How do we handle formatted/processed body field value?
-- How to share JSON-LD via decoupled architecture?
-  - Dedicated endpoint
-  - meta
 
 Contributed module field support
 
@@ -80,6 +84,7 @@ _The below modules provide more specific field types and behaviors._
 - [Key value field](https://www.drupal.org/project/key_value_field)
 - [Time Field](https://www.drupal.org/project/time_field)
 - [Gender](https://www.drupal.org/project/gender)
+- [Range](https://www.drupal.org/project/range)
 - [Select (or other)](https://www.drupal.org/project/select_or_other)
 - [Select Text Value](https://www.drupal.org/project/select_text_value)
 - [SmartDate](https://www.drupal.org/project/smart_date)
@@ -88,6 +93,7 @@ _The below modules provide more specific field types and behaviors._
 
 Pre-Alpha (Dev)
 - Fix issue as the come up with or without issues or MRs.
+- Plan for hooks.
 - Define core dependencies.
 - Implement core submodules.
 
@@ -179,3 +185,7 @@ What Schema.org types should we document?
 
 - How can we validate the generated JSON-LD?
   - Chrome extension and online
+
+- Should we add a link to JSON-LD (jsonld) via the JSON:API meta information?
+  - https://www.drupal.org/project/drupal/issues/3100732
+

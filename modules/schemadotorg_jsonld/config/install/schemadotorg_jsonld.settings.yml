@@ -17,8 +17,8 @@ field_type_mappings:
 field_type_properties:
   link: uri
   text: value
-  text_long: value
-  text_with_summary: value
+  text_long: value--processed
+  text_with_summary: value--processed
 property_image_styles:
   image: large
   thumbnail: thumbnail

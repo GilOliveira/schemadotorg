@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
- * Defines dynamic routes.
+ * Defines dynamic routes for Schema.org JSON-LD module.
  */
 class SchemaDotOrgJsonLdRoutes implements ContainerInjectionInterface {
 
@@ -53,20 +53,23 @@ class SchemaDotOrgJsonLdRoutes implements ContainerInjectionInterface {
       $name = 'schemadotorg_jsonld.' . $entity_type_id;
       $path = "/jsonld/" . $entity_type_path . "/{entity}";
       $defaults = [
-        '_controller' => '\Drupal\schemadotorg_jsonld\Controller\SchemaDotOrgJsonLdController:getEntity',
+        '_controller' => '\Drupal\schemadotorg_jsonld\Controller\SchemaDotOrgJsonLdController::getEntity',
       ];
       $requirements = [
-        '_access' => 'TRUE',
-        // @todo Determine why entity access checking is not working as expected.
-        // '_entity_access' => "{$entity_type_id}.view",
+        '_custom_access' => '\Drupal\schemadotorg_jsonld\Controller\SchemaDotOrgJsonLdController::access',
       ];
       $options = [
         'parameters' => [
           'entity' => ['type' => 'entity:' . $entity_type_id],
         ],
       ];
-      $route = new Route($path, $defaults, $requirements, $options);
-      $route->setMethods(['GET']);
+
+      $route = (new Route($path))
+        ->setDefaults($defaults)
+        ->setRequirements($requirements)
+        ->setOptions($options)
+        ->setMethods(['GET']);
+
       $routes->add($name, $route);
     }
 

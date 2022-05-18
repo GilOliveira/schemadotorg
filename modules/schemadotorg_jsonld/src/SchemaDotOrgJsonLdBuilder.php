@@ -3,20 +3,17 @@
 namespace Drupal\schemadotorg_jsonld;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldItemInterface;
-use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\file\FileInterface;
 
 /**
  * Schema.org JSON-LD builder.
  */
 class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
-  use StringTranslationTrait;
 
   /**
    * The configuration factory.
@@ -24,6 +21,13 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
+
+  /**
+   * The date formatter.
+   *
+   * @var \Drupal\Core\Datetime\DateFormatterInterface
+   */
+  protected $dateFormatter;
 
   /**
    * The file URL generator.
@@ -44,6 +48,8 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.
+   * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
+   *   The date formatter.
    * @param \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator
    *   The file URL generator.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -51,10 +57,12 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
+    DateFormatterInterface $date_formatter,
     FileUrlGeneratorInterface $file_url_generator,
     EntityTypeManagerInterface $entity_type_manager
   ) {
     $this->configFactory = $config_factory;
+    $this->dateFormatter = $date_formatter;
     $this->fileUrlGenerator = $file_url_generator;
     $this->entityTypeManager = $entity_type_manager;
   }
@@ -70,7 +78,12 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     }
 
     $data = $this->buildEntityData($entity);
-    return ($data) ? ['@context' => 'https://schema.org'] + $data : [];
+    if (!$data) {
+      return FALSE;
+    }
+
+    // Prepend the @context to the returned data.
+    return ['@context' => 'https://schema.org'] + $data;
   }
 
   /**
@@ -97,9 +110,40 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $properties = $mapping->getSchemaProperties();
     foreach ($properties as $field_name => $property) {
       if ($entity->hasField($field_name)) {
-        $property_data = $this->getSchemaPropertyDataFromFieldItems($property, $entity->get($field_name));
+        $field_items = $entity->get($field_name);
+        if (!$field_items->access('view')) {
+          continue;
+        }
+
+        $property_data = [];
+        foreach ($field_items as $field_item) {
+          $property_data[] = $this->getFieldItem($property, $field_item);
+        }
+
+        // @todo Add entity alter hooks.
+        // @see HOOK_schemadotorg_jsonld_entity_alter()
+        // @see HOOK_schemadotorg_jsonld_entity_ENTITY_TYPE_alter()
+        // @todo Add field type alter hooks.
+        // @see HOOK_schemadotorg_jsonld_field_type_alter()
+        // @see HOOK_schemadotorg_jsonld_field_type_FIELD_TYPE_alter()
+        // @todo Add field name alter hooks.
+        // @see HOOK_schemadotorg_jsonld_field_name_alter()
+        // @see HOOK_schemadotorg_jsonld_field_name_FIELD_NAME_alter()
+        // @todo Add datatype alter hooks.
+        // @see HOOK_schemadotorg_jsonld_datatype_alter()
+        // @see HOOK_schemadotorg_jsonld_datatype_DATATYPE_alter()
+        // @todo Add property alter hooks.
+        // @see HOOK_schemadotorg_jsonld_property_alter()
+        // @see HOOK_schemadotorg_jsonld_property_PROPERTY_alter()
+
+        // If the cardinality is 1, return the first property data item.
+        $cardinality = $field_items
+          ->getFieldDefinition()
+          ->getFieldStorageDefinition()
+          ->getCardinality();
+
         if ($property_data) {
-          $data[$property] = $property_data;
+          $data[$property] = ($cardinality === 1) ? reset($property_data) : $property_data;
         }
       }
     }
@@ -108,43 +152,17 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       return FALSE;
     }
 
+    // Prepend the @type and @url to the returned data.
     $default_data = ['@type' => $type];
     if ($entity->hasLinkTemplate('canonical')
       && $entity->access('view')) {
       $default_data['@url'] = $entity->toUrl('canonical')->setAbsolute()->toString();
     }
-    return $default_data + $data;
-  }
+    $data = $default_data + $data;
 
-  /**
-   * Get Schema.org property data from field items.
-   *
-   * @param string $property
-   *   The Schema.org property.
-   * @param \Drupal\Core\Field\FieldItemListInterface $items
-   *   FieldItemList containing the values to be displayed.
-   *
-   * @return array|null
-   *   An array containing the Schema.org property data.
-   *   NULL if the user does not have access to the field.
-   */
-  protected function getSchemaPropertyDataFromFieldItems($property, FieldItemListInterface $items) {
-    if (!$items->access('view')) {
-      return NULL;
-    }
-
-    $field_definition = $items->getFieldDefinition();
-    $field_storage_definition = $field_definition->getFieldStorageDefinition();
-    if ($field_storage_definition->getCardinality() === 1) {
-      return $this->getSchemaPropertyDataFromFieldItem($property, $items->get(0));
-    }
-    else {
-      $data = [];
-      foreach ($items as $item) {
-        $data[] = $this->getSchemaPropertyDataFromFieldItem($property, $item);
-      }
-      return $data;
-    }
+    // @todo Add alter hook.
+    // hook_schemadotorg_jsonld_entity_alter(&$data, EntityInterface $entity, SchemaDotOrgMapping $mapping);
+    return $data;
   }
 
   /**
@@ -158,7 +176,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    * @return array|bool|mixed|null
    *   A data type.
    */
-  protected function getSchemaPropertyDataFromFieldItem($property, FieldItemInterface $item = NULL) {
+  protected function getFieldItem($property, FieldItemInterface $item = NULL) {
     if ($item === NULL) {
       return NULL;
     }
@@ -172,6 +190,9 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $property_names = array_combine($property_names, $property_names);
 
     // Handle file and entity references.
+    // @todo Add entity alter hooks.
+    // @see HOOK_schemadotorg_jsonld_item_entity_alter()
+    // @see HOOK_schemadotorg_jsonld_item_entity_ENTITY_TYPE_alter()
     if ($item->entity && $item->entity instanceof EntityInterface) {
       if ($item->entity instanceof FileInterface) {
         $file_uri = $item->entity->getFileUri();
@@ -198,6 +219,9 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $values = array_intersect_key($item->getValue(), $property_names);
 
     // Return a specified Schema.org type with properties if it is defined.
+    // @todo Add field type alter hooks.
+    // @see HOOK_schemadotorg_jsonld_item_field_type_alter()
+    // @see HOOK_schemadotorg_jsonld_item_field_type_FIELD_TYPE_alter()
     $mapping = $config->get('field_type_mappings.' . $field_type);
     if ($mapping) {
       $data = ['@type' => $mapping['type']];
@@ -214,20 +238,41 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       return $data;
     }
 
-    // Return a specified field type property if it is defined.
+    // Return a specified field type property and format if it is defined.
+    // @todo Add field type alter hooks.
+    // @see HOOK_schemadotorg_jsonld_item_type_alter()
+    // @see HOOK_schemadotorg_jsonld_item_type_FIELD_TYPE_alter()
     $property_name = $config->get('field_type_properties.' . $field_type);
-    if ($property_name && isset($values[$property_name])) {
-      return $values[$property_name];
+    if ($property_name) {
+      // Get the property's format for processing the returned value.
+      if (strpos($property_name, '--') !== FALSE) {
+        [$property_name, $format] = explode('--', $property_name);
+      }
+      else {
+        $format = NULL;
+      }
+
+      // @todo Determine if we want to support other formats like plain-text.
+      switch ($format) {
+        case 'processed':
+          return check_markup($values[$property_name], $values['format']);
+
+        default:
+          return $values[$property_name];
+      }
     }
 
     // Handle property data types.
+    // @todo Add datatype alter hooks.
+    // @see HOOK_schemadotorg_jsonld_item_datatype_alter()
+    // @see HOOK_schemadotorg_jsonld_item_datatype_DATATYPE_alter()
     $property_definitions = $field_storage_definition->getPropertyDefinitions();
     if (count($property_definitions) === 1) {
       $property_definition = reset($property_definitions);
       $value = reset($values);
       switch ($property_definition->getDataType()) {
         case 'timestamp';
-          return \Drupal::service('date.formatter')->format($value, 'custom', 'Y-m-d H:i:s P');
+          return $this->dateFormatter->format($value, 'custom', 'Y-m-d H:i:s P');
 
         default:
           return $value;

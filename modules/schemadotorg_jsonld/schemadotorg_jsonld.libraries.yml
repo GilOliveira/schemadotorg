@@ -6,5 +6,6 @@ schemadotorg_jsonld:
       css/schemadotorg_jsonld.css: {}
   dependencies:
     - core/drupal
+    - core/drupal.announce
     - core/jquery
     - core/jquery.once

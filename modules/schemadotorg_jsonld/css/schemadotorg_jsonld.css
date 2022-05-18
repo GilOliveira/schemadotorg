@@ -11,16 +11,6 @@ html.js .schemadotorg-jsonld-copy {
   display: block;
 }
 
-pre.schemadotorg-jsonld-javascript {
-  border: 1px solid #999;
-  padding: 1em;
-}
-
-pre.schemadotorg-jsonld-javascript span {
-  font-weight: bold;
-  color: #080;
-}
-
 .schemadotorg-jsonld-copy-message {
   display: none;
   font-weight: bold;
@@ -28,4 +18,14 @@ pre.schemadotorg-jsonld-javascript span {
 
 .schemadotorg-jsonld-copy-message:before {
   content: '✓';
+}
+
+pre.schemadotorg-jsonld-code {
+  border: 1px solid #999;
+  padding: 1em;
+}
+
+pre.schemadotorg-jsonld-code span {
+  font-weight: bold;
+  color: #080;
 }
