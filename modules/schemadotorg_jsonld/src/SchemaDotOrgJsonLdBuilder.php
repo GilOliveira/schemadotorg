@@ -101,37 +101,42 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $schema_type = $mapping->getSchemaType();
     $schema_properties = $mapping->getSchemaProperties();
     foreach ($schema_properties as $field_name => $schema_property) {
-      if ($entity->hasField($field_name)) {
-        /** @var \Drupal\Core\Field\FieldItemListInterface $items */
-        $items = $entity->get($field_name);
-        if (!$items->access('view')) {
-          continue;
+      // Make sure the entity has the field.
+      if (!$entity->hasField($field_name)) {
+        continue;
+      }
+
+      // Make sure the user has access to the field.
+      /** @var \Drupal\Core\Field\FieldItemListInterface $items */
+      $items = $entity->get($field_name);
+      if (!$items->access('view')) {
+        continue;
+      }
+
+      // Get the Schema.org properties.
+      $schema_property_data = [];
+      foreach ($items as $item) {
+        $schema_property_value = $this->getFieldItem($item);
+
+        // Alter the Schema.org property's individual value.
+        $this->moduleHandler->alter(
+          'schemadotorg_jsonld_schema_property',
+          $schema_property_value,
+          $item
+        );
+
+        if ($schema_property_value !== NULL) {
+          $schema_property_data[] = $schema_property_value;
         }
+      }
 
-        $schema_property_data = [];
-        foreach ($items as $item) {
-          $schema_property_value = $this->getFieldItem($schema_property, $item);
-
-          // Alter Schema.org JSON-LD type and property data.
-          $this->moduleHandler->alter(
-            'schemadotorg_jsonld_schema_property',
-            $schema_property_value,
-            $item
-          );
-
-          if ($schema_property_value !== NULL) {
-            $schema_property_data[] = $schema_property_value;
-          }
-        }
-
-        // If the cardinality is 1, return the first property data item.
-        $cardinality = $items
-          ->getFieldDefinition()
-          ->getFieldStorageDefinition()
-          ->getCardinality();
-        if ($schema_property_data) {
-          $schema_type_data[$schema_property] = ($cardinality === 1) ? reset($schema_property_data) : $schema_property_data;
-        }
+      // If the cardinality is 1, return the first property data item.
+      $cardinality = $items
+        ->getFieldDefinition()
+        ->getFieldStorageDefinition()
+        ->getCardinality();
+      if ($schema_property_data) {
+        $schema_type_data[$schema_property] = ($cardinality === 1) ? reset($schema_property_data) : $schema_property_data;
       }
     }
 
@@ -147,7 +152,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     }
     $schema_type_data = $default_data + $schema_type_data;
 
-    // Alter Schema.org JSON-LD type data.
+    // Alter Schema.org type's JSON-LD data.
     $this->moduleHandler->alter(
       'schemadotorg_jsonld_schema_type',
       $schema_type_data,
@@ -160,15 +165,13 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   /**
    * Get Schema.org property data type from field item.
    *
-   * @param string $property
-   *   The Schema.org property.
    * @param \Drupal\Core\Field\FieldItemInterface|null $item
    *   The field item.
    *
    * @return array|bool|mixed|null
    *   A data type.
    */
-  protected function getFieldItem($property, FieldItemInterface $item = NULL) {
+  protected function getFieldItem(FieldItemInterface $item = NULL) {
     if ($item === NULL) {
       return NULL;
     }
