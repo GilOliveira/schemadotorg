@@ -146,8 +146,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
 
     // Prepend the @type and @url to the returned data.
     $default_data = ['@type' => $schema_type];
-    if ($entity->hasLinkTemplate('canonical')
-      && $entity->access('view')) {
+    if ($entity->hasLinkTemplate('canonical') && $entity->access('view')) {
       $default_data['@url'] = $entity->toUrl('canonical')->setAbsolute()->toString();
     }
     $schema_type_data = $default_data + $schema_type_data;

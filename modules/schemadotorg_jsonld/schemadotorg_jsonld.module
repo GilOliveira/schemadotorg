@@ -48,7 +48,6 @@ function schemadotorg_jsonld_page_attachments_alter(array &$attachments) {
   ];
 }
 
-
 /**
  * Implements hook_entity_view_alter().
  */
@@ -87,7 +86,7 @@ function schemadotorg_jsonld_entity_view_alter(array &$build, EntityInterface $e
   ];
 
   // Make it easy for someone to copy the JSON.
-  $t_args = [':href' => 'https://validator.schema.org/',];
+  $t_args = [':href' => 'https://validator.schema.org/'];
   $description = t('Please copy-n-paste the below JSON-LD into the <a href=":href">Schema Markup Validator</a>.', $t_args);
   $build['schemadotorg_jsonid']['copy'] = [
     '#type' => 'container',

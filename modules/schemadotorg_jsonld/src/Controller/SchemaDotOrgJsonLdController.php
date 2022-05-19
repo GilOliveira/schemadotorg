@@ -50,6 +50,8 @@ class SchemaDotOrgJsonLdController extends ControllerBase {
   /**
    * Checks view access to an entity.
    *
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   The user session for which to check access.
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity.
    *
