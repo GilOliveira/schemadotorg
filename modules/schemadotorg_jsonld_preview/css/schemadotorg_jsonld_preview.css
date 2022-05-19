@@ -1,0 +1,31 @@
+/**
+ * @file
+ * Schema.org JSON-LD styles.
+ */
+
+.schemadotorg-jsonld-preview-copy {
+  display: none;
+}
+
+html.js .schemadotorg-jsonld-preview-copy {
+  display: block;
+}
+
+.schemadotorg-jsonld-preview-copy-message {
+  display: none;
+  font-weight: bold;
+}
+
+.schemadotorg-jsonld-preview-copy-message:before {
+  content: '✓';
+}
+
+pre.schemadotorg-jsonld-preview-code {
+  border: 1px solid #999;
+  padding: 1em;
+}
+
+pre.schemadotorg-jsonld-preview-code span {
+  font-weight: bold;
+  color: #080;
+}

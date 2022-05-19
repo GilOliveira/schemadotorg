@@ -129,9 +129,12 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     }
 
     // Add UUID as an identifier.
-    // @todo Detemine if this should be optional.
-    $schema_type_data += ['identifier' => []];
-    $schema_type_data['identifier']['uuid'] = $entity->uuid();
+    $schema_type_data['identifier'] = (array) ($schema_type_data['identifier'] ?? []);
+    $schema_type_data['identifier'][] = [
+      '@type' => 'PropertyValue',
+      'propertyID' => 'uuid',
+      'value' => $entity->uuid(),
+    ];
 
     // Sort Schema.org properties in specified order and then alphabetically.
     $schema_type_data = $this->schemaJsonIdManager->sortProperties($schema_type_data);

@@ -33,7 +33,7 @@
       }
 
       $('details', context)
-        .once('schemadotorg-jsonld-state')
+        .once('schemadotorg-jsonld-preview-state')
         .each( function () {
           var $details = $(this);
           $details.find('summary').on('click', function () {
@@ -56,11 +56,11 @@
    */
   Drupal.behaviors.schemaDotOrgJsonLdCopy = {
     attach: function attach(context) {
-      $(context).find('.js-schemadotorg-jsonld').once('schemadotorg-jsonld-copy').each(function () {
+      $(context).find('.js-schemadotorg-jsonld-preview').once('schemadotorg-jsonld-preview-copy').each(function () {
         var $container = $(this);
         var $input = $container.find('input:hidden');
         var $button = $container.find(':submit, :button');
-        var $message = $container.find('.schemadotorg-jsonld-copy-message');
+        var $message = $container.find('.schemadotorg-jsonld-preview-copy-message');
 
         // Copy code from textarea to the clipboard.
         // @see https://stackoverflow.com/questions/47879184/document-execcommandcopy-not-working-on-chrome/47880284
