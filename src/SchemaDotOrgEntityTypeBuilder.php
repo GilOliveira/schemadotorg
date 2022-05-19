@@ -98,21 +98,6 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * {@inheritdoc}
    */
-  public function addSubtypeFieldToEntity($entity_type_id, $bundle) {
-    $field = [
-      'machine_name' => $this->schemaNames->getFieldPrefix() . 'type',
-      'type' => 'field_ui:entity_reference:taxonomy_term',
-      'label' => 'Type',
-      'description' => '',
-      'unlimited' => NULL,
-      'schema_property' => NULL,
-    ];
-    $this->addFieldToEntity($entity_type_id, $bundle, $field);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function addFieldToEntity($entity_type_id, $bundle, array $field) {
     // Define and document expected default field settings.
     // @see \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::save

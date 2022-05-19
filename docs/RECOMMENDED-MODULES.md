@@ -1,35 +1,83 @@
 Schema.org Blueprints
 ---------------------
 
-# Todo
+_Template_
 
-JSON-LD
-- Test coverage
+- **[Module Name](https://www.drupal.org/)**
+(Applies to:
+[propertyName](https://schema.org/propertyName),
+[propertyName](https://schema.org/propertyName))
+{description}
+_{notes}_
 
 
-Ongoing
-- Research and document recommended modules.
-- Determine the recommended types per entity type.
-- Build out the default schema types properties.
-- Review patterns and tests.
+## Recommended Core Modules
 
-Code
-- Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
-  to support subtype.
+- [Email](https://www.drupal.org/docs/8/core/modules/email)
+- [Datetime](https://www.drupal.org/docs/8/core/modules/datetime)
+- [Link](https://www.drupal.org/docs/8/core/modules/liunk)
+- [Media](https://www.drupal.org/docs/8/core/modules/media)
+- [Media Library](https://www.drupal.org/docs/8/core/modules/media_library)
+- [Telephone](https://www.drupal.org/docs/8/core/modules/telephone)
 
-# Backlog
+## Recommended Contribute Modules
 
-Ajax
-- Add Ajax to mapping form add field UI/UX
-  - @see \Drupal\jsonapi_extras\Form\JsonapiResourceConfigForm
+### UI/UX
 
-# Research
+_The below modules improve the Schema.org Blueprints module's user experience._
 
-- https://www.drupal.org/docs/drupal-apis/entity-api/dynamicvirtual-field-values-using-computed-field-property-classes
-- https://www.lullabot.com/articles/write-better-code-typed-entity
-- https://www.drupal.org/project/yild
-- https://www.wikidata.org/wiki/Wikidata:Introduction
-- https://iptc.org/
+- [Field Group](https://www.drupal.org/project/field_group)
+
+### Field Collections
+
+_The below modules provide different ways to create and manage a collection of fields._
+
+- [Paragraphs](https://www.drupal.org/project/paragraphs)
+- [Inline Entity Form](https://www.drupal.org/project/inline_entity_form)
+- [FlexField](https://www.drupal.org/project/flexfield)
+
+### Field Types
+
+_The below modules provide more specific field types and behaviors._
+
+
+Date/time
+
+- [Time Field](https://www.drupal.org/project/time_field)
+- [SmartDate](https://www.drupal.org/project/smart_date)
+
+Numeric
+
+- [Range](https://www.drupal.org/project/range)
+
+Demographic
+
+- [Gender](https://www.drupal.org/project/gender)
+
+Location
+
+- [Address](https://www.drupal.org/project/address)
+
+Telephone
+
+- [International Phone Field](https://www.drupal.org/project/international_phone)
+- [Telephone Formatter](https://www.drupal.org/project/telephone_formatter)
+
+Select
+
+- [Select (or other)](https://www.drupal.org/project/select_or_other)
+- [Select Text Value](https://www.drupal.org/project/select_text_value)
+
+Composite
+
+- [Double Field](https://www.drupal.org/project/double_field)
+- [Key value field](https://www.drupal.org/project/key_value_field)
+
+
+Calculation
+
+- [Computed Field](https://www.drupal.org/project/computed_field)
+- [Field Token Value](https://www.drupal.org/project/field_token_value)
 
 # Roadmap
 
@@ -45,7 +93,6 @@ Alpha
 - Create hooks and APIs
 - Ensure baseline test coverage
 - Finalize core dependencies
-- Research and support contrib modules
 
 Beta
 - Find co-maintainers and sponsoring organizations
@@ -53,7 +100,6 @@ Beta
 - Finalize and document hooks and APIs
 - Determine upgrade path between Schema.org versions
 - Ensure regression test coverage
-- Establish supported contrib modules
 
 Stable
 - Add Schema.org types and properties as needed
@@ -107,11 +153,6 @@ Stable
 - JavaScript test coverage for UI and Report.
 
 # TBD
-
-What field types won't easily work or map to Schema.org?
-- text with summary and formatting
-- Date range
-- Repeating events (SmartDates)
 
 What Schema.org types should we document?
 - Thing

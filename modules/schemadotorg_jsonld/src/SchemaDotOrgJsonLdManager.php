@@ -104,12 +104,24 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
           'sorting_code' => 'postOfficeBoxNumber',
           'address_line1' => 'streetAddress',
           'address_line2' => 'streetAddress',
-          'organization' => 'name',
-          'given_name' => 'name',
-          'additional_name' => 'name',
-          'family_name' => 'name',
         ];
-        return $this->mapSchemaType($item, 'PostalAddress', $mapping);
+        // Map organization and full name to Schema.org name and
+        // alternateName properties.
+        $values = $item->getValue();
+        $values['organization'] = trim($values['organization']);
+        $values['name'] = implode(' ', array_filter([
+          trim($values['given_name']),
+          trim($values['additional_name']),
+          trim($values['family_name']),
+        ]));
+        if ($values['organization']) {
+          $mapping['organization'] = 'name';
+          $mapping['name'] = 'alternateName';
+        }
+        else {
+          $mapping['name'] = 'name';
+        }
+        return ['@type' => 'PostalAddress'] + $this->mapValues($values, $mapping);
 
       case 'link':
         return $item->uri;
@@ -351,35 +363,34 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   }
 
   /**
-   * Map a field item's values to Schema.org type and properties.
+   * Map an array's values.
    *
-   * @param \Drupal\Core\Field\FieldItemInterface $item
-   *   The field item.
-   * @param string $type
+   * @param array $value
+   *   An associative array of values.
    *   The Schema.org type.
    * @param array $mapping
    *   An associative array containing mappings from field names
    *   to Schema.org properties.
+   * @param string $delimiter
+   *   Delimiter to use when multiple values are mapped to the same property.
    *
    * @return array
-   *   A field item's values mapped to Schema.org type and properties.
+   *   A mapped array.
    */
-  protected function mapSchemaType(FieldItemInterface $item, $type, array $mapping) {
-    $values = $item->getValue();
-
-    $properties = [];
+  protected function mapValues(array $values, array $mapping, $delimiter = ', ') {
+    $mapped = [];
     foreach ($mapping as $source => $destination) {
       if ($destination && !empty($values[$source])) {
-        if (isset($properties[$destination])) {
-          $properties[$destination] .= ' ' . $values[$source];
+        if (isset($mapped[$destination])) {
+          $mapped[$destination] .= $delimiter . $values[$source];
         }
         else {
-          $properties[$destination] = $values[$source];
+          $mapped[$destination] = $values[$source];
         }
       }
     }
 
-    return ['@type' => $type] + $this->sortProperties($properties);
+    return $this->sortProperties($mapped);
   }
 
 }

@@ -16,6 +16,7 @@ function help() {
   echo "Usage:"
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh help";
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh require";
+  echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh recommended";
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh install";
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh configure";
 }
@@ -30,21 +31,33 @@ function require() {
   composer require drupal/admin_toolbar
   composer require drupal/anonymous_redirect
   composer require drupal/coffee
-  composer require drupal/computed_field
   composer require drupal/devel
   composer require drupal/features
   composer require drupal/field_group
-  composer require drupal/field_token_value
-  composer require drupal/flexfield
   composer require drupal/gin
   composer require drupal/gin_login
   composer require drupal/inline_entity_form
   composer require drupal/jsonapi_extras
-  composer require drupal/key_value_field
   composer require drupal/paragraphs
-  composer require drupal/smart_date
-  composer require drupal/time_field
   composer require drupal/token
+}
+
+function recommended() {
+  composer require drupal/inline_entity_form
+  composer require drupal/flexfield
+  composer require drupal/time_field
+  composer require drupal/smart_date
+  composer require drupal/range
+  # composer require drupal/gender
+  composer require drupal/address
+  composer require drupal/phone_international
+  composer require drupal/telephone_formatter
+  composer require drupal/select_or_other
+  composer require drupal/select_text_value
+  composer require drupal/double_field
+  composer require drupal/key_value_field
+  composer require drupal/computed_field
+  composer require drupal/field_token_value
 }
 
 function install() {

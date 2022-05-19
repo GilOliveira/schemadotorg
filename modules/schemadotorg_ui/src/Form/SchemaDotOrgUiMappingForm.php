@@ -583,92 +583,103 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   An associative array containing the structure of the form.
    */
   protected function buildSubtypeForm(array &$form) {
+    $mapping = $this->getEntity();
     $schema_type = $this->getSchemaType();
-    $tree = $this->schemaTypeManager->getTypeTree($schema_type);
+    $subtype_field_name = $this->getSubtypeFieldName();
+    $subtype_allowed_values = $this->schemaTypeManager->getTypeChildrenAsOptions($schema_type);
 
-    // Subtype is not displayed when there are no subtypes for the
-    // current Schema.org type.
-    if (empty($tree) || empty($tree[$schema_type]['subtypes'])) {
+    // Make sure the current Schema.org type has subtypes.
+    if (empty($subtype_allowed_values)) {
       return $form;
     }
 
-    $subtype_field_name = $this->getSubtypeFieldName();
+    // Determine if Schema.org type already has subtyping enabled.
     $subtype_exists = $this->fieldExists($subtype_field_name);
-    $subtype_default = $this->getEntity()->isNew() && $this->getSchemaTypeSubtypes();
+    if ($subtype_exists) {
+      if (!$mapping->supportsSubtyping()) {
+        // Handle edge case where the mapping was lost.
+        $form['subtyping'] = [
+          '#tree' => TRUE,
+        ];
+        $form['subtyping']['enable'] = [
+          '#type' => 'checkbox',
+          '#title' => $this->t('Enable Schema.org subtyping'),
+          '#description' => $this->t("If checked, a 'Type' field is added to the entity which allows content authors to specify a more specific (sub)type for the entity."),
+          '#return_value' => TRUE,
+        ];
+      }
+      else {
+        $form['subtyping'] = [
+          '#type' => 'item',
+          '#title' => $this->t('Schema.org subtyping'),
+          '#markup' => $this->t('Enabled'),
+        ];
+      }
+      return $form;
+    }
 
+    $subtype_default = $this->getEntity()->isNew() && $this->getSchemaTypeSubtypes();
     $form['subtyping'] = [
       '#type' => 'details',
       '#title' => $this->t('Schema.org subtyping'),
-      '#open' => !$subtype_exists && $subtype_default,
+      '#open' => $subtype_default,
       '#tree' => TRUE,
     ];
-    if ($subtype_exists) {
-      $form['subtyping']['enable'] = [
-        '#type' => 'checkbox',
-        '#title' => $this->t('Enable Schema.org subtyping'),
-        '#description' => $this->t("A 'Type' field has been added to the entity which allows content authors to specify a more specific (sub)type for the entity."),
-        '#return_value' => TRUE,
-        '#value' => TRUE,
-        '#disabled' => TRUE,
-      ];
-    }
-    else {
-      $form['subtyping']['enable'] = [
-        '#type' => 'checkbox',
-        '#title' => $this->t('Enable Schema.org subtyping'),
-        '#description' => $this->t("If checked, a 'Type' field is added to the entity which allows content authors to specify a more specific (sub)type for the entity."),
-        '#return_value' => TRUE,
-        '#default_value' => $subtype_default,
-      ];
-      $form['subtyping'][static::ADD_FIELD] = [
-        '#type' => 'details',
-        '#title' => $this->t('Add field'),
-        '#attributes' => ['data-schemadotorg-ui-summary' => $this->t('List (text)')],
-        '#states' => [
-          'visible' => [
-            ':input[name="subtyping[enable]"]' => ['checked' => TRUE],
-          ],
+    $form['subtyping']['enable'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable Schema.org subtyping'),
+      '#description' => $this->t("If checked, a 'Type' field is added to the entity which allows content authors to specify a more specific (sub)type for the entity."),
+      '#return_value' => TRUE,
+      '#default_value' => $subtype_default,
+    ];
+    $form['subtyping'][static::ADD_FIELD] = [
+      '#type' => 'details',
+      '#title' => $this->t('Add field'),
+      '#attributes' => ['data-schemadotorg-ui-summary' => $this->t('List (text)')],
+      '#states' => [
+        'visible' => [
+          ':input[name="subtyping[enable]"]' => ['checked' => TRUE],
         ],
-      ];
-      $form['subtyping'][static::ADD_FIELD]['type'] = [
-        '#type' => 'item',
-        '#title' => $this->t('Type'),
-        '#markup' => $this->t('List (text)'),
-        '#value' => 'list_string',
-      ];
-      $form['subtyping'][static::ADD_FIELD]['label'] = [
-        '#type' => 'item',
-        '#title' => $this->t('Label'),
-        '#markup' => $this->t('Subtype'),
-        '#value' => 'Subtype',
-      ];
-      $form['subtyping'][static::ADD_FIELD]['machine_name'] = [
-        '#type' => 'item',
-        '#title' => $this->t('Machine-readable name'),
-        '#markup' => $subtype_field_name,
-        '#value' => $subtype_field_name,
-      ];
-      $form['subtyping'][static::ADD_FIELD]['description'] = [
-        '#type' => 'textarea',
-        '#title' => $this->t('Description'),
-        '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
-        '#default_value' => $this->t('A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.'),
-      ];
-      $allowed_values = $this->schemaTypeManager->getTypeChildrenAsOptions($schema_type);
-      $form['subtyping'][static::ADD_FIELD]['allowed_values'] = [
-        '#type' => 'schemadotorg_settings',
-        '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-        '#settings_description' => FALSE,
-        '#title' => $this->t('Allowed values'),
-        '#description' => '<p>'
-        . $this->t('The possible values this field can contain. Enter one value per line, in the format key|label.') . '<br/>'
-        . $this->t('The key is the stored value. The label will be used in displayed values and edit forms.') . '<br/>'
-        . $this->t('The label is optional: if a line contains a single string, it will be used as key and label.')
-        . '</p>'
-        . '<p>' . $this->t('Allowed HTML tags in labels: @tags', ['@tags' => FieldFilteredMarkup::displayAllowedTags()]) . '</p>',
-        '#default_value' => $allowed_values,
-      ];
-    }
+      ],
+    ];
+    $form['subtyping'][static::ADD_FIELD]['type'] = [
+      '#type' => 'item',
+      '#title' => $this->t('Type'),
+      '#markup' => $this->t('List (text)'),
+      '#value' => 'list_string',
+    ];
+    $form['subtyping'][static::ADD_FIELD]['label'] = [
+      '#type' => 'item',
+      '#title' => $this->t('Label'),
+      '#markup' => $this->t('Subtype'),
+      '#value' => 'Subtype',
+    ];
+    $form['subtyping'][static::ADD_FIELD]['machine_name'] = [
+      '#type' => 'item',
+      '#title' => $this->t('Machine-readable name'),
+      '#markup' => $subtype_field_name,
+      '#value' => $subtype_field_name,
+    ];
+    $form['subtyping'][static::ADD_FIELD]['description'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Description'),
+      '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
+      '#default_value' => $this->t('A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.'),
+    ];
+    $form['subtyping'][static::ADD_FIELD]['allowed_values'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_description' => FALSE,
+      '#title' => $this->t('Allowed values'),
+      '#description' => '<p>'
+      . $this->t('The possible values this field can contain. Enter one value per line, in the format key|label.') . '<br/>'
+      . $this->t('The key is the stored value. The label will be used in displayed values and edit forms.') . '<br/>'
+      . $this->t('The label is optional: if a line contains a single string, it will be used as key and label.')
+      . '</p>'
+      . '<p>' . $this->t('Allowed HTML tags in labels: @tags', ['@tags' => FieldFilteredMarkup::displayAllowedTags()]) . '</p>',
+      '#default_value' => $subtype_allowed_values,
+    ];
+
     return $form;
   }
 
