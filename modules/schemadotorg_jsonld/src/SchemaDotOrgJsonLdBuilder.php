@@ -3,13 +3,10 @@
 namespace Drupal\schemadotorg_jsonld;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldItemInterface;
-use Drupal\Core\File\FileUrlGeneratorInterface;
-use Drupal\file\FileInterface;
 
 /**
  * Schema.org JSON-LD builder.
@@ -38,7 +35,14 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   protected $entityTypeManager;
 
   /**
-   * Constructs a SchemaDotOrgJsonLd object.
+   * The date formatter.
+   *
+   * @var \Drupal\Core\Datetime\DateFormatterInterface
+   */
+  protected $dateFormatter;
+
+  /**
+   * Constructs a SchemaDotOrgJsonLdBuilder object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.

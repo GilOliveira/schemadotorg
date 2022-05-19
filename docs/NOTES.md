@@ -4,8 +4,6 @@ Schema.org Blueprints
 # Todo
 
 JSON-LD
-- Create SchemaDotOrgJsonLdBuilderFormatter service.
-- Possibly call the formatter service before the alter hooks.
 - Field types that will remain problems
   - Date range
   - Repeating events (SmartDates)

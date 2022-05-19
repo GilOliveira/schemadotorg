@@ -57,7 +57,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
   protected $schemaNames;
 
   /**
-   * Constructs a SchemaDotOrgJsonApi object.
+   * Constructs a SchemaDotOrgJsonApiManager object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.
