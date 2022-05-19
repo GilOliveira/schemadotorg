@@ -15,7 +15,7 @@ class SchemaDotOrgJsonApiSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'schemadotorg_jsonapi_settings';
+    return 'schemadotorg_jsonapi_settings_form';
   }
 
   /**

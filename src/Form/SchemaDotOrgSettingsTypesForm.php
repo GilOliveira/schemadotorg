@@ -16,7 +16,7 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'schemadotorg_types_settings';
+    return 'schemadotorg_types_settings_form';
   }
 
   /**

@@ -5,10 +5,6 @@
  * Adds Schema.org's structured data as JSON-LD in the head of web pages.
  */
 
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
-use Drupal\Core\Url;
-
 /**
  * Implements hook_page_attachments_alter().
  */

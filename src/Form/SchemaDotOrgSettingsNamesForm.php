@@ -32,7 +32,7 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'schemadotorg_names_settings';
+    return 'schemadotorg_names_settings_form';
   }
 
   /**

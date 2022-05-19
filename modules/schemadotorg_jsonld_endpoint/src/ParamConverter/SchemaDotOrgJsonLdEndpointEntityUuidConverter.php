@@ -1,11 +1,11 @@
 <?php
 
-namespace Drupal\schemadotorg_jsonld\ParamConverter;
+namespace Drupal\schemadotorg_jsonld_endpoint\ParamConverter;
 
 use Drupal\Core\Entity\TranslatableInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\ParamConverter\EntityConverter;
-use Drupal\schemadotorg_jsonld\Routing\SchemaDotOrgJsonLdRoutes;
+use Drupal\schemadotorg_jsonld_endpoint\Routing\SchemaDotOrgJsonLdEndpointRoutes;
 use Symfony\Component\Routing\Route;
 
 /**
@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Route;
  *
  * @todo Remove when https://www.drupal.org/node/2353611 lands.
  */
-class SchemaDotOrgJsonLdEntityUuidConverter extends EntityConverter {
+class SchemaDotOrgJsonLdEndpointEntityUuidConverter extends EntityConverter {
 
   /**
    * The language manager.
@@ -69,7 +69,7 @@ class SchemaDotOrgJsonLdEntityUuidConverter extends EntityConverter {
    */
   public function applies($definition, $name, Route $route) {
     return (
-      $route->getDefault(SchemaDotOrgJsonLdRoutes::JSONLD_ROUTE_FLAG_KEY) &&
+      $route->getDefault(SchemaDotOrgJsonLdEndpointRoutes::JSONLD_ROUTE_FLAG_KEY) &&
       !empty($definition['type']) && strpos($definition['type'], 'entity') === 0
     );
   }

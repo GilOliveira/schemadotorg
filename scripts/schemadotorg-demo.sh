@@ -88,7 +88,9 @@ function install() {
     schemadotorg_report\
     schemadotorg_ui\
     schemadotorg_jsonapi\
-    schemadotorg_jsonld;
+    schemadotorg_jsonld\
+    schemadotorg_jsonld_endpoint\
+    schemadotorg_jsonld_preview;
 
   echo "Installing field related modules";
   drush -y pm-enable \

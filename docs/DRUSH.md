@@ -20,6 +20,7 @@ schemadotorg:update-schema (soup) Update Schema.org data.
 ```
 drush features:import -y schemadotorg
 drush features:import -y schemadotorg_jsonld
+drush features:import -y schemadotorg_jsonld_endpoint
 drush features:import -y schemadotorg_report
 ```
 

@@ -15,7 +15,7 @@ class SchemaDotOrgReportSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'schemadotorg_report_settings';
+    return 'schemadotorg_report_settings_form';
   }
 
   /**

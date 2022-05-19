@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\schemadotorg_jsonld\Controller;
+namespace Drupal\schemadotorg_jsonld_endpoint\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityInterface;
@@ -10,14 +10,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Controller for Schema.org JSON-LD routes.
+ * Controller for Schema.org JSON-LD endpoint routes.
  */
-class SchemaDotOrgJsonLdController extends ControllerBase {
+class SchemaDotOrgJsonLdEndpointController extends ControllerBase {
 
   /**
    * The Schema.org JSON-LD builder.
    *
-   * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface
+   * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLBuilderInterface
    */
   protected $builder;
 
@@ -31,13 +31,13 @@ class SchemaDotOrgJsonLdController extends ControllerBase {
   }
 
   /**
-   * Build the JSON-LD response for an entity.
+   * Build the Schema.org JSON-LD response for an entity.
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
-   *   The JSON-LD response for an entity.
+   *   The Schema.org JSON-LD response for an entity.
    */
   public function getEntity(EntityInterface $entity) {
     $data = $this->builder->build($entity);
@@ -48,7 +48,7 @@ class SchemaDotOrgJsonLdController extends ControllerBase {
   }
 
   /**
-   * Checks view access to an entity.
+   * Checks view access to an entity's Schema.org JSON-LD.
    *
    * @param \Drupal\Core\Session\AccountInterface $account
    *   The user session for which to check access.

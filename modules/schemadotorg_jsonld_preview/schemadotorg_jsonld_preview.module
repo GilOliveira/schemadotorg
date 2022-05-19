@@ -92,16 +92,19 @@ function schemadotorg_jsonld_preview_entity_view_alter(array &$build, EntityInte
     ],
   ];
 
-  // JSON-LD URI.
-  $jsonld_url = Url::fromRoute(
-    'schemadotorg_jsonld.entity.' . $entity->getEntityTypeId(),
-    ['entity' => $entity->uuid()],
-    ['absolute' => TRUE],
-  );
-  $build['schemadotorg_jsonid_preview']['uri'] = [
-    '#type' => 'link',
-    '#url' => $jsonld_url,
-    '#title' => $jsonld_url->toString(),
-    '#prefix' => t('JSON-LD URI:') . ' ',
-  ];
+  // JSON-LD endpoint.
+  // @see schemadotorg_jsonld_endpoint.module
+  if (\Drupal::moduleHandler()->moduleExists('schemadotorg_jsonld_endpoint')) {
+    $jsonld_url = Url::fromRoute(
+      'schemadotorg_jsonld_endpoint.' . $entity->getEntityTypeId(),
+      ['entity' => $entity->uuid()],
+      ['absolute' => TRUE],
+    );
+    $build['schemadotorg_jsonid_preview']['uri'] = [
+      '#type' => 'link',
+      '#url' => $jsonld_url,
+      '#title' => $jsonld_url->toString(),
+      '#prefix' => t('JSON-LD endpoints:') . ' ',
+    ];
+  }
 }

@@ -32,7 +32,7 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'schemadotorg_properties_settings';
+    return 'schemadotorg_properties_settings_form';
   }
 
   /**

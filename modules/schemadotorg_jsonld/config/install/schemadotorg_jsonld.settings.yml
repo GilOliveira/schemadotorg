@@ -39,6 +39,3 @@ property_order:
 property_image_styles:
   image: large
   thumbnail: thumbnail
-entity_type_resource_paths:
-  block_content: block
-  node: content

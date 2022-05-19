@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Provides an endpoint to get an entity's Schema.org JSON-LD.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function schemadotorg_jsonld_endpoint_form_schemadotorg_jsonld_settings_form_alter(&$form, FormStateInterface $form_state) {
+  $config = \Drupal::config('schemadotorg_jsonld_endpoint.settings');
+
+  $form['entity_type_endpoints'] = [
+    '#type' => 'schemadotorg_settings',
+    '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+    '#settings_format' => 'entity_type_id|path',
+    '#title' => t('Entity type resource paths'),
+    '#description' => t('Enter the entity type and the desired endpoint path.'),
+    '#default_value' => $config->get('entity_type_endpoints'),
+  ];
+
+  // Add submit callback.
+  $form['#submit'][] = 'schemadotorg_jsonld_endpoint_settings_form_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_jsonld_settings_form().
+ *
+ * @see schemadotorg_jsonld_endpoint_form_schemadotorg_jsonld_settings_form_alter()
+ */
+function schemadotorg_jsonld_endpoint_settings_form_submit(&$form, FormStateInterface $form_state) {
+  // Rebuild dynamic routes.
+  // @see \Drupal\schemadotorg_jsonld_endpoint\Routing\SchemaDotOrgJsonLdEndpointRoutes
+  /** @var \Drupal\Core\Routing\RouteBuilderInterface $router_builder */
+  $router_builder = \Drupal::service('router.builder');
+  $router_builder->setRebuildNeeded();
+
+  \Drupal::configFactory()->getEditable('schemadotorg_jsonld_endpoint.settings')
+    ->set('entity_type_endpoints', $form_state->getValue('entity_type_endpoints'))
+    ->save();
+}
