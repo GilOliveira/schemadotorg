@@ -52,7 +52,7 @@ function schemadotorg_jsonld_schemadotorg_jsonld_schema_property_alter(&$value, 
       ];
       $data = [];
       foreach ($address_mapping as $address_field_property => $postal_address_property) {
-        if ($postal_address_property && isset($values[$address_field_property]) && !is_null($values[$address_field_property])) {
+        if ($postal_address_property && !empty($values[$address_field_property])) {
           if (isset($data[$postal_address_property])) {
             $data[$postal_address_property] .= ' ' . $values[$address_field_property];
           }

@@ -120,7 +120,6 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
           }
         }
 
-
         // If the cardinality is 1, return the first property data item.
         $cardinality = $items
           ->getFieldDefinition()
@@ -178,13 +177,14 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       }
     }
 
-    // If there is only one main property return it,
-    // otherwise return all the properties.
+    // Get properties without any additional meta data.
     $field_storage_definition = $item->getFieldDefinition()->getFieldStorageDefinition();
     $property_names = $field_storage_definition->getPropertyNames();
-    $main_property_name = $field_storage_definition->getMainPropertyName();
-
     $values = array_intersect_key($item->getValue(), array_combine($property_names, $property_names));
+
+    // If there is only one main property return it,
+    // otherwise return all the properties.
+    $main_property_name = $field_storage_definition->getMainPropertyName();
     if (count($property_names) === 1 && isset($values[$main_property_name])) {
       return $values[$main_property_name];
     }

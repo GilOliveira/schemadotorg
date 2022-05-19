@@ -728,6 +728,11 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
             // Copy enumeration values into allowed values.
             if ($this->schemaTypeManager->isEnumerationType($range_include)) {
               $allowed_values = $this->schemaTypeManager->getTypeChildrenAsOptions($range_include);
+              // Append 'Other' to GenderType, which is Male or Female, to be
+              // more inclusive.
+              if ($range_include === 'GenderType') {
+                $allowed_values['Other'] = 'Other';
+              }
               $field_storage_values['settings'] = [
                 'allowed_values' => $allowed_values,
                 'allowed_values_function' => '',
