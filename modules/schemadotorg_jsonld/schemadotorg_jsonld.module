@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Adds Schema.org's structured data as JSON-LD in the head of web pages.
+ * Adds Schema.org structured data as JSON-LD in the head of web pages.
  */
 
 /**
