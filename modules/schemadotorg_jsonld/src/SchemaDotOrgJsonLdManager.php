@@ -111,7 +111,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
       }
     }
 
-    return NULL;
+    return $value;
   }
 
   /**

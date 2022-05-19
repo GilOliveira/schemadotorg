@@ -65,16 +65,45 @@ _The below modules provide different ways to create and manage a collection of f
 
 _The below modules provide more specific field types and behaviors._
 
-- [Address](https://www.drupal.org/project/address)
-- [Computed Field](https://www.drupal.org/project/computed_field)
-- [Field Token Value](https://www.drupal.org/project/field_token_value)
-- [Key value field](https://www.drupal.org/project/key_value_field)
+
+Date/time
+
 - [Time Field](https://www.drupal.org/project/time_field)
-- [Gender](https://www.drupal.org/project/gender)
+- [SmartDate](https://www.drupal.org/project/smart_date)
+
+Numeric
+
 - [Range](https://www.drupal.org/project/range)
+
+Demographic
+
+- [Gender](https://www.drupal.org/project/gender)
+
+Location
+
+- [Address](https://www.drupal.org/project/address)
+
+Telephone
+
+- [International Phone](https://www.drupal.org/project/phone_international)
+- [International Phone Field](https://www.drupal.org/project/international_phone)
+- [Telephone Formatter](https://www.drupal.org/project/telephone_formatter)
+
+Select
+
 - [Select (or other)](https://www.drupal.org/project/select_or_other)
 - [Select Text Value](https://www.drupal.org/project/select_text_value)
-- [SmartDate](https://www.drupal.org/project/smart_date)
+
+Composite
+
+- [Double Field](https://www.drupal.org/project/double_field)
+- [Key value field](https://www.drupal.org/project/key_value_field)
+
+
+Calculation
+
+- [Computed Field](https://www.drupal.org/project/computed_field)
+- [Field Token Value](https://www.drupal.org/project/field_token_value)
 
 # Roadmap
 

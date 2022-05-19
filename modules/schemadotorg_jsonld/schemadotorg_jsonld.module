@@ -115,7 +115,7 @@ function schemadotorg_jsonld_entity_view_alter(array &$build, EntityInterface $e
   // Escape HTML special characters.
   $json_markup = htmlspecialchars($json);
   // Add <span> tag to properties.
-  $json_markup = preg_replace('/&quot;([^&]+)&quot;: /', '<span>&quot;$1&quot;</span>": ', $json_markup);
+  $json_markup = preg_replace('/&quot;([^&]+)&quot;: /', '<span>&quot;$1&quot;</span>: ', $json_markup);
   // Add links to URLs.
   $json_markup = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.-]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $json_markup);
   $build['schemadotorg_jsonid']['json'] = [
@@ -133,8 +133,8 @@ function schemadotorg_jsonld_entity_view_alter(array &$build, EntityInterface $e
 
   // JSON-LD URI.
   $jsonld_url = Url::fromRoute(
-    'schemadotorg_jsonld.' . $entity->getEntityTypeId(),
-    ['entity' => $entity->id()],
+    'schemadotorg_jsonld.entity.' . $entity->getEntityTypeId(),
+    ['entity' => $entity->uuid()],
     ['absolute' => TRUE],
   );
   $build['schemadotorg_jsonid']['uri'] = [
