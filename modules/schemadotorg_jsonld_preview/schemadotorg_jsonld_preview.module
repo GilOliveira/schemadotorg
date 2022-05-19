@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Adds Schema.org's structured data as JSON-LD in the head of web pages.
+ * Allows users to preview a web page's Schema.org JSON-LD.
  */
 
 use Drupal\Core\Entity\EntityInterface;

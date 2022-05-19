@@ -1,6 +1,6 @@
 /**
  * @file
- * Schema.org JSON-LD behaviors.
+ * Schema.org JSON-LD preview behaviors.
  */
 
 (function ($, Drupal, once) {
@@ -22,11 +22,11 @@
   }());
 
   /**
-   * Tracks Schema.org JSON-LD detail open state.
+   * Tracks Schema.org JSON-LD preview details open/close state.
    *
    * @type {Drupal~behavior}
    */
-  Drupal.behaviors.schemaDotOrgJsonLdState = {
+  Drupal.behaviors.schemaDotOrgJsonLdPreviewState = {
     attach: function attach(context) {
       if (!hasLocalStorage) {
         return;
@@ -50,11 +50,11 @@
   }
 
   /**
-   * Schema.org JSON-LD copy.
+   * Schema.org JSON-LD preview copy.
    *
    * @type {Drupal~behavior}
    */
-  Drupal.behaviors.schemaDotOrgJsonLdCopy = {
+  Drupal.behaviors.schemaDotOrgJsonLdPreviewCopy = {
     attach: function attach(context) {
       $(context).find('.js-schemadotorg-jsonld-preview').once('schemadotorg-jsonld-preview-copy').each(function () {
         var $container = $(this);
