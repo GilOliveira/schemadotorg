@@ -108,6 +108,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'name' => 'name',
       'thumbnail' => 'thumbnail',
       'field_media_image' => 'image',
+      'langcode' => 'inLanguage',
     ];
     $actual_schema_properties = $image_object_mapping->getSchemaProperties();
     $this->assertEquals($expected_schema_properties, $actual_schema_properties);

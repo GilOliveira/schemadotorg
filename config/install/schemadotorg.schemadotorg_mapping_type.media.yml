@@ -22,6 +22,8 @@ default_base_fields:
   revision_user: { }
   uid: { }
   uuid: { }
+  langcode:
+    - inLanguage
   name:
     - name
   thumbnail:
@@ -54,6 +56,7 @@ default_schema_type_properties:
     - name
     - dateCreated
     - dateModified
+    - inLanguage
   AudioObject:
     - contentUrl
   DataDownload:

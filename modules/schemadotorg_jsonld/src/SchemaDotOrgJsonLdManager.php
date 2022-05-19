@@ -4,6 +4,7 @@ namespace Drupal\schemadotorg_jsonld;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
@@ -68,7 +69,28 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getPropertyValue(FieldItemInterface $item) {
+  public function sortProperties(array $properties) {
+    $sorted_properties = [];
+
+    // Collect the sorted properties.
+    $property_order = $this->getConfig()->get('property_order');
+    foreach ($property_order as $property_name) {
+      if (isset($properties[$property_name])) {
+        $sorted_properties[$property_name] = $properties[$property_name];
+        unset($properties[$property_name]);
+      }
+    }
+
+    // Sort the remaining properties alphabetically.
+    ksort($properties);
+
+    return $sorted_properties + $properties;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSchemaPropertyValue(FieldItemInterface $item) {
     // Field type.
     $field_type = $this->getFieldType($item);
     switch ($field_type) {
@@ -102,13 +124,19 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     }
 
     // Main property data type.
-    $value = $this->getFieldValue($item);
+    $value = $this->getFieldMainPropertyValue($item);
     if (!is_array($value)) {
       $main_property_data_type = $this->getMainPropertyDateType($item);
       switch ($main_property_data_type) {
         case 'timestamp':
           return $this->dateFormatter->format($value, 'custom', 'Y-m-d H:i:s P');
       }
+    }
+
+    // Entity reference that are not mapped to Schema.org type.
+    // @todo Determine the best way to handle an unmapped entity reference.
+    if ($item->entity && $item->entity instanceof EntityInterface) {
+      return $item->entity->label();
     }
 
     return $value;
@@ -164,6 +192,21 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   }
 
   /**
+   * Gets the field values for a field item.
+   *
+   * @param \Drupal\Core\Field\FieldItemInterface $item
+   *   The field item.
+   *
+   * @return array|mixed
+   *   The field values for a field item.
+   */
+  protected function getFieldValue(FieldItemInterface $item) {
+    $property_names = $this->getPropertyNames($item);
+    $property_names = array_combine($property_names, $property_names);
+    return array_intersect_key($item->getValue(), $property_names);
+  }
+
+  /**
    * Gets the field values or main property's value for a field item.
    *
    * @param \Drupal\Core\Field\FieldItemInterface $item
@@ -172,16 +215,10 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @return array|mixed
    *   The field values or main property's value for a field item.
    */
-  protected function getFieldValue(FieldItemInterface $item) {
-    $property_names = $this->getPropertyNames($item);
-    $values = array_intersect_key($item->getValue(), array_combine($property_names, $property_names));
+  protected function getFieldMainPropertyValue(FieldItemInterface $item) {
+    $values = $this->getFieldValue($item);
     $main_property_name = $this->getMainPropertyName($item);
-    if (count($property_names) === 1 && isset($values[$main_property_name])) {
-      return $values[$main_property_name];
-    }
-    else {
-      return $values;
-    }
+    return $values[$main_property_name];
   }
 
   /**
@@ -330,18 +367,19 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   protected function mapSchemaType(FieldItemInterface $item, $type, array $mapping) {
     $values = $item->getValue();
 
-    $data = [];
+    $properties = [];
     foreach ($mapping as $source => $destination) {
       if ($destination && !empty($values[$source])) {
-        if (isset($data[$destination])) {
-          $data[$destination] .= ' ' . $values[$source];
+        if (isset($properties[$destination])) {
+          $properties[$destination] .= ' ' . $values[$source];
         }
         else {
-          $data[$destination] = $values[$source];
+          $properties[$destination] = $values[$source];
         }
       }
     }
-    return ['@type' => $type] + $data;
+
+    return ['@type' => $type] + $this->sortProperties($properties);
   }
 
 }

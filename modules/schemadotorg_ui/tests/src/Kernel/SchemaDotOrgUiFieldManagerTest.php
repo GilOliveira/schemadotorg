@@ -189,6 +189,7 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
         'changed' => 'Changed (Last changed)',
         'promote' => 'Promoted to front page (Boolean)',
         'sticky' => 'Sticky at top of lists (Boolean)',
+        'langcode' => 'Language (Language)',
       ],
       'Existing fields' => [
         'schema_identifier' => 'schema_identifier (Text (plain))',

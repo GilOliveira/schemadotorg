@@ -145,6 +145,8 @@ default_base_fields:
   promote: { }
   sticky: { }
   path: { }
+  langcode:
+    - inLanguage
   title:
     - name
     - headline
@@ -163,6 +165,7 @@ default_schema_type_properties:
     - dateCreated
     - dateModified
     - description
+    - inLanguage
   Article:
     - author
     - articleBody
@@ -324,6 +327,7 @@ default_schema_type_properties:
     - endDate
     - eventStatus
     - image
+    - inLanguage
     - location
     - name
     - organizer

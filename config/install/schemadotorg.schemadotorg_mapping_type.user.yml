@@ -6,6 +6,8 @@ target_entity_type_id: user
 recommended_schema_types: {  }
 default_base_fields:
   uuid: { }
+  langcode:
+    - inLanguage
   name:
     - name
   mail:

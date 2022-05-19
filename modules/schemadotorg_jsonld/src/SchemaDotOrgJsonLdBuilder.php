@@ -128,14 +128,19 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       return FALSE;
     }
 
+    // Add UUID as an identifier.
+    // @todo Detemine if this should be optional.
+    $schema_type_data += ['identifier' => []];
+    $schema_type_data['identifier']['uuid'] = $entity->uuid();
+
+    // Sort Schema.org properties in specified order and then alphabetically.
+    $schema_type_data = $this->schemaJsonIdManager->sortProperties($schema_type_data);
+
     // Prepend the @type and @url to the returned data.
     $default_data = ['@type' => $schema_type];
     if ($entity->hasLinkTemplate('canonical') && $entity->access('view')) {
       $default_data['@url'] = $entity->toUrl('canonical')->setAbsolute()->toString();
     }
-    // Add UUID as an indentifier.
-    $schema_type_data += ['identifier' => []];
-    $schema_type_data['identifier']['uuid'] = $entity->uuid();
     $schema_type_data = $default_data + $schema_type_data;
 
     // Alter Schema.org type's JSON-LD data.
@@ -144,9 +149,6 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       $schema_type_data,
       $entity
     );
-
-    // Sort Schema.org properties alphabetically.
-    ksort($schema_type_data);
 
     return $schema_type_data;
   }
@@ -174,7 +176,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     }
 
     // Get Schema.org property value.
-    return $this->schemaJsonIdManager->getPropertyValue($item);
+    return $this->schemaJsonIdManager->getSchemaPropertyValue($item);
   }
 
 }

@@ -48,6 +48,14 @@ class SchemaDotOrgJsonLdSettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('schemadotorg_jsonld.settings');
 
+    $form['property_order'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'properthName',
+      '#title' => $this->t('Schema.org property order'),
+      '#description' => $this->t('Enter the default Schema.org property order.'),
+      '#default_value' => $config->get('property_order'),
+    ];
     $form['property_image_styles'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
@@ -73,6 +81,7 @@ class SchemaDotOrgJsonLdSettingsForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->routerBuilder->setRebuildNeeded();
     $this->config('schemadotorg_jsonld.settings')
+      ->set('property_order', $form_state->getValue('property_order'))
       ->set('property_image_styles', $form_state->getValue('property_image_styles'))
       ->set('entity_type_resource_paths', $form_state->getValue('entity_type_resource_paths'))
       ->save();

@@ -86,6 +86,8 @@ recommended_schema_types:
 default_base_fields:
   uuid: { }
   created: { }
+  langcode:
+    - inLanguage
 default_schema_types: { }
 default_schema_type_properties:
   ContactPoint:

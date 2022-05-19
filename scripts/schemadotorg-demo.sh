@@ -100,6 +100,7 @@ function configure() {
   drush -y config-set system.theme admin gin
   drush -y config-set gin.settings classic_toolbar horizontal
   drush -y config-set gin.settings show_description_toggle 1
+  drush -y config-set system.theme.global features.node_user_picture 0
   drush -y pm-enable gin_toolbar gin_login
 
   echo "Configuring anonymous redirect module";

@@ -101,6 +101,7 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
       'image' => 'image',
       'name' => 'name',
       'thumbnail' => 'thumbnail',
+      'inLanguage' => 'inLanguage',
     ];
     $actual_default_type_properties = $this->storage->getDefaultSchemaTypeProperties('media', 'ImageObject');
     $this->assertEquals($expected_default_type_properties, $actual_default_type_properties);
@@ -158,6 +159,7 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
       'email' => ['mail' => 'mail'],
       'name' => ['name' => 'name'],
       'image' => ['user_picture' => 'user_picture'],
+      'inLanguage' => ['langcode' => 'langcode'],
     ];
     $actual_base_field_mappings = $this->storage->getBaseFieldMappings('user');
     $this->assertEquals($expected_base_field_mappings, $actual_base_field_mappings);
@@ -173,6 +175,7 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
       'created' => 'created',
       'changed' => 'changed',
       'path' => 'path',
+      'langcode' => 'langcode',
       'field_media_audio_file' => 'field_media_audio_file',
       'field_media_document' => 'field_media_document',
       'field_media_image' => 'field_media_image',
