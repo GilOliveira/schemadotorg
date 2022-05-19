@@ -2,7 +2,6 @@
 
 namespace Drupal\schemadotorg_jsonld;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -12,13 +11,6 @@ use Drupal\Core\Field\FieldItemInterface;
  * Schema.org JSON-LD builder.
  */
 class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
-
-  /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
 
   /**
    * The module handler to invoke the alter hook.
@@ -35,40 +27,32 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   protected $entityTypeManager;
 
   /**
-   * The date formatter.
+   * The Schema.org JSON-LD manager.
    *
-   * @var \Drupal\Core\Datetime\DateFormatterInterface
+   * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface
    */
-  protected $dateFormatter;
+  protected $schemaJsonIdManager;
 
   /**
    * Constructs a SchemaDotOrgJsonLdBuilder object.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The configuration object factory.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager
+   *   The Schema.org JSON-LD manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, EntityTypeManagerInterface $entity_type_manager) {
-    $this->configFactory = $config_factory;
+  public function __construct(ModuleHandlerInterface $module_handler, EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager) {
     $this->moduleHandler = $module_handler;
     $this->entityTypeManager = $entity_type_manager;
-
-    $this->moduleHandler->loadAllIncludes('schemadotorg.inc');
+    $this->schemaJsonIdManager = $schema_jsonld_manager;
   }
 
   /**
    * {@inheritdoc}
    */
   public function build(EntityInterface $entity) {
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-    $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
-    if (!$mapping_storage->isEntityMapped($entity)) {
-      return FALSE;
-    }
-
     $data = $this->buildEntityData($entity);
     if (!$data) {
       return FALSE;
@@ -183,20 +167,8 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       }
     }
 
-    // Get properties without any additional meta data.
-    $field_storage_definition = $item->getFieldDefinition()->getFieldStorageDefinition();
-    $property_names = $field_storage_definition->getPropertyNames();
-    $values = array_intersect_key($item->getValue(), array_combine($property_names, $property_names));
-
-    // If there is only one main property return it,
-    // otherwise return all the properties.
-    $main_property_name = $field_storage_definition->getMainPropertyName();
-    if (count($property_names) === 1 && isset($values[$main_property_name])) {
-      return $values[$main_property_name];
-    }
-    else {
-      return $values;
-    }
+    // Get Schema.org property value.
+    return $this->schemaJsonIdManager->getPropertyValue($item);
   }
 
 }

@@ -68,20 +68,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function alterPropertyValue(&$value, FieldItemInterface $item) {
-    $value = $this->getCustomPropertyValue($item) ?? $value;
-  }
-
-  /**
-   * Get a Schema.org property's custom value.
-   *
-   * @param \Drupal\Core\Field\FieldItemInterface $item
-   *   The field item.
-   *
-   * @return array|mixed|null
-   *   A Schema.org property's custom value.
-   */
-  protected function getCustomPropertyValue(FieldItemInterface $item) {
+  public function getPropertyValue(FieldItemInterface $item) {
     // Field type.
     $field_type = $this->getFieldType($item);
     switch ($field_type) {
@@ -249,7 +236,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    *   The mapped Schema.org property for a field item.
    */
   protected function getSchemaProperty(FieldItemInterface $item) {
-    $entity = $this->getFieldEntity($item);
+    $entity = $this->getEntity($item);
     $field_name = $this->getFieldName($item);
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');

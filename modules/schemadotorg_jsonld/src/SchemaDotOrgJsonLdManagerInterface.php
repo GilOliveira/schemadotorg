@@ -10,13 +10,14 @@ use Drupal\Core\Field\FieldItemInterface;
 interface SchemaDotOrgJsonLdManagerInterface {
 
   /**
-   * Alter a Schema.org property field value.
+   * Get a Schema.org property's value for a field item.
    *
-   * @param mixed &$value
-   *   The property's current value extracted from the field item.
    * @param \Drupal\Core\Field\FieldItemInterface $item
    *   The field item.
+   *
+   * @return array|mixed|null
+   *   A Schema.org property's value for a field item.
    */
-  public function alterPropertyValue(&$value, FieldItemInterface $item);
+  public function getPropertyValue(FieldItemInterface $item);
 
 }
