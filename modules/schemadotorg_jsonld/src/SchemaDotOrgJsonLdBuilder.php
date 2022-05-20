@@ -85,17 +85,15 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $schema_type = $mapping->getSchemaType();
     $schema_properties = $mapping->getSchemaProperties();
     foreach ($schema_properties as $field_name => $schema_property) {
-      // Make sure the entity has the field.
-      if (!$entity->hasField($field_name)) {
+      // Make sure the entity has the field and the current user has
+      // access to the field.
+      if (!$entity->hasField($field_name) || !$entity->get($field_name)->access('view')) {
         continue;
       }
 
       // Make sure the user has access to the field.
       /** @var \Drupal\Core\Field\FieldItemListInterface $items */
       $items = $entity->get($field_name);
-      if (!$items->access('view')) {
-        continue;
-      }
 
       // Get the Schema.org properties.
       $schema_property_data = [];
@@ -128,13 +126,20 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       return FALSE;
     }
 
-    // Add UUID as an identifier.
-    $schema_type_data['identifier'] = (array) ($schema_type_data['identifier'] ?? []);
-    $schema_type_data['identifier'][] = [
-      '@type' => 'PropertyValue',
-      'propertyID' => 'uuid',
-      'value' => $entity->uuid(),
-    ];
+    // Add Schema.org identifiers. (Defaults to UUID)
+    $identifiers = $this->schemaJsonIdManager->getSchemaIdentifiers($entity);
+    if ($identifiers) {
+      // Make sure exiting identifier data is an indexed array.
+      if (isset($schema_type_data['identifier']) && is_array($schema_type_data['identifier'])) {
+        if (!isset($schema_type_data['identifier'][0])) {
+          $schema_type_data['identifier'] = [$schema_type_data['identifier']];
+        }
+      }
+      else {
+        $schema_type_data['identifier'] = [];
+      }
+      $schema_type_data['identifier'] = array_merge($schema_type_data['identifier'], $identifiers);
+    }
 
     // Sort Schema.org properties in specified order and then alphabetically.
     $schema_type_data = $this->schemaJsonIdManager->sortProperties($schema_type_data);

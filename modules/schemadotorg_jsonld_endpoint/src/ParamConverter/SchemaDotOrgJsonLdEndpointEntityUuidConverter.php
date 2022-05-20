@@ -16,7 +16,6 @@ use Symfony\Component\Routing\Route;
  * @see \Drupal\jsonapi\ParamConverter\EntityUuidConverter
  *
  * @see https://www.drupal.org/project/drupal/issues/3032787
- * @see jsonapi.api.php
  *
  * @see \Drupal\Core\ParamConverter\EntityConverter
  *
@@ -46,32 +45,38 @@ class SchemaDotOrgJsonLdEndpointEntityUuidConverter extends EntityConverter {
    */
   public function convert($value, $definition, $name, array $defaults) {
     $entity_type_id = $this->getEntityTypeFromDefaults($definition, $name, $defaults);
-    $uuid_key = $this->entityTypeManager->getDefinition($entity_type_id)
-      ->getKey('uuid');
-    if ($storage = $this->entityTypeManager->getStorage($entity_type_id)) {
-      if (!$entities = $storage->loadByProperties([$uuid_key => $value])) {
-        return NULL;
-      }
-      $entity = reset($entities);
-      // If the entity type is translatable, ensure we return the proper
-      // translation object for the current context.
-      if ($entity instanceof TranslatableInterface && $entity->isTranslatable()) {
-        // @see https://www.drupal.org/project/drupal/issues/2624770
-        $entity = $this->entityRepository->getTranslationFromContext($entity, NULL, ['operation' => 'entity_upcast']);
-      }
-      return $entity;
+    $definition = $this->entityTypeManager->getDefinition($entity_type_id);
+    $uuid_key = $definition->getKey('uuid');
+
+    $storage = $this->entityTypeManager->getStorage($entity_type_id);
+    if (!$storage) {
+      return NULL;
     }
-    return NULL;
+
+    $entities = $storage->loadByProperties([$uuid_key => $value]);
+    if (!$entities) {
+      return NULL;
+    }
+
+    $entity = reset($entities);
+
+    // If the entity type is translatable, ensure we return the proper
+    // translation object for the current context.
+    if ($entity instanceof TranslatableInterface && $entity->isTranslatable()) {
+      // @see https://www.drupal.org/project/drupal/issues/2624770
+      $entity = $this->entityRepository->getTranslationFromContext($entity, NULL, ['operation' => 'entity_upcast']);
+    }
+
+    return $entity;
   }
 
   /**
    * {@inheritdoc}
    */
   public function applies($definition, $name, Route $route) {
-    return (
-      $route->getDefault(SchemaDotOrgJsonLdEndpointRoutes::JSONLD_ROUTE_FLAG_KEY) &&
-      !empty($definition['type']) && strpos($definition['type'], 'entity') === 0
-    );
+    $has_jsonld_route_flag = $route->getDefault(SchemaDotOrgJsonLdEndpointRoutes::JSONLD_ROUTE_FLAG_KEY);
+    $has_entity_type_definition = (!empty($definition['type']) && strpos($definition['type'], 'entity') === 0);
+    return ($has_jsonld_route_flag && $has_entity_type_definition);
   }
 
 }

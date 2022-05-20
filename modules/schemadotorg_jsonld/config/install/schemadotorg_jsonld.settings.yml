@@ -1,3 +1,5 @@
+identifiers:
+  uuid: uuid
 property_order:
   - url
   - identifier

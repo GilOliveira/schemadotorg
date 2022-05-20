@@ -155,6 +155,37 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function getSchemaIdentifiers(EntityInterface $entity) {
+    $identifiers = $this->getConfig()->get('identifiers');
+
+    $values = [];
+    foreach ($identifiers as $field_name => $identifier) {
+      // Make sure the entity has the field and the current user has
+      // access to the field.
+      if (!$entity->hasField($field_name) || !$entity->get($field_name)->access('view')) {
+        continue;
+      }
+
+      /** @var \Drupal\Core\Field\FieldItemListInterface $items */
+      $items = $entity->get($field_name);
+      foreach ($items as $item) {
+        $value = $this->getSchemaPropertyValue($item);
+        if ($value) {
+          $values[] = [
+            '@type' => 'PropertyValue',
+            'propertyID' => $identifier,
+            'value' => $value,
+          ];
+        }
+      }
+    }
+
+    return $values;
+  }
+
+  /**
    * Gets Schema.org JSON-LD configuration settings.
    *
    * @return \Drupal\Core\Config\ImmutableConfig
@@ -365,7 +396,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * Map an array's values.
    *
-   * @param array $value
+   * @param array $values
    *   An associative array of values.
    *   The Schema.org type.
    * @param array $mapping

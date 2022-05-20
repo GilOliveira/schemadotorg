@@ -1,7 +1,9 @@
 Schema.org Blueprints
 ---------------------
 
-## Recommended Core Modules
+Below are recommended core and contribute modules that can be used with the Schema.org Blueprints module.
+
+## Core Modules
 
 - **[Datetime](https://www.drupal.org/docs/8/core/modules/datetime)**
   (Applies to: [Date](https://schema.org/Date), [DateTime](https://schema.org/DateTime))  
@@ -23,7 +25,7 @@ Schema.org Blueprints
   (Applies to: [telephone](https://schema.org/telephone))  
   Defines a field type for telephone numbers.
 
-## Recommended Contribute Modules
+## Contribute Modules
 
 ### UI/UX
 

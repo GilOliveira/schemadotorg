@@ -100,11 +100,11 @@ function schemadotorg_jsonld_preview_entity_view_alter(array &$build, EntityInte
       ['entity' => $entity->uuid()],
       ['absolute' => TRUE],
     );
-    $build['schemadotorg_jsonid_preview']['uri'] = [
+    $build['schemadotorg_jsonid_preview']['endpoint'] = [
       '#type' => 'link',
       '#url' => $jsonld_url,
       '#title' => $jsonld_url->toString(),
-      '#prefix' => t('JSON-LD endpoints:') . ' ',
+      '#prefix' => t('JSON-LD endpoint:') . ' ',
     ];
   }
 }

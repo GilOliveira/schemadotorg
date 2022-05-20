@@ -3,13 +3,24 @@ Schema.org Blueprints
 
 # Todo
 
-JSON-LD
-- Test coverage
+For JSON-LD: Add identifiers to settings.
 
+fieldName|Identifier Name
+uuid:uuid
+field_irbnumber|IRBNUMBER
+etc...
+
+JSON-LD
+- Test schemadotorg_jsonld_endpoint
+- Test schemadotorg_jsonld_preview
+- Test schemadotorg_jsonld
 
 Ongoing
 - Research and document recommended modules.
 - Determine the recommended types per entity type.
+  - Document tested and supported default Schema.org types.
+  - Always review default Schema.org type properties.
+  - Can we provide sector specific demos?
 - Build out the default schema types properties.
 - Review patterns and tests.
 
@@ -32,6 +43,22 @@ Ajax
 - https://iptc.org/
 
 # Ideas
+
+- Schema.org Blueprints Demo module
+  - Recipes to create sector specific demos
+  - Includes all dependencies.
+  - Generates dummy content.
+  - Possibly mirror Umami (@see Contenta)
+  - Demos could be Drush commands
+  - `drush schemadotorg-demo personal`
+  - Demos
+    - Personal website
+    - Company website
+    - Restaurant website
+    - Dealership website
+    - Hotel website
+    - Hospital website
+    - University website
 
 - Schema.org Blueprint Configuration module
   - Established the best practice of collecting configuration settings in a
@@ -79,10 +106,37 @@ Ajax
 
 # TBD
 
+## General
+
 What field types won't easily work or map to Schema.org?
 - text with summary and formatting
 - Date range
 - Repeating events (SmartDates)
+
+- How do we handle identifiers?
+  Identifiers need to in dedicated fields for performance.
+  Identifiers should have dedicated field via JSON:API.
+  Is it possible to collect/merge multiple identifiers into one field?
+  
+  schema_identifier_irbnumber 
+
+- How do we handle sub-values (i.e. body.summary)?
+  - Token field?
+
+- How to handle translations for imported data?
+  - Include descriptions added via the schemadotorg_descriptions.module
+
+## JSON:API
+
+- Should/could we add a link to JSON-LD (jsonld) via the JSON:API meta information?
+  - https://www.drupal.org/project/drupal/issues/3100732
+
+## JSON-LD
+
+- How can we validate the generated JSON-LD?
+  - Chrome extension and online
+
+## Schema.org
 
 What Schema.org types should we document?
 - Thing
@@ -96,16 +150,3 @@ What Schema.org types should we document?
 - Blogpost
 - CreativeWork: FAQ
 - HowTo
-
-- How do we handle sub-values (i.e. body.summary)?
-  - Token field?
-
-- How to handle translations for imported data?
-  - Include descriptions added via the schemadotorg_descriptions.module
-
-- How can we validate the generated JSON-LD?
-  - Chrome extension and online
-
-- Should we add a link to JSON-LD (jsonld) via the JSON:API meta information?
-  - https://www.drupal.org/project/drupal/issues/3100732
-

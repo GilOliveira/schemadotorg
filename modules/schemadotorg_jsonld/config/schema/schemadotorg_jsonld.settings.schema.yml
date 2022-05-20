@@ -2,6 +2,12 @@ schemadotorg_jsonld.settings:
   type: config_entity
   label: Schema.org JSON-LD settings
   mapping:
+    identifiers:
+      type: sequence
+      label: 'Schema.org identifiers'
+      sequence:
+        type: string
+        label: 'Schema.org identifier'
     property_order:
       type: sequence
       label: 'Schema.org property order'

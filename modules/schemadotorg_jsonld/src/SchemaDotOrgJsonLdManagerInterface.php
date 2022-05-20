@@ -2,6 +2,7 @@
 
 namespace Drupal\schemadotorg_jsonld;
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldItemInterface;
 
 /**
@@ -30,5 +31,17 @@ interface SchemaDotOrgJsonLdManagerInterface {
    *   A Schema.org property's value for a field item.
    */
   public function getSchemaPropertyValue(FieldItemInterface $item);
+
+  /**
+   * Get Schema.org identifiers for an entity.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity.
+   *
+   * @return array
+   *   An array of identifiers containing Schema.org PropertyValue types.
+   */
+  public function getSchemaIdentifiers(EntityInterface $entity);
+
 
 }
