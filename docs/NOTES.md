@@ -3,17 +3,16 @@ Schema.org Blueprints
 
 # Todo
 
-For JSON-LD: Add identifiers to settings.
-
-fieldName|Identifier Name
-uuid:uuid
-field_irbnumber|IRBNUMBER
-etc...
-
 JSON-LD
 - Test schemadotorg_jsonld_endpoint
 - Test schemadotorg_jsonld_preview
 - Test schemadotorg_jsonld
+ 
+https://www.semrush.com/webinars/structured-data-schema-changes-and-updates/
+
+Allow TaxonomyTerms to be mapped to DefinedTerm or CategoryTerm.
+- https://schema.org/DefinedTermSet (vocabulary)
+- https://schema.org/CategoryCodeSet (vocabulary)
 
 Ongoing
 - Research and document recommended modules.

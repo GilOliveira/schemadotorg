@@ -1,0 +1,35 @@
+langcode: en
+status: true
+dependencies: {  }
+id: taxonomy_term
+target_entity_type_id: taxonomy_term
+recommended_schema_types:
+  types:
+    label: 'Types'
+    types:
+      - DefinedTerm
+      - CategeryCode
+default_base_fields:
+  status: {  }
+  uuid:
+    - termCode
+  changed:
+    - dateModified
+  langcode:
+    - inLanguage
+  name:
+    - name
+  description:
+    - description
+default_schema_types: {  }
+default_schema_type_properties:
+  DefinedTerm:
+    - name
+    - description
+    - termCode
+default_schema_type_subtypes: { }
+default_field_weights: { }
+default_field_groups: { }
+default_field_group_label_suffix: ''
+default_field_group_form_type: ''
+default_field_group_view_type: ''

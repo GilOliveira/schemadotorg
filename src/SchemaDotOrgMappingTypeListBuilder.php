@@ -3,11 +3,29 @@
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a listing of Schema.org mapping types.
  */
 class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBuilderBase {
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
+    $instance = parent::createInstance($container, $entity_type);
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+    return $instance;
+  }
 
   /**
    * {@inheritdoc}
@@ -105,7 +123,17 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
       $row['default_field_groups'] = $this->buildItems($group_labels);
     }
 
-    return $row + parent::buildRow($entity);
+    $row = $row + parent::buildRow($entity);
+
+    // Highlight missing entity types.
+    if (!$this->entityTypeManager->hasDefinition($entity->id())) {
+      $row = [
+        'data' => $row,
+        'class' => ['color-warning'],
+      ];
+    }
+
+    return $row;
   }
 
 }

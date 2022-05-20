@@ -38,6 +38,12 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
         '#value' => $entity->id(),
         '#markup' => $entity->label(),
       ];
+      // Display a warning about the missing entity type.
+      if (!$this->entityTypeManager->hasDefinition($entity->id())) {
+        $t_args = ['%entity_type' => $entity->id()];
+        $message = $this->t('The target entity type %entity_type is missing and its associated module most likely needs to be installed.', $t_args);
+        $this->messenger()->addWarning($message);
+      }
     }
     $form['recommended_schema_types'] = [
       '#type' => 'schemadotorg_settings',

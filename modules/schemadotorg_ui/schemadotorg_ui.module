@@ -30,3 +30,28 @@ function schemadotorg_ui_field_ui_preconfigured_options_alter(array &$options, $
     ];
   }
 }
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function schemadotorg_ui_schemadotorg_mapping_type_insert() {
+  // Rebuild dynamic routes.
+  // @see \Drupal\schemadotorg_ui\Routing\SchemaDotOrgRouteSubscriber
+  /** @var \Drupal\Core\Routing\RouteBuilderInterface $router_builder */
+  $router_builder = \Drupal::service('router.builder');
+  $router_builder->setRebuildNeeded();
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function schemadotorg_ui_schemadotorg_mapping_type_update() {
+  schemadotorg_ui_schemadotorg_mapping_type_insert();
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function schemadotorg_ui_schemadotorg_mapping_type_delete() {
+  schemadotorg_ui_schemadotorg_mapping_type_insert();
+}
