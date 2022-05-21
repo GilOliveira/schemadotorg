@@ -36,40 +36,45 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
       $header['entity_type'] = [
         'data' => $this->t('Type'),
       ];
+      $header['multiple'] = [
+        'data' => $this->t('Multiple'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+        'width' => '10%',
+      ];
       $header['recommended_schema_types'] = [
         'data' => $this->t('Recommended Schema.org types'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
-        'width' => '12%',
+        'width' => '10%',
       ];
       $header['default_schema_types'] = [
         'data' => $this->t('Default Schema.org types'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
-        'width' => '12%',
+        'width' => '10%',
       ];
       $header['default_schema_type_properties'] = [
         'data' => $this->t('Defined Schema.org type'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
-        'width' => '12%',
+        'width' => '10%',
       ];
       $header['default_schema_type_subtypes'] = [
         'data' => $this->t('Schema.org subtypes'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
-        'width' => '12%',
+        'width' => '10%',
       ];
       $header['default_base_fields'] = [
         'data' => $this->t('Base field mappings'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
-        'width' => '12%',
+        'width' => '10%',
       ];
       $header['default_field_weights'] = [
         'data' => $this->t('Field weights'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
-        'width' => '12%',
+        'width' => '10%',
       ];
       $header['default_field_groups'] = [
         'data' => $this->t('Field groups'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
-        'width' => '12%',
+        'width' => '10s%',
       ];
     }
     else {
@@ -89,6 +94,8 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
     $row['entity_type'] = $entity->label();
     $details_toggle = $this->getDetailsToggle();
     if ($details_toggle) {
+      // Multiple.
+      $row['multiple'] = $entity->get('multiple') ? $this->t('Yes') : $this->t('No');
 
       // Recommended Schema.org types.
       $recommended_schema_types = $entity->get('recommended_schema_types');

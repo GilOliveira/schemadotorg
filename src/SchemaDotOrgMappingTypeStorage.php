@@ -172,6 +172,13 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
   /**
    * {@inheritdoc}
    */
+  public function supportsMultiple($entity_type_id) {
+    return $this->getEntityTypeProperty($entity_type_id, 'multiple');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getRecommendedSchemaTypes($entity_type_id) {
     return $this->getEntityTypeProperty($entity_type_id, 'recommended_schema_types');
   }

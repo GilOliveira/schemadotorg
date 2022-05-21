@@ -195,8 +195,12 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
    *   A renderable array containing the Schema.org type item.
    */
   protected function buildSchemaTypeItem($entity_type_id, $type) {
-    $schema_mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
-    if ($schema_mapping_storage->isSchemaTypeMapped($entity_type_id, $type)) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+    $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
+    $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
+    if ($mapping_storage->isSchemaTypeMapped($entity_type_id, $type)
+      && !$mapping_type_storage->supportsMultiple($entity_type_id)) {
       return ['#markup' => $type];
     }
     else {

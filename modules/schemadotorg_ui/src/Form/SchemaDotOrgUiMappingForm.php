@@ -144,7 +144,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $target_entity_type_id = $target_entity_type_id ?? 'node';
 
     // Display warning that new Schema.org type is already mapped.
-    if ($mapping_storage->isSchemaTypeMapped($target_entity_type_id, $schema_type)) {
+    if ($mapping_storage->isSchemaTypeMapped($target_entity_type_id, $schema_type)
+      && !$mapping_type_storage->supportsMultiple($target_entity_type_id)) {
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
       $entity = $mapping_storage->loadBySchemaType($target_entity_type_id, $schema_type);
       $target_entity = $entity->getTargetEntityBundleEntity();
@@ -544,6 +545,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $target_entity_type_bundle_definition = $this->getEntity()->getTargetEntityTypeBundleDefinition();
     $type_definition = $this->getSchmemaTypeDefinition();
 
+    $target_entity_type_id = $this->getTargetEntityTypeId();
+    $multiple = $this->getMappingTypeStorage()->supportsMultiple($target_entity_type_id);
+
     $t_args = ['@name' => $target_entity_type_bundle_definition->getSingularLabel()];
 
     $form['entity'] = [
@@ -557,7 +561,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#title' => $this->t('Name'),
       '#description' => $this->t('The human-readable name of this content type. This text will be displayed as part of the list on the Add content page. This name must be unique.'),
       '#required' => TRUE,
-      '#default_value' => $type_definition['drupal_label'],
+      '#default_value' => (!$multiple) ? $type_definition['drupal_label'] : '',
     ];
     $form['entity']['id'] = [
       '#type' => 'textfield',
@@ -566,7 +570,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#required' => TRUE,
       '#pattern' => '[_0-9a-z]+',
       '#maxlength' => $this->schemaNames->getNameMaxLength('types'),
-      '#default_value' => $type_definition['drupal_name'],
+      '#default_value' => (!$multiple) ? $type_definition['drupal_name'] : '',
     ];
     $form['entity']['description'] = [
       '#type' => 'textarea',

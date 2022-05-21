@@ -3,6 +3,7 @@ status: true
 dependencies: {  }
 id: user
 target_entity_type_id: user
+multiple: false
 recommended_schema_types: {  }
 default_base_fields:
   uuid: { }

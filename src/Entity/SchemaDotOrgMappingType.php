@@ -41,6 +41,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *   config_export = {
  *     "id",
  *     "target_entity_type_id",
+ *     "multiple",
  *     "default_schema_types",
  *     "default_base_fields",
  *     "default_field_weights",

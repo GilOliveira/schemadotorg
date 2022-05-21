@@ -11,8 +11,13 @@ JSON-LD
 https://www.semrush.com/webinars/structured-data-schema-changes-and-updates/
 
 Allow TaxonomyTerms to be mapped to DefinedTerm or CategoryTerm.
-- https://schema.org/DefinedTermSet (vocabulary)
-- https://schema.org/CategoryCodeSet (vocabulary)
+- Allow types to be multiple times.
+  - \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingTypeSelectForm::buildSchemaTypeItem
+  - Don't display warning just don't populate the title and machine name.
+  - allow_schema_type_limit: false
+- Automatically add DefinedTermSet JSON-LD to vocabulary
+  - https://schema.org/DefinedTermSet (vocabulary)
+  - https://schema.org/CategoryCodeSet (vocabulary)
 
 Ongoing
 - Research and document recommended modules.

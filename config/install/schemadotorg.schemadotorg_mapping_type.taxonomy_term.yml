@@ -3,6 +3,7 @@ status: true
 dependencies: {  }
 id: taxonomy_term
 target_entity_type_id: taxonomy_term
+multiple: true
 recommended_schema_types:
   types:
     label: 'Types'

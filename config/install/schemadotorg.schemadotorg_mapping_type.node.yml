@@ -3,6 +3,7 @@ status: true
 dependencies: {  }
 id: node
 target_entity_type_id: node
+multiple: false
 recommended_schema_types:
   common:
     label: Common

@@ -8,6 +8,9 @@ schemadotorg.schemadotorg_mapping_type.*:
     target_entity_type_id:
       type: string
       label: 'Target entity type'
+    multiple:
+      type: boolean
+      label: 'Allow multiple mappings to point to the same Schema.org type'
     recommended_schema_types:
       type: sequence
       label: 'Recommended Schema.org types'

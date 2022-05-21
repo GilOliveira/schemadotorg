@@ -67,6 +67,17 @@ interface SchemaDotOrgMappingTypeStorageInterface extends ConfigEntityStorageInt
   public function getDefaultSchemaTypeProperties($entity_type_id, $schema_type);
 
   /**
+   * Support multiple Schema.org type mappings.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   *
+   * @return boolean
+   *   TRUE if multiple Schema.org type mappings are supported
+   */
+  public function supportsMultiple($entity_type_id);
+
+  /**
    * Gets default Schema.org type's subtypes.
    *
    * @param string $entity_type_id

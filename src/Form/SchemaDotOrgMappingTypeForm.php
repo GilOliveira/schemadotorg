@@ -45,6 +45,13 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
         $this->messenger()->addWarning($message);
       }
     }
+    $form['multiple'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Allow multiple mappings to point to the same Schema.org type'),
+      '#description' => $this->t('If unchecked, new mappings to an existing Schema.org type will display a warning'),
+      '#return_value' => TRUE,
+      '#default_value' => $entity->get('multiple'),
+    ];
     $form['recommended_schema_types'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED_NAMED,

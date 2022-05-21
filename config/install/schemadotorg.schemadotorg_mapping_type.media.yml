@@ -3,6 +3,7 @@ status: true
 dependencies: {  }
 id: media
 target_entity_type_id: media
+multiple: false
 recommended_schema_types:
   media_objects:
     label: 'Common'

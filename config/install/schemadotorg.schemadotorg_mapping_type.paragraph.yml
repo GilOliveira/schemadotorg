@@ -3,6 +3,7 @@ status: true
 dependencies: {  }
 id: paragraph
 target_entity_type_id: paragraph
+multiple: false
 recommended_schema_types:
   place:
     label: Place
