@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
+use Drupal\Core\Language\LanguageInterface;
 
 /**
  * Schema.org JSON-LD manager.
@@ -122,6 +123,9 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
           $mapping['name'] = 'name';
         }
         return ['@type' => 'PostalAddress'] + $this->mapValues($values, $mapping);
+
+      case 'language':
+        return ($item->value !== LanguageInterface::LANGCODE_NOT_SPECIFIED) ? $item->value : NULL;
 
       case 'link':
         return $item->uri;
