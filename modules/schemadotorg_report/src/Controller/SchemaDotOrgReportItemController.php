@@ -216,12 +216,13 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
           ];
 
           // Get default properties per entity type.
-          /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_storage */
-          $mapping_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping_type');
-          $entity_types = $mapping_storage->getEntityTypes();
+          /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
+          $mapping_type_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping_type');
+          $entity_types = $mapping_type_storage->getEntityTypes();
           foreach ($entity_types as $entity_type) {
+            $mapping_type = $mapping_type_storage->load($entity_type);
             $entity_type_definition = $this->entityTypeManager()->getDefinition($entity_type);
-            $entity_type_default_properties = $mapping_storage->getDefaultSchemaTypeProperties($entity_type, $item['label']);
+            $entity_type_default_properties = $mapping_type->getDefaultSchemaTypeProperties($item['label']);
             if ($entity_type_default_properties) {
               $t_args = [
                 '@type' => $entity_type_definition->getBundleEntityType()

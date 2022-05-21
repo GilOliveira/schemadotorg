@@ -223,7 +223,9 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     $field_definitions = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
     $options = [];
 
-    $base_field_names = $this->getMappingTypeStorage()->getBaseFieldNames($entity_type_id);
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
+    $mapping_type = $this->getMappingTypeStorage()->load($entity_type_id);
+    $base_field_names = $mapping_type->getBaseFieldNames();
     if ($base_field_names) {
       foreach ($base_field_names as $field_name) {
         if (isset($field_definitions[$field_name])) {

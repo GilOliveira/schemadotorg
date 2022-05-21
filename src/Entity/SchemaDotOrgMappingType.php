@@ -3,6 +3,8 @@
 namespace Drupal\schemadotorg\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
+use Drupal\Core\Entity\Display\EntityDisplayInterface;
+use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
 
 /**
@@ -156,6 +158,153 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
     return $entity_type_manager->hasDefinition($this->id())
       ? $entity_type_manager->getDefinition($this->id())->getLabel()
       : $this->id();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultSchemaTypeBundles($type) {
+    $schema_types = $this->get('default_schema_types');
+    $bundles = [];
+    foreach ($schema_types as $bundle => $schema_type) {
+      if ($type === $schema_type) {
+        $bundles[$bundle] = $bundle;
+      }
+    }
+    return $bundles;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultSchemaType($bundle) {
+    $schema_types = $this->get('default_schema_types');
+    return $schema_types[$bundle] ?? NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultSchemaTypeProperties($schema_type) {
+    $type_properties = $this->get('default_schema_type_properties');
+    if (empty($type_properties)) {
+      return NULL;
+    }
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+    $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+    $breadcrumbs = $schema_type_manager->getTypeBreadcrumbs($schema_type);
+    $default_properties = [];
+    foreach ($breadcrumbs as $breadcrumb) {
+      foreach ($breadcrumb as $breadcrumb_type) {
+        $breadcrumb_type_properties = $type_properties[$breadcrumb_type] ?? NULL;
+        if ($breadcrumb_type_properties) {
+          $default_properties += array_combine($breadcrumb_type_properties, $breadcrumb_type_properties);
+        }
+      }
+    }
+    ksort($default_properties);
+    return $default_properties;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultSchemaTypeSubtypes() {
+    return $this->get('default_schema_type_subtypes');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultFieldWeights() {
+    $weights = $this->get('default_field_weights');
+    $weights = array_flip($weights);
+    // Start field weights at 1 since most default fields are set to 0.
+    array_walk($weights, function (&$weight) {
+      $weight += 1;
+    });
+    return $weights;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultFieldGroups() {
+    return $this->get('default_field_groups');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultFieldGroupLabelSuffix() {
+    return $this->get('default_field_group_label_suffix');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultFieldGroupFormatType(EntityDisplayInterface $display) {
+    $display_type = ($display instanceof EntityFormDisplayInterface) ? 'form' : 'view';
+    return $this->get('default_field_group_' . $display_type . '_type') ?: '';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultFieldGroupFormatSettings(EntityDisplayInterface $display) {
+    $type = $this->getDefaultFieldGroupFormatType($display);
+    switch ($type) {
+      case 'details':
+        return ['open' => TRUE];
+
+      case 'fieldset':
+      case 'html_element':
+      default:
+        return [];
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function supportsMultiple() {
+    return $this->get('multiple');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRecommendedSchemaTypes() {
+    return $this->get('recommended_schema_types');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getBaseFieldMappings() {
+    $base_fields = $this->get('default_base_fields') ?: [];
+    $base_fields = array_filter($base_fields);
+    if (empty($base_fields)) {
+      return [];
+    }
+
+    $mappings = [];
+    foreach ($base_fields as $field_name => $properties) {
+      foreach ($properties as $property) {
+        $mappings[$property][$field_name] = $field_name;
+      }
+    }
+    return $mappings;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getBaseFieldNames() {
+    $default_base_fields = $this->get('default_base_fields') ?: [];
+    $base_field_names = array_keys($default_base_fields);
+    return array_combine($base_field_names, $base_field_names);
   }
 
 }

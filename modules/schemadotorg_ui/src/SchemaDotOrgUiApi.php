@@ -136,7 +136,7 @@ class SchemaDotOrgUiApi implements SchemaDotOrgUiApiInterface {
     // Get the default bundle for the schema type.
     // Default bundles are only defined for the 'media' and 'user'
     // entity types.
-    $bundles = $this->getSchemaMappingTypeStorage()->getDefaultSchemaTypeBundles($entity_type, $schema_type);
+    $bundles = $this->loadSchemaMappingType($entity_type)->getDefaultSchemaTypeBundles($schema_type);
     $bundles = $bundles ?: [$this->schemaNames->toDrupalName('types', $schema_type)];
     foreach ($bundles as $bundle) {
       // Create a new Schema.org mapping.
@@ -287,6 +287,19 @@ class SchemaDotOrgUiApi implements SchemaDotOrgUiApiInterface {
    */
   protected function getSchemaMappingStorage() {
     return $this->entityTypeManager->getStorage('schemadotorg_mapping');
+  }
+
+  /**
+   * Load a Schema.org mapping type.
+   *
+   * @param string $entity_type_id
+   *   The entity type.
+   *
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface
+   *   A Schema.org mapping type.
+   */
+  protected function loadSchemaMappingType($entity_type_id) {
+    return $this->getSchemaMappingTypeStorage()->load($entity_type_id);
   }
 
   /**

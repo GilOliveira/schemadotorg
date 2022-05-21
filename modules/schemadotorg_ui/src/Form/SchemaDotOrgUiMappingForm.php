@@ -143,9 +143,14 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     // Default the target entity type to be a node.
     $target_entity_type_id = $target_entity_type_id ?? 'node';
 
+    // Load mapping type since the target entity type id was just set.
+    $mapping_type = $mapping_type_storage->load($target_entity_type_id);
+    $supports_multiple = $mapping_type->supportsMultiple();
+    $default_schema_type = $mapping_type->getDefaultSchemaType($target_bundle);
+
     // Display warning that new Schema.org type is already mapped.
     if ($mapping_storage->isSchemaTypeMapped($target_entity_type_id, $schema_type)
-      && !$mapping_type_storage->supportsMultiple($target_entity_type_id)) {
+      && !$supports_multiple) {
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
       $entity = $mapping_storage->loadBySchemaType($target_entity_type_id, $schema_type);
       $target_entity = $entity->getTargetEntityBundleEntity();
@@ -159,8 +164,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     }
 
     // Set default Schema.org type for the current target entity type and bundle.
-    $schema_type = $schema_type
-      ?: $mapping_type_storage->getDefaultSchemaType($target_entity_type_id, $target_bundle);
+    $schema_type = $schema_type ?: $default_schema_type;
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
     $entity = $mapping_storage->load($target_entity_type_id . '.' . $target_bundle)
@@ -544,9 +548,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   protected function buildAddEntityForm(array &$form) {
     $target_entity_type_bundle_definition = $this->getEntity()->getTargetEntityTypeBundleDefinition();
     $type_definition = $this->getSchmemaTypeDefinition();
-
-    $target_entity_type_id = $this->getTargetEntityTypeId();
-    $multiple = $this->getMappingTypeStorage()->supportsMultiple($target_entity_type_id);
+    $supports_multiple = $this->getMappingType()->supportsMultiple();
 
     $t_args = ['@name' => $target_entity_type_bundle_definition->getSingularLabel()];
 
@@ -561,7 +563,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#title' => $this->t('Name'),
       '#description' => $this->t('The human-readable name of this content type. This text will be displayed as part of the list on the Add content page. This name must be unique.'),
       '#required' => TRUE,
-      '#default_value' => (!$multiple) ? $type_definition['drupal_label'] : '',
+      '#default_value' => (!$supports_multiple) ? $type_definition['drupal_label'] : '',
     ];
     $form['entity']['id'] = [
       '#type' => 'textfield',
@@ -570,7 +572,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#required' => TRUE,
       '#pattern' => '[_0-9a-z]+',
       '#maxlength' => $this->schemaNames->getNameMaxLength('types'),
-      '#default_value' => (!$multiple) ? $type_definition['drupal_name'] : '',
+      '#default_value' => (!$supports_multiple) ? $type_definition['drupal_name'] : '',
     ];
     $form['entity']['description'] = [
       '#type' => 'textarea',
@@ -973,8 +975,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   An entity type's base field mappings.
    */
   protected function getSchemaBaseFieldMappings() {
-    $entity_type_id = $this->getTargetEntityTypeId();
-    return $this->getMappingTypeStorage()->getBaseFieldMappings($entity_type_id);
+    return $this->getMappingType()->getBaseFieldMappings();
   }
 
   /**
@@ -995,8 +996,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function getSchemaTypeDefaultProperties() {
     $schema_type = $this->getSchemaType();
-    $entity_type_id = $this->getTargetEntityTypeId();
-    $default_properties = $this->getMappingTypeStorage()->getDefaultSchemaTypeProperties($entity_type_id, $schema_type);
+    $default_properties = $this->getMappingType()->getDefaultSchemaTypeProperties($schema_type);
     if ($this->defaultProperties) {
       $default_properties += array_combine($this->defaultProperties, $this->defaultProperties);
     }
@@ -1046,8 +1046,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   TRUE if Schema.org type should be subtyped by default.
    */
   protected function getSchemaTypeSubtypes() {
-    $entity_type_id = $this->getTargetEntityTypeId();
-    $subtypes = $this->getMappingTypeStorage()->getDefaultSchemaTypeSubtypes($entity_type_id);
+    $subtypes = $this->getMappingType()->getDefaultSchemaTypeSubtypes();
     $schema_type = $this->getSchemaType();
     return in_array($schema_type, $subtypes);
   }

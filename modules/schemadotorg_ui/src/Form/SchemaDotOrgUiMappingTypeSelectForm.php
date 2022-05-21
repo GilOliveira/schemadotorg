@@ -109,8 +109,11 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
     // Description bottom.
     // Display recommended Schema.org types.
     $entity_type_id = $entity_type_id ?? 'node';
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
-    $recommended_types = $mapping_type_storage->getRecommendedSchemaTypes($entity_type_id);
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
+    $mapping_type = $mapping_type_storage->load($entity_type_id);
+    $recommended_types = $mapping_type->getRecommendedSchemaTypes();
     $items = [];
     foreach ($recommended_types as $group_name => $group) {
       $item = [];
@@ -199,8 +202,10 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
+    $mapping_type = $mapping_type_storage->load($entity_type_id);
     if ($mapping_storage->isSchemaTypeMapped($entity_type_id, $type)
-      && !$mapping_type_storage->supportsMultiple($entity_type_id)) {
+      && !$mapping_type->supportsMultiple()) {
       return ['#markup' => $type];
     }
     else {

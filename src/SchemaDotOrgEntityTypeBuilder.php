@@ -361,7 +361,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
-    $default_field_weights = $mapping_type_storage->getDefaultFieldWeights($entity_type_id);
+    $mapping_type = $mapping_type_storage->load($entity_type_id);
+    $default_field_weights = $mapping_type->getDefaultFieldWeights();
     if (isset($default_field_weights[$schema_property])) {
       $component = $display->getComponent($field_name);
       $component['weight'] = $default_field_weights[$schema_property];
@@ -414,10 +415,12 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
-    $default_field_groups = $mapping_type_storage->getDefaultFieldGroups($entity_type_id);
-    $default_label_suffix = $mapping_type_storage->getDefaultFieldGroupLabelSuffix($entity_type_id);
-    $default_format_type = $mapping_type_storage->getDefaultFieldGroupFormatType($entity_type_id, $display);
-    $default_format_settings = $mapping_type_storage->getDefaultFieldGroupFormatSettings($entity_type_id, $display);
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
+    $mapping_type = $mapping_type_storage->load($entity_type_id);
+    $default_field_groups = $mapping_type->getDefaultFieldGroups();
+    $default_label_suffix = $mapping_type->getDefaultFieldGroupLabelSuffix();
+    $default_format_type = $mapping_type->getDefaultFieldGroupFormatType($display);
+    $default_format_settings = $mapping_type->getDefaultFieldGroupFormatSettings($display);
     if (empty($default_field_groups) && empty($default_format_type)) {
       return;
     }
@@ -443,7 +446,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     // the Schema.org type.
     if (!$group_name) {
       // But don't generate a group for default fields.
-      $base_field_names = $mapping_type_storage->getBaseFieldNames($entity_type_id);
+      $base_field_names = $mapping_type->getBaseFieldNames();
       if (isset($base_field_names[$field_name])) {
         return;
       }
