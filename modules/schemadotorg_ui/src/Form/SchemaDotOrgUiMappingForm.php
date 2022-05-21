@@ -1067,6 +1067,16 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
+   * Get Schema.org mapping type.
+   *
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface|null
+   *   The Schema.org mapping type.
+   */
+  protected function getMappingType() {
+    return $this->getMappingTypeStorage()->load($this->getTargetEntityTypeId());
+  }
+
+  /**
    * Gets the Schema.org mapping storage.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface

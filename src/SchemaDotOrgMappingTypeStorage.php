@@ -287,12 +287,7 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
    */
   protected function getEntityTypeProperty($entity_type_id, $property_name, $default_value = []) {
     $mapping_type = $this->load($entity_type_id);
-    if (!$mapping_type) {
-      return $default_value;
-    }
-    else {
-      return $mapping_type->get($property_name) ?: $default_value;
-    }
+    return $mapping_type ? $mapping_type->get($property_name) : $default_value;
   }
 
 }
