@@ -3,13 +3,10 @@ Schema.org Blueprints
 
 # Todo
 
-Check that subtyping is working with JSON-LD for events.
-
 Schema.org Blueprints Taxonomy module
 
 - Possibly do not use range includes for taxonomy term relationship.
   - Hard code vocabulary.
-  - Map articles tags to keywords.
 
 Tests
  

@@ -301,7 +301,14 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     unset(
       $specific_range_includes['Thing'],
       $specific_range_includes['CreativeWork'],
-      $specific_range_includes['Intangible'],
+      $specific_range_includes['Intangible']
+    );
+
+    // Remove DefinedTerm & CategoryCode which are used by taxonomy
+    // from range includes.
+    unset(
+      $specific_range_includes['DefinedTerm'],
+      $specific_range_includes['CategoryCode'],
     );
 
     // Set default entity reference type and field type.

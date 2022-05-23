@@ -85,7 +85,9 @@ function install() {
   drush -y pm-enable schemadotorg\
     schemadotorg_descriptions\
     schemadotorg_export\
+    schemadotorg_rdf\
     schemadotorg_report\
+    schemadotorg_taxonomy\
     schemadotorg_ui\
     schemadotorg_jsonapi\
     schemadotorg_jsonld\

@@ -15,6 +15,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDotOrgMappingStorageInterface {
 
   /**
+   * The Schema.org names service.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
+   */
+  protected $schemaNames;
+
+  /**
    * The Schema.org schema type manager.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
@@ -27,6 +34,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
     $instance = parent::createInstance($container, $entity_type);
     $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
+    $instance->schemaNames = $container->get('schemadotorg.names');
     return $instance;
   }
 
@@ -181,6 +189,27 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
       'target_bundle' => $entity->bundle(),
     ]);
     return ($entities) ? reset($entities) : NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSubtype(EntityInterface $entity) {
+    $mapping = $this->loadByEntity($entity);
+
+    // Make sure the mapping exists and supports subtyping.
+    if (!$mapping || !$mapping->supportsSubtyping()) {
+      return FALSE;
+    }
+
+    $bundle = $mapping->getTargetBundle();
+    $subtype_field_name = $this->schemaNames->getSubtypeFieldName($bundle);
+    if (!$entity->hasField($subtype_field_name)
+      || empty($entity->{$subtype_field_name}->value)) {
+      return FALSE;
+    }
+
+    return $entity->{$subtype_field_name}->value;
   }
 
 }

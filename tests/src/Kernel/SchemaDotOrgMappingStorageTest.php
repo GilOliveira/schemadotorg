@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\schemadotorg\Kernel;
 
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
@@ -20,7 +19,14 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
    *
    * @var array
    */
-  protected static $modules = ['system', 'user', 'node'];
+  protected static $modules = [
+    'system',
+    'user',
+    'node',
+    'field',
+    'text',
+    'options',
+  ];
 
   /**
    * The Schema.org mapping storage.
@@ -65,6 +71,7 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
       'type' => 'image_object',
       'name' => 'ImageObject',
     ])->save();
+    $this->createSchemaDotOrgSubTypeField('node', 'image_object', 'ImageObject');
     SchemaDotOrgMapping::create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'thing',
@@ -81,6 +88,7 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
       'properties' => [
         'title' => 'name',
       ],
+      'subtype' => TRUE,
     ])->save();
   }
 
@@ -93,6 +101,9 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
 
     $thing_node = Node::create(['type' => 'thing', 'title' => 'Thing']);
     $thing_node->save();
+
+    $image_node = Node::create(['type' => 'image_object', 'title' => 'Image', 'schema_image_object_subtype' => 'Barcode']);
+    $image_node->save();
 
     // Check determining if an entity is mapped to a Schema.org type.
     $this->assertFalse($this->storage->isEntityMapped($page_node));
@@ -140,6 +151,10 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
     // Check loading by entity.
     $this->assertEquals('node.thing', $this->storage->loadByEntity($thing_node)->id());
     $this->assertNull($this->storage->loadByEntity($page_node));
+
+    // Check getting the Schema.org subtype for an entity.
+    $this->assertEquals(FALSE, $this->storage->getSubtype($thing_node));
+    $this->assertEquals('Barcode', $this->storage->getSubtype($image_node));
   }
 
 }

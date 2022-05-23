@@ -80,27 +80,24 @@ function schemadotorg_rdf_preprocess_node(&$variables) {
  *   The entity.
  */
 function _schemadotorg_rdf_preprocess_entity(array &$variables, EntityInterface $entity) {
-  // Get Schema.org mapping and check that it supports subtyping.
-  $entity_type_id = $entity->getEntityTypeId();
-  $bundle = $entity->bundle();
-  $schemadotorg_mapping = SchemaDotOrgMapping::load("$entity_type_id.$bundle");
-  if (!$schemadotorg_mapping || !$schemadotorg_mapping->supportsSubtyping()) {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+  $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
+
+  // Get the Schema.org mapping.
+  $mapping = $mapping_storage->loadByEntity($entity);
+  if (!$mapping) {
     return;
   }
 
-  // Get the subtype field (i.e. schema_type) and check that is has a target id.
-  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
-  $schema_names = \Drupal::service('schemadotorg.names');
-  $subtype_field_name = $schema_names->getSubtypeFieldName($bundle);
-  if (!$entity->hasField($subtype_field_name)
-    || empty($entity->{$subtype_field_name}->value)) {
+  // Get the Schema.org subtype.
+  $schema_subtype = $mapping_storage->getSubtype($entity);
+  if (!$schema_subtype) {
     return;
   }
 
   // Replace the typeof attribute with the subtype
   // (i.e. schema:Event => schema:BusinessEvent).
-  $schema_subtype = $entity->{$subtype_field_name}->value;
-  $schema_type = $schemadotorg_mapping->getSchemaType();
+  $schema_type = $mapping->getSchemaType();
   foreach ($variables['attributes']['typeof'] as $index => $typeof) {
     if ($typeof === "schema:$schema_type") {
       $variables['attributes']['typeof'][$index] = "schema:$schema_subtype";

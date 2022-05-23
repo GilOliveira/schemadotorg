@@ -73,10 +73,19 @@ trait SchemaDotOrgTestTrait {
    *   The Schema.org type.
    */
   protected function createSchemaDotOrgSubTypeField($entity_type_id, $bundle, $schema_type = '') {
+    if ($schema_type) {
+      /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager $schema_type_manager */
+      $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+      $allowed_values = $schema_type_manager->getTypeChildrenAsOptions($schema_type);
+    }
+    else {
+      $allowed_values = [];
+    }
     FieldStorageConfig::create([
       'entity_type' => $entity_type_id,
       'field_name' => 'schema_' . $bundle . '_subtype',
       'type' => 'list_string',
+      'allowed_values' => $allowed_values,
     ])->save();
     FieldConfig::create([
       'entity_type' => $entity_type_id,

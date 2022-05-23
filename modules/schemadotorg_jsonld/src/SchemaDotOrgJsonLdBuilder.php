@@ -55,7 +55,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   public function build(EntityInterface $entity, array $options = []) {
     $options += ['context' => TRUE];
     $data = $this->buildMappedEntityData($entity)
-      ?: $this->buildCustomEtityData($entity);
+      ?: $this->buildCustomEntityData($entity);
     if (!$data) {
       return FALSE;
     }
@@ -78,7 +78,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    *   The JSON-LD for an entity that has a custom mapping to Schema.org
    *   or FALSE if the entity is not mapped to a Schema.org type.
    */
-  protected function buildCustomEtityData(EntityInterface $entity) {
+  protected function buildCustomEntityData(EntityInterface $entity) {
     // Define custom data which can still have identifiers.
     $identifiers = $this->schemaJsonIdManager->getSchemaIdentifiers($entity);
     $custom_data = $identifiers ? ['identifier' => $identifiers] : [];
@@ -116,7 +116,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $schema_type_data = [];
 
     $mapping = $mapping_storage->loadByEntity($entity);
-    $schema_type = $mapping->getSchemaType();
+
     $schema_properties = $mapping->getSchemaProperties();
     foreach ($schema_properties as $field_name => $schema_property) {
       // Make sure the entity has the field and the current user has
@@ -179,7 +179,9 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $schema_type_data = $this->schemaJsonIdManager->sortProperties($schema_type_data);
 
     // Prepend the @type and @url to the returned data.
-    $default_data = ['@type' => $schema_type];
+    $schema_type = $mapping->getSchemaType();
+    $schema_subtype = $mapping_storage->getSubtype($entity);
+    $default_data = ['@type' => $schema_subtype ?: $schema_type];
     if ($entity->hasLinkTemplate('canonical') && $entity->access('view')) {
       $default_data['@url'] = $entity->toUrl('canonical')->setAbsolute()->toString();
     }
