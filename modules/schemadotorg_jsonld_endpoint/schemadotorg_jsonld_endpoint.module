@@ -19,7 +19,9 @@ function schemadotorg_jsonld_endpoint_form_schemadotorg_jsonld_settings_form_alt
     '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
     '#settings_format' => 'entity_type_id|path',
     '#title' => t('Entity type resource paths'),
-    '#description' => t('Enter the entity type and the desired endpoint path.'),
+    '#description' => t('Enter the entity type and the desired endpoint path.')
+    . '<br/>'
+    . t('Please note, it is possible to create custom endpoints for unmapped entity types by adding the custom entity_type_id.'),
     '#default_value' => $config->get('entity_type_endpoints'),
   ];
 

@@ -14,6 +14,9 @@
 
 /**
  * Alter the Schema.org type JSON-LD data.
+ *
+ * Besides, altering an existing Schema.org mapping's JSON-LD data, modules can
+ * define custom JSON-LD data for any entity type.
  */
 function hook_schemadotorg_jsonld_schema_type_alter(array &$type_data, \Drupal\Core\Entity\EntityInterface $entity) {
   // Get entity information.
@@ -24,6 +27,11 @@ function hook_schemadotorg_jsonld_schema_type_alter(array &$type_data, \Drupal\C
   /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
   $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
   $mapping = $mapping_storage->loadByEntity($entity);
+  // Make sure the mapping exists.
+  if (!$mapping) {
+    return;
+  }
+
   $schema_type = $mapping->getSchemaType();
   $schema_properties = $mapping->getSchemaProperties();
   $supports_subtyping = $mapping->supportsSubtyping();

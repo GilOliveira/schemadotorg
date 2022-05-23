@@ -1,0 +1,4 @@
+services:
+  schemadotorg_taxonomy.manager:
+    class: Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyManager
+    arguments: ['@entity_type.manager', '@?schemadotorg_jsonld.builder']

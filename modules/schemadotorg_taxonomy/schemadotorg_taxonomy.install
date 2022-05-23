@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Schema.org module.
+ */
+
+/**
+ * Implements hook_modules_installed().
+ */
+function schemadotorg_taxonomy_modules_installed($modules) {
+  // Enable the term and vocabulary JSON-LD endpoints.
+  if (in_array('schemadotorg_jsonld_endpoint', $modules)) {
+    $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonld_endpoint.settings');
+    $endpoints = $config->get('entity_type_endpoints');
+    $endpoints += [
+      'taxonomy_term' => 'term',
+      'taxonomy_vocabulary' => 'vocabulary',
+    ];
+    $config->set('entity_type_endpoints', $endpoints);
+    $config->save();
+  }
+}
+
+/**
+ * Implements hook_modules_uninstalled().
+ */
+function schemadotorg_taxonomy_modules_uninstalled($modules) {
+  // Disable/remove the term and vocabulary JSON-LD endpoints.
+  if (in_array('schemadotorg_jsonld_endpoint', $modules)) {
+    $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonld_endpoint.settings');
+    $endpoints = $config->get('entity_type_endpoints');
+    unset(
+      $endpoints['taxonomy_term'],
+      $endpoints['taxonomy_vocabulary']
+    );
+    $config->set('entity_type_endpoints', $endpoints);
+    $config->save();
+  }
+}
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_taxonomy_install() {
+  // Enable the term and vocabulary JSON-LD endpoints.
+  schemadotorg_taxonomy_modules_installed(['schemadotorg_jsonld_endpoint']);
+
+  // Assign a weight 1 higher than the schemadotorg_jsonld_preview.module.
+  // @see schemadotorg_preview_entity_view_alter()
+  // @see schemadotorg_taxonomy_entity_view_alter()
+  module_set_weight('schemadotorg_taxonomy', 1);
+}
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_taxonomy_uninstall() {
+  // Disable/remove the term and vocabulary JSON-LD endpoints.
+  schemadotorg_taxonomy_modules_uninstalled(['schemadotorg_jsonld_endpoint']);
+}

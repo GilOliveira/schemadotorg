@@ -22,7 +22,8 @@ default_base_fields:
     - name
   description:
     - description
-default_schema_types: {  }
+default_schema_types:
+  tags: DefinedTerm
 default_schema_type_properties:
   DefinedTerm:
     - name

@@ -95,16 +95,27 @@ function schemadotorg_jsonld_preview_entity_view_alter(array &$build, EntityInte
   // JSON-LD endpoint.
   // @see schemadotorg_jsonld_endpoint.module
   if (\Drupal::moduleHandler()->moduleExists('schemadotorg_jsonld_endpoint')) {
+    $entity_type_id = $entity->getEntityTypeId();
     $jsonld_url = Url::fromRoute(
-      'schemadotorg_jsonld_endpoint.' . $entity->getEntityTypeId(),
+      'schemadotorg_jsonld_endpoint.' . $entity_type_id,
       ['entity' => $entity->uuid()],
       ['absolute' => TRUE],
     );
-    $build['schemadotorg_jsonid_preview']['endpoint'] = [
-      '#type' => 'link',
-      '#url' => $jsonld_url,
-      '#title' => $jsonld_url->toString(),
-      '#prefix' => t('JSON-LD endpoint:') . ' ',
+    // Allow other modules to link to additional endpoints.
+    // @see schemadotorg_taxonomy_entity_view_alter()
+    $build['schemadotorg_jsonid_preview']['endpoints'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['schemadotorg-jsonid-preview-endpoints']]
+    ];
+    $build['schemadotorg_jsonid_preview']['endpoints'][$entity_type_id] = [
+      '#type' => 'item',
+      '#title' => t('JSON-LD endpoint'),
+      '#wrapper_attributes' => ['class' => ['container-inline']],
+      'link' => [
+        '#type' => 'link',
+        '#url' => $jsonld_url,
+        '#title' => $jsonld_url->toString(),
+      ],
     ];
   }
 }

@@ -158,6 +158,8 @@ default_base_fields:
     - dateCreated
   changed:
     - dateModified
+  field_tags:
+    - keywords
 default_schema_types:
   article: Article
   page: WebPage
@@ -169,9 +171,10 @@ default_schema_type_properties:
     - inLanguage
   Article:
     - author
+    - alternativeHeadline
     - articleBody
     - headline
-    - alternativeHeadline
+    - keywords
   Atlas:
     - name
   Book:

@@ -3,6 +3,7 @@ identifiers:
 property_order:
   - url
   - identifier
+  - inDefinedTermSet
   - inLanguage
   - name
   - alternateName

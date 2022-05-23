@@ -5,5 +5,4 @@ package: Schema.org Blueprints
 core_version_requirement: ^9
 lifecycle: experimental
 dependencies:
-  - 'schemadotorg:schemadotorg'
   - 'schemadotorg:schemadotorg_jsonld'

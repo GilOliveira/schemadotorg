@@ -29,3 +29,14 @@ pre.schemadotorg-jsonld-preview-code span {
   font-weight: bold;
   color: #080;
 }
+
+.schemadotorg-jsonid-preview-endpoints .form-item {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.schemadotorg-jsonid-preview-endpoints .form-item label {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}

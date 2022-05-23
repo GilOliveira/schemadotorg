@@ -3,20 +3,24 @@ Schema.org Blueprints
 
 # Todo
 
-JSON-LD
+Check that subtyping is working with JSON-LD for events.
+
+Schema.org Blueprints Taxonomy module
+
+- Possibly do not use range includes for taxonomy term relationship.
+  - Hard code vocabulary.
+  - Map articles tags to keywords.
+
+Tests
+ 
 - Test schemadotorg_jsonld_endpoint
 - Test schemadotorg_jsonld_preview
 - Test schemadotorg_jsonld
- 
-Remove unneeded method from storage.
+- Test schemadotorg_taxonomy
 
+- Update API documentation
 
-Allow TaxonomyTerms to be mapped to DefinedTerm or CategoryTerm.
-- Automatically add DefinedTermSet JSON-LD to vocabulary
-  - https://schema.org/DefinedTermSet (vocabulary)
-  - https://schema.org/CategoryCodeSet (vocabulary)
-
-Ongoing
+- Ongoing
 - Research and document recommended modules.
 - Determine the recommended types per entity type.
   - Document tested and supported default Schema.org types.

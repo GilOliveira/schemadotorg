@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ * Provides mappings from taxonomy vocabularies and terms to Schema.org.
+ */
+
+use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_schemadotorg_jsonld_schema_type_alter().
+ */
+function schemadotorg_taxonomy_schemadotorg_jsonld_schema_type_alter(array &$type_data, EntityInterface $entity) {
+  /** @var \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyManager $manager */
+  $manager = \Drupal::service('schemadotorg_taxonomy.manager');
+  $manager->alter($type_data, $entity);
+}
+
+/**
+ * Implements hook_entity_view_alter().
+ */
+function schemadotorg_taxonomy_entity_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
+  // Only display the JSON-LD on an entity's full page view mode.
+  if ($build['#view_mode'] !== 'full') {
+    return;
+  }
+
+  // Make sure the Schema.org JSON-LD preview has been added to the view.
+  // @see schemadotorg_jsonld_preview_entity_view_alter()
+  if (!NestedArray::keyExists($build, ['schemadotorg_jsonid_preview', 'endpoints', 'taxonomy_term'])) {
+    return;
+  }
+
+  // Alter the term's JSON-LD preview title to be more specific.
+  $build['schemadotorg_jsonid_preview']['endpoints']['taxonomy_term']['#title'] = t('JSON-LD Term endpoint');
+
+  // Append the vocabulary's JSON-LD preview link.
+  $vocabulary = $entity->get('vid')->entity;
+  $jsonld_url = Url::fromRoute(
+    'schemadotorg_jsonld_endpoint.taxonomy_vocabulary',
+    ['entity' => $vocabulary->uuid()],
+    ['absolute' => TRUE],
+  );
+  $build['schemadotorg_jsonid_preview']['endpoints']['taxonomy_vocabulary'] = [
+    '#type' => 'item',
+    '#title' => t('JSON-LD Vocabulary endpoint'),
+    '#wrapper_attributes' => ['class' => ['container-inline']],
+    'link' => [
+      '#type' => 'link',
+      '#url' => $jsonld_url,
+      '#title' => $jsonld_url->toString(),
+    ],
+  ];
+}
