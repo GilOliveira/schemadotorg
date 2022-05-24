@@ -20,6 +20,18 @@ function schemadotorg_taxonomy_modules_installed($modules) {
     $config->set('entity_type_endpoints', $endpoints);
     $config->save();
   }
+
+  // Add the term and vocabulary path prefixes to JSON:API settings.
+  if (in_array('schemadotorg_jsonapi', $modules)) {
+    $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonapi.settings');
+    $path_prefixes = $config->get('path_prefixes');
+    $path_prefixes += [
+      'taxonomy_term' => 'Term',
+      'taxonomy_vocabulary' => 'Vocabulary',
+    ];
+    $config->set('path_prefixes', $path_prefixes);
+    $config->save();
+  }
 }
 
 /**
@@ -37,13 +49,25 @@ function schemadotorg_taxonomy_modules_uninstalled($modules) {
     $config->set('entity_type_endpoints', $endpoints);
     $config->save();
   }
+
+  // Remove the term and vocabulary path prefixes from JSON:API settings.
+  if (in_array('schemadotorg_jsonapi', $modules)) {
+    $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonapi.settings');
+    $path_prefixes = $config->get('path_prefixes');
+    unset(
+      $path_prefixes['taxonomy_term'],
+      $path_prefixes['taxonomy_vocabulary']
+    );
+    $config->set('path_prefixes', $path_prefixes);
+    $config->save();
+  }
+
 }
 /**
  * Implements hook_install().
  */
 function schemadotorg_taxonomy_install() {
-  // Enable the term and vocabulary JSON-LD endpoints.
-  schemadotorg_taxonomy_modules_installed(['schemadotorg_jsonld_endpoint']);
+  schemadotorg_taxonomy_modules_installed(['schemadotorg_jsonapi', 'schemadotorg_jsonld_endpoint']);
 
   // Assign a weight 1 higher than the schemadotorg_jsonld_preview.module.
   // @see schemadotorg_preview_entity_view_alter()
@@ -55,6 +79,5 @@ function schemadotorg_taxonomy_install() {
  * Implements hook_install().
  */
 function schemadotorg_taxonomy_uninstall() {
-  // Disable/remove the term and vocabulary JSON-LD endpoints.
-  schemadotorg_taxonomy_modules_uninstalled(['schemadotorg_jsonld_endpoint']);
+  schemadotorg_taxonomy_modules_uninstalled(['schemadotorg_jsonapi', 'schemadotorg_jsonld_endpoint']);
 }
