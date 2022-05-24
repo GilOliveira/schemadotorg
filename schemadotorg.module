@@ -13,7 +13,7 @@ use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 require_once __DIR__ . '/includes/schemadotorg.allowed_values.inc';
 
 /**
- * Implements hook_help()
+ * Implements hook_help().
  */
 function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {

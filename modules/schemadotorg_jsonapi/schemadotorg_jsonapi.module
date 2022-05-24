@@ -5,8 +5,18 @@
  * Builds on top of the JSON:API and JSON:API extras modules.
  */
 
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\field\FieldConfigInterface;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_jsonapi_help($route_name, RouteMatchInterface $route_match) {
+  if ($route_name === 'schemadotorg_jsonapi.settings') {
+    return '<p>' . t('The <strong>Schema.org JSON:API settings</strong> page allows administrators to configure the default settings for the JSON:API resource overrides managed by the JSON:API extras module.') . '<p>';
+  }
+}
 
 /**
  * Implements hook_schemadotorg_mapping_insert().
