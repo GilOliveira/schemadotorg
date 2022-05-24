@@ -21,14 +21,11 @@ function schemadotorg_taxonomy_modules_installed($modules) {
     $config->save();
   }
 
-  // Add the term and vocabulary path prefixes to JSON:API settings.
+  // Add the term path prefix to JSON:API settings.
   if (in_array('schemadotorg_jsonapi', $modules)) {
     $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonapi.settings');
     $path_prefixes = $config->get('path_prefixes');
-    $path_prefixes += [
-      'taxonomy_term' => 'Term',
-      'taxonomy_vocabulary' => 'Vocabulary',
-    ];
+    $path_prefixes += ['taxonomy_term' => 'Term'];
     $config->set('path_prefixes', $path_prefixes);
     $config->save();
   }
@@ -50,14 +47,11 @@ function schemadotorg_taxonomy_modules_uninstalled($modules) {
     $config->save();
   }
 
-  // Remove the term and vocabulary path prefixes from JSON:API settings.
+  // Remove the term path prefix from JSON:API settings.
   if (in_array('schemadotorg_jsonapi', $modules)) {
     $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonapi.settings');
     $path_prefixes = $config->get('path_prefixes');
-    unset(
-      $path_prefixes['taxonomy_term'],
-      $path_prefixes['taxonomy_vocabulary']
-    );
+    unset($path_prefixes['taxonomy_term']);
     $config->set('path_prefixes', $path_prefixes);
     $config->save();
   }
