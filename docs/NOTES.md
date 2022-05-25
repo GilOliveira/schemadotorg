@@ -3,21 +3,17 @@ Schema.org Blueprints
 
 # Todo
 
-Schema.org Blueprints Taxonomy module
+- Possibly do not use range includes reference selection for 
+  taxonomy term relationship.
 
-- Possibly do not use range includes for taxonomy term relationship.
-  - Hard code vocabulary.
+## Tests
 
-Tests
- 
-- Test schemadotorg_jsonld_endpoint
-- Test schemadotorg_jsonld_preview
-- Test schemadotorg_jsonld
 - Test schemadotorg_taxonomy
+  - SchemaDotOrgTaxonomyManagerTest
+  - SchemaDotOrgTaxonomyInstallTest
 
-- Update API documentation
+## Ongoing
 
-- Ongoing
 - Research and document recommended modules.
 - Determine the recommended types per entity type.
   - Document tested and supported default Schema.org types.

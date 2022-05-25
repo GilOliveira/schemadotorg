@@ -343,6 +343,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   protected function getSchemaProperty(FieldItemInterface $item) {
     $entity = $this->getEntity($item);
     $field_name = $this->getFieldName($item);
+
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
     $mapping = $mapping_storage->loadByEntity($entity);

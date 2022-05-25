@@ -23,6 +23,13 @@ function schemadotorg_jsonld_preview_entity_view_alter(array &$build, EntityInte
     return;
   }
 
+  // Make sure the cache is cleared when any Schema.org mapping is updated.
+  // @todo Determine how best to invalidate cached entities when mapping is updated.
+  $mapping_definition = \Drupal::entityTypeManager()->getDefinition('schemadotorg_mapping');
+  $build += ['#cache' => []];
+  $build['#cache'] += ['tags' => []];
+  $build['#cache']['tags'] = array_merge($build['#cache']['tags'], $mapping_definition->getListCacheTags());
+
   // Get the current route's entity and make sure it is being viewed.
   $route_entity = schemadotorg_jsonld_get_route_entity();
   if (!$route_entity || ($route_entity !== $entity)) {

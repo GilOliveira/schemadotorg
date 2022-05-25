@@ -1,23 +1,23 @@
 <?php
 
-namespace Drupal\Tests\schemadotorg_jsonapi\Functional;
+namespace Drupal\Tests\schemadotorg_jsonld_endpoint\Functional;
 
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 
 /**
- * Tests the functionality of the Schema.org JSON:API settings form.
+ * Tests the functionality of the Schema.org JSON-LD endpoint settings form.
  *
  * @covers \Drupal\schemadotorg_jsonapi\Form\SchemaDotOrgJsonApiSettingsForm
  * @group schemadotorg
  */
-class SchemaDotOrgJsonApiSettingsFormTest extends SchemaDotOrgBrowserTestBase {
+class SchemaDotOrgJsonLdEndpointSettingsFormTest extends SchemaDotOrgBrowserTestBase {
 
   /**
    * Modules to enable.
    *
    * @var array
    */
-  protected static $modules = ['schemadotorg_jsonapi'];
+  protected static $modules = ['schemadotorg_jsonapi', 'schemadotorg_jsonld_endpoint'];
 
   /**
    * {@inheritdoc}
@@ -30,10 +30,10 @@ class SchemaDotOrgJsonApiSettingsFormTest extends SchemaDotOrgBrowserTestBase {
   }
 
   /**
-   * Test Schema.org JSON:API settings form.
+   * Test Schema.org JSON-LD settings form.
    */
   public function testSettingsForm() {
-    $this->assertSaveSettingsConfigForm('schemadotorg_jsonapi.settings', '/admin/structure/schemadotorg/settings/jsonapi');
+    $this->assertSaveSettingsConfigForm('schemadotorg_jsonld_endpoint.settings', '/admin/structure/schemadotorg/settings/jsonapi');
   }
 
 }

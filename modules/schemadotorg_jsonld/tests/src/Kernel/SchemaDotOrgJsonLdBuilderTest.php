@@ -2,11 +2,9 @@
 
 namespace Drupal\Tests\schemadotorg_jsonld\Kernel;
 
-use Drupal\Core\Url;
-use Drupal\field\Entity\FieldConfig;
-use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\node\Entity\NodeType;
-use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelTestBase;
+use Drupal\filter\Entity\FilterFormat;
+use Drupal\node\Entity\Node;
+use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 
 /**
  * Tests the functionality of the Schema.org JSON-LD builder.
@@ -14,7 +12,7 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelTestBase;
  * @covers \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilder;
  * @group schemadotorg
  */
-class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelTestBase {
+class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
 
   /**
    * Modules to install.
@@ -22,30 +20,10 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelTestBase {
    * @var string[]
    */
   protected static $modules = [
-    'system',
-    'user',
-    'node',
-    'field',
-    'text',
-    'options',
-    'file',
+    'filter',
     'serialization',
     'schemadotorg_jsonld',
   ];
-
-  /**
-   * The JSON-LD resource storage.
-   *
-   * @var \Drupal\Core\Config\Entity\ConfigEntityStorageInterface
-   */
-  protected $resourceStorage;
-
-  /**
-   * The Schema.org mapping storage.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgMappingStorage
-   */
-  protected $mappingStorage;
 
   /**
    * Schema.org JSON-LD builder.
@@ -59,28 +37,51 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelTestBase {
    */
   protected function setUp() {
     parent::setUp();
-
-    $this->installEntitySchema('schemadotorg_mapping');
-    $this->installEntitySchema('schemadotorg_mapping_type');
-    $this->installEntitySchema('node');
-    $this->installEntitySchema('user');
-    $this->installEntitySchema('file');
-    $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
-    $this->installConfig(['schemadotorg']);
     $this->installConfig(['schemadotorg_jsonld']);
-
-    $this->installer = $this->container->get('schemadotorg.installer');
-    $this->installer->install();
-
-    $this->mappingStorage = $this->container->get('entity_type.manager')->getStorage('schemadotorg_mapping');
     $this->builder = $this->container->get('schemadotorg_jsonld.builder');
   }
 
   /**
    * Test Schema.org JSON-LD builder.
    */
-  public function testSchemaDotOrgJsonLd() {
-    $this->assertTrue(TRUE);
+  public function testBuilder() {
+    $options = ['default-properties' => ['name', 'alternateName', 'description']];
+    $this->createSchemaEntity('node', 'Thing', $options);
+
+    FilterFormat::create([
+      'format' => 'empty_format',
+      'name' => 'Empty format',
+    ])->save();
+
+    $node = Node::create([
+      'type' => 'thing',
+      'title' => 'Something',
+      'schema_alternate_name' => [
+        'value' => 'Something else',
+      ],
+      'body' => [
+        'value' => 'Some description',
+        'format' => 'empty_format',
+      ],
+    ]);
+    $node->save();
+
+    // Check building JSON-LD for an entity that is mapped to a Schema.org type.
+    $expected_result = [
+      '@context' => 'https://schema.org',
+      '@type' => 'Thing',
+      'identifier' => [
+          [
+            '@type' => 'PropertyValue',
+            'propertyID' => 'uuid',
+            'value' => $node->uuid(),
+          ],
+      ],
+      'name' => 'Something',
+      'alternateName' => 'Something else',
+      'description' => 'Some description',
+    ];
+    $this->assertEquals($expected_result, $this->builder->build($node));
   }
 
 }

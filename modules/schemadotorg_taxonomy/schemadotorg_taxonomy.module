@@ -9,6 +9,7 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Url;
+use Drupal\taxonomy\TermInterface;
 
 /**
  * Implements hook_schemadotorg_jsonld_schema_type_alter().
@@ -25,6 +26,11 @@ function schemadotorg_taxonomy_schemadotorg_jsonld_schema_type_alter(array &$typ
 function schemadotorg_taxonomy_entity_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
   // Only display the JSON-LD on an entity's full page view mode.
   if ($build['#view_mode'] !== 'full') {
+    return;
+  }
+
+  // Make sure the entity is a taxonomy term.
+  if (!$entity instanceof TermInterface) {
     return;
   }
 

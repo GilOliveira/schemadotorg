@@ -160,7 +160,9 @@ class SchemaDotOrgUiApi implements SchemaDotOrgUiApiInterface {
       ];
       foreach ($custom_properties as $option_name => $method) {
         if (!empty($options[$option_name])) {
-          $properties = preg_split('/\s*,\s*/', $options[$option_name]);
+          $properties = (!is_array($options[$option_name]))
+          ? preg_split('/\s*,\s*/', $options[$option_name])
+          : $options[$option_name];
           $form_object->$method($properties);
         }
       }

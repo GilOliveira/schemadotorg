@@ -259,7 +259,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         foreach ($required_element_names as $required_element_name) {
           if (empty($property_values['field'][static::ADD_FIELD][$required_element_name])) {
             $element = NestedArray::getValue($form, ['properties', $property_name, 'field', static::ADD_FIELD, $required_element_name]);
-            $form_state->setError($element, $this->t('@name field is required.', ['@name' => $element['#title']]));
+            $form_state->setError($element, $this->t('@name field is required for the @property property mapping.', ['@name' => $element['#title'], '@property' => $property_name]));
           }
         }
 

@@ -43,5 +43,4 @@ interface SchemaDotOrgJsonLdManagerInterface {
    */
   public function getSchemaIdentifiers(EntityInterface $entity);
 
-
 }

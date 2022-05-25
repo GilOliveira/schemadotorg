@@ -32,7 +32,7 @@ class SchemaDotOrgJsonLdSettingsFormTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test Schema.org JSON-LD settings form.
    */
-  public function testSchemaDotOrgSettingsForm() {
+  public function testSettingsForm() {
     $this->assertSaveSettingsConfigForm('schemadotorg_jsonld.settings', '/admin/structure/schemadotorg/settings/jsonld');
   }
 
