@@ -6,12 +6,6 @@ Schema.org Blueprints
 - Possibly do not use range includes reference selection for 
   taxonomy term relationship.
 
-## Tests
-
-- Test schemadotorg_taxonomy
-  - SchemaDotOrgTaxonomyManagerTest
-  - SchemaDotOrgTaxonomyInstallTest
-
 ## Ongoing
 
 - Research and document recommended modules.

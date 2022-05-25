@@ -23,7 +23,6 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
    */
   protected static $modules = [
     'filter',
-    'serialization',
     'schemadotorg_jsonld',
   ];
 

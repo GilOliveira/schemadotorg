@@ -104,7 +104,9 @@ class SchemaDotOrgTaxonomyManager implements SchemaDotOrgTaxonomyManagerInterfac
     $schema_type = $mapping->getSchemaType();
     $type_data['@type'] = "{$schema_type}Set";
     $type_data['name'] = $vocabulary->label();
-    $type_data['description'] = $vocabulary->getDescription();
+    if ($vocabulary->getDescription()) {
+      $type_data['description'] = $vocabulary->getDescription();
+    }
   }
 
   /**
