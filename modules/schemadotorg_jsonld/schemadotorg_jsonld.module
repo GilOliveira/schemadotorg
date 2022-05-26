@@ -27,9 +27,6 @@ function schemadotorg_jsonld_page_attachments_alter(array &$attachments) {
 
   // Get the current route's entity.
   $entity = schemadotorg_jsonld_get_route_entity();
-  if (!$entity) {
-    return;
-  }
 
   // Build the entity's Schema.org data.
   /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface $builder */

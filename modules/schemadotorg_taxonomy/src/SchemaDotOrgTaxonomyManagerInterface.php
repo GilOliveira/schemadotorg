@@ -12,11 +12,11 @@ interface SchemaDotOrgTaxonomyManagerInterface {
   /**
    * Alter Schema.org JSON-LD.
    *
-   * @param array $type_data
+   * @param array $data
    *   Schema.org type data.
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity.
    */
-  public function alter(array &$type_data, EntityInterface $entity);
+  public function alter(array &$data, EntityInterface $entity);
 
 }

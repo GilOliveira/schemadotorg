@@ -230,7 +230,8 @@ class SchemaDotOrgUiApi implements SchemaDotOrgUiApiInterface {
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
-    $base_field_names = $mapping_type_storage->getBaseFieldNames($entity_type_id);
+    $mapping_type = $mapping_type_storage->load($entity_type_id);
+    $base_field_names = $mapping_type->getBaseFieldNames();
 
     $deleted_fields = [];
     $properties = array_keys($mapping->getSchemaProperties());

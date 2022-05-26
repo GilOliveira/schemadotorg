@@ -52,47 +52,40 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   /**
    * {@inheritdoc}
    */
-  public function build(EntityInterface $entity, array $options = []) {
-    $options += ['context' => TRUE];
-    $data = $this->buildMappedEntityData($entity)
-      ?: $this->buildCustomEntityData($entity);
-    if (!$data) {
+  public function build(EntityInterface $entity = NULL) {
+    $data = ($entity) ? $this->buildEntity($entity) : [];
+    if (empty($data)) {
       return FALSE;
     }
 
     // Prepend the @context to the returned data.
-    if ($options['context']) {
-      $data = ['@context' => 'https://schema.org'] + $data;
-    }
+    $data = ['@context' => 'https://schema.org'] + $data;
 
     return $data;
   }
 
   /**
-   * Build JSON-LD for an entity that has a custom mapping to Schema.org.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   An entity.
-   *
-   * @return array|bool
-   *   The JSON-LD for an entity that has a custom mapping to Schema.org
-   *   or FALSE if the entity is not mapped to a Schema.org type.
+   * {@inheritdoc}
    */
-  protected function buildCustomEntityData(EntityInterface $entity) {
-    // Define custom data which can still have identifiers.
-    $identifiers = $this->schemaJsonIdManager->getSchemaIdentifiers($entity);
-    $custom_data = $identifiers ? ['identifier' => $identifiers] : [];
+  public function buildEntity(EntityInterface $entity) {
+    $data = $this->buildMappedEntity($entity);
 
-    // Alter custom Schema.org JSON-LD data.
+    // Define custom data which can still have identifiers.
+    if (!$data) {
+      $identifiers = $this->schemaJsonIdManager->getSchemaIdentifiers($entity);
+      $data = $identifiers ? ['identifier' => $identifiers] : [];
+    }
+
+    // Alter Schema.org JSON-LD data.
     $this->moduleHandler->alter(
-      'schemadotorg_jsonld_schema_type',
-      $custom_data,
+      'schemadotorg_jsonld_entity',
+      $data,
       $entity
     );
 
-    // Return custom data if a module has defined the Schema.org JSON-LD @type.
-    return (isset($custom_data['@type']))
-      ? $custom_data
+    // Return data if a Schema.org @type is defined.
+    return (isset($data['@type']))
+      ? $data
       : FALSE;
   }
 
@@ -106,7 +99,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    *   The JSON-LD for an entity that is mapped to a Schema.org type
    *   or FALSE if the entity is not mapped to a Schema.org type.
    */
-  protected function buildMappedEntityData(EntityInterface $entity) {
+  protected function buildMappedEntity(EntityInterface $entity) {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
     if (!$mapping_storage->isEntityMapped($entity)) {
@@ -189,7 +182,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
 
     // Alter Schema.org type's JSON-LD data.
     $this->moduleHandler->alter(
-      'schemadotorg_jsonld_schema_type',
+      'schemadotorg_jsonld_entity',
       $schema_type_data,
       $entity
     );
@@ -213,7 +206,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
 
     // Handle entity reference relationships.
     if ($item->entity && $item->entity instanceof EntityInterface) {
-      $entity_data = $this->buildMappedEntityData($item->entity);
+      $entity_data = $this->buildMappedEntity($item->entity);
       if ($entity_data) {
         return $entity_data;
       }

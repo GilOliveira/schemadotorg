@@ -3,8 +3,20 @@ Schema.org Blueprints
 
 # Todo
 
-- Possibly do not use range includes reference selection for 
+- Possibly do not use range includes reference selection for
   taxonomy term relationship.
+
+Allow any page to declare custom JSON-LD
+- hook_schemadotorg_jsonld_alter($data, $entity = NULL, $options = [])
+
+schemadotorg_embed.module
+- TBD
+
+schemadotorg_breadcrumb.module
+- https://www.drupal.org/project/schema_metatag/issues/3199950
+
+- Move schemadotorg_jsonld_get_route_entity to a service
+  - \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManager::getRouteEntity($route_match);
 
 ## Ongoing
 
@@ -109,8 +121,8 @@ What field types won't easily work or map to Schema.org?
   Identifiers need to in dedicated fields for performance.
   Identifiers should have dedicated field via JSON:API.
   Is it possible to collect/merge multiple identifiers into one field?
-  
-  schema_identifier_irbnumber 
+
+  schema_identifier_irbnumber
 
 - How do we handle sub-values (i.e. body.summary)?
   - Token field?

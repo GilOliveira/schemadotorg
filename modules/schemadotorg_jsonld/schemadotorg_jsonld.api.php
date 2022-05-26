@@ -13,12 +13,12 @@
  */
 
 /**
- * Alter the Schema.org type JSON-LD data.
+ * Alter the Schema.org JSON-LD data for an entity.
  *
  * Besides, altering an existing Schema.org mapping's JSON-LD data, modules can
  * define custom JSON-LD data for any entity type.
  */
-function hook_schemadotorg_jsonld_schema_type_alter(array &$type_data, \Drupal\Core\Entity\EntityInterface $entity) {
+function hook_schemadotorg_jsonld_entity_alter(array &$data, \Drupal\Core\Entity\EntityInterface $entity) {
   // Get entity information.
   $entity_type_id = $entity->getEntityTypeId();
   $bundle = $entity->bundle();
@@ -38,9 +38,9 @@ function hook_schemadotorg_jsonld_schema_type_alter(array &$type_data, \Drupal\C
 }
 
 /**
- * Alter the Schema.org type and property JSON-LD data.
+ * Alter the Schema.org roperty JSON-LD data for an entity's field item.
  */
-function hook_schemadotorg_jsonld_schema_property_alter(&$value, \Drupal\Core\Field\FieldItemInterface $item) {
+function hook_schemadotorg_jsonld_field_item_alter(&$value, \Drupal\Core\Field\FieldItemInterface $item) {
   // Get entity information.
   $entity = $item->getEntity();
   $entity_type_id = $entity->getEntityTypeId();

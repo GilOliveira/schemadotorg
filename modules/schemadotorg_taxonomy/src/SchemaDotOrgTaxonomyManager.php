@@ -32,6 +32,8 @@ class SchemaDotOrgTaxonomyManager implements SchemaDotOrgTaxonomyManagerInterfac
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface|null $schema_jsonld_builder
+   *   The Schema.org JSON-LD builder service.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgJsonLdBuilderInterface $schema_jsonld_builder = NULL) {
     $this->entityTypeManager = $entity_type_manager;
@@ -41,29 +43,29 @@ class SchemaDotOrgTaxonomyManager implements SchemaDotOrgTaxonomyManagerInterfac
   /**
    * Alter Schema.org JSON-LD.
    *
-   * @param array $type_data
+   * @param array $data
    *   Schema.org type data.
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity.
    */
-  public function alter(array &$type_data, EntityInterface $entity) {
+  public function alter(array &$data, EntityInterface $entity) {
     if ($entity instanceof TermInterface) {
-      $this->alterTerm($type_data, $entity);
+      $this->alterTerm($data, $entity);
     }
     elseif ($entity instanceof VocabularyInterface) {
-      $this->alterVocabulary($type_data, $entity);
+      $this->alterVocabulary($data, $entity);
     }
   }
 
   /**
    * Alter a term's Schema.org type data to include isDefinedTermSet property.
    *
-   * @param array $type_data
+   * @param array $data
    *   The Schema.org type data.
    * @param \Drupal\taxonomy\TermInterface $term
    *   The term.
    */
-  protected function alterTerm(array &$type_data, TermInterface $term) {
+  protected function alterTerm(array &$data, TermInterface $term) {
     $mapping = $this->getMappingStorage()->loadByEntity($term);
     if (!$mapping) {
       return;
@@ -78,19 +80,19 @@ class SchemaDotOrgTaxonomyManager implements SchemaDotOrgTaxonomyManagerInterfac
 
     // Append isDefinedTermSet or isCategoryCodeSet data to the type data.
     $vocabulary = $term->get('vid')->entity;
-    $vocabulary_data = $this->schemaJsonLdBuilder->build($vocabulary, ['context' => FALSE]);
-    $type_data["in{$schema_type}Set"] = $vocabulary_data;
+    $vocabulary_data = $this->schemaJsonLdBuilder->buildEntity($vocabulary);
+    $data["in{$schema_type}Set"] = $vocabulary_data;
   }
 
   /**
    * Alter a vocabulary's Schema.org type data to use DefinedTermSet @type.
    *
-   * @param array $type_data
+   * @param array $data
    *   The Schema.org type data.
    * @param \Drupal\taxonomy\VocabularyInterface $vocabulary
    *   The vocabulary.
    */
-  protected function alterVocabulary(array &$type_data, VocabularyInterface $vocabulary) {
+  protected function alterVocabulary(array &$data, VocabularyInterface $vocabulary) {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
     $mappings = $this->getMappingStorage()->loadByProperties([
       'target_entity_type_id' => 'taxonomy_term',
@@ -102,10 +104,10 @@ class SchemaDotOrgTaxonomyManager implements SchemaDotOrgTaxonomyManagerInterfac
     }
 
     $schema_type = $mapping->getSchemaType();
-    $type_data['@type'] = "{$schema_type}Set";
-    $type_data['name'] = $vocabulary->label();
+    $data['@type'] = "{$schema_type}Set";
+    $data['name'] = $vocabulary->label();
     if ($vocabulary->getDescription()) {
-      $type_data['description'] = $vocabulary->getDescription();
+      $data['description'] = $vocabulary->getDescription();
     }
   }
 

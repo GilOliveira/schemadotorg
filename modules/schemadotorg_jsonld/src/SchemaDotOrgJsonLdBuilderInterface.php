@@ -10,20 +10,26 @@ use Drupal\Core\Entity\EntityInterface;
 interface SchemaDotOrgJsonLdBuilderInterface {
 
   /**
+   * Build JSON-LD for an entity.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface|null $entity
+   *   An entity.
+   *
+   * @return array|bool
+   *   The JSON-LD for an entity.
+   */
+  public function build(EntityInterface $entity = NULL);
+
+  /**
    * Build JSON-LD for an entity that is mapped to a Schema.org type.
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   An entity.
-   * @param array $options
-   *   Options for building JSON-LD for an entity.
-   *
-   *   Options include:
-   *   - context: Boolean to set the @context property. Default to TRUE.
    *
    * @return array|bool
    *   The JSON-LD for an entity that is mapped to a Schema.org type
    *   or FALSE if the entity is not mapped to a Schema.org type.
    */
-  public function build(EntityInterface $entity, array $options = []);
+  public function buildEntity(EntityInterface $entity);
 
 }

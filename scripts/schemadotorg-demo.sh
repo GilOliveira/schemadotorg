@@ -9,16 +9,20 @@ function help() {
   echo;
   echo "Download, installs, and configures a demo of the Schema.org Blueprints module."
   echo;
-  echo "This scripts assumes you are starting with a plain vanilla instance of Drupal."
+  echo "This scripts assumes you are starting with a plain vanilla standard instance of Drupal."
   echo;
   echo "The below commands should be executed from the root of your Drupal installation."
   echo;
   echo "Usage:"
+  echo;
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh help";
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh require";
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh recommended";
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh install";
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh configure";
+  echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh setup";
+  echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh generate";
+  echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh teardown";
 }
 
 function status() {
@@ -106,6 +110,9 @@ function install() {
 }
 
 function configure() {
+  echo "Importing configuration files";
+  drush config:import -y --partial --source=$SCRIPT_DIRECTORY/config
+
   echo "Configuring system settings";
   drush -y config-set system.logging error_level verbose
   drush -y config-set system.site name 'Schema.org Demo Site'
@@ -131,6 +138,37 @@ function configure() {
   echo "Configuring Devel module";
   drush -y config-set devel.settings devel_dumper kint
 }
+
+function setup() {
+  drush schemadotorg:create-type -y media:AudioObject media:DataDownload media:ImageObject media:VideoObject
+  drush schemadotorg:create-type -y taxonomy_term:DefinedTerm
+
+  drush schemadotorg:create-type -y paragraph:ContactPoint
+  drush schemadotorg:create-type -y node:Person node:Place node:Organization node:Person node:Event
+  drush schemadotorg:create-type -y node:Article node:WebPage
+}
+
+function teardown() {
+  drush devel-generate:media --kill 0
+  drush devel-generate:content --kill 0
+
+  drush schemadotorg:delete-type -y --delete-fields user:Person
+  drush schemadotorg:delete-type -y --delete-fields media:AudioObject media:DataDownload media:ImageObject media:VideoObject
+  drush schemadotorg:delete-type -y --delete-fields taxonomy_term:DefinedTerm
+  drush schemadotorg:delete-type -y --delete-fields node:Article node:WebPage
+
+  drush schemadotorg:delete-type -y --delete-entity paragraph:ContactPoint
+  drush schemadotorg:delete-type -y --delete-entity node:Place node:Organization node:Person node:Event
+}
+
+function generate() {
+  drush devel-generate:users --kill
+  drush devel-generate:media --kill
+  drush devel-generate:content --kill --add-type-label --skip-fields=menu_link\
+    --bundles=article,page,person,organization,place,event
+}
+
+SCRIPT_DIRECTORY=`dirname "$0"`
 
 function_name=$1; shift;
 
