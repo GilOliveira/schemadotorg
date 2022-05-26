@@ -6,14 +6,13 @@ Schema.org Blueprints
 - Possibly do not use range includes reference selection for
   taxonomy term relationship.
 
-Allow any page to declare custom JSON-LD
-- hook_schemadotorg_jsonld_alter($data, $entity = NULL, $options = [])
+schemadotorg_breadcrumb.module
+- https://www.drupal.org/project/schema_metatag/issues/3199950
+- Allow any page to declare custom JSON-LD
+- hook_schemadotorg_jsonld_alter($data)
 
 schemadotorg_embed.module
 - TBD
-
-schemadotorg_breadcrumb.module
-- https://www.drupal.org/project/schema_metatag/issues/3199950
 
 - Move schemadotorg_jsonld_get_route_entity to a service
   - \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManager::getRouteEntity($route_match);

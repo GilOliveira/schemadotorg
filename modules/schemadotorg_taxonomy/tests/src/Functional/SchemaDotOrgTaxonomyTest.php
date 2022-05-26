@@ -76,7 +76,7 @@ class SchemaDotOrgTaxonomyTest extends SchemaDotOrgBrowserTestBase {
     $expected_result = [
       '@context' => 'https://schema.org',
       '@type' => 'DefinedTerm',
-      '@url' => 'http://localhost/so/taxonomy/term/1',
+      '@url' => $term->toUrl()->setAbsolute()->toString(),
       'identifier' => [
           [
             '@type' => 'PropertyValue',
