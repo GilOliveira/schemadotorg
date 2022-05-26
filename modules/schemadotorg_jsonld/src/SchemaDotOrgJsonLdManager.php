@@ -173,7 +173,9 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
       $main_property_data_type = $this->getMainPropertyDateType($item);
       switch ($main_property_data_type) {
         case 'timestamp':
-          return $this->dateFormatter->format($value, 'custom', 'Y-m-d H:i:s P');
+          return ($value)
+            ? $this->dateFormatter->format($value, 'custom', 'Y-m-d H:i:s P')
+            : $value;
       }
     }
 
@@ -311,6 +313,10 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    */
   protected function getFieldMainPropertyValue(FieldItemInterface $item) {
     $values = $this->getFieldValue($item);
+    if (empty($values)) {
+      return NULL;
+    }
+
     $main_property_name = $this->getMainPropertyName($item);
     return $values[$main_property_name];
   }

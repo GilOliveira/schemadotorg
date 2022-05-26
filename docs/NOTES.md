@@ -5,14 +5,6 @@ Schema.org Blueprints
 
 - Test coverage for \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManager::getRouteEntity
 
-- Update JSON-LD endpoints to use a route match.
-
-  $url = $node->toUrl();
-  /** @var \Symfony\Component\Routing\RouteCollection $route_collection */
-  $route_collection = \Drupal::service('router')->getRouteCollection();
-  $route = $route_collection->get($url->getRouteName());
-  $route_match = new RouteMatch($url->getRouteName(), $route, ['node' => $node], ['node' => $node->id()]);
-
 - Possibly do not use range includes reference selection for
   taxonomy term relationship.
 
