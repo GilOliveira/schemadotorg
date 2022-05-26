@@ -10,14 +10,11 @@ use Drupal\Core\Entity\EntityInterface;
 interface SchemaDotOrgJsonLdPreviewBuilderInterface {
 
   /**
-   * Build JSON-LD preview for an entity.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface|null $entity
-   *   An entity.
+   * Build JSON-LD preview for the current route.
    *
    * @return array
-   *   The JSON-LD preview for an entity.
+   *   The JSON-LD preview for the current route.
    */
-  public function build(EntityInterface $entity = NULL);
+  public function build();
 
 }

@@ -14,18 +14,20 @@ use Drupal\taxonomy\TermInterface;
  * Implements hook_schemadotorg_jsonld_entity_alter().
  */
 function schemadotorg_taxonomy_schemadotorg_jsonld_entity_alter(array &$data, EntityInterface $entity) {
-  /** @var \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyManager $manager */
-  $manager = \Drupal::service('schemadotorg_taxonomy.manager');
-  $manager->alter($data, $entity);
+  /** @var \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyManager $schema_taxonomy_manager */
+  $schema_taxonomy_manager = \Drupal::service('schemadotorg_taxonomy.manager');
+  $schema_taxonomy_manager->alter($data, $entity);
 }
 
 /**
  * Implements hook_preprocess_html().
  */
 function schemadotorg_taxonomy_preprocess_html(array &$variables) {
-  $route_entity = schemadotorg_jsonld_get_route_entity();
+  /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager */
+  $schema_jsonld_manager = \Drupal::service('schemadotorg_jsonld.manager');
+  $route_entity = $schema_jsonld_manager->getRouteEntity();;
 
-  // Make sure the current routes entity is a taxonomy term.
+  // Make sure the current route's entity is a taxonomy term.
   if (!$route_entity instanceof TermInterface) {
     return;
   }

@@ -25,13 +25,10 @@ function schemadotorg_jsonld_page_attachments_alter(array &$attachments) {
     return;
   }
 
-  // Get the current route's entity.
-  $entity = schemadotorg_jsonld_get_route_entity();
-
   // Build the entity's Schema.org data.
   /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface $builder */
   $builder = \Drupal::service('schemadotorg_jsonld.builder');
-  $data = $builder->build($entity);
+  $data = $builder->build();
   if (!$data) {
     return;
   }
@@ -50,23 +47,4 @@ function schemadotorg_jsonld_page_attachments_alter(array &$attachments) {
     ],
     'schemadotorg_jsonld',
   ];
-}
-
-/**
- * Returns the entity of the current route.
- *
- * @return Drupal\Core\Entity\EntityInterface|null
- *   The entity or NULL if this is not an entity route.
- *
- * @see metatag_get_route_entity()
- */
-function schemadotorg_jsonld_get_route_entity() {
-  $route_match = \Drupal::routeMatch();
-  $route_name = $route_match->getRouteName();
-  if (preg_match('/entity\.(.*)\.(latest[_-]version|canonical)/', $route_name, $matches)) {
-    return $route_match->getParameter($matches[1]);
-  }
-  else {
-    return NULL;
-  }
 }

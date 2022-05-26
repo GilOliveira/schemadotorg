@@ -11,8 +11,7 @@
 function schemadotorg_jsonld_preview_preprocess_html(array &$variables) {
   /** @var \Drupal\schemadotorg_jsonld_preview\SchemaDotOrgJsonLdPreviewBuilderInterface $preview_builder */
   $preview_builder = \Drupal::service('schemadotorg_jsonld_preview.builder');
-  $route_entity = schemadotorg_jsonld_get_route_entity();
-  $build = $preview_builder->build($route_entity);
+  $build = $preview_builder->build();
 
   // Make sure the cache is cleared when any Schema.org mapping is updated.
   // @todo Determine how best to invalidate cached entities when mapping is updated.

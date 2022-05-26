@@ -4,11 +4,26 @@ namespace Drupal\schemadotorg_jsonld;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldItemInterface;
+use Drupal\Core\Routing\RouteMatch;
+use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Schema.org JSON-LD manager interface.
  */
 interface SchemaDotOrgJsonLdManagerInterface {
+
+  /**
+   * Returns the entity of the current route.
+   *
+   * @param \Drupal\Core\Routing\RouteMatchInterface|null $route_match
+   *   A route match.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface|null
+   *   The entity or NULL if this is not an entity route.
+   *
+   * @see metatag_get_route_entity()
+   */
+  public function getRouteEntity(RouteMatchInterface $route_match = NULL);
 
   /**
    * Sort Schema.org properties in specified order and then alphabetically.

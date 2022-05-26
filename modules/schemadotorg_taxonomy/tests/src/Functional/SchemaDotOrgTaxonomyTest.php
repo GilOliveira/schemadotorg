@@ -74,7 +74,6 @@ class SchemaDotOrgTaxonomyTest extends SchemaDotOrgBrowserTestBase {
 
     // Check term JSON-LD..
     $expected_result = [
-      '@context' => 'https://schema.org',
       '@type' => 'DefinedTerm',
       '@url' => $term->toUrl()->setAbsolute()->toString(),
       'identifier' => [
@@ -97,12 +96,11 @@ class SchemaDotOrgTaxonomyTest extends SchemaDotOrgBrowserTestBase {
         ],
       ],
     ];
-    $actual_result = $this->builder->build($term);
+    $actual_result = $this->builder->buildEntity($term);
     $this->assertEquals($expected_result, $actual_result);
 
     // Check term JSON-LD..
     $expected_result = [
-      '@context' => 'https://schema.org',
       '@type' => 'DefinedTermSet',
       'identifier' => [
         [
@@ -113,7 +111,7 @@ class SchemaDotOrgTaxonomyTest extends SchemaDotOrgBrowserTestBase {
       ],
       'name' => 'tags',
     ];
-    $actual_result = $this->builder->build($vocabulary);
+    $actual_result = $this->builder->buildEntity($vocabulary);
     $this->assertEquals($expected_result, $actual_result);
 
     $term_endpoint_url = Url::fromRoute('schemadotorg_jsonld_endpoint.taxonomy_term', ['entity' => $term->uuid()])->setAbsolute();
@@ -133,7 +131,6 @@ class SchemaDotOrgTaxonomyTest extends SchemaDotOrgBrowserTestBase {
     $assert_session->statusCodeEquals(200);
     $this->drupalGet($vocabulary_endpoint_url->toString());
     $assert_session->statusCodeEquals(200);
-
   }
 
 }

@@ -13,6 +13,40 @@
  */
 
 /**
+ * Provide custom Schema.org JSON-LD data for a route..
+ *
+ * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+ *   The current route match.
+ *
+ * @return array
+ *   Custom Schema.org JSON-LD data.
+ */
+function hook_schemadotorg_jsonld(\Drupal\Core\Routing\RouteMatchInterface $route_match) {
+  return [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+      [
+        '@type' => 'ListItem',
+        'position' => 1,
+        'item' => [
+          '@id' => 'https://example.com/dresses',
+          'name' => 'Dresses',
+        ],
+      ],
+      [
+        '@type' => 'ListItem',
+        'position' => 2,
+        'item' => [
+          '@id' => 'https://example.com/dresses/real',
+          'name' => 'Real Dresses',
+        ],
+      ],
+    ],
+  ];
+}
+
+/**
  * Alter the Schema.org JSON-LD data for an entity.
  *
  * Besides, altering an existing Schema.org mapping's JSON-LD data, modules can

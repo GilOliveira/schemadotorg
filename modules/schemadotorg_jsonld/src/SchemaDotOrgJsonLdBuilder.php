@@ -6,6 +6,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldItemInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Schema.org JSON-LD builder.
@@ -18,6 +19,13 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    * @var \Drupal\Core\Extension\ModuleHandlerInterface
    */
   protected $moduleHandler;
+
+  /**
+   * The current route match.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $routeMatch;
 
   /**
    * The entity type manager.
@@ -38,13 +46,21 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
+   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   *   The current route match.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager
    *   The Schema.org JSON-LD manager.
    */
-  public function __construct(ModuleHandlerInterface $module_handler, EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager) {
+  public function __construct(
+    ModuleHandlerInterface $module_handler,
+    RouteMatchInterface $route_match,
+    EntityTypeManagerInterface $entity_type_manager,
+    SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager
+  ) {
     $this->moduleHandler = $module_handler;
+    $this->routeMatch = $route_match;
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaJsonIdManager = $schema_jsonld_manager;
   }
@@ -52,14 +68,57 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   /**
    * {@inheritdoc}
    */
-  public function build(EntityInterface $entity = NULL) {
-    $data = ($entity) ? $this->buildEntity($entity) : [];
+  public function build(RouteMatchInterface $route_match = NULL) {
+    $route_match = $route_match ?: $this->routeMatch;
+
+    $data = [];
+
+    // Add custom data.
+    $custom_data = $this->buildCustom($route_match);
+    if ($custom_data) {
+      $data = array_merge($data, $custom_data);
+    }
+
+    // Add entity data.
+    $entity = $this->schemaJsonIdManager->getRouteEntity($route_match);
+    if ($entity) {
+      $entity_data = $this->buildEntity($entity);
+      if ($entity_data) {
+        $entity_data = ['@context' => 'https://schema.org'] + $entity_data;
+        $data = array_merge($data, $entity_data);
+      }
+    }
+
+    // Return FALSE if the data is empty.
     if (empty($data)) {
       return FALSE;
     }
 
-    // Prepend the @context to the returned data.
-    $data = ['@context' => 'https://schema.org'] + $data;
+    return (count($data) === 1) ? reset($data) : $data;
+  }
+
+  /**
+   * Builds custom JSON-LD data for the current route match.
+   *
+   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   *   The current route match.
+   *
+   * @return array
+   *   An array of custom JSON-LD data.
+   */
+  protected function buildCustom(RouteMatchInterface $route_match) {
+    $data = [];
+
+    $hook = 'schemadotorg_jsonld';
+    $args = [$route_match];
+    $implementations = $this->moduleHandler->getImplementations($hook);
+    foreach ($implementations as $module) {
+      $module_data = $this->moduleHandler->invoke($module, $hook, $args);
+      // @todo Validate JSON-LD to ensure the @type property is defined.
+      if ($module_data) {
+        $data[] = $module_data;
+      }
+    }
 
     return $data;
   }
@@ -76,7 +135,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       $data = $identifiers ? ['identifier' => $identifiers] : [];
     }
 
-    // Alter Schema.org JSON-LD data.
+    // Alter Schema.org JSON-LD entity data.
     $this->moduleHandler->alter(
       'schemadotorg_jsonld_entity',
       $data,

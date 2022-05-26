@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Schema.org JSON-LD manager.
@@ -23,6 +24,13 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
+
+  /**
+   * The current route match.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $routeMatch;
 
   /**
    * The entity type manager.
@@ -50,6 +58,8 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.
+   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   *   The current route match.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
@@ -59,14 +69,30 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
+    RouteMatchInterface $route_match,
     EntityTypeManagerInterface $entity_type_manager,
     DateFormatterInterface $date_formatter,
     FileUrlGeneratorInterface $file_url_generator
   ) {
     $this->configFactory = $config_factory;
+    $this->routeMatch = $route_match;
     $this->entityTypeManager = $entity_type_manager;
     $this->dateFormatter = $date_formatter;
     $this->fileUrlGenerator = $file_url_generator;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRouteEntity(RouteMatchInterface $route_match = NULL) {
+    $route_match = $route_match ?: $this->routeMatch;
+    $route_name = $route_match->getRouteName();
+    if (preg_match('/entity\.(.*)\.(latest[_-]version|canonical)/', $route_name, $matches)) {
+      return $route_match->getParameter($matches[1]);
+    }
+    else {
+      return NULL;
+    }
   }
 
   /**

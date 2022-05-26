@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\schemadotorg_jsonld\Kernel;
 
+use Drupal\Core\Routing\RouteMatch;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\node\Entity\Node;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
@@ -67,7 +68,6 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
 
     // Check building JSON-LD for an entity that is mapped to a Schema.org type.
     $expected_result = [
-      '@context' => 'https://schema.org',
       '@type' => 'Thing',
       'identifier' => [
           [
@@ -80,7 +80,7 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
       'alternateName' => 'Something else',
       'description' => 'Some description',
     ];
-    $this->assertEquals($expected_result, $this->builder->build($node));
+    $this->assertEquals($expected_result, $this->builder->buildEntity($node));
   }
 
 }

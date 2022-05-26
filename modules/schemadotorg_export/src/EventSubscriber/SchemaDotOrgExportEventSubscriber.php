@@ -19,7 +19,7 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
   use StringTranslationTrait;
 
   /**
-   * The route match service.
+   * The current route match.
    *
    * @var \Drupal\Core\Routing\RouteMatchInterface
    */
@@ -28,11 +28,11 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
   /**
    * Constructs an SchemaDotOrgJsonApiExtrasEventSubscriber object.
    *
-   * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
-   *   The RouteMatch service.
+   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   *   The current route match.
    */
-  public function __construct(RouteMatchInterface $routeMatch) {
-    $this->routeMatch = $routeMatch;
+  public function __construct(RouteMatchInterface $route_match) {
+    $this->routeMatch = $route_match;
   }
 
   /**

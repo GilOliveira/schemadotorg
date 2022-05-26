@@ -2,7 +2,6 @@
 
 namespace Drupal\schemadotorg_jsonld_preview;
 
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Routing\AdminContext;
@@ -10,6 +9,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface;
+use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface;
 
 /**
  * Schema.org JSON-LD preview builder.
@@ -46,6 +46,13 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
   protected $entityTypeManager;
 
   /**
+   * The Schema.org JSON-LD manager.
+   *
+   * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface
+   */
+  protected $schemaJsonLdManager;
+
+  /**
    * The Schema.org JSON-LD builder.
    *
    * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface
@@ -63,31 +70,36 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
    *   The route admin context to determine whether the route is an admin one.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
-   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface|null $schema_jsonld_builder
+   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager
+   *   The Schema.org JSON-LD manager service.
+   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface $schema_jsonld_builder
    *   The Schema.org JSON-LD builder service.
    */
-  public function __construct(ModuleHandlerInterface $module_handler, AccountInterface $current_user, AdminContext $admin_context, EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgJsonLdBuilderInterface $schema_jsonld_builder = NULL) {
+  public function __construct(
+    ModuleHandlerInterface $module_handler,
+    AccountInterface $current_user,
+    AdminContext $admin_context,
+    EntityTypeManagerInterface $entity_type_manager,
+    SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager,
+    SchemaDotOrgJsonLdBuilderInterface $schema_jsonld_builder
+  ) {
     $this->moduleHandler = $module_handler;
     $this->currentUser = $current_user;
     $this->adminContext = $admin_context;
     $this->entityTypeManager = $entity_type_manager;
+    $this->schemaJsonLdManager = $schema_jsonld_manager;
     $this->schemaJsonLdBuilder = $schema_jsonld_builder;
   }
 
   /**
-   * Build JSON-LD preview for an entity.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   An entity.
-   *
-   * @return array
-   *   The JSON-LD preview for an entity.
+   * {@inheritdoc}
    */
-  public function build(EntityInterface $entity = NULL) {
+  public function build() {
     // Check current route.
-    if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    if ($this->adminContext->isAdminRoute()) {
       return [];
     }
+
     // Check that the current user can view the Schema.org JSON-LD.
     if (!$this->currentUser->hasPermission('view schemadotorg jsonld')) {
       return [];
@@ -95,12 +107,10 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
 
     // Build the entity's Schema.org data.
     /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface $builder */
-    $data = $this->schemaJsonLdBuilder->build($entity);
+    $data = $this->schemaJsonLdBuilder->build();
     if (!$data) {
       return [];
     }
-
-    $build = [];
 
     // Display the JSON-LD using a details element.
     $build = [
@@ -159,6 +169,7 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
 
     // JSON-LD endpoint.
     // @see schemadotorg_jsonld_endpoint.module
+    $entity = $this->schemaJsonLdManager->getRouteEntity();
     if ($entity && $this->moduleHandler->moduleExists('schemadotorg_jsonld_endpoint')) {
       $entity_type_id = $entity->getEntityTypeId();
       $jsonld_url = Url::fromRoute(

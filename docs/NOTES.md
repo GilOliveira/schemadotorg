@@ -3,13 +3,24 @@ Schema.org Blueprints
 
 # Todo
 
+- Test coverage for \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManager::getRouteEntity
+
+- Update JSON-LD endpoints to use a route match.
+
+  $url = $node->toUrl();
+  /** @var \Symfony\Component\Routing\RouteCollection $route_collection */
+  $route_collection = \Drupal::service('router')->getRouteCollection();
+  $route = $route_collection->get($url->getRouteName());
+  $route_match = new RouteMatch($url->getRouteName(), $route, ['node' => $node], ['node' => $node->id()]);
+
 - Possibly do not use range includes reference selection for
   taxonomy term relationship.
 
 schemadotorg_breadcrumb.module
 - https://www.drupal.org/project/schema_metatag/issues/3199950
 - Allow any page to declare custom JSON-LD
-- hook_schemadotorg_jsonld_alter($data)
+- hook_schemadotorg_jsonld(RouteMatchInterface $route_match)
+- hook_schemadotorg_jsonld_alter($data, RouteMatchInterface $route_match)
 
 schemadotorg_embed.module
 - TBD

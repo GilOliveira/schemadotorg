@@ -17,7 +17,7 @@ class SchemaDotOrgJsonLdEndpointController extends ControllerBase {
   /**
    * The Schema.org JSON-LD builder.
    *
-   * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLBuilderInterface
+   * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface
    */
   protected $builder;
 
@@ -40,11 +40,11 @@ class SchemaDotOrgJsonLdEndpointController extends ControllerBase {
    *   The Schema.org JSON-LD response for an entity.
    */
   public function getEntity(EntityInterface $entity) {
-    $data = $this->builder->build($entity);
+    $data = $this->builder->buildEntity($entity);
     if (!$data) {
       throw new NotFoundHttpException();
     }
-    return new JsonResponse($data);
+    return new JsonResponse(['@context' => 'https://schema.org'] + $data);
   }
 
   /**

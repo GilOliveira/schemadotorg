@@ -31,7 +31,7 @@ class SchemaDotOrgJsonApiEventSubscriber extends ServiceProviderBase implements 
   protected $configFactory;
 
   /**
-   * The route match service.
+   * The current route match.
    *
    * @var \Drupal\Core\Routing\RouteMatchInterface
    */
@@ -63,8 +63,8 @@ class SchemaDotOrgJsonApiEventSubscriber extends ServiceProviderBase implements 
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.
-   * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
-   *   The RouteMatch service.
+   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   *   The current route match.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager
@@ -72,9 +72,9 @@ class SchemaDotOrgJsonApiEventSubscriber extends ServiceProviderBase implements 
    * @param \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository $resource_type_respository
    *   The JSON:API configurable resource type repository.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, RouteMatchInterface $routeMatch, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $field_manager, ConfigurableResourceTypeRepository $resource_type_respository) {
+  public function __construct(ConfigFactoryInterface $config_factory, RouteMatchInterface $route_match, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $field_manager, ConfigurableResourceTypeRepository $resource_type_respository) {
     $this->configFactory = $config_factory;
-    $this->routeMatch = $routeMatch;
+    $this->routeMatch = $route_match;
     $this->entityTypeManager = $entity_type_manager;
     $this->fieldManager = $field_manager;
     $this->resourceTypeRepository = $resource_type_respository;

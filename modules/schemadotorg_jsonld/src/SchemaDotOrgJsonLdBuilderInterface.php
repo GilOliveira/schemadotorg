@@ -3,6 +3,7 @@
 namespace Drupal\schemadotorg_jsonld;
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Schema.org JSON-LD builder interface.
@@ -10,15 +11,15 @@ use Drupal\Core\Entity\EntityInterface;
 interface SchemaDotOrgJsonLdBuilderInterface {
 
   /**
-   * Build JSON-LD for an entity.
+   * Build JSON-LD for a route.
    *
-   * @param \Drupal\Core\Entity\EntityInterface|null $entity
-   *   An entity.
+   * @param \Drupal\Core\Routing\RouteMatchInterface|null $route_match
+   *   A route match.
    *
    * @return array|bool
-   *   The JSON-LD for an entity.
+   *   The JSON-LD for a route.
    */
-  public function build(EntityInterface $entity = NULL);
+  public function build(RouteMatchInterface $route_match = NULL);
 
   /**
    * Build JSON-LD for an entity that is mapped to a Schema.org type.
