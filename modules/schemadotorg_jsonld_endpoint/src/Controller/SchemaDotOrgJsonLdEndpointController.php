@@ -55,13 +55,16 @@ class SchemaDotOrgJsonLdEndpointController extends ControllerBase {
     }
     else {
       $data = $this->builder->buildEntity($entity);
+      if ($data) {
+        $data = ['@context' => 'https://schema.org'] + $data;
+      }
     }
 
     if (!$data) {
       throw new NotFoundHttpException();
     }
 
-    return new JsonResponse(['@context' => 'https://schema.org'] + $data);
+    return new JsonResponse($data);
   }
 
   /**
@@ -83,7 +86,7 @@ class SchemaDotOrgJsonLdEndpointController extends ControllerBase {
     $route_name = $url->getRouteName();
     $route_collection = $this->router->getRouteCollection();
     $route = $route_collection->get($route_name);
-    if ($route) {
+    if (empty($route)) {
       return NULL;
     }
 

@@ -74,10 +74,8 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $data = [];
 
     // Add custom data.
-    $custom_data = $this->buildCustom($route_match);
-    if ($custom_data) {
-      $data = array_merge($data, $custom_data);
-    }
+    $custom_data = $this->buildCustom($route_match) ?: [];
+    $data += $custom_data;
 
     // Add entity data.
     $entity = $this->schemaJsonIdManager->getRouteEntity($route_match);
@@ -85,16 +83,23 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       $entity_data = $this->buildEntity($entity);
       if ($entity_data) {
         $entity_data = ['@context' => 'https://schema.org'] + $entity_data;
-        $data = array_merge($data, $entity_data);
+        $data['schemadotorg_jsonld'] = [$entity_data];
       }
     }
+
+    // Alter Schema.org JSON-LD data for the current rouut.
+    $this->moduleHandler->alter(
+      'schemadotorg_jsonld',
+      $data,
+      $route_match
+    );
 
     // Return FALSE if the data is empty.
     if (empty($data)) {
       return FALSE;
     }
 
-    return (count($data) === 1) ? reset($data) : $data;
+    return (count($data) === 1) ? reset($data) : array_values($data);
   }
 
   /**
@@ -115,8 +120,9 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     foreach ($implementations as $module) {
       $module_data = $this->moduleHandler->invoke($module, $hook, $args);
       // @todo Validate JSON-LD to ensure the @type property is defined.
+      // @todo Determine how to handle multiple definitions values.
       if ($module_data) {
-        $data[] = $module_data;
+        $data[$module] = $module_data;
       }
     }
 

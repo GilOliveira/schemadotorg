@@ -13,12 +13,11 @@ schemadotorg_breadcrumb.module
 - Allow any page to declare custom JSON-LD
 - hook_schemadotorg_jsonld(RouteMatchInterface $route_match)
 - hook_schemadotorg_jsonld_alter($data, RouteMatchInterface $route_match)
+- \Drupal\Core\Breadcrumb\BreadcrumbManager
+- \Drupal::service('breadcrumb');
 
 schemadotorg_embed.module
 - TBD
-
-- Move schemadotorg_jsonld_get_route_entity to a service
-  - \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManager::getRouteEntity($route_match);
 
 ## Ongoing
 

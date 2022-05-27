@@ -47,6 +47,14 @@ function hook_schemadotorg_jsonld(\Drupal\Core\Routing\RouteMatchInterface $rout
 }
 
 /**
+ * Alter the Schema.org JSON-LD data for the current route.
+ */
+function hook_schemadotorg_jsonld_alter(array &$data, \Drupal\Core\Routing\RouteMatchInterface $route_match) {
+  // @todo Provide an example.
+}
+
+
+/**
  * Alter the Schema.org JSON-LD data for an entity.
  *
  * Besides, altering an existing Schema.org mapping's JSON-LD data, modules can

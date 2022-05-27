@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * @file
+ * Add Drupal's breadcrumb to Schema.org JSON-LD for the current route.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_schemadotorg_jsonld().
+ */
+function schemadotorg_jsonld_breadcrumb_schemadotorg_jsonld(RouteMatchInterface $route_match) {
+  /** @var \Drupal\Core\Breadcrumb\BreadcrumbManager $breadcrumb_manager */
+  $breadcrumb_manager = \Drupal::service('breadcrumb');
+  if (!$breadcrumb_manager->applies($route_match)) {
+    return NULL;
+  }
+
+  $breadcrumb = $breadcrumb_manager->build($route_match);
+  $links = $breadcrumb->getLinks();
+  if (empty($links)) {
+    return NULL;
+  }
+
+  $items = [];
+  $position = 1;
+  foreach ($links as $link) {
+    $items[] = [
+      '@type' => 'ListItem',
+      'position' => $position,
+      'item' => [
+        '@id' => $link->getUrl()->setAbsolute()->toString(),
+        'name' => (string) $link->getText(),
+      ],
+    ];
+    $position++;
+  }
+
+  // Append the current route's entity to breadcrumb item list.
+  /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $manager */
+  $manager = \Drupal::service('schemadotorg_jsonld.manager');
+  $entity = $manager->getRouteEntity($route_match);
+  if ($entity) {
+    $title = $entity->label();
+    $uri = Url::fromRouteMatch($route_match)->setAbsolute()->toString();
+    $items[] = [
+      '@type' => 'ListItem',
+      'position' => $position,
+      'item' => [
+        '@id' => $uri,
+        'name' => $title,
+      ],
+    ];
+  }
+
+  return [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => $items,
+  ];
+}
