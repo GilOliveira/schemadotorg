@@ -141,6 +141,8 @@ What field types won't easily work or map to Schema.org?
 - How can we validate the generated JSON-LD?
   - Chrome extension and online
 
+- Should the JSON-LD preview be moved to a configurable block?
+
 ## Schema.org
 
 What Schema.org types should we document?

@@ -153,13 +153,12 @@ function teardown() {
   drush devel-generate:media --kill 0
   drush devel-generate:content --kill 0
 
-  drush schemadotorg:delete-type -y --delete-fields user:Person
-  drush schemadotorg:delete-type -y --delete-fields media:AudioObject media:DataDownload media:ImageObject media:VideoObject
-  drush schemadotorg:delete-type -y --delete-fields taxonomy_term:DefinedTerm
   drush schemadotorg:delete-type -y --delete-fields node:Article node:WebPage
-
-  drush schemadotorg:delete-type -y --delete-entity paragraph:ContactPoint
   drush schemadotorg:delete-type -y --delete-entity node:Place node:Organization node:Person node:Event
+  drush schemadotorg:delete-type -y --delete-entity paragraph:ContactPoint
+
+  drush schemadotorg:delete-type -y --delete-fields taxonomy_term:DefinedTerm
+  drush schemadotorg:delete-type -y --delete-fields media:AudioObject media:DataDownload media:ImageObject media:VideoObject
 }
 
 function generate() {
