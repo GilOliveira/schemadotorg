@@ -1,0 +1,8 @@
+name: Schema.org Blueprints JSON-LD Embed
+type: module
+description: Extracts embedded media and content from an entity and includes associated Schema.org type in JSON-LD.
+package: Schema.org Blueprints
+core_version_requirement: ^9
+lifecycle: experimental
+dependencies:
+  - 'schemadotorg:schemadotorg_jsonld'

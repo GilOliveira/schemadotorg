@@ -88,19 +88,17 @@ class SchemaDotOrgJsonLdBreadcrumbTest extends SchemaDotOrgKernelEntityTestBase 
           ],
       ],
       [
-        [
-          '@context' => 'https://schema.org',
-          '@type' => 'Thing',
-          'identifier' =>
+        '@context' => 'https://schema.org',
+        '@type' => 'Thing',
+        'identifier' =>
+          [
             [
-              [
-                '@type' => 'PropertyValue',
-                'propertyID' => 'uuid',
-                'value' => $node->uuid(),
-              ],
+              '@type' => 'PropertyValue',
+              'propertyID' => 'uuid',
+              'value' => $node->uuid(),
             ],
-          'name' => 'Something',
-        ],
+          ],
+        'name' => 'Something',
       ],
     ];
     $route_match = $this->manager->getEntityRouteMatch($node);

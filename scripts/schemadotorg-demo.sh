@@ -97,6 +97,7 @@ function install() {
     schemadotorg_jsonld\
     schemadotorg_jsonld_breadcrumb\
     schemadotorg_jsonld_endpoint\
+    schemadotorg_jsonld_embed\
     schemadotorg_jsonld_preview;
 
   echo "Installing field related modules";

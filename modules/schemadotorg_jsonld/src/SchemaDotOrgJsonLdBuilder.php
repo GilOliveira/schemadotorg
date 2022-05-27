@@ -10,6 +10,22 @@ use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Schema.org JSON-LD builder.
+ *
+ * The Schema.org JSON-LD builder build and hook flow.
+ *
+ * - Get custom data based on the current route match.
+ *   @see hook_schemadotorg_jsonld()
+ *
+ * - Get custom data based on the current entity
+ *   @see hook_schemadotorg_jsonld_entity()
+ *
+ * - Build mapped entity based on the current entity
+ *
+ * - Alter mapped entity data on the current entity and related entities.
+ *   @see hook_schemadotorg_jsonld_entity_alter()
+ *
+ * - Alter all data based on the current route match.
+ *   @see hook_schemadotorg_jsonld_alter()
  */
 class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
 
@@ -73,17 +89,20 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
 
     $data = [];
 
-    // Add custom data.
+    // Add custom data based on the route match.
     // @see hook_schemadotorg_jsonld()
     $data += $this->invoke('schemadotorg_jsonld', [$route_match]);
 
     // Add entity data.
     $entity = $this->schemaJsonIdManager->getRouteMatchEntity($route_match);
     if ($entity) {
+      // Add custom data based on the entity.
+      // @see hook_schemadotorg_jsonld_entity()
+      $data += $this->invoke('schemadotorg_jsonld_entity', [$entity]);
+
       $entity_data = $this->buildEntity($entity);
       if ($entity_data) {
-        $entity_data = ['@context' => 'https://schema.org'] + $entity_data;
-        $data['schemadotorg_jsonld'] = [$entity_data];
+        $data['schemadotorg_jsonld_entity'] = ['@context' => 'https://schema.org'] + $entity_data;
       }
     }
 
@@ -99,7 +118,8 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       return FALSE;
     }
 
-    return (count($data) === 1) ? reset($data) : array_values($data);
+    $types = $this->getSchemaTypesFromData($data);
+    return (count($types) === 1) ? reset($types) : $types;
   }
 
   /**
@@ -266,6 +286,30 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       }
     }
     return $data;
+  }
+
+  /**
+   * Get Schema.org types from data.
+   *
+   * @param array $data
+   *   An array of Schema.org data.
+   *
+   * @return array
+   *   Schema.org types.
+   */
+  protected function getSchemaTypesFromData(array $data) {
+    $types = [];
+    foreach ($data as $item) {
+      if (is_array($item)) {
+        if (isset($item['@type'])) {
+          $types[] = $item;
+        }
+        else {
+          $types = array_merge($types, $this->getSchemaTypesFromData($item));
+        }
+      }
+    }
+    return $types;
   }
 
 }

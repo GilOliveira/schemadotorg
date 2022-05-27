@@ -41,12 +41,7 @@ class SchemaDotOrgTaxonomyManager implements SchemaDotOrgTaxonomyManagerInterfac
   }
 
   /**
-   * Alter Schema.org JSON-LD.
-   *
-   * @param array $data
-   *   Schema.org type data.
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity.
+   * {@inheritdoc}
    */
   public function alter(array &$data, EntityInterface $entity) {
     if ($entity instanceof TermInterface) {

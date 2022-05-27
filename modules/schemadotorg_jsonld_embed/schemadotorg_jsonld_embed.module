@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Extracts embedded content from an entity.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_schemadotorg_jsonld_entity().
+ *
+ * @see \Drupal\media\Plugin\Filter\MediaEmbed::process
+ */
+function schemadotorg_jsonld_embed_schemadotorg_jsonld_entity(EntityInterface $entity) {
+  /** @var \Drupal\schemadotorg_jsonld_embed\SchemaDotOrgJsonLdEmbedInterface $embed_manager */
+  $embed_manager = \Drupal::service('schemadotorg_jsonld_embed.manager');
+  return $embed_manager->build($entity);
+}

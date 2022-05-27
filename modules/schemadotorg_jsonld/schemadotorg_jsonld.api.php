@@ -62,6 +62,20 @@ function hook_schemadotorg_jsonld_alter(array &$data, \Drupal\Core\Routing\Route
 /* ************************************************************************** */
 
 /**
+ * Provide custom Schema.org JSON-LD data for an entity.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   The entity.
+ *
+ * @return array
+ *   Custom entity Schema.org JSON-LD data.
+ */
+function hook_schemadotorg_jsonld_entity(\Drupal\Core\Entity\EntityInterface $entity) {
+  // @todo Provide an example.
+  return [];
+}
+
+/**
  * Alter the Schema.org JSON-LD data for an entity.
  *
  * Besides, altering an existing Schema.org mapping's JSON-LD data, modules can
@@ -85,6 +99,10 @@ function hook_schemadotorg_jsonld_entity_alter(array &$data, \Drupal\Core\Entity
   $schema_properties = $mapping->getSchemaProperties();
   $supports_subtyping = $mapping->supportsSubtyping();
 }
+
+/* ************************************************************************** */
+// Field item value.
+/* ************************************************************************** */
 
 /**
  * Alter the Schema.org roperty JSON-LD data for an entity's field item.

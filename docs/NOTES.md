@@ -3,22 +3,17 @@ Schema.org Blueprints
 
 # Todo
 
+About data
+- keyed by provider
 
 hook_schemadotorg_jsonld_entity(EntityInterface)
 - Rework schemadotorg_taxonomy
 
-
 - Possibly do not use range includes reference selection for
   taxonomy term relationship.
 
-schemadotorg_jsonld_embed.module
-- Extracts embedded media and content from an entity and includes associated Schema.org type in JSON-LD.
-- Loop entity fields
-  - Check field access
-  - Check type
-  - Get all embedded media uuids from summary and value.
-- SchemaDotOrgJsonLdEmbedManager::getData(EntityInterface $entity)
--
+Write tests schemadotorg_jsonld_embed.module
+
 ## Ongoing
 
 - Research and document recommended modules.
