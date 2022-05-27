@@ -74,8 +74,8 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $data = [];
 
     // Add custom data.
-    $custom_data = $this->buildCustom($route_match) ?: [];
-    $data += $custom_data;
+    // @see hook_schemadotorg_jsonld()
+    $data += $this->invoke('schemadotorg_jsonld', [$route_match]);
 
     // Add entity data.
     $entity = $this->schemaJsonIdManager->getRouteMatchEntity($route_match);
@@ -87,7 +87,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       }
     }
 
-    // Alter Schema.org JSON-LD data for the current rouut.
+    // Alter Schema.org JSON-LD data for the current route.
     $this->moduleHandler->alter(
       'schemadotorg_jsonld',
       $data,
@@ -100,31 +100,6 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     }
 
     return (count($data) === 1) ? reset($data) : array_values($data);
-  }
-
-  /**
-   * Builds custom JSON-LD data for the current route match.
-   *
-   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
-   *   The current route match.
-   *
-   * @return array
-   *   An array of custom JSON-LD data.
-   */
-  protected function buildCustom(RouteMatchInterface $route_match) {
-    $data = [];
-
-    $hook = 'schemadotorg_jsonld';
-    $args = [$route_match];
-    $implementations = $this->moduleHandler->getImplementations($hook);
-    foreach ($implementations as $module) {
-      $module_data = $this->moduleHandler->invoke($module, $hook, $args);
-      if ($module_data) {
-        $data[$module] = $module_data;
-      }
-    }
-
-    return $data;
   }
 
   /**
@@ -241,16 +216,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     if ($entity->hasLinkTemplate('canonical') && $entity->access('view')) {
       $default_data['@url'] = $entity->toUrl('canonical')->setAbsolute()->toString();
     }
-    $schema_type_data = $default_data + $schema_type_data;
-
-    // Alter Schema.org type's JSON-LD data.
-    $this->moduleHandler->alter(
-      'schemadotorg_jsonld_entity',
-      $schema_type_data,
-      $entity
-    );
-
-    return $schema_type_data;
+    return $default_data + $schema_type_data;
   }
 
   /**
@@ -277,6 +243,29 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
 
     // Get Schema.org property value.
     return $this->schemaJsonIdManager->getSchemaPropertyValue($item);
+  }
+
+  /**
+   * Invokes a Schema.org hook and collect data.
+   *
+   * @param string $hook
+   *   The name of the hook to invoke.
+   * @param array $args
+   *   Arguments to pass to the hook implementation.
+   *
+   * @return array
+   *   The return data  of the hook implementation.
+   */
+  protected function invoke($hook, array $args) {
+    $data = [];
+    $implementations = $this->moduleHandler->getImplementations($hook);
+    foreach ($implementations as $module) {
+      $module_data = $this->moduleHandler->invoke($module, $hook, $args);
+      if ($module_data) {
+        $data[$module . '_' . $hook] = $module_data;
+      }
+    }
+    return $data;
   }
 
 }

@@ -12,6 +12,10 @@
  * @{
  */
 
+/* ************************************************************************** */
+// Custom data.
+/* ************************************************************************** */
+
 /**
  * Provide custom Schema.org JSON-LD data for a route..
  *
@@ -53,6 +57,9 @@ function hook_schemadotorg_jsonld_alter(array &$data, \Drupal\Core\Routing\Route
   // @todo Provide an example.
 }
 
+/* ************************************************************************** */
+// Entity data.
+/* ************************************************************************** */
 
 /**
  * Alter the Schema.org JSON-LD data for an entity.

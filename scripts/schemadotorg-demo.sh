@@ -145,7 +145,7 @@ function setup() {
   drush schemadotorg:create-type -y taxonomy_term:DefinedTerm
 
   drush schemadotorg:create-type -y paragraph:ContactPoint
-  drush schemadotorg:create-type -y node:Person node:Place node:Organization node:Person node:Event
+  drush schemadotorg:create-type -y node:Person node:Place node:Organization node:Event
   drush schemadotorg:create-type -y node:Article node:WebPage
 }
 
@@ -165,6 +165,7 @@ function teardown() {
 function generate() {
   drush devel-generate:users --kill
   drush devel-generate:media --kill
+  drush devel-generate:terms --kill --bundles=tags
   drush devel-generate:content --kill --add-type-label --skip-fields=menu_link\
     --bundles=article,page,person,organization,place,event
 }

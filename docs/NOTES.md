@@ -3,16 +3,22 @@ Schema.org Blueprints
 
 # Todo
 
-SchemaDotOrgJsonLdRouteManager
-- SchemaDotOrgJsonLdManager::getEntityRouteMatch
-- SchemaDotOrgJsonLdManager::getRouteMatchEntity
+
+hook_schemadotorg_jsonld_entity(EntityInterface)
+- Rework schemadotorg_taxonomy
+
 
 - Possibly do not use range includes reference selection for
   taxonomy term relationship.
 
-schemadotorg_embed.module
-- TBD
-
+schemadotorg_jsonld_embed.module
+- Extracts embedded media and content from an entity and includes associated Schema.org type in JSON-LD.
+- Loop entity fields
+  - Check field access
+  - Check type
+  - Get all embedded media uuids from summary and value.
+- SchemaDotOrgJsonLdEmbedManager::getData(EntityInterface $entity)
+-
 ## Ongoing
 
 - Research and document recommended modules.
