@@ -2,7 +2,9 @@
 
 namespace Drupal\Tests\schemadotorg_jsonld\Kernel;
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\media\Entity\Media;
 use Drupal\node\Entity\Node;
@@ -102,6 +104,18 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
       ],
     ]);
     $node->save();
+
+    /* ********************************************************************** */
+
+    // Check getting an entity's canonical route match.
+    $node_route_match = $this->manager->getEntityRouteMatch($node);
+    $this->assertEquals('entity.node.canonical', $node_route_match->getRouteName());
+    $this->assertEquals($node, $node_route_match->getParameter('node'));
+    $this->assertEquals($node->id(), $node_route_match->getRawParameter('node'));
+
+    // Check returning the entity of the current route.
+    $route_entity = $this->manager->getRouteEntity($node_route_match);
+    $this->assertEquals($node, $route_entity);
 
     // Check sorting Schema.org properties in specified order and
     // then alphabetically.

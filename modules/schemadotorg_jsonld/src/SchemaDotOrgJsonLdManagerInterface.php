@@ -13,6 +13,19 @@ use Drupal\Core\Routing\RouteMatchInterface;
 interface SchemaDotOrgJsonLdManagerInterface {
 
   /**
+   * Get an entity's canonical route match.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity.
+   * @param string $rel
+   *   The link relationship type, for example: canonical or edit-form.
+   *
+   * @return \Drupal\Core\Routing\RouteMatch|null
+   *   An entity's canonical route match.
+   */
+  public function getEntityRouteMatch(EntityInterface $entity, $rel = 'canonical');
+
+  /**
    * Returns the entity of the current route.
    *
    * @param \Drupal\Core\Routing\RouteMatchInterface|null $route_match

@@ -4,7 +4,6 @@ namespace Drupal\schemadotorg_jsonld_endpoint\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Routing\RouteMatch;
 use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,11 +15,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class SchemaDotOrgJsonLdEndpointController extends ControllerBase {
 
   /**
-   * The router.
+   * The Schema.org JSON-LD manager.
    *
-   * @var \Symfony\Component\Routing\RouterInterface
+   * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface
    */
-  protected $router;
+  protected $manager;
 
   /**
    * The Schema.org JSON-LD builder.
@@ -34,7 +33,7 @@ class SchemaDotOrgJsonLdEndpointController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
-    $instance->router = $container->get('router');
+    $instance->manager = $container->get('schemadotorg_jsonld.manager');
     $instance->builder = $container->get('schemadotorg_jsonld.builder');
     return $instance;
   }
@@ -49,7 +48,7 @@ class SchemaDotOrgJsonLdEndpointController extends ControllerBase {
    *   The Schema.org JSON-LD response for an entity.
    */
   public function getEntity(EntityInterface $entity) {
-    $entity_route_match = $this->getEntityCanonicalRouteMatch($entity);
+    $entity_route_match = $this->manager->getEntityRouteMatch($entity);
     if ($entity_route_match) {
       $data = $this->builder->build($entity_route_match);
     }
@@ -65,37 +64,6 @@ class SchemaDotOrgJsonLdEndpointController extends ControllerBase {
     }
 
     return new JsonResponse($data);
-  }
-
-  /**
-   * Get an entity's canonical route match.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity.
-   *
-   * @return \Drupal\Core\Routing\RouteMatch|null
-   *   An entity's canonical route match.
-   */
-  protected function getEntityCanonicalRouteMatch(EntityInterface $entity) {
-    $entity_type_id = $entity->getEntityTypeId();
-    if (!$entity->hasLinkTemplate('canonical')) {
-      return NULL;
-    }
-
-    $url = $entity->toUrl('canonical');
-    $route_name = $url->getRouteName();
-    $route_collection = $this->router->getRouteCollection();
-    $route = $route_collection->get($route_name);
-    if (empty($route)) {
-      return NULL;
-    }
-
-    return new RouteMatch(
-      $route_name,
-      $route,
-      [$entity_type_id => $entity],
-      [$entity_type_id => $entity->id()]
-    );
   }
 
   /**

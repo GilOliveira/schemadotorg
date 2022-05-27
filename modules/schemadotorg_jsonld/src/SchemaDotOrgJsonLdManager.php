@@ -11,7 +11,10 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Routing\RouteMatch;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Schema.org JSON-LD manager.
@@ -24,6 +27,13 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
+
+  /**
+   * The router.
+   *
+   * @var \Symfony\Component\Routing\RouterInterface
+   */
+  protected $router;
 
   /**
    * The current route match.
@@ -58,6 +68,8 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.
+   * @param \Symfony\Component\Routing\RouterInterface $router
+   *   The router.
    * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
    *   The current route match.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -69,16 +81,42 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
+    RouterInterface $router,
     RouteMatchInterface $route_match,
     EntityTypeManagerInterface $entity_type_manager,
     DateFormatterInterface $date_formatter,
     FileUrlGeneratorInterface $file_url_generator
   ) {
     $this->configFactory = $config_factory;
+    $this->router = $router;
     $this->routeMatch = $route_match;
     $this->entityTypeManager = $entity_type_manager;
     $this->dateFormatter = $date_formatter;
     $this->fileUrlGenerator = $file_url_generator;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityRouteMatch(EntityInterface $entity, $rel = 'canonical') {
+    $entity_type_id = $entity->getEntityTypeId();
+    if (!$entity->hasLinkTemplate($rel)) {
+      return NULL;
+    }
+
+    $url = $entity->toUrl($rel);
+    $route_name = $url->getRouteName();
+    $route = $this->router->getRouteCollection()->get($route_name);
+    if (empty($route)) {
+      return NULL;
+    }
+
+    return new RouteMatch(
+      $route_name,
+      $route,
+      [$entity_type_id => $entity],
+      [$entity_type_id => $entity->id()]
+    );
   }
 
   /**

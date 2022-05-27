@@ -3,18 +3,8 @@ Schema.org Blueprints
 
 # Todo
 
-- Test coverage for \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManager::getRouteEntity
-
 - Possibly do not use range includes reference selection for
   taxonomy term relationship.
-
-schemadotorg_breadcrumb.module
-- https://www.drupal.org/project/schema_metatag/issues/3199950
-- Allow any page to declare custom JSON-LD
-- hook_schemadotorg_jsonld(RouteMatchInterface $route_match)
-- hook_schemadotorg_jsonld_alter($data, RouteMatchInterface $route_match)
-- \Drupal\Core\Breadcrumb\BreadcrumbManager
-- \Drupal::service('breadcrumb');
 
 schemadotorg_embed.module
 - TBD

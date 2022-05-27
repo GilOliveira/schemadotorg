@@ -119,8 +119,6 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $implementations = $this->moduleHandler->getImplementations($hook);
     foreach ($implementations as $module) {
       $module_data = $this->moduleHandler->invoke($module, $hook, $args);
-      // @todo Validate JSON-LD to ensure the @type property is defined.
-      // @todo Determine how to handle multiple definitions values.
       if ($module_data) {
         $data[$module] = $module_data;
       }

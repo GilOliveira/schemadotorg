@@ -1,7 +1,7 @@
 services:
   schemadotorg_jsonld.manager:
     class: Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManager
-    arguments: ['@config.factory', '@current_route_match', '@entity_type.manager', '@date.formatter', '@file_url_generator']
+    arguments: ['@config.factory', '@router', '@current_route_match', '@entity_type.manager', '@date.formatter', '@file_url_generator']
   schemadotorg_jsonld.builder:
     class: Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilder
     arguments: ['@module_handler', '@current_route_match', '@entity_type.manager', '@schemadotorg_jsonld.manager']
