@@ -169,7 +169,7 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
 
     // JSON-LD endpoint.
     // @see schemadotorg_jsonld_endpoint.module
-    $entity = $this->schemaJsonLdManager->getRouteEntity();
+    $entity = $this->schemaJsonLdManager->getRouteMatchEntity();
     if ($entity && $this->moduleHandler->moduleExists('schemadotorg_jsonld_endpoint')) {
       $entity_type_id = $entity->getEntityTypeId();
       $jsonld_url = Url::fromRoute(

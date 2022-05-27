@@ -25,7 +25,7 @@ function schemadotorg_taxonomy_schemadotorg_jsonld_entity_alter(array &$data, En
 function schemadotorg_taxonomy_preprocess_html(array &$variables) {
   /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager */
   $schema_jsonld_manager = \Drupal::service('schemadotorg_jsonld.manager');
-  $route_entity = $schema_jsonld_manager->getRouteEntity();;
+  $route_entity = $schema_jsonld_manager->getRouteMatchEntity();;
 
   // Make sure the current route's entity is a taxonomy term.
   if (!$route_entity instanceof TermInterface) {

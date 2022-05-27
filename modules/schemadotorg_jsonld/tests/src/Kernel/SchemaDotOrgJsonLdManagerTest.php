@@ -114,7 +114,7 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
     $this->assertEquals($node->id(), $node_route_match->getRawParameter('node'));
 
     // Check returning the entity of the current route.
-    $route_entity = $this->manager->getRouteEntity($node_route_match);
+    $route_entity = $this->manager->getRouteMatchEntity($node_route_match);
     $this->assertEquals($node, $route_entity);
 
     // Check sorting Schema.org properties in specified order and

@@ -3,6 +3,10 @@ Schema.org Blueprints
 
 # Todo
 
+SchemaDotOrgJsonLdRouteManager
+- SchemaDotOrgJsonLdManager::getEntityRouteMatch
+- SchemaDotOrgJsonLdManager::getRouteMatchEntity
+
 - Possibly do not use range includes reference selection for
   taxonomy term relationship.
 

@@ -99,7 +99,6 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * {@inheritdoc}
    */
   public function getEntityRouteMatch(EntityInterface $entity, $rel = 'canonical') {
-    $entity_type_id = $entity->getEntityTypeId();
     if (!$entity->hasLinkTemplate($rel)) {
       return NULL;
     }
@@ -111,6 +110,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
       return NULL;
     }
 
+    $entity_type_id = $entity->getEntityTypeId();
     return new RouteMatch(
       $route_name,
       $route,
@@ -122,7 +122,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getRouteEntity(RouteMatchInterface $route_match = NULL) {
+  public function getRouteMatchEntity(RouteMatchInterface $route_match = NULL) {
     $route_match = $route_match ?: $this->routeMatch;
     $route_name = $route_match->getRouteName();
     if (preg_match('/entity\.(.*)\.(latest[_-]version|canonical)/', $route_name, $matches)) {

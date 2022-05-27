@@ -78,7 +78,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $data += $custom_data;
 
     // Add entity data.
-    $entity = $this->schemaJsonIdManager->getRouteEntity($route_match);
+    $entity = $this->schemaJsonIdManager->getRouteMatchEntity($route_match);
     if ($entity) {
       $entity_data = $this->buildEntity($entity);
       if ($entity_data) {

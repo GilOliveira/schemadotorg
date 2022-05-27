@@ -41,7 +41,7 @@ function schemadotorg_jsonld_breadcrumb_schemadotorg_jsonld(RouteMatchInterface 
   // Append the current route's entity to breadcrumb item list.
   /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $manager */
   $manager = \Drupal::service('schemadotorg_jsonld.manager');
-  $entity = $manager->getRouteEntity($route_match);
+  $entity = $manager->getRouteMatchEntity($route_match);
   if ($entity) {
     $title = $entity->label();
     $uri = Url::fromRouteMatch($route_match)->setAbsolute()->toString();

@@ -36,7 +36,7 @@ interface SchemaDotOrgJsonLdManagerInterface {
    *
    * @see metatag_get_route_entity()
    */
-  public function getRouteEntity(RouteMatchInterface $route_match = NULL);
+  public function getRouteMatchEntity(RouteMatchInterface $route_match = NULL);
 
   /**
    * Sort Schema.org properties in specified order and then alphabetically.
