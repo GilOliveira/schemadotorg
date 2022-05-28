@@ -33,7 +33,7 @@ class SchemaDotOrgJsonApiSettingsFormTest extends SchemaDotOrgBrowserTestBase {
    * Test Schema.org JSON:API settings form.
    */
   public function testSettingsForm() {
-    $this->assertSaveSettingsConfigForm('schemadotorg_jsonapi.settings', '/admin/structure/schemadotorg/settings/jsonapi');
+    $this->assertSaveSettingsConfigForm('schemadotorg_jsonapi.settings', '/admin/config/search/schemadotorg/settings/jsonapi');
   }
 
 }

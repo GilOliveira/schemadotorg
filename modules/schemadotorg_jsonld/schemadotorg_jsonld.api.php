@@ -54,7 +54,23 @@ function hook_schemadotorg_jsonld(\Drupal\Core\Routing\RouteMatchInterface $rout
  * Alter the Schema.org JSON-LD data for the current route.
  */
 function hook_schemadotorg_jsonld_alter(array &$data, \Drupal\Core\Routing\RouteMatchInterface $route_match) {
-  // @todo Provide an example.
+  /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $manager */
+  $manager = \Drupal::service('schemadotorg_jsonld.manager');
+  $entity = $manager->getRouteMatchEntity($route_match);
+  if (!$entity) {
+    return;
+  }
+
+  $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
+  $mapping = $mapping_storage->loadByEntity($entity);
+  // Make sure the mapping exists.
+  if (!$mapping) {
+    return;
+  }
+
+  $schema_type = $mapping->getSchemaType();
+  $schema_properties = $mapping->getSchemaProperties();
+  $supports_subtyping = $mapping->supportsSubtyping();
 }
 
 /* ************************************************************************** */
@@ -71,8 +87,36 @@ function hook_schemadotorg_jsonld_alter(array &$data, \Drupal\Core\Routing\Route
  *   Custom entity Schema.org JSON-LD data.
  */
 function hook_schemadotorg_jsonld_entity(\Drupal\Core\Entity\EntityInterface $entity) {
-  // @todo Provide an example.
-  return [];
+  // Define custom data for taxonomy vocabulary which is mapped via the term.
+  if ($entity instanceof \Drupal\taxonomy\Entity\Vocabulary) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+    $mapping_storage = \Drupal::entityTypeManager()
+      ->getStorage('schemadotorg_mapping');
+    $mappings = $mapping_storage->loadByProperties([
+      'target_entity_type_id' => 'taxonomy_term',
+      'target_bundle' => $entity->id(),
+    ]);
+    if (!$mappings) {
+      return [];
+    }
+
+    $mapping = reset($mappings);
+    $schema_type = $mapping->getSchemaType();
+    if (!in_array($schema_type, ['DefinedTerm', 'CategoryCode'])) {
+      return [];
+    }
+
+    $data = [];
+    $data['@type'] = "{$schema_type}Set";
+    $data['name'] = $entity->label();
+    $description = $entity->getDescription();
+    if ($description) {
+      $data['description'] = $description;
+    }
+    // Provide a uniquey key for the returned data.
+    $key = 'hook_schemadotorg_jsonld_entity_taxonomy-' . $entity->uuid();
+    return [$key => $data];
+  }
 }
 
 /**
@@ -131,7 +175,8 @@ function hook_schemadotorg_jsonld_field_item_alter(&$value, \Drupal\Core\Field\F
   $schema_type = $mapping->getSchemaType();
   $schema_property = $mapping->getSchemaPropertyMapping($field_name);
 
-  // @todo Massage the data.
+  // Massage the data.
+  // ...
 }
 
 /**

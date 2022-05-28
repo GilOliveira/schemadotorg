@@ -32,10 +32,10 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *   config_prefix = "schemadotorg_mapping_type",
  *   admin_permission = "administer schemadotorg",
  *   links = {
- *     "collection" = "/admin/structure/schemadotorg-mapping/type",
- *     "add-form" = "/admin/structure/schemadotorg-mapping/type/add",
- *     "edit-form" = "/admin/structure/schemadotorg-mapping/type/{schemadotorg_mapping_type}",
- *     "delete-form" = "/admin/structure/schemadotorg-mapping/type/{schemadotorg_mapping_type}/delete"
+ *     "collection" = "/admin/config/search/schemadotorg-mapping/type",
+ *     "add-form" = "/admin/config/search/schemadotorg-mapping/type/add",
+ *     "edit-form" = "/admin/config/search/schemadotorg-mapping/type/{schemadotorg_mapping_type}",
+ *     "delete-form" = "/admin/config/search/schemadotorg-mapping/type/{schemadotorg_mapping_type}/delete"
  *   },
  *   entity_keys = {
  *     "id" = "id",

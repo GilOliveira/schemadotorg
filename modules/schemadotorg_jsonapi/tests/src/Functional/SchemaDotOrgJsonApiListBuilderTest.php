@@ -52,7 +52,7 @@ class SchemaDotOrgJsonApiListBuilderTest extends SchemaDotOrgBrowserTestBase {
   public function testSchemaDotOrgListBuilder() {
     $assert_session = $this->assertSession();
 
-    $this->drupalGet('/admin/structure/schemadotorg');
+    $this->drupalGet('/admin/config/search/schemadotorg');
 
     // Check JSON:API header.
     $assert_session->responseContains('<th class="priority-low" width="27%">JSON:API</th>');

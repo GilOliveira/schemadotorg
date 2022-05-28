@@ -33,7 +33,7 @@ class SchemaDotOrgJsonLdEndpointSettingsFormTest extends SchemaDotOrgBrowserTest
    * Test Schema.org JSON-LD settings form.
    */
   public function testSettingsForm() {
-    $this->assertSaveSettingsConfigForm('schemadotorg_jsonld_endpoint.settings', '/admin/structure/schemadotorg/settings/jsonapi');
+    $this->assertSaveSettingsConfigForm('schemadotorg_jsonld_endpoint.settings', '/admin/config/search/schemadotorg/settings/jsonapi');
   }
 
 }

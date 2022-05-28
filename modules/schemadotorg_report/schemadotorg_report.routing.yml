@@ -1,7 +1,7 @@
 # Settings
 
 schemadotorg_report.settings:
-  path: '/admin/structure/schemadotorg/settings/references'
+  path: '/admin/config/search/schemadotorg/settings/references'
   defaults:
     _title: 'Schema.org settings'
     _form: 'Drupal\schemadotorg_report\Form\SchemaDotOrgReportSettingsForm'

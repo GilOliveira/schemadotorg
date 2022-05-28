@@ -141,6 +141,10 @@ function configure() {
   drush -y config-set devel.settings devel_dumper kint
 }
 
+################################################################################
+# Basic Demo
+################################################################################
+
 function setup() {
   drush schemadotorg:create-type -y media:AudioObject media:DataDownload media:ImageObject media:VideoObject
   drush schemadotorg:create-type -y taxonomy_term:DefinedTerm
@@ -169,6 +173,8 @@ function generate() {
   drush devel-generate:content --kill --add-type-label --skip-fields=menu_link\
     --bundles=article,page,person,organization,place,event
 }
+
+################################################################################
 
 SCRIPT_DIRECTORY=`dirname "$0"`
 

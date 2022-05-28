@@ -102,7 +102,8 @@ class SchemaDotOrgBreadcrumbBuilderBuilderTest extends UnitTestCase {
     $expected = [
       Link::createFromRoute('Home', '<front>'),
       Link::createFromRoute('Administration', 'system.admin'),
-      Link::createFromRoute('Structure', 'system.admin_structure'),
+      Link::createFromRoute('Configuration', 'system.admin_config'),
+      Link::createFromRoute('Search and metadata', 'system.admin_config_search'),
       Link::createFromRoute('Schema.org', 'entity.schemadotorg_mapping.collection'),
     ];
     $this->assertEquals($expected, $breadcrumb->getLinks());
@@ -120,7 +121,8 @@ class SchemaDotOrgBreadcrumbBuilderBuilderTest extends UnitTestCase {
     $expected = [
       Link::createFromRoute('Home', '<front>'),
       Link::createFromRoute('Administration', 'system.admin'),
-      Link::createFromRoute('Structure', 'system.admin_structure'),
+      Link::createFromRoute('Configuration', 'system.admin_config'),
+      Link::createFromRoute('Search and metadata', 'system.admin_config_search'),
       Link::createFromRoute('Schema.org', 'entity.schemadotorg_mapping.collection'),
       Link::createFromRoute('Mappings', 'entity.schemadotorg_mapping.collection'),
     ];
@@ -133,7 +135,8 @@ class SchemaDotOrgBreadcrumbBuilderBuilderTest extends UnitTestCase {
     $expected = [
       Link::createFromRoute('Home', '<front>'),
       Link::createFromRoute('Administration', 'system.admin'),
-      Link::createFromRoute('Structure', 'system.admin_structure'),
+      Link::createFromRoute('Configuration', 'system.admin_config'),
+      Link::createFromRoute('Search and metadata', 'system.admin_config_search'),
       Link::createFromRoute('Schema.org', 'entity.schemadotorg_mapping.collection'),
       Link::createFromRoute('Mapping types', 'entity.schemadotorg_mapping_type.collection'),
     ];

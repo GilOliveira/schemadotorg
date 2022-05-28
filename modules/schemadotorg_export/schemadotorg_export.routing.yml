@@ -1,5 +1,5 @@
 entity.schemadotorg_mapping.export:
-  path: '/admin/structure/schemadotorg.csv'
+  path: '/admin/config/search/schemadotorg.csv'
   defaults:
     _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportController::index'
   requirements:

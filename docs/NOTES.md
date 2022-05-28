@@ -3,16 +3,12 @@ Schema.org Blueprints
 
 # Todo
 
-About data
-- keyed by provider
-
-hook_schemadotorg_jsonld_entity(EntityInterface)
-- Rework schemadotorg_taxonomy
-
 - Possibly do not use range includes reference selection for
   taxonomy term relationship.
 
 Write tests schemadotorg_jsonld_embed.module
+
+Decide the allowed level of nested data to be configurable.
 
 ## Ongoing
 

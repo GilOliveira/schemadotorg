@@ -49,7 +49,7 @@ class SchemaDotOrgMappingTypeFormTest extends SchemaDotOrgBrowserTestBase {
     // expected values.
     $mapping_type = $this->storage->load('node');
     $mapping_type_value = $mapping_type->toArray();
-    $this->drupalGet('/admin/structure/schemadotorg/types/node');
+    $this->drupalGet('/admin/config/search/schemadotorg/types/node');
     $this->submitForm([], 'Save');
     $assert_session->responseContains('Updated <em class="placeholder">Content</em> mapping type.');
     $this->storage->resetCache();

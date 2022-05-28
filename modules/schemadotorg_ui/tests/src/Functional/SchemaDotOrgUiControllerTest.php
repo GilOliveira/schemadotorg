@@ -44,7 +44,7 @@ class SchemaDotOrgUiControllerTest extends SchemaDotOrgBrowserTestBase {
     // Check that access is denied to 'Add Schema.org type' page.
     $account = $this->drupalCreateUser();
     $this->drupalLogin($account);
-    $this->drupalGet('/admin/structure/schemadotorg/add');
+    $this->drupalGet('/admin/config/search/schemadotorg/add');
     $assert_session->statusCodeEquals(403);
 
     // Check that access is allowed to 'Add Schema.org type' page.
@@ -58,7 +58,7 @@ class SchemaDotOrgUiControllerTest extends SchemaDotOrgBrowserTestBase {
     ]);
     $this->drupalLogin($account);
 
-    $this->drupalGet('/admin/structure/schemadotorg/add');
+    $this->drupalGet('/admin/config/search/schemadotorg/add');
     $assert_session->statusCodeEquals(200);
     $assert_session->linkExists('Content type');
     $assert_session->linkExists('Paragraphs type');
@@ -72,7 +72,7 @@ class SchemaDotOrgUiControllerTest extends SchemaDotOrgBrowserTestBase {
 
     // Check that access is allowed to 'Add Schema.org type' page but
     // denied to entity type pages.
-    $this->drupalGet('/admin/structure/schemadotorg/add');
+    $this->drupalGet('/admin/config/search/schemadotorg/add');
     $assert_session->statusCodeEquals(200);
     $assert_session->linkNotExists('Content type');
     $assert_session->linkNotExists('Paragraphs type');

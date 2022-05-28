@@ -48,11 +48,11 @@ class SchemaDotOrgExportTest extends SchemaDotOrgBrowserTestBase {
     $this->submitForm($edit, 'Save');
 
     // Check that 'Download CSV' link is added to the Schema.org mapping list.
-    $this->drupalGet('/admin/structure/schemadotorg');
+    $this->drupalGet('/admin/config/search/schemadotorg');
     $assert_session->responseContains('<u>⇩</u> Download CSV');
 
     // Check Schema.org mapping CSV.
-    $this->drupalGet('/admin/structure/schemadotorg.csv');
+    $this->drupalGet('/admin/config/search/schemadotorg.csv');
     $assert_session->responseContains('entity_type,bundle,schema_type,schema_subtyping,schema_properties');
     $assert_session->responseContains('node,thing,Thing,Yes,"alternateName; name"');
   }
