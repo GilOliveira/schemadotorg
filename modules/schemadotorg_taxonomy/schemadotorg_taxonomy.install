@@ -66,11 +66,6 @@ function schemadotorg_taxonomy_modules_uninstalled($modules) {
  */
 function schemadotorg_taxonomy_install() {
   schemadotorg_taxonomy_modules_installed(['schemadotorg_jsonapi', 'schemadotorg_jsonld_endpoint']);
-
-  // Assign a weight 1 higher than the schemadotorg_jsonld_preview.module.
-  // @see schemadotorg_preview_entity_view_alter()
-  // @see schemadotorg_taxonomy_entity_view_alter()
-  module_set_weight('schemadotorg_taxonomy', 1);
 }
 
 /**
