@@ -8,8 +8,6 @@ Schema.org Blueprints
 
 Write tests schemadotorg_jsonld_embed.module
 
-Decide the allowed level of nested data to be configurable.
-
 ## Ongoing
 
 - Research and document recommended modules.
@@ -96,8 +94,6 @@ Ajax
 
 - Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgUiApiTest
 - Improve \Drupal\Tests\schemadotorg\Functional\SchemaDotOrgSettingsElementTest
-- Create SchemaDotOrgUiMappingForm kernel test.
-  - Check all functionality.
 - JavaScript test coverage for UI and Report.
 
 # TBD
@@ -108,13 +104,6 @@ What field types won't easily work or map to Schema.org?
 - text with summary and formatting
 - Date range
 - Repeating events (SmartDates)
-
-- How do we handle identifiers?
-  Identifiers need to in dedicated fields for performance.
-  Identifiers should have dedicated field via JSON:API.
-  Is it possible to collect/merge multiple identifiers into one field?
-
-  schema_identifier_irbnumber
 
 - How do we handle sub-values (i.e. body.summary)?
   - Token field?
@@ -128,9 +117,6 @@ What field types won't easily work or map to Schema.org?
   - https://www.drupal.org/project/drupal/issues/3100732
 
 ## JSON-LD
-
-- How can we validate the generated JSON-LD?
-  - Chrome extension and online
 
 - Should the JSON-LD preview be moved to a configurable block?
 

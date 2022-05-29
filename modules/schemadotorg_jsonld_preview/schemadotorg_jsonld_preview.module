@@ -14,7 +14,7 @@ function schemadotorg_jsonld_preview_preprocess_html(array &$variables) {
   $build = $preview_builder->build();
 
   // Make sure the cache is cleared when any Schema.org mapping is updated.
-  // @todo Determine how best to invalidate cached entities when mapping is updated.
+  // @todo Determine how best to invalidate cache when a mapping is updated.
   $mapping_definition = \Drupal::entityTypeManager()->getDefinition('schemadotorg_mapping');
   $build += ['#cache' => []];
   $build['#cache'] += ['tags' => []];

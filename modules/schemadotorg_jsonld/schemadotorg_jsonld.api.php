@@ -78,44 +78,33 @@ function hook_schemadotorg_jsonld_alter(array &$data, \Drupal\Core\Routing\Route
 /* ************************************************************************** */
 
 /**
- * Provide custom Schema.org JSON-LD data for an entity.
+ * Load the Schema.org JSON-LD data for an entity.
  *
- * @param \Drupal\Core\Entity\EntityInterface $entity
- *   The entity.
- *
- * @return array
- *   Custom entity Schema.org JSON-LD data.
+ * Modules can define custom JSON-LD data for any entity type.
  */
-function hook_schemadotorg_jsonld_entity(\Drupal\Core\Entity\EntityInterface $entity) {
-  // Define custom data for taxonomy vocabulary which is mapped via the term.
-  if ($entity instanceof \Drupal\taxonomy\Entity\Vocabulary) {
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-    $mapping_storage = \Drupal::entityTypeManager()
-      ->getStorage('schemadotorg_mapping');
-    $mappings = $mapping_storage->loadByProperties([
-      'target_entity_type_id' => 'taxonomy_term',
-      'target_bundle' => $entity->id(),
-    ]);
-    if (!$mappings) {
-      return [];
-    }
+function hook_schemadotorg_jsonld_entity_load(array &$data, \Drupal\Core\Entity\EntityInterface $entity) {
+  if (!$entity instanceof \Drupal\taxonomy\VocabularyInterface) {
+    return;
+  }
 
-    $mapping = reset($mappings);
-    $schema_type = $mapping->getSchemaType();
-    if (!in_array($schema_type, ['DefinedTerm', 'CategoryCode'])) {
-      return [];
-    }
+  // Alter a vocabulary's Schema.org type data to use DefinedTermSet @type.
+  // @see \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyManager::load
+  $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
+  $mappings = $mapping_storage->loadByProperties([
+    'target_entity_type_id' => 'taxonomy_term',
+    'target_bundle' => $entity->id(),
+  ]);
+  if (!$mappings) {
+    return;
+  }
 
-    $data = [];
-    $data['@type'] = "{$schema_type}Set";
-    $data['name'] = $entity->label();
-    $description = $entity->getDescription();
-    if ($description) {
-      $data['description'] = $description;
-    }
-    // Provide a uniquey key for the returned data.
-    $key = 'hook_schemadotorg_jsonld_entity_taxonomy-' . $entity->uuid();
-    return [$key => $data];
+  $mapping = reset($mappings);
+  $schema_type = $mapping->getSchemaType();
+  $data['@type'] = "{$schema_type}Set";
+  $data['name'] = $entity->label();
+  if ($entity->getDescription()) {
+    $data['description'] = $entity->getDescription();
   }
 }
 
@@ -126,22 +115,31 @@ function hook_schemadotorg_jsonld_entity(\Drupal\Core\Entity\EntityInterface $en
  * define custom JSON-LD data for any entity type.
  */
 function hook_schemadotorg_jsonld_entity_alter(array &$data, \Drupal\Core\Entity\EntityInterface $entity) {
-  // Get entity information.
-  $entity_type_id = $entity->getEntityTypeId();
-  $bundle = $entity->bundle();
+  if (!$entity instanceof \Drupal\taxonomy\TermInterface) {
+    return;
+  }
 
-  // Get Schema.org mapping.
-  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+  // Alter a term's Schema.org type data to include isDefinedTermSet property.
+  // @see \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyManager::alter
   $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
   $mapping = $mapping_storage->loadByEntity($entity);
-  // Make sure the mapping exists.
   if (!$mapping) {
     return;
   }
 
+  // Check that the term is mapping to a DefinedTerm or CategoryCode.
   $schema_type = $mapping->getSchemaType();
-  $schema_properties = $mapping->getSchemaProperties();
-  $supports_subtyping = $mapping->supportsSubtyping();
+  $is_defined_term = in_array($schema_type, ['DefinedTerm', 'CategoryCode']);
+  if (!$is_defined_term) {
+    return;
+  }
+
+  // Append isDefinedTermSet or isCategoryCodeSet data to the type data.
+  $vocabulary = $entity->get('vid')->entity;
+  /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface $builder */
+  $builder = \Drupal::service('schemadotorg_json.builder');
+  $vocabulary_data = $builder->buildEntity($vocabulary);
+  $data["in{$schema_type}Set"] = $vocabulary_data;
 }
 
 /* ************************************************************************** */
