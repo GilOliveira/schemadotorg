@@ -137,7 +137,16 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * {@inheritdoc}
    */
   public function sortProperties(array $properties) {
+    $definition_properties = [];
     $sorted_properties = [];
+
+    // Collect the definition properties.
+    foreach ($properties as $property_name => $property_value) {
+      if ($property_name[0] === '@') {
+        $definition_properties[$property_name] = $property_value;
+        unset($properties[$property_name]);
+      }
+    }
 
     // Collect the sorted properties.
     $property_order = $this->getConfig()->get('property_order');
@@ -151,7 +160,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     // Sort the remaining properties alphabetically.
     ksort($properties);
 
-    return $sorted_properties + $properties;
+    return $definition_properties + $sorted_properties + $properties;
   }
 
   /**

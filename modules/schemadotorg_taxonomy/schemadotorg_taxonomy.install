@@ -59,8 +59,8 @@ function schemadotorg_taxonomy_modules_uninstalled($modules) {
     $config->set('path_prefixes', $path_prefixes);
     $config->save();
   }
-
 }
+
 /**
  * Implements hook_install().
  */
