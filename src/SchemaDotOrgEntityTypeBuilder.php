@@ -734,7 +734,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
               // Append 'Other' to GenderType, which is Male or Female, to be
               // more inclusive.
               if ($range_include === 'GenderType') {
-                $allowed_values['Other'] = 'Other';
+                $allowed_values['Unspecified'] = 'Unspecified';
               }
               $field_storage_values['settings'] = [
                 'allowed_values' => $allowed_values,

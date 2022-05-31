@@ -226,7 +226,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
         'allowed_values' => [
           'Female' => 'Female',
           'Male' => 'Male',
-          'Other' => 'Other',
+          'Unspecified' => 'Unspecified',
         ],
       ],
       'schema_knows_language' => [
