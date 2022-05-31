@@ -8,15 +8,15 @@ default_properties:
   nutrition:
     type: NutritionInformation
     properties:
-      calories: text
-      carbohydrateContent: text
-      cholesterolContent: text
-      fatContent: text
-      fiberContent: text
-      proteinContent: text
-      saturatedFatContent: text
       servingSize: text
-      sodiumContent: text
-      sugarContent: text
-      transFatContent: text
-      unsaturatedFatContent: text
+      calories: decimal
+      carbohydrateContent: decimal
+      cholesterolContent: decimal
+      fatContent: decimal
+      fiberContent: decimal
+      proteinContent: decimal
+      saturatedFatContent: decimal
+      sodiumContent: decimal
+      sugarContent: decimal
+      transFatContent: decimal
+      unsaturatedFatContent: decimal

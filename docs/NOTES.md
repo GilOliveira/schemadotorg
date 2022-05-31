@@ -7,6 +7,7 @@ Schema.org Blueprints
   taxonomy term relationship.
 
 Write tests schemadotorg_jsonld_embed.module
+Write tests schemadotorg_flexfield.module
 
 ## Ongoing
 
@@ -115,6 +116,9 @@ What field types won't easily work or map to Schema.org?
 
 - Should/could we add a link to JSON-LD (jsonld) via the JSON:API meta information?
   - https://www.drupal.org/project/drupal/issues/3100732
+
+- Should field sub-properties for address and flexfield be converted to camelCase?
+  - Seems unnecessary.
 
 ## JSON-LD
 
