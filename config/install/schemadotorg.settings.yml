@@ -312,6 +312,7 @@ names:
     category: Categories
     contactPoint: 'Contact points'
     colleague: Colleagues
+    educationalLevel: Difficulty
     episode: Episodes
     gamePlatform: 'Game platforms'
     knowsLanguage: 'Knows languages'

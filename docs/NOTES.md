@@ -6,8 +6,9 @@ Schema.org Blueprints
 - Possibly do not use range includes reference selection for
   taxonomy term relationship.
 
-Write tests schemadotorg_jsonld_embed.module
-Write tests schemadotorg_flexfield.module
+Tests
+- Write tests schemadotorg_jsonld_embed.module
+- Write tests schemadotorg_flexfield.module
 
 ## Ongoing
 

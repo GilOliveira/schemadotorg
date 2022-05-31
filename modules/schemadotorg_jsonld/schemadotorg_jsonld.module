@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Field\FieldItemInterface;
 
 /**
  * Implements hook_help().
@@ -47,4 +48,58 @@ function schemadotorg_jsonld_page_attachments_alter(array &$attachments) {
     ],
     'schemadotorg_jsonld',
   ];
+}
+
+/**
+ * Implements hook_schemadotorg_jsonld_schema_property_alter() on behalf of the address.module.
+ */
+function address_schemadotorg_jsonld_schema_property_alter(&$value, FieldItemInterface $item) {
+  $field_type = $item->getFieldDefinition()->getType();
+  if ($field_type !== 'address') {
+    return;
+  }
+
+  $mapping = [
+    'country_code' => 'addressCountry',
+    'administrative_area' => 'addressRegion',
+    'locality' => 'addressLocality',
+    'dependent_locality' => 'addressLocality',
+    'postal_code' => 'postalCode',
+    'sorting_code' => 'postOfficeBoxNumber',
+    'address_line1' => 'streetAddress',
+    'address_line2' => 'streetAddress',
+  ];
+
+  // Map organization and full name to Schema.org name and
+  // alternateName properties.
+  $values = $item->getValue();
+  $values['organization'] = trim($values['organization']);
+  $values['name'] = implode(' ', array_filter([
+    trim($values['given_name']),
+    trim($values['additional_name']),
+    trim($values['family_name']),
+  ]));
+  if ($values['organization']) {
+    $mapping['organization'] = 'name';
+    $mapping['name'] = 'alternateName';
+  }
+  else {
+    $mapping['name'] = 'name';
+  }
+
+  $data = ['@type' => 'PostalAddress'];
+  foreach ($mapping as $source => $destination) {
+    if ($destination && !empty($values[$source])) {
+      if (isset($data[$destination])) {
+        $data[$destination] .= ', ' . $values[$source];
+      }
+      else {
+        $data[$destination] = $values[$source];
+      }
+    }
+  }
+
+  /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $jsonld_manager */
+  $jsonld_manager = \Drupal::service('schemadotorg_jsonld.manager');
+  $value = $jsonld_manager->sortProperties($data);
 }

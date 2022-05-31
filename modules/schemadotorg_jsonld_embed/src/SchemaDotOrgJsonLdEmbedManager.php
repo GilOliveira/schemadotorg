@@ -6,8 +6,6 @@ use Drupal\Component\Utility\Html;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface;
-use Symfony\Component\CssSelector\CssSelectorConverter;
-
 
 /**
  * Schema.org JSON-LD embed manager.
@@ -33,7 +31,7 @@ class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface
    *
    * @var string
    */
-  protected $xpath;
+  protected $xpath = 'descendant-or-self::*[(@data-entity-type) and (@data-entity-uuid)]';
 
   /**
    * Constructs a SchemaDotOrgJsonLdEmbedManager object.
@@ -46,9 +44,6 @@ class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface
   public function __construct(EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgJsonLdBuilderInterface $schema_jsonld_builder = NULL) {
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaJsonLdBuilder = $schema_jsonld_builder;
-
-    $css_selector_converter = new CssSelectorConverter();
-    $this->xpath = $css_selector_converter->toXPath('[data-entity-type][data-entity-uuid]');
   }
 
   /**
@@ -100,13 +95,10 @@ class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface
    *   Embedded media and content JSON-LD data from a text value.
    */
   protected function getEntitiesData($value) {
-    $css_selector_converter = new CssSelectorConverter();
-    $xpath_expression = $css_selector_converter->toXPath('[data-entity-type][data-entity-uuid]');
-
     $dom = Html::load($value);
     $xpath = new \DOMXPath($dom);
     $types = [];
-    foreach ($xpath->query($xpath_expression) as $dom_node) {
+    foreach ($xpath->query($this->xpath) as $dom_node) {
       /** @var \DOMElement $dom_node */
       $embed_entity_type_id = $dom_node->getAttribute('data-entity-type');
       $embed_uuid = $dom_node->getAttribute('data-entity-uuid');

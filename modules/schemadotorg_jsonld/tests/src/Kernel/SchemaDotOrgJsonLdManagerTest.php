@@ -138,7 +138,8 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
       'postOfficeBoxNumber' => '{sorting_code}',
       'streetAddress' => '{address_line1}, {address_line2}',
     ];
-    $actual_value = $this->manager->getSchemaPropertyValue($node->schema_address->get(0));
+    $actual_value = NULL;
+    address_schemadotorg_jsonld_schema_property_alter($actual_value, $node->schema_address->get(0));
     $this->assertEquals($expected_value, $actual_value);
 
     // Language.

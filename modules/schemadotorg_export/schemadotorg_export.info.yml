@@ -1,4 +1,4 @@
-name: Schema.org Blueprints Exports
+name: Schema.org Blueprints Export
 type: module
 description: Provides a CSV export of Schema.org type mappings.
 package: Schema.org Blueprints

@@ -167,38 +167,9 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * {@inheritdoc}
    */
   public function getSchemaPropertyValue(FieldItemInterface $item) {
-    // Field type.
+    // Field type (from Drupal core only).
     $field_type = $this->getFieldType($item);
     switch ($field_type) {
-      case 'address':
-        $mapping = [
-          'country_code' => 'addressCountry',
-          'administrative_area' => 'addressRegion',
-          'locality' => 'addressLocality',
-          'dependent_locality' => 'addressLocality',
-          'postal_code' => 'postalCode',
-          'sorting_code' => 'postOfficeBoxNumber',
-          'address_line1' => 'streetAddress',
-          'address_line2' => 'streetAddress',
-        ];
-        // Map organization and full name to Schema.org name and
-        // alternateName properties.
-        $values = $item->getValue();
-        $values['organization'] = trim($values['organization']);
-        $values['name'] = implode(' ', array_filter([
-          trim($values['given_name']),
-          trim($values['additional_name']),
-          trim($values['family_name']),
-        ]));
-        if ($values['organization']) {
-          $mapping['organization'] = 'name';
-          $mapping['name'] = 'alternateName';
-        }
-        else {
-          $mapping['name'] = 'name';
-        }
-        return ['@type' => 'PostalAddress'] + $this->mapValues($values, $mapping);
-
       case 'language':
         return ($item->value !== LanguageInterface::LANGCODE_NOT_SPECIFIED) ? $item->value : NULL;
 
@@ -496,37 +467,6 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     }
     $file_uri = $item->entity->getFileUri();
     return $image_style->buildUrl($file_uri);
-  }
-
-  /**
-   * Map an array's values.
-   *
-   * @param array $values
-   *   An associative array of values.
-   *   The Schema.org type.
-   * @param array $mapping
-   *   An associative array containing mappings from field names
-   *   to Schema.org properties.
-   * @param string $delimiter
-   *   Delimiter to use when multiple values are mapped to the same property.
-   *
-   * @return array
-   *   A mapped array.
-   */
-  protected function mapValues(array $values, array $mapping, $delimiter = ', ') {
-    $mapped = [];
-    foreach ($mapping as $source => $destination) {
-      if ($destination && !empty($values[$source])) {
-        if (isset($mapped[$destination])) {
-          $mapped[$destination] .= $delimiter . $values[$source];
-        }
-        else {
-          $mapped[$destination] = $values[$source];
-        }
-      }
-    }
-
-    return $this->sortProperties($mapped);
   }
 
 }

@@ -255,10 +255,12 @@ default_schema_type_properties:
   Recipe:
     - cookTime
     - cookingMethod
+    - educationalLevel
     - name
     - nationality
     - nutrition
     - image
+    - prepTime
     - recipeCategory
     - recipeCuisine
     - recipeIngredient
