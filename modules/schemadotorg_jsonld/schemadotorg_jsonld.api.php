@@ -17,7 +17,7 @@
 /* ************************************************************************** */
 
 /**
- * Provide custom Schema.org JSON-LD data for a route..
+ * Provide custom Schema.org JSON-LD data for a route.
  *
  * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
  *   The current route match.
@@ -52,6 +52,11 @@ function hook_schemadotorg_jsonld(\Drupal\Core\Routing\RouteMatchInterface $rout
 
 /**
  * Alter the Schema.org JSON-LD data for the current route.
+ *
+ * @param array $data
+ *   The Schema.org JSON-LD data for the current route.
+ * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+ *   The current route match.
  */
 function hook_schemadotorg_jsonld_alter(array &$data, \Drupal\Core\Routing\RouteMatchInterface $route_match) {
   /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $manager */
@@ -81,6 +86,11 @@ function hook_schemadotorg_jsonld_alter(array &$data, \Drupal\Core\Routing\Route
  * Load the Schema.org JSON-LD data for an entity.
  *
  * Modules can define custom JSON-LD data for any entity type.
+ *
+ * @param array $data
+ *   The Schema.org JSON-LD data for an entity.
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   The entity.
  */
 function hook_schemadotorg_jsonld_entity_load(array &$data, \Drupal\Core\Entity\EntityInterface $entity) {
   if (!$entity instanceof \Drupal\taxonomy\VocabularyInterface) {
@@ -113,6 +123,11 @@ function hook_schemadotorg_jsonld_entity_load(array &$data, \Drupal\Core\Entity\
  *
  * Besides, altering an existing Schema.org mapping's JSON-LD data, modules can
  * define custom JSON-LD data for any entity type.
+ *
+ * @param array $data
+ *   The Schema.org JSON-LD data for an entity.
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   The entity.
  */
 function hook_schemadotorg_jsonld_entity_alter(array &$data, \Drupal\Core\Entity\EntityInterface $entity) {
   if (!$entity instanceof \Drupal\taxonomy\TermInterface) {
@@ -147,9 +162,14 @@ function hook_schemadotorg_jsonld_entity_alter(array &$data, \Drupal\Core\Entity
 /* ************************************************************************** */
 
 /**
- * Alter the Schema.org roperty JSON-LD data for an entity's field item.
+ * Alter the Schema.org property JSON-LD value for an entity's field item.
+ *
+ * @param mixed $value
+ *   Alter the Schema.org property JSON-LD value.
+ * @param \Drupal\Core\Field\FieldItemInterface $item
+ *   Tn entity's field item.
  */
-function hook_schemadotorg_jsonld_field_item_alter(&$value, \Drupal\Core\Field\FieldItemInterface $item) {
+function hook_schemadotorg_jsonld_schema_property_alter(&$value, \Drupal\Core\Field\FieldItemInterface $item) {
   // Get entity information.
   $entity = $item->getEntity();
   $entity_type_id = $entity->getEntityTypeId();
@@ -157,8 +177,8 @@ function hook_schemadotorg_jsonld_field_item_alter(&$value, \Drupal\Core\Field\F
 
   // Get field information.
   $field_storage_definition = $item->getFieldDefinition()->getFieldStorageDefinition();
-  $field_name = $item->getName();
-  $field_type = $field_storage_definition->getType();
+  $field_name = $item->getFieldDefinition()->getName();
+  $field_type = $item->getFieldDefinition()->getType();
   $field_property_names = $item->getFieldDefinition()->getFieldStorageDefinition()->getPropertyNames();
 
   // Get main property information.

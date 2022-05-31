@@ -538,6 +538,21 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         $formatter_settings
       );
     }
+
+    $hook = 'schemadotorg_property_field_alter';
+    $implementations = $this->moduleHandler->getImplementations($hook);
+    foreach ($implementations as $module) {
+      $function = $module . '_' . $hook;
+      $function(
+        $property,
+        $field_storage_values,
+        $field_values,
+        $widget_id,
+        $widget_settings,
+        $formatter_id,
+        $formatter_settings
+      );
+    }
   }
 
   /**

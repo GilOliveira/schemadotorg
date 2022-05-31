@@ -365,7 +365,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     }
 
     $main_property_name = $this->getMainPropertyName($item);
-    return $values[$main_property_name];
+    return $values[$main_property_name] ?? NULL;
   }
 
   /**
@@ -407,7 +407,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     $field_storage_definition = $item->getFieldDefinition()->getFieldStorageDefinition();
     $main_property_name = $field_storage_definition->getMainPropertyName();
     $main_property_definition = $field_storage_definition->getPropertyDefinition($main_property_name);
-    return $main_property_definition->getDataType();
+    return $main_property_definition ? $main_property_definition->getDataType() : NULL;
   }
 
   /**

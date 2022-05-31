@@ -5,6 +5,7 @@ namespace Drupal\schemadotorg_ui;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\field\FieldStorageConfigInterface;
@@ -16,6 +17,13 @@ use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
  */
 class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface {
   use StringTranslationTrait;
+
+  /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
 
   /**
    * The Schema.org config.
@@ -55,6 +63,8 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
   /**
    * Constructs a SchemaDotOrgUiFieldManager object.
    *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config
    *   The config factory.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -67,12 +77,14 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
    *   The Schema.org schema type manager.
    */
   public function __construct(
+    ModuleHandlerInterface $module_handler,
     ConfigFactoryInterface $config,
     EntityTypeManagerInterface $entity_type_manager,
     EntityFieldManagerInterface $entity_field_manager,
     FieldTypePluginManagerInterface $field_type_plugin_manager,
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
   ) {
+    $this->moduleHandler = $module_handler;
     $this->config = $config->get('schemadotorg.settings');
     $this->entityTypeManager = $entity_type_manager;
     $this->entityFieldManager = $entity_field_manager;
@@ -296,6 +308,7 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     // Set range includes.
     $property_definition = $this->schemaTypeManager->getProperty($property);
     $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
+
     // Remove generic Schema.org types from range includes.
     $specific_range_includes = $range_includes;
     unset(
@@ -335,13 +348,13 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
       foreach ($range_includes as $range_include) {
         if ($this->schemaTypeManager->isEnumerationType($range_include)) {
           $field_types['list_string'] = 'list_string';
-          return $field_types;
+          break;
         }
         // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::alterFieldValues
         $allowed_values_function = 'schemadotorg_allowed_values_' . strtolower($range_include);
         if (function_exists($allowed_values_function)) {
           $field_types['list_string'] = 'list_string';
-          return $field_types;
+          break;
         }
       }
     }
@@ -373,6 +386,9 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
         $entity_reference_field_type => $entity_reference_field_type,
       ];
     }
+
+    // Allow modules to alter property field types.
+    $this->moduleHandler->alter('schemadotorg_property_field_type', $field_types, $property);
 
     return $field_types;
   }

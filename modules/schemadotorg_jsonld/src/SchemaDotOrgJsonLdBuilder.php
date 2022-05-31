@@ -279,7 +279,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   }
 
   /**
-   * Invokes a Schema.org hook and alter\ data.
+   * Invokes a Schema.org hook and alter data.
    *
    * @param string $hook
    *   The name of the hook to invoke.

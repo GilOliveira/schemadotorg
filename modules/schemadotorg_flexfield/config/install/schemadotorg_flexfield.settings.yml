@@ -1,0 +1,22 @@
+default_properties:
+  contactPoint:
+    type: ContactPoint
+    properties:
+      contactType: text
+      email: text
+      telephone: text
+  nutrition:
+    type: NutritionInformation
+    properties:
+      calories: text
+      carbohydrateContent: text
+      cholesterolContent: text
+      fatContent: text
+      fiberContent: text
+      proteinContent: text
+      saturatedFatContent: text
+      servingSize: text
+      sodiumContent: text
+      sugarContent: text
+      transFatContent: text
+      unsaturatedFatContent: text
