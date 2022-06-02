@@ -370,8 +370,8 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     // Check Schema.org type mappings.
     if (empty($field_types)) {
       $type_mappings = $this->getFieldTypeMapping('types');
-      foreach ($type_mappings as $type => $type_mapping) {
-        if (isset($range_includes[$type])) {
+      foreach ($type_mappings as $type_name => $type_mapping) {
+        if (isset($range_includes[$type_name])) {
           $field_types += $type_mapping;
         }
       }
@@ -396,7 +396,7 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     }
 
     // Allow modules to alter property field types.
-    $this->moduleHandler->alter('schemadotorg_property_field_type', $field_types, $property);
+    $this->moduleHandler->alter('schemadotorg_property_field_type', $field_types, $type, $property);
 
     return $field_types;
   }

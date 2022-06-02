@@ -162,8 +162,6 @@ class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
 
     // Check custom labels.
     $this->assertEquals('Contact points', $this->names->toDrupalLabel('types', 'contactPoint'));
-    $this->assertEquals('Last name', $this->names->toDrupalLabel('types', 'familyName'));
-    $this->assertEquals('First name', $this->names->toDrupalLabel('types', 'givenName'));
   }
 
   /**

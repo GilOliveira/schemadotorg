@@ -247,6 +247,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
             ->orderBy('label')
             ->execute()
             ->fetchCol();
+          $all_properties = array_combine($all_properties, $all_properties);
           $build[$name]['all_properties'] = [
             '#type' => 'item',
             '#title' => $this->t('All properties'),
@@ -254,6 +255,19 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
               '#prefix' => $item['label'] . ' | ',
             ],
           ];
+
+          // Get ignored properties.
+          $ignored_properties = $this->config('schemadotorg.settings')
+            ->get('schema_properties.ignored_properties');
+          $ignored_properties = $ignored_properties ? array_combine($ignored_properties, $ignored_properties) : [];
+          $ignored_properties = array_intersect_key($ignored_properties, $all_properties);
+          if ($ignored_properties) {
+            $build[$name]['ignored_properties'] = [
+              '#type' => 'item',
+              '#title' => $this->t('Ignored properties'),
+              'links' => $this->schemaTypeBuilder->buildItemsLinks($ignored_properties),
+            ];
+          }
 
           // Get all range includes.
           $range_includes_ids = $this->database->select('schemadotorg_properties', 'properties')

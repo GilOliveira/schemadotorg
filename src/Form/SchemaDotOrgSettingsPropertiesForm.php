@@ -64,6 +64,13 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
       $form['schema_properties']['field_prefix']['#disabled'] = TRUE;
       $form['schema_properties']['field_prefix']['#value'] = $config->get('field_prefix');
     }
+    $form['schema_properties']['ignored_properties'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::INDEXED,
+      '#title' => $this->t('Ignored Schema.org properties'),
+      '#description' => $this->t('Enter Schema.org properties that should ignored and not displayed on the Schema.org mapping form and simplifies the user experience.'),
+      '#default_value' => $config->get('schema_properties.ignored_properties'),
+    ];
     $form['schema_properties']['default_field_types'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,

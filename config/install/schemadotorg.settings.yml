@@ -2,6 +2,7 @@ field_prefix: schema_
 schema_types:
   main_entities:
     FAQPage: Question
+    QAPage: Question
   main_properties:
     Comment: text
   custom_labels:
@@ -14,6 +15,8 @@ schema_types:
     Question:
       name: Question
       acceptedAnswer: Answer
+    QAPage:
+      mainEntity: Questions
   default_field_types:
     DefinedTerm:
       - string
@@ -66,6 +69,66 @@ schema_types:
       - text_long
       - text_with_summary
 schema_properties:
+  ignored_properties:
+    - accessibilityAPI
+    - accessibilityControl
+    - accessibilityFeature
+    - accessibilityHazard
+    - accessibilitySummary
+    - accessMode
+    - accessModeSufficient
+    - acquireLicensePage
+    - actionableFeedbackPolicy
+    - assesses
+    - branchCode
+    - duns
+    - conditionsOfAccess
+    - contentLocation
+    - contentRating
+    - contentReferenceTime
+    - creditText
+    - diversityStaffingReport
+    - editEIDR
+    - funder
+    - funding
+    - globalLocationNumber
+    - geo
+    - geoContains
+    - geoCoveredBy
+    - geoCovers
+    - geoCrosses
+    - geoDisjoint
+    - geoEquals
+    - geoIntersects
+    - geoOverlaps
+    - geoTouches
+    - geoWithin
+    - globalLocationNumber
+    - gtin
+    - gtin12
+    - gtin13
+    - gtin14
+    - gtin8
+    - hasOfferCatalog
+    - interactionStatistic
+    - interactivityType
+    - interpretedAsClaim
+    - isicV4
+    - iso6523Code
+    - leiCode
+    - naics
+    - ownershipFundingInfo
+    - pattern
+    - potentialAction
+    - publishingPrinciples
+    - publisherImprint
+    - spatial
+    - spatialCoverage
+    - temporal
+    - temporalCoverage
+    - taxID
+    - unnamedSourcesPolicy
+    - vatID
   default_field_types:
     acceptedAnswer:
       - text_long

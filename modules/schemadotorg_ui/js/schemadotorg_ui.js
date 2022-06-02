@@ -113,6 +113,7 @@
 
           // Show the table after it has been fully initialized.
           $table.show();
+          $('#edit-ignored-properties').show();
 
           function toggleProperties() {
             var showAll = (localStorage.getItem('schemadotorg-ui-properties-toggle') === '0');

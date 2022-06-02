@@ -14,8 +14,15 @@
 
 /**
  * Alter the field types for Schema.org property.
+ *
+ * @param array $field_types
+ *   An array of field types.
+ * @param string $type
+ *   The Schema.org type.
+ * @param string $property
+ *   The Schema.org property.
  */
-function hook_schemadotorg_property_field_type_alter(array &$field_types, $property) {
+function hook_schemadotorg_property_field_type_alter(array &$field_types, $type, $property) {
   // @todo Provide an example.
 }
 

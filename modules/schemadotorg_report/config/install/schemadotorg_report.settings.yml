@@ -76,6 +76,8 @@ types:
   HowTo:
     - title: 'Add Structured Data To Your How-To Pages'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/how-to'
+    - title: 'A guide to implementing Google’s “How-to” schema'
+      uri: 'https://www.searchenginewatch.com/2019/05/30/implement-googles-how-to-schema/'
   ItemList:
     - title: 'Carousel Search Results'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/carousel'

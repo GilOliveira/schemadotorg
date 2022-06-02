@@ -700,11 +700,15 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function buildSchemaPropertiesForm(array &$form) {
     $field_options = $this->getFieldOptions();
-    $property_definitions = $this->getSchemaTypePropertyDefinitions();
     $property_defaults = $this->getSchemaTypeDefaultProperties();
     $property_unlimited = $this->getSchemaTypeUnlimitedProperties();
     $property_mappings = $this->getSchemaTypePropertyMappings();
     $property_maxlength = $this->schemaNames->getNameMaxLength('properties');
+
+    $property_definitions = $this->getSchemaTypePropertyDefinitions();
+    $ignored_properties = $this->getSchemaTypeIgnoredProperties();
+    $ignored_properties = array_intersect_key($ignored_properties, $property_definitions);
+    $displayed_property_definitions = array_diff_key($property_definitions, $ignored_properties);
 
     $base_field_mappings = $this->getSchemaBaseFieldMappings();
 
@@ -724,7 +728,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $link_options = ['attributes' => ['target' => '_blank']];
     $comment_options = ['attributes' => ['target' => '_blank']];
     $rows = [];
-    foreach ($property_definitions as $property => $property_definition) {
+    foreach ($displayed_property_definitions as $property => $property_definition) {
       // Skip empty superseded properties.
       if (!empty($property_definition['superseded_by'])
         && empty($property_mappings[$property])) {
@@ -894,6 +898,27 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#sticky' => TRUE,
       '#attributes' => ['class' => ['schemadotorg-ui-properties']],
     ] + $rows;
+
+    if ($ignored_properties) {
+      if ($this->currentUser()->hasPermission('administer schemadotorg')) {
+        $description = [
+          '#type' => 'link',
+          '#title' => $this->t('Configure ignored properties'),
+          '#url' => Url::fromRoute('schemadotorg.settings.properties', [], ['query' => $this->getRedirectDestination()->getAsArray()]),
+          '#prefix' => '[',
+          '#suffix' => ']',
+        ];
+      }
+      else {
+        $description = [];
+      }
+      $form['ignored_properties'] = [
+        '#type' => 'item',
+        '#title' => $this->t('Ignored properties'),
+        '#description' => $description,
+        'links' => $this->schemaTypeBuilder->buildItemsLinks($ignored_properties),
+      ];
+    }
   }
 
   /**
@@ -1039,6 +1064,18 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $unlimited_properties += array_combine($this->unlimitedProperties, $this->unlimitedProperties);
     }
     return $unlimited_properties;
+  }
+
+  /**
+   * Gets ignored Schema.org properties.
+   *
+   * @return array
+   *   Ignored Schema.org properties.
+   */
+  protected function getSchemaTypeIgnoredProperties() {
+    $ignored_properties = $this->config('schemadotorg.settings')
+      ->get('schema_properties.ignored_properties');
+    return $ignored_properties ? array_combine($ignored_properties, $ignored_properties) : [];
   }
 
   /**

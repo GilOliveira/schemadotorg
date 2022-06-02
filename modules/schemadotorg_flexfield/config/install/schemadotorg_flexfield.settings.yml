@@ -20,3 +20,14 @@ default_properties:
       sugarContent: decimal
       transFatContent: decimal
       unsaturatedFatContent: decimal
+  FAQPage--mainEntity:
+    type: Question
+    properties:
+      name: text
+      acceptedAnswer: text
+  QAPage--mainEntity:
+    type: Question
+    properties:
+      name: text
+      acceptedAnswer: text
+

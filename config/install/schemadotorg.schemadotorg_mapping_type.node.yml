@@ -13,6 +13,7 @@ recommended_schema_types:
       - Person
       - Event
       - FAQPage
+      - QAPage
       - Recipe
   common:
     label: Common
@@ -37,9 +38,9 @@ recommended_schema_types:
       - BlogPosting
       - Book
       - FAQPage
+      - QAPage
       - HowTo
       - NewsArticle
-      - QAPage
       - SpecialAnnouncement
   organization:
     label: Organization

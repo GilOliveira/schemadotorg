@@ -46,7 +46,7 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
    */
   public function testBuilder() {
     $options = [
-      'default-properties' => ['name', 'alternateName', 'description', 'potentialAction']
+      'default-properties' => ['name', 'alternateName', 'description', 'subjectOf']
     ];
     $this->createSchemaEntity('node', 'Thing', $options);
 
@@ -61,8 +61,8 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
       'schema_alternate_name' => [
         'value' => 'Something else',
       ],
-      'schema_potential_action' => [
-        'value' => 'Something action',
+      'schema_subject_of' => [
+        'value' => 'Some subject',
       ],
       'body' => [
         'value' => 'Some description',
@@ -84,9 +84,9 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
       'name' => 'Something',
       'alternateName' => 'Something else',
       'description' => 'Some description',
-      'potentialAction' => [
-        '@type' => 'Action',
-        'name' => 'Something action',
+      'subjectOf' => [
+        '@type' => 'CreativeWork',
+        'name' => 'Some subject',
       ],
     ];
     $this->assertEquals($expected_result, $this->builder->buildEntity($node));

@@ -43,6 +43,12 @@ schemadotorg.settings:
       type: mapping
       label: 'Schema.org properties'
       mapping:
+        ignored_properties:
+          type: sequence
+          label: 'Ignored properties'
+          sequence:
+            type: string
+            label: 'Schema.org property'
         default_field_types:
           type: sequence
           label: 'Default field type'
