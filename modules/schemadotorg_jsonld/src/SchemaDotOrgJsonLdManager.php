@@ -13,7 +13,7 @@ use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Routing\RouteMatch;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Routing\Router;
+use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -64,6 +64,13 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   protected $fileUrlGenerator;
 
   /**
+   * The Schema.org schema type manager.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
+   */
+  protected $schemaTypeManager;
+
+  /**
    * Constructs a SchemaDotOrgJsonLdManager object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -78,6 +85,8 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    *   The date formatter service.
    * @param \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator
    *   The file URL generator.
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   *   The Schema.org schema type manager.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
@@ -85,7 +94,8 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     RouteMatchInterface $route_match,
     EntityTypeManagerInterface $entity_type_manager,
     DateFormatterInterface $date_formatter,
-    FileUrlGeneratorInterface $file_url_generator
+    FileUrlGeneratorInterface $file_url_generator,
+    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
   ) {
     $this->configFactory = $config_factory;
     $this->router = $router;
@@ -93,6 +103,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     $this->entityTypeManager = $entity_type_manager;
     $this->dateFormatter = $date_formatter;
     $this->fileUrlGenerator = $file_url_generator;
+    $this->schemaTypeManager = $schema_type_manager;
   }
 
   /**
@@ -204,6 +215,53 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     }
 
     return $value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSchemaPropertyValueDefaultType($property, $value) {
+    if (!is_string($value)) {
+      return $value;
+    }
+
+    $type = $this->schemaTypeManager->getPropertyDefaultType($property);
+    if (!$type) {
+      return $value;
+    }
+
+    $main_property = $this->getSchemaTypeMainProperty($type);
+    return [
+      '@type' => $type,
+      $main_property => $value,
+    ];
+  }
+
+  /**
+   * Get Schema.org type's main property.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   *
+   * @return string
+   *   A Schema.org type's main property. (Defaults to 'name')
+   */
+  protected function getSchemaTypeMainProperty($type) {
+    $main_properties = $this->configFactory
+      ->get('schemadotorg.settings')
+      ->get('schema_types.main_properties');
+
+    $breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs($type);
+    foreach ($breadcrumbs as $breadcrumb) {
+      $breadcrumb = array_reverse($breadcrumb);
+      foreach ($breadcrumb as $type) {
+        if (isset($main_properties[$type])) {
+          return $main_properties[$type];
+        }
+      }
+    }
+
+    return 'name';
   }
 
   /**

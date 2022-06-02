@@ -170,7 +170,7 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
         'field_ui:entity_reference:media' => 'Media',
       ],
     ];
-    $actual_field_type_options = $this->fieldManager->getPropertyFieldTypeOptions('alternateName');
+    $actual_field_type_options = $this->fieldManager->getPropertyFieldTypeOptions('Thing', 'alternateName');
     $this->convertMarkupToStrings($actual_field_type_options);
     $this->assertEquals($expected_field_type_options, $actual_field_type_options);
 
@@ -251,7 +251,7 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
     ];
     foreach ($tests as $test) {
       // Checking keys which also checks the sort order of the field types.
-      $this->assertEquals(array_keys($test[1]), array_keys($this->fieldManager->getSchemaPropertyFieldTypes($test[0])));
+      $this->assertEquals(array_keys($test[1]), array_keys($this->fieldManager->getSchemaPropertyFieldTypes('Thing', $test[0])));
     }
   }
 

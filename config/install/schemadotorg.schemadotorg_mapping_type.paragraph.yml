@@ -5,6 +5,12 @@ id: paragraph
 target_entity_type_id: paragraph
 multiple: false
 recommended_schema_types:
+  quick_start:
+    label: Quick Start
+    types:
+      - ContactPoint
+      - NutritionInformation
+      - Question
   place:
     label: Place
     types:
@@ -139,11 +145,15 @@ default_schema_type_properties:
     - valueReference
     - unitCode
     - unitText
+  Question:
+    - name
+    - acceptedAnswer
 default_schema_type_subtypes: { }
 default_field_weights:
   - name
   - alternateName
   - description
+  - acceptedAnswer
   - image
   - contactType
   - telephone

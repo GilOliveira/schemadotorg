@@ -211,6 +211,36 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   }
 
   /**
+   * Get a Schema.org property's default Schema.org type from range_includes.
+   *
+   * @param string $property
+   *   A Schema.org property.
+   *
+   * @return string|null
+   *   A Schema.org property's default Schema.org type from range_includes.
+   */
+  public function getPropertyDefaultType($property) {
+    $property_definition = $this->getProperty($property);
+    $range_includes = $this->parseIds($property_definition['range_includes']);
+    $type_definitions = $this->getTypes($range_includes);
+
+    foreach ($type_definitions as $type => $type_definition) {
+      // Remove all types definitions without properties
+      // (i.e. Enumerations and Data types).
+      if (empty($type_definition['properties'])) {
+        unset($type_definitions[$type]);
+      }
+      // Target the most generic Schema.org type
+      // (i.e. a sub type of Thing).
+      elseif ($type_definition['sub_type_of'] === 'https://schema.org/Thing') {
+        return $type;
+      }
+    }
+    // Finally, return the first type in range_includes type definitions.
+    return array_key_first($type_definitions);
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getItems($table, array $ids, array $fields = []) {

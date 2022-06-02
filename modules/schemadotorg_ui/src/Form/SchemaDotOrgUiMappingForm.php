@@ -816,6 +816,14 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $field_type_default_value = (isset($field_type_options[$recommended_category]))
         ? array_key_first($field_type_options[$recommended_category])
         : NULL;
+      $field_label_default_value = $property_definition['drupal_label'];
+      if ($property === 'mainEntity') {
+        $schema_type = $this->getSchemaType();
+        $main_entity = $this->config('schemadotorg.settings')->get('schema_types.main_entities.' . $schema_type);
+        if ($main_entity) {
+          $field_label_default_value = $main_entity;
+        }
+      }
       $row['field'][static::ADD_FIELD]['type'] = [
         '#type' => 'select',
         '#title' => $this->t('Field type'),
@@ -827,7 +835,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#type' => 'textfield',
         '#title' => $this->t('Label'),
         '#size' => 40,
-        '#default_value' => $property_definition['drupal_label'],
+        '#default_value' => $field_label_default_value,
       ] + $required_property;
       $row['field'][static::ADD_FIELD]['machine_name'] = [
         '#type' => 'textfield',
@@ -1194,7 +1202,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   A property's available field types as options.
    */
   protected function getPropertyFieldTypeOptions($property) {
-    return $this->schemaFieldManager->getPropertyFieldTypeOptions($property);
+    $schema_type = $this->getSchemaType();
+    return $this->schemaFieldManager->getPropertyFieldTypeOptions($schema_type, $property);
   }
 
   /**

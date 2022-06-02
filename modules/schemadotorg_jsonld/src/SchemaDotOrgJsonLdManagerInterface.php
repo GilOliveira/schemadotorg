@@ -61,6 +61,19 @@ interface SchemaDotOrgJsonLdManagerInterface {
   public function getSchemaPropertyValue(FieldItemInterface $item);
 
   /**
+   * Get a Schema.org property's value converted to the default Schema.org type.
+   *
+   * @param string $property
+   *   A Schema.org property.
+   * @param string|mixed $value
+   *   A Schema.org property's value.
+   *
+   * @return array|string
+   *   A Schema.org property's value converted to the default Schema.org type.
+   */
+  public function getSchemaPropertyValueDefaultType($property, $value);
+
+  /**
    * Get Schema.org identifiers for an entity.
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity

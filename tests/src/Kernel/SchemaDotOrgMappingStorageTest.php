@@ -113,6 +113,9 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
     $this->assertFalse($this->storage->isBundleMapped('node', 'page'));
     $this->assertTrue($this->storage->isBundleMapped('node', 'thing'));
 
+    // Check getting the Schema.org type for an entity and bundle.
+    $this->assertEquals('Thing', $this->storage->getSchemaType('node', 'thing'));
+
     // Check getting the Schema.org property name for an entity field mapping.
     $this->assertEquals('name', $this->storage->getSchemaPropertyName('node', 'thing', 'title'));
     $this->assertNull($this->storage->getSchemaPropertyName('node', 'thing', 'not_field'));

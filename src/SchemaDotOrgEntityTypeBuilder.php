@@ -425,7 +425,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $default_label_suffix = $mapping_type->getDefaultFieldGroupLabelSuffix();
     $default_format_type = $mapping_type->getDefaultFieldGroupFormatType($display);
     $default_format_settings = $mapping_type->getDefaultFieldGroupFormatSettings($display);
-    if (empty($default_field_groups) && empty($default_format_type)) {
+    if (empty($default_field_groups)) {
       return;
     }
 

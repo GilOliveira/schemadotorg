@@ -136,8 +136,8 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function getPropertyFieldTypeOptions($property) {
-    $recommended_field_types = $this->getSchemaPropertyFieldTypes($property);
+  public function getPropertyFieldTypeOptions($type, $property) {
+    $recommended_field_types = $this->getSchemaPropertyFieldTypes($type, $property);
     $recommended_category = (string) $this->t('Recommended');
 
     $options = [$recommended_category => []];
@@ -304,10 +304,18 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyFieldTypes($property) {
+  public function getSchemaPropertyFieldTypes($type, $property) {
     // Set range includes.
     $property_definition = $this->schemaTypeManager->getProperty($property);
     $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
+
+    // Prepend custom main entity to range includes.
+    if ($property === 'mainEntity') {
+      $main_entity = $this->config->get('schema_types.main_entities.' . $type);
+      if ($main_entity) {
+        $range_includes = [$main_entity => $main_entity] + $range_includes;
+      }
+    }
 
     // Remove generic Schema.org types from range includes.
     $specific_range_includes = $range_includes;

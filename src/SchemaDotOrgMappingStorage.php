@@ -58,8 +58,20 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   /**
    * {@inheritdoc}
    */
+  public function getSchemaType($entity_type_id, $bundle) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
+    $entity = $this->load($entity_type_id . '.' . $bundle);
+    if (!$entity) {
+      return NULL;
+    }
+    return $entity->getSchemaType();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getSchemaPropertyName($entity_type_id, $bundle, $field_name) {
-    /** @var SchemaDotOrgMappingInterface $entity */
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
     $entity = $this->load($entity_type_id . '.' . $bundle);
     if (!$entity) {
       return NULL;
@@ -71,11 +83,20 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
    * {@inheritdoc}
    */
   public function getSchemaPropertyTargetBundles($target_type, $schema_property, $schema_type = NULL) {
-    // @todo Use Schema.org type to target just the main entity.
+    // Check for custom main entity and use it for the property's
+    // range includes.
+    if ($schema_property === 'mainEntity' && $schema_type) {
+      $main_entity = $this->configFactory
+        ->get('schemadotorg.settings')
+        ->get('schema_types.main_entities.' . $schema_type);
+      if ($main_entity) {
+        return $this->getRangeIncludesTargetBundles($target_type, [$main_entity => $main_entity]);
+      }
+    }
+
     $property_definition = $this->schemaTypeManager->getProperty($schema_property);
     $range_includes = $property_definition['range_includes'] ?? '';
     $range_includes = $this->schemaTypeManager->parseIds($range_includes);
-
     return $this->getRangeIncludesTargetBundles($target_type, $range_includes);
   }
 

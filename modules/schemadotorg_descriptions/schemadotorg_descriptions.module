@@ -101,14 +101,14 @@ function schemadotorg_descriptions_entity_prepare_form(EntityInterface $entity, 
     $target_bundle = $entity->getTargetBundle();
     $field_name = $entity->getName();
 
-    /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
-    $schema_names = \Drupal::service('schemadotorg.names');
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
     $mapping = SchemaDotOrgMapping::load("$target_entity_type_id.$target_bundle");
     if (!$mapping) {
       return;
     }
 
+    /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+    $schema_names = \Drupal::service('schemadotorg.names');
     $bundle = $mapping->getTargetBundle();
     $subtype_field_name = $schema_names->getSubtypeFieldName($bundle);
     $is_property_mapped = $mapping && $mapping->getSchemaPropertyMapping($field_name);

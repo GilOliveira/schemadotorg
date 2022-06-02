@@ -190,7 +190,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       // Get the Schema.org properties.
       $property_data = [];
       foreach ($items as $item) {
-        $property_value = $this->getFieldItem($item, $root);
+        $property_value = $this->getFieldItem($property, $item, $root);
 
         // Alter the Schema.org property's individual value.
         $this->moduleHandler->alter(
@@ -230,6 +230,8 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   /**
    * Get Schema.org property data type from field item.
    *
+   * @param string $property
+   *   The Schema.org property.
    * @param \Drupal\Core\Field\FieldItemInterface|null $item
    *   The field item.
    * @param bool $root
@@ -238,13 +240,13 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    * @return array|bool|mixed|null
    *   A data type.
    */
-  protected function getFieldItem(FieldItemInterface $item = NULL, $root = TRUE) {
+  protected function getFieldItem($property, FieldItemInterface $item = NULL, $root = TRUE) {
     if ($item === NULL) {
       return NULL;
     }
 
     // Handle entity reference relationships.
-    if ($item->entity && $item->entity instanceof EntityInterface && $root <= 1) {
+    if ($item->entity && $item->entity instanceof EntityInterface && $root) {
       $entity_data = $this->buildMappedEntity($item->entity, FALSE);
       if ($entity_data) {
         return $entity_data;
@@ -252,7 +254,11 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     }
 
     // Get Schema.org property value.
-    return $this->schemaJsonIdManager->getSchemaPropertyValue($item);
+    $property_value = $this->schemaJsonIdManager->getSchemaPropertyValue($item);
+
+    // Get Schema.org property value with the property's
+    // default Schema.org type.
+    return $this->schemaJsonIdManager->getSchemaPropertyValueDefaultType($property, $property_value);
   }
 
   /**

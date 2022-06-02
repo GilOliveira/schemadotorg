@@ -6,14 +6,14 @@ target_entity_type_id: media
 multiple: false
 recommended_schema_types:
   media_objects:
-    label: 'Common'
+    label: Common
     types:
       - AudioObject
       - ImageObject
       - VideoObject
       - DataDownload
   other:
-    label: 'Other'
+    label: Other
     types:
       - 3DModel
       - Photograph

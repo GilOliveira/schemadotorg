@@ -157,7 +157,7 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
     $actual_value = $this->manager->getSchemaPropertyValue($node->schema_image->get(0));
     $this->assertEquals('Some image', $actual_value);
 
-    // @todo Detemine why we can't generate the media's image deriative.
+    // @todo Detemine why we can't generate the media's image derivative.
     // Image.
     /** @var \Drupal\image\Plugin\Field\FieldType\ImageItem $item */
     // $actual_value = $this->manager->getSchemaPropertyValue($media->field_media_image->get(0));
@@ -167,6 +167,26 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
     $actual_value = $this->manager->getSchemaPropertyValue($node->created->get(0));
     $this->assertEquals(1, preg_match('/^\d\d\d\d-\d\d-\d\d/', $actual_value));
 
+    // Check getting a Schema.org property's value converted to
+    // the default Schema.org type.
+    $this->assertEquals(
+      ['@type' => 'Organization', 'name' => '{some_organization}'],
+      $this->manager->getSchemaPropertyValueDefaultType('alumniOf', '{some_organization}')
+    );
+    $this->assertEquals(
+      ['{some_answer}'],
+      $this->manager->getSchemaPropertyValueDefaultType('acceptedAnswer', ['{some_answer}'])
+    );
+    $this->assertEquals(
+      1,
+      $this->manager->getSchemaPropertyValueDefaultType('acceptedAnswer', 1)
+    );
+    // Check that Schema.org Answer uses 'text' instead of 'name' as
+    // the main property.
+    $this->assertEquals(
+      ['@type' => 'Answer', 'text' => '{some_answer}'],
+      $this->manager->getSchemaPropertyValueDefaultType('acceptedAnswer', '{some_answer}')
+    );
 
     // Check getting a Schema.org identifiers for an entity.
     $actual_value = $this->manager->getSchemaIdentifiers($node);

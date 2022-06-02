@@ -54,15 +54,17 @@ interface SchemaDotOrgUiFieldManagerInterface {
   public function getField($entity_type_id, $field_name);
 
   /**
-   * Gets a Schema.org property's available field types as options.
+   * Gets a Schema.org type's property's available field types as options.
    *
+   * @param string $type
+   *   The Schema.org type.
    * @param string $property
    *   The Schema.org property.
    *
    * @return array[]
    *   A property's available field types as options.
    */
-  public function getPropertyFieldTypeOptions($property);
+  public function getPropertyFieldTypeOptions($type, $property);
 
   /**
    * Gets available fields as options.
@@ -81,18 +83,21 @@ interface SchemaDotOrgUiFieldManagerInterface {
    * Gets field types for Schema.org property.
    *
    * Field types are determined via the following order.
+   * - Schema.org main entity.
    * - Schema.org (data) type mappings.
    * - Schema.org property mappings.
    * - Schema.org enumerations.
    * - Drupal allowed values.
    * - String or entity reference.
    *
+   * @param string $type
+   *   The Schema.org type.
    * @param string $property
    *   The Schema.org property.
    *
    * @return array
    *   Field types for Schema.org property.
    */
-  public function getSchemaPropertyFieldTypes($property);
+  public function getSchemaPropertyFieldTypes($type, $property);
 
 }

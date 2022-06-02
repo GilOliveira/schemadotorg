@@ -36,6 +36,19 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
   public function isBundleMapped($entity_type_id, $bundle);
 
   /**
+   * Gets the Schema.org type for an entity and bundle.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $bundle
+   *   The name of the bundle.
+   *
+   * @return string
+   *   The Schema.org type for an entity and bundle.
+   */
+  public function getSchemaType($entity_type_id, $bundle);
+
+  /**
    * Gets the Schema.org property name for an entity field mapping.
    *
    * @param string $entity_type_id

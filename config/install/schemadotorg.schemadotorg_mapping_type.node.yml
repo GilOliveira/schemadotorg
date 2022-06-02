@@ -5,6 +5,15 @@ id: node
 target_entity_type_id: node
 multiple: false
 recommended_schema_types:
+  quick_start:
+    label: Quick Start
+    types:
+      - Place
+      - Organization
+      - Person
+      - Event
+      - FAQPage
+      - Recipe
   common:
     label: Common
     types:
@@ -260,6 +269,7 @@ default_schema_type_properties:
     - nationality
     - nutrition
     - image
+    - keywords
     - prepTime
     - recipeCategory
     - recipeCuisine

@@ -35,6 +35,22 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
     $form['schema_types'] = [
       '#tree' => TRUE,
     ];
+    $form['schema_types']['main_entities'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'SchemaType|MainEntity',
+      '#title' => $this->t('Schema.org types main entity'),
+      '#description' => $this->t('Enter the main entity for a Schema.org type.'),
+      '#default_value' => $config->get('schema_types.main_entities'),
+    ];
+    $form['schema_types']['main_properties'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'SchemaType|propertyName',
+      '#title' => $this->t('Schema.org types main property'),
+      '#description' => $this->t('Enter the main property for a Schema.org type. Defaults to <em>name</em> for unspecified Schema.org types.'),
+      '#default_value' => $config->get('schema_types.main_properties'),
+    ];
     $form['schema_types']['default_field_types'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,

@@ -183,6 +183,17 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getProperty($property, array $fields = []);
 
   /**
+   * Get a Schema.org property's default Schema.org type from range_includes.
+   *
+   * @param string $property
+   *   A Schema.org property.
+   *
+   * @return string|null
+   *   A Schema.org property's default Schema.org type from range_includes.
+   */
+  public function getPropertyDefaultType($property);
+
+  /**
    * Gets Schema.org type or property items.
    *
    * @param string $table

@@ -62,6 +62,8 @@ types:
   FAQPage:
     - title: 'Mark Up FAQs with Structured Data'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/faqpage'
+    - title: 'Creating “FAQPage” Schema Markup'
+      uri: 'https://www.schemaapp.com/schema-markup/creating-faqpage-schema-markup-using-the-schema-app-editor/'
   Hotel:
     - title: 'Markup for Hotels'
       uri: 'https://schema.org/docs/hotels.html'

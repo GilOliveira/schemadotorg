@@ -186,23 +186,32 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * {@inheritdoc}
    */
   public function getDefaultSchemaTypeProperties($schema_type) {
-    $type_properties = $this->get('default_schema_type_properties');
-    if (empty($type_properties)) {
-      return NULL;
+    $default_properties = [];
+
+    // Get main entity.
+    $main_entity = \Drupal::configFactory()
+      ->get('schemadotorg.settings')
+      ->get('schema_types.main_entities.' . $schema_type);
+    if ($main_entity) {
+      $default_properties['mainEntity'] = 'mainEntity';
     }
 
-    /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
-    $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
-    $breadcrumbs = $schema_type_manager->getTypeBreadcrumbs($schema_type);
-    $default_properties = [];
-    foreach ($breadcrumbs as $breadcrumb) {
-      foreach ($breadcrumb as $breadcrumb_type) {
-        $breadcrumb_type_properties = $type_properties[$breadcrumb_type] ?? NULL;
-        if ($breadcrumb_type_properties) {
-          $default_properties += array_combine($breadcrumb_type_properties, $breadcrumb_type_properties);
+    // Get default Schema.org type properties.
+    $type_properties = $this->get('default_schema_type_properties');
+    if ($type_properties) {
+      /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+      $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+      $breadcrumbs = $schema_type_manager->getTypeBreadcrumbs($schema_type);
+      foreach ($breadcrumbs as $breadcrumb) {
+        foreach ($breadcrumb as $breadcrumb_type) {
+          $breadcrumb_type_properties = $type_properties[$breadcrumb_type] ?? NULL;
+          if ($breadcrumb_type_properties) {
+            $default_properties += array_combine($breadcrumb_type_properties, $breadcrumb_type_properties);
+          }
         }
       }
     }
+
     ksort($default_properties);
     return $default_properties;
   }
