@@ -118,27 +118,6 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
     $this->assertNull($this->storage->getSchemaPropertyName('node', 'thing', 'not_field'));
     $this->assertNull($this->storage->getSchemaPropertyName('node', 'not_thing', 'thing'));
 
-    // Check getting the Schema.org property's range includes Schema.org types.
-    $this->assertEquals(['Text' => 'Text'], $this->storage->getSchemaPropertyRangeIncludes('node', 'thing', 'title'));
-    $this->assertEquals(['ImageObject' => 'ImageObject', 'URL' => 'URL'], $this->storage->getSchemaPropertyRangeIncludes('node', 'thing', 'image'));
-    $this->assertEquals([], $this->storage->getSchemaPropertyRangeIncludes('node', 'thing', 'not_title'));
-    $this->assertEquals([], $this->storage->getSchemaPropertyRangeIncludes('node', 'not_thing', 'title'));
-
-    // Check getting the Schema.org property target mappings.
-    $schemadotorg_mappings = $this->storage->getSchemaPropertyTargetMappings('node', 'thing', 'image', 'node');
-    $schemadotorg_mapping = reset($schemadotorg_mappings);
-    $this->assertEquals('node.image_object', $schemadotorg_mapping->id());
-    $schemadotorg_mappings = $this->storage->getSchemaPropertyTargetMappings('node', 'thing', 'image', 'paragraphs');
-    $this->assertEmpty($schemadotorg_mappings);
-
-    // Check getting the Schema.org property target Schema.org types.
-    $this->assertEquals(['ImageObject' => 'ImageObject'], $this->storage->getSchemaPropertyTargetSchemaTypes('node', 'thing', 'image', 'node'));
-    $this->assertEquals([], $this->storage->getSchemaPropertyTargetSchemaTypes('node', 'thing', 'image', 'paragraph'));
-
-    // Check getting the Schema.org property target bundles.
-    $this->assertEquals(['image_object' => 'image_object'], $this->storage->getSchemaPropertyTargetBundles('node', 'thing', 'image', 'node'));
-    $this->assertEquals([], $this->storage->getSchemaPropertyTargetBundles('node', 'thing', 'image', 'paragraph'));
-
     // Check determining if Schema.org type is mapped to an entity.
     $this->assertTrue($this->storage->isSchemaTypeMapped('node', 'Thing'));
     $this->assertFalse($this->storage->isSchemaTypeMapped('node', 'NotThing'));

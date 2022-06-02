@@ -341,6 +341,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     if (!empty($subtype['enable'])) {
       if (isset($subtype[static::ADD_FIELD])) {
         $field = $subtype[static::ADD_FIELD];
+        $field['schema_type'] = $schema_type;
         $field['machine_name'] = $this->getSubtypeFieldName();
         $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
         $new_field_names[$field['machine_name']] = $field['label'];
@@ -372,6 +373,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
             'machine_name' => $field_name,
             'label' => $existing_field ? $existing_field->label() : $property_definition['label'],
             'description' => $existing_field ? $existing_field->get('description') : '',
+            'schema_type' => $schema_type,
             'schema_property' => $property_name,
           ];
           $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
@@ -380,6 +382,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           // Create new field storage and field instance.
           $field = $property_values['field'][static::ADD_FIELD];
           $field['schema_property'] = $property_name;
+          $field['schema_type'] = $schema_type;
           $field['machine_name'] = $this->getFieldPrefix() . $field['machine_name'];
           $field_name = $field['machine_name'];
           if (!$this->fieldExists($field_name)) {

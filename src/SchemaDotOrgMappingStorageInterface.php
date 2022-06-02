@@ -51,83 +51,19 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
   public function getSchemaPropertyName($entity_type_id, $bundle, $field_name);
 
   /**
-   * Gets the Schema.org property's range includes Schema.org types.
-   *
-   * @param string $entity_type_id
-   *   The entity type ID.
-   * @param string $bundle
-   *   The name of the bundle.
-   * @param string $field_name
-   *   The field name.
-   *
-   * @return array
-   *   The Schema.org property's range includes Schema.org types.
-   */
-  public function getSchemaPropertyRangeIncludes($entity_type_id, $bundle, $field_name);
-
-  /**
-   * Gets the Schema.org property target mappings.
-   *
-   * @param string $entity_type_id
-   *   The entity type ID.
-   * @param string $bundle
-   *   The name of the bundle.
-   * @param string $field_name
-   *   The field name.
-   * @param string $target_type
-   *   The target entity type ID.
-   *
-   * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface[]
-   *   The Schema.org property target mappings.
-   */
-  public function getSchemaPropertyTargetMappings($entity_type_id, $bundle, $field_name, $target_type);
-
-  /**
-   * Gets the Schema.org property target Schema.org types.
-   *
-   * @param string $entity_type_id
-   *   The entity type ID.
-   * @param string $bundle
-   *   The name of the bundle.
-   * @param string $field_name
-   *   The field name.
-   * @param string $target_type
-   *   The target entity type ID.
-   *
-   * @return array
-   *   The Schema.org property target Schema.org types.
-   */
-  public function getSchemaPropertyTargetSchemaTypes($entity_type_id, $bundle, $field_name, $target_type);
-
-  /**
-   * Gets the Schema.org range includes Schema.org types.
+   * Get a Schema.org property's target bundles.
    *
    * @param string $target_type
    *   The target entity type ID.
-   * @param array $range_includes
-   *   An array of Schema.org types.
+   * @param string $schema_property
+   *   The Schema.org property.
+   * @param string|null $schema_type
+   *   The Schema.org type.
    *
    * @return array
-   *   The Schema.org range includes Schema.org types.
+   *   A Schema.org property's target bundles.
    */
-  public function getRangeIncludesTargetSchemaTypes($target_type, array $range_includes);
-
-  /**
-   * Gets the Schema.org property target bundles.
-   *
-   * @param string $entity_type_id
-   *   The entity type ID.
-   * @param string $bundle
-   *   The name of the bundle.
-   * @param string $field_name
-   *   The field name.
-   * @param string $target_type
-   *   The target entity type ID.
-   *
-   * @return array
-   *   The Schema.org property target bundles.
-   */
-  public function getSchemaPropertyTargetBundles($entity_type_id, $bundle, $field_name, $target_type);
+  public function getSchemaPropertyTargetBundles($target_type, $schema_property, $schema_type = NULL);
 
   /**
    * Gets the Schema.org range includes target bundles.

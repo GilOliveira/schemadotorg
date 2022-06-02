@@ -90,9 +90,11 @@ function schemadotorg_descriptions_entity_prepare_form(EntityInterface $entity, 
     $target_entity_type_id = $entity->getEntityType()->getBundleOf();
     $target_bundle = $entity->id();
     $mapping = SchemaDotOrgMapping::load("$target_entity_type_id.$target_bundle");
-    if ($mapping) {
-      $form_state->set('schemadotorg_descriptions', TRUE);
+    if (!$mapping) {
+      return;
     }
+
+    $form_state->set('schemadotorg_descriptions', TRUE);
   }
   elseif ($entity instanceof FieldConfigInterface) {
     $target_entity_type_id = $entity->getTargetEntityTypeId();
@@ -103,6 +105,10 @@ function schemadotorg_descriptions_entity_prepare_form(EntityInterface $entity, 
     $schema_names = \Drupal::service('schemadotorg.names');
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
     $mapping = SchemaDotOrgMapping::load("$target_entity_type_id.$target_bundle");
+    if (!$mapping) {
+      return;
+    }
+
     $bundle = $mapping->getTargetBundle();
     $subtype_field_name = $schema_names->getSubtypeFieldName($bundle);
     $is_property_mapped = $mapping && $mapping->getSchemaPropertyMapping($field_name);

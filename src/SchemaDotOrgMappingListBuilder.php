@@ -115,9 +115,6 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
    *   includes relationships.
    */
   protected function buildSchemaRelationships(SchemaDotOrgMappingInterface $entity) {
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-    $mapping_storage = $this->getStorage();
-
     /** @var \Drupal\field\FieldConfigStorage $field_config_storage */
     $field_config_storage = $this->entityTypeManager->getStorage('field_config');
 
@@ -135,19 +132,32 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
       }
 
       $is_entity_reference = in_array($field_config->getType(), ['entity_reference', 'entity_reference_revisions']);
-      $has_schemadotorg_range_includes_handler = ($field_config->getSetting('handler') === 'schemadotorg_range_includes');
-      if (!$is_entity_reference || !$has_schemadotorg_range_includes_handler) {
+      if (!$is_entity_reference) {
         continue;
       }
 
       $target_type = $field_config->getSetting('target_type');
-      $target_schema_types = $mapping_storage->getSchemaPropertyTargetSchemaTypes(
-        $target_entity_type_id,
-        $target_bundle,
-        $field_name,
-        $target_type
-      );
-      $relationships[$property] = $target_schema_types;
+      $handler_settings = $field_config->getSetting('handler_settings');
+      $target_bundles = $handler_settings['target_bundles'];
+      if (!$target_bundles) {
+        continue;
+      }
+
+      $mapping_ids = $this->getStorage()->getQuery()
+        ->condition('target_entity_type_id', $target_type)
+        ->condition('target_bundle', $target_bundles, 'IN')
+        ->execute();
+      if (!$mapping_ids) {
+        continue;
+      }
+
+      /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
+      $mappings = $this->getStorage()->loadMultiple($mapping_ids);
+      $schema_types = [];
+      foreach ($mappings as $mapping) {
+        $schema_types[] = $mapping->getSchemaType();
+      }
+      $relationships[$property] = $schema_types;
     }
 
     return $this->buildAssociationItems($relationships);

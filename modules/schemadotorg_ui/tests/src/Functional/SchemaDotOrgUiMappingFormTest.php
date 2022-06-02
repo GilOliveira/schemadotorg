@@ -211,13 +211,10 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
         'max_length' => 255,
       ],
       'schema_contact_point' => [
-        'handler' => 'schemadotorg_range_includes',
+        'handler' => 'default:paragraph',
         'handler_settings' => [
-          'target_type' => 'paragraph',
-          'schemadotorg_mapping' => [
-            'entity_type' => 'schema_contact_point',
-            'bundle' => 'user',
-            'field_name' => 'user',
+          'target_bundles' => [
+            'contact_point' => 'contact_point',
           ],
         ],
         'target_type' => 'paragraph',

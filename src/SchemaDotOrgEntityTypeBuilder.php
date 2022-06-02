@@ -108,6 +108,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       'description' => '',
       'unlimited' => NULL,
       'allowed_values' => [],
+      'schema_type' => NULL,
       'schema_property' => NULL,
     ];
 
@@ -122,6 +123,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $field_description = $field['description'];
     $field_unlimited = $field['unlimited'];
     $field_allowed_values = $field['allowed_values'];
+    $schema_type = $field['schema_type'];
     $schema_property = $field['schema_property'];
 
     $new_storage_type = !$field_storage_config;
@@ -197,6 +199,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       // Create the field storage and field.
       try {
         $this->alterFieldValues(
+          $schema_type,
           $schema_property,
           $field_storage_values,
           $field_values,
@@ -231,6 +234,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     if ($existing_storage) {
       try {
         $this->alterFieldValues(
+          $schema_type,
           $schema_property,
           $field_storage_values,
           $field_values,
@@ -492,6 +496,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * Alter field storage and field values before they are created.
    *
+   * @param string $type
+   *   The Schema.org type.
    * @param string $property
    *   The Schema.org property.
    * @param array $field_storage_values
@@ -508,6 +514,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *   An array of formatter settings.
    */
   protected function alterFieldValues(
+    $type,
     $property,
     array &$field_storage_values,
     array &$field_values,
@@ -529,6 +536,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     // set default field values.
     if (!$copied_existing_values) {
       $this->setDefaultFieldValues(
+        $type,
         $property,
         $field_storage_values,
         $field_values,
@@ -544,6 +552,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     foreach ($implementations as $module) {
       $function = $module . '_' . $hook;
       $function(
+        $type,
         $property,
         $field_storage_values,
         $field_values,
@@ -636,6 +645,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * Default default field, form, and view settings.
    *
+   * @param string $type
+   *   The Schema.org type.
    * @param string $property
    *   The Schema.org property.
    * @param array $field_storage_values
@@ -652,6 +663,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *   An array of formatter settings.
    */
   protected function setDefaultFieldValues(
+    $type,
     $property,
     array &$field_storage_values,
     array &$field_values,
@@ -665,10 +677,17 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       case 'entity_reference_revisions':
         $target_type = $field_storage_values['settings']['target_type'] ?? 'node';
 
+        /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+        $mapping_storage = $this->entityTypeManager
+          ->getStorage('schemadotorg_mapping');
+        $target_bundles = $mapping_storage->getSchemaPropertyTargetBundles($target_type, $property, $type);
+
+        $handler_settings = [];
+        $handler_settings['target_bundles'] = $target_bundles;
+
         // Field values settings.
         switch ($target_type) {
           case 'media':
-            $handler = 'schemadotorg_range_includes';
             if ($this->moduleHandler->moduleExists('media_library')) {
               $widget_id = 'media_library_widget';
             }
@@ -676,31 +695,24 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
             break;
 
           case 'paragraph':
-            $handler = 'schemadotorg_range_includes';
+            $handler_settings['target_bundles_drag_drop'] = [];
+            $weight = 0;
+            foreach ($target_bundles as $target_bundle) {
+              $handler_settings['target_bundles_drag_drop'][$target_bundle] = [
+                'weight' => $weight,
+                'enabled' => TRUE,
+              ];
+              $weight++;
+            }
+
             $widget_id = 'paragraphs';
             break;
 
-          default:
-            $supports_bundles = $this->entityTypeManager
-              ->getDefinition($target_type)
-              ->getBundleEntityType();
-            $handler = ($supports_bundles) ? 'schemadotorg_range_includes' : NULL;
-            break;
         }
-        if ($handler) {
-          $field_values['settings'] = [
-            'handler' => $handler,
-            'handler_settings' => [
-              'target_type' => $target_type,
-              'schemadotorg_mapping' => [
-                'entity_type' => $field_values['field_name'],
-                'bundle' => $field_values['bundle'],
-                'field_name' => $field_values['entity_type'],
-              ],
-            ],
-          ];
-        }
-        break;
+        $field_values['settings'] = [
+          'handler' => 'default:' . $target_type,
+          'handler_settings' => $handler_settings,
+        ];
 
       case 'list_string':
         if (!empty($field_storage_values['allowed_values'])) {

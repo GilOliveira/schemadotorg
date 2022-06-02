@@ -22,6 +22,8 @@ function hook_schemadotorg_property_field_type_alter(array &$field_types, $prope
 /**
  * Alter field storage and field values before they are created.
  *
+ * @param string $type
+ *   The Schema.org type.
  * @param string $property
  *   The Schema.org property.
  * @param array $field_storage_values
@@ -38,6 +40,7 @@ function hook_schemadotorg_property_field_type_alter(array &$field_types, $prope
  *   An array of formatter settings.
  */
 function hook_schemadotorg_property_field_alter(
+  $type,
   $property,
   array &$field_storage_values,
   array &$field_values,

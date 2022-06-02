@@ -70,44 +70,12 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyRangeIncludes($entity_type_id, $bundle, $field_name) {
-    $property = $this->getSchemaPropertyName($entity_type_id, $bundle, $field_name);
-    $property_definition = $this->schemaTypeManager->getProperty($property);
-    return $property_definition
-      ? $this->schemaTypeManager->parseIds($property_definition['range_includes'])
-      : [];
-  }
+  public function getSchemaPropertyTargetBundles($target_type, $schema_property, $schema_type = NULL) {
+    // @todo Use Schema.org type to target just the main entity.
+    $property_definition = $this->schemaTypeManager->getProperty($schema_property);
+    $range_includes = $property_definition['range_includes'] ?? '';
+    $range_includes = $this->schemaTypeManager->parseIds($range_includes);
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getSchemaPropertyTargetMappings($entity_type_id, $bundle, $field_name, $target_type) {
-    $range_includes = $this->getSchemaPropertyRangeIncludes($entity_type_id, $bundle, $field_name);
-    $subtypes = $this->schemaTypeManager->getAllSubTypes($range_includes);
-    $entity_ids = $this->getQuery()
-      ->condition('target_entity_type_id', $target_type)
-      ->condition('type', $subtypes, 'IN')
-      ->execute();
-    if (!$entity_ids) {
-      return [];
-    }
-
-    return $this->loadMultiple($entity_ids);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getSchemaPropertyTargetSchemaTypes($entity_type_id, $bundle, $field_name, $target_type) {
-    $range_includes = $this->getSchemaPropertyRangeIncludes($entity_type_id, $bundle, $field_name);
-    return $this->getRangeIncludesTargetSchemaTypes($target_type, $range_includes);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getSchemaPropertyTargetBundles($entity_type_id, $bundle, $field_name, $target_type) {
-    $range_includes = $this->getSchemaPropertyRangeIncludes($entity_type_id, $bundle, $field_name);
     return $this->getRangeIncludesTargetBundles($target_type, $range_includes);
   }
 
@@ -115,30 +83,6 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
    * {@inheritdoc}
    */
   public function getRangeIncludesTargetBundles($target_type, array $range_includes) {
-    return $this->getRangeIncludesTargets($target_type, $range_includes, 'bundles');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getRangeIncludesTargetSchemaTypes($target_type, array $range_includes) {
-    return $this->getRangeIncludesTargets($target_type, $range_includes, 'schema_types');
-  }
-
-  /**
-   * Gets the Schema.org range includes targets (bundles or schema_types).
-   *
-   * @param string $target_type
-   *   The target entity type ID.
-   * @param array $range_includes
-   *   An array of Schema.org types.
-   * @param string $target
-   *   The target (bundle or Schema.org type).
-   *
-   * @return array
-   *   The Schema.org range includes targets (bundles or schema_types).
-   */
-  protected function getRangeIncludesTargets($target_type, array $range_includes, $target) {
     $subtypes = $this->schemaTypeManager->getAllSubTypes($range_includes);
     $entity_ids = $this->getQuery()
       ->condition('target_entity_type_id', $target_type)
@@ -150,13 +94,12 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $entities */
     $entities = $this->loadMultiple($entity_ids);
-    $method = ($target === 'schema_types') ? 'getSchemaType' : 'getTargetBundle';
-    $targets = [];
+    $target_bundles = [];
     foreach ($entities as $entity) {
-      $target = $entity->$method();
-      $targets[$target] = $target;
+      $target = $entity->getTargetBundle();
+      $target_bundles[$target] = $target;
     }
-    return $targets;
+    return $target_bundles;
   }
 
   /**
