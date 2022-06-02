@@ -4,6 +4,16 @@ schema_types:
     FAQPage: Question
   main_properties:
     Comment: text
+  custom_labels:
+    FAQPage:
+      mainEntity: Questions
+    Person:
+      familyName: 'Last name'
+      givenName: 'First name'
+      additionalName: 'Middle name'
+    Question:
+      name: Question
+      acceptedAnswer: Answer
   default_field_types:
     DefinedTerm:
       - string
@@ -296,9 +306,6 @@ names:
     gtin: GTIN
     rxcui: RxCUI
   custom_labels:
-    familyName: 'Last name'
-    givenName: 'First name'
-    additionalName: 'Middle name'
     actor: Actors
     affiliation: Affiliations
     amenityFeature: 'Amenity features'

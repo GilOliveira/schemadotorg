@@ -21,6 +21,15 @@ schemadotorg.settings:
           sequence:
             type: string
             label: 'Schema.org type main property'
+        custom_labels:
+          type: sequence
+          label: 'Schema.org type custom property labels'
+          sequence:
+            type: sequence
+            label: 'Schema.org type'
+            sequence:
+              type: string
+              label: 'Schema.org type custom property labels'
         default_field_types:
           type: sequence
           label: 'Default field types'

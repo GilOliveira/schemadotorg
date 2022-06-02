@@ -812,18 +812,19 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
       // Get Schema.org property field type options with optgroups.
       $field_type_options = $this->getPropertyFieldTypeOptions($property);
+
+      // Get field type default value.
       $recommended_category = (string) $this->t('Recommended');
       $field_type_default_value = (isset($field_type_options[$recommended_category]))
         ? array_key_first($field_type_options[$recommended_category])
         : NULL;
-      $field_label_default_value = $property_definition['drupal_label'];
-      if ($property === 'mainEntity') {
-        $schema_type = $this->getSchemaType();
-        $main_entity = $this->config('schemadotorg.settings')->get('schema_types.main_entities.' . $schema_type);
-        if ($main_entity) {
-          $field_label_default_value = $main_entity;
-        }
-      }
+
+      // Get field label default value.
+      $schema_type = $this->getSchemaType();
+      $field_label_default_value = $this->config('schemadotorg.settings')
+        ->get("schema_types.custom_labels.$schema_type.$property");
+      $field_label_default_value = $field_label_default_value ?: $property_definition['drupal_label'];
+
       $row['field'][static::ADD_FIELD]['type'] = [
         '#type' => 'select',
         '#title' => $this->t('Field type'),
