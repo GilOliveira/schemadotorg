@@ -367,11 +367,16 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
     $mapping_type = $mapping_type_storage->load($entity_type_id);
     $default_field_weights = $mapping_type->getDefaultFieldWeights();
-    if (isset($default_field_weights[$schema_property])) {
-      $component = $display->getComponent($field_name);
-      $component['weight'] = $default_field_weights[$schema_property];
-      $display->setComponent($field_name, $component);
+    if (empty($default_field_weights)) {
+      return;
     }
+
+    // Use the property's default field weight or the lowest weight plus one.
+    $field_weight = $default_field_weights[$schema_property] ?? max($default_field_weights) + 1;
+
+    $component = $display->getComponent($field_name);
+    $component['weight'] = $field_weight;
+    $display->setComponent($field_name, $component);
   }
 
   /**

@@ -11,6 +11,15 @@ recommended_schema_types:
       - ContactPoint
       - NutritionInformation
       - Question
+  how_to:
+    label: How to
+    types:
+      - HowToSupply
+      - HowToTool
+      - HowToDirection
+      - HowToTip
+      - HowToSection
+      - HowToStep
   place:
     label: Place
     types:
@@ -148,6 +157,19 @@ default_schema_type_properties:
   Question:
     - name
     - acceptedAnswer
+  HowToItem:
+    - name
+    - requiredQuantity
+  HowToDirection:
+    - text
+  HowToTip:
+    - text
+  HowToSection:
+    - itemListElement
+    - name
+  HowToStep:
+    - itemListElement
+    - name
 default_schema_type_subtypes: { }
 default_field_weights:
   - name
@@ -172,6 +194,9 @@ default_field_weights:
   - valueReference
   - unitText
   - unitCode
+  - prepTime
+  - performTime
+  - totalTime
   - servingSize
   - calories
   - fatContent
@@ -184,6 +209,7 @@ default_field_weights:
   - fiberContent
   - sugarContent
   - proteinContent
+
 default_field_groups: { }
 default_field_group_label_suffix: ''
 default_field_group_form_type: ''

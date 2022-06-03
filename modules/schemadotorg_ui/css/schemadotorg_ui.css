@@ -7,6 +7,13 @@
   clear: both;
 }
 
+.schemadotorg-ui-quick-start {
+  border: 1px solid #ccc;
+  border-radius: var(--ginBorderDefault);
+  padding: .5em 0;
+  margin-bottom: .5em;
+}
+
 details.schemadotorg-ui--add-field {
   display: none;
 }

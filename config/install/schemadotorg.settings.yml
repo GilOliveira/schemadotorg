@@ -5,6 +5,8 @@ schema_types:
     QAPage: Question
   main_properties:
     Comment: text
+    Duration: null
+    QuantitativeValue: value
   custom_labels:
     FAQPage:
       mainEntity: Questions
@@ -77,17 +79,22 @@ schema_properties:
     - accessibilitySummary
     - accessMode
     - accessModeSufficient
+    - accountablePerson
     - acquireLicensePage
     - actionableFeedbackPolicy
+    - answerCount
     - assesses
+    - associatedMedia
     - branchCode
     - duns
     - conditionsOfAccess
     - contentLocation
     - contentRating
     - contentReferenceTime
+    - correction
     - creditText
     - diversityStaffingReport
+    - downvoteCount
     - editEIDR
     - funder
     - funding
@@ -117,13 +124,20 @@ schema_properties:
     - iso6523Code
     - leiCode
     - naics
+    - materialExtent
     - ownershipFundingInfo
     - pattern
+    - position
     - potentialAction
     - publishingPrinciples
     - publisherImprint
+    - schemaVersion
+    - sdDatePublished
+    - sdLicense
+    - sdPublisher
     - spatial
     - spatialCoverage
+    - suggestedAnswer
     - temporal
     - temporalCoverage
     - taxID
@@ -150,6 +164,8 @@ schema_properties:
       - string
     height:
       - string
+    step:
+      - field_ui:entity_reference_revisions:paragraph
     telephone:
       - telephone
       - string
@@ -185,6 +201,8 @@ schema_properties:
     - experienceRequirements
     - gamePlatform
     - increasesRiskOf
+    - itemListElement
+    - keywords
     - knowsLanguage
     - medicalSpecialty
     - mentions
@@ -211,7 +229,10 @@ schema_properties:
     - significantLink
     - sponsor
     - skills
+    - step
     - suitableForDiet
+    - supply
+    - tool
     - worksFor
 names:
   prefixes:
@@ -388,6 +409,7 @@ names:
     educationalLevel: Difficulty
     episode: Episodes
     gamePlatform: 'Game platforms'
+    itemListElement: Items
     knowsLanguage: 'Knows languages'
     medicalSpecialty: 'Medical specialties'
     performer: Performers
@@ -406,6 +428,9 @@ names:
     significantLink: 'Significant links'
     sponsor: Sponsors
     suitableForDiet: 'Suitable for diets'
+    supply: Supplies
+    step: Steps
+    tool: Tools
   acronyms:
     - cvd
     - id

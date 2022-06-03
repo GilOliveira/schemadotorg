@@ -157,14 +157,15 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   An entity.
-   * @param bool $root
-   *   TRUE if the entity is root of the Schema.org JSON-LD.
+   * @param bool $map_entity
+   *   TRUE if entity should be mapped.
+   *   This helps prevent a mapping recursion.
    *
    * @return array|bool
    *   The JSON-LD for an entity that is mapped to a Schema.org type
    *   or FALSE if the entity is not mapped to a Schema.org type.
    */
-  protected function buildMappedEntity(EntityInterface $entity, $root = TRUE) {
+  protected function buildMappedEntity(EntityInterface $entity, $map_entity = TRUE) {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
     if (!$mapping_storage->isEntityMapped($entity)) {
@@ -190,7 +191,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       // Get the Schema.org properties.
       $property_data = [];
       foreach ($items as $item) {
-        $property_value = $this->getFieldItem($property, $item, $root);
+        $property_value = $this->getFieldItem($property, $item, $map_entity);
 
         // Alter the Schema.org property's individual value.
         $this->moduleHandler->alter(
@@ -234,20 +235,23 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    *   The Schema.org property.
    * @param \Drupal\Core\Field\FieldItemInterface|null $item
    *   The field item.
-   * @param bool $root
-   *   TRUE if the entity is root of the Schema.org JSON-LD.
+   * @param bool $map_entity
+   *   TRUE if entity should be mapped.
    *
    * @return array|bool|mixed|null
    *   A data type.
    */
-  protected function getFieldItem($property, FieldItemInterface $item = NULL, $root = TRUE) {
+  protected function getFieldItem($property, FieldItemInterface $item = NULL, $map_entity = TRUE) {
     if ($item === NULL) {
       return NULL;
     }
 
     // Handle entity reference relationships.
-    if ($item->entity && $item->entity instanceof EntityInterface && $root) {
-      $entity_data = $this->buildMappedEntity($item->entity, FALSE);
+    if ($item->entity
+      && $item->entity instanceof EntityInterface
+      && $map_entity) {
+      $has_url = !$item->entity->hasLinkTemplate('canonical');
+      $entity_data = $this->buildMappedEntity($item->entity, $has_url);
       if ($entity_data) {
         return $entity_data;
       }

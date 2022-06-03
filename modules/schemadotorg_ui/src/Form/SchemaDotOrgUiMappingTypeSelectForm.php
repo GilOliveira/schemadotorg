@@ -130,10 +130,19 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
     }
     $form['description_bottom'] = [
       'intro' => ['#markup' => '<p>' . $this->t('Or you can jump directly to a commonly used type:') . '</p>'],
-      'items' => [
+    ];
+    if (isset($items['quick_start'])) {
+      $form['description_bottom']['quick_start'] = [
         '#theme' => 'item_list',
-        '#items' => $items,
-      ],
+        '#items' => [$items['quick_start']],
+        '#prefix' => '<div class="schemadotorg-ui-quick-start">',
+        '#suffix' => '</div>',
+      ];
+      unset($items['quick_start']);
+    }
+    $form['description_bottom']['items'] = [
+      '#theme' => 'item_list',
+      '#items' => $items,
     ];
 
     // Types tree.
@@ -144,6 +153,9 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
       '#title' => $this->t('Full list of Schema.org types'),
       'tree' => $this->schemaTypeBuilder->buildTypeTree($tree, ['base_path' => $base_path]),
     ];
+
+    $form['#attached']['library'][] = 'schemadotorg_ui/schemadotorg_ui';
+
     return $form;
   }
 

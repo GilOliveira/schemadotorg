@@ -14,6 +14,7 @@ recommended_schema_types:
       - Event
       - FAQPage
       - QAPage
+      - HowTo
       - Recipe
   common:
     label: Common
@@ -164,6 +165,7 @@ default_base_fields:
   body:
     - description
     - articleBody
+    - text
   created:
     - dateCreated
   changed:
@@ -262,24 +264,30 @@ default_schema_type_properties:
     - issueNumber
   Quotation:
     - spokenByCharacter
+  HowTo:
+    - educationalLevel
+    - image
+    - name
+    - keywords
+    - performTime
+    - prepTime
+    - step
+    - supply
+    - tool
+    - text
+    - totalTime
+    - yield
   Recipe:
     - cookTime
     - cookingMethod
-    - educationalLevel
-    - name
     - nationality
     - nutrition
-    - image
-    - keywords
-    - prepTime
     - recipeCategory
     - recipeCuisine
     - recipeIngredient
     - recipeInstructions
     - recipeYield
     - suitableForDiet
-    - text
-    - totalTime
   Sculpture:
     - name
   SheetMusic:
@@ -573,6 +581,10 @@ default_field_groups:
       - articleBody
       - text
       - author
+  main_content:
+    label: 'Main content'
+    properties:
+      - mainEntity
   media:
     label: 'Media/Assets'
     properties:
@@ -640,6 +652,27 @@ default_field_groups:
       - medicalSpecialty
       - availableService
       - isAcceptingNewPatients
+  how_to:
+    label: 'How to'
+    properties:
+      - supply
+      - tool
+      - step
+      - educationalLevel
+      - image
+      - prepTime
+      - performTime
+      - totalTime
+      - yield
+  meta:
+    label: 'Meta data'
+    properties:
+      - keywords
+  links:
+    label: Links
+    properties:
+      - relatedLink
+      - significantLink
 default_field_group_label_suffix: information
 default_field_group_form_type: details
 default_field_group_view_type: fieldset

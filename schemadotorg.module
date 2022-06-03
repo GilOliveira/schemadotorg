@@ -226,7 +226,7 @@ function schemadotorg_form_field_config_edit_form_alter(&$form, FormStateInterfa
   $selected_target_bundles = $handler_settings['target_bundles'];
 
   // Display warning when the expected and selected bundles do not match.
-  if ($expected_target_bundles !== $selected_target_bundles) {
+  if ($expected_target_bundles != $selected_target_bundles) {
     $target_label = ($target_type === 'paragraph')
       ? t('Paragraph types')
       : \Drupal::entityTypeManager()->getDefinition($target_type)->getPluralLabel();

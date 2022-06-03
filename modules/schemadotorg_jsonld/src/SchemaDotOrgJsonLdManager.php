@@ -231,6 +231,10 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     }
 
     $main_property = $this->getSchemaTypeMainProperty($type);
+    if (!$main_property) {
+      return $value;
+    }
+
     return [
       '@type' => $type,
       $main_property => $value,
@@ -255,7 +259,9 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     foreach ($breadcrumbs as $breadcrumb) {
       $breadcrumb = array_reverse($breadcrumb);
       foreach ($breadcrumb as $type) {
-        if (isset($main_properties[$type])) {
+        // Using array key exists to account main property being set to NULL,
+        // which means the Schema.org type does NOT have a main property.
+        if (array_key_exists($type, $main_properties)) {
           return $main_properties[$type];
         }
       }

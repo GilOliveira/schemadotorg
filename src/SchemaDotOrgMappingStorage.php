@@ -104,6 +104,9 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
    * {@inheritdoc}
    */
   public function getRangeIncludesTargetBundles($target_type, array $range_includes) {
+    // Remove 'Thing' because it is too generic.
+    unset($range_includes['Thing']);
+
     $subtypes = $this->schemaTypeManager->getAllSubTypes($range_includes);
     $entity_ids = $this->getQuery()
       ->condition('target_entity_type_id', $target_type)

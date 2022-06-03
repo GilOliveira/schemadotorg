@@ -175,6 +175,28 @@ function generate() {
 }
 
 ################################################################################
+# Basic Demo
+################################################################################
+
+function setup_howto() {
+  drush schemadotorg:create-type -y media:ImageObject
+  drush schemadotorg:create-type -y paragraph:HowToSupply paragraph:HowToTool paragraph:HowToDirection paragraph:HowToTip paragraph:HowToSection paragraph:HowToStep
+  drush schemadotorg:create-type -y node:HowTo
+}
+
+function teardown_howto() {
+  drush devel-generate:content --kill --bundles=how_to 0
+
+  drush schemadotorg:delete-type -y paragraph:HowToSupply paragraph:HowToTool paragraph:HowToDirection paragraph:HowToTip paragraph:HowToSection paragraph:HowToStep
+  drush schemadotorg:delete-type -y node:HowTo
+}
+
+function generate_howto() {
+  drush devel-generate:content --kill --add-type-label --skip-fields=menu_link\
+    --bundles=how_to
+}
+
+################################################################################
 
 SCRIPT_DIRECTORY=`dirname "$0"`
 

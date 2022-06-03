@@ -369,9 +369,12 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           // Create new field instance using existing field storage.
           $property_definition = $this->schemaTypeManager->getProperty($property_name);
           $existing_field = $this->getField($field_name);
+          $field_label = $this->config('schemadotorg.settings')
+            ->get("schema_types.custom_labels.$schema_type.$property_name");
+          $field_label = $field_label ?: $property_definition['drupal_label'];
           $field = [
             'machine_name' => $field_name,
-            'label' => $existing_field ? $existing_field->label() : $property_definition['label'],
+            'label' => $field_label,
             'description' => $existing_field ? $existing_field->get('description') : '',
             'schema_type' => $schema_type,
             'schema_property' => $property_name,
@@ -900,24 +903,26 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     ] + $rows;
 
     if ($ignored_properties) {
+      $form['ignored_properties'] = [
+        '#type' => 'details',
+        '#title' => $this->t('Ignored properties'),
+        '#description' => [
+          '#type' => 'container',
+          '#attributes' => ['class' => ['description']],
+          'description' => ['#markup' => $this->t('The below properties are not displayed to simplify the user experience.')],
+        ],
+        'links' => $this->schemaTypeBuilder->buildItemsLinks($ignored_properties),
+      ];
       if ($this->currentUser()->hasPermission('administer schemadotorg')) {
-        $description = [
+        $form['ignored_properties']['configure'] = [
           '#type' => 'link',
           '#title' => $this->t('Configure ignored properties'),
           '#url' => Url::fromRoute('schemadotorg.settings.properties', [], ['query' => $this->getRedirectDestination()->getAsArray()]),
-          '#prefix' => '[',
-          '#suffix' => ']',
+          '#attributes' => ['class' => ['button', 'button--small']],
+          '#prefix' => '<p>',
+          '#suffix' => '</p>',
         ];
       }
-      else {
-        $description = [];
-      }
-      $form['ignored_properties'] = [
-        '#type' => 'item',
-        '#title' => $this->t('Ignored properties'),
-        '#description' => $description,
-        'links' => $this->schemaTypeBuilder->buildItemsLinks($ignored_properties),
-      ];
     }
   }
 
