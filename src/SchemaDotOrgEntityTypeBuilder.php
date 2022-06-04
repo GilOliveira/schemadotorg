@@ -430,7 +430,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $default_label_suffix = $mapping_type->getDefaultFieldGroupLabelSuffix();
     $default_format_type = $mapping_type->getDefaultFieldGroupFormatType($display);
     $default_format_settings = $mapping_type->getDefaultFieldGroupFormatSettings($display);
-    if (empty($default_field_groups)) {
+    $default_field_weights = $mapping_type->getDefaultFieldWeights();
+    if (empty($default_field_groups) && empty($default_format_type)) {
       return;
     }
 
@@ -465,7 +466,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       if ($default_label_suffix) {
         $group_label .= ' ' . $default_label_suffix;
       }
-      $field_weight = $index;
+      $field_weight = $default_field_weights[$schema_property] ?? $index;
     }
 
     // Prefix group name.
