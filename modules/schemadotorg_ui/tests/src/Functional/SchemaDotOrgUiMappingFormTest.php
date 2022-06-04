@@ -134,13 +134,13 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
 
     // Check validating the new field names before they are created.
     $edit = [
-      'properties[additionalType][field][name]' => '_add_',
-      'properties[additionalType][field][_add_][machine_name]' => '',
+      'properties[alternateName][field][name]' => '_add_',
+      'properties[alternateName][field][_add_][machine_name]' => '',
       'properties[contactType][field][name]' => '_add_',
       'properties[contactType][field][_add_][machine_name]' => 'contact_type',
     ];
     $this->submitForm($edit, 'Save');
-    $assert_session->responseContains('Machine-readable name field is required for the additionalType property mapping.');
+    $assert_session->responseContains('Machine-readable name field is required for the alternateName property mapping.');
     $assert_session->responseContains('A <em class="placeholder">schema_contact_type</em> field already exists. Please enter a different name or select the existing field.');
 
     // Check the 'Contact Point' paragraph id, title, and description.

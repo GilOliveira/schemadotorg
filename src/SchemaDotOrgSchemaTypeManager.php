@@ -516,13 +516,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   }
 
   /**
-   * Build Schema.org type breadcrumbs.
-   *
-   * @param string $type
-   *   The Schema.org type.
-   *
-   * @return array
-   *   An array containing Schema.org type breadcrumbs.
+   * {@inheritdoc}
    */
   public function getTypeBreadcrumbs($type) {
     $breadcrumbs = [];
@@ -538,6 +532,14 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
     }
     ksort($sorted_breadcrumbs);
     return $sorted_breadcrumbs;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hasProperty($type, $property) {
+    $type_definition = $this->getType($type);
+    return (strpos($type_definition['properties'], '/' . $property) !== FALSE);
   }
 
   /**

@@ -105,6 +105,7 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
       'schema_contact_point' => 'contactPoint',
       'schema_email' => 'email',
       'schema_image' => 'image',
+      'schema_same_as' => 'sameAs',
       'schema_telephone' => 'telephone',
       'title' => 'name',
     ]);

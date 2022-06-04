@@ -685,7 +685,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
         $mapping_storage = $this->entityTypeManager
           ->getStorage('schemadotorg_mapping');
-        $target_bundles = $mapping_storage->getSchemaPropertyTargetBundles($target_type, $property, $type);
+        $target_bundles = $mapping_storage->getSchemaPropertyTargetBundles($target_type, $type, $property);
 
         $handler_settings = [];
         $handler_settings['target_bundles'] = $target_bundles;

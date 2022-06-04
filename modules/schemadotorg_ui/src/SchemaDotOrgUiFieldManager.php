@@ -305,17 +305,9 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
    * {@inheritdoc}
    */
   public function getSchemaPropertyFieldTypes($type, $property) {
-    // Set range includes.
-    $property_definition = $this->schemaTypeManager->getProperty($property);
-    $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
-
-    // Prepend custom main entity to range includes.
-    if ($property === 'mainEntity') {
-      $main_entity = $this->config->get('schema_types.main_entities.' . $type);
-      if ($main_entity) {
-        $range_includes = [$main_entity => $main_entity] + $range_includes;
-      }
-    }
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+    $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+    $range_includes = $mapping_storage->getSchemaPropertyRangeIncludes($type, $property);
 
     // Remove generic Schema.org types from range includes.
     $specific_range_includes = $range_includes;

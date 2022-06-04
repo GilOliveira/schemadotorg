@@ -121,6 +121,13 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
     $this->assertNull($this->storage->getSchemaPropertyName('node', 'thing', 'not_field'));
     $this->assertNull($this->storage->getSchemaPropertyName('node', 'not_thing', 'thing'));
 
+    // Check getting a Schema.org property's range includes.
+    $this->assertEquals(['Question' => 'Question'], $this->storage->getSchemaPropertyRangeIncludes('FAQPage', 'mainEntity'));
+
+    // Check getting a Schema.org property's target bundles.
+    $this->assertEquals(['image_object' => 'image_object'], $this->storage->getSchemaPropertyTargetBundles('node', 'Thing', 'image'));
+    $this->assertEquals([], $this->storage->getSchemaPropertyTargetBundles('media', 'Thing', 'image'));
+
     // Check determining if Schema.org type is mapped to an entity.
     $this->assertTrue($this->storage->isSchemaTypeMapped('node', 'Thing'));
     $this->assertFalse($this->storage->isSchemaTypeMapped('node', 'NotThing'));

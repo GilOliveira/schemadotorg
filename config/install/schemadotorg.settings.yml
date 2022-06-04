@@ -82,6 +82,8 @@ schema_properties:
     - accountablePerson
     - acquireLicensePage
     - actionableFeedbackPolicy
+    - additionalProperty
+    - additionalType
     - answerCount
     - assesses
     - associatedMedia
@@ -135,6 +137,7 @@ schema_properties:
     - sdDatePublished
     - sdLicense
     - sdPublisher
+    - sha256
     - spatial
     - spatialCoverage
     - suggestedAnswer
@@ -178,6 +181,7 @@ schema_properties:
     - about
     - affiliation
     - alumniOf
+    - alternateName
     - amenityFeature
     - applicationSubCategory
     - artMedium
@@ -392,6 +396,7 @@ names:
   custom_labels:
     actor: Actors
     affiliation: Affiliations
+    alternateName: 'Alternate names'
     amenityFeature: 'Amenity features'
     applicationSubCategory: 'Application sub-categories'
     artMedium: 'Art mediums'

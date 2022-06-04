@@ -7,6 +7,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 
 /**
  * Schema.org JSON-LD builder.
@@ -48,6 +49,13 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   protected $entityTypeManager;
 
   /**
+   * The Schema.org schema type manager.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
+   */
+  protected $schemaTypeManager;
+
+  /**
    * The Schema.org JSON-LD manager.
    *
    * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface
@@ -63,6 +71,8 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    *   The current route match.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   *   The Schema.org schema type manager.
    * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager
    *   The Schema.org JSON-LD manager.
    */
@@ -70,11 +80,13 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     ModuleHandlerInterface $module_handler,
     RouteMatchInterface $route_match,
     EntityTypeManagerInterface $entity_type_manager,
+    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
     SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager
   ) {
     $this->moduleHandler = $module_handler;
     $this->routeMatch = $route_match;
     $this->entityTypeManager = $entity_type_manager;
+    $this->schemaTypeManager = $schema_type_manager;
     $this->schemaJsonIdManager = $schema_jsonld_manager;
   }
 
@@ -189,6 +201,8 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       $items = $entity->get($field_name);
 
       // Get the Schema.org properties.
+      $total_items = $items->count();
+      $position = 1;
       $property_data = [];
       foreach ($items as $item) {
         $property_value = $this->getFieldItem($property, $item, $map_entity);
@@ -199,6 +213,18 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
           $property_value,
           $item
         );
+
+        // If there is more than 1 item, see if we need to its position.
+        if ($total_items > 1) {
+          $property_type = (is_array($property_value))
+            ? $property_value['@type'] ?? NULL
+            : NULL;
+          if ($property_type
+            && $this->schemaTypeManager->hasProperty($property_type, 'position')) {
+            $property_value['position'] = $position;
+            $position++;
+          }
+        }
 
         if ($property_value !== NULL) {
           $property_data[] = $property_value;

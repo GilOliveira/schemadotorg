@@ -82,7 +82,9 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
           ],
       ],
       'name' => 'Something',
-      'alternateName' => 'Something else',
+      'alternateName' => [
+        'Something else',
+      ],
       'description' => 'Some description',
       'subjectOf' => [
         '@type' => 'CreativeWork',

@@ -350,4 +350,17 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    */
   public function getTypeBreadcrumbs($type);
 
+  /**
+   * Determine if a Schema.org type has a Schema.org property.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   * @param string $property
+   *   A Schema.org property.
+   *
+   * @return bool
+   *   TRUE if a Schema.org type has a Schema.org property.
+   */
+  public function hasProperty($type, $property);
+
 }

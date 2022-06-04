@@ -219,7 +219,7 @@ function schemadotorg_form_field_config_edit_form_alter(&$form, FormStateInterfa
 
   // Get expected target bundles.
   $target_type = $field->getSetting('target_type');
-  $expected_target_bundles = $mapping_storage->getSchemaPropertyTargetBundles($target_type, $schema_property, $schema_type);
+  $expected_target_bundles = $mapping_storage->getSchemaPropertyTargetBundles($target_type, $schema_type, $schema_property);
 
   // Get selected target bundles.
   $handler_settings = $field->getSetting('handler_settings');
