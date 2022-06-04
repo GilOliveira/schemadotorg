@@ -229,6 +229,8 @@ default_schema_type_properties:
     - quest
   Guide:
     - name
+  FAQPage:
+    - mainEntity
   LearningResource:
     - educationalAlignment
     - educationalLevel
@@ -262,6 +264,8 @@ default_schema_type_properties:
     - name
   PublicationIssue:
     - issueNumber
+  QAPage:
+    - mainEntity
   Quotation:
     - spokenByCharacter
   HowTo:

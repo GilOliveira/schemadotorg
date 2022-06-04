@@ -83,20 +83,15 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
    * {@inheritdoc}
    */
   public function getSchemaPropertyRangeIncludes($schema_type, $schema_property) {
-    // Check for custom main entity and use it for the property's
-    // range includes.
-    if ($schema_property === 'mainEntity') {
-      $main_entity = $this->configFactory
-        ->get('schemadotorg.settings')
-        ->get('schema_types.main_entities.' . $schema_type);
-      if ($main_entity) {
-        return [$main_entity => $main_entity];
-      }
+    $range_includes = $this->configFactory
+      ->get('schemadotorg.settings')
+      ->get("schema_properties.range_includes.$schema_type--$schema_property");
+    if ($range_includes) {
+      return array_combine($range_includes, $range_includes);
     }
-
-    $property_definition = $this->schemaTypeManager->getProperty($schema_property);
-    $range_includes = $property_definition['range_includes'] ?? '';
-    return $this->schemaTypeManager->parseIds($range_includes);
+    else {
+      return $this->schemaTypeManager->getPropertRangeIncludes($schema_property);
+    }
   }
 
   /**

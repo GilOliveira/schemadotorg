@@ -188,14 +188,6 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
   public function getDefaultSchemaTypeProperties($schema_type) {
     $default_properties = [];
 
-    // Get main entity.
-    $main_entity = \Drupal::configFactory()
-      ->get('schemadotorg.settings')
-      ->get('schema_types.main_entities.' . $schema_type);
-    if ($main_entity) {
-      $default_properties['mainEntity'] = 'mainEntity';
-    }
-
     // Get default Schema.org type properties.
     $type_properties = $this->get('default_schema_type_properties');
     if ($type_properties) {

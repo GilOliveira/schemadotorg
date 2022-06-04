@@ -1,8 +1,5 @@
 field_prefix: schema_
 schema_types:
-  main_entities:
-    FAQPage: Question
-    QAPage: Question
   main_properties:
     Comment: text
     Duration: null
@@ -71,6 +68,19 @@ schema_types:
       - text_long
       - text_with_summary
 schema_properties:
+  range_includes:
+    HowTo--steps:
+      - HowToStep
+      - HowToSection
+    HowToStep--itemListElement:
+      - HowToDirection
+      - HowToTip
+    HowToSection--itemListElement:
+      - HowToStep
+    FAQPage--mainEntity:
+      - Question
+    QAPage--mainEntity:
+      - Question
   ignored_properties:
     - accessibilityAPI
     - accessibilityControl

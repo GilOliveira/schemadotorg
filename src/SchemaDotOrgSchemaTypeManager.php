@@ -211,6 +211,15 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function getPropertRangeIncludes($property) {
+    $property_definition = $this->getProperty($property);
+    $range_includes = $property_definition['range_includes'] ?? '';
+    return $this->parseIds($range_includes);
+  }
+
+  /**
    * Get a Schema.org property's default Schema.org type from range_includes.
    *
    * @param string $property

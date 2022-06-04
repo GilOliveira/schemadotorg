@@ -64,6 +64,15 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
       $form['schema_properties']['field_prefix']['#disabled'] = TRUE;
       $form['schema_properties']['field_prefix']['#value'] = $config->get('field_prefix');
     }
+    $form['schema_properties']['range_includes'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
+      '#settings_format' => 'TypeName--propertyName|Type01,Type02,Type03',
+      '#title' => $this->t('Schema.org type/property custom range includes'),
+      '#description' => $this->t('Enter custom range includes for Schema.org types/properties.'),
+      '#default_value' => $config->get('schema_properties.range_includes'),
+    ];
+
     $form['schema_properties']['ignored_properties'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED,
@@ -74,9 +83,9 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
     $form['schema_properties']['default_field_types'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
+      '#settings_format' => 'propertyName|field_type_01,field_type_02,field_type_03',
       '#title' => $this->t('Default Schema.org property field types'),
       '#description' => $this->t('Enter default Schema.org property field types used when adding Schema.org properties to an entity type.'),
-      '#settings_format' => 'propertyName|field_type_01,field_type_02,field_type_03',
       '#default_value' => $config->get('schema_properties.default_field_types'),
     ];
     $form['schema_properties']['default_unlimited_fields'] = [

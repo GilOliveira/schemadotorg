@@ -9,12 +9,6 @@ schemadotorg.settings:
       type: mapping
       label: 'Schema.org types'
       mapping:
-        main_entities:
-          type: sequence
-          label: 'Schema.org types main entities'
-          sequence:
-            type: string
-            label: 'Schema.org type main entity'
         main_properties:
           type: sequence
           label: 'Schema.org types main properties'
@@ -43,6 +37,15 @@ schemadotorg.settings:
       type: mapping
       label: 'Schema.org properties'
       mapping:
+        range_includes:
+          type: sequence
+          label: 'Schema.org type/property custom range includes'
+          sequence:
+            type: sequence
+            label: 'Schema.org types/properties'
+            sequence:
+              type: string
+              label: 'Schema.org type'
         ignored_properties:
           type: sequence
           label: 'Ignored properties'

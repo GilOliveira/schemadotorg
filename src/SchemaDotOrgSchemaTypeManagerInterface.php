@@ -183,6 +183,17 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getProperty($property, array $fields = []);
 
   /**
+   * Get a Schema.org property's range includes.
+   *
+   * @param string $property
+   *   A Schema.org property.
+   *
+   * @return array|FALSE
+   *   A Schema.org property's range includes.
+   */
+  public function getPropertRangeIncludes($property);
+
+  /**
    * Get a Schema.org property's default Schema.org type from range_includes.
    *
    * @param string $property
