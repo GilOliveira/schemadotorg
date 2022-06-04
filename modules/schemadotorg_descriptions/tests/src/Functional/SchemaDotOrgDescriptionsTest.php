@@ -32,6 +32,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
 
     // Login as node type administrator.
     $account = $this->drupalCreateUser([
+      'administer schemadotorg',
       'administer content types',
       'administer node fields',
     ]);
@@ -73,14 +74,62 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet('/admin/structure/types');
     $assert_session->responseContains('The most generic type of item.');
 
-    // Check that the descriptions is automatically added to the node add page.
+    // Check that the description is automatically added to the node add page.
     $this->drupalGet('/node/add');
     $assert_session->responseContains('The most generic type of item.');
 
-    // Check that descriptions are automatically added to the node edit form.
+    // Check that the descriptions are automatically added to the node edit form.
     $this->drupalGet('/node/add/thing');
     $assert_session->responseContains('A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.');
     $assert_session->responseContains('An alias for the item.');
+
+    // Add custom descriptions for Thing and alternateName.
+    $this->drupalGet('/admin/config/search/schemadotorg/settings/descriptions');
+    $edit = [
+      'custom_descriptions' => 'Thing|This is a custom description for a Thing.'
+      . PHP_EOL . 'alternateName|This is a custom description for an alternateName',
+    ];
+    $this->submitForm($edit, 'Save configuration');
+
+    // Check that the custom description is automatically added to the
+    // node types page.
+    $this->drupalGet('/admin/structure/types');
+    $assert_session->responseNotContains('The most generic type of item.');
+    $assert_session->responseContains('This is a custom description for a Thing.');
+
+    // Check that the custom description is automatically added to the
+    // node add page.
+    $this->drupalGet('/node/add');
+    $assert_session->responseNotContains('The most generic type of item.');
+    $assert_session->responseContains('This is a custom description for a Thing.');
+
+    // Check that the custom descriptions are automatically added to the
+    // node edit form.
+    $this->drupalGet('/node/add/thing');
+    $assert_session->responseNotContains('An alias for the item.');
+    $assert_session->responseContains('This is a custom description for an alternateName');
+
+    // Remove custom descriptions for Thing and alternateName.
+    $this->drupalGet('/admin/config/search/schemadotorg/settings/descriptions');
+    $edit = [
+      'custom_descriptions' => 'Thing' . PHP_EOL . 'alternateName',
+    ];
+    $this->submitForm($edit, 'Save configuration');
+
+    // Check that NO custom description is added to the node types page.
+    $this->drupalGet('/admin/structure/types');
+    $assert_session->responseNotContains('The most generic type of item.');
+    $assert_session->responseNotContains('This is a custom description for a Thing.');
+
+    // Check that NO custom description is added to the node add page.
+    $this->drupalGet('/node/add');
+    $assert_session->responseNotContains('The most generic type of item.');
+    $assert_session->responseNotContains('This is a custom description for a Thing.');
+
+    // Check that NOT custom descriptions are added to the node edit form.
+    $this->drupalGet('/node/add/thing');
+    $assert_session->responseNotContains('An alias for the item.');
+    $assert_session->responseNotContains('This is a custom description for an alternateName');
 
     /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
     $module_installer = \Drupal::service('module_installer');

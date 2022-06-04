@@ -1,0 +1,10 @@
+schemadotorg_descriptions.settings:
+  type: config_entity
+  label: Schema.org Descriptions settings
+  mapping:
+    custom_descriptions:
+      type: sequence
+      label: 'Custom Schema.org type and property descriptions'
+      sequence:
+        type: string
+        label: 'Schema.org type and property description'

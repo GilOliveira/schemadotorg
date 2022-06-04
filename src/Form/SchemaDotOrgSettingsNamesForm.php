@@ -108,14 +108,14 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
     ];
     $form['names']['acronyms'] = [
       '#type' => 'schemadotorg_settings',
-      '#settings_types' => SchemaDotOrgSettings::INDEXED,
+      '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Acronyms'),
       '#description' => $this->t('Enter acronyms used when creating labels.'),
       '#default_value' => $config->get('names.acronyms'),
     ];
     $form['names']['minor_words'] = [
       '#type' => 'schemadotorg_settings',
-      '#settings_types' => SchemaDotOrgSettings::INDEXED,
+      '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Minor words'),
       '#description' => $this->t('Enter minor word used when creating capitalized labels.'),
       '#default_value' => $config->get('names.minor_words'),

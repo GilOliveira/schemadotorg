@@ -32,7 +32,7 @@ class SchemaDotOrgJsonApiSettingsForm extends ConfigFormBase {
     $config = $this->config('schemadotorg_jsonapi.settings');
     $form['default_enabled_fields'] = [
       '#type' => 'schemadotorg_settings',
-      '#settings_types' => SchemaDotOrgSettings::INDEXED,
+      '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Default enabled fields'),
       '#description' => $this->t('Enter fields that should default to enabled when they are added to a Schema.org JSON:API resource.'),
       '#default_value' => $config->get('default_enabled_fields'),

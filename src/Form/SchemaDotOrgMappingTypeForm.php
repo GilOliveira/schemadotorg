@@ -78,7 +78,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     ];
     $form['default_schema_type_subtypes'] = [
       '#type' => 'schemadotorg_settings',
-      '#settings_types' => SchemaDotOrgSettings::INDEXED,
+      '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Default Schema.org type subtyping'),
       '#description' => $this->t('Enter default Schema.org type subtyping, which is used to enable subtyping when a Schema.org type is being created automatically.'),
       '#default_value' => $entity->get('default_schema_type_subtypes'),
@@ -94,7 +94,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     ];
     $form['default_field_weights'] = [
       '#type' => 'schemadotorg_settings',
-      '#settings_types' => SchemaDotOrgSettings::INDEXED,
+      '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Default field weights'),
       '#description' => $this->t('Enter Schema.org property default field weights to help org Schema.org as they are added to entity types.'),
       '#default_value' => $entity->get('default_field_weights'),

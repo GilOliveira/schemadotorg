@@ -115,7 +115,9 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
    * {@inheritdoc}
    */
   public function getCacheableMetadata($name) {
-    return new CacheableMetadata();
+    $metadata = new CacheableMetadata();
+    $metadata->addCacheTags(['schemadotorg_descriptions.settings']);
+    return $metadata;
   }
 
   /**
@@ -249,16 +251,27 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
   protected function setItemDescriptionOverrides($table, array &$overrides) {
     $items = $this->schemaTypeManager->getItems($table, $overrides, ['label', 'comment']);
     $options = ['base_path' => 'https://schema.org/'];
+    $custom_descriptions = $this->configFactory
+      ->getEditable('schemadotorg_descriptions.settings')
+      ->get('custom_descriptions');
     foreach ($overrides as $config_name => $id) {
+      $description = (array_key_exists($id, $custom_descriptions))
+        ? $custom_descriptions[$id]
+        : $this->schemaTypeBuilder->formatComment($items[$id]['comment'], $options);
+
       $data = $this->configFactory->getEditable($config_name)->getRawData();
-      if (!isset($items[$id]) || empty($data) || !empty($data['description'])) {
+
+      if (!isset($items[$id])
+        || empty($data)
+        || !empty($data['description'])
+        || empty($description)) {
         // Having empty overrides allows use to easily purge them as needed.
         // @see \Drupal\schemadotorg_descriptions\Config\SchemaDotOrgDescriptionsConfigFactoryOverride::onConfigChange
         $overrides[$config_name] = [];
       }
       else {
         $overrides[$config_name] = [
-          'description' => $this->schemaTypeBuilder->formatComment($items[$id]['comment'], $options),
+          'description' => $description,
         ];
       }
     }

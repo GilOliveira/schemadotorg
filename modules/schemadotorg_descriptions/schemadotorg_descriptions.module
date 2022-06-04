@@ -8,9 +8,20 @@
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\field\FieldConfigInterface;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_descriptions_help($route_name, RouteMatchInterface $route_match) {
+  if ($route_name === 'schemadotorg_descriptions.settings') {
+    return '<p>' . t('The <strong>Schema.org descriptions settings</strong> page allows administrators to configure the descriptions for Schema.org types and properties.') . '<p>';
+  }
+}
+
 
 /**
  * Implements hook_entity_load().
@@ -27,6 +38,12 @@ function schemadotorg_descriptions_entity_load(array $entities, $entity_type_id)
 
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
   $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface $schema_type_builder */
+  $schema_type_builder = \Drupal::service('schemadotorg.schema_type_builder');
+
+  $options = ['base_path' => 'https://schema.org/'];
+  $custom_descriptions = \Drupal::config('schemadotorg_descriptions.settings')
+    ->get('custom_descriptions');
 
   /** @var \Drupal\Core\Entity\EntityInterface[] $entities */
   foreach ($entities as $entity) {
@@ -35,13 +52,24 @@ function schemadotorg_descriptions_entity_load(array $entities, $entity_type_id)
       continue;
     }
 
+    // Get mapping for target entity type and bundle.
     $target_bundle = $entity->id();
     $mapping = SchemaDotOrgMapping::load("$target_entity_type_id.$target_bundle");
-    if ($mapping) {
-      $type = $schema_type_manager->getType($mapping->getSchemaType());
-      if ($type) {
-        $entity->set('description', $type['comment']);
-      }
+    if (!$mapping) {
+      continue;
+    }
+
+    $schema_type = $mapping->getSchemaType();
+    if (array_key_exists($schema_type, $custom_descriptions)) {
+      $description = $custom_descriptions[$schema_type];
+    }
+    else {
+      $type_definition = $schema_type_manager->getType($schema_type);
+      $description = $schema_type_builder->formatComment($type_definition['comment'], $options);
+    }
+
+    if ($description) {
+      $entity->set('description', $description);
     }
   }
 }
