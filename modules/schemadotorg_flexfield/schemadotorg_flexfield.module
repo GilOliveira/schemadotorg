@@ -58,7 +58,7 @@ function schemadotorg_flexfield_schemadotorg_property_field_alter(
   $field_settings = [];
   foreach ($flexfield_schema_properties as $property => $data_type) {
     $custom_label = \Drupal::config('schemadotorg.settings')
-      ->get("schema_types.custom_labels.$flexfield_schema_type--$property");
+      ->get("schema_properties.custom_labels.$flexfield_schema_type--$property");
 
     $name = $schema_names->camelCaseToSnakeCase($property);
     $label = $custom_label ?: $schema_names->camelCaseToSentenceCase($property);

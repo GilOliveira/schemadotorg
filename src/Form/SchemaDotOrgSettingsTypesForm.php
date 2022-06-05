@@ -43,14 +43,6 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
       '#description' => $this->t('Enter the main property for a Schema.org type. Defaults to <em>name</em> for unspecified Schema.org types. Leave blank when there is no applicable main property for the Schema.org type.'),
       '#default_value' => $config->get('schema_types.main_properties'),
     ];
-    $form['schema_types']['custom_labels'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#settings_format' => 'SchemaType--propertyName|Custom label',
-      '#title' => $this->t('Schema.org type custom property labels'),
-      '#description' => $this->t('Enter custom property labels for a Schema.org type.'),
-      '#default_value' => $config->get('schema_types.custom_labels'),
-    ];
     $form['schema_types']['default_field_types'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,

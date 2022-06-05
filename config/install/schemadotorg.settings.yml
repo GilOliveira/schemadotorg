@@ -4,14 +4,6 @@ schema_types:
     Comment: text
     Duration: null
     QuantitativeValue: value
-  custom_labels:
-    FAQPage--mainEntity: Questions
-    Person--familyName: 'Last name'
-    Person--givenName: 'First name'
-    Person--additionalName: 'Middle name'
-    Question--name: Question
-    Question--acceptedAnswer: Answer
-    QAPage--mainEntity: Questions
   default_field_types:
     DefinedTerm:
       - string
@@ -64,6 +56,58 @@ schema_types:
       - text_long
       - text_with_summary
 schema_properties:
+  custom_labels:
+    FAQPage--mainEntity: Questions
+    Person--familyName: 'Last name'
+    Person--givenName: 'First name'
+    Person--additionalName: 'Middle name'
+    Question--name: Question
+    Question--acceptedAnswer: Answer
+    QAPage--mainEntity: Questions
+    actor: Actors
+    affiliation: Affiliations
+    alternateName: 'Alternate names'
+    amenityFeature: 'Amenity features'
+    applicationSubCategory: 'Application sub-categories'
+    artMedium: 'Art mediums'
+    artform: Artforms
+    artist: Artists
+    attendee: Attendees
+    audience: Audiences
+    availableService: 'Available services'
+    award: Awards
+    bccRecipient: 'BCC recipients'
+    blogPost: 'Blog posts'
+    category: Categories
+    contactPoint: 'Contact points'
+    colleague: Colleagues
+    educationalLevel: Difficulty
+    episode: Episodes
+    gamePlatform: 'Game platforms'
+    hasMenuItem: 'Menu items'
+    hasMenuSection: 'Menu sections'
+    itemListElement: Items
+    knowsLanguage: 'Knows languages'
+    medicalSpecialty: 'Medical specialties'
+    performer: Performers
+    occupationalCategory: 'Occupational categories'
+    organizer: Organizers
+    possibleComplication: 'Possible complications'
+    possibleTreatment: 'Possible treatments'
+    primaryPrevention: 'Primary preventions'
+    relatedLink: 'Related links'
+    recipeCategory: 'Recipe categories'
+    recipeCuisine: 'Recipe cuisines'
+    relevantSpecialty: 'Relevant specialties'
+    recipeIngredient: 'Recipe ingredients'
+    riskFactor: 'Risk factors'
+    signOrSymptom: 'Sign or symptoms'
+    significantLink: 'Significant links'
+    sponsor: Sponsors
+    suitableForDiet: 'Suitable for diets'
+    supply: Supplies
+    step: Steps
+    tool: Tools
   range_includes:
     HowTo--step:
       - HowToStep
@@ -250,51 +294,6 @@ schema_properties:
     - tool
     - worksFor
 names:
-  custom_labels:
-    actor: Actors
-    affiliation: Affiliations
-    alternateName: 'Alternate names'
-    amenityFeature: 'Amenity features'
-    applicationSubCategory: 'Application sub-categories'
-    artMedium: 'Art mediums'
-    artform: Artforms
-    artist: Artists
-    attendee: Attendees
-    audience: Audiences
-    availableService: 'Available services'
-    award: Awards
-    bccRecipient: 'BCC recipients'
-    blogPost: 'Blog posts'
-    category: Categories
-    contactPoint: 'Contact points'
-    colleague: Colleagues
-    educationalLevel: Difficulty
-    episode: Episodes
-    gamePlatform: 'Game platforms'
-    hasMenuItem: 'Menu items'
-    hasMenuSection: 'Menu sections'
-    itemListElement: Items
-    knowsLanguage: 'Knows languages'
-    medicalSpecialty: 'Medical specialties'
-    performer: Performers
-    occupationalCategory: 'Occupational categories'
-    organizer: Organizers
-    possibleComplication: 'Possible complications'
-    possibleTreatment: 'Possible treatments'
-    primaryPrevention: 'Primary preventions'
-    relatedLink: 'Related links'
-    recipeCategory: 'Recipe categories'
-    recipeCuisine: 'Recipe cuisines'
-    relevantSpecialty: 'Relevant specialties'
-    recipeIngredient: 'Recipe ingredients'
-    riskFactor: 'Risk factors'
-    signOrSymptom: 'Sign or symptoms'
-    significantLink: 'Significant links'
-    sponsor: Sponsors
-    suitableForDiet: 'Suitable for diets'
-    supply: Supplies
-    step: Steps
-    tool: Tools
   custom_words:
     Nonprofit501: 'Nonprofit 501'
     gtin: GTIN

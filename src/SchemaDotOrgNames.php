@@ -120,7 +120,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
    */
   public function toDrupalLabel($table, $string) {
     // Custom labels.
-    $custom_labels = $this->getConfig()->get('names.custom_labels');
+    $custom_labels = $this->getConfig()->get('schema_properties.custom_labels');
     if (isset($custom_labels[$string])) {
       return $custom_labels[$string];
     }

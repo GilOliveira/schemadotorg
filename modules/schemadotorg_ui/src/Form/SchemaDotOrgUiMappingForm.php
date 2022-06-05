@@ -370,7 +370,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           $property_definition = $this->schemaTypeManager->getProperty($property_name);
           $existing_field = $this->getField($field_name);
           $field_label = $this->config('schemadotorg.settings')
-            ->get("schema_types.custom_labels.$schema_type--$property_name");
+            ->get("schema_properties.custom_labels.$schema_type--$property_name");
           $field_label = $field_label ?: $property_definition['drupal_label'];
           $field = [
             'machine_name' => $field_name,
@@ -828,7 +828,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       // Get field label default value.
       $schema_type = $this->getSchemaType();
       $field_label_default_value = $this->config('schemadotorg.settings')
-        ->get("schema_types.custom_labels.$schema_type--$property");
+        ->get("schema_properties.custom_labels.$schema_type--$property");
       $field_label_default_value = $field_label_default_value ?: $property_definition['drupal_label'];
 
       $row['field'][static::ADD_FIELD]['type'] = [
@@ -904,7 +904,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     if ($ignored_properties) {
       $form['ignored_properties'] = [
         '#type' => 'details',
-        '#title' => $this->t('Ignored properties'),
+        '#title' => $this->t('Ignored properties [@count]', ['@count' => count($ignored_properties)]),
         '#description' => [
           '#type' => 'container',
           '#attributes' => ['class' => ['description']],

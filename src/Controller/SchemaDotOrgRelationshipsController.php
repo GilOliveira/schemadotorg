@@ -103,7 +103,7 @@ class SchemaDotOrgRelationshipsController extends ControllerBase {
       '#type' => 'table',
       '#header' => $header,
       '#rows' => $rows,
-      '#empty' => $this->t('No Schema.org relationships found.'),
+      '#empty' => $this->t('There are no Schema.org relationships yet.'),
       '#sticky' => TRUE,
     ];
   }

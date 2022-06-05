@@ -56,16 +56,6 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
     $form['names'] = [
       '#type' => 'container',
     ];
-    $form['names']['custom_labels'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#settings_format' => 'search|replace',
-      '#title' => $this->t('Custom labels'),
-      '#description' => $this->t('Enter replacement labels used when Schema.org types and names are displayed as a Drupal entity and field machine label.')
-      . ' '
-      . $this->t('Schema.org type and property names are case-sensitive and must be an exact match.'),
-      '#default_value' => $config->get('names.custom_labels'),
-    ];
     $form['names']['custom_words'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,

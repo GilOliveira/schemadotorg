@@ -15,12 +15,6 @@ schemadotorg.settings:
           sequence:
             type: string
             label: 'Schema.org type main property'
-        custom_labels:
-          type: sequence
-          label: 'Schema.org type custom property labels'
-          sequence:
-            type: string
-            label: 'Schema.org type custom property label'
         default_field_types:
           type: sequence
           label: 'Default field types'
@@ -34,6 +28,12 @@ schemadotorg.settings:
       type: mapping
       label: 'Schema.org properties'
       mapping:
+        custom_labels:
+          type: sequence
+          label: 'Schema.org property custom labels'
+          sequence:
+            type: string
+            label: 'Schema.org property custom label'
         range_includes:
           type: sequence
           label: 'Schema.org type/property custom range includes'
@@ -68,12 +68,6 @@ schemadotorg.settings:
         type: mapping
         label: Names
         mapping:
-          custom_labels:
-            type: sequence
-            label: Custom labels
-            sequence:
-              type: string
-              label: Custom label
           custom_words:
             type: sequence
             label: Custom words

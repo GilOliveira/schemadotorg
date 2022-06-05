@@ -64,6 +64,16 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
       $form['schema_properties']['field_prefix']['#disabled'] = TRUE;
       $form['schema_properties']['field_prefix']['#value'] = $config->get('field_prefix');
     }
+    $form['schema_properties']['custom_labels'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'SchemaType--propertyName|Custom label or propertyName|Custom label',
+      '#title' => $this->t('Schema.org property custom labels'),
+      '#description' => $this->t('Enter custom labels for Schema.org types and properties.')
+      . ' '
+      . $this->t('Schema.org type and property names are case-sensitive and must be an exact match.'),
+      '#default_value' => $config->get('schema_properties.custom_labels'),
+    ];
     $form['schema_properties']['range_includes'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
