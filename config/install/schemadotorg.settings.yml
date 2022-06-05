@@ -2,8 +2,6 @@ field_prefix: schema_
 schema_types:
   default_properties:
     CreativeWork:
-      - dateCreated
-      - dateModified
       - inLanguage
     Article:
       - author
@@ -270,6 +268,7 @@ schema_types:
       - knowsLanguage
       - name
       - nationality
+      - sameAs
       - telephone
       - worksFor
     JobPosting:
@@ -644,6 +643,8 @@ schema_properties:
     - assesses
     - associatedMedia
     - branchCode
+    - deathDate
+    - deathPlace
     - duns
     - conditionsOfAccess
     - contentLocation
@@ -677,6 +678,7 @@ schema_properties:
     - gtin14
     - gtin8
     - hasOfferCatalog
+    - homeLocation
     - interactionStatistic
     - interactivityType
     - interpretedAsClaim
@@ -684,6 +686,7 @@ schema_properties:
     - iso6523Code
     - leiCode
     - naics
+    - netWorth
     - materialExtent
     - ownershipFundingInfo
     - pageEnd

@@ -178,6 +178,8 @@ default_schema_types:
 default_schema_type_properties:
   CreativeWork:
     - description
+    - dateCreated
+    - dateModified
 default_schema_type_subtypes:
   - Event
 default_field_weights: { }
