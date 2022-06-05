@@ -1,5 +1,9 @@
 field_prefix: schema_
 schema_types:
+  main_properties:
+    Comment: text
+    Duration: null
+    QuantitativeValue: value
   default_properties:
     CreativeWork:
       - inLanguage
@@ -497,10 +501,6 @@ schema_types:
       - name
       - hasMenuItem
       - hasMenuSection
-  main_properties:
-    Comment: text
-    Duration: null
-    QuantitativeValue: value
   default_field_types:
     DefinedTerm:
       - string

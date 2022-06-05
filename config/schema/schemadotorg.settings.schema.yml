@@ -9,6 +9,12 @@ schemadotorg.settings:
       type: mapping
       label: 'Schema.org types'
       mapping:
+        main_properties:
+          type: sequence
+          label: 'Schema.org types main properties'
+          sequence:
+            type: string
+            label: 'Schema.org type main property'
         default_properties:
           type: sequence
           label: 'Default Schema.org type properties'
@@ -18,12 +24,6 @@ schemadotorg.settings:
             sequence:
               type: string
               label: 'Schema.org property'
-        main_properties:
-          type: sequence
-          label: 'Schema.org types main properties'
-          sequence:
-            type: string
-            label: 'Schema.org type main property'
         default_field_types:
           type: sequence
           label: 'Default field types'

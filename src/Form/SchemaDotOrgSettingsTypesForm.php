@@ -35,20 +35,20 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
     $form['schema_types'] = [
       '#tree' => TRUE,
     ];
+    $form['schema_types']['main_properties'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'SchemaType|propertyName',
+      '#title' => $this->t('Schema.org type main properties'),
+      '#description' => $this->t('Enter the main property for a Schema.org type. Defaults to <em>name</em> for unspecified Schema.org types. Leave blank when there is no applicable main property for the Schema.org type.'),
+      '#default_value' => $config->get('schema_types.main_properties'),
+    ];
     $form['schema_types']['default_properties'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
       '#settings_format' => 'SchemaType|propertyName01,propertyName02,propertyName02',
       '#title' => $this->t('Default Schema.org type properties'),
       '#default_value' => $config->get('schema_types.default_properties'),
-    ];
-    $form['schema_types']['main_properties'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#settings_format' => 'SchemaType|propertyName',
-      '#title' => $this->t('Schema.org types main property'),
-      '#description' => $this->t('Enter the main property for a Schema.org type. Defaults to <em>name</em> for unspecified Schema.org types. Leave blank when there is no applicable main property for the Schema.org type.'),
-      '#default_value' => $config->get('schema_types.main_properties'),
     ];
     $form['schema_types']['default_field_types'] = [
       '#type' => 'schemadotorg_settings',
