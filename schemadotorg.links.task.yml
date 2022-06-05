@@ -6,6 +6,10 @@ entity.schemadotorg_mapping_type.collection:
   title: Mapping types
   route_name: entity.schemadotorg_mapping_type.collection
   base_route: entity.schemadotorg_mapping.collection
+schemadotorg.relationships:
+  title: Relationships
+  route_name: schemadotorg.relationships
+  base_route: entity.schemadotorg_mapping.collection
 schemadotorg.settings:
   title: Settings
   route_name: schemadotorg.settings
@@ -21,7 +25,7 @@ schemadotorg.settings.properties:
   route_name: schemadotorg.settings.properties
   parent_id: schemadotorg.settings
   weight: 20
-schemadotorg.settings.name:
+schemadotorg.settings.names:
   title: Names
   route_name: schemadotorg.settings.names
   parent_id: schemadotorg.settings

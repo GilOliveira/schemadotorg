@@ -107,6 +107,9 @@ types:
       uri: 'https://www.schemaapp.com/healthcare-schema-markup-definitive-guide/'
     - title: 'Schema Markup for the Healthcare Industry'
       uri: 'https://www.youtube.com/watch?v=xLEzdjMd-2w'
+  Menu:
+    - title: 'Schema.org Just Released New Restaurant Menu Markup — Here''s How to Get Started'
+      uri: 'https://moz.com/blog/schema-new-restaurant-menu-markup'
   MusicEvent:
     - title: Venue
       uri: 'https://jsonld.com/event/venue/'

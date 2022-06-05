@@ -30,6 +30,9 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
     case 'entity.schemadotorg_mapping_type.collection':
       return '<p>' . t('The <strong>Schema.org mapping types</strong> page lists all available mapping types with default settings for available Drupal entity types.') . '<p>';
 
+    case 'schemadotorg.relationships':
+      return '<p>' . t('The <strong>Schema.org relationships</strong> page allows administrators to track relationships be Schema.org types via properties using entity references.') . '<p>';
+
     case 'schemadotorg.settings':
       return '<p>' . t('The <strong>Schema.org types settings</strong> page allows administrators to configure the default settings for Schema.org types.') . '<p>';
 
@@ -44,7 +47,6 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
         . t("The <strong>Schema.org names settings</strong> page allows administrators to configure how Schema.org's <a href=\":href\">naming conventions</a> for types and properties are converted to Drupal's naming conventions.", $t_args)
         . ' '
         . t('For example, Schema.org uses camel case (camelCase) and Drupal uses snake case (snake_case) and Drupal limits all entity ids and field names to 32 characters.')
-
         . '<p>';
 
     case 'schemadotorg_report.settings':
@@ -221,12 +223,12 @@ function schemadotorg_form_field_config_edit_form_alter(&$form, FormStateInterfa
   $target_type = $field->getSetting('target_type');
   $expected_target_bundles = $mapping_storage->getSchemaPropertyTargetBundles($target_type, $schema_type, $schema_property);
 
-  // Get selected target bundles.
+  // Get actual target bundles.
   $handler_settings = $field->getSetting('handler_settings');
-  $selected_target_bundles = $handler_settings['target_bundles'];
+  $actual_target_bundles = $handler_settings['target_bundles'];
 
   // Display warning when the expected and selected bundles do not match.
-  if ($expected_target_bundles != $selected_target_bundles) {
+  if ($expected_target_bundles != $actual_target_bundles) {
     $target_label = ($target_type === 'paragraph')
       ? t('Paragraph types')
       : \Drupal::entityTypeManager()->getDefinition($target_type)->getPluralLabel();
