@@ -52,22 +52,7 @@ default_schema_types:
   image: ImageObject
   remote_video: VideoObject
   video: VideoObject
-default_schema_type_properties:
-  MediaObject:
-    - name
-    - dateCreated
-    - dateModified
-    - inLanguage
-  AudioObject:
-    - contentUrl
-  DataDownload:
-    - contentUrl
-  ImageObject:
-    - thumbnail
-    - image
-  VideoObject:
-    - thumbnail
-    - video
+default_schema_type_properties: {  }
 default_schema_type_subtypes: { }
 default_field_weights: { }
 default_field_groups: { }

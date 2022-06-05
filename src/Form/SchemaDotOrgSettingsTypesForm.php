@@ -35,6 +35,13 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
     $form['schema_types'] = [
       '#tree' => TRUE,
     ];
+    $form['schema_types']['default_properties'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
+      '#settings_format' => 'SchemaType|propertyName01,propertyName02,propertyName02',
+      '#title' => $this->t('Default Schema.org type properties'),
+      '#default_value' => $config->get('schema_types.default_properties'),
+    ];
     $form['schema_types']['main_properties'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,

@@ -17,29 +17,7 @@ default_base_fields:
     - image
 default_schema_types:
   user: Person
-default_schema_type_properties:
-  Person:
-    - additionalName
-    - address
-    - affiliation
-    - alumniOf
-    - award
-    - birthDate
-    - contactPoint
-    - description
-    - email
-    - familyName
-    - gender
-    - givenName
-    - honorificPrefix
-    - honorificSuffix
-    - image
-    - jobTitle
-    - knowsLanguage
-    - name
-    - nationality
-    - telephone
-    - worksFor
+default_schema_type_properties: { }
 default_schema_type_subtypes: { }
 default_field_weights: { }
 default_field_groups:

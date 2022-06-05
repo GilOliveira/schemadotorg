@@ -30,29 +30,7 @@ default_base_fields:
     - description
 default_schema_types:
   tags: DefinedTerm
-default_schema_type_properties:
-  DefinedTerm:
-    - name
-    - description
-    - termCode
-  MenuItem:
-    - description
-    - name
-    - image
-    - menuAddOn
-    - nutrition
-    - offers
-    - suitableForDiet
-  MenuSection:
-    - description
-    - name
-    - hasMenuItem
-    - hasMenuSection
-  Menu:
-    - description
-    - name
-    - hasMenuItem
-    - hasMenuSection
+default_schema_type_properties: { }
 default_schema_type_subtypes: { }
 default_field_weights:
   - name

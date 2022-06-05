@@ -97,58 +97,7 @@ default_base_fields:
   langcode:
     - inLanguage
 default_schema_types: { }
-default_schema_type_properties:
-  ContactPoint:
-    - contactType
-    - email
-    - telephone
-  NutritionInformation:
-    - calories
-    - carbohydrateContent
-    - cholesterolContent
-    - fatContent
-    - fiberContent
-    - proteinContent
-    - saturatedFatContent
-    - servingSize
-    - sodiumContent
-    - sugarContent
-    - transFatContent
-    - unsaturatedFatContent
-  OpeningHoursSpecification:
-    - closes
-    - dayOfWeek
-    - opens
-  PostalAddress:
-    - addressCountry
-    - addressLocality
-    - addressRegion
-    - alternateName
-    - description
-    - hoursAvailable
-    - postOfficeBoxNumber
-    - postalCode
-    - streetAddress
-    - telephone
-  PropertyValue:
-    - name
-    - value
-    - valueReference
-    - unitCode
-    - unitText
-  LocationFeatureSpecification:
-    - hoursAvailable
-    - validFrom
-    - validThrough
-  QuantitativeValue:
-    - name
-    - value
-    - valueReference
-    - unitCode
-    - unitText
-  Question:
-    - name
-    - acceptedAnswer
+default_schema_type_properties: { }
 default_schema_type_subtypes: { }
 default_field_weights:
   - name

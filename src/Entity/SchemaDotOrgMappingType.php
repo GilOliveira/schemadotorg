@@ -186,20 +186,32 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * {@inheritdoc}
    */
   public function getDefaultSchemaTypeProperties($schema_type) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+    $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+
+    // Get global default Schema.org type properties.
+    $type_properties = \Drupal::config('schemadotorg.settings')
+      ->get('schema_types.default_properties');
+
+    // Get mapping type default Schema.org type properties.
+    $mapping_type_properties = $this->get('default_schema_type_properties');
+
     $default_properties = [];
 
-    // Get default Schema.org type properties.
-    $type_properties = $this->get('default_schema_type_properties');
-    if ($type_properties) {
-      /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
-      $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
-      $breadcrumbs = $schema_type_manager->getTypeBreadcrumbs($schema_type);
-      foreach ($breadcrumbs as $breadcrumb) {
-        foreach ($breadcrumb as $breadcrumb_type) {
-          $breadcrumb_type_properties = $type_properties[$breadcrumb_type] ?? NULL;
-          if ($breadcrumb_type_properties) {
-            $default_properties += array_combine($breadcrumb_type_properties, $breadcrumb_type_properties);
-          }
+    $breadcrumbs = $schema_type_manager->getTypeBreadcrumbs($schema_type);
+    foreach ($breadcrumbs as $breadcrumb) {
+      foreach ($breadcrumb as $breadcrumb_type) {
+        if (isset($type_properties[$breadcrumb_type])) {
+          $default_properties += array_combine(
+            $type_properties[$breadcrumb_type],
+            $type_properties[$breadcrumb_type]
+          );
+        }
+        if (isset($mapping_type_properties[$breadcrumb_type])) {
+          $default_properties += array_combine(
+            $mapping_type_properties[$breadcrumb_type],
+            $mapping_type_properties[$breadcrumb_type]
+          );
         }
       }
     }

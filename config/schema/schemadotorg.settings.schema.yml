@@ -9,6 +9,15 @@ schemadotorg.settings:
       type: mapping
       label: 'Schema.org types'
       mapping:
+        default_properties:
+          type: sequence
+          label: 'Default Schema.org type properties'
+          sequence:
+            type: sequence
+            label: 'Schema.org type'
+            sequence:
+              type: string
+              label: 'Schema.org property'
         main_properties:
           type: sequence
           label: 'Schema.org types main properties'
