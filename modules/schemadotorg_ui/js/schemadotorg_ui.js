@@ -84,6 +84,13 @@
         .each(function () {
           var $table = $(this);
 
+          // Make sure the table has mapping properties before proceeding.
+          if ($table.find('tbody tr.color-warning, tbody tr.color-success').length === 0) {
+            $table.show();
+            $('#edit-ignored-properties').show();
+            return;
+          }
+
           var hideUnmappedLabel = Drupal.t('Hide unmapped');
           var showUnmappedLabel = Drupal.t('Show unmapped');
 

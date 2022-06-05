@@ -5,11 +5,17 @@ id: taxonomy_term
 target_entity_type_id: taxonomy_term
 multiple: true
 recommended_schema_types:
-  types:
-    label: 'Types'
+  term:
+    label: Term
     types:
       - DefinedTerm
       - CategeryCode
+  menu:
+    label: Menu
+    types:
+      - MenuItem
+      - MenuSection
+      - Menu
 default_base_fields:
   status: {  }
   uuid:
@@ -29,8 +35,35 @@ default_schema_type_properties:
     - name
     - description
     - termCode
+  MenuItem:
+    - description
+    - name
+    - image
+    - menuAddOn
+    - nutrition
+    - offers
+    - suitableForDiet
+  MenuSection:
+    - description
+    - name
+    - hasMenuItem
+    - hasMenuSection
+  Menu:
+    - description
+    - name
+    - hasMenuItem
+    - hasMenuSection
 default_schema_type_subtypes: { }
-default_field_weights: { }
+default_field_weights:
+  - name
+  - description
+  - image
+  - offers
+  - suitableForDiet
+  - nutrition
+  - menuAddOn
+  - hasMenuItem
+  - hasMenuSection
 default_field_groups: { }
 default_field_group_label_suffix: ''
 default_field_group_form_type: ''

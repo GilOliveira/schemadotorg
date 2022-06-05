@@ -141,11 +141,24 @@ function configure() {
   drush -y config-set devel.settings devel_dumper kint
 }
 
+function import() {
+  drush features:import -y schemadotorg
+#  drush features:import -y schemadotorg_descriptions
+#  drush features:import -y schemadotorg_flexfield
+#  drush features:import -y schemadotorg_jsonapi
+#  drush features:import -y schemadotorg_jsonld
+#  drush features:import -y schemadotorg_jsonld_endpoint
+#  drush features:import -y schemadotorg_report
+  drush features:import -y schemadotorg_taxonomy
+}
+
 ################################################################################
 # Basic Demo
 ################################################################################
 
 function setup() {
+  import
+
   drush schemadotorg:create-type -y media:AudioObject media:DataDownload media:ImageObject media:VideoObject
   drush schemadotorg:create-type -y taxonomy_term:DefinedTerm
 
@@ -175,25 +188,55 @@ function generate() {
 }
 
 ################################################################################
-# Basic Demo
+# HowTo.
 ################################################################################
 
 function setup_howto() {
-  drush schemadotorg:create-type -y media:ImageObject
+  setup
+
   drush schemadotorg:create-type -y paragraph:HowToSupply paragraph:HowToTool paragraph:HowToDirection paragraph:HowToTip paragraph:HowToStep paragraph:HowToSection
   drush schemadotorg:create-type -y node:HowTo
 }
 
 function teardown_howto() {
-  drush devel-generate:content --kill --bundles=how_to 0
+  teardown
 
+  drush devel-generate:content --kill --bundles=how_to 0
   drush schemadotorg:delete-type -y paragraph:HowToSupply paragraph:HowToTool paragraph:HowToDirection paragraph:HowToTip paragraph:HowToStep paragraph:HowToSection
   drush schemadotorg:delete-type -y node:HowTo
 }
 
 function generate_howto() {
   drush devel-generate:content --kill --add-type-label --skip-fields=menu_link\
-    --bundles=how_to
+    --bundles=how_to 5
+}
+
+################################################################################
+# Food.
+################################################################################
+
+function setup_food() {
+  setup
+
+  drush schemadotorg:create-type -y paragraph:NutritionInformation paragraph:Offer
+  drush schemadotorg:create-type -y taxonomy_term:MenuItem taxonomy_term:MenuSection taxonomy_term:Menu
+  drush schemadotorg:create-type -y node:Recipe
+}
+
+function teardown_food() {
+  teardown
+
+  drush devel-generate:term --kill --bundles=menu_item,menu_section,menu 0
+  drush schemadotorg:delete-type -y paragraph:NutritionInformation paragraph:Offer
+  drush schemadotorg:delete-type -y taxonomy_term:MenuItem taxonomy_term:MenuSection taxonomy_term:Menu
+  drush schemadotorg:delete-type -y node:Recipe
+
+}
+
+function generate_food() {
+  drush devel-generate:terms --kill --bundles=menu_item,menu_section,menu 50
+  drush devel-generate:content --kill --add-type-label --skip-fields=menu_link\
+    --bundles=recipe 5
 }
 
 ################################################################################

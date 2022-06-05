@@ -370,7 +370,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           $property_definition = $this->schemaTypeManager->getProperty($property_name);
           $existing_field = $this->getField($field_name);
           $field_label = $this->config('schemadotorg.settings')
-            ->get("schema_types.custom_labels.$schema_type.$property_name");
+            ->get("schema_types.custom_labels.$schema_type--$property_name");
           $field_label = $field_label ?: $property_definition['drupal_label'];
           $field = [
             'machine_name' => $field_name,
@@ -554,7 +554,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   protected function buildAddEntityForm(array &$form) {
     $target_entity_type_bundle_definition = $this->getEntity()->getTargetEntityTypeBundleDefinition();
     $type_definition = $this->getSchmemaTypeDefinition();
-    $supports_multiple = $this->getMappingType()->supportsMultiple();
 
     $t_args = ['@name' => $target_entity_type_bundle_definition->getSingularLabel()];
 
@@ -569,7 +568,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#title' => $this->t('Name'),
       '#description' => $this->t('The human-readable name of this content type. This text will be displayed as part of the list on the Add content page. This name must be unique.'),
       '#required' => TRUE,
-      '#default_value' => (!$supports_multiple) ? $type_definition['drupal_label'] : '',
+      '#default_value' => $type_definition['drupal_label'],
     ];
     $form['entity']['id'] = [
       '#type' => 'textfield',
@@ -578,7 +577,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#required' => TRUE,
       '#pattern' => '[_0-9a-z]+',
       '#maxlength' => $this->schemaNames->getNameMaxLength('types'),
-      '#default_value' => (!$supports_multiple) ? $type_definition['drupal_name'] : '',
+      '#default_value' => $type_definition['drupal_name'],
     ];
     $form['entity']['description'] = [
       '#type' => 'textarea',
@@ -829,7 +828,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       // Get field label default value.
       $schema_type = $this->getSchemaType();
       $field_label_default_value = $this->config('schemadotorg.settings')
-        ->get("schema_types.custom_labels.$schema_type.$property");
+        ->get("schema_types.custom_labels.$schema_type--$property");
       $field_label_default_value = $field_label_default_value ?: $property_definition['drupal_label'];
 
       $row['field'][static::ADD_FIELD]['type'] = [

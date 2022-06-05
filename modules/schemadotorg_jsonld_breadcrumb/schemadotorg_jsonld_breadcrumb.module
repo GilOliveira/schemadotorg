@@ -24,15 +24,24 @@ function schemadotorg_jsonld_breadcrumb_schemadotorg_jsonld(RouteMatchInterface 
     return NULL;
   }
 
+  /** @var \Drupal\Core\Render\RendererInterface $renderer */
+  $renderer = \Drupal::service('renderer');
+
   $items = [];
   $position = 1;
   foreach ($links as $link) {
+    $id = $link->getUrl()->setAbsolute()->toString();
+    $text = $link->getText();
+    if (is_array($text)) {
+      $text = $renderer->renderPlain($text);
+    }
+
     $items[] = [
       '@type' => 'ListItem',
       'position' => $position,
       'item' => [
-        '@id' => $link->getUrl()->setAbsolute()->toString(),
-        'name' => (string) $link->getText(),
+        '@id' => $id,
+        'name' => (string) $text,
       ],
     ];
     $position++;

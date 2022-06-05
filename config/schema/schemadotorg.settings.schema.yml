@@ -19,11 +19,8 @@ schemadotorg.settings:
           type: sequence
           label: 'Schema.org type custom property labels'
           sequence:
-            type: sequence
-            label: 'Schema.org type'
-            sequence:
-              type: string
-              label: 'Schema.org type custom property labels'
+            type: string
+            label: 'Schema.org type custom property label'
         default_field_types:
           type: sequence
           label: 'Default field types'
@@ -71,6 +68,24 @@ schemadotorg.settings:
         type: mapping
         label: Names
         mapping:
+          custom_labels:
+            type: sequence
+            label: Custom labels
+            sequence:
+              type: string
+              label: Custom label
+          custom_words:
+            type: sequence
+            label: Custom words
+            sequence:
+              type: string
+              label: Custom title
+          custom_names:
+            type: sequence
+            label: Custom names
+            sequence:
+              type: string
+              label: Custom name
           prefixes:
             type: sequence
             label: Prefixes
@@ -89,24 +104,6 @@ schemadotorg.settings:
             sequence:
               type: string
               label: Abbreviation
-          custom_names:
-            type: sequence
-            label: Custom names
-            sequence:
-              type: string
-              label: Custom name
-          custom_words:
-            type: sequence
-            label: Custom words
-            sequence:
-              type: string
-              label: Custom title
-          custom_labels:
-            type: sequence
-            label: Custom labels
-            sequence:
-              type: string
-              label: Custom label
           acronyms:
             type: sequence
             label: Acronyms

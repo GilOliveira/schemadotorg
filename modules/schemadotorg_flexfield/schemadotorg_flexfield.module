@@ -53,13 +53,12 @@ function schemadotorg_flexfield_schemadotorg_property_field_alter(
   $flexfield_schema_properties = $default_properties['properties'] ?? [];
   $schema_properties = $schema_type_manager->getProperties(array_keys($flexfield_schema_properties));
 
-  $custom_labels = \Drupal::config('schemadotorg.settings')->get('schema_types.custom_labels');
   $weight = 0;
   $field_storage_columns = [];
   $field_settings = [];
   foreach ($flexfield_schema_properties as $property => $data_type) {
     $custom_label = \Drupal::config('schemadotorg.settings')
-      ->get("schema_types.custom_labels.$flexfield_schema_type.$property");
+      ->get("schema_types.custom_labels.$flexfield_schema_type--$property");
 
     $name = $schema_names->camelCaseToSnakeCase($property);
     $label = $custom_label ?: $schema_names->camelCaseToSentenceCase($property);

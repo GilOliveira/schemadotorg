@@ -10,6 +10,7 @@ recommended_schema_types:
     types:
       - ContactPoint
       - NutritionInformation
+      - Offer
       - Question
   how_to:
     label: How to
@@ -170,6 +171,11 @@ default_schema_type_properties:
   HowToStep:
     - itemListElement
     - name
+  Offer:
+    - availability
+    - itemOffered
+    - price
+    - priceCurrency
 default_schema_type_subtypes: { }
 default_field_weights:
   - name

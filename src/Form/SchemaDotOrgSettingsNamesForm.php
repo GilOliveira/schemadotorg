@@ -56,6 +56,32 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
     $form['names'] = [
       '#type' => 'container',
     ];
+    $form['names']['custom_labels'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'search|replace',
+      '#title' => $this->t('Custom labels'),
+      '#description' => $this->t('Enter replacement labels used when Schema.org types and names are displayed as a Drupal entity and field machine label.')
+      . ' '
+      . $this->t('Schema.org type and property names are case-sensitive and must be an exact match.'),
+      '#default_value' => $config->get('names.custom_labels'),
+    ];
+    $form['names']['custom_words'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'search|replace',
+      '#title' => $this->t('Custom words'),
+      '#description' => $this->t('Enter titles used when Schema.org types and names are converted to Drupal entity and field machine names.'),
+      '#default_value' => $config->get('names.custom_words'),
+    ];
+    $form['names']['custom_names'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'search|replace',
+      '#title' => $this->t('Custom names'),
+      '#description' => $this->t('Enter custom names used when Schema.org types and names are converted to Drupal entity and field machine names.'),
+      '#default_value' => $config->get('names.custom_names'),
+    ];
     $form['names']['prefixes'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
@@ -79,32 +105,6 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
       '#title' => $this->t('Abbreviations'),
       '#description' => $this->t('Enter replacement abbreviation used when Schema.org types and names are converted to Drupal entity and field machine names.'),
       '#default_value' => $config->get('names.abbreviations'),
-    ];
-    $form['names']['custom_names'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#settings_format' => 'search|replace',
-      '#title' => $this->t('Custom names'),
-      '#description' => $this->t('Enter custom names used when Schema.org types and names are converted to Drupal entity and field machine names.'),
-      '#default_value' => $config->get('names.custom_names'),
-    ];
-    $form['names']['custom_words'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#settings_format' => 'search|replace',
-      '#title' => $this->t('Custom titles'),
-      '#description' => $this->t('Enter titles used when Schema.org types and names are converted to Drupal entity and field machine names.'),
-      '#default_value' => $config->get('names.custom_words'),
-    ];
-    $form['names']['custom_labels'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#settings_format' => 'search|replace',
-      '#title' => $this->t('Custom labels'),
-      '#description' => $this->t('Enter replacement labels used when Schema.org types and names are displayed as a Drupal entity and field machine label.')
-      . ' '
-      . $this->t('Schema.org type and property names are case-sensitive and must be an exact match.'),
-      '#default_value' => $config->get('names.custom_labels'),
     ];
     $form['names']['acronyms'] = [
       '#type' => 'schemadotorg_settings',
