@@ -91,7 +91,12 @@ class SchemaDotOrgRelationshipsController extends ControllerBase {
       $row[] = implode('; ', $expected_target_bundles);
       $row[] = implode('; ', $actual_target_bundles);
       $row[] = ['data' => $link];
-      $rows[] = $row;
+      if ($expected_target_bundles != $actual_target_bundles) {
+        $rows[] = ['data' => $row, 'class' => ['color-warning']];
+      }
+      else {
+        $rows[] = $row;
+      }
     }
 
     return [

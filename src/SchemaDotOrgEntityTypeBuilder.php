@@ -529,8 +529,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     &$formatter_id,
     array &$formatter_settings
   ) {
-    // See if we can copy existing field instance values from another bundle.
-    $copied_existing_values = $this->copyExistingFieldValues(
+    $this->copyExistingFieldValues(
       $field_values,
       $widget_id,
       $widget_settings,
@@ -538,20 +537,16 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       $formatter_settings
     );
 
-    // If we can't copy existing field instance values,
-    // set default field values.
-    if (!$copied_existing_values) {
-      $this->setDefaultFieldValues(
-        $type,
-        $property,
-        $field_storage_values,
-        $field_values,
-        $widget_id,
-        $widget_settings,
-        $formatter_id,
-        $formatter_settings
-      );
-    }
+    $this->setDefaultFieldValues(
+      $type,
+      $property,
+      $field_storage_values,
+      $field_values,
+      $widget_id,
+      $widget_settings,
+      $formatter_id,
+      $formatter_settings
+    );
 
     $hook = 'schemadotorg_property_field_alter';
     $implementations = $this->moduleHandler->getImplementations($hook);
@@ -607,7 +602,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       'field_name' => $field_name,
     ]);
     if (!$existing_field_configs) {
-      return FALSE;
+      return;
     }
 
     /** @var \Drupal\field\FieldConfigInterface $existing_field_config */
@@ -644,8 +639,6 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       $formatter_id = $existing_view_component['type'];
       $formatter_settings = $existing_view_component['settings'];
     }
-
-    return TRUE;
   }
 
   /**

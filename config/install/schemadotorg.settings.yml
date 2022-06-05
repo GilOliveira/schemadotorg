@@ -69,7 +69,7 @@ schema_types:
       - text_with_summary
 schema_properties:
   range_includes:
-    HowTo--steps:
+    HowTo--step:
       - HowToStep
       - HowToSection
     HowToStep--itemListElement:
