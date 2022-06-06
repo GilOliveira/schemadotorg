@@ -684,9 +684,11 @@ schema_properties:
     - interpretedAsClaim
     - isicV4
     - iso6523Code
+    - itemListOrder
     - leiCode
     - naics
     - netWorth
+    - numberOfItems
     - materialExtent
     - ownershipFundingInfo
     - pageEnd

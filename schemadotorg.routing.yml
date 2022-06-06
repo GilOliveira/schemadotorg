@@ -89,11 +89,3 @@ entity.schemadotorg_mapping_type.delete_form:
   requirements:
     _permission: 'administer schemadotorg'
 
-schemadotorg.relationships:
-  path: '/admin/config/search/schemadotorg/relationships'
-  defaults:
-    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgRelationshipsController::index'
-    _title: 'Schema.org relationships'
-  requirements:
-    _permission: 'administer schemadotorg'
-

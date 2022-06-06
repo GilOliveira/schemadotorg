@@ -51,6 +51,21 @@ schemadotorg_report.properties:
   route_name: schemadotorg_report.properties
   base_route: schemadotorg_report
 
+# Mappings
+
+schemadotorg_report.mappings:
+  title: Mappings
+  route_name: schemadotorg_report.mappings.recommendations
+  base_route: schemadotorg_report
+schemadotorg_report.mappings.recommendations:
+  title: Recommendations
+  route_name: schemadotorg_report.mappings.recommendations
+  parent_id: schemadotorg_report.mappings
+schemadotorg_report.mappings.relationships:
+  title: Relationships
+  route_name: schemadotorg_report.mappings.relationships
+  parent_id: schemadotorg_report.mappings
+
 # Names
 
 schemadotorg_report.names:

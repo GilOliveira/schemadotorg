@@ -1,25 +1,83 @@
 <?php
 
-namespace Drupal\schemadotorg\Controller;
+namespace Drupal\schemadotorg_report\Controller;
 
-use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
-use Drupal\Core\Url;
 use Drupal\field_ui\FieldUI;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Returns responses for Schema.org relationships routes.
+ * Returns responses for Schema.org report mapping routes.
  */
-class SchemaDotOrgRelationshipsController extends ControllerBase {
+class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerBase {
 
   /**
-   * Builds the Schema.org relationships table.
+   * Builds the Schema.org mapping recommendations.
    *
    * @return array
-   *   A renderable array containing a Schema.org relationships table.
+   *   A renderable array containing the Schema.org mapping recommendations.
    */
-  public function index() {
+  public function recommendations() {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
+    $mapping_type_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping_type');
+
+    $header = [
+      $this->t('Entity type'),
+      $this->t('Recommendation group'),
+      $this->t('Recommended Schema.org type'),
+      $this->t('Default Schema.org properties'),
+    ];
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface[] $mapping_types */
+    $mapping_types = $mapping_type_storage->loadMultiple();
+    $rows = [];
+    foreach ($mapping_types as $mapping_type) {
+      $recomended_types = $mapping_type->getRecommendedSchemaTypes();
+      foreach ($recomended_types as $recommendation_type) {
+        foreach ($recommendation_type['types'] as $type) {
+          // Display message when a recommended type does not exist.
+          if (!$this->schemaTypeManager->isType($type)) {
+            $t_args = [
+              '@entity' => $mapping_type->id(),
+              '%type' => $type,
+            ];
+            $message = $this->t('Schema.org type %type does not exists. Please update the @entity recommended types.', $t_args);
+            $this->messenger()->addWarning($message);
+            continue;
+          }
+
+          $properties = $mapping_type->getDefaultSchemaTypeProperties($type);
+
+          $row = [];
+          $row[] = $mapping_type->label();
+          $row[] = $recommendation_type['label'];
+          $row[] = $type;
+          $row[] = $properties ? ['data' => $this->schemaTypeBuilder->buildItemsLinks($properties)] : '';
+          if (empty($properties)) {
+            $rows[] = ['data' => $row, 'class' => ['color-warning']];
+          }
+          else {
+            $rows[] = $row;
+          }
+        }
+      }
+    }
+
+    return [
+      '#type' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+      '#empty' => $this->t('There are no Schema.org recommendations yet.'),
+      '#sticky' => TRUE,
+    ];
+  }
+
+  /**
+   * Builds the Schema.org mapping relationships.
+   *
+   * @return array
+   *   A renderable array containing the Schema.org mapping relationships.
+   */
+  public function relationships() {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping');
 

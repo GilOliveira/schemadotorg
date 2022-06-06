@@ -86,6 +86,25 @@ schemadotorg_report.properties:
   requirements:
     _permission: 'access site reports'
 
+# Mappings
+
+schemadotorg_report.mappings.recommendations:
+  path: '/admin/reports/schemadotorg/docs/mappings/recommendations'
+  defaults:
+    _title: 'Schema.org: Mappings recommendations'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportMappingsController::recommendations'
+  requirements:
+    _permission: 'access site reports'
+
+schemadotorg_report.mappings.relationships:
+  path: '/admin/reports/schemadotorg/docs/mappings/relationships'
+  defaults:
+    _title: 'Schema.org: Mappings relationships'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportMappingsController::relationships'
+  requirements:
+    _permission: 'access site reports'
+
+
 # Names
 
 schemadotorg_report.names:

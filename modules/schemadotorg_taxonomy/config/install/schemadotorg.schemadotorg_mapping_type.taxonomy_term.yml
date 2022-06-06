@@ -9,7 +9,7 @@ recommended_schema_types:
     label: Term
     types:
       - DefinedTerm
-      - CategeryCode
+      - CategoryCode
   menu:
     label: Menu
     types:
