@@ -44,16 +44,16 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *     "id",
  *     "target_entity_type_id",
  *     "multiple",
+Minor *     "recommended_schema_types",
  *     "default_schema_types",
+ *     "default_schema_type_properties",
+ *     "default_schema_type_subtypes",
  *     "default_base_fields",
  *     "default_field_weights",
  *     "default_field_groups",
  *     "default_field_group_label_suffix",
  *     "default_field_group_form_type",
  *     "default_field_group_view_type",
- *     "recommended_schema_types",
- *     "default_schema_type_properties",
- *     "default_schema_type_subtypes",
  *   }
  * )
  */

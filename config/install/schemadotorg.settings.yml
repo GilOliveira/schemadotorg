@@ -232,6 +232,9 @@ schema_types:
       - checkoutTime
       - numberOfRooms
       - petsAllowed
+      - priceRange
+      - smokingAllowed
+      - starRating
     MedicalOrganization:
       - isAcceptingNewPatients
       - medicalSpecialty

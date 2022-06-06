@@ -42,6 +42,14 @@ _The below modules provide different ways to create and manage a collection of f
   (Applies to: [Intangible](https://schema.org/Intangible))  
   Enables the creation of paragraphs (i.e. component) entities.
 
+- **[Micro-content](https://www.drupal.org/project/microcontent)**
+  (Applies to: [Intangible](https://schema.org/Intangible))  
+  Provides a lightweight reusable content-entity and type that supports fields, revisions and translation.
+
+- **[Storage](https://www.drupal.org/project/storage)**
+  (Applies to: [Intangible](https://schema.org/Intangible))  
+  Lightweight, bundleable entities for storing structured data.
+
 - **[Inline Entity Form](https://www.drupal.org/project/inline_entity_form)**
   (Applies to: [Intangible](https://schema.org/Intangible))  
   Provides a widget for inline management (creation, modification, removal) of referenced entities.
