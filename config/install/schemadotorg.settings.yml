@@ -275,36 +275,6 @@ schema_types:
       - sameAs
       - telephone
       - worksFor
-    JobPosting:
-      - baseSalary
-      - benefits
-      - datePosted
-      - directApply
-      - educationRequirements
-      - eligibilityToWorkRequirement
-      - employerOverview
-      - employmentType
-      - estimatedSalary
-      - experienceRequirements
-      - industry
-      - jobBenefits
-      - jobImmediateStart
-      - jobLocation
-      - jobLocationType
-      - jobStartDate
-      - occupationalCategory
-      - physicalRequirement
-      - responsibilities
-      - skills
-      - validThrough
-      - workHours
-    Occupation:
-      - educationRequirements
-      - experienceRequirements
-      - occupationalCategory
-      - qualifications
-      - responsibilities
-      - skills
     Place:
       - address
       - description
@@ -414,23 +384,6 @@ schema_types:
       - contactType
       - email
       - telephone
-    NutritionInformation:
-      - calories
-      - carbohydrateContent
-      - cholesterolContent
-      - fatContent
-      - fiberContent
-      - proteinContent
-      - saturatedFatContent
-      - servingSize
-      - sodiumContent
-      - sugarContent
-      - transFatContent
-      - unsaturatedFatContent
-    OpeningHoursSpecification:
-      - closes
-      - dayOfWeek
-      - opens
     PostalAddress:
       - addressCountry
       - addressLocality
@@ -448,10 +401,6 @@ schema_types:
       - valueReference
       - unitCode
       - unitText
-    LocationFeatureSpecification:
-      - hoursAvailable
-      - validFrom
-      - validThrough
     QuantitativeValue:
       - name
       - value
@@ -590,6 +539,7 @@ schema_properties:
     hasMenuSection: 'Menu sections'
     itemListElement: Items
     knowsLanguage: 'Knows languages'
+    material: Materials
     medicalSpecialty: 'Medical specialties'
     performer: Performers
     publication: Publications
@@ -783,6 +733,7 @@ schema_properties:
     - hasMenuSection
     - keywords
     - knowsLanguage
+    - material
     - medicalSpecialty
     - mentions
     - musicBy
@@ -805,6 +756,7 @@ schema_properties:
     - recipeInstructions
     - risks
     - riskFactor
+    - sameAs
     - signOrSymptom
     - significantLink
     - sponsor

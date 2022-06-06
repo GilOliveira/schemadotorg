@@ -216,6 +216,21 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
       }
     }
 
+    // For 'Intangible' Schema.org types, we can default to all the properties
+    // except  those inherited from 'Thing'.
+    if (empty($default_properties) && $schema_type_manager->isIntangible($schema_type)) {
+      $thing_properties = $schema_type_manager->getTypeProperties('Thing');
+      $intangible_properties = $schema_type_manager->getTypeProperties($schema_type);
+      $default_properties = array_diff_key($intangible_properties, $thing_properties);
+      if ($default_properties) {
+        $default_properties = array_keys($default_properties);
+        $default_properties = array_combine($default_properties, $default_properties);
+      }
+      else {
+        $default_properties = ['name' => 'name'];
+      }
+    }
+
     ksort($default_properties);
     return $default_properties;
   }

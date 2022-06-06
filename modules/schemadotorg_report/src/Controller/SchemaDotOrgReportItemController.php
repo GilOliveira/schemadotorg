@@ -382,30 +382,6 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
   }
 
   /**
-   * Build Schema.org type breadcrumbs.
-   *
-   * @param string $type
-   *   The Schema.org type.
-   *
-   * @return array
-   *   A renderable containing Schema.org type breadcrumbs.
-   */
-  protected function buildTypeBreadcrumbs($type) {
-    $build = [];
-    $breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs($type);
-    foreach ($breadcrumbs as $breadcrumb_path => $breadcrumb) {
-      array_walk($breadcrumb, function (&$type) {
-        $type = Link::fromTextAndUrl($type, $this->schemaTypeBuilder->getItemUrl($type));
-      });
-      $build[$breadcrumb_path] = [
-        '#theme' => 'breadcrumb',
-        '#links' => $breadcrumb,
-      ];
-    }
-    return $build;
-  }
-
-  /**
    * Build Schema.org type enumerations.
    *
    * @param string $type

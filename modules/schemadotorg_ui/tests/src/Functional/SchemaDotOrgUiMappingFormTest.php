@@ -181,7 +181,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     // testing purposes.
     $this->drupalGet('/admin/config/people/accounts/schemadotorg');
     $this->submitForm(['properties[gender][field][name]' => '_add_'], 'Save');
-    $assert_session->responseContains('Added <em class="placeholder">Middle name; Address; Affiliations; Alumni of; Awards; Birth date; Contact points; Description; Last name; Gender; First name; Honorific prefix; Honorific suffix; Job title; Knows languages; Nationality; Telephone; Works for</em>');
+    $assert_session->responseContains('Added <em class="placeholder">Middle name; Address; Affiliations; Alumni of; Awards; Birth date; Contact points; Description; Last name; Gender; First name; Honorific prefix; Honorific suffix; Job title; Knows languages; Nationality; Same as; Telephone; Works for</em>');
 
     $assert_session->responseContains('Created <em class="placeholder">User</em> mapping.');
 
@@ -203,6 +203,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_job_title' => ['cardinality' => 1],
       'schema_knows_language' => ['cardinality' => -1],
       'schema_nationality' => ['cardinality' => 1],
+      'schema_same_as' => ['cardinality' => -1],
       'schema_telephone' => ['cardinality' => 1],
       'schema_works_for' => ['cardinality' => -1],
     ];
@@ -274,6 +275,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_knows_language' => ['type' => 'options_select'],
       'schema_nationality' => ['type' => 'options_select'],
       'schema_telephone' => ['type' => 'telephone_default'],
+      'schema_same_as' =>  ['type' => 'link_default'],
       'schema_works_for' => ['type' => 'string_textfield'],
     ];
     $actual_form_components = $person_form_display->getComponents();
@@ -305,6 +307,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_knows_language' => 'knowsLanguage',
       'schema_nationality' => 'nationality',
       'schema_telephone' => 'telephone',
+      'schema_same_as' => 'sameAs',
       'schema_works_for' => 'worksFor',
     ];
     $actual_schema_properties = $person_mapping->getSchemaProperties();

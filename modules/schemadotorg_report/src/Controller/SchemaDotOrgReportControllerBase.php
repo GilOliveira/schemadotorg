@@ -3,6 +3,7 @@
 namespace Drupal\schemadotorg_report\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -172,6 +173,30 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
       ];
     }
     return $items;
+  }
+
+  /**
+   * Build Schema.org type breadcrumbs.
+   *
+   * @param string $type
+   *   The Schema.org type.
+   *
+   * @return array
+   *   A renderable containing Schema.org type breadcrumbs.
+   */
+  protected function buildTypeBreadcrumbs($type) {
+    $build = [];
+    $breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs($type);
+    foreach ($breadcrumbs as $breadcrumb_path => $breadcrumb) {
+      array_walk($breadcrumb, function (&$type) {
+        $type = Link::fromTextAndUrl($type, $this->schemaTypeBuilder->getItemUrl($type));
+      });
+      $build[$breadcrumb_path] = [
+        '#theme' => 'breadcrumb',
+        '#links' => $breadcrumb,
+      ];
+    }
+    return $build;
   }
 
 }

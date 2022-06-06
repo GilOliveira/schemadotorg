@@ -21,10 +21,11 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
     $mapping_type_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping_type');
 
     $header = [
-      $this->t('Entity type'),
-      $this->t('Recommendation group'),
-      $this->t('Recommended Schema.org type'),
-      $this->t('Default Schema.org properties'),
+      ['data' => $this->t('Entity type'), 'width' => '10%'],
+      ['data' => $this->t('Group'), 'width' => '10%'],
+      ['data' => $this->t('Schema.org breadcrumb'), 'width' => '30%'],
+      ['data' => $this->t('Schema.org type'), 'width' => '10%'],
+      ['data' => $this->t('Schema.org properties'), 'width' => '40%'],
     ];
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface[] $mapping_types */
@@ -51,6 +52,7 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
 
           $row[] = $mapping_type->label();
           $row[] = $recommendation_type['label'];
+          $row[] = ['data' => $this->buildTypeBreadcrumbs($type)];
           $row[] = ['data' => $this->schemaTypeBuilder->buildItemsLinks($type)];
           $row[] = $properties ? ['data' => $this->schemaTypeBuilder->buildItemsLinks($properties)] : '';
           if (empty($properties)) {
