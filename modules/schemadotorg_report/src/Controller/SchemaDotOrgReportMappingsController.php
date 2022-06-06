@@ -48,9 +48,10 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
           $properties = $mapping_type->getDefaultSchemaTypeProperties($type);
 
           $row = [];
+
           $row[] = $mapping_type->label();
           $row[] = $recommendation_type['label'];
-          $row[] = $type;
+          $row[] = ['data' => $this->schemaTypeBuilder->buildItemsLinks($type)];
           $row[] = $properties ? ['data' => $this->schemaTypeBuilder->buildItemsLinks($properties)] : '';
           if (empty($properties)) {
             $rows[] = ['data' => $row, 'class' => ['color-warning']];

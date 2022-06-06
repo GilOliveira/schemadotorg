@@ -584,6 +584,7 @@ schema_properties:
     contributor: Contributors
     educationalLevel: Difficulty
     episode: Episodes
+    exceptDate: Except dates
     gamePlatform: 'Game platforms'
     hasMenuItem: 'Menu items'
     hasMenuSection: 'Menu sections'
@@ -773,6 +774,7 @@ schema_properties:
     - epidemiology
     - episode
     - educationRequirements
+    - exceptDate
     - experienceRequirements
     - gamePlatform
     - increasesRiskOf
