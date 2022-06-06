@@ -32,6 +32,7 @@ settings:
             - Blockquote
             - DrupalImage
             - DrupalMediaLibrary
+            - node
         -
           name: 'Block Formatting'
           items:

@@ -47,6 +47,8 @@ function require() {
 }
 
 function recommended() {
+  composer require drupal/embed
+  composer require drupal/entity_embed
   composer require drupal/inline_entity_form
   composer require drupal/flexfield
   composer require drupal/time_field
@@ -103,6 +105,8 @@ function install() {
   echo "Installing field related modules";
   drush -y pm-enable\
     address\
+    embed\
+    entity_embed\
     field_group\
     field_token_value\
     telephone\

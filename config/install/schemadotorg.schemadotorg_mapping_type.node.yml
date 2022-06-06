@@ -177,6 +177,7 @@ default_schema_types:
   page: WebPage
 default_schema_type_properties:
   CreativeWork:
+    - name
     - description
     - dateCreated
     - dateModified

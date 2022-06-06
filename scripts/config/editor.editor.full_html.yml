@@ -37,6 +37,7 @@ settings:
             - Blockquote
             - DrupalImage
             - DrupalMediaLibrary
+            - node
             - Table
             - HorizontalRule
         -
