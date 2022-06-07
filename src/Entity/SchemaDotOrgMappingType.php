@@ -201,18 +201,8 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
     $breadcrumbs = $schema_type_manager->getTypeBreadcrumbs($schema_type);
     foreach ($breadcrumbs as $breadcrumb) {
       foreach ($breadcrumb as $breadcrumb_type) {
-        if (isset($type_properties[$breadcrumb_type])) {
-          $default_properties += array_combine(
-            $type_properties[$breadcrumb_type],
-            $type_properties[$breadcrumb_type]
-          );
-        }
-        if (isset($mapping_type_properties[$breadcrumb_type])) {
-          $default_properties += array_combine(
-            $mapping_type_properties[$breadcrumb_type],
-            $mapping_type_properties[$breadcrumb_type]
-          );
-        }
+        $this->setSchemaTypeDefaultProperties($default_properties, $type_properties, $breadcrumb_type);
+        $this->setSchemaTypeDefaultProperties($default_properties, $mapping_type_properties, $breadcrumb_type);
       }
     }
 
@@ -233,6 +223,31 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
 
     ksort($default_properties);
     return $default_properties;
+  }
+
+  /**
+   * Set Schema.org type default properties.
+   *
+   * @param array $default_properties
+   *   An associative array of default properties.
+   * @param array $properties
+   *   An associative array of properties keyed by Schema.org type.
+   * @param string $type
+   *   A Schema.org type.
+   */
+  protected function setSchemaTypeDefaultProperties(array &$default_properties, array $properties, $type) {
+    if (!isset($properties[$type])) {
+      return;
+    }
+
+    foreach ($properties[$type] as $property) {
+      if ($property[0] === '-') {
+        unset($default_properties[substr($property, 1)]);
+      }
+      else {
+        $default_properties[$property] = $property;
+      }
+    }
   }
 
   /**

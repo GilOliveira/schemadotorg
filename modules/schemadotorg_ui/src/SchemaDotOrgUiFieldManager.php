@@ -330,9 +330,8 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
 
     $field_types = [];
 
-    // Set Schema.org type and property specific field types.
+    // Set Schema.org property specific field types.
     $property_mappings = $this->getFieldTypeMapping('properties');
-    $field_types += $property_mappings["$type--$property"] ?? [];
     $field_types += $property_mappings[$property] ?? [];
 
     // Check specific Schema.org type entity reference target bundles

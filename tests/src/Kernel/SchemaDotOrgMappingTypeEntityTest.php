@@ -96,6 +96,8 @@ class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
     ];
     $actual_default_type_properties = $media_mapping_type->getDefaultSchemaTypeProperties('ImageObject');
     $this->assertEquals($expected_default_type_properties, $actual_default_type_properties);
+    $this->assertArrayHasKey('step', $media_mapping_type->getDefaultSchemaTypeProperties('HowTo'));
+    $this->assertArrayNotHasKey('step', $media_mapping_type->getDefaultSchemaTypeProperties('Recipe'));
 
     // Check getting default Schema.org type's subtypes.
     $actual_default_type_subtype = $node_mapping_type->getDefaultSchemaTypeSubtypes();

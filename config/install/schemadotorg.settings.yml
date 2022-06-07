@@ -108,6 +108,7 @@ schema_types:
       - totalTime
       - yield
     Recipe:
+      - '-step'
       - cookTime
       - cookingMethod
       - nationality
@@ -528,6 +529,7 @@ schema_properties:
     episode: Episodes
     exceptDate: 'Except dates'
     gamePlatform: 'Game platforms'
+    hasMenu: 'Menus'
     hasMenuItem: 'Menu items'
     hasMenuSection: 'Menu sections'
     itemListElement: Items
@@ -659,8 +661,6 @@ schema_properties:
     - vatID
     - wordCount
   default_field_types:
-    Recipe--step:
-      - text_long
     acceptedAnswer:
       - text_long
     articleBody:
@@ -681,6 +681,8 @@ schema_properties:
       - string
     height:
       - string
+    recipeInstructions:
+      - text_long
     telephone:
       - telephone
       - string
@@ -723,6 +725,7 @@ schema_properties:
     - gamePlatform
     - increasesRiskOf
     - itemListElement
+    - hasMenu
     - hasMenuItem
     - hasMenuSection
     - keywords
