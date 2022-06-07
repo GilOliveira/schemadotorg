@@ -215,30 +215,6 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
             'items' => $this->buildTypeProperties($properties),
           ];
 
-          // Get default properties per entity type.
-          /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
-          $mapping_type_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping_type');
-          $entity_types = $mapping_type_storage->getEntityTypes();
-          foreach ($entity_types as $entity_type) {
-            $mapping_type = $mapping_type_storage->load($entity_type);
-            $entity_type_definition = $this->entityTypeManager()->getDefinition($entity_type);
-            $entity_type_default_properties = $mapping_type->getDefaultSchemaTypeProperties($item['label']);
-            if ($entity_type_default_properties) {
-              $t_args = [
-                '@type' => $entity_type_definition->getBundleEntityType()
-                ? $entity_type_definition->getBundleLabel()
-                : $entity_type_definition->getLabel(),
-              ];
-              $build[$name][$entity_type . '_default_properties'] = [
-                '#type' => 'item',
-                '#title' => $this->t('@type default properties', $t_args),
-                'links' => $this->schemaTypeBuilder->buildItemsLinks($entity_type_default_properties) + [
-                  '#prefix' => $item['label'] . ' | ',
-                ],
-              ];
-            }
-          }
-
           // Get all properties, excluding superseded properties.
           $all_properties = $this->database->select('schemadotorg_properties', 'properties')
             ->fields('properties', ['label'])
