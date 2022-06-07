@@ -74,6 +74,9 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
       '#settings_format' => 'SchemaType|propertyName01,propertyName02,propertyName02',
       '#title' => $this->t('Default Schema.org type properties'),
+      '#description' => $this->t('Enter default Schema.org type properties.')
+      . '<br/><br/>'
+      . $this->t('Please note: Default properties are automatically inherited from their parent Schema.org type and <a href="https://schema.org/Intangible">Intangible</a> are automatically assigned all defined properties, expect for properties defined via <a href="https://schema.org/Thing">Thing</a>.'),
       '#default_value' => $entity->get('default_schema_type_properties'),
     ];
     $form['default_schema_type_subtypes'] = [
