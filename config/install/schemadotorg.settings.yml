@@ -428,7 +428,6 @@ schema_types:
       - name
     Offer:
       - availability
-      - itemOffered
       - price
       - priceCurrency
     DefinedTerm:
@@ -544,6 +543,7 @@ schema_properties:
     knowsLanguage: 'Knows languages'
     material: Materials
     medicalSpecialty: 'Medical specialties'
+    menuAddOn: 'Menu add-ons'
     performer: Performers
     publication: Publications
     occupationalCategory: 'Occupational categories'
@@ -739,6 +739,7 @@ schema_properties:
     - material
     - medicalSpecialty
     - mentions
+    - menuAddOn
     - musicBy
     - performer
     - occupationalCategory

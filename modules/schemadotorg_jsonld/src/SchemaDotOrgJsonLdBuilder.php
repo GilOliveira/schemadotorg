@@ -273,13 +273,18 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     }
 
     // Handle entity reference relationships.
-    if ($item->entity
-      && $item->entity instanceof EntityInterface
-      && $map_entity) {
+    if ($item->entity && $item->entity instanceof EntityInterface) {
+      if (!$map_entity) {
+        return NULL;
+      }
+
       $has_url = !$item->entity->hasLinkTemplate('canonical');
       $entity_data = $this->buildMappedEntity($item->entity, $has_url);
       if ($entity_data) {
         return $entity_data;
+      }
+      else {
+        return NULL;
       }
     }
 

@@ -251,13 +251,28 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
   protected function setItemDescriptionOverrides($table, array &$overrides) {
     $items = $this->schemaTypeManager->getItems($table, $overrides, ['label', 'comment']);
     $options = ['base_path' => 'https://schema.org/'];
+
+    $trim_descriptions = $this->configFactory
+      ->getEditable('schemadotorg_descriptions.settings')
+      ->get('trim_descriptions');
     $custom_descriptions = $this->configFactory
       ->getEditable('schemadotorg_descriptions.settings')
       ->get('custom_descriptions');
     foreach ($overrides as $config_name => $id) {
-      $description = (array_key_exists($id, $custom_descriptions))
-        ? $custom_descriptions[$id]
-        : $this->schemaTypeBuilder->formatComment($items[$id]['comment'], $options);
+      if (array_key_exists($id, $custom_descriptions)) {
+        $description = $custom_descriptions[$id];
+      }
+      else {
+        $comment = $items[$id]['comment'];
+
+        // Trim description.
+        if ($trim_descriptions && $comment && strpos($comment, '<br/><br/>') !== FALSE) {
+          [$comment] = explode('<br/><br/>', $comment);
+          $comment .= ' <a href="/' . $id . '">Learn more</a>';
+        }
+
+        $description = $this->schemaTypeBuilder->formatComment($comment, $options);
+      }
 
       $data = $this->configFactory->getEditable($config_name)->getRawData();
 
@@ -275,6 +290,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
         ];
       }
     }
+
     return $overrides;
   }
 

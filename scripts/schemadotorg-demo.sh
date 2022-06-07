@@ -196,15 +196,11 @@ function generate() {
 ################################################################################
 
 function setup_howto() {
-  setup
-
   drush schemadotorg:create-type -y paragraph:HowToSupply paragraph:HowToTool paragraph:HowToDirection paragraph:HowToTip paragraph:HowToStep paragraph:HowToSection
   drush schemadotorg:create-type -y node:HowTo
 }
 
 function teardown_howto() {
-  teardown
-
   drush devel-generate:content --kill --bundles=how_to 0
   drush schemadotorg:delete-type -y paragraph:HowToSupply paragraph:HowToTool paragraph:HowToDirection paragraph:HowToTip paragraph:HowToStep paragraph:HowToSection
   drush schemadotorg:delete-type -y node:HowTo
@@ -220,16 +216,12 @@ function generate_howto() {
 ################################################################################
 
 function setup_food() {
-  setup
-
   drush schemadotorg:create-type -y paragraph:NutritionInformation paragraph:Offer
   drush schemadotorg:create-type -y taxonomy_term:MenuItem taxonomy_term:MenuSection taxonomy_term:Menu
   drush schemadotorg:create-type -y node:Recipe
 }
 
 function teardown_food() {
-  teardown
-
   drush devel-generate:term --kill --bundles=menu_item,menu_section,menu 0
   drush schemadotorg:delete-type -y paragraph:NutritionInformation paragraph:Offer
   drush schemadotorg:delete-type -y taxonomy_term:MenuItem taxonomy_term:MenuSection taxonomy_term:Menu

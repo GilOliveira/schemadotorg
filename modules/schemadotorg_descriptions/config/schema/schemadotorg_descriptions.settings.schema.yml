@@ -2,6 +2,9 @@ schemadotorg_descriptions.settings:
   type: config_entity
   label: Schema.org Descriptions settings
   mapping:
+    trim_descriptions:
+      type: boolean
+      label: 'Trim long Schema.org type and property descriptions'
     custom_descriptions:
       type: sequence
       label: 'Custom Schema.org type and property descriptions'

@@ -131,6 +131,27 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     $assert_session->responseNotContains('An alias for the item.');
     $assert_session->responseNotContains('This is a custom description for an alternateName');
 
+    // Create 'Offer' with 'price' which has a long description.
+    $this->drupalGet('/admin/structure/types/schemadotorg', ['query' => ['type' => 'Offer']]);
+    $this->submitForm([], 'Save');
+
+    // Check that the price and priceCurrency descriptions are trimmed.
+    $this->drupalGet('/node/add/offer');
+    $assert_session->responseContains('The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes. <a href="https://schema.org/price">Learn more</a>');
+    $assert_session->responseContains('The currency of the price, or a price component when attached to <a href="https://schema.org/PriceSpecification">PriceSpecification</a> and its subtypes. <a href="https://schema.org/priceCurrency">Learn more</a>');
+    $assert_session->responseNotContains('Usage guidelines:');
+
+    // Disable trim descriptions.
+    $this->drupalGet('/admin/config/search/schemadotorg/settings/descriptions');
+    $edit = ['trim_descriptions' => FALSE];
+    $this->submitForm($edit, 'Save configuration');
+
+    // Check that the price and priceCurrency descriptions are NOT trimmed.
+    $this->drupalGet('/node/add/offer');
+    $assert_session->responseNotContains('<a href="https://schema.org/price">Learn more</a>');
+    $assert_session->responseNotContains('<a href="https://schema.org/priceCurrency">Learn more</a>');
+    $assert_session->responseContains('Usage guidelines:');
+
     /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
     $module_installer = \Drupal::service('module_installer');
     $module_installer->uninstall(['schemadotorg_descriptions']);
