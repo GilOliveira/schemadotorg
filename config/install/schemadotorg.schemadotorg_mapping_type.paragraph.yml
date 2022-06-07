@@ -52,8 +52,7 @@ recommended_schema_types:
   commerce:
     label: Commerce
     types:
-      - Monetary
-      - Amount
+      - MonetaryAmount
       - Offer
       - Review
   food:

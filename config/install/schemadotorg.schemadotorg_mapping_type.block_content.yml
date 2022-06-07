@@ -16,7 +16,7 @@ recommended_schema_types:
     label: Common
     types:
       - ContactPoint
-      - Address
+      - PostalAddress
       - Language
       - Occupation
   web:
@@ -52,8 +52,7 @@ recommended_schema_types:
   commerce:
     label: Commerce
     types:
-      - Monetary
-      - Amount
+      - MonetaryAmount
       - Offer
       - Review
   food:
