@@ -6,108 +6,71 @@ target_entity_type_id: paragraph
 multiple: false
 recommended_schema_types:
   quick_start:
-    label: Quick Start
+    label: 'Quick Start'
     types:
       - ContactPoint
       - NutritionInformation
       - Offer
       - Question
-  how_to:
-    label: How to
+  common:
+    label: Common
     types:
+      - ContactPoint
+      - Address
+      - Language
+      - Occupation
+  web:
+    label: Web
+    types:
+      - BreadcrumbList
+      - WebPageElement
+      - DefinedTerm
+      - ItemList
+      - ListItem
+  content:
+    label: Content
+    types:
+      - ListItem
+      - Answer
+      - Question
       - HowToSupply
       - HowToTool
       - HowToDirection
       - HowToTip
       - HowToStep
       - HowToSection
-  place:
-    label: Place
-    types:
-      - ContactPoint
-      - PostalAddress
-      - OpeningHoursSpecification
-      - LocationFeatureSpecification
   organization:
     label: Organization
     types:
-      - Audience
       - Brand
-      - EducationalOccupationalCredential
-      - OwnershipInfo
+      - OpeningHoursSpecification
+      - Rating
+      - Review
+      - Role
       - ProgramMembership
-      - Invoice
-      - JobPosting
-  person:
-    label: Person
-    types:
-      - Language
-      - Occupation
       - OccupationalExperienceRequirements
-      - ProgramMembership
-  event:
-    label: Event/Travel
-    types:
-      - Audience
-      - Seat
-      - Schedule
-      - Reservation
-      - Ticket
-      - Trip
-      - VirtualLocation
   commerce:
     label: Commerce
     types:
-      - MerchantReturnPolicy
-      - MerchantReturnPolicySeasonalOverride
-      - MonetaryAmount
-      - OfferShippingDetails
-      - Offer
-      - Order
-      - OrderItem
-      - ParcelDelivery
-      - PriceSpecification
-      - Rating
-      - Service
-  health:
-    label: Health
+      - MonetaryAmountmOfferOffer
+      - Review
+  food:
+    label: Food
     types:
-      - HealthInsurancePlan
-      - HealthPlanCostSharingSpecification
-      - HealthPlanFormulary
-      - HealthPlanNetwork
       - NutritionInformation
-  software:
-    label: Software
+      - Menu
+  entertainment:
+    label: Entertainment
     types:
-      - ComputerLanguage
-      - DigitalDocumentPermission
-      - GameServer
-  items:
-    label: Items
-    types:
-      - DefinedTerm
-      - ItemList
-      - ListItem
-      - MenuItem
-  values:
-    label: Values
-    types:
-      - Property
-      - PropertyValue
-      - PropertyValueSpecification
-      - QuantitativeValue
-      - Quantity
-      - Rating
-      - Role
+      - Episode
+default_schema_types: {  }
+default_schema_type_properties: {  }
+default_schema_type_subtypes: {  }
 default_base_fields:
-  uuid: { }
-  created: { }
+  uuid: {  }
+  created: {  }
   langcode:
     - inLanguage
-default_schema_types: { }
-default_schema_type_properties: { }
-default_schema_type_subtypes: { }
 default_field_weights:
   - name
   - alternateName

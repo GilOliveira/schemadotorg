@@ -5,8 +5,12 @@ id: user
 target_entity_type_id: user
 multiple: false
 recommended_schema_types: {  }
+default_schema_types:
+  user: Person
+default_schema_type_properties: {  }
+default_schema_type_subtypes: {  }
 default_base_fields:
-  uuid: { }
+  uuid: {  }
   langcode:
     - inLanguage
   name:
@@ -15,11 +19,7 @@ default_base_fields:
     - email
   user_picture:
     - image
-default_schema_types:
-  user: Person
-default_schema_type_properties: { }
-default_schema_type_subtypes: { }
-default_field_weights: { }
+default_field_weights: {  }
 default_field_groups:
   biographical:
     label: 'Biographical information'
@@ -51,6 +51,6 @@ default_field_groups:
       - telephone
       - fax
       - contactPoint
-default_field_group_label_suffix: 'information'
+default_field_group_label_suffix: information
 default_field_group_form_type: details
 default_field_group_view_type: fieldset

@@ -535,7 +535,7 @@ schema_properties:
     contributor: Contributors
     educationalLevel: Difficulty
     episode: Episodes
-    exceptDate: Except dates
+    exceptDate: 'Except dates'
     gamePlatform: 'Game platforms'
     hasMenuItem: 'Menu items'
     hasMenuSection: 'Menu sections'
@@ -689,7 +689,7 @@ schema_properties:
     height:
       - string
     step:
-      - field_ui:entity_reference_revisions:paragraph
+      - 'field_ui:entity_reference_revisions:paragraph'
     telephone:
       - telephone
       - string

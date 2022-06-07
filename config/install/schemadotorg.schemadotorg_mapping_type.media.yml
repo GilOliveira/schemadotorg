@@ -17,12 +17,23 @@ recommended_schema_types:
     types:
       - 3DModel
       - Photograph
+default_schema_types:
+  audio: AudioObject
+  document: DataDownload
+  image: ImageObject
+  remote_video: VideoObject
+  video: VideoObject
+default_schema_type_properties:
+  MediaObject:
+    - dateCreated
+    - dateModified
+default_schema_type_subtypes: {  }
 default_base_fields:
-  path: { }
-  revision_created: { }
-  revision_user: { }
-  uid: { }
-  uuid: { }
+  path: {  }
+  revision_created: {  }
+  revision_user: {  }
+  uid: {  }
+  uuid: {  }
   langcode:
     - inLanguage
   name:
@@ -46,19 +57,8 @@ default_base_fields:
   field_media_video_file:
     - video
     - contentUrl
-default_schema_types:
-  audio: AudioObject
-  document: DataDownload
-  image: ImageObject
-  remote_video: VideoObject
-  video: VideoObject
-default_schema_type_properties:
-  MediaObject:
-    - dateCreated
-    - dateModified
-default_schema_type_subtypes: { }
-default_field_weights: { }
-default_field_groups: { }
+default_field_weights: {  }
+default_field_groups: {  }
 default_field_group_label_suffix: ''
 default_field_group_form_type: ''
 default_field_group_view_type: ''

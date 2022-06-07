@@ -6,14 +6,13 @@ target_entity_type_id: node
 multiple: false
 recommended_schema_types:
   quick_start:
-    label: Quick Start
+    label: 'Quick Start'
     types:
       - Place
       - Organization
       - Person
       - Event
       - FAQPage
-      - QAPage
       - HowTo
       - Recipe
   common:
@@ -23,140 +22,74 @@ recommended_schema_types:
       - Organization
       - Person
       - Event
-  web_content:
-    label: Web Content
+  web:
+    label: Web
     types:
-      - WebContent
       - WebPage
       - WebSite
-      - WebPageElement
-  creative_work:
-    label: Creative Work
-    types:
-      - CreativeWork
-      - Article
-      - Blog
-      - BlogPosting
-      - Book
       - FAQPage
       - QAPage
+  content:
+    label: Content
+    types:
+      - Book
+      - Article
       - HowTo
-      - NewsArticle
       - SpecialAnnouncement
+      - ItemList
   organization:
     label: Organization
     types:
-      - Corporation
-      - GovernmentOrganization
-      - FinancialService
-      - NewsMediaOrganization
-      - SportsOrganization
-      - WorkersUnion
-  local_business:
-    label: Local Business
-    types:
       - LocalBusiness
-      - Hotel
-      - Library
-      - RealEstateAgent
-      - Store
-      - TravelAgency
-  automotive_business:
-    label: Automotive Business
+      - Service
+      - JobPosting
+  education:
+    label: Education
     types:
-      - AutoBodyShop
-      - AutoDealer
-      - AutoPartsStore
-      - AutoRental
-      - AutoRepair
-      - AutoWash
-      - GasStation
-      - MotorcycleDealer
-      - MotorcycleRepair
-  automotive_vehicle:
-    label: Automotive Vehicle
+      - Course
+  commerce:
+    label: Commerce
     types:
-      - BusOrCoach
-      - Car
-      - Motorcycle
-      - MotorizedBicycle
-  educational_organization:
-    label: Educational Organization
+      - Product
+      - ProductCollection
+      - ProductGroup
+  food:
+    label: Food
     types:
-      - CollegeOrUniversity
-      - ElementarySchool
-      - HighSchool
-      - MiddleSchool
-      - Preschool
-      - School
-      - LearningResource
-  entertainment_business:
-    label: Entertainment Business
-    types:
-      - AdultEntertainment
-      - AmusementPark
-      - ArtGallery
-      - Casino
-      - ComedyClub
-      - MovieTheater
-      - NightClub
-  food_establishment:
-    label: Food Establishment
-    types:
-      - Bakery
-      - BarOrPub
-      - Brewery
-      - Restaurant
-      - Winery
       - Recipe
       - Menu
+  entertainment:
+    label: Entertainment
+    types:
+      - Movie
+      - Series
+      - Season
+      - Episode
   healthcare:
     label: Healthcare
     types:
       - HealthTopicContent
       - Patient
-      - Dentist
-      - Optician
       - Pharmacy
       - Physician
-  medical_entity:
-    label: Medical Entity
-    types:
-      - AnatomicalStructure
-      - AnatomicalSystem
-      - MedicalCause
-      - MedicalCondition
-      - MedicalGuideline
-      - MedicalProcedure
-      - MedicalRiskFactor
-      - MedicalStudy
-      - MedicalTest
-  medical_writing:
-    label: Medical Writing
-    types:
-      - Diet
-      - MedicalWebPage
-      - MedicalScholarlyArticle
-  product:
-    label: Product
-    types:
-      - Product
-      - ProductCollection
-      - ProductGroup
-      - Offer
-      - Review
-  research_organization:
-    label: Research Organization
-    types:
-      - ResearchOrganization
-      - ResearchProject
+default_schema_types:
+  article: Article
+  page: WebPage
+default_schema_type_properties:
+  CreativeWork:
+    - name
+    - description
+    - dateCreated
+    - dateModified
+default_schema_type_subtypes:
+  - Event
 default_base_fields:
-  uuid: { }
-  revision_uid: { }
-  uid: { }
-  promote: { }
-  sticky: { }
-  path: { }
+  uuid: {  }
+  revision_uid: {  }
+  uid: {  }
+  promote: {  }
+  sticky: {  }
+  path: {  }
   langcode:
     - inLanguage
   title:
@@ -172,18 +105,7 @@ default_base_fields:
     - dateModified
   field_tags:
     - keywords
-default_schema_types:
-  article: Article
-  page: WebPage
-default_schema_type_properties:
-  CreativeWork:
-    - name
-    - description
-    - dateCreated
-    - dateModified
-default_schema_type_subtypes:
-  - Event
-default_field_weights: { }
+default_field_weights: {  }
 default_field_groups:
   general:
     label: 'General information'
@@ -201,7 +123,7 @@ default_field_groups:
     properties:
       - mainEntity
   media:
-    label: 'Media/Assets'
+    label: Media/Assets
     properties:
       - logo
       - image

@@ -6,103 +6,76 @@ target_entity_type_id: block_content
 multiple: false
 recommended_schema_types:
   quick_start:
-    label: Quick Start
+    label: 'Quick Start'
     types:
       - ContactPoint
       - NutritionInformation
+      - Offer
       - Question
-  place:
-    label: Place
+  common:
+    label: Common
     types:
       - ContactPoint
-      - PostalAddress
-      - OpeningHoursSpecification
-      - LocationFeatureSpecification
-  organization:
-    label: Organization
-    types:
-      - Audience
-      - Brand
-      - EducationalOccupationalCredential
-      - OwnershipInfo
-      - ProgramMembership
-      - Invoice
-      - JobPosting
-  person:
-    label: Person
-    types:
+      - Address
       - Language
       - Occupation
-      - OccupationalExperienceRequirements
-      - ProgramMembership
-  event:
-    label: Event/Travel
+  web:
+    label: Web
     types:
-      - Audience
-      - Seat
-      - Schedule
-      - Reservation
-      - Ticket
-      - Trip
-      - VirtualLocation
-  commerce:
-    label: Commerce
-    types:
-      - MerchantReturnPolicy
-      - MerchantReturnPolicySeasonalOverride
-      - MonetaryAmount
-      - OfferShippingDetails
-      - Offer
-      - Order
-      - OrderItem
-      - ParcelDelivery
-      - PriceSpecification
-      - Rating
-      - Service
-  health:
-    label: Health
-    types:
-      - HealthInsurancePlan
-      - HealthPlanCostSharingSpecification
-      - HealthPlanFormulary
-      - HealthPlanNetwork
-      - NutritionInformation
-  software:
-    label: Software
-    types:
-      - ComputerLanguage
-      - DigitalDocumentPermission
-      - GameServer
-  items:
-    label: Items
-    types:
+      - BreadcrumbList
+      - WebPageElement
       - DefinedTerm
       - ItemList
       - ListItem
-      - MenuItem
-  values:
-    label: Values
+  content:
+    label: Content
     types:
-      - Property
-      - PropertyValue
-      - PropertyValueSpecification
-      - QuantitativeValue
-      - Quantity
+      - ListItem
+      - Answer
+      - Question
+      - HowToSupply
+      - HowToTool
+      - HowToDirection
+      - HowToTip
+      - HowToStep
+      - HowToSection
+  organization:
+    label: Organization
+    types:
+      - Brand
+      - OpeningHoursSpecification
       - Rating
+      - Review
       - Role
+      - ProgramMembership
+      - OccupationalExperienceRequirements
+  commerce:
+    label: Commerce
+    types:
+      - MonetaryAmountmOfferOffer
+      - Review
+  food:
+    label: Food
+    types:
+      - NutritionInformation
+      - Menu
+  entertainment:
+    label: Entertainment
+    types:
+      - Episode
+default_schema_types: {  }
+default_schema_type_properties: {  }
+default_schema_type_subtypes: {  }
 default_base_fields:
-  uuid: { }
-  created: { }
-  info: { }
+  uuid: {  }
+  created: {  }
   langcode:
     - inLanguage
-default_schema_types: { }
-default_schema_type_properties: { }
-default_schema_type_subtypes: { }
 default_field_weights:
   - name
   - alternateName
   - description
+  - acceptedAnswer
   - image
   - contactType
   - telephone
@@ -121,6 +94,9 @@ default_field_weights:
   - valueReference
   - unitText
   - unitCode
+  - prepTime
+  - performTime
+  - totalTime
   - servingSize
   - calories
   - fatContent
@@ -133,7 +109,8 @@ default_field_weights:
   - fiberContent
   - sugarContent
   - proteinContent
-default_field_groups: { }
+  - itemListElement
+default_field_groups: {  }
 default_field_group_label_suffix: ''
 default_field_group_form_type: ''
 default_field_group_view_type: fieldset
