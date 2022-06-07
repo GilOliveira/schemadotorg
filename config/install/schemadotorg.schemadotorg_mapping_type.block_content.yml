@@ -52,7 +52,9 @@ recommended_schema_types:
   commerce:
     label: Commerce
     types:
-      - MonetaryAmountmOfferOffer
+      - Monetary
+      - Amount
+      - Offer
       - Review
   food:
     label: Food
