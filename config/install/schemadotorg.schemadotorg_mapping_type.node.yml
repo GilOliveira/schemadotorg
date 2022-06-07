@@ -58,6 +58,7 @@ recommended_schema_types:
     types:
       - Recipe
       - Menu
+      - Diet
   entertainment:
     label: Entertainment
     types:

@@ -161,8 +161,6 @@ function import() {
 ################################################################################
 
 function setup() {
-  import
-
   drush schemadotorg:create-type -y media:AudioObject media:DataDownload media:ImageObject media:VideoObject
   drush schemadotorg:create-type -y taxonomy_term:DefinedTerm
 
@@ -212,24 +210,24 @@ function generate_howto() {
 }
 
 ################################################################################
-# Restaurant.
+# Food.
 ################################################################################
 
-function setup_restaurant() {
+function setup_food() {
   drush schemadotorg:create-type -y paragraph:NutritionInformation paragraph:Offer
   drush schemadotorg:create-type -y paragraph:MenuItem paragraph:MenuSection
-  drush schemadotorg:create-type -y node:Menu node:Recipe node:Restaurant
+  drush schemadotorg:create-type -y node:Menu node:Recipe node:FoodEstablishment
 }
 
-function teardown_restaurant() {
+function teardown_food() {
   drush schemadotorg:delete-type -y paragraph:NutritionInformation paragraph:Offer
-  drush schemadotorg:delete-type -y paragraph:MenuItem paragraph:MenuSection
-  drush schemadotorg:delete-type -y node:Menu node:Recipe node:Restaurant
+  drush schemadotorg:delete-type -y paragraph:MenuSection paragraph:MenuItem
+  drush schemadotorg:delete-type -y node:Menu node:Recipe node:FoodEstablishment
 }
 
-function generate_restaurant() {
+function generate_food() {
   drush devel-generate:content --kill --add-type-label --skip-fields=menu_link\
-    --bundles=recipe,menu,restaurant
+    --bundles=recipe,menu,food_establishment
 }
 
 ################################################################################

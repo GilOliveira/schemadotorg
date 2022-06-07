@@ -26,12 +26,9 @@ recommended_schema_types:
       - WebPageElement
       - DefinedTerm
       - ItemList
-      - ListItem
   content:
     label: Content
     types:
-      - ListItem
-      - Answer
       - Question
       - HowToSupply
       - HowToTool

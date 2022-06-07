@@ -427,30 +427,21 @@ schema_types:
       - itemListElement
       - name
     Offer:
-      - availability
       - price
-      - priceCurrency
     DefinedTerm:
       - name
       - description
       - termCode
     MenuItem:
-      - description
       - name
-      - image
-      - menuAddOn
-      - nutrition
       - offers
       - suitableForDiet
     MenuSection:
-      - description
       - name
       - hasMenuItem
-      - hasMenuSection
     Menu:
       - description
       - name
-      - hasMenuItem
       - hasMenuSection
   default_field_types:
     DefinedTerm:
@@ -668,6 +659,8 @@ schema_properties:
     - vatID
     - wordCount
   default_field_types:
+    Recipe--step:
+      - text_long
     acceptedAnswer:
       - text_long
     articleBody:
@@ -688,8 +681,6 @@ schema_properties:
       - string
     height:
       - string
-    step:
-      - 'field_ui:entity_reference_revisions:paragraph'
     telephone:
       - telephone
       - string

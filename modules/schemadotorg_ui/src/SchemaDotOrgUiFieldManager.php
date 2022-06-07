@@ -330,17 +330,16 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
 
     $field_types = [];
 
+    // Set Schema.org type and property specific field types.
+    $property_mappings = $this->getFieldTypeMapping('properties');
+    $field_types += $property_mappings["$type--$property"] ?? [];
+    $field_types += $property_mappings[$property] ?? [];
+
     // Check specific Schema.org type entity reference target bundles
     // (a.k.a. range_includes) exist.
     $entity_reference_target_bundles = $this->getMappingStorage()->getRangeIncludesTargetBundles($entity_reference_entity_type, $specific_range_includes);
     if ($entity_reference_target_bundles) {
       $field_types[$entity_reference_field_type] = $entity_reference_field_type;
-    }
-
-    // Set Schema.org property specific field types.
-    $property_mappings = $this->getFieldTypeMapping('properties');
-    if (isset($property_mappings[$property])) {
-      $field_types += $property_mappings[$property];
     }
 
     // Check for Schema.org enumerations and Drupal allowed values.
