@@ -166,9 +166,8 @@ types:
       uri: 'https://jsonld.com/restaurant-menu-json-ld-sample/'
     - title: 'How to Correctly Implement the Restaurant Schema Markup'
       uri: 'https://www.restaurant-website-builder.com/implement-restaurant-schema-markup'
-  RestaurantMenu:
-    - title: 'Schema.org Just Released New Restaurant Menu Markup — Here''s How to Get Started'
-      uri: 'https://moz.com/blog/schema-new-restaurant-menu-markup'
+    - title: 'Restaurants Schema and Structured Data Markup'
+      uri: 'https://onlineownership.com/restaurants-schema-structured-data-markup/'
   SoftwareApplication:
     - title: 'Software Application Schema'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/software-app'

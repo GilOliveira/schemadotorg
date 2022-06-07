@@ -212,27 +212,24 @@ function generate_howto() {
 }
 
 ################################################################################
-# Food.
+# Restaurant.
 ################################################################################
 
-function setup_food() {
+function setup_restaurant() {
   drush schemadotorg:create-type -y paragraph:NutritionInformation paragraph:Offer
-  drush schemadotorg:create-type -y taxonomy_term:MenuItem taxonomy_term:MenuSection taxonomy_term:Menu
-  drush schemadotorg:create-type -y node:Recipe
+  drush schemadotorg:create-type -y paragraph:MenuItem paragraph:MenuSection
+  drush schemadotorg:create-type -y node:Menu node:Recipe node:Restaurant
 }
 
-function teardown_food() {
-  drush devel-generate:term --kill --bundles=menu_item,menu_section,menu 0
+function teardown_restaurant() {
   drush schemadotorg:delete-type -y paragraph:NutritionInformation paragraph:Offer
-  drush schemadotorg:delete-type -y taxonomy_term:MenuItem taxonomy_term:MenuSection taxonomy_term:Menu
-  drush schemadotorg:delete-type -y node:Recipe
-
+  drush schemadotorg:delete-type -y paragraph:MenuItem paragraph:MenuSection
+  drush schemadotorg:delete-type -y node:Menu node:Recipe node:Restaurant
 }
 
-function generate_food() {
-  drush devel-generate:terms --kill --bundles=menu_item,menu_section,menu 50
+function generate_restaurant() {
   drush devel-generate:content --kill --add-type-label --skip-fields=menu_link\
-    --bundles=recipe 5
+    --bundles=recipe,menu,restaurant
 }
 
 ################################################################################

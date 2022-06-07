@@ -76,7 +76,7 @@ trait SchemaDotOrgTestTrait {
     if ($schema_type) {
       /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager $schema_type_manager */
       $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
-      $allowed_values = $schema_type_manager->getTypeChildrenAsOptions($schema_type);
+      $allowed_values = $schema_type_manager->getAllTypeChildrenAsOptions($schema_type);
     }
     else {
       $allowed_values = [];

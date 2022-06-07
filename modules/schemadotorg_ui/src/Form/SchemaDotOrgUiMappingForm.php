@@ -597,7 +597,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $mapping = $this->getEntity();
     $schema_type = $this->getSchemaType();
     $subtype_field_name = $this->getSubtypeFieldName();
-    $subtype_allowed_values = $this->schemaTypeManager->getTypeChildrenAsOptions($schema_type);
+    $subtype_allowed_values = $this->schemaTypeManager->getAllTypeChildrenAsOptions($schema_type);
 
     // Make sure the current Schema.org type has subtypes.
     if (empty($subtype_allowed_values)) {

@@ -39,6 +39,13 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   protected $itemsCache = [];
 
   /**
+   * Schema.org superseded cache.
+   *
+   * @var array
+   */
+  protected $supersededCache;
+
+  /**
    * Constructs a SchemaDotOrgInstaller object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -157,6 +164,24 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    */
   public function isProperty($id) {
     return $this->isId('properties', $id);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isSuperseded($id) {
+    if (!isset($this->supersededCache)) {
+      $this->supersededCache = [];
+      foreach (['types', 'properties'] as $table) {
+        $ids = $this->database->select('schemadotorg_' . $table, $table)
+          ->fields($table, ['label'])
+          ->condition('superseded_by', '', '<>')
+          ->execute()
+          ->fetchCol();
+        $this->supersededCache += array_combine($ids, $ids);
+      }
+    }
+    return !empty($this->supersededCache[$id]);
   }
 
   /**
@@ -315,8 +340,12 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   public function getTypeChildren($type) {
     $type_definition = $this->getType($type, ['sub_types']);
 
+    $children = [];
+
     // Subtypes.
-    $children = $this->parseIds($type_definition['sub_types']);
+    if (!empty($type_definition['sub_types'])) {
+      $children = $this->parseIds($type_definition['sub_types']);
+    }
 
     // Enumerations.
     $enumeration_types = $this->database->select('schemadotorg_types', 'types')
@@ -340,6 +369,23 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
     array_walk($options, function (&$value) {
       $value = $this->schemaNames->camelCaseToTitleCase($value);
     });
+    return $options;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getAllTypeChildrenAsOptions($type, $indent = '') {
+    $options = [];
+    $types = $this->getTypeChildren($type);
+    foreach ($types as $subtype) {
+      if ($this->isSuperseded($subtype)) {
+        continue;
+      }
+      $title = $this->schemaNames->camelCaseToTitleCase($subtype);
+      $options[$subtype] = ($indent ? $indent . ' ' : '') . $title;
+      $options += $this->getAllTypeChildrenAsOptions($subtype, $indent . '-');
+    }
     return $options;
   }
 

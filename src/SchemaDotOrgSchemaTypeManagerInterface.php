@@ -128,6 +128,17 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function isProperty($id);
 
   /**
+   * Determine if Schema.org ID is superseded.
+   *
+   * @param string $id
+   *   A Schema.org ID.
+   *
+   * @return bool
+   *   TRUE if Schema.org ID is superseded
+   */
+  public function isSuperseded($id);
+
+  /**
    * Parse Schema.org type or property IDs from a comma delimited list of URLs.
    *
    * @param string $text
@@ -279,6 +290,17 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    *   An associative array of Schema.org types as options
    */
   public function getTypeChildrenAsOptions($type);
+
+  /**
+   * Gets all child Schema.org types below a specified type.
+   *
+   * @param string $type
+   *   The Schema.org type.
+   *
+   * @return array
+   *   An associative array of Schema.org types as options
+   */
+  public function getAllTypeChildrenAsOptions($type);
 
   /**
    * Gets Schema.org subtypes.

@@ -94,6 +94,10 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertFalse($this->schemaTypeManager->isProperty('Thing'));
     $this->assertFalse($this->schemaTypeManager->isProperty('xxx'));
 
+    // Check determining if Schema.org ID is superseded.
+    $this->assertTrue($this->schemaTypeManager->isSuperseded('UserInteraction'));
+    $this->assertFaLse($this->schemaTypeManager->isSuperseded('Event'));
+
     // Check parsing Schema.org type or property IDs.
     $tests = [
       [' ', []],
@@ -184,6 +188,12 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $type_children = $this->schemaTypeManager->getTypeChildren('Person');
     $this->assertEquals(['Patient' => 'Patient'], $type_children);
     $type_children = $this->schemaTypeManager->getTypeChildren('GenderType');
+    $this->assertEquals(['Male' => 'Male', 'Female' => 'Female'], $type_children);
+
+    // Check getting all child Schema.org types below a specified type.e.
+    $type_children = $this->schemaTypeManager->getAllTypeChildrenAsOptions('Person');
+    $this->assertEquals(['Patient' => 'Patient'], $type_children);
+    $type_children = $this->schemaTypeManager->getAllTypeChildrenAsOptions('GenderType');
     $this->assertEquals(['Male' => 'Male', 'Female' => 'Female'], $type_children);
 
     // Check getting Schema.org subtypes.
