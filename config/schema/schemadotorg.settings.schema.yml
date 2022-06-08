@@ -37,12 +37,6 @@ schemadotorg.settings:
       type: mapping
       label: 'Schema.org properties'
       mapping:
-        custom_labels:
-          type: sequence
-          label: 'Schema.org property custom labels'
-          sequence:
-            type: string
-            label: 'Schema.org property custom label'
         range_includes:
           type: sequence
           label: 'Schema.org type/property custom range includes'
@@ -58,21 +52,28 @@ schemadotorg.settings:
           sequence:
             type: string
             label: 'Schema.org property'
-        default_field_types:
+        default_fields:
           type: sequence
-          label: 'Default field type'
+          label: 'Default fields'
           sequence:
-            type: sequence
-            label: 'Schema.org property'
-            sequence:
-              type: string
-              label: 'Field type'
-        default_unlimited_fields:
-          type: sequence
-          label: 'Default unlimited fields'
-          sequence:
-            type: string
-            label: 'Schema.org property'
+            type: mapping
+            label: 'Default field'
+            mapping:
+              type:
+                type: string
+                label: Type
+              name:
+                type: string
+                label: Name
+              label:
+                type: text
+                label: Label
+              description:
+                type: text
+                label: Description
+              unlimited:
+                type: boolean
+                label: Boolean
     names:
         type: mapping
         label: Names

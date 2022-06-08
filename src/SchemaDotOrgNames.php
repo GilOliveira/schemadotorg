@@ -119,12 +119,6 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
    * {@inheritdoc}
    */
   public function toDrupalLabel($table, $string) {
-    // Custom labels.
-    $custom_labels = $this->getConfig()->get('schema_properties.custom_labels');
-    if (isset($custom_labels[$string])) {
-      return $custom_labels[$string];
-    }
-
     return ($table === 'types')
       ? $this->camelCaseToTitleCase($string)
       : $this->camelCaseToSentenceCase($string);

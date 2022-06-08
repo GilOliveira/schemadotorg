@@ -64,16 +64,6 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
       $form['schema_properties']['field_prefix']['#disabled'] = TRUE;
       $form['schema_properties']['field_prefix']['#value'] = $config->get('field_prefix');
     }
-    $form['schema_properties']['custom_labels'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#settings_format' => 'SchemaType--propertyName|Custom label or propertyName|Custom label',
-      '#title' => $this->t('Schema.org property custom labels'),
-      '#description' => $this->t('Enter custom labels for Schema.org types and properties.')
-      . ' '
-      . $this->t('Schema.org type and property names are case-sensitive and must be an exact match.'),
-      '#default_value' => $config->get('schema_properties.custom_labels'),
-    ];
     $form['schema_properties']['range_includes'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
@@ -89,20 +79,13 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
       '#description' => $this->t('Enter Schema.org properties that should ignored and not displayed on the Schema.org mapping form and simplifies the user experience.'),
       '#default_value' => $config->get('schema_properties.ignored_properties'),
     ];
-    $form['schema_properties']['default_field_types'] = [
+    $form['schema_properties']['default_fields'] = [
       '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
-      '#settings_format' => 'propertyName|field_type_01,field_type_02,field_type_03',
-      '#title' => $this->t('Default Schema.org property field types'),
-      '#description' => $this->t('Enter default Schema.org property field types used when adding Schema.org properties to an entity type.'),
-      '#default_value' => $config->get('schema_properties.default_field_types'),
-    ];
-    $form['schema_properties']['default_unlimited_fields'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::INDEXED,
-      '#title' => $this->t('Default unlimited Schema.org properties'),
-      '#description' => $this->t('Enter Schema.org properties that should default to supporting unlimited values.'),
-      '#default_value' => $config->get('schema_properties.default_unlimited_fields'),
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
+      '#settings_format' => 'SchemaType--propertyName|type:string,label:Property name,unlimited:1',
+      '#title' => $this->t('Default Schema.org property fields'),
+      '#description' => $this->t('Enter default Schema.org property field definition used when adding a Schema.org property to an entity type.'),
+      '#default_value' => $config->get('schema_properties.default_fields'),
     ];
     return parent::buildForm($form, $form_state);
   }

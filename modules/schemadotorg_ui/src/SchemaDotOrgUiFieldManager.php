@@ -331,8 +331,13 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     $field_types = [];
 
     // Set Schema.org property specific field types.
-    $property_mappings = $this->getFieldTypeMapping('properties');
-    $field_types += $property_mappings[$property] ?? [];
+    $default_fields = $this->config->get('schema_properties.default_fields');
+    $default_field = [];
+    $default_field += $default_fields["$type--$property"] ?? [];
+    $default_field += $default_fields[$property] ?? [];
+    if (isset($default_field['type'])) {
+      $field_types[$default_field['type']] = $default_field['type'];
+    }
 
     // Check specific Schema.org type entity reference target bundles
     // (a.k.a. range_includes) exist.
@@ -359,8 +364,8 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
 
     // Check Schema.org type mappings.
     if (empty($field_types)) {
-      $type_mappings = $this->getFieldTypeMapping('types');
-      foreach ($type_mappings as $type_name => $type_mapping) {
+      $schema_type_field_types = $this->getSchemaTypeFieldTypes();
+      foreach ($schema_type_field_types as $type_name => $type_mapping) {
         if (isset($range_includes[$type_name])) {
           $field_types += $type_mapping;
         }
@@ -394,28 +399,25 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
   /**
    * Get Schema.org type or property field type mapping.
    *
-   * @param string $table
-   *   Types or properties table name.
-   *
    * @return array
    *   Schema.org type or property field type mapping.
    */
-  protected function getFieldTypeMapping($table) {
-    $mapping = &drupal_static(__FUNCTION__ . '_' . $table);
-    if (!isset($mapping)) {
+  protected function getSchemaTypeFieldTypes() {
+    $schema_field_types = &drupal_static(__METHOD__);
+    if (!isset($schema_field_types)) {
+      $schema_field_types = $this->config->get('schema_types.default_field_types');
+      // Make sure the field types exist, by checking the UI definitions.
       $field_type_definitions = $this->fieldTypePluginManager->getUiDefinitions();
-      $name = SchemaDotOrgNamesInterface::DEFAULT_PREFIX . $table . '.default_field_types';
-      $mapping = $this->config->get($name);
-      foreach ($mapping as $id => $field_types) {
-        $mapping[$id] = array_combine($field_types, $field_types);
-        foreach ($mapping[$id] as $field_type) {
+      foreach ($schema_field_types as $id => $field_types) {
+        $schema_field_types[$id] = array_combine($field_types, $field_types);
+        foreach ($schema_field_types[$id] as $field_type) {
           if (!isset($field_type_definitions[$field_type])) {
-            unset($mapping[$id][$field_type]);
+            unset($schema_field_types[$id][$field_type]);
           }
         }
       }
     }
-    return $mapping;
+    return $schema_field_types;
   }
 
   /**
