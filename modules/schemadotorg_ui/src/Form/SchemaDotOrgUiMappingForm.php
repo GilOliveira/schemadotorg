@@ -715,20 +715,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $base_field_mappings = $this->getSchemaBaseFieldMappings();
 
     // Header.
-    $header = [
-      'property' => [
-        'data' => $this->t('Property'),
-        'width' => '50%',
-      ],
-      'field' => [
-        'data' => $this->t('Field'),
-        'width' => '50%',
-      ],
-    ];
+    $header = [];
+    $header['property'] = ['data' => $this->t('Property'), 'width' => '50%'];
+    $header['field'] = ['data' => $this->t('Field'), 'width' => '50%'];
 
     // Rows.
-    $link_options = ['attributes' => ['target' => '_blank']];
-    $comment_options = ['attributes' => ['target' => '_blank']];
     $rows = [];
     foreach ($displayed_property_definitions as $property => $property_definition) {
       // Skip empty superseded properties.
@@ -740,27 +731,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $row = [];
 
       // Property.
-      $row['property'] = [
-        '#prefix' => '<div class="schemadotorg-ui-property">',
-        '#suffix' => '</div>',
-        'label' => [
-          '#type' => 'link',
-          '#title' => $property_definition['label'],
-          '#url' => $this->schemaTypeBuilder->getItemUrl($property_definition['label']),
-          '#prefix' => '<div class="schemadotorg-ui-property--label"><strong>',
-          '#suffix' => '</strong></div>',
-        ],
-        'comment' => [
-          '#markup' => $this->schemaTypeBuilder->formatComment($property_definition['comment'], $comment_options),
-          '#prefix' => '<div class="schemadotorg-ui-property--comment">',
-          '#suffix' => '</div>',
-        ],
-        'range_includes' => [
-          'links' => $this->schemaTypeBuilder->buildItemsLinks($property_definition['range_includes'], $link_options),
-          '#prefix' => '<div class="schemadotorg-ui-property--range-includes">(',
-          '#suffix' => ')</div>',
-        ],
-      ];
+      $row['property'] = $this->buildSchemaPropertyDefinitionInformation($property_definition);
 
       // Field.
       $field_name = $this->getFieldPrefix() . $property_definition['drupal_name'];
@@ -923,6 +894,40 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         ];
       }
     }
+  }
+
+  /**
+   * Build property information.
+   *
+   * @param array $definition
+   *   The property's definition.
+   *
+   * @return array
+   *   A renderable array containing a property's information.
+   */
+  protected function buildSchemaPropertyDefinitionInformation(array $definition) {
+    $options = ['attributes' => ['target' => '_blank']];
+    return [
+      '#prefix' => '<div class="schemadotorg-ui-property">',
+      '#suffix' => '</div>',
+      'label' => [
+        '#type' => 'link',
+        '#title' => $definition['label'],
+        '#url' => $this->schemaTypeBuilder->getItemUrl($definition['label']),
+        '#prefix' => '<div class="schemadotorg-ui-property--label"><strong>',
+        '#suffix' => '</strong></div>',
+      ],
+      'comment' => [
+        '#markup' => $this->schemaTypeBuilder->formatComment($definition['comment'], $options),
+        '#prefix' => '<div class="schemadotorg-ui-property--comment">',
+        '#suffix' => '</div>',
+      ],
+      'range_includes' => [
+        'links' => $this->schemaTypeBuilder->buildItemsLinks($definition['range_includes'], $options),
+        '#prefix' => '<div class="schemadotorg-ui-property--range-includes">(',
+        '#suffix' => ')</div>',
+      ],
+    ];
   }
 
   /**
