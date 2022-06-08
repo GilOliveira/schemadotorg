@@ -97,6 +97,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   protected $subtypes;
 
   /**
+   * Available fields as options.
+   *
+   * @var array
+   */
+  protected $fieldOptions;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -367,14 +374,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       if (!$this->fieldExists($field_name)) {
         if ($this->fieldStorageExists($field_name)) {
           // Create new field instance using existing field storage.
-          $property_definition = $this->schemaTypeManager->getProperty($property_name);
           $existing_field = $this->getField($field_name);
-          $field_label = $this->config('schemadotorg.settings')
-            ->get("schema_properties.custom_labels.$schema_type--$property_name");
-          $field_label = $field_label ?: $property_definition['drupal_label'];
+          $default_field = $this->getSchemaPropertyDefaultField($property_name);
           $field = [
             'machine_name' => $field_name,
-            'label' => $field_label,
+            'label' => $default_field['label'],
             'description' => $existing_field ? $existing_field->get('description') : '',
             'schema_type' => $schema_type,
             'schema_property' => $property_name,
@@ -701,18 +705,12 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   An associative array containing the structure of the form.
    */
   protected function buildSchemaPropertiesForm(array &$form) {
-    $field_options = $this->getFieldOptions();
-    $property_defaults = $this->getSchemaTypeDefaultProperties();
-    $property_unlimited = $this->getSchemaTypeUnlimitedProperties();
     $property_mappings = $this->getSchemaTypePropertyMappings();
-    $property_maxlength = $this->schemaNames->getNameMaxLength('properties');
 
     $property_definitions = $this->getSchemaTypePropertyDefinitions();
     $ignored_properties = $this->getSchemaTypeIgnoredProperties();
     $ignored_properties = array_intersect_key($ignored_properties, $property_definitions);
     $displayed_property_definitions = array_diff_key($property_definitions, $ignored_properties);
-
-    $base_field_mappings = $this->getSchemaBaseFieldMappings();
 
     // Header.
     $header = [];
@@ -722,7 +720,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     // Rows.
     $rows = [];
     foreach ($displayed_property_definitions as $property => $property_definition) {
-      // Skip empty superseded properties.
+      // Skip a superseded property unless it is already mapped.
       if (!empty($property_definition['superseded_by'])
         && empty($property_mappings[$property])) {
         continue;
@@ -734,117 +732,12 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $row['property'] = $this->buildSchemaPropertyDefinitionInformation($property_definition);
 
       // Field.
-      $field_name = $this->getFieldPrefix() . $property_definition['drupal_name'];
-      $field_name_default_value = NULL;
-      if (isset($property_mappings[$property])) {
-        $field_name_default_value = $property_mappings[$property];
-      }
-      elseif ($this->getEntity()->isNew() && isset($property_defaults[$property])) {
-        if (isset($base_field_mappings[$property])) {
-          if (count($base_field_mappings[$property]) === 1) {
-            $field_name_default_value = reset($base_field_mappings[$property]);
-          }
-          else {
-            foreach ($base_field_mappings[$property] as $base_field_name) {
-              if ($this->fieldExists($base_field_name)) {
-                $field_name_default_value = $base_field_name;
-                break;
-              }
-            }
-          }
-        }
-        elseif ($this->fieldStorageExists($field_name)) {
-          $field_name_default_value = $field_name;
-        }
-        else {
-          $field_name_default_value = static::ADD_FIELD;
-        }
-      }
-      $row['field'] = [];
-      $row['field']['name'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Field'),
-        '#title_display' => 'invisible',
-        '#options' => $field_options,
-        '#default_value' => $field_name_default_value,
-        '#empty_option' => $this->t('- Select or add field -'),
-      ];
-      $row['field'][static::ADD_FIELD] = [
-        '#type' => 'details',
-        '#title' => $this->t('Add field'),
-        '#attributes' => ['class' => ['schemadotorg-ui--add-field']],
-        '#states' => [
-          'visible' => [
-            ':input[name="properties[' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD],
-          ],
-        ],
-      ];
+      $row['field'] = $this->buildSchemaPropertyFieldForm($property_definition);
 
-      // NOTE:
-      // Setting .form-required via #label_attributes instead of using
-      // #states to improve the page load time.
-      // phpcs:ignore
-      // $required_property = ['#states' => ['required' => [':input[name="properties[' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD]]]];
-      $required_property = ['#label_attributes' => ['class' => ['form-required']]];
-
-      // Get Schema.org property field type options with optgroups.
-      $field_type_options = $this->getPropertyFieldTypeOptions($property);
-
-      // Get field type default value.
-      $recommended_category = (string) $this->t('Recommended');
-      $field_type_default_value = (isset($field_type_options[$recommended_category]))
-        ? array_key_first($field_type_options[$recommended_category])
-        : NULL;
-
-      // Get field label default value.
-      $schema_type = $this->getSchemaType();
-      $field_label_default_value = $this->config('schemadotorg.settings')
-        ->get("schema_properties.custom_labels.$schema_type--$property");
-      $field_label_default_value = $field_label_default_value ?: $property_definition['drupal_label'];
-
-      $row['field'][static::ADD_FIELD]['type'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Field type'),
-        '#empty_option' => $this->t('- Select a field type -'),
-        '#options' => $field_type_options,
-        '#default_value' => $field_type_default_value,
-      ] + $required_property;
-      $row['field'][static::ADD_FIELD]['label'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Label'),
-        '#size' => 40,
-        '#default_value' => $field_label_default_value,
-      ] + $required_property;
-      $row['field'][static::ADD_FIELD]['machine_name'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Machine-readable name'),
-        '#descripion' => $this->t('A unique machine-readable name containing letters, numbers, and underscores.'),
-        '#maxlength' => $property_maxlength,
-        '#size' => $property_maxlength,
-        '#pattern' => '[_0-9a-z]+',
-        '#field_prefix' => $this->getFieldPrefix(),
-        '#default_value' => $property_definition['drupal_name'],
-        '#attributes' => ['style' => 'width: 20em'],
-        '#wrapper_attributes' => ['style' => 'white-space: nowrap'],
-      ] + $required_property;
-      $row['field'][static::ADD_FIELD]['description'] = [
-        '#type' => 'textarea',
-        '#title' => $this->t('Description'),
-        '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
-        '#default_value' => $this->schemaTypeBuilder->formatComment($property_definition['comment'], ['base_path' => 'https://schema.org/']),
-      ];
-      $row['field'][static::ADD_FIELD]['unlimited'] = [
-        '#type' => 'checkbox',
-        '#title' => $this->t('Unlimited number of values'),
-        '#default_value' => isset($property_unlimited[$property]),
-      ];
-
-      // Highlight mapped properties.
-      if ($field_name_default_value) {
-        $row_class = ($field_name_default_value === static::ADD_FIELD)
-          ? 'color-warning'
-          : 'color-success';
-        $row['#attributes'] = ['class' => [$row_class]];
+      // Highlight mapped properties using custom '#row_class' property.
+      if (isset($row['field']['#row_class'])) {
+        $row['#attributes'] = ['class' => [$row['field']['#row_class']]];
+        unset($row['field']['#row_class']);
       }
 
       $rows[$property] = $row;
@@ -897,13 +790,45 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Build property information.
+   * Get a Schema.org property's default field settings.
    *
-   * @param array $definition
-   *   The property's definition.
+   * @param string $property
+   *   A Schema.org property.
    *
    * @return array
-   *   A renderable array containing a property's information.
+   *   A Schema.org property's default field settings.
+   */
+  protected function getSchemaPropertyDefaultField($property) {
+    $schema_type = $this->getSchemaType();
+    $property_definition = $this->schemaTypeManager->getProperty($property);
+
+    // Get custom field default settings.
+    $default_fields = $this->config('schemadotorg.settings')
+      ->get('schema_properties.default_fields');
+    $default_field = [];
+    $default_field += $default_fields["$schema_type--$property"] ?? [];
+    $default_field += $default_fields[$property] ?? [];
+    $default_field += [
+      'name' => $property_definition['drupal_name'],
+      'label' => $property_definition['drupal_label'],
+      'description' => $this->schemaTypeBuilder->formatComment($property_definition['comment'], ['base_path' => 'https://schema.org/']),
+      'unlimited' => $this->unlimitedProperties[$property] ?? FALSE,
+    ];
+
+    // @todo Allow modules to alter the default field via a hook.
+    // @see hook_schemadotorg_property_field_prepare($type, $property, $field_value)
+
+    return $default_field;
+  }
+
+  /**
+   * Build Schema.org property information.
+   *
+   * @param array $definition
+   *   The Schema.org property's definition.
+   *
+   * @return array
+   *   A renderable array containing a Schema.org property's information.
    */
   protected function buildSchemaPropertyDefinitionInformation(array $definition) {
     $options = ['attributes' => ['target' => '_blank']];
@@ -928,6 +853,142 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#suffix' => ')</div>',
       ],
     ];
+  }
+
+  /**
+   * Build Schema.org property field form.
+   *
+   * @param array $definition
+   *   The Schema.org property's definition.
+   *
+   * @return array
+   *   A Schema.org property field form.
+   */
+  protected function buildSchemaPropertyFieldForm(array $definition) {
+    $property = $definition['label'];
+
+    $default_field = $this->getSchemaPropertyDefaultField($property);
+    $field_name = $this->getFieldPrefix() . $default_field['name'];
+
+    $base_field_mappings = $this->getSchemaBaseFieldMappings();
+    $property_defaults = $this->getSchemaTypeDefaultProperties();
+    $property_mappings = $this->getSchemaTypePropertyMappings();
+
+    $field_name_default_value = NULL;
+    if (isset($property_mappings[$property])) {
+      $field_name_default_value = $property_mappings[$property];
+    }
+    elseif ($this->getEntity()->isNew() && isset($property_defaults[$property])) {
+      if (isset($base_field_mappings[$property])) {
+        if (count($base_field_mappings[$property]) === 1) {
+          $field_name_default_value = reset($base_field_mappings[$property]);
+        }
+        else {
+          foreach ($base_field_mappings[$property] as $base_field_name) {
+            if ($this->fieldExists($base_field_name)) {
+              $field_name_default_value = $base_field_name;
+              break;
+            }
+          }
+        }
+      }
+      elseif ($this->fieldStorageExists($field_name)) {
+        $field_name_default_value = $field_name;
+      }
+      else {
+        $field_name_default_value = static::ADD_FIELD;
+      }
+    }
+
+    $form = [];
+
+    // Field name.
+    $form['name'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Field'),
+      '#title_display' => 'invisible',
+      '#options' => $this->getFieldOptions(),
+      '#default_value' => $field_name_default_value,
+      '#empty_option' => $this->t('- Select or add field -'),
+    ];
+
+    // Add new field.
+    $form[static::ADD_FIELD] = [
+      '#type' => 'details',
+      '#title' => $this->t('Add field'),
+      '#attributes' => ['class' => ['schemadotorg-ui--add-field']],
+      '#states' => [
+        'visible' => [
+          ':input[name="properties[' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD],
+        ],
+      ],
+    ];
+
+    // NOTE:
+    // Setting .form-required via #label_attributes instead of using
+    // #states to improve the page load time.
+    // phpcs:ignore
+    // $required_property = ['#states' => ['required' => [':input[name="properties[' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD]]]];
+    $required_property = ['#label_attributes' => ['class' => ['form-required']]];
+
+    // Get Schema.org property field type options with optgroups.
+    $field_type_options = $this->getPropertyFieldTypeOptions($property);
+
+    // Get field type default value.
+    $recommended_category = (string) $this->t('Recommended');
+    $field_type_default_value = (isset($field_type_options[$recommended_category]))
+      ? array_key_first($field_type_options[$recommended_category])
+      : NULL;
+
+    $form[static::ADD_FIELD]['type'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Field type'),
+      '#empty_option' => $this->t('- Select a field type -'),
+      '#options' => $field_type_options,
+      '#default_value' => $field_type_default_value,
+    ] + $required_property;
+
+    $form[static::ADD_FIELD]['label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Label'),
+      '#size' => 40,
+      '#default_value' => $default_field['label'],
+    ] + $required_property;
+
+    $property_maxlength = $this->schemaNames->getNameMaxLength('properties');
+    $form[static::ADD_FIELD]['machine_name'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Machine-readable name'),
+      '#descripion' => $this->t('A unique machine-readable name containing letters, numbers, and underscores.'),
+      '#maxlength' => $property_maxlength,
+      '#size' => $property_maxlength,
+      '#pattern' => '[_0-9a-z]+',
+      '#field_prefix' => $this->getFieldPrefix(),
+      '#default_value' => $default_field['name'],
+      '#attributes' => ['style' => 'width: 20em'],
+      '#wrapper_attributes' => ['style' => 'white-space: nowrap'],
+    ] + $required_property;
+
+    $form[static::ADD_FIELD]['description'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Description'),
+      '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
+      '#default_value' => $default_field['description'],
+    ];
+
+    $form[static::ADD_FIELD]['unlimited'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Unlimited number of values'),
+      '#default_value' => $default_field['unlimited'],
+    ];
+
+    if ($field_name_default_value) {
+      $form['#row_class'] = ($field_name_default_value === static::ADD_FIELD)
+        ? 'color-warning'
+        : 'color-success';
+    }
+
+    return $form;
   }
 
   /**
@@ -1031,7 +1092,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   Default Schema.org properties.
    */
   public function setSchemaTypeDefaultProperties(array $properties) {
-    $this->defaultProperties = $properties;
+    $this->defaultProperties = $this->getSchemaTypeDefaultProperties()
+      + array_combine($properties, $properties);
   }
 
   /**
@@ -1041,12 +1103,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   Default Schema.org properties.
    */
   protected function getSchemaTypeDefaultProperties() {
-    $schema_type = $this->getSchemaType();
-    $default_properties = $this->getMappingType()->getDefaultSchemaTypeProperties($schema_type);
-    if ($this->defaultProperties) {
-      $default_properties += array_combine($this->defaultProperties, $this->defaultProperties);
+    if (!isset($this->defaultProperties)) {
+      $schema_type = $this->getSchemaType();
+      $this->defaultProperties = $this->getMappingType()->getDefaultSchemaTypeProperties($schema_type);
     }
-    return $default_properties;
+    return $this->defaultProperties;
   }
 
   /**
@@ -1056,23 +1117,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   Unlimited Schema.org properties.
    */
   public function setSchemaTypeUnlimitedProperties(array $properties) {
-    $this->unlimitedProperties = $properties;
-  }
-
-  /**
-   * Gets unlimited Schema.org properties.
-   *
-   * @return array
-   *   Unlimited Schema.org properties.
-   */
-  protected function getSchemaTypeUnlimitedProperties() {
-    $unlimited_properties = $this->config('schemadotorg.settings')
-      ->get('schema_properties.default_unlimited_fields');
-    $unlimited_properties = $unlimited_properties ? array_combine($unlimited_properties, $unlimited_properties) : [];
-    if ($this->unlimitedProperties) {
-      $unlimited_properties += array_combine($this->unlimitedProperties, $this->unlimitedProperties);
-    }
-    return $unlimited_properties;
+    $this->unlimitedProperties = array_combine($properties, $properties);
   }
 
   /**
@@ -1233,10 +1278,15 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   Available fields as options.
    */
   protected function getFieldOptions() {
-    return $this->schemaFieldManager->getFieldOptions(
+    if (isset($this->fieldOptions)) {
+      return $this->fieldOptions;
+    }
+
+    $this->fieldOptions = $this->schemaFieldManager->getFieldOptions(
       $this->getTargetEntityTypeId(),
       $this->getTargetBundle()
     );
+    return $this->fieldOptions;
   }
 
   /**
