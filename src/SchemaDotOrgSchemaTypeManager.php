@@ -611,6 +611,10 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
     $breadcrumbs[$breadcrumb_id][$type] = $type;
 
     $item = $this->getItem('types', $type, ['sub_type_of']);
+    if (!$item) {
+      return;
+    }
+
     $parent_types = $this->parseIds($item['sub_type_of']);
     if (empty($parent_types)) {
       return;

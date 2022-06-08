@@ -100,8 +100,8 @@ class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
     $this->assertArrayNotHasKey('step', $media_mapping_type->getDefaultSchemaTypeProperties('Recipe'));
 
     // Check getting default Schema.org type's subtypes.
-    $actual_default_type_subtype = $node_mapping_type->getDefaultSchemaTypeSubtypes();
-    $this->assertEquals(['Event'], $actual_default_type_subtype);
+    $actual_default_type_subtypes = $node_mapping_type->getDefaultSchemaTypeSubtypes();
+    $this->assertTrue(in_array('Event', $actual_default_type_subtypes));
 
     // Check getting default field weights.
     $default_field_weights = $paragaph_mapping_type->getDefaultFieldWeights();

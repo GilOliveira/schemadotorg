@@ -201,7 +201,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_honorific_prefix' => ['cardinality' => 1],
       'schema_honorific_suffix' => ['cardinality' => 1],
       'schema_job_title' => ['cardinality' => 1],
-      'schema_knows_language' => ['cardinality' => -1],
+      'schema_knows_lang' => ['cardinality' => -1],
       'schema_nationality' => ['cardinality' => 1],
       'schema_same_as' => ['cardinality' => -1],
       'schema_telephone' => ['cardinality' => 1],
@@ -227,7 +227,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
           'Unspecified' => 'Unspecified',
         ],
       ],
-      'schema_knows_language' => [
+      'schema_knows_lang' => [
         'allowed_values_function' => 'schemadotorg_allowed_values_language',
       ],
       'schema_nationality' => [
@@ -272,7 +272,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_honorific_prefix' => ['type' => 'string_textfield'],
       'schema_honorific_suffix' => ['type' => 'string_textfield'],
       'schema_job_title' => ['type' => 'string_textfield'],
-      'schema_knows_language' => ['type' => 'options_select'],
+      'schema_knows_lang' => ['type' => 'options_select'],
       'schema_nationality' => ['type' => 'options_select'],
       'schema_telephone' => ['type' => 'telephone_default'],
       'schema_same_as' =>  ['type' => 'link_default'],
@@ -304,7 +304,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_honorific_prefix' => 'honorificPrefix',
       'schema_honorific_suffix' => 'honorificSuffix',
       'schema_job_title' => 'jobTitle',
-      'schema_knows_language' => 'knowsLanguage',
+      'schema_knows_lang' => 'knowsLanguage',
       'schema_nationality' => 'nationality',
       'schema_telephone' => 'telephone',
       'schema_same_as' => 'sameAs',

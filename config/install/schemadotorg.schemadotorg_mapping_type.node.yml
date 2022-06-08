@@ -88,7 +88,7 @@ default_schema_type_subtypes:
   - Article
   - EducationalOrganization
   - Event
-  - FoodOrganization
+  - FoodEstablishment
   - LocalBusiness
 default_base_fields:
   uuid: {  }

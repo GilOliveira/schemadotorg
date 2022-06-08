@@ -287,6 +287,14 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
         ->fetchCol();
       $max_length = $this->schemaDotOrgNames->getNameMaxLength($table);
       foreach ($schema_ids as $schema_id) {
+        // For types, we only care about Things and Intangibles.
+        if ($table === 'types') {
+          $is_enumeration = ($this->schemaTypeManager->isEnumerationValue($schema_id) || $this->schemaTypeManager->isEnumerationType($schema_id));
+          if ($is_enumeration) {
+            continue;
+          }
+        }
+
         $schema_item = ($table === 'types') ? $this->t('Type') : $this->t('Properties');
         $schema_label = $this->schemaDotOrgNames->toDrupalLabel($table, $schema_id);
         $original_name = $this->schemaDotOrgNames->camelCaseToSnakeCase($schema_id);

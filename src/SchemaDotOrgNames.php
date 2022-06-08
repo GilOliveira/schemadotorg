@@ -143,9 +143,8 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
       $drupal_name = preg_replace('/^' . $search . '_/', $replace . '_', $drupal_name);
     }
 
-    // Do not do any more abbreviations if the name has less than two words.
-    if (substr_count($drupal_name, '_') <= 1
-      && (!$max_length || (strlen($drupal_name) < $max_length))) {
+    // Do not do any more abbreviations of a single words.
+    if (substr_count($drupal_name, '_') === 0) {
       return $drupal_name;
     }
 
@@ -153,11 +152,6 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
     $suffixes = $this->getConfig()->get('names.suffixes');
     foreach ($suffixes as $search => $replace) {
       $drupal_name = preg_replace('/_' . $search . '$/', '_' . $replace, $drupal_name);
-    }
-
-    // Do not do any more abbreviations if the name is less than the limit.
-    if (!$max_length || strlen($drupal_name) < $max_length) {
-      return $drupal_name;
     }
 
     // Abbreviations.

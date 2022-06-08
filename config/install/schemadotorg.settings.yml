@@ -862,11 +862,16 @@ names:
     public_transport_closures_info: pub_trans_closures_info
     vehicle_identification_number: vin
   prefixes:
+    approved: appr
+    benefits: bene
     body_measurement: body_meas
     customer_remorse_return: cust_rem_ret
     customer: cust
+    currency: cur
     cvd_num: cvd
+    delivery: del
     digital_document: digit_doc
+    discussion: disc
     educational_occupational: edu_occ
     educational: edu
     eu_energy_efficiency_category: eu_energy_eff_cat
@@ -884,6 +889,11 @@ names:
     mission: mis
     misconceptions: miscon
     original: orig
+    payment: pay
+    performing: perf
+    physical: phys
+    prevention: prev
+    presentation: pres
     verification: ver
     reservation: res
     return_label: ret_lbl
@@ -897,10 +907,15 @@ names:
     audience: aud
     aspect: asp
     amount: amt
+    application: app
+    background: back
     business: biz
+    calculator: calc
     capacity: cap
     category: cat
+    collection: col
     composition: comp
+    contraindication: contra
     credential: cred
     descending: dsc
     description: desc
@@ -913,10 +928,15 @@ names:
     enumeration: enum
     entity: ent
     establishment: est
+    geometry: geo
+    indication: ind
+    information: info
     specification: spec
     language: lang
     location: loc
+    modification: mod
     modulation: mod
+    object: obj
     organization: org
     override: over
     process: proc
@@ -929,9 +949,13 @@ names:
     requirements: req
     registered: reg
     registration: reg
+    restaurant: rest
     responsibility: resp
+    service: srv
     standard: stand
     statistics: stats
+    symptom: sym
+    subscription: sub
     volume: vol
   abbreviations:
     health_insurance_plan: hth_ins_plan
@@ -946,6 +970,7 @@ names:
     accessory: access
     accommodation: accom
     amount: amt
+    article: art
     associated: assoc
     attendance: attend
     availability: avail
@@ -957,7 +982,10 @@ names:
     configuration: conf
     consumption: cons
     composition: comp
+    community: comm
     coverage: cover
+    conversion: conv
+    construction: const
     credential: cred
     defect: def
     efficiency: eff
@@ -965,16 +993,21 @@ names:
     entertainment: ent
     employer: emp
     employment: emp
+    equipment: equip
     establishment: est
     enumeration: enum
     experience: exp
+    guideline: guide
     government: gov
     frequency: freq
+    historical: hist
     identification: id
     included: inc
     includes: inc
     incorporated: inc
+    information: info
     insurance: ins
+    health: hth
     hours: hrs
     language: lang
     minutes: min
@@ -997,10 +1030,12 @@ names:
     relevance: rel
     requirement: req
     requirements: req
+    residence: res
     return: ret
-    specification: spec
     sequence: seq
+    specification: spec
     suggested: sug
+    swimming: swim
     transport: trans
   acronyms:
     - cvd
