@@ -48,6 +48,8 @@ function schemadotorg_flexfield_schemadotorg_property_field_alter(
   $schema_names = \Drupal::service('schemadotorg.names');
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
   $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+  /** @var \Drupal\schemadotorg_ui\SchemaDotOrgUiFieldManagerInterface $schema_field_manager */
+  $schema_field_manager = \Drupal::service('schemadotorg_ui.field_manager');
 
   $flexfield_schema_type = $default_properties['type'] ?? '';
   $flexfield_schema_properties = $default_properties['properties'] ?? [];
@@ -57,14 +59,10 @@ function schemadotorg_flexfield_schemadotorg_property_field_alter(
   $field_storage_columns = [];
   $field_settings = [];
   foreach ($flexfield_schema_properties as $property => $data_type) {
-    $custom_label = \Drupal::config('schemadotorg.settings')
-      ->get("schema_properties.custom_labels.$flexfield_schema_type--$property");
-
-    $name = $schema_names->camelCaseToSnakeCase($property);
-    $label = $custom_label ?: $schema_names->camelCaseToSentenceCase($property);
-    $description = (isset($schema_properties[$property]))
-      ? $schema_properties[$property]['comment']
-      : '';
+    $default_field = $schema_field_manager->getPropertyDefaultField($flexfield_schema_type, $property);
+    $name = $default_field['name'];
+    $label = $default_field['label'];
+    $description = $default_field['description'];
 
     $field_storage_columns[$name] = [
       'name' => $name,

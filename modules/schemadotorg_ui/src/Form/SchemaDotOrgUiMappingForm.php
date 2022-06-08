@@ -375,7 +375,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         if ($this->fieldStorageExists($field_name)) {
           // Create new field instance using existing field storage.
           $existing_field = $this->getField($field_name);
-          $default_field = $this->getSchemaPropertyDefaultField($property_name);
+          $default_field = $this->schemaFieldManager->getPropertyDefaultField($schema_type, $property_name);
           $field = [
             'machine_name' => $field_name,
             'label' => $default_field['label'],
@@ -790,38 +790,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
-   * Get a Schema.org property's default field settings.
-   *
-   * @param string $property
-   *   A Schema.org property.
-   *
-   * @return array
-   *   A Schema.org property's default field settings.
-   */
-  protected function getSchemaPropertyDefaultField($property) {
-    $schema_type = $this->getSchemaType();
-    $property_definition = $this->schemaTypeManager->getProperty($property);
-
-    // Get custom field default settings.
-    $default_fields = $this->config('schemadotorg.settings')
-      ->get('schema_properties.default_fields');
-    $default_field = [];
-    $default_field += $default_fields["$schema_type--$property"] ?? [];
-    $default_field += $default_fields[$property] ?? [];
-    $default_field += [
-      'name' => $property_definition['drupal_name'],
-      'label' => $property_definition['drupal_label'],
-      'description' => $this->schemaTypeBuilder->formatComment($property_definition['comment'], ['base_path' => 'https://schema.org/']),
-      'unlimited' => $this->unlimitedProperties[$property] ?? FALSE,
-    ];
-
-    // @todo Allow modules to alter the default field via a hook.
-    // @see hook_schemadotorg_property_field_prepare($type, $property, $field_value)
-
-    return $default_field;
-  }
-
-  /**
    * Build Schema.org property information.
    *
    * @param array $definition
@@ -865,9 +833,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   A Schema.org property field form.
    */
   protected function buildSchemaPropertyFieldForm(array $definition) {
+    $type = $this->getSchemaType();
     $property = $definition['label'];
 
-    $default_field = $this->getSchemaPropertyDefaultField($property);
+    $default_field = $this->schemaFieldManager->getPropertyDefaultField($type, $property);
     $field_name = $this->getFieldPrefix() . $default_field['name'];
 
     $base_field_mappings = $this->getSchemaBaseFieldMappings();
@@ -973,7 +942,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
       '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
-      '#default_value' => $default_field['description'],
+      '#default_value' => $this->schemaTypeBuilder->formatComment($default_field['description'], ['base_path' => 'https://schema.org/']),
     ];
 
     $form[static::ADD_FIELD]['unlimited'] = [

@@ -54,6 +54,19 @@ interface SchemaDotOrgUiFieldManagerInterface {
   public function getField($entity_type_id, $field_name);
 
   /**
+   * Get a Schema.org property's default field settings.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   * @param string $property
+   *   A Schema.org property.
+   *
+   * @return array
+   *   A Schema.org property's default field settings.
+   */
+  public function getPropertyDefaultField($type, $property);
+
+  /**
    * Gets a Schema.org type's property's available field types as options.
    *
    * @param string $type

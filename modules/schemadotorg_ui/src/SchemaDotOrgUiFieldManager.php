@@ -134,6 +134,39 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
   }
 
   /**
+   * Get a Schema.org property's default field settings.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   * @param string $property
+   *   A Schema.org property.
+   *
+   * @return array
+   *   A Schema.org property's default field settings.
+   */
+  public function getPropertyDefaultField($type, $property) {
+    $default_field = [];
+
+    // Get custom field default settings.
+    $default_fields = $this->config->get('schema_properties.default_fields');
+    $default_field += $default_fields["$type--$property"] ?? [];
+    $default_field += $default_fields[$property] ?? [];
+
+    // Get property field default settings.
+    $property_definition = $this->schemaTypeManager->getProperty($property);
+    $default_field += [
+      'name' => $property_definition['drupal_name'],
+      'label' => $property_definition['drupal_label'],
+      'description' => $property_definition['comment'],
+      'unlimited' => $this->unlimitedProperties[$property] ?? FALSE,
+    ];
+
+    // @todo Allow modules to alter the default field via a hook.
+    // @see hook_schemadotorg_property_field_prepare($type, $property, $field_value)
+    return $default_field;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getPropertyFieldTypeOptions($type, $property) {
@@ -331,10 +364,7 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     $field_types = [];
 
     // Set Schema.org property specific field types.
-    $default_fields = $this->config->get('schema_properties.default_fields');
-    $default_field = [];
-    $default_field += $default_fields["$type--$property"] ?? [];
-    $default_field += $default_fields[$property] ?? [];
+    $default_field = $this->getPropertyDefaultField($type, $property);
     if (isset($default_field['type'])) {
       $field_types[$default_field['type']] = $default_field['type'];
     }
