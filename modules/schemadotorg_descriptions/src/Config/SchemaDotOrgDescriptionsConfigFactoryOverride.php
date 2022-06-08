@@ -208,7 +208,6 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
     $overrides = [];
     $type_overrides = [];
     $property_overrides = [];
-
     // Load the unaltered or not overridden Schema.org mapping configuration.
     $config_names = $this->configFactory->listAll('schemadotorg.schemadotorg_mapping.');
     foreach ($config_names as $config_name) {
@@ -221,18 +220,20 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
       // Set entity type override.
       $type_overrides["$entity_type_id.type.$bundle"] = $type;
 
-      // Set entity field instance override.
-      $properties = $config->get('properties') ?: [];
-      foreach ($properties as $field_name => $property) {
-        $property_overrides["field.field.$entity_type_id.$bundle.$field_name"] = $property;
-      }
-
       // Set subtype overrides.
       $this->setSubTypeDescriptionOverride($overrides, $entity_type_id, $bundle);
+
+      // Set entity field instance override.
+      $type_property_overrides = [];
+      $properties = $config->get('properties') ?: [];
+      foreach ($properties as $field_name => $property) {
+        $type_property_overrides["field.field.$entity_type_id.$bundle.$field_name"] = $property;
+      }
+      $this->setItemDescriptionOverrides('properties', $type_property_overrides, $type);
+      $property_overrides += $type_property_overrides;
     }
 
     $this->setItemDescriptionOverrides('types', $type_overrides);
-    $this->setItemDescriptionOverrides('properties', $property_overrides);
     $overrides += $type_overrides + $property_overrides;
 
     $this->defaultCacheBackend->set(static::CACHE_ID, $overrides);
@@ -248,7 +249,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
    * @param array $overrides
    *   An associative array of configuration overrides.
    */
-  protected function setItemDescriptionOverrides($table, array &$overrides) {
+  protected function setItemDescriptionOverrides($table, array &$overrides, $type = '') {
     $items = $this->schemaTypeManager->getItems($table, $overrides, ['label', 'comment']);
     $options = ['base_path' => 'https://schema.org/'];
 
@@ -259,7 +260,10 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
       ->getEditable('schemadotorg_descriptions.settings')
       ->get('custom_descriptions');
     foreach ($overrides as $config_name => $id) {
-      if (array_key_exists($id, $custom_descriptions)) {
+      if ($type && array_key_exists("$type--$id", $custom_descriptions)) {
+        $description = $custom_descriptions["$type--$id"];
+      }
+      elseif (array_key_exists($id, $custom_descriptions)) {
         $description = $custom_descriptions[$id];
       }
       else {

@@ -2,3 +2,4 @@ trim_descriptions: true
 custom_descriptions:
   itemListElement: null
   mainEntity: null
+  MenuItem--offers: 'The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes.'

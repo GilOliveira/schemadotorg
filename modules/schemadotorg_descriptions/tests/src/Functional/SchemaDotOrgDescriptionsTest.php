@@ -109,6 +109,20 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     $assert_session->responseNotContains('An alias for the item.');
     $assert_session->responseContains('This is a custom description for an alternateName');
 
+    // Add custom descriptions for Thing and alternateName.
+    $this->drupalGet('/admin/config/search/schemadotorg/settings/descriptions');
+    $edit = [
+      'custom_descriptions' => 'Thing|This is a custom description for a Thing.'
+      . PHP_EOL . 'alternateName|This is a custom description for an alternateName'
+      . PHP_EOL . 'Thing--alternateName|This is a custom description for an Thing--alternateName',
+    ];
+    $this->submitForm($edit, 'Save configuration');
+
+    // Check that the Thing--alternateName custom description is uses.
+    $this->drupalGet('/node/add/thing');
+    $assert_session->responseNotContains('This is a custom description for an alternateName');
+    $assert_session->responseContains('This is a custom description for an Thing--alternateName');
+
     // Remove custom descriptions for Thing and alternateName.
     $this->drupalGet('/admin/config/search/schemadotorg/settings/descriptions');
     $edit = [
