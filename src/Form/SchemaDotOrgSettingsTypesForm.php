@@ -55,6 +55,14 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
       . $this->t('Prepend a minus to a property to explicitly remove the property from the specific type.'),
       '#default_value' => $config->get('schema_types.default_properties'),
     ];
+    $form['schema_types']['default_property_values'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
+      '#settings_format' => 'SchemaType|propertyName01:DefaultValue01,propertyName02:DefaultValue02',
+      '#title' => $this->t('Default Schema.org type property values'),
+      '#description' => $this->t('Enter default Schema.org type property value.'),
+      '#default_value' => $config->get('schema_types.default_property_values'),
+    ];
     $form['schema_types']['default_field_types'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,

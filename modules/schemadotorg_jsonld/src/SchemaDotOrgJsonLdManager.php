@@ -220,25 +220,41 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyValueDefaultType($property, $value) {
-    if (!is_string($value)) {
+  public function getSchemaPropertyValueDefaultType($type, $property, $value) {
+    $default_property_values = $this->configFactory
+      ->get('schemadotorg.settings')
+      ->get('schema_types.default_property_values');
+
+    if (is_array($value)) {
+      $value_type = $value['@type'] ?? '';
+      $default_values = $default_property_values[$value_type] ?? [];
+      return $value + $default_values;
+    }
+
+    $range_includes = $this->configFactory
+      ->get('schemadotorg.settings')
+      ->get("schema_properties.range_includes.$type--$property");
+    if ($range_includes) {
+      $property_type = reset($range_includes);
+    }
+    else {
+      $property_type = $this->schemaTypeManager->getPropertyDefaultType($property);
+    }
+
+    if (!$property_type) {
       return $value;
     }
 
-    $type = $this->schemaTypeManager->getPropertyDefaultType($property);
-    if (!$type) {
-      return $value;
-    }
-
-    $main_property = $this->getSchemaTypeMainProperty($type);
+    $main_property = $this->getSchemaTypeMainProperty($property_type);
     if (!$main_property) {
       return $value;
     }
 
+    $default_values = $default_property_values[$property_type] ?? [];
     return [
-      '@type' => $type,
+      '@type' => $property_type,
       $main_property => $value,
-    ];
+    ] + $default_values;
   }
 
   /**

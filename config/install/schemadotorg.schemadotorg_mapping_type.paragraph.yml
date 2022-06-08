@@ -56,7 +56,8 @@ recommended_schema_types:
     label: Food
     types:
       - NutritionInformation
-      - Menu
+      - MenuSection
+      - MenuItem
   entertainment:
     label: Entertainment
     types:

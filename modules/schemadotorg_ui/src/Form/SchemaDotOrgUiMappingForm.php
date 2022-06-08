@@ -845,18 +845,26 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     $default_field = $this->schemaFieldManager->getPropertyDefaultField($type, $property);
     $field_name = $this->getFieldPrefix() . $default_field['name'];
-    $field_name_default_value = $this->getEntity()->getSchemaPropertyMapping($property);
 
-    // For a new Schema.org mapping, determine if the property should be mapped
-    // and how it should be mapped to a field.
+    $base_field_mappings = $this->getSchemaBaseFieldMappings();
     $property_defaults = $this->getSchemaTypeDefaultProperties();
-    if ($this->getEntity()->isNew() && isset($property_defaults[$property])) {
-      $base_field_mappings = $this->getSchemaBaseFieldMappings();
+    $property_mappings = $this->getSchemaTypePropertyMappings();
+
+    $field_name_default_value = NULL;
+    if (isset($property_mappings[$property])) {
+      $field_name_default_value = $property_mappings[$property];
+    }
+    elseif ($this->getEntity()->isNew() && isset($property_defaults[$property])) {
       if (isset($base_field_mappings[$property])) {
-        foreach ($base_field_mappings[$property] as $base_field_name) {
-          if ($this->fieldExists($base_field_name)) {
-            $field_name_default_value = $base_field_name;
-            break;
+        if (count($base_field_mappings[$property]) === 1) {
+          $field_name_default_value = reset($base_field_mappings[$property]);
+        }
+        else {
+          foreach ($base_field_mappings[$property] as $base_field_name) {
+            if ($this->fieldExists($base_field_name)) {
+              $field_name_default_value = $base_field_name;
+              break;
+            }
           }
         }
       }

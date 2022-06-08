@@ -110,12 +110,12 @@ class SchemaDotOrgSettings extends Textarea {
    * Form element validation handler for #type 'schemadotorg_settings'.
    */
   public static function validateSchemaDotOrgSettings(&$element, FormStateInterface $form_state, &$complete_form) {
-    $settings = static::convertElementValueToSettings($element, $form_state);
-    if (!is_array($settings)) {
-      $form_state->setError($element, t('%title: invalid input.', ['%title' => $element['#title']]));
-    }
-    else {
+    try {
+      $settings = static::convertElementValueToSettings($element, $form_state);
       $form_state->setValueForElement($element, $settings);
+    }
+    catch (\Exception $exception) {
+      $form_state->setError($element, $exception->getMessage());
     }
   }
 
@@ -231,9 +231,11 @@ class SchemaDotOrgSettings extends Textarea {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    *
-   * @return array|false
-   *   An array of setting or FALSE if the element's value can be converted to
-   *   settings.
+   * @return array
+   *   An array of setting.
+   *
+   * @throws \Exception
+   *   Throw an exception when there is a validation error.
    */
   protected static function convertElementValueToSettings(array $element, FormStateInterface $form_state) {
     $value = $element['#value'];
@@ -246,7 +248,7 @@ class SchemaDotOrgSettings extends Textarea {
         $groups = static::convertStringToIndexedArray($value);
         foreach ($groups as $group) {
           if (substr_count($group, '|') !== 1) {
-            return FALSE;
+            throw new \Exception(t('The @value is not valid.', ['@value' => $group]));
           }
 
           [$name, $items] = explode('|', $group);
@@ -263,7 +265,7 @@ class SchemaDotOrgSettings extends Textarea {
         $groups = static::convertStringToIndexedArray($value);
         foreach ($groups as $group) {
           if (substr_count($group, '|') !== 2) {
-            return FALSE;
+            throw new \Exception(t('The @value is not valid.', ['@value' => $group]));
           }
 
           [$name, $label, $items] = explode('|', $group);
@@ -284,7 +286,7 @@ class SchemaDotOrgSettings extends Textarea {
         $groups = static::convertStringToIndexedArray($value);
         foreach ($groups as $item) {
           if (substr_count($item, '|') !== 1) {
-            return FALSE;
+            throw new \Exception(t('The @value is not valid.', ['@value' => $item]));
           }
 
           [$name, $items] = explode('|', $item);
@@ -302,7 +304,7 @@ class SchemaDotOrgSettings extends Textarea {
         $groups = static::convertStringToIndexedArray($value);
         foreach ($groups as $group) {
           if (substr_count($group, '|') !== 2) {
-            return FALSE;
+            throw new \Exception(t('The @value is not valid.', ['@value' => $group]));
           }
 
           [$name, $label, $items] = explode('|', $group);
@@ -333,7 +335,7 @@ class SchemaDotOrgSettings extends Textarea {
         foreach ($array as $item) {
           if (strpos($item, 'http') === 0) {
             if ($group === NULL) {
-              return FALSE;
+              throw new \Exception(t('The @value is not valid.', ['@value' => $item]));
             }
             $items = preg_split('/\s*\|\s*/', $item);
             $uri = $items[0];

@@ -23,7 +23,7 @@ class SchemaDotOrgSettingsElementTest extends SchemaDotOrgBrowserTestBase {
   public function testSchemaDotOrgSettingsElement() {
     $assert_session = $this->assertSession();
 
-    // Check expected values when submittings the form.
+    // Check expected values when submitting the form.
     $this->drupalGet('/schemadotorg-settings-element-test');
     $this->submitForm([], 'Submit');
     $assert_session->responseContains("indexed:

@@ -24,6 +24,15 @@ schemadotorg.settings:
             sequence:
               type: string
               label: 'Schema.org property'
+        default_property_values:
+          type: sequence
+          label: 'Default Schema.org type property values'
+          sequence:
+            type: sequence
+            label: 'Schema.org type'
+            sequence:
+              type: string
+              label: 'Schema.org property value'
         default_field_types:
           type: sequence
           label: 'Default field types'

@@ -28,11 +28,9 @@ recommended_schema_types:
       - WebPage
       - WebSite
       - FAQPage
-      - QAPage
   content:
     label: Content
     types:
-      - Book
       - Article
       - HowTo
       - SpecialAnnouncement
@@ -41,11 +39,13 @@ recommended_schema_types:
     label: Organization
     types:
       - LocalBusiness
+      - Store
       - Service
       - JobPosting
   education:
     label: Education
     types:
+      - EducationalOrganization
       - Course
   commerce:
     label: Commerce
@@ -56,8 +56,9 @@ recommended_schema_types:
   food:
     label: Food
     types:
-      - Recipe
+      - FoodEstablishment
       - Menu
+      - Recipe
       - Diet
   entertainment:
     label: Entertainment
@@ -65,7 +66,6 @@ recommended_schema_types:
       - Movie
       - Series
       - Season
-      - Episode
   healthcare:
     label: Healthcare
     types:
@@ -83,7 +83,12 @@ default_schema_type_properties:
     - dateCreated
     - dateModified
 default_schema_type_subtypes:
+  - AdministrativeArea
+  - Article
+  - EducationalOrganization
   - Event
+  - FoodOrganization
+  - LocalBusiness
 default_base_fields:
   uuid: {  }
   revision_uid: {  }
@@ -157,14 +162,17 @@ default_field_groups:
   organization:
     label: 'Organization information'
     properties:
+      - employee
       - parentOrganization
   business:
     label: 'Business information'
     properties:
       - openingHours
+      - paymentAccepted
+      - priceRange
+      - acceptsReservations
       - servesCuisine
       - hasMenu
-      - acceptsReservations
   contact:
     label: 'Contact information'
     properties:
@@ -198,7 +206,6 @@ default_field_groups:
       - tool
       - step
       - educationalLevel
-      - image
       - prepTime
       - performTime
       - totalTime

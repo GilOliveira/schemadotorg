@@ -184,12 +184,14 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       return [];
     }
 
+
     $type_data = [];
 
     $mapping = $mapping_storage->loadByEntity($entity);
 
-    $properties = $mapping->getSchemaProperties();
-    foreach ($properties as $field_name => $property) {
+    $schema_type = $mapping->getSchemaType();
+    $schema_properties = $mapping->getSchemaProperties();
+    foreach ($schema_properties as $field_name => $schema_property) {
       // Make sure the entity has the field and the current user has
       // access to the field.
       if (!$entity->hasField($field_name) || !$entity->get($field_name)->access('view')) {
@@ -205,7 +207,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       $position = 1;
       $property_data = [];
       foreach ($items as $item) {
-        $property_value = $this->getFieldItem($property, $item, $map_entity);
+        $property_value = $this->getFieldItem($schema_type, $schema_property, $item, $map_entity);
 
         // Alter the Schema.org property's individual value.
         $this->moduleHandler->alter(
@@ -236,7 +238,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
         ->getFieldStorageDefinition()
         ->getCardinality();
       if ($property_data) {
-        $type_data[$property] = ($cardinality === 1) ? reset($property_data) : $property_data;
+        $type_data[$schema_property] = ($cardinality === 1) ? reset($property_data) : $property_data;
       }
     }
 
@@ -255,9 +257,11 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   }
 
   /**
-   * Get Schema.org property data type from field item.
+   * Get Schema.org type property data type from field item.
    *
-   * @param string $property
+   * @param string $type
+   *   The Schema.org type.
+   * @param string $schema_property
    *   The Schema.org property.
    * @param \Drupal\Core\Field\FieldItemInterface|null $item
    *   The field item.
@@ -267,7 +271,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    * @return array|bool|mixed|null
    *   A data type.
    */
-  protected function getFieldItem($property, FieldItemInterface $item = NULL, $map_entity = TRUE) {
+  protected function getFieldItem($schema_type, $schema_property, FieldItemInterface $item = NULL, $map_entity = TRUE) {
     if ($item === NULL) {
       return NULL;
     }
@@ -293,7 +297,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
 
     // Get Schema.org property value with the property's
     // default Schema.org type.
-    return $this->schemaJsonIdManager->getSchemaPropertyValueDefaultType($property, $property_value);
+    return $this->schemaJsonIdManager->getSchemaPropertyValueDefaultType($schema_type, $schema_property, $property_value);
   }
 
   /**

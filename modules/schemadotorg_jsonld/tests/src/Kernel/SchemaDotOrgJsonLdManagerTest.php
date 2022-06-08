@@ -171,21 +171,31 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
     // the default Schema.org type.
     $this->assertEquals(
       ['@type' => 'Organization', 'name' => '{some_organization}'],
-      $this->manager->getSchemaPropertyValueDefaultType('alumniOf', '{some_organization}')
+      $this->manager->getSchemaPropertyValueDefaultType('Organization', 'alumniOf', '{some_organization}')
     );
     $this->assertEquals(
       ['{some_answer}'],
-      $this->manager->getSchemaPropertyValueDefaultType('acceptedAnswer', ['{some_answer}'])
+      $this->manager->getSchemaPropertyValueDefaultType('Organization', 'acceptedAnswer', ['{some_answer}'])
     );
     $this->assertEquals(
-      1,
-      $this->manager->getSchemaPropertyValueDefaultType('acceptedAnswer', 1)
+      ['@type' => 'Answer', 'text' => 1],
+      $this->manager->getSchemaPropertyValueDefaultType('Organization', 'acceptedAnswer', 1)
     );
     // Check that Schema.org Answer uses 'text' instead of 'name' as
     // the main property.
     $this->assertEquals(
       ['@type' => 'Answer', 'text' => '{some_answer}'],
-      $this->manager->getSchemaPropertyValueDefaultType('acceptedAnswer', '{some_answer}')
+      $this->manager->getSchemaPropertyValueDefaultType('Organization', 'acceptedAnswer', '{some_answer}')
+    );
+    // Check that default type property values are appended.
+    $this->assertEquals(
+      ['@type' => 'Offer', 'price' => 100.00, 'priceCurrency' => 'USD'],
+      $this->manager->getSchemaPropertyValueDefaultType('MenuItem', 'offers', 100.00)
+    );
+    // Check that default type property values are appended.
+    $this->assertEquals(
+      ['@type' => 'Offer', 'price' => 100.00, 'priceCurrency' => 'USD'],
+      $this->manager->getSchemaPropertyValueDefaultType('MenuItem', 'offers', ['@type' => 'Offer', 'price' => 100.00])
     );
 
     // Check getting a Schema.org identifiers for an entity.

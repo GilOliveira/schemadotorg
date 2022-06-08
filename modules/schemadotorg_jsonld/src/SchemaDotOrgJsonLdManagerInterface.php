@@ -61,8 +61,10 @@ interface SchemaDotOrgJsonLdManagerInterface {
   public function getSchemaPropertyValue(FieldItemInterface $item);
 
   /**
-   * Get a Schema.org property's value converted to the default Schema.org type.
+   * Get a Schema.org type property's value converted to the default Schema.org type.
    *
+   * @param string $type
+   *   A Schema.org type.
    * @param string $property
    *   A Schema.org property.
    * @param string|mixed $value
@@ -71,7 +73,7 @@ interface SchemaDotOrgJsonLdManagerInterface {
    * @return array|string
    *   A Schema.org property's value converted to the default Schema.org type.
    */
-  public function getSchemaPropertyValueDefaultType($property, $value);
+  public function getSchemaPropertyValueDefaultType($type, $property, $value);
 
   /**
    * Get Schema.org identifiers for an entity.

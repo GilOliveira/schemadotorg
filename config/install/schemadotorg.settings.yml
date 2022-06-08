@@ -4,6 +4,7 @@ schema_types:
     Comment: text
     Duration: null
     QuantitativeValue: value
+    Offer: price
   default_properties:
     CreativeWork:
       - inLanguage
@@ -444,6 +445,9 @@ schema_types:
       - description
       - name
       - hasMenuSection
+  default_property_values:
+    Offer:
+      priceCurrency: USD
   default_field_types:
     DefinedTerm:
       - string
@@ -603,6 +607,10 @@ schema_properties:
   default_fields:
     FAQPage--mainEntity:
       label: Questions
+    MenuItem--offers:
+      label: Price
+      name: offers_price
+      type: decimal
     Person--additionalName:
       label: 'Middle name'
     Person--familyName:
@@ -702,6 +710,9 @@ schema_properties:
       label: Difficulty
     email:
       type: email
+    employee:
+      label: Employees
+      unlimited: true
     epidemiology:
       unlimited: true
     episode:
