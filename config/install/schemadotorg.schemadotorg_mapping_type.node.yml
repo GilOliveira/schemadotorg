@@ -39,6 +39,7 @@ recommended_schema_types:
     label: Organization
     types:
       - LocalBusiness
+      - LodgingBusiness
       - Store
       - Service
       - JobPosting

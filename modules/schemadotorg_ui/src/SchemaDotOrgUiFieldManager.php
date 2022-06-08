@@ -161,8 +161,14 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
       'unlimited' => $this->unlimitedProperties[$property] ?? FALSE,
     ];
 
-    // @todo Allow modules to alter the default field via a hook.
-    // @see hook_schemadotorg_property_field_prepare($type, $property, $field_value)
+    // Allow modules to alter the default field via a hook.
+    $hook = 'schemadotorg_property_field_prepare';
+    $implementations = $this->moduleHandler->getImplementations($hook);
+    foreach ($implementations as $module) {
+      $function = $module . '_' . $hook;
+      $function($type, $property, $default_field);
+    }
+
     return $default_field;
   }
 

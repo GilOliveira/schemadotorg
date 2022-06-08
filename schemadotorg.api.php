@@ -27,6 +27,20 @@ function hook_schemadotorg_property_field_type_alter(array &$field_types, $type,
 }
 
 /**
+ * Prepare a property's field data before the Schema.org mapping form.
+ *
+ * @param string $type
+ *   The Schema.org type.
+ * @param string $property
+ *   The Schema.org property.
+ * @param array $default_field
+ *   The default values used in the Schema.org mapping form.
+ */
+function hook_schemadotorg_property_field_prepare($type, $property, array &$default_field) {
+  // @todo Provide an example.
+}
+
+/**
  * Alter field storage and field values before they are created.
  *
  * @param string $type
