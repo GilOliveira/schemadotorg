@@ -137,6 +137,18 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertNull($this->fieldManager->getField('not_node', 'schema_alternate_name'));
     $this->assertNull($this->fieldManager->getField('node', 'schema_identifier'));
 
+    // Check getting a Schema.org property's default field settings.
+    $default_field = $this->fieldManager->getPropertyDefaultField('Person', 'additionalName');
+    $this->assertEquals('Middle name', $default_field['label']);
+    $default_field = $this->fieldManager->getPropertyDefaultField('Person', 'affiliation');
+    $expected_field = [
+      'label' => 'Affiliations',
+      'unlimited' => TRUE,
+      'name' => 'affiliation',
+      'description' => 'An organization that this person is affiliated with. For example, a school/university, a club, or a team.',
+    ];
+    $this->assertEquals($expected_field, $default_field);
+
     // Check getting a Schema.org property's available field types as options.
     $expected_field_type_options = [
       'Recommended' => [

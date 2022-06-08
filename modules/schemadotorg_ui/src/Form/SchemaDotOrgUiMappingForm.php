@@ -304,6 +304,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $bundle_entity_type_definition = $mapping_entity->getTargetEntityTypeBundleDefinition();
 
       // Get bundle entity values and map id and label keys.
+      // (i.e, A node's label is saved in the database as its title)
       $bundle_entity_values = $form_state->getValue('entity');
       $keys = ['id', 'label'];
       foreach ($keys as $key) {
@@ -437,7 +438,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    // Do nothing and allows the entity to be saved via ::submitForm.
+    // Do nothing and allow the entity to be saved via ::submitForm.
   }
 
   /* ************************************************************************ */
@@ -453,14 +454,18 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   protected function buildFieldTypeForm(array &$form) {
     // Build the entity type summary form.
     $this->buildEntityTypeForm($form);
+
     // Build the Schema.org type summary form.
     $this->buildSchemaTypeForm($form);
+
     // Build add new entity bundle form.
     if ($this->getEntity()->isNewTargetEntityTypeBundle()) {
       $this->buildAddEntityForm($form);
     }
+
     // Build subtype form.
     $this->buildSubtypeForm($form);
+
     // Build Schema.org type properties table.
     $this->buildSchemaPropertiesForm($form);
 
@@ -475,7 +480,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $is_cli = (PHP_SAPI === 'cli');
     if ($is_new && $is_get && !$is_cli) {
       if ($this->getEntity()->isTargetEntityTypeBundle()) {
-        $type_definition = $this->getSchmemaTypeDefinition();
+        $type_definition = $this->getSchemaTypeDefinition();
         $target_entity_type_bundle_definition = $this->getEntity()->getTargetEntityTypeBundleDefinition();
         $t_args = [
           '%schema_type' => $type_definition['drupal_label'],
@@ -530,7 +535,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   An associative array containing the structure of the form.
    */
   protected function buildSchemaTypeForm(array &$form) {
-    $type_definition = $this->getSchmemaTypeDefinition();
+    $type_definition = $this->getSchemaTypeDefinition();
     $form['schema_type'] = [
       '#type' => 'item',
       '#title' => $this->t('Schema.org type'),
@@ -557,7 +562,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function buildAddEntityForm(array &$form) {
     $target_entity_type_bundle_definition = $this->getEntity()->getTargetEntityTypeBundleDefinition();
-    $type_definition = $this->getSchmemaTypeDefinition();
+    $type_definition = $this->getSchemaTypeDefinition();
 
     $t_args = ['@name' => $target_entity_type_bundle_definition->getSingularLabel()];
 
@@ -705,12 +710,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   An associative array containing the structure of the form.
    */
   protected function buildSchemaPropertiesForm(array &$form) {
-    $property_mappings = $this->getSchemaTypePropertyMappings();
-
     $property_definitions = $this->getSchemaTypePropertyDefinitions();
+
     $ignored_properties = $this->getSchemaTypeIgnoredProperties();
     $ignored_properties = array_intersect_key($ignored_properties, $property_definitions);
-    $displayed_property_definitions = array_diff_key($property_definitions, $ignored_properties);
+    $property_definitions = array_diff_key($property_definitions, $ignored_properties);
 
     // Header.
     $header = [];
@@ -719,10 +723,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     // Rows.
     $rows = [];
-    foreach ($displayed_property_definitions as $property => $property_definition) {
+    foreach ($property_definitions as $property => $property_definition) {
       // Skip a superseded property unless it is already mapped.
       if (!empty($property_definition['superseded_by'])
-        && empty($property_mappings[$property])) {
+        && empty($this->getEntity()->getSchemaPropertyMapping($property))) {
         continue;
       }
 
@@ -743,6 +747,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $rows[$property] = $row;
     }
 
+    // Filter form.
     $form['filter'] = [
       '#type' => 'search',
       '#title' => $this->t('Filter'),
@@ -758,6 +763,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       ],
     ];
 
+    // Properties table.
     $form['properties'] = [
       '#type' => 'table',
       '#header' => $header,
@@ -765,6 +771,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#attributes' => ['class' => ['schemadotorg-ui-properties']],
     ] + $rows;
 
+    // Ignored properties.
     if ($ignored_properties) {
       $form['ignored_properties'] = [
         '#type' => 'details',
@@ -838,26 +845,18 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     $default_field = $this->schemaFieldManager->getPropertyDefaultField($type, $property);
     $field_name = $this->getFieldPrefix() . $default_field['name'];
+    $field_name_default_value = $this->getEntity()->getSchemaPropertyMapping($property);
 
-    $base_field_mappings = $this->getSchemaBaseFieldMappings();
+    // For a new Schema.org mapping, determine if the property should be mapped
+    // and how it should be mapped to a field.
     $property_defaults = $this->getSchemaTypeDefaultProperties();
-    $property_mappings = $this->getSchemaTypePropertyMappings();
-
-    $field_name_default_value = NULL;
-    if (isset($property_mappings[$property])) {
-      $field_name_default_value = $property_mappings[$property];
-    }
-    elseif ($this->getEntity()->isNew() && isset($property_defaults[$property])) {
+    if ($this->getEntity()->isNew() && isset($property_defaults[$property])) {
+      $base_field_mappings = $this->getSchemaBaseFieldMappings();
       if (isset($base_field_mappings[$property])) {
-        if (count($base_field_mappings[$property]) === 1) {
-          $field_name_default_value = reset($base_field_mappings[$property]);
-        }
-        else {
-          foreach ($base_field_mappings[$property] as $base_field_name) {
-            if ($this->fieldExists($base_field_name)) {
-              $field_name_default_value = $base_field_name;
-              break;
-            }
+        foreach ($base_field_mappings[$property] as $base_field_name) {
+          if ($this->fieldExists($base_field_name)) {
+            $field_name_default_value = $base_field_name;
+            break;
           }
         }
       }
@@ -1017,7 +1016,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * @return array|false
    *   The Schema.org type definition.
    */
-  protected function getSchmemaTypeDefinition() {
+  protected function getSchemaTypeDefinition() {
     return $this->schemaTypeManager->getType($this->getSchemaType());
   }
 
@@ -1034,6 +1033,16 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /**
+   * Gets an entity type's base field mappings.
+   *
+   * @return array
+   *   An entity type's base field mappings.
+   */
+  protected function getSchemaBaseFieldMappings() {
+    return $this->getMappingType()->getBaseFieldMappings();
+  }
+
+  /**
    * Gets Schema.org property to field mappings for the current Schema.org type.
    *
    * @return array
@@ -1042,16 +1051,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   protected function getSchemaTypePropertyMappings() {
     $mapping_entity = $this->getEntity();
     return array_flip($mapping_entity->getSchemaProperties());
-  }
-
-  /**
-   * Gets an entity type's base field mappings.
-   *
-   * @return array
-   *   An entity type's base field mappings.
-   */
-  protected function getSchemaBaseFieldMappings() {
-    return $this->getMappingType()->getBaseFieldMappings();
   }
 
   /**
