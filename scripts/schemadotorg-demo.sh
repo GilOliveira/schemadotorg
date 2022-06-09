@@ -47,8 +47,10 @@ function require() {
 }
 
 function recommended() {
+  composer require drupal/chosen
   composer require drupal/embed
   composer require drupal/entity_embed
+  composer require drupal/entity_usage
   composer require drupal/inline_entity_form
   composer require drupal/flexfield
   composer require drupal/time_field
@@ -85,6 +87,7 @@ function install() {
     features\
     jsonapi_extras\
     paragraphs\
+    paragraphs_library\
     webprofiler;
 
   echo "Installing Schema.org modules";
@@ -105,6 +108,7 @@ function install() {
   echo "Installing field related modules";
   drush -y pm-enable\
     address\
+    chosen\
     embed\
     entity_embed\
     field_group\
@@ -143,6 +147,10 @@ function configure() {
 
   echo "Configuring Devel module";
   drush -y config-set devel.settings devel_dumper kint
+
+  echo "Configuring Chosen module";
+  drush -y config-set chosen.settings minimum_single 0
+  drush -y config-set chosen.settings minimum_multiple 0
 }
 
 function import() {
@@ -165,7 +173,7 @@ function setup() {
   drush schemadotorg:create-type -y taxonomy_term:DefinedTerm
 
   drush schemadotorg:create-type -y paragraph:ContactPoint
-  drush schemadotorg:create-type -y node:Person node:Place node:Organization node:Event
+  drush schemadotorg:create-type -y node:Place node:Organization node:Person node:Event
   drush schemadotorg:create-type -y node:Article node:WebPage
 }
 
@@ -214,20 +222,43 @@ function generate_howto() {
 ################################################################################
 
 function setup_food() {
-  drush schemadotorg:create-type -y paragraph:NutritionInformation paragraph:Offer
+  drush schemadotorg:create-type -y paragraph:NutritionInformation
   drush schemadotorg:create-type -y paragraph:MenuItem paragraph:MenuSection
   drush schemadotorg:create-type -y node:Menu node:Recipe node:FoodEstablishment
 }
 
 function teardown_food() {
-  drush schemadotorg:delete-type -y paragraph:NutritionInformation paragraph:Offer
-  drush schemadotorg:delete-type -y paragraph:MenuSection paragraph:MenuItem
-  drush schemadotorg:delete-type -y node:Menu node:Recipe node:FoodEstablishment
+  drush devel-generate:content --kill --bundles=recipe,menu,food_establishment
+  drush schemadotorg:delete-type -y --delete-entity paragraph:NutritionInformation
+  drush schemadotorg:delete-type -y --delete-entity paragraph:MenuSection paragraph:MenuItem
+  drush schemadotorg:delete-type -y --delete-entity node:Menu node:Recipe node:FoodEstablishment
 }
 
 function generate_food() {
   drush devel-generate:content --kill --add-type-label --skip-fields=menu_link\
     --bundles=recipe,menu,food_establishment
+}
+
+################################################################################
+# Entertainment.
+################################################################################
+
+function setup_entertainment() {
+  drush schemadotorg:create-type -y node:Movie
+  drush schemadotorg:create-type -y node:TVEpisode node:TVSeason node:TVSeries
+  drush schemadotorg:create-type -y node:PodcastEpisode node:PodcastSeason node:PodcastSeries
+}
+
+function teardown_entertainment() {
+  drush devel-generate:content --kill --bundles=movie,tv_series,tv_season,tv_episode,podcast_series,podcast_season,podcast_episode
+  drush schemadotorg:delete-type -y --delete-entity node:Movie
+  drush schemadotorg:delete-type -y --delete-entity node:TVEpisode node:TVSeason node:TVSeries
+  drush schemadotorg:delete-type -y --delete-entity node:PodcastEpisode node:PodcastSeason node:PodcastSeries
+}
+
+function generate_entertainment() {
+  drush devel-generate:content --kill --add-type-label --skip-fields=menu_link\
+    --bundles=movie,tv_series,tv_season,tv_episode,podcast_series,podcast_season,podcast_episode
 }
 
 ################################################################################

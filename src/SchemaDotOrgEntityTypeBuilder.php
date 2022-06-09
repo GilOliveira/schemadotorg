@@ -466,7 +466,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       if ($default_label_suffix) {
         $group_label .= ' ' . $default_label_suffix;
       }
-      $field_weight = $default_field_weights[$schema_property] ?? $index;
+      $field_weight = $default_field_weights[$schema_property]
+        ?? max($default_field_weights);
     }
 
     // Prefix group name.

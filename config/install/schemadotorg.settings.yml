@@ -33,19 +33,7 @@ schema_types:
       - coursePrerequisites
       - educationalCredentialAwarded
       - numberOfCredits
-    CreativeWorkSeason:
-      - actor
-      - director
-      - endDate
-      - episode
-      - numberOfEpisodes
-      - productionCompany
-      - seasonNumber
-      - startDate
-      - trailer
     Drawing:
-      - name
-    Episode:
       - name
     ExercisePlan:
       - name
@@ -65,14 +53,6 @@ schema_types:
       - learningResourceType
       - name
       - teaches
-    Movie:
-      - actor
-      - director
-      - duration
-      - musicBy
-      - name
-      - productionCompany
-      - trailer
     MusicComposition:
       - name
     MusicPlaylist:
@@ -127,7 +107,13 @@ schema_types:
     ShortStory:
       - name
     SpecialAnnouncement:
+      - announcementLocation
       - name
+      - newsUpdatesAndGuidelines
+      - publicTransportClosuresInfo
+      - schoolClosuresInf
+      - travelBans
+      - webFeed
     SoftwareApplication:
       - applicationCategory
       - applicationSubCategory
@@ -151,8 +137,6 @@ schema_types:
     TechArticle:
       - dependencies
       - proficiencyLevel
-    TVSeries:
-      - name
     Thesis:
       - name
     VideoGame:
@@ -205,13 +189,12 @@ schema_types:
       - email
       - image
       - name
+      - member
+      - memberOf
       - sameAs
       - telephone
     EducationalOrganization:
       - alumni
-      - founder
-      - member
-      - memberOf
       - nonprofitStatus
     FoodEstablishment:
       - acceptsReservations
@@ -239,24 +222,23 @@ schema_types:
       - starRating
     MedicalOrganization:
       - isAcceptingNewPatients
+      - healthPlanNetworkId
       - medicalSpecialty
     MovieTheater:
       - screenCount
-    Physician:
+    MedicalBusiness:
       - availableService
+      - department
       - email
       - faxNumber
-      - telephone
-    Project:
-      - founder
+      - hospitalAffiliation
+      - medicalSpecialty
       - member
       - memberOf
+      - openingHours
+      - telephone
     SportsOrganization:
       - sport
-    ResearchOrganization:
-      - founder
-      - member
-      - memberOf
     Person:
       - additionalName
       - address
@@ -445,6 +427,55 @@ schema_types:
       - description
       - name
       - hasMenuSection
+      - hasMenuSection
+    Movie:
+      - actor
+      - description
+      - director
+      - duration
+      - image
+      - musicBy
+      - name
+      - productionCompany
+      - trailer
+    CreativeWorkSeries:
+      - description
+      - endDate
+      - image
+      - startDate
+      - name
+    CreativeWorkSeason:
+      - description
+      - endDate
+      - episode
+      - image
+      - name
+      - seasonNumber
+      - startDate
+      - trailer
+    Episode:
+      - description
+      - duration
+      - episodeNumber
+      - name
+    TVSeries:
+      - actor
+      - containsSeason
+      - director
+      - musicBy
+      - productionCompany
+      - trailer
+    PodcastSeries:
+      - actor
+      - webFeed
+    TVEpisode:
+      - actor
+      - director
+      - image
+      - musicBy
+      - trailer
+    PodcastEpisode:
+      - actor
   default_property_values:
     Offer:
       priceCurrency: USD
@@ -516,6 +547,14 @@ schema_properties:
     MenuItem--offers:
       - Offer
       - Demand
+    TVSeries--containsSeason:
+      - TVSeason
+    TVSeason--episode:
+      - TVEpisode
+    PodcastSeries--containsSeason:
+      - PodcastSeason
+    PodcastSeason--episode:
+      - PodcastEpisode
   ignored_properties:
     - accessibilityAPI
     - accessibilityControl
@@ -695,6 +734,9 @@ schema_properties:
     contactPoint:
       label: 'Contact points'
       unlimited: true
+    containsSeason:
+      label: 'Seasons'
+      unlimited: true
     contributor:
       label: Contributors
       unlimited: true
@@ -784,6 +826,9 @@ schema_properties:
     primaryPrevention:
       label: 'Primary preventions'
       unlimited: true
+    productionCompany:
+      label: 'Production companies'
+      unlimited: true
     publication:
       label: Publications
       unlimited: true
@@ -842,6 +887,9 @@ schema_properties:
       type: text_long
     tool:
       label: Tools
+      unlimited: true
+    trailer:
+      label: Trailers
       unlimited: true
     width:
       type: string

@@ -65,8 +65,12 @@ recommended_schema_types:
     label: Entertainment
     types:
       - Movie
-      - Series
-      - Season
+      - TVSeries
+      - TVSeason
+      - TVEpisode
+      - PodcastSeries
+      - PodcastSeason
+      - PodcastEpisode
   healthcare:
     label: Healthcare
     types:
@@ -86,10 +90,12 @@ default_schema_type_properties:
 default_schema_type_subtypes:
   - AdministrativeArea
   - Article
+  - CivicStructure
   - EducationalOrganization
   - Event
   - FoodEstablishment
   - LocalBusiness
+  - WebPage
 default_base_fields:
   uuid: {  }
   revision_uid: {  }
@@ -112,7 +118,16 @@ default_base_fields:
     - dateModified
   field_tags:
     - keywords
-default_field_weights: {  }
+default_field_weights:
+  - seasonNumber
+  - episodeNumber
+  - episode
+  - containsSeason
+  - director
+  - actor
+  - productionCompany
+  - countryOfOrigin
+  - musicBy
 default_field_groups:
   general:
     label: 'General information'
@@ -137,6 +152,7 @@ default_field_groups:
       - photo
       - primaryImageOfPage
       - video
+      - trailer
       - thumbnail
       - thumbnailUrl
       - contentUrl
@@ -163,17 +179,22 @@ default_field_groups:
   organization:
     label: 'Organization information'
     properties:
+      - department
       - employee
+      - member
+      - memberOf
       - parentOrganization
   business:
     label: 'Business information'
     properties:
       - openingHours
+      - department
       - paymentAccepted
       - priceRange
       - acceptsReservations
       - servesCuisine
       - hasMenu
+      - availableService
   contact:
     label: 'Contact information'
     properties:
@@ -200,6 +221,7 @@ default_field_groups:
       - medicalSpecialty
       - availableService
       - isAcceptingNewPatients
+      - hospitalAffiliation
   how_to:
     label: 'How to'
     properties:
