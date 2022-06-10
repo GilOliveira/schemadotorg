@@ -74,7 +74,10 @@ schema_types:
     QAPage:
       - mainEntity
     Quotation:
-      - spokenByCharacter
+      - name
+      - text
+      - creator
+      - isPartOf
     HowTo:
       - educationalLevel
       - image
@@ -150,7 +153,10 @@ schema_types:
       - artist
       - name
     WebContent:
+      - description
       - name
+      - image
+      - about
     WebApplication:
       - browserRequirements
     WebSite:
@@ -479,6 +485,8 @@ schema_types:
     CollectionPage:
       - hasPart
       - mentions
+    ItemList:
+      - itemListElement
   default_property_values:
     Offer:
       priceCurrency: USD
@@ -565,6 +573,8 @@ schema_properties:
       - ImageObject
     VideoGallery--hasPart:
       - VideoObject
+    itemListElement:
+      - CreativeWork
   ignored_properties:
     - accessibilityAPI
     - accessibilityControl
@@ -680,8 +690,6 @@ schema_properties:
       label: Question
     VideoGallery--hasPart:
       label: Videos
-      unlimited: true
-    about:
       unlimited: true
     acceptedAnswer:
       type: text_long

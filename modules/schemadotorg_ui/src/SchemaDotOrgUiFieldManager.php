@@ -364,7 +364,7 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
     );
 
     // Set default entity reference type and field type.
-    $entity_reference_entity_type = $this->getDefaultEntityReferenceEntityType($range_includes);
+    $entity_reference_entity_type = $this->getDefaultEntityReferenceEntityType($specific_range_includes);
     $entity_reference_field_type = $this->getDefaultEntityReferenceFieldType($entity_reference_entity_type);
 
     $field_types = [];

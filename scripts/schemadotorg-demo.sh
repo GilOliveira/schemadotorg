@@ -196,6 +196,18 @@ function generate() {
     --bundles=article,page,person,organization,place,event
 }
 
+################################################################################
+# Block.
+################################################################################
+
+function setup_block() {
+  drush schemadotorg:create-type -y block_content:Quotation block_content:WebContent block_content:ItemList
+}
+
+function teardown_block() {
+  drush schemadotorg:delete-type -y block_content:Quotation block_content:WebContent block_content:ItemList
+}
+
 
 ################################################################################
 # Collection.
