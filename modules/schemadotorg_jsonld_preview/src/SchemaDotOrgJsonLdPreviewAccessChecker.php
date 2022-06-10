@@ -84,8 +84,8 @@ class SchemaDotOrgJsonLdPreviewAccessChecker implements SchemaDotOrgJsonLdPrevie
     /** @var \Drupal\system\Plugin\Condition\RequestPath $condition */
     $condition = $this->conditionManager->createInstance('request_path');
 
-    // Set the request path condition configuration.
-    $condition->setConfiguration($config->get('request_path'));
+    // Set the visibility request path condition configuration.
+    $condition->setConfiguration($config->get('visibility.request_path'));
 
     // Execute the request path condition.
     return $condition->execute();

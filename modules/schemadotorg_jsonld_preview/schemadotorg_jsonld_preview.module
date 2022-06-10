@@ -20,24 +20,28 @@ function schemadotorg_jsonld_preview_form_schemadotorg_jsonld_settings_form_alte
   $condition = $condition_manager->createInstance('request_path');
 
   // Set the request path condition configuration.
-  $condition->setConfiguration($config->get('request_path'));
+  $condition->setConfiguration($config->get('visibility.request_path'));
 
-  // Append the request path condition configuration form.
+  // Build preview visibility container.
   $form['schemadotorg_jsonld_preview'] = [
     '#type' => 'details',
     '#title' => t('JSON-LD preview visibility'),
     '#description' => t('Use the below configuration settings to determine what pages the JSON-LD preview is displayed on.'),
     '#open' => TRUE,
-    '#tree' => TRUE
+    '#tree' => TRUE,
+    'visibility' => [],
   ];
-  $form['schemadotorg_jsonld_preview'] = $condition->buildConfigurationForm($form['schemadotorg_jsonld_preview'], $form_state);
+  // Append the request path condition configuration form.
+  $form['schemadotorg_jsonld_preview']['visibility']['request_path'] = [];
+  $request_path =& $form['schemadotorg_jsonld_preview']['visibility']['request_path'];
+  $request_path = $condition->buildConfigurationForm($request_path, $form_state);
 
   // Check negate checkbox to radio so that it aligned with the Block UI.
   // @see \Drupal\block\BlockForm::buildVisibilityInterface
-  $form['schemadotorg_jsonld_preview']['negate']['#type'] = 'radios';
-  $form['schemadotorg_jsonld_preview']['negate']['#default_value'] = (int) $form['schemadotorg_jsonld_preview']['negate']['#default_value'];
-  $form['schemadotorg_jsonld_preview']['negate']['#title_display'] = 'invisible';
-  $form['schemadotorg_jsonld_preview']['negate']['#options'] = [
+  $request_path['negate']['#type'] = 'radios';
+  $request_path['negate']['#default_value'] = (int) $request_path['negate']['#default_value'];
+  $request_path['negate']['#title_display'] = 'invisible';
+  $request_path['negate']['#options'] = [
     t('Show for the listed pages'),
     t('Hide for the listed pages'),
   ];
@@ -56,8 +60,9 @@ function schemadotorg_jsonld_preview_settings_form_submit(&$form, FormStateInter
     $cache_backends['dynamic_page_cache']->deleteAll();
   }
 
+  $values = $form_state->getValue('schemadotorg_jsonld_preview');
   \Drupal::configFactory()->getEditable('schemadotorg_jsonld_preview.settings')
-    ->set('request_path', $form_state->getValue('schemadotorg_jsonld_preview'))
+    ->set('visibility', $values['visibility'])
     ->save();
 }
 

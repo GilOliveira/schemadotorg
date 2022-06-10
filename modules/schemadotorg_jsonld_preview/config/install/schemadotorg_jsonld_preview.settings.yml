@@ -1,3 +1,4 @@
-request_path:
-  negate: true
-  pages: '/node/*/layout'
+visibility:
+  request_path:
+    negate: true
+    pages: '/node/*/layout'
