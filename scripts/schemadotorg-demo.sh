@@ -48,6 +48,8 @@ function require() {
 
 function recommended() {
   composer require drupal/chosen
+  composer require drupal/gin_lb
+  composer require drupal/layout_builder_modal
   composer require drupal/embed
   composer require drupal/entity_embed
   composer require drupal/entity_usage

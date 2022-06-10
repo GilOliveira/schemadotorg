@@ -1,0 +1,14 @@
+schemadotorg_jsonld_preview.settings:
+  type: config_entity
+  label: Schema.org JSON-LD preview settings
+  mapping:
+    request_path:
+      type: mapping
+      label: 'Request path'
+      mapping:
+        pages:
+          type: string
+          label: 'Pages'
+        negate:
+          type: boolean
+          label: 'Hide for the listed pages'

@@ -1,4 +1,7 @@
 services:
+  schemadotorg_jsonld_preview.access_checker:
+    class: Drupal\schemadotorg_jsonld_preview\SchemaDotOrgJsonLdPreviewAccessChecker
+    arguments: ['@config.factory', '@current_user', '@router.admin_context', '@plugin.manager.condition']
   schemadotorg_jsonld_preview.builder:
     class: Drupal\schemadotorg_jsonld_preview\SchemaDotOrgJsonLdPreviewBuilder
-    arguments: ['@module_handler', '@current_user', '@router.admin_context', '@entity_type.manager', '@schemadotorg_jsonld.manager', '@schemadotorg_jsonld.builder']
+    arguments: ['@module_handler', '@entity_type.manager', '@schemadotorg_jsonld.manager', '@schemadotorg_jsonld.builder']

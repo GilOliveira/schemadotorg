@@ -63,6 +63,17 @@ class SchemaDotOrgJsonLdPreviewTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalLogin($account);
     $this->drupalGet($node->toUrl());
     $assert_session->responseContains('Schema.org JSON-LD');
+
+    // Update JSON-LD preview configuration to not be displayed on the node.
+    $this->drupalLogin($this->rootUser);
+    $this->drupalGet('/admin/config/search/schemadotorg/settings/jsonld');
+    $edit = ['schemadotorg_jsonld_preview[pages]' => '/node/' . $node->id()];
+    $this->submitForm($edit, 'Save configuration');
+
+    // Check the JSON-LD preview can be hidden.
+    $this->drupalLogin($account);
+    $this->drupalGet($node->toUrl());
+    $assert_session->responseNotContains('Schema.org JSON-LD');
   }
 
 }

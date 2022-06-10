@@ -4,8 +4,6 @@ namespace Drupal\schemadotorg_jsonld_preview;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\Core\Routing\AdminContext;
-use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface;
@@ -23,20 +21,6 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
    * @var \Drupal\Core\Extension\ModuleHandlerInterface
    */
   protected $moduleHandler;
-
-  /**
-   * The current user.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  protected $currentUser;
-
-  /**
-   * The route admin context to determine whether a route is an admin one.
-   *
-   * @var \Drupal\Core\Routing\AdminContext
-   */
-  protected $adminContext;
 
   /**
    * The entity type manager.
@@ -64,10 +48,6 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
-   * @param \Drupal\Core\Session\AccountInterface $current_user
-   *   The current user.
-   * @param \Drupal\Core\Routing\AdminContext $admin_context
-   *   The route admin context to determine whether the route is an admin one.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager
@@ -77,15 +57,11 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
    */
   public function __construct(
     ModuleHandlerInterface $module_handler,
-    AccountInterface $current_user,
-    AdminContext $admin_context,
     EntityTypeManagerInterface $entity_type_manager,
     SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager,
     SchemaDotOrgJsonLdBuilderInterface $schema_jsonld_builder
   ) {
     $this->moduleHandler = $module_handler;
-    $this->currentUser = $current_user;
-    $this->adminContext = $admin_context;
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaJsonLdManager = $schema_jsonld_manager;
     $this->schemaJsonLdBuilder = $schema_jsonld_builder;
@@ -95,16 +71,6 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
    * {@inheritdoc}
    */
   public function build() {
-    // Check current route.
-    if ($this->adminContext->isAdminRoute()) {
-      return [];
-    }
-
-    // Check that the current user can view the Schema.org JSON-LD.
-    if (!$this->currentUser->hasPermission('view schemadotorg jsonld')) {
-      return [];
-    }
-
     // Build the entity's Schema.org data.
     /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface $builder */
     $data = $this->schemaJsonLdBuilder->build();

@@ -65,6 +65,7 @@ class SchemaDotOrgJsonLdSettingsForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('schemadotorg_jsonld.settings')
+      ->set('identifiers', $form_state->getValue('identifiers'))
       ->set('property_order', $form_state->getValue('property_order'))
       ->set('property_image_styles', $form_state->getValue('property_image_styles'))
       ->save();
