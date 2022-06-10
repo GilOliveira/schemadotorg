@@ -28,6 +28,9 @@ recommended_schema_types:
       - WebPage
       - WebSite
       - FAQPage
+      - MediaGallery
+      - ImageGallery
+      - VideoGallery
   content:
     label: Content
     types:
@@ -241,6 +244,7 @@ default_field_groups:
     label: Links
     properties:
       - sameAs
+      - mentions
       - relatedLink
       - significantLink
 default_field_group_label_suffix: information

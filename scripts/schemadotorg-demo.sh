@@ -87,7 +87,6 @@ function install() {
     features\
     jsonapi_extras\
     paragraphs\
-    paragraphs_library\
     webprofiler;
 
   echo "Installing Schema.org modules";
@@ -195,6 +194,25 @@ function generate() {
   drush devel-generate:terms --kill --bundles=tags
   drush devel-generate:content --kill --add-type-label --skip-fields=menu_link\
     --bundles=article,page,person,organization,place,event
+}
+
+
+################################################################################
+# Collection.
+################################################################################
+
+function setup_collection() {
+  drush schemadotorg:create-type -y node:MediaGallery node:ImageGallery node:VideoGallery
+}
+
+function teardown_collection() {
+  drush devel-generate:content --kill --bundles=media_gallery,image_gallery,video_gallery 0
+  drush schemadotorg:delete-type -y node:MediaGallery node:ImageGallery node:VideoGallery
+}
+
+function generate_collection() {
+  drush devel-generate:content --kill --add-type-label --skip-fields=menu_link\
+    --bundles=media_gallery,image_gallery,video_gallery 15
 }
 
 ################################################################################

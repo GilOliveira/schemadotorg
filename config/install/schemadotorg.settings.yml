@@ -476,6 +476,9 @@ schema_types:
       - trailer
     PodcastEpisode:
       - actor
+    CollectionPage:
+      - hasPart
+      - mentions
   default_property_values:
     Offer:
       priceCurrency: USD
@@ -555,6 +558,13 @@ schema_properties:
       - PodcastSeason
     PodcastSeason--episode:
       - PodcastEpisode
+    MediaGallery--hasPart:
+      - ImageObject
+      - VideoObject
+    ImageGallery--hasPart:
+      - ImageObject
+    VideoGallery--hasPart:
+      - VideoObject
   ignored_properties:
     - accessibilityAPI
     - accessibilityControl
@@ -646,6 +656,12 @@ schema_properties:
   default_fields:
     FAQPage--mainEntity:
       label: Questions
+    ImageGallery--hasPart:
+      label: Images
+      unlimited: true
+    MediaGallery--hasPart:
+      label: Media
+      unlimited: true
     MenuItem--offers:
       label: Price
       name: offers_price
@@ -662,6 +678,9 @@ schema_properties:
       label: Answer
     Question--name:
       label: Question
+    VideoGallery--hasPart:
+      label: Videos
+      unlimited: true
     about:
       unlimited: true
     acceptedAnswer:
