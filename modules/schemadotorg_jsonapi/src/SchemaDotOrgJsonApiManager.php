@@ -214,32 +214,37 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    *   JSON:API resource config path.
    */
   protected function getResourceConfigPath(SchemaDotOrgMappingInterface $mapping) {
+    $entity_type_id = $mapping->getTargetEntityTypeId();
+    $bundle = $mapping->getTargetBundle();
+
     // Get the entity type's resource path prefix used to prevent conflicts.
     // (i.e. ContentPerson, BlockContactPoint, UserPerson, etc...).
     $path_prefixes = $this->configFactory
       ->get('schemadotorg_jsonapi.settings')
       ->get('path_prefixes');
-    $entity_type_id = $mapping->getTargetEntityTypeId();
     $path_prefix = (isset($path_prefixes[$entity_type_id]))
       ? $path_prefixes[$entity_type_id]
       : $this->schemaNames->snakeCaseToUpperCamelCase($entity_type_id);
+    $schema_type = $mapping->getSchemaType();
+    $bundle_schema_type = $this->schemaNames->snakeCaseToUpperCamelCase($bundle);
 
-    if ($mapping->isTargetEntityTypeBundle()) {
+    $names = [
+      $schema_type,
+      $path_prefix . $schema_type,
       // Use the bundle machine name which could be more specific
       // (i.e. contact_point_phone => ContactPointPhone).
-      $bundle = $this->schemaNames->snakeCaseToUpperCamelCase($mapping->getTargetBundle());
-      return ($this->isExistingResourceConfigPath($bundle))
-        ? $path_prefix . $bundle
-        : $bundle;
+      $bundle_schema_type,
+      $path_prefix . $bundle_schema_type,
+    ];
+
+    foreach ($names as $path) {
+      if (!$this->isExistingResourceConfigPath($path)) {
+        return $path;
+      }
     }
-    else {
-      // Use the Schema.org type.
-      // (i.e. Person).
-      $schema_type = $mapping->getSchemaType();
-      return ($this->isExistingResourceConfigPath($schema_type))
-        ? $path_prefix . $schema_type
-        : $schema_type;
-    }
+
+    // Resort the default path naming convention.
+    return $entity_type_id . '/' . $bundle;
   }
 
   /**

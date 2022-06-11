@@ -174,7 +174,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         $field_options = $options[$option_key];
         // Merge in preconfigured field storage options.
         if (isset($field_options['field_storage_config'])) {
-          foreach (['cardinality', 'settings'] as $key) {
+          foreach (['settings'] as $key) {
             if (isset($field_options['field_storage_config'][$key])) {
               $field_storage_values[$key] = $field_options['field_storage_config'][$key];
             }

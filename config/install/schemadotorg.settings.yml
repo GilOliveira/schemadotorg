@@ -512,6 +512,14 @@ schema_types:
       - 'field_ui:entity_reference:media'
       - file
       - link
+    Energy:
+      - decimal
+      - float
+      - integer
+    Mass:
+      - decimal
+      - float
+      - integer
     URL:
       - link
       - string
