@@ -170,9 +170,9 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
     // Check getting a Schema.org property unit.
     $this->assertNull($this->manager->getSchemaPropertyUnit('sodiumContent', ''));
     $this->assertNull($this->manager->getSchemaPropertyUnit('notMass', 10));
-    $this->assertEquals('milligrams', (string) $this->manager->getSchemaPropertyUnit('sodiumContent'));
-    $this->assertEquals('milligram', (string) $this->manager->getSchemaPropertyUnit('sodiumContent', 1));
-    $this->assertEquals('milligrams', (string) $this->manager->getSchemaPropertyUnit('sodiumContent', 10));
+    $this->assertEquals(' milligrams', (string) $this->manager->getSchemaPropertyUnit('sodiumContent'));
+    $this->assertEquals(' milligram', (string) $this->manager->getSchemaPropertyUnit('sodiumContent', 1));
+    $this->assertEquals(' milligrams', (string) $this->manager->getSchemaPropertyUnit('sodiumContent', 10));
 
     // Check getting a Schema.org property's value converted to
     // the default Schema.org type.
