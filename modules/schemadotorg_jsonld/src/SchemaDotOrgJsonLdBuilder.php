@@ -184,7 +184,6 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       return [];
     }
 
-
     $type_data = [];
 
     $mapping = $mapping_storage->loadByEntity($entity);
@@ -208,7 +207,6 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       $property_data = [];
       foreach ($items as $item) {
         $property_value = $this->getFieldItem($schema_type, $schema_property, $item, $map_entity);
-
         // Alter the Schema.org property's individual value.
         $this->moduleHandler->alter(
           'schemadotorg_jsonld_schema_property',

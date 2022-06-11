@@ -13,6 +13,7 @@ use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Routing\RouteMatch;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -20,6 +21,7 @@ use Symfony\Component\Routing\RouterInterface;
  * Schema.org JSON-LD manager.
  */
 class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
+  use StringTranslationTrait;
 
   /**
    * The configuration factory.
@@ -194,6 +196,17 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
       case 'image':
       case 'file':
         return $this->getImageDeriativeUrl($item) ?: $this->getFileUrl($item);
+
+      case 'decimal':
+      case 'float':
+      case 'integer':
+        $value = $item->value;
+        // Units currently are only applicable to https://schema.org/Mass
+        // and https://schema.org/Energy which are used by
+        // https://schema.org/NutritionInformation.
+        $property = $this->getSchemaProperty($item);
+        $unit = $this->getSchemaPropertyUnit($property, $value);
+        return ($unit) ? $value . $unit : $value;
     }
 
     // Main property data type.
@@ -215,6 +228,42 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     }
 
     return $value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSchemaPropertyUnit($property, $value = NULL) {
+    if (!is_numeric($value) && $value !== NULL) {
+      return NULL;
+    }
+
+    $property_definition = $this->schemaTypeManager->getItem('properties', $property);
+    if (!$property_definition) {
+      return NULL;
+    }
+
+    $range_includes = ['https://schema.org/Energy', 'https://schema.org/Mass'];
+    if (!in_array($property_definition['range_includes'], $range_includes)) {
+      return NULL;
+    }
+
+    preg_match('/\b(grams|milligrams|calories)\b/', $property_definition['comment'], $match);
+    $unit = $match[1] ?? NULL;
+
+    switch ($unit) {
+      case 'grams':
+        return ' ' . ($value == '1' ? $this->t('gram') : $this->t('grams'));
+
+      case 'milligrams':
+        return ' ' . ($value == '1' ? $this->t('milligram') : $this->t('milligrams'));
+
+      case 'calories':
+        return ' ' . ($value == '1' ? $this->t('calorie') : $this->t('calories'));
+
+      default:
+        return NULL;
+    }
   }
 
   /**
@@ -369,7 +418,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    *   The field name for a field item.
    */
   protected function getFieldName(FieldItemInterface $item) {
-    return $item->getName();
+    return $item->getFieldDefinition()->getName();
   }
 
   /**

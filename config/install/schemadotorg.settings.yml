@@ -3,8 +3,10 @@ schema_types:
   main_properties:
     Comment: text
     Duration: null
-    QuantitativeValue: value
+    Energy: null
+    Mass: null
     Offer: price
+    QuantitativeValue: value
   default_properties:
     CreativeWork:
       - inLanguage
