@@ -47,7 +47,6 @@ function require() {
 }
 
 function recommended() {
-  composer require drupal/chosen
   composer require drupal/gin_lb
   composer require drupal/layout_builder_modal
   composer require drupal/embed
@@ -79,7 +78,6 @@ function install() {
     admin_toolbar\
     admin_toolbar_tools\
     anonymous_redirect\
-    chosen\
     coffee\
     devel\
     devel_generate\
@@ -107,10 +105,6 @@ function configure() {
 
   echo "Configuring Devel module";
   drush -y config-set devel.settings devel_dumper kint
-
-  echo "Configuring Chosen module";
-  drush -y config-set chosen.settings minimum_single 0
-  drush -y config-set chosen.settings minimum_multiple 0
 }
 
 function import() {

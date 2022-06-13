@@ -1,0 +1,79 @@
+<?php
+
+/**
+ * @file
+ * Allows Inline Entity Forms to be used to create Schema.org relationships.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
+
+/**
+ * Implements hook_schemadotorg_property_field_alter().
+ */
+function schemadotorg_inline_entity_form_schemadotorg_property_field_alter(
+  $type,
+  $property,
+  array &$field_storage_values,
+  array &$field_values,
+  &$widget_id,
+  array &$widget_settings,
+  &$formatter_id,
+  array &$formatter_settings
+) {
+  $default_properties = \Drupal::configFactory()->getEditable('schemadotorg_inline_entity_form.settings')
+    ->get('default_properties');
+  if (!in_array($property, $default_properties)
+    && !in_array("$type--$property", $default_properties)) {
+    return;
+  }
+
+  if ($field_storage_values['type'] !== 'entity_reference') {
+    return;
+  }
+
+  $widget_id = 'inline_entity_form_complex';
+  $widget_settings = [
+    'form_mode' => 'default',
+    'override_labels' => FALSE,
+    'label_singular' => '',
+    'label_plural' => '',
+    'allow_new' => TRUE,
+    'allow_existing' => TRUE,
+    'match_operator' => 'CONTAINS',
+    'allow_duplicate' => TRUE,
+    'collapsible' => TRUE,
+    'collapsed' => TRUE,
+    'revision' => TRUE,
+  ];
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function schemadotorg_inline_entity_form_form_schemadotorg_properties_settings_form_alter(&$form, FormStateInterface $form_state) {
+  $config = \Drupal::config('schemadotorg_inline_entity_form.settings');
+
+  $form['inline_entity_form_default_properties'] = [
+    '#type' => 'schemadotorg_settings',
+    '#settings_type' => SchemaDotOrgSettings::INDEXED,
+    '#settings_format' => 'propertyName or SchemaType--propertyName',
+    '#title' => t('Default inline entity form properties'),
+    '#description' => t('Enter Schema.org properties that should use the inline entity form.'),
+    '#default_value' => $config->get('default_properties'),
+  ];
+
+  // Add submit callback.
+  $form['#submit'][] = 'schemadotorg_inline_entity_form_settings_form_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_properties_settings_form.
+ *
+ * @see schemadotorg_inline_entity_form_form_schemadotorg_properties_settings_form_alter()
+ */
+function schemadotorg_inline_entity_form_settings_form_submit(&$form, FormStateInterface $form_state) {
+  \Drupal::configFactory()->getEditable('schemadotorg_inline_entity_form.settings')
+    ->set('default_properties', $form_state->getValue('inline_entity_form_default_properties'))
+    ->save();
+}

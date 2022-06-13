@@ -1,0 +1,10 @@
+schemadotorg_inline_entity_form.settings:
+  type: config_entity
+  label: Schema.org Inline Entity Form settings
+  mapping:
+    default_properties:
+      type: sequence
+      label: 'Schema.org default properties'
+      sequence:
+        type: string
+        label: Schema.org default property

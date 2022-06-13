@@ -9,6 +9,7 @@ Schema.org Blueprints
 Tests
 - Write tests schemadotorg_jsonld_embed.module
 - Write tests schemadotorg_flexfield.module
+- Write tests schemadotorg_inline_entity_form.module
 
 ## Ongoing
 
