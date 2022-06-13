@@ -2,6 +2,7 @@
 
 namespace Drupal\schemadotorg_jsonapi\EventSubscriber;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -161,12 +162,35 @@ class SchemaDotOrgJsonApiEventSubscriber extends ServiceProviderBase implements 
 
     $relationships = $resource_type->getRelatableResourceTypes();
     $field_names = array_keys($mapping->getAllSchemaProperties());
+    $field_definitions = $this->fieldManager->getFieldDefinitions($entity_type_id, $bundle);
     foreach ($field_names as $field_name) {
       $field = $resource_type->getFieldByInternalName($field_name);
-      if ($field) {
-        $public_name = $field->getPublicName();
-        if (isset($relationships[$public_name])) {
-          $includes[] = $public_name;
+      if (!$field) {
+        continue;
+      }
+
+      $public_name = $field->getPublicName();
+      if (!isset($relationships[$public_name])) {
+        continue;
+      }
+
+      // Append field's public name to includes.
+      $includes[$public_name] = $public_name;
+
+      // Get nested includes for entity references.
+      $field_type = $field_definitions[$field_name]->getType();
+      if (in_array($field_type, ['entity_reference', 'entity_reference_revisions'])) {
+        $settings = $field_definitions[$field_name]->getSettings();
+        $target_type = $settings['target_type'];
+        $target_bundles = NestedArray::getValue($settings, ['handler_settings', 'target_bundles']) ?? [];
+        foreach ($target_bundles as $target_bundle) {
+          $target_resource_id = "$target_type--$target_bundle";
+          $target_resource_type = $this->resourceTypeRepository->getByTypeName($target_resource_id);
+          $target_includes = $this->getResourceIncludes($target_resource_type);
+          foreach ($target_includes as $target_include) {
+            // Append target bundle's field's public name to includes.
+            $includes["$public_name.$target_include"] = "$public_name.$target_include";
+          }
         }
       }
     }
