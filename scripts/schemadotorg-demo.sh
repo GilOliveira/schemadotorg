@@ -71,59 +71,23 @@ function recommended() {
 }
 
 function install() {
-  echo "Installing core modules";
-  drush -y pm-enable \
-    inline_form_errors\
-    media\
-    media_library\
-    settings_tray;
+  echo "Installing Schema.org demo with core and contrib modules";
+  drush -y pm-enable schemadotorg_demo;
 
   echo "Installing contrib modules";
   drush -y pm-enable \
     admin_toolbar\
     admin_toolbar_tools\
     anonymous_redirect\
+    chosen\
     coffee\
     devel\
     devel_generate\
     features\
-    jsonapi_extras\
-    paragraphs\
     webprofiler;
-
-  echo "Installing Schema.org modules";
-  drush -y pm-enable schemadotorg\
-    schemadotorg_descriptions\
-    schemadotorg_export\
-    schemadotorg_rdf\
-    schemadotorg_report\
-    schemadotorg_taxonomy\
-    schemadotorg_ui\
-    schemadotorg_jsonapi\
-    schemadotorg_jsonld\
-    schemadotorg_jsonld_breadcrumb\
-    schemadotorg_jsonld_endpoint\
-    schemadotorg_jsonld_embed\
-    schemadotorg_jsonld_preview;
-
-  echo "Installing field related modules";
-  drush -y pm-enable\
-    address\
-    chosen\
-    embed\
-    entity_embed\
-    field_group\
-    field_token_value\
-    telephone\
-    time_field\
-    flexfield\
-    key_value_field;
 }
 
 function configure() {
-  echo "Importing configuration files";
-  drush config:import -y --partial --source=$SCRIPT_DIRECTORY/config
-
   echo "Configuring system settings";
   drush -y config-set system.logging error_level verbose
   drush -y config-set system.site name 'Schema.org Demo Site'
@@ -140,11 +104,6 @@ function configure() {
 
   echo "Configuring anonymous redirect module";
   drush -y config-set anonymous_redirect.settings enable_redirect true
-
-  echo "Configuring JSON:API extras module";
-  drush -y config-set jsonapi_extras.settings path_prefix api
-  drush -y config-set jsonapi_extras.settings include_count true
-  drush -y config-set jsonapi_extras.settings default_disabled true
 
   echo "Configuring Devel module";
   drush -y config-set devel.settings devel_dumper kint

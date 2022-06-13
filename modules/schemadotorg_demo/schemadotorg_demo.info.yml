@@ -1,0 +1,38 @@
+name: Schema.org Blueprints Demo
+type: module
+description: |
+  Provides an opinionated demo of the Schema.org Blueprints implemented using layout and embed content authoring UX patterns.
+  THIS DEMO SHOULD ONLY BE INSTALLED ON A PLAIN VANILLA TEST INSTANCE OF DRUPAL
+package: Schema.org Blueprints
+core_version_requirement: ^9
+lifecycle: experimental
+dependencies:
+  - 'config_rewrite:config_rewrite'
+  # core
+  - 'drupal:inline_form_errors'
+  - 'drupal:media'
+  - 'drupal:media_library'
+  - 'drupal:settings_tray'
+  - 'drupal:telephone'
+  # contrib
+  - 'address:address'
+  - 'embed:embed'
+  - 'entity_embed:entity_embed'
+  - 'field_group:field_group'
+  - 'jsonapi_extras:jsonapi_extras'
+  - 'paragraphs:paragraphs'
+  - 'time_field:time_field'
+  # schemadotorg
+  - 'schemadotorg:schemadotorg'
+  - 'schemadotorg:schemadotorg_descriptions'
+  - 'schemadotorg:schemadotorg_export'
+  - 'schemadotorg:schemadotorg_rdf'
+  - 'schemadotorg:schemadotorg_report'
+  - 'schemadotorg:schemadotorg_taxonomy'
+  - 'schemadotorg:schemadotorg_ui'
+  - 'schemadotorg:schemadotorg_jsonapi'
+  - 'schemadotorg:schemadotorg_jsonld'
+  - 'schemadotorg:schemadotorg_jsonld_breadcrumb'
+  - 'schemadotorg:schemadotorg_jsonld_endpoint'
+  - 'schemadotorg:schemadotorg_jsonld_embed'
+  - 'schemadotorg:schemadotorg_jsonld_preview'
