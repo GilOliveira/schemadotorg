@@ -708,6 +708,21 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
             $widget_id = 'paragraphs';
             break;
 
+          default:
+            if ($this->moduleHandler->moduleExists('entity_browser')) {
+              $widget_id = 'entity_browser_entity_reference';
+              $widget_settings = [
+                'entity_browser' => 'browse_content',
+                'field_widget_display' => 'label',
+                'field_widget_edit' => TRUE,
+                'field_widget_remove' => TRUE,
+                'field_widget_replace' => FALSE,
+                'open' => TRUE,
+                'field_widget_display_settings' => [],
+                'selection_mode' => 'selection_append',
+              ];
+            }
+            break;
         }
         $field_values['settings'] = [
           'handler' => 'default:' . $target_type,

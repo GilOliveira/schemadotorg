@@ -233,7 +233,7 @@ function generate_food() {
 ################################################################################
 
 function setup_entertainment() {
-  drush schemadotorg:create-type -y media:ImageObject
+  drush schemadotorg:create-type -y media:ImageObject media:VideoObject
   drush schemadotorg:create-type -y node:Movie
   drush schemadotorg:create-type -y node:TVEpisode node:TVSeason node:TVSeries
   drush schemadotorg:create-type -y node:PodcastEpisode node:PodcastSeason node:PodcastSeries

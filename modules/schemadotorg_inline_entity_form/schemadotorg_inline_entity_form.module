@@ -43,7 +43,7 @@ function schemadotorg_inline_entity_form_schemadotorg_property_field_alter(
     'match_operator' => 'CONTAINS',
     'allow_duplicate' => TRUE,
     'collapsible' => TRUE,
-    'collapsed' => TRUE,
+    'collapsed' => FALSE,
     'revision' => TRUE,
   ];
 }
