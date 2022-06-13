@@ -12,11 +12,6 @@ recommended_schema_types:
       - ImageObject
       - VideoObject
       - DataDownload
-  other:
-    label: Other
-    types:
-      - 3DModel
-      - Photograph
 default_schema_types:
   audio: AudioObject
   document: DataDownload

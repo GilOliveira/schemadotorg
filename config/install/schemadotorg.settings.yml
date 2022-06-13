@@ -6,7 +6,10 @@ schema_types:
     Energy: null
     Mass: null
     Offer: price
+    ProgramMembership: programName
     QuantitativeValue: value
+    Rating: ratingValue
+    Role: roleName
   default_properties:
     CreativeWork:
       - inLanguage
@@ -116,7 +119,7 @@ schema_types:
       - name
       - newsUpdatesAndGuidelines
       - publicTransportClosuresInfo
-      - schoolClosuresInf
+      - schoolClosuresInfo
       - travelBans
       - webFeed
     SoftwareApplication:
@@ -379,6 +382,8 @@ schema_types:
       - contactType
       - email
       - telephone
+    Occupation:
+      - name
     PostalAddress:
       - addressCountry
       - addressLocality
@@ -489,6 +494,23 @@ schema_types:
       - mentions
     ItemList:
       - itemListElement
+    OpeningHoursSpecification:
+      - closes
+      - dayOfWeek
+      - opens
+    Rating:
+      - author
+      - ratingExplanation
+      - ratingValue
+    Review:
+      - itemReviewed
+      - negativeNotes
+      - positiveNotes
+      - reviewBody
+      - reviewRating
+    MonetaryAmount:
+      - currency
+      - value
   default_property_values:
     Offer:
       priceCurrency: USD

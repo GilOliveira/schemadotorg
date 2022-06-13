@@ -47,7 +47,7 @@ class SchemaDotOrgReportSettingsForm extends ConfigFormBase {
     $form['issues'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::LINKS_GROUPED,
-      '#title' => $this->t('Schema.org type issues/discussions links'),
+      '#title' => $this->t('Schema.org type issue/discussion links'),
       '#description' => $this->t('Enter links to specific issues/discussions about Schema.org types.'),
       '#default_value' => $config->get('issues'),
     ];

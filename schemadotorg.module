@@ -75,6 +75,11 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
           'youtube_id' => '_kk97O1SEw0',
         ],
         [
+          'title' => t('Baking a Recipe using the Schema.org Blueprints module for Drupal'),
+          'content' => t("This presentation shows how to create a 'recipe' content type in Drupal based entirely on https://Schema.org/Recipe using two possible approaches via the Paragraphs module or Flex Field module to build out the nutrition information."),
+          'youtube_id' => 'F31avX4gRm0',
+        ],
+        [
           'title' => t('What is the Drupal Schema.org Blueprints Module?'),
           'content' => t('A box-opening of the new schema.org blueprints module by the wonderful Jacob Rockowitz!'),
           'youtube_id' => 'mG7Ic91SOq4',

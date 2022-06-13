@@ -22,8 +22,6 @@ recommended_schema_types:
   web:
     label: Web
     types:
-      - BreadcrumbList
-      - WebPageElement
       - DefinedTerm
       - ItemList
   content:
@@ -93,6 +91,7 @@ default_field_weights:
   - valueReference
   - unitText
   - unitCode
+  - currency
   - prepTime
   - performTime
   - totalTime
@@ -109,6 +108,11 @@ default_field_weights:
   - sugarContent
   - proteinContent
   - itemListElement
+  - itemReviewed
+  - reviewRating
+  - reviewBody
+  - positiveNotes
+  - negativeNotes
 default_field_groups: {  }
 default_field_group_label_suffix: ''
 default_field_group_form_type: ''
