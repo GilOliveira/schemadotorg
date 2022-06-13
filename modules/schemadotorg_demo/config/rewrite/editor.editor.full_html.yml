@@ -1,4 +1,5 @@
-wlangcode: en
+config_rewrite: replace
+langcode: en
 status: true
 dependencies:
   config:
@@ -37,7 +38,7 @@ settings:
             - Blockquote
             - DrupalImage
             - DrupalMediaLibrary
-            - node
+            - content_browser
             - Table
             - HorizontalRule
         -

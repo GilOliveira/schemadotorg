@@ -16,8 +16,10 @@ dependencies:
   - 'drupal:telephone'
   # contrib
   - 'address:address'
+  - 'content_browser:content_browser'
   - 'embed:embed'
   - 'entity_embed:entity_embed'
+  - 'entity_browser:entity_browser'
   - 'field_group:field_group'
   - 'jsonapi_extras:jsonapi_extras'
   - 'paragraphs:paragraphs'
