@@ -3,6 +3,7 @@
 namespace Drupal\schemadotorg_ui\Commands;
 
 use Consolidation\AnnotatedCommand\CommandData;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface;
 use Drush\Commands\DrushCommands;
@@ -15,6 +16,13 @@ class SchemaDotOrgUiCommands extends DrushCommands {
   use StringTranslationTrait;
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * The Schema.org UI API.
    *
    * @var \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface
@@ -24,11 +32,14 @@ class SchemaDotOrgUiCommands extends DrushCommands {
   /**
    * SchemaDotOrgUiCommands constructor.
    *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    * @param \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface $schema_api
    *   The Schema.org UI API.
    */
-  public function __construct(SchemaDotOrgUiApiInterface $schema_api) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgUiApiInterface $schema_api) {
     parent::__construct();
+    $this->entityTypeManager = $entity_type_manager;
     $this->schemaApi = $schema_api;
   }
 
@@ -89,12 +100,28 @@ class SchemaDotOrgUiCommands extends DrushCommands {
     if (!$this->io()->confirm($this->t('Are you sure you want to create these types (@types)?', $t_args))) {
       throw new UserAbortException();
     }
-
+    $types = array_combine($types, $types);
     foreach ($types as $type) {
       [$entity_type, $schema_type] = explode(':', $type);
-      $this->schemaApi->createType($entity_type, $schema_type, $options);
+
+      $existing_mapping = $this->getSchemaMappingStorage()->loadByProperties([
+        'target_entity_type_id' => $entity_type,
+        'type' => $schema_type,
+      ]);
+      if ($existing_mapping) {
+        $t_args = ['@type' => $type];
+        $this->io()->writeln($this->t("Schema.org '@type' already exists.", $t_args));
+        unset($types[$type]);
+      }
+      else {
+        $this->schemaApi->createType($entity_type, $schema_type, $options);
+      }
     }
-    $this->io()->writeln($this->t('Schema.org types (@types) created.', $t_args));
+
+    if ($types) {
+      $t_args = ['@types' => implode(', ', $types)];
+      $this->io()->writeln($this->t('Schema.org types (@types) created.', $t_args));
+    }
   }
 
   /* ************************************************************************ */
@@ -152,6 +179,16 @@ class SchemaDotOrgUiCommands extends DrushCommands {
       $this->schemaApi->deleteType($entity_type, $schema_type, $options);
     }
     $this->io()->writeln($this->t('Schema.org types (@types) deleted.', $t_args));
+  }
+
+  /**
+   * Gets the Schema.org mapping storage.
+   *
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface
+   *   The Schema.org mapping storage.
+   */
+  protected function getSchemaMappingStorage() {
+    return $this->entityTypeManager->getStorage('schemadotorg_mapping');
   }
 
 }

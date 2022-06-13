@@ -115,12 +115,12 @@ function configure() {
 
 function import() {
   drush features:import -y schemadotorg
-#  drush features:import -y schemadotorg_descriptions
-#  drush features:import -y schemadotorg_flexfield
-#  drush features:import -y schemadotorg_jsonapi
-#  drush features:import -y schemadotorg_jsonld
-#  drush features:import -y schemadotorg_jsonld_endpoint
-#  drush features:import -y schemadotorg_report
+  drush features:import -y schemadotorg_descriptions
+  drush features:import -y schemadotorg_flexfield
+  drush features:import -y schemadotorg_jsonapi
+  drush features:import -y schemadotorg_jsonld
+  drush features:import -y schemadotorg_jsonld_endpoint
+  drush features:import -y schemadotorg_report
   drush features:import -y schemadotorg_taxonomy
 }
 
@@ -162,6 +162,7 @@ function generate() {
 ################################################################################
 
 function setup_block() {
+  drush schemadotorg:create-type -y media:ImageObject
   drush schemadotorg:create-type -y block_content:Quotation block_content:WebContent block_content:ItemList
 }
 
@@ -175,6 +176,7 @@ function teardown_block() {
 ################################################################################
 
 function setup_collection() {
+  drush schemadotorg:create-type -y media:ImageObject
   drush schemadotorg:create-type -y node:MediaGallery node:ImageGallery node:VideoGallery
 }
 
@@ -193,6 +195,7 @@ function generate_collection() {
 ################################################################################
 
 function setup_howto() {
+  drush schemadotorg:create-type -y media:ImageObject
   drush schemadotorg:create-type -y paragraph:HowToSupply paragraph:HowToTool paragraph:HowToDirection paragraph:HowToTip paragraph:HowToStep paragraph:HowToSection
   drush schemadotorg:create-type -y node:HowTo
 }
@@ -213,6 +216,7 @@ function generate_howto() {
 ################################################################################
 
 function setup_food() {
+  drush schemadotorg:create-type -y media:ImageObject
   drush schemadotorg:create-type -y paragraph:NutritionInformation
   drush schemadotorg:create-type -y paragraph:MenuItem paragraph:MenuSection
   drush schemadotorg:create-type -y node:Menu node:Recipe node:FoodEstablishment
@@ -235,6 +239,7 @@ function generate_food() {
 ################################################################################
 
 function setup_entertainment() {
+  drush schemadotorg:create-type -y media:ImageObject
   drush schemadotorg:create-type -y node:Movie
   drush schemadotorg:create-type -y node:TVEpisode node:TVSeason node:TVSeries
   drush schemadotorg:create-type -y node:PodcastEpisode node:PodcastSeason node:PodcastSeries
