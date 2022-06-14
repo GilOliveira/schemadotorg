@@ -248,6 +248,11 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
    *   Schema.org types or properties table.
    * @param array $overrides
    *   An associative array of configuration overrides.
+   * @param string $type
+   *   The Schema.org type.
+   *
+   * @return array
+   *   Donfiguration override descriptions for Schema.org types or properties.
    */
   protected function setItemDescriptionOverrides($table, array &$overrides, $type = '') {
     $items = $this->schemaTypeManager->getItems($table, $overrides, ['label', 'comment']);

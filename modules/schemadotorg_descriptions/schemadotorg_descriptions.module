@@ -22,7 +22,6 @@ function schemadotorg_descriptions_help($route_name, RouteMatchInterface $route_
   }
 }
 
-
 /**
  * Implements hook_entity_load().
  */

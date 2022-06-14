@@ -14,7 +14,7 @@ use Drupal\Core\Render\Element;
  * Implements hook_schemadotorg_property_field_type_alter().
  */
 function schemadotorg_flexfield_schemadotorg_property_field_type_alter(array &$field_types, $type, $property) {
-  $default_properties = _schemadotorg_flexfield_get_default_properties($type, $property) ;
+  $default_properties = _schemadotorg_flexfield_get_default_properties($type, $property);
   if ($default_properties) {
     $field_types = ['flex' => 'flex'] + $field_types;
   }
@@ -39,7 +39,7 @@ function schemadotorg_flexfield_schemadotorg_property_field_alter(
   }
 
   // Check to see if the property has flex field settings.
-  $default_properties = _schemadotorg_flexfield_get_default_properties($type, $property) ;
+  $default_properties = _schemadotorg_flexfield_get_default_properties($type, $property);
   if (!$default_properties) {
     return;
   }
@@ -107,7 +107,7 @@ function schemadotorg_flexfield_schemadotorg_jsonld_schema_property_alter(&$valu
   $schema_property = $mapping->getSchemaPropertyMapping($field_name);
 
   // Check to see if the property has flex field settings.
-  $default_properties = _schemadotorg_flexfield_get_default_properties($mapping_schema_type, $schema_property) ;
+  $default_properties = _schemadotorg_flexfield_get_default_properties($mapping_schema_type, $schema_property);
   if (!$default_properties) {
     return;
   }
@@ -209,7 +209,7 @@ function schemadotorg_flexfield_field_widget_form_alter(&$element, FormStateInte
 }
 
 /**
- * Preprocess variables for flexfield.html.twig
+ * Preprocess variables for flexfield.html.twig.
  */
 function schemadotorg_flexfield_preprocess_flexfield(&$variables) {
   /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */

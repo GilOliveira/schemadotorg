@@ -4,7 +4,7 @@ schemadotorg_report.settings:
   title: References
   route_name: schemadotorg_report.settings
   parent_id: schemadotorg.settings
-  weight: 70
+  weight: 80
 
 # Item
 

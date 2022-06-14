@@ -110,7 +110,7 @@ class SchemaDotOrgUiCommands extends DrushCommands {
       ]);
       if ($existing_mapping) {
         $t_args = ['@type' => $type];
-        $this->io()->writeln($this->t("Schema.org '@type' already exists.", $t_args));
+        $this->io()->writeln($this->t("Schema.org type '@type' already exists.", $t_args));
         unset($types[$type]);
       }
       else {

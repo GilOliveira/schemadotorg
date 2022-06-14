@@ -199,7 +199,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * @param string $property
    *   A Schema.org property.
    *
-   * @return array|FALSE
+   * @return array|false
    *   A Schema.org property's range includes.
    */
   public function getPropertRangeIncludes($property);

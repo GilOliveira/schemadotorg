@@ -7,7 +7,7 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 /**
  * Tests the functionality of the Schema.org JSON-LD endpoint settings form.
  *
- * @covers \Drupal\schemadotorg_jsonapi\Form\SchemaDotOrgJsonApiSettingsForm
+ * @covers \Drupal\schemadotorg_jsonapi\Form\SchemaDotOrgDemoSettingsForm
  * @group schemadotorg
  */
 class SchemaDotOrgJsonLdEndpointSettingsFormTest extends SchemaDotOrgBrowserTestBase {

@@ -1,0 +1,6 @@
+services:
+  schemadotorg_demo.commands:
+    class: \Drupal\schemadotorg_demo\Commands\SchemaDotOrgDemoCommands
+    arguments: ['@config.factory', '@entity_type.manager', '@schemadotorg_ui.api']
+    tags:
+      - { name: drush.command }

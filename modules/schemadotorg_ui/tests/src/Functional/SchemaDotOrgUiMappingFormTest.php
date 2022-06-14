@@ -275,7 +275,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_knows_lang' => ['type' => 'options_select'],
       'schema_nationality' => ['type' => 'options_select'],
       'schema_telephone' => ['type' => 'telephone_default'],
-      'schema_same_as' =>  ['type' => 'link_default'],
+      'schema_same_as' => ['type' => 'link_default'],
       'schema_works_for' => ['type' => 'string_textfield'],
     ];
     $actual_form_components = $person_form_display->getComponents();

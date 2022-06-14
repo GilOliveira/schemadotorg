@@ -1,0 +1,5 @@
+schemadotorg_demo.settings:
+  title: Demo
+  route_name: schemadotorg_demo.settings
+  parent_id: schemadotorg.settings
+  weight: 70

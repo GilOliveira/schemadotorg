@@ -240,7 +240,7 @@ function schemadotorg_form_field_config_edit_form_alter(&$form, FormStateInterfa
     $bundle_info = $entity_type_bundle_info->getBundleInfo($target_type);
     $bundles = [];
     foreach ($expected_target_bundles as $schema_target_bundle) {
-      $bundles[]  = NestedArray::getValue($bundle_info, [$schema_target_bundle, 'label']) ?: $schema_target_bundle;
+      $bundles[] = NestedArray::getValue($bundle_info, [$schema_target_bundle, 'label']) ?: $schema_target_bundle;
     }
 
     $t_args = [

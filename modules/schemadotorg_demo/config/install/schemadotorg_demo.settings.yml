@@ -1,0 +1,48 @@
+required:
+  - media:ImageObject
+  - media:VideoObject
+demos:
+  common:
+    - media:AudioObject
+    - media:DataDownload
+    - media:ImageObject
+    - media:VideoObject
+    - taxonomy_term:DefinedTerm
+    - paragraph:ContactPoint
+    - node:Place
+    - node:Organization
+    - node:Person
+    - node:Event
+    - node:Article
+    - node:WebPage
+  block:
+    - block_content:Quotation
+    - block_content:WebContent
+    - block_content:ItemList
+  collection:
+    - node:MediaGallery
+    - node:ImageGallery
+    - node:VideoGallery
+  howto:
+    - paragraph:HowToSupply
+    - paragraph:HowToTool
+    - paragraph:HowToDirection
+    - paragraph:HowToTip
+    - paragraph:HowToStep
+    - paragraph:HowToSection
+    - node:HowTo
+  food:
+    - paragraph:NutritionInformation
+    - paragraph:MenuItem
+    - paragraph:MenuSection
+    - node:Menu
+    - node:Recipe
+    - node:FoodEstablishment
+  entertainment:
+    - node:Movie
+    - node:TVEpisode
+    - node:TVSeason
+    - node:TVSeries
+    - node:PodcastEpisode
+    - node:PodcastSeason
+    - node:PodcastSeries

@@ -105,7 +105,6 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
     $this->installEntitySchema('user');
     $this->installEntitySchema('image_style');
 
-
     // Import CSV data into the Schema.org type and properties tables.
     /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
     $installer = $this->container->get('schemadotorg.installer');
@@ -115,6 +114,12 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
     $this->api = $this->container->get('schemadotorg_ui.api');
   }
 
+  /**
+   * Install entity dependencies.
+   *
+   * @param string $entity_type_id
+   *   The entity type id.
+   */
   protected function installEntityDependencies($entity_type_id) {
     // Install the target entity type schema.
     if (isset($this->installedEntitySchemas[$entity_type_id])
@@ -202,6 +207,5 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
   protected function createMediaImage() {
     return $this->createMediaType('image', ['id' => 'image', 'label' => 'Image']);
   }
-
 
 }

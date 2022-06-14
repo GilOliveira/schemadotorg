@@ -18,7 +18,7 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
    * - user:Person
    * - node:Place
    * - node:Organization
-   * - node:Event
+   * - node:Event.
    */
   public function testCreateSchemaEntity() {
     // Check creating paragraph:ContentPoint Schema.org mapping.

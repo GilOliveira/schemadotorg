@@ -257,7 +257,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   /**
    * Get Schema.org type property data type from field item.
    *
-   * @param string $type
+   * @param string $schema_type
    *   The Schema.org type.
    * @param string $schema_property
    *   The Schema.org property.
