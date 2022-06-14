@@ -196,6 +196,7 @@ class SchemaDotOrgUiApi implements SchemaDotOrgUiApiInterface {
       'delete-fields' => FALSE,
     ];
 
+    $mapping_type_storage = $this->getSchemaMappingTypeStorage();
     $mappings = $this->loadSchemaMappingsByType($entity_type, $schema_type);
     foreach ($mappings as $mapping) {
       $target_entity_bundle = $mapping->getTargetEntityBundleEntity();
@@ -234,8 +235,8 @@ class SchemaDotOrgUiApi implements SchemaDotOrgUiApiInterface {
     $base_field_names = $mapping_type->getBaseFieldNames();
 
     $deleted_fields = [];
-    $properties = array_keys($mapping->getSchemaProperties());
-    foreach ($properties as $field_name) {
+    $field_names = array_keys($mapping->getAllSchemaProperties());
+    foreach ($field_names as $field_name) {
       // Never delete a base field and default fields
       // (i.e. user_picture, field_media_image).
       if (isset($base_field_definitions[$field_name])

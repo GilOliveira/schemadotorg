@@ -7,7 +7,6 @@ package: Schema.org Blueprints
 core_version_requirement: ^9
 lifecycle: experimental
 dependencies:
-  - 'config_rewrite:config_rewrite'
   # core
   - 'drupal:inline_form_errors'
   - 'drupal:media'
@@ -16,6 +15,7 @@ dependencies:
   - 'drupal:telephone'
   # contrib
   - 'address:address'
+  - 'config_rewrite:config_rewrite'
   - 'content_browser:content_browser'
   - 'embed:embed'
   - 'entity_embed:entity_embed'

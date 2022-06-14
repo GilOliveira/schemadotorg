@@ -2,18 +2,16 @@
 
 namespace Drupal\schemadotorg_demo\Commands;
 
-use Consolidation\AnnotatedCommand\AnnotationData;
 use Consolidation\AnnotatedCommand\CommandData;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface;
-use Drupal\webform\Entity\Webform;
 use Drush\Commands\DrushCommands;
 use Drush\Drush;
 use Drush\Exceptions\UserAbortException;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Schema.org Demo Drush commands.
@@ -69,7 +67,7 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
    * @hook interact schemadotorg:demo-setup
    */
   public function setupInteract(InputInterface $input) {
-    $this->interact($input, dt('setup'));
+    $this->interactChooseDemo($input, dt('setup'));
   }
 
   /**
@@ -78,7 +76,7 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
    * @hook validate schemadotorg:demo-setup
    */
   public function setupValidate(CommandData $commandData) {
-    $this->validate($commandData);
+    $this->validateDemoCommand($commandData);
   }
 
   /**
@@ -94,23 +92,7 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
    * @aliases sods
    */
   public function setup($name) {
-    $types = $this->configFactory->get('schemadotorg_demo.settings')
-      ->get("demos.$name");
-
-    // Prepend required types.
-    $required = $this->configFactory->get('schemadotorg_demo.settings')->get('required') ?: [];
-    if ($required) {
-      $types = array_merge($required, $types);
-      $types = array_unique($types);
-    }
-
-    $t_args = [
-      '@name' => $name,
-      '@types' => implode(', ', $types),
-    ];
-    if (!$this->io()->confirm($this->t("Are you sure you want to setup '@name' demo with these types (@types)?", $t_args))) {
-      throw new UserAbortException();
-    }
+    $types = $this->confirmDemoCommand($name, $this->t('setup'));
 
     $types = array_combine($types, $types);
     foreach ($types as $type) {
@@ -143,7 +125,7 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
    * @hook interact schemadotorg:demo-generate
    */
   public function generateInteract(InputInterface $input) {
-    $this->interact($input, dt('generate'));
+    $this->interactChooseDemo($input, dt('generate'));
   }
 
   /**
@@ -152,7 +134,7 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
    * @hook validate schemadotorg:demo-generate
    */
   public function generateValidate(CommandData $commandData) {
-    $this->validate($commandData);
+    $this->validateDemoCommand($commandData);
   }
 
   /**
@@ -168,34 +150,51 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
    * @aliases sodg
    */
   public function generate($name) {
-    $types = $this->configFactory->get('schemadotorg_demo.settings')
-      ->get("demos.$name");
-    $t_args = [
-      '@name' => $name,
-      '@types' => implode(', ', $types),
-    ];
-    if (!$this->io()->confirm($this->t("Are you sure you want to generate '@name' demo with these types (@types)?", $t_args))) {
-      throw new UserAbortException();
-    }
+    $types = $this->confirmDemoCommand($name, $this->t('generate'));
 
-    // Collect the entity type and bundles to be generated.
-    $entity_types = $this->getEntityTypeBundles($types);
+    // Generate 5 examples for each type.
+    $this->develGenerate($types);
+  }
 
-    // Mapping entity type to devel-generate command with default options.
-    $commands = $this->getDevelGenerateCommands();
-    foreach ($entity_types as $entity_type => $bundles) {
-      // Site alias.
-      $site_alias = Drush::aliasManager()->getSelf();
-      // Command.
-      $command = 'devel-generate:' . $commands[$entity_type][0];
-      // Args.
-      $args = [(string) (count($bundles) * 5)];
-      // Options.
-      $options = $commands[$entity_type][1] ?? [];
-      $options += ['kill' => TRUE, 'bundles' => implode(',', $bundles)];
-      // Invoke.
-      Drush::drush($site_alias, $command, $args, $options)->run();
-    }
+  /* ************************************************************************ */
+  // Kill.
+  /* ************************************************************************ */
+
+  /**
+   * Allow users to choose the demo to kill.
+   *
+   * @hook interact schemadotorg:demo-kill
+   */
+  public function killInteract(InputInterface $input) {
+    $this->interactChooseDemo($input, dt('kill'));
+  }
+
+  /**
+   * Validates the Schema.org demo kill.
+   *
+   * @hook validate schemadotorg:demo-kill
+   */
+  public function killValidate(CommandData $commandData) {
+    $this->validateDemoCommand($commandData);
+  }
+
+  /**
+   * Kill the Schema.org demo.
+   *
+   * @param string $name
+   *   The name of demo.
+   *
+   * @command schemadotorg:demo-kill
+   *
+   * @usage drush schemadotorg:demo-kill common
+   *
+   * @aliases sodk
+   */
+  public function kill($name) {
+    $types = $this->confirmDemoCommand($name, $this->t('kill'));
+
+    // Kill all generated content.
+    $this->develGenerate($types, 0);
   }
 
   /* ************************************************************************ */
@@ -208,7 +207,7 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
    * @hook interact schemadotorg:demo-teardown
    */
   public function teardownInteract(InputInterface $input) {
-    $this->interact($input, dt('teardown'));
+    $this->interactChooseDemo($input, dt('teardown'));
   }
 
   /**
@@ -216,8 +215,8 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
    *
    * @hook validate schemadotorg:demo-teardown
    */
-  public function teardownValidate(CommandData $commandData) {
-    $this->validate($commandData);
+  public function teardownvalidateDemoCommand(CommandData $commandData) {
+    $this->validateDemoCommand($commandData);
   }
 
   /**
@@ -233,33 +232,10 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
    * @aliases sodt
    */
   public function teardown($name) {
-    $types = $this->configFactory->get('schemadotorg_demo.settings')
-      ->get("demos.$name");
-    $t_args = [
-      '@name' => $name,
-      '@types' => implode(', ', $types),
-    ];
-    if (!$this->io()->confirm($this->t("Are you sure you want to teardown '@name' demo with these types (@types)?", $t_args))) {
-      throw new UserAbortException();
-    }
+    $types = $this->confirmDemoCommand($name, $this->t('teardown'));
 
-    // Collect the entity type and bundles to be generated.
-    $entity_types = $this->getEntityTypeBundles($types);
-
-    // Kill all entity type bundles that are going to deleted.
-    $commands = $this->getDevelGenerateCommands();
-    foreach ($entity_types as $entity_type => $bundles) {
-      // Site alias.
-      $site_alias = Drush::aliasManager()->getSelf();
-      // Command.
-      $command = 'devel-generate:' . $commands[$entity_type][0];
-      // Args.
-      $args = ['0'];
-      // Options.
-      $options = ['kill' => TRUE, 'bundles' => implode(',', $bundles)];
-      // Invoke.
-      Drush::drush($site_alias, $command, $args, $options)->run();
-    }
+    // Kill all generated content.
+    $this->develGenerate($types, 0);
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface  $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
@@ -272,6 +248,8 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
 
       $mapping = $this->loadMappingByType($entity_type, $schema_type);
       if (!$mapping) {
+        $t_args = ['@type' => $type];
+        $this->io()->writeln($this->t("Schema.org type '@type' already removed.", $t_args));
         unset($types[$type]);
         continue;
       }
@@ -294,27 +272,16 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
 
       $this->schemaApi->deleteType($entity_type, $schema_type, $options);
     }
-    $this->io()->writeln($this->t('Schema.org types (@types) deleted.', $t_args));
+
+    if ($types) {
+      $t_args = ['@type' => implode(', ', $types)];
+      $this->io()->writeln($this->t('Schema.org types (@types) deleted.', $t_args));
+    }
   }
 
   /* ************************************************************************ */
-  // Helper methods.
+  // Command helper methods.
   /* ************************************************************************ */
-
-  /**
-   * Get devel:generate commands with default options.
-   *
-   * @return array
-   *   Devel:generate commands with default options.
-   */
-  protected function getDevelGenerateCommands() {
-    return [
-      'user' => ['users'],
-      'node' => ['content', ['add-type-label' => TRUE, 'skip-fields' => 'menu_link']],
-      'media' => ['media'],
-      'taxonomy_term' => ['terms'],
-    ];
-  }
 
   /**
    * Get entity type bundles.
@@ -348,7 +315,7 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
    * @param string $action
    *   The action.
    */
-  public function interact(InputInterface $input, $action) {
+  protected function interactChooseDemo(InputInterface $input, $action) {
     $name = $input->getArgument('name');
     if (!$name) {
       $demos = $this->configFactory->get('schemadotorg_demo.settings')->get('demos');
@@ -362,12 +329,86 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
   /**
    * Validates the Schema.org demo name.
    */
-  protected function validate(CommandData $commandData) {
+  protected function validateDemoCommand(CommandData $commandData) {
     $arguments = $commandData->getArgsWithoutAppName();
     $name = $arguments['name'] ?? '';
     $demo = $this->configFactory->get('schemadotorg_demo.settings')->get("demos.$name");
     if (!$demo) {
       throw new \Exception($this->t("Demo '@name' not found.", ['@name' => $name]));
+    }
+  }
+
+  /**
+   * Convert Schema.org demo command action.
+   *
+   * @param string $name
+   *   The demo name.
+   * @param \Drupal\Core\StringTranslation\TranslatableMarkup $action
+   *   The demo action.
+   *
+   * @return array
+   *   The demo types.
+   *
+   * @throws \Drush\Exceptions\UserAbortException
+   */
+  protected function confirmDemoCommand($name, TranslatableMarkup $action) {
+    $types = $this->configFactory->get('schemadotorg_demo.settings')
+      ->get("demos.$name");
+
+    // If executing setup, prepend required types.
+    if ($action->getUntranslatedString() === 'setup') {
+      $required = $this->configFactory->get('schemadotorg_demo.settings')->get('required') ?: [];
+      if ($required) {
+        $types = array_merge($required, $types);
+        $types = array_unique($types);
+      }
+    }
+
+    $t_args = [
+      '@action' => $action,
+      '@name' => $name,
+      '@types' => implode(', ', $types),
+    ];
+    if (!$this->io()->confirm($this->t("Are you sure you want to @action '@name' demo with these types (@types)?", $t_args))) {
+      throw new UserAbortException();
+    }
+
+    return $types;
+  }
+
+  /**
+   * Execute devel generate command.
+   *
+   * @param array $types
+   *   An array of entity and Schema.org types.
+   * @param int $num
+   *   The number of entities to create for each type.
+   */
+  protected function develGenerate(array $types, $num = 5) {
+    // Collect the entity type and bundles to be generated.
+    $entity_types = $this->getEntityTypeBundles($types);
+
+    // Mapping entity type to devel-generate command with default options.
+    $commands = [
+      'user' => ['users'],
+      'node' => ['content', ['add-type-label' => TRUE, 'skip-fields' => 'menu_link']],
+      'media' => ['media'],
+      'taxonomy_term' => ['terms'],
+    ];
+    foreach ($entity_types as $entity_type => $bundles) {
+      // Site alias.
+      $site_alias = Drush::aliasManager()->getSelf();
+      // Command.
+      $command = 'devel-generate:' . $commands[$entity_type][0];
+      foreach ($bundles as $bundle) {
+        // Args.
+        $args = [(string) $num];
+        // Options.
+        $options = $commands[$entity_type][1] ?? [];
+        $options += ['kill' => TRUE, 'bundles' => $bundle];
+        // Invoke.
+        Drush::drush($site_alias, $command, $args, $options)->run();
+      }
     }
   }
 
