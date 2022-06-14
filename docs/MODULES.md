@@ -34,6 +34,15 @@ _The below modules improve the Schema.org Blueprints module's user experience._
 - **[Field Group](https://www.drupal.org/project/field_group)**  
   Provides the ability to group your fields on both form and display.  
 
+- **[Entity Browser](https://www.drupal.org/project/entity_browser)**
+  Provide a generic entity browser/picker/selector.
+
+- **[Content Browser](https://www.drupal.org/project/content_browser)**
+  Provides a default Entity Browser for default Content Entity types, using Masonry.
+
+- **[Inline Entity Form](https://www.drupal.org/project/inline_entity_form)** 
+  Provides a widget for inline management (creation, modification, removal) of referenced entities.
+
 ### Field Collections
 
 _The below modules provide different ways to create and manage a collection of fields._
@@ -49,10 +58,6 @@ _The below modules provide different ways to create and manage a collection of f
 - **[Storage](https://www.drupal.org/project/storage)**
   (Applies to: [Intangible](https://schema.org/Intangible))  
   Lightweight, bundleable entities for storing structured data.
-
-- **[Inline Entity Form](https://www.drupal.org/project/inline_entity_form)**
-  (Applies to: [Intangible](https://schema.org/Intangible))  
-  Provides a widget for inline management (creation, modification, removal) of referenced entities.
 
 - **[FlexField](https://www.drupal.org/project/flexfield)**
   (Applies to: [Intangible](https://schema.org/Intangible))  

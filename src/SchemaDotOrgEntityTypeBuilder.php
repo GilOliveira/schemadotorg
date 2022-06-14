@@ -675,26 +675,27 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     switch ($field_storage_values['type']) {
       case 'entity_reference':
       case 'entity_reference_revisions':
-        $target_type = $field_storage_values['settings']['target_type'] ?? 'node';
-
         /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
         $mapping_storage = $this->entityTypeManager
           ->getStorage('schemadotorg_mapping');
+
+        $target_type = $field_storage_values['settings']['target_type'] ?? 'node';
         $target_bundles = $mapping_storage->getSchemaPropertyTargetBundles($target_type, $type, $property);
 
         $handler_settings = [];
         $handler_settings['target_bundles'] = $target_bundles;
-
-        // Field values settings.
         switch ($target_type) {
           case 'media':
+            // Widget.
             if ($this->moduleHandler->moduleExists('media_library')) {
               $widget_id = 'media_library_widget';
             }
+            // Formatter.
             $formatter_id = 'entity_reference_entity_view';
             break;
 
           case 'paragraph':
+            // Handler.
             $handler_settings['target_bundles_drag_drop'] = [];
             $weight = 0;
             foreach ($target_bundles as $target_bundle) {
@@ -704,12 +705,14 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
               ];
               $weight++;
             }
-
+            // Widget.
             $widget_id = 'paragraphs';
             break;
 
           default:
-            if ($this->moduleHandler->moduleExists('entity_browser')) {
+            // Widget.
+            if ($this->moduleHandler->moduleExists('entity_browser')
+              && $this->moduleHandler->moduleExists('content_browser')) {
               $widget_id = 'entity_browser_entity_reference';
               $widget_settings = [
                 'entity_browser' => 'browse_content',

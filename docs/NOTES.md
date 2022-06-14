@@ -35,7 +35,6 @@ Ajax
 
 - https://www.drupal.org/docs/drupal-apis/entity-api/dynamicvirtual-field-values-using-computed-field-property-classes
 - https://www.lullabot.com/articles/write-better-code-typed-entity
-- https://www.drupal.org/project/yild
 - https://www.wikidata.org/wiki/Wikidata:Introduction
 - https://iptc.org/
 

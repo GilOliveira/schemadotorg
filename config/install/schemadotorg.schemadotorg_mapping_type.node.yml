@@ -51,12 +51,6 @@ recommended_schema_types:
     types:
       - EducationalOrganization
       - Course
-  commerce:
-    label: Commerce
-    types:
-      - Product
-      - ProductCollection
-      - ProductGroup
   food:
     label: Food
     types:
@@ -81,6 +75,12 @@ recommended_schema_types:
       - Patient
       - Pharmacy
       - Physician
+  commerce:
+    label: Commerce
+    types:
+      - Product
+      - ProductCollection
+      - ProductGroup
 default_schema_types:
   article: Article
   page: WebPage

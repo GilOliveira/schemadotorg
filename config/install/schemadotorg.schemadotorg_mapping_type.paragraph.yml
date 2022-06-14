@@ -44,12 +44,6 @@ recommended_schema_types:
       - Role
       - ProgramMembership
       - OccupationalExperienceRequirements
-  commerce:
-    label: Commerce
-    types:
-      - MonetaryAmount
-      - Offer
-      - Review
   food:
     label: Food
     types:
@@ -60,6 +54,12 @@ recommended_schema_types:
     label: Entertainment
     types:
       - Episode
+  commerce:
+    label: Commerce
+    types:
+      - MonetaryAmount
+      - Offer
+      - Review
 default_schema_types: {  }
 default_schema_type_properties: {  }
 default_schema_type_subtypes: {  }
