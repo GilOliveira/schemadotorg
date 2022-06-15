@@ -1,2 +1,3 @@
 default_properties:
   - episode
+  - hasCourseInstance

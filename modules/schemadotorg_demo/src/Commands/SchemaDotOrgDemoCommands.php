@@ -391,11 +391,16 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
     // Mapping entity type to devel-generate command with default options.
     $commands = [
       'user' => ['users'],
-      'node' => ['content', ['add-type-label' => TRUE, 'skip-fields' => 'menu_link']],
+      'node' => ['content', ['add-type-label' => TRUE]],
+      // 'node' => ['content', ['add-type-label' => TRUE, 'skip-fields' => 'menu_link']],
       'media' => ['media'],
       'taxonomy_term' => ['terms'],
     ];
     foreach ($entity_types as $entity_type => $bundles) {
+      if (!isset($commands[$entity_type])) {
+        continue;
+      }
+
       // Site alias.
       $site_alias = Drush::aliasManager()->getSelf();
       // Command.
@@ -407,7 +412,8 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
         $options = $commands[$entity_type][1] ?? [];
         $options += ['kill' => TRUE, 'bundles' => $bundle];
         // Invoke.
-        Drush::drush($site_alias, $command, $args, $options)->run();
+        $site_process = Drush::drush($site_alias, $command, $args, $options);
+        $site_process->run();
       }
     }
   }

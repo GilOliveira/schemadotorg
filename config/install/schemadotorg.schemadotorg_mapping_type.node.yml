@@ -50,6 +50,7 @@ recommended_schema_types:
     label: Education
     types:
       - EducationalOrganization
+      - CourseInstance
       - Course
   food:
     label: Food
@@ -182,11 +183,30 @@ default_field_groups:
   organization:
     label: 'Organization information'
     properties:
+      - nonprofitStatus
       - department
       - employee
       - member
       - memberOf
+      - alumni
+      - alumniOf
       - parentOrganization
+  education:
+    label: 'Education information'
+    properties:
+      - instructor
+      - teaches
+      - numberOfCredits
+      - educationalLevel
+      - courseCode
+      - courseMode
+      - coursePrerequisites
+      - courseWorkload
+      - educationalCredentialAwarded
+      - occupationalCredentialAwarded
+      - educationalUse
+      - learningResourceType
+      - hasCourseInstance
   business:
     label: 'Business information'
     properties:
@@ -231,7 +251,6 @@ default_field_groups:
       - supply
       - tool
       - step
-      - educationalLevel
       - prepTime
       - performTime
       - totalTime

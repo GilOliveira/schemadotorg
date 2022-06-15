@@ -54,6 +54,10 @@ recommended_schema_types:
     label: Entertainment
     types:
       - Episode
+  education:
+    label: Education
+    types:
+      - EducationalOccupationalProgram
   commerce:
     label: Commerce
     types:

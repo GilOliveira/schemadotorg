@@ -681,6 +681,9 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
 
         $target_type = $field_storage_values['settings']['target_type'] ?? 'node';
         $target_bundles = $mapping_storage->getSchemaPropertyTargetBundles($target_type, $type, $property);
+        if (!$target_bundles) {
+          return;
+        }
 
         $handler_settings = [];
         $handler_settings['target_bundles'] = $target_bundles;
@@ -709,7 +712,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
             $widget_id = 'paragraphs';
             break;
 
-          default:
+          case 'node':
             // Widget.
             if ($this->moduleHandler->moduleExists('entity_browser')
               && $this->moduleHandler->moduleExists('content_browser')) {

@@ -1,6 +1,8 @@
 required:
   - media:ImageObject
   - media:VideoObject
+  - taxonomy_term:DefinedTerm
+  - node:Person
 demos:
   common:
     - media:AudioObject
@@ -46,3 +48,14 @@ demos:
     - node:PodcastEpisode
     - node:PodcastSeason
     - node:PodcastSeries
+  web:
+    - node:WebPage
+    - node:WebSite
+    - node:FAQPage
+    - node:MediaGallery
+    - node:ImageGallery
+    - node:VideoGallery
+  education:
+    - node:EducationalOrganization
+    - node:CourseInstance
+    - node:Course

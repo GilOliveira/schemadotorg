@@ -9,6 +9,8 @@
  * Implements hook_modules_installed().
  */
 function schemadotorg_taxonomy_modules_installed($modules) {
+  $rebuild_router = FALSE;
+
   // Enable the term and vocabulary JSON-LD endpoints.
   if (in_array('schemadotorg_jsonld_endpoint', $modules)
     && \Drupal::moduleHandler()->moduleExists('schemadotorg_jsonld_endpoint')) {
@@ -20,6 +22,7 @@ function schemadotorg_taxonomy_modules_installed($modules) {
     ];
     $config->set('entity_type_endpoints', $endpoints);
     $config->save();
+    $rebuild_router = TRUE;
   }
 
   // Add the term path prefix to JSON:API settings.
@@ -30,6 +33,11 @@ function schemadotorg_taxonomy_modules_installed($modules) {
     $path_prefixes += ['taxonomy_term' => 'Term'];
     $config->set('path_prefixes', $path_prefixes);
     $config->save();
+    $rebuild_router = TRUE;
+  }
+
+  if ($rebuild_router) {
+    \Drupal::service('router.builder')->rebuild();
   }
 }
 

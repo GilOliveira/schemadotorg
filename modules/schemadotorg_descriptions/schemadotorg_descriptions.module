@@ -41,6 +41,8 @@ function schemadotorg_descriptions_entity_load(array $entities, $entity_type_id)
   $schema_type_builder = \Drupal::service('schemadotorg.schema_type_builder');
 
   $options = ['base_path' => 'https://schema.org/'];
+  $trim_descriptions = \Drupal::config('schemadotorg_descriptions.settings')
+    ->get('trim_descriptions');
   $custom_descriptions = \Drupal::config('schemadotorg_descriptions.settings')
     ->get('custom_descriptions');
 
@@ -64,7 +66,13 @@ function schemadotorg_descriptions_entity_load(array $entities, $entity_type_id)
     }
     else {
       $type_definition = $schema_type_manager->getType($schema_type);
-      $description = $schema_type_builder->formatComment($type_definition['comment'], $options);
+      $comment = $type_definition['comment'];
+      // Trim description.
+      if ($trim_descriptions && $comment && strpos($comment, '<br/><br/>') !== FALSE) {
+        [$comment] = explode('<br/><br/>', $comment);
+        $comment .= ' <a href="/' . $schema_type . '">Learn more</a>';
+      }
+      $description = $schema_type_builder->formatComment($comment, $options);
     }
 
     if ($description) {

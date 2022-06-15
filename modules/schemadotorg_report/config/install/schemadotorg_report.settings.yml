@@ -39,8 +39,11 @@ types:
     - title: 'Subscription and Paywalled Content'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/paywalled-content'
   Dataset:
-    - title: "Dataset"
+    - title: 'Dataset'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/dataset'
+  EducationOrganization:
+    - title: 'How to Use Schema Markup for Colleges and Universities'
+      uri: 'https://thesearchguru.com/blog/how-to-use-schema-markup-for-colleges-and-universities/'
   EducationalOccupationalProgram:
     - title: 'Structured Data for Job Training (BETA)'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/job-training'

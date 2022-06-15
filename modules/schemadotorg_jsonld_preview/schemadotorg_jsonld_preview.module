@@ -91,3 +91,4 @@ function schemadotorg_jsonld_preview_preprocess_html(array &$variables) {
     $variables['page']['content']['schemadotorg_jsonid_preview'] = $build;
   }
 }
+

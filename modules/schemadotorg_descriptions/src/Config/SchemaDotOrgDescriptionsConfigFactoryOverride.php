@@ -273,13 +273,13 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
       }
       else {
         $comment = $items[$id]['comment'];
-
+        // Tidy <br/> tags.
+        $comment = preg_replace('#<br[^>]*]>#', '<br/>', $comment);
         // Trim description.
         if ($trim_descriptions && $comment && strpos($comment, '<br/><br/>') !== FALSE) {
           [$comment] = explode('<br/><br/>', $comment);
           $comment .= ' <a href="/' . $id . '">Learn more</a>';
         }
-
         $description = $this->schemaTypeBuilder->formatComment($comment, $options);
       }
 

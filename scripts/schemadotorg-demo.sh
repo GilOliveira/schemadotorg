@@ -107,7 +107,9 @@ function configure() {
 function import() {
   drush features:import -y schemadotorg
   drush features:import -y schemadotorg_descriptions
-  drush features:import -y schemadotorg_flexfield
+  drush features:import -y schemadotorg_demo
+  # drush features:import -y schemadotorg_flexfield
+  drush features:import -y schemadotorg_inline_entity_form
   drush features:import -y schemadotorg_jsonapi
   drush features:import -y schemadotorg_jsonld
   drush features:import -y schemadotorg_jsonld_endpoint

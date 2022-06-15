@@ -34,10 +34,6 @@ schema_types:
       - penciler
     ComicStory:
       - name
-    Course:
-      - coursePrerequisites
-      - educationalCredentialAwarded
-      - numberOfCredits
     Drawing:
       - name
     ExercisePlan:
@@ -52,12 +48,25 @@ schema_types:
     FAQPage:
       - mainEntity
     LearningResource:
-      - educationalAlignment
+      - assesses
       - educationalLevel
       - educationalUse
       - learningResourceType
       - name
       - teaches
+    Course:
+      - courseCode
+      - coursePrerequisites
+      - numberOfCredits
+      - hasCourseInstance
+    CourseInstance:
+      - '-attendee'
+      - '-audience'
+      - '-performer'
+      - '-organizer'
+      - courseMode
+      - courseWorkload
+      - instructor
     MusicComposition:
       - name
     MusicPlaylist:
@@ -511,6 +520,23 @@ schema_types:
     MonetaryAmount:
       - currency
       - value
+    EducationalOccupationalProgram:
+      - applicationDeadline
+      - applicationStartDate
+      - dayOfWeek
+      - educationalCredentialAwarded
+      - educationalProgramMode
+      - endDate
+      - hasCourse
+      - maximumEnrollment
+      - numberOfCredits
+      - occupationalCategory
+      - programPrerequisites
+      - programType
+      - provider
+      - startDate
+      - timeOfDay
+      - timeToComplete
   default_property_values:
     Offer:
       priceCurrency: USD
@@ -734,6 +760,9 @@ schema_properties:
     alternateName:
       label: 'Alternate names'
       unlimited: true
+    alumni:
+      label: 'Alumni'
+      unlimited: true
     alumniOf:
       unlimited: true
     amenityFeature:
@@ -799,16 +828,25 @@ schema_properties:
     contributor:
       label: Contributors
       unlimited: true
+    courseMode:
+      unlimited: true
+      type: string
+    coursePrerequisites:
+      unlimited: true
+      type: string
     description:
       type: text_long
     dietFeatures:
       unlimited: true
     disambiguatingDescription:
       type: text_long
-    educationRequirements:
-      unlimited: true
     educationalLevel:
       label: Difficulty
+    educationRequirements:
+      unlimited: true
+    educationalUse:
+      label: Educational uses
+      unlimited: true
     email:
       type: email
     employee:
@@ -828,6 +866,9 @@ schema_properties:
       type: telephone
     gamePlatform:
       label: 'Game platforms'
+      unlimited: true
+    hasCourseInstance:
+      label: 'Course instances'
       unlimited: true
     hasMenu:
       label: Menus
@@ -850,6 +891,9 @@ schema_properties:
     knowsLanguage:
       label: 'Knows languages'
       unlimited: true
+    learningResourceType:
+      label: Learning resource types
+      unlimited: true
     material:
       label: Materials
       unlimited: true
@@ -860,6 +904,11 @@ schema_properties:
       unlimited: true
     menuAddOn:
       label: 'Menu add-ons'
+      unlimited: true
+    member:
+      label: 'Members'
+      unlimited: true
+    memberOf:
       unlimited: true
     musicBy:
       unlimited: true
@@ -885,6 +934,9 @@ schema_properties:
     primaryPrevention:
       label: 'Primary preventions'
       unlimited: true
+    programPrerequisites:
+      unlimited: true
+      type: string
     productionCompany:
       label: 'Production companies'
       unlimited: true
@@ -969,6 +1021,7 @@ names:
     public_transport_closures_info: pub_trans_closures_info
     vehicle_identification_number: vin
   prefixes:
+    alignment: align
     approved: appr
     benefits: bene
     body_measurement: body_meas
@@ -1128,6 +1181,7 @@ names:
     occupational: occ
     organization: org
     pregnancy: preg
+    program: prog
     permission: perm
     process: proc
     procedure: proc
