@@ -59,3 +59,18 @@ demos:
     - node:EducationalOrganization
     - node:CourseInstance
     - node:Course
+  medical_organization:
+    - paragraph:MedicalAudience
+    - node:MedicalWebPage
+    - node:Hospital
+    - node:MedicalBusiness
+    - node:MedicalClinic
+    - node:DiagnosticLab
+    - node:Physician
+  medical_information:
+    - node:MedicalCause
+    - node:MedicalCondition
+    - node:MedicalProcedure
+    - node:MedicalRiskFactor
+    - node:MedicalStudy
+    - node:Drug

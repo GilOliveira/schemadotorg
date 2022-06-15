@@ -734,6 +734,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
           'handler' => 'default:' . $target_type,
           'handler_settings' => $handler_settings,
         ];
+        break;
 
       case 'list_string':
         if (!empty($field_storage_values['allowed_values'])) {

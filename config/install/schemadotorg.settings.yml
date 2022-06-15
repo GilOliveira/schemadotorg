@@ -294,52 +294,6 @@ schema_types:
     TouristDestination:
       - includesAttraction
       - touristType
-    MedicalEntity:
-      - name
-      - description
-      - medicineSystem
-      - relevantSpecialty
-    AnatomicalStructure:
-      - bodyLocation
-      - connectedTo
-      - partOfSystem
-      - subStructure
-    AnatomicalSystem:
-      - associatedPathophysiology
-      - comprisedOf
-      - relatedCondition
-      - relatedStructure
-      - relatedTherapy
-    MedicalCause:
-      - causeOf
-    MedicalCondition:
-      - epidemiology
-      - expectedPrognosis
-      - possibleComplication
-      - possibleTreatment
-      - primaryPrevention
-      - riskFactor
-      - signOrSymptom
-    MedicalSignOrSymptom:
-      - possibleTreatment
-    MedicalProcedure:
-      - bodyLocation
-      - followup
-      - howPerformed
-      - preparation
-      - procedureType
-    MedicalRiskFactor:
-      - increasesRiskOf
-    MedicalStudy:
-      - healthCondition
-      - studyLocation
-      - studySubject
-    MedicalTest:
-      - affectedBy
-      - usedToDiagnose
-      - usesDevice
-    MedicalWebPage:
-      - medicalAudience
     Diet:
       - dietFeatures
       - expertConsiderations
@@ -537,6 +491,56 @@ schema_types:
       - startDate
       - timeOfDay
       - timeToComplete
+    MedicalEntity:
+      - name
+      - description
+      - medicineSystem
+      - relevantSpecialty
+    AnatomicalStructure:
+      - bodyLocation
+      - connectedTo
+      - partOfSystem
+      - subStructure
+    AnatomicalSystem:
+      - associatedPathophysiology
+      - comprisedOf
+      - relatedCondition
+      - relatedStructure
+      - relatedTherapy
+    MedicalCause:
+      - causeOf
+    MedicalCondition:
+      - epidemiology
+      - expectedPrognosis
+      - possibleComplication
+      - possibleTreatment
+      - primaryPrevention
+      - riskFactor
+      - signOrSymptom
+    MedicalSignOrSymptom:
+      - possibleTreatment
+    MedicalProcedure:
+      - bodyLocation
+      - followup
+      - howPerformed
+      - preparation
+      - procedureType
+    MedicalRiskFactor:
+      - increasesRiskOf
+    MedicalStudy:
+      - healthCondition
+      - studyLocation
+      - studySubject
+    MedicalTest:
+      - affectedBy
+      - usedToDiagnose
+      - usesDevice
+    MedicalWebPage:
+      - medicalAudience
+    MedicalAudience:
+      - healthCondition
+      - audienceType
+      - audienceType
   default_property_values:
     Offer:
       priceCurrency: USD
