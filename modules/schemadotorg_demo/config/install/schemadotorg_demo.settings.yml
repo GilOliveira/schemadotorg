@@ -1,9 +1,10 @@
-required:
-  - media:ImageObject
-  - media:VideoObject
-  - taxonomy_term:DefinedTerm
-  - node:Person
 demos:
+  required:
+    - media:ImageObject
+    - media:VideoObject
+    - taxonomy_term:DefinedTerm
+    - paragraph:ContactPoint
+    - node:Person
   common:
     - media:AudioObject
     - media:DataDownload
@@ -61,6 +62,7 @@ demos:
     - node:Course
   medical_organization:
     - paragraph:MedicalAudience
+    - node:MedicalTest
     - node:MedicalWebPage
     - node:Hospital
     - node:MedicalBusiness
@@ -68,9 +70,13 @@ demos:
     - node:DiagnosticLab
     - node:Physician
   medical_information:
-    - node:MedicalCause
-    - node:MedicalCondition
-    - node:MedicalProcedure
-    - node:MedicalRiskFactor
-    - node:MedicalStudy
+    - node:HealthTopicContent
     - node:Drug
+    - node:DietarySupplement
+    - node:MedicalCause
+    - node:MedicalRiskFactor
+    - node:MedicalProcedure
+    - node:MedicalTherapy
+    - node:MedicalStudy
+    - node:MedicalCondition
+

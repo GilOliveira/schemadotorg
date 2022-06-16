@@ -1,3 +1,4 @@
 default_properties:
   - episode
   - hasCourseInstance
+  - Physician--founder

@@ -729,6 +729,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
               ];
             }
             break;
+
         }
         $field_values['settings'] = [
           'handler' => 'default:' . $target_type,

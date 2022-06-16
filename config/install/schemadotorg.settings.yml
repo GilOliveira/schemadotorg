@@ -209,7 +209,6 @@ schema_types:
       - email
       - image
       - name
-      - member
       - memberOf
       - sameAs
       - telephone
@@ -225,6 +224,7 @@ schema_types:
     CivicStructure:
       - openingHours
     Hospital:
+      - '-employee'
       - availableService
       - medicalSpecialty
     LocalBusiness:
@@ -240,23 +240,8 @@ schema_types:
       - priceRange
       - smokingAllowed
       - starRating
-    MedicalOrganization:
-      - isAcceptingNewPatients
-      - healthPlanNetworkId
-      - medicalSpecialty
     MovieTheater:
       - screenCount
-    MedicalBusiness:
-      - availableService
-      - department
-      - email
-      - faxNumber
-      - hospitalAffiliation
-      - medicalSpecialty
-      - member
-      - memberOf
-      - openingHours
-      - telephone
     SportsOrganization:
       - sport
     Person:
@@ -516,6 +501,7 @@ schema_types:
       - possibleTreatment
       - primaryPrevention
       - riskFactor
+      - secondaryPrevention
       - signOrSymptom
     MedicalSignOrSymptom:
       - possibleTreatment
@@ -529,6 +515,8 @@ schema_types:
       - increasesRiskOf
     MedicalStudy:
       - healthCondition
+      - sponsor
+      - status
       - studyLocation
       - studySubject
     MedicalTest:
@@ -537,10 +525,60 @@ schema_types:
       - usesDevice
     MedicalWebPage:
       - medicalAudience
+    HealthTopicContent:
+      - hasHealthAspect
     MedicalAudience:
       - healthCondition
       - audienceType
-      - audienceType
+    MedicalOrganization:
+      - healthPlanNetworkId
+      - medicalSpecialty
+    MedicalBusiness:
+      - availableService
+      - department
+      - email
+      - faxNumber
+      - hospitalAffiliation
+      - isAcceptingNewPatients
+      - medicalSpecialty
+      - memberOf
+      - openingHours
+      - telephone
+    Physician:
+      - availableService
+      - founder
+      - hospitalAffiliation
+      - medicalSpecialty
+    DiagnosticLab:
+      - availableTest
+    Substance:
+      - activeIngredient
+      - maximumIntake
+    Drug:
+      - clinicalPharmacology
+      - dosageForm
+      - doseSchedule
+      - drugClass
+      - drugUnit
+      - foodWarning
+      - isAvailableGenerically
+      - isProprietary
+      - manufacturer
+      - maximumIntake
+      - mechanismOfAction
+      - nonProprietaryName
+      - overdosage
+      - proprietaryName
+      - relatedDrug
+    DietarySupplement:
+      - isProprietary
+      - maximumIntake
+      - mechanismOfAction
+      - nonProprietaryName
+      - proprietaryName
+      - recommendedIntake
+      - safetyConsideration
+      - targetPopulation
   default_property_values:
     Offer:
       priceCurrency: USD
@@ -637,6 +675,8 @@ schema_properties:
       - VideoObject
     itemListElement:
       - CreativeWork
+    member:
+      - Organization
   ignored_properties:
     - accessibilityAPI
     - accessibilityControl
@@ -744,6 +784,8 @@ schema_properties:
       label: 'Last name'
     Person--givenName:
       label: 'First name'
+    Physician--founder:
+      label: 'Physician biography'
     QAPage--mainEntity:
       label: Questions
     Question--acceptedAnswer:
@@ -755,8 +797,13 @@ schema_properties:
       unlimited: true
     acceptedAnswer:
       type: text_long
+    activeIngredient:
+      label: 'Active ingredients'
+      unlimited: true
     actor:
       label: Actors
+      unlimited: true
+    affectedBy:
       unlimited: true
     affiliation:
       label: Affiliations
@@ -795,6 +842,9 @@ schema_properties:
     availableService:
       label: 'Available services'
       unlimited: true
+    availableTest:
+      label: 'Available tests'
+      unlimited: true
     award:
       label: Awards
       unlimited: true
@@ -808,6 +858,8 @@ schema_properties:
       unlimited: true
     category:
       label: Categories
+      unlimited: true
+    causeOf:
       unlimited: true
     character:
       label: Characters
@@ -866,6 +918,8 @@ schema_properties:
       unlimited: true
     experienceRequirements:
       unlimited: true
+    expectedPrognosis:
+      type: text_long
     faxNumber:
       type: telephone
     gamePlatform:
@@ -885,10 +939,15 @@ schema_properties:
       unlimited: true
     height:
       type: string
+    healthCondition:
+      label: 'Health conditions'
+      unlimited: true
     increasesRiskOf:
       unlimited: true
     itemListElement:
       label: Items
+      unlimited: true
+    hospitalAffiliation:
       unlimited: true
     keywords:
       unlimited: true
@@ -903,6 +962,8 @@ schema_properties:
       unlimited: true
     medicalSpecialty:
       label: 'Medical specialties'
+      unlimited: true
+    medicineSystem:
       unlimited: true
     mentions:
       unlimited: true
@@ -937,6 +998,9 @@ schema_properties:
       unlimited: true
     primaryPrevention:
       label: 'Primary preventions'
+      unlimited: true
+    secondaryPrevention:
+      label: 'Secondary preventions'
       unlimited: true
     programPrerequisites:
       unlimited: true
@@ -990,6 +1054,9 @@ schema_properties:
     step:
       label: Steps
       unlimited: true
+    studySubject:
+      label: 'Study subjects'
+      unlimited: true
     suitableForDiet:
       label: 'Suitable for diets'
       unlimited: true
@@ -1005,6 +1072,8 @@ schema_properties:
       unlimited: true
     trailer:
       label: Trailers
+      unlimited: true
+    usedToDiagnose:
       unlimited: true
     width:
       type: string
@@ -1067,6 +1136,7 @@ names:
     wearable_measurement: wear_measure
     wearable_size: wear_size
   suffixes:
+    affiliation: affl
     ascending: asc
     audience: aud
     aspect: asp
@@ -1139,6 +1209,7 @@ names:
     attendance: attend
     availability: avail
     business: biz
+    department: dept
     document: doc
     customer: cust
     coinsurance: coin
@@ -1151,6 +1222,7 @@ names:
     conversion: conv
     construction: const
     credential: cred
+    diagnostic: diag
     defect: def
     efficiency: eff
     encoded: enc
@@ -1165,6 +1237,7 @@ names:
     government: gov
     frequency: freq
     historical: hist
+    hospital: hosp
     identification: id
     included: inc
     includes: inc

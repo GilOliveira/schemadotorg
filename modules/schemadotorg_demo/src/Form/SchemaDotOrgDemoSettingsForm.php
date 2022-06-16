@@ -30,14 +30,6 @@ class SchemaDotOrgDemoSettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('schemadotorg_demo.settings');
-    $form['required'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::INDEXED,
-      '#settings_format' => 'entity_type:SchemaType',
-      '#title' => $this->t('Required types'),
-      '#description' => $this->t('Enter Drupal entity type and Schema.org types that should always be required.'),
-      '#default_value' => $config->get('required'),
-    ];
     $form['demos'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,

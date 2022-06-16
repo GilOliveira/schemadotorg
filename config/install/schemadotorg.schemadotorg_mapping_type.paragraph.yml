@@ -58,6 +58,11 @@ recommended_schema_types:
     label: Education
     types:
       - EducationalOccupationalProgram
+  medical:
+    label: Medical
+    types:
+      - MedicalAudience
+
   commerce:
     label: Commerce
     types:

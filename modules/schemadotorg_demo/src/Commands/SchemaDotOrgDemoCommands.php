@@ -112,6 +112,11 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
     if ($types) {
       $t_args = ['@types' => implode(', ', $types)];
       $this->io()->writeln($this->t('Schema.org types (@types) created.', $t_args));
+
+      // Repair.
+      $site_alias = Drush::aliasManager()->getSelf();
+      $site_process = Drush::drush($site_alias, 'schemadotorg:repair', [], ['yes' => TRUE]);
+      $site_process->run();
     }
   }
 
@@ -357,7 +362,8 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
 
     // If executing setup, prepend required types.
     if ($action->getUntranslatedString() === 'setup') {
-      $required = $this->configFactory->get('schemadotorg_demo.settings')->get('required') ?: [];
+      $required = $this->configFactory->get('schemadotorg_demo.settings')
+        ->get("demos.required");
       if ($required) {
         $types = array_merge($required, $types);
         $types = array_unique($types);

@@ -69,13 +69,29 @@ recommended_schema_types:
       - PodcastSeries
       - PodcastSeason
       - PodcastEpisode
-  healthcare:
-    label: Healthcare
+  medical_organization:
+    label: Medical organization
+    types:
+      - MedicalTest
+      - MedicalWebPage
+      - Hospital
+      - MedicalBusiness
+      - MedicalClinic
+      - DiagnosticLab
+      - Physician
+  medical_information:
+    label: Medical information
     types:
       - HealthTopicContent
-      - Patient
-      - Pharmacy
-      - Physician
+      - Drug
+      - DietarySupplement
+      - MedicalCause
+      - MedicalProcedure
+      - MedicalRiskFactor
+      - MedicalTherapy
+      - MedicalStudy
+      - MedicalSignOrSymptom
+      - MedicalCondition
   commerce:
     label: Commerce
     types:
@@ -99,6 +115,7 @@ default_schema_type_subtypes:
   - Event
   - FoodEstablishment
   - LocalBusiness
+  - MedicalBusiness
   - WebPage
 default_base_fields:
   uuid: {  }
@@ -185,6 +202,7 @@ default_field_groups:
     properties:
       - nonprofitStatus
       - department
+      - founder
       - employee
       - member
       - memberOf
@@ -224,7 +242,7 @@ default_field_groups:
       - address
       - contactPoint
       - telephone
-      - fax
+      - faxNumber
       - email
   event:
     label: 'Event information'
@@ -241,10 +259,37 @@ default_field_groups:
   medical:
     label: 'Medical information'
     properties:
-      - medicalSpecialty
       - availableService
-      - isAcceptingNewPatients
+      - availableTest
+      - medicalAudience
+      - medicineSystem
+      - medicalSystem
+      - medicalSpecialty
+      - relevantSpecialty
+      - healthCondition
+      - usedToDiagnose
+      - affectedBy
+      - causeOf
+      - usesDevice
       - hospitalAffiliation
+      - healthPlanNetworkId
+      - isAcceptingNewPatients
+  medical_condition:
+    label: 'Medical condition'
+    properties:
+      - epidemiology
+      - riskFactor
+      - primaryPrevention
+      - secondaryPrevention
+      - signOrSymptom
+      - possibleTreatment
+      - possibleComplication
+      - expectedPrognosis
+  medical_study:
+    label: medical study
+    properties:
+      - studyLocation
+      - studySubject
   how_to:
     label: 'How to'
     properties:

@@ -2,9 +2,6 @@ schemadotorg_demo.settings:
   type: config_entity
   label: Schema.org Demo settings
   mapping:
-    required:
-      type: sequence
-      label: 'Required Schema.org types'
     demos:
       type: sequence
       label: 'Demos'

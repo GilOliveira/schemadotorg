@@ -79,6 +79,8 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
    *
    * @return array
    *   A renderable array containing the Schema.org mapping relationships.
+   *
+   * @see \Drupal\schemadotorg\Commands\SchemaDotOrgCommands::repair
    */
   public function relationships() {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
