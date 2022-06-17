@@ -70,13 +70,18 @@ demos:
     - node:DiagnosticLab
     - node:Physician
   medical_information:
+    - paragraph:MedicalDevice
+    - paragraph:MedicalContraindication
+    - paragraph:MedicalIndication
+    - paragraph:MedicalCause
+    - paragraph:MedicalProcedure
+    - paragraph:MedicalRiskFactor
+    - paragraph:MedicalTherapy
+    - paragraph:MedicalSignOrSymptom
+    - paragraph:MedicalTest
     - node:HealthTopicContent
     - node:Drug
     - node:DietarySupplement
-    - node:MedicalCause
-    - node:MedicalRiskFactor
-    - node:MedicalProcedure
-    - node:MedicalTherapy
     - node:MedicalStudy
     - node:MedicalCondition
 

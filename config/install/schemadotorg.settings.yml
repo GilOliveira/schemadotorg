@@ -476,11 +476,6 @@ schema_types:
       - startDate
       - timeOfDay
       - timeToComplete
-    MedicalEntity:
-      - name
-      - description
-      - medicineSystem
-      - relevantSpecialty
     AnatomicalStructure:
       - bodyLocation
       - connectedTo
@@ -494,42 +489,63 @@ schema_types:
       - relatedTherapy
     MedicalCause:
       - causeOf
-    MedicalCondition:
-      - epidemiology
-      - expectedPrognosis
-      - possibleComplication
-      - possibleTreatment
-      - primaryPrevention
-      - riskFactor
-      - secondaryPrevention
-      - signOrSymptom
+    MedicalEntity:
+      - name
+      - description
     MedicalSignOrSymptom:
-      - possibleTreatment
+      - '-expectedPrognosis'
+      - '-medicineSystem'
+      - '-possibleComplication'
+      - '-relevantSpecialty'
+      - '-riskFactor'
+      - '-secondaryPrevention'
+      - '-signOrSymptom'
     MedicalProcedure:
       - bodyLocation
       - followup
       - howPerformed
       - preparation
       - procedureType
-    MedicalRiskFactor:
-      - increasesRiskOf
     MedicalStudy:
+      - medicineSystem
       - healthCondition
+      - relevantSpecialty
       - sponsor
       - status
       - studyLocation
       - studySubject
+    MedicalRiskFactor:
+      - increasesRiskOf
+    MedicalDevice:
+      - adverseOutcome
+      - contraindication
+      - postOp
+      - preOp
+      - procedure
+    MedicalCondition:
+      - epidemiology
+      - expectedPrognosis
+      - medicineSystem
+      - possibleComplication
+      - possibleTreatment
+      - primaryPrevention
+      - relevantSpecialty
+      - riskFactor
+      - secondaryPrevention
+      - signOrSymptom
+    MedicalAudience:
+      - healthCondition
+      - audienceType
     MedicalTest:
       - affectedBy
       - usedToDiagnose
       - usesDevice
+    MedicalTrial:
+      - trialDesign
     MedicalWebPage:
       - medicalAudience
     HealthTopicContent:
       - hasHealthAspect
-    MedicalAudience:
-      - healthCondition
-      - audienceType
     MedicalOrganization:
       - healthPlanNetworkId
       - medicalSpecialty
@@ -997,10 +1013,8 @@ schema_properties:
       label: 'Possible treatments'
       unlimited: true
     primaryPrevention:
-      label: 'Primary preventions'
       unlimited: true
     secondaryPrevention:
-      label: 'Secondary preventions'
       unlimited: true
     programPrerequisites:
       unlimited: true

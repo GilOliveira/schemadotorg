@@ -62,14 +62,25 @@ recommended_schema_types:
     label: Medical
     types:
       - MedicalAudience
-
+      - MedicalContraindication
+      - MedicalIndication
+      - MedicalCause
+      - MedicalProcedure
+      - MedicalRiskFactor
+      - MedicalTest
+      - MedicalTherapy
+      - MedicalSignOrSymptom
   commerce:
     label: Commerce
     types:
       - MonetaryAmount
       - Offer
       - Review
-default_schema_types: {  }
+default_schema_types:
+  - MedicalIndication
+  - MedicalProcedure
+  - MedicalStudy
+  - MedicalTest
 default_schema_type_properties: {  }
 default_schema_type_subtypes: {  }
 default_base_fields:

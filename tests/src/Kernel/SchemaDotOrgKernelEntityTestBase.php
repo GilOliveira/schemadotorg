@@ -37,6 +37,7 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
     'text',
     'link',
     'options',
+    'schemadotorg_paragraphs',
     'schemadotorg_ui',
   ];
 
@@ -60,7 +61,7 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
   protected $installedConfig = [
     'node' => ['node'],
     'media' => ['media', 'image'],
-    'paragraph' => ['paragraphs'],
+    'paragraph' => ['paragraphs', 'schemadotorg_paragraphs'],
   ];
 
   /**

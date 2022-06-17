@@ -23,7 +23,13 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
    *
    * @var array
    */
-  protected static $modules = ['paragraphs', 'node', 'user', 'file'];
+  protected static $modules = [
+    'paragraphs',
+    'node',
+    'user',
+    'file',
+    'schemadotorg_paragraphs',
+  ];
 
   /**
    * The Schema.org mapping type storage.
@@ -40,7 +46,7 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
 
     $this->installEntitySchema('schemadotorg_mapping_type');
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
-    $this->installConfig(['schemadotorg']);
+    $this->installConfig(['schemadotorg', 'schemadotorg_paragraphs']);
 
     // Import CSV data into the Schema.org type and properties tables.
     /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */

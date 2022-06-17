@@ -18,7 +18,15 @@ class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
    *
    * @var array
    */
-  protected static $modules = ['system', 'image', 'user', 'node', 'media', 'paragraphs'];
+  protected static $modules = [
+    'system',
+    'image',
+    'user',
+    'node',
+    'media',
+    'paragraphs',
+    'schemadotorg_paragraphs',
+  ];
 
   /**
    * The Schema.org mapping storage.
@@ -39,7 +47,7 @@ class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
     $this->installEntitySchema('paragraph');
 
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
-    $this->installConfig(['schemadotorg']);
+    $this->installConfig(['schemadotorg', 'schemadotorg_paragraphs']);
 
     // Import CSV data into the Schema.org type and properties tables.
     /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */

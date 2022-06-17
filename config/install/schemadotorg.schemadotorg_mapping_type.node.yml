@@ -85,12 +85,8 @@ recommended_schema_types:
       - HealthTopicContent
       - Drug
       - DietarySupplement
-      - MedicalCause
-      - MedicalProcedure
-      - MedicalRiskFactor
-      - MedicalTherapy
       - MedicalStudy
-      - MedicalSignOrSymptom
+      - MedicalTrial
       - MedicalCondition
   commerce:
     label: Commerce

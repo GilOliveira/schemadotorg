@@ -35,6 +35,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     'link',
     'text',
     'options',
+    'schemadotorg_paragraphs',
     'schemadotorg_ui',
   ];
 

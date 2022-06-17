@@ -136,7 +136,8 @@ class SchemaDotOrgUiApi implements SchemaDotOrgUiApiInterface {
     // Get the default bundle for the schema type.
     // Default bundles are only defined for the 'media' and 'user'
     // entity types.
-    $bundles = $this->loadSchemaMappingType($entity_type)->getDefaultSchemaTypeBundles($schema_type);
+    $mapping_type = $this->loadSchemaMappingType($entity_type);
+    $bundles = $mapping_type->getDefaultSchemaTypeBundles($schema_type);
     $bundles = $bundles ?: [$this->schemaNames->toDrupalName('types', $schema_type)];
     foreach ($bundles as $bundle) {
       // Create a new Schema.org mapping.

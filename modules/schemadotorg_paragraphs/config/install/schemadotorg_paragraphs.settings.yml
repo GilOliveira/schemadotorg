@@ -1,0 +1,9 @@
+paragraphs_library:
+  - MedicalAudience
+  - MedicalContraindication
+  - MedicalIndication
+  - MedicalCause
+  - MedicalProcedure
+  - MedicalRiskFactor
+  - MedicalTherapy
+  - MedicalSignOrSymptom

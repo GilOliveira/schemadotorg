@@ -145,11 +145,13 @@ class SchemaDotOrgJsonApiEventSubscriber extends ServiceProviderBase implements 
    *
    * @param \Drupal\jsonapi\ResourceType\ResourceType $resource_type
    *   The resource type.
+   * @param int $level
+   *   The level of includes
    *
    * @return array
    *   An array of entity reference field public names to be used as includes.
    */
-  protected function getResourceIncludes(ResourceType $resource_type) {
+  protected function getResourceIncludes(ResourceType $resource_type, $level = 0) {
     $entity_type_id = $resource_type->getEntityTypeId();
     $bundle = $resource_type->getBundle();
 
@@ -178,18 +180,21 @@ class SchemaDotOrgJsonApiEventSubscriber extends ServiceProviderBase implements 
       $includes[$public_name] = $public_name;
 
       // Get nested includes for entity references.
-      $field_type = $field_definitions[$field_name]->getType();
-      if (in_array($field_type, ['entity_reference', 'entity_reference_revisions'])) {
-        $settings = $field_definitions[$field_name]->getSettings();
-        $target_type = $settings['target_type'];
-        $target_bundles = NestedArray::getValue($settings, ['handler_settings', 'target_bundles']) ?? [];
-        foreach ($target_bundles as $target_bundle) {
-          $target_resource_id = "$target_type--$target_bundle";
-          $target_resource_type = $this->resourceTypeRepository->getByTypeName($target_resource_id);
-          $target_includes = $this->getResourceIncludes($target_resource_type);
-          foreach ($target_includes as $target_include) {
-            // Append target bundle's field's public name to includes.
-            $includes["$public_name.$target_include"] = "$public_name.$target_include";
+      // @todo Determine how many include levels should be returned.
+      if ($level < 1) {
+        $field_type = $field_definitions[$field_name]->getType();
+        if (in_array($field_type, ['entity_reference', 'entity_reference_revisions'])) {
+          $settings = $field_definitions[$field_name]->getSettings();
+          $target_type = $settings['target_type'];
+          $target_bundles = NestedArray::getValue($settings, ['handler_settings', 'target_bundles']) ?? [];
+          foreach ($target_bundles as $target_bundle) {
+            $target_resource_id = "$target_type--$target_bundle";
+            $target_resource_type = $this->resourceTypeRepository->getByTypeName($target_resource_id);
+            $target_includes = $this->getResourceIncludes($target_resource_type, $level + 1);
+            foreach ($target_includes as $target_include) {
+              // Append target bundle's field's public name to includes.
+              $includes["$public_name.$target_include"] = "$public_name.$target_include";
+            }
           }
         }
       }

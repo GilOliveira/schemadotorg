@@ -697,21 +697,6 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
             $formatter_id = 'entity_reference_entity_view';
             break;
 
-          case 'paragraph':
-            // Handler.
-            $handler_settings['target_bundles_drag_drop'] = [];
-            $weight = 0;
-            foreach ($target_bundles as $target_bundle) {
-              $handler_settings['target_bundles_drag_drop'][$target_bundle] = [
-                'weight' => $weight,
-                'enabled' => TRUE,
-              ];
-              $weight++;
-            }
-            // Widget.
-            $widget_id = 'paragraphs';
-            break;
-
           case 'node':
             // Widget.
             if ($this->moduleHandler->moduleExists('entity_browser')

@@ -25,6 +25,7 @@ drush features:import -y schemadotorg_demo
 drush features:import -y schemadotorg_jsonapi
 drush features:import -y schemadotorg_jsonld
 drush features:import -y schemadotorg_jsonld_endpoint
+drush features:import -y schemadotorg_paragraphs
 drush features:import -y schemadotorg_report
 drush features:import -y schemadotorg_taxonomy
 ```

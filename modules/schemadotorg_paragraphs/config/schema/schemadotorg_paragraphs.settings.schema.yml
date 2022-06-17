@@ -1,0 +1,10 @@
+schemadotorg_paragraphs.settings:
+  type: config_entity
+  label: Schema.org Paragraphs settings
+  mapping:
+    paragraphs_library:
+      type: sequence
+      label: 'Schema.org types that should allow adding to Paragraphs library'
+      sequence:
+        type: string
+        label: Schema.org property

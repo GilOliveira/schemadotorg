@@ -35,7 +35,7 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
     'link',
     'media',
     'text',
-    'schemadotorg',
+    'schemadotorg_paragraphs',
     'schemadotorg_ui',
   ];
 

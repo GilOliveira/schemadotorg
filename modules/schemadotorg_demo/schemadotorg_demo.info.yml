@@ -25,6 +25,7 @@ dependencies:
   - 'inline_entity_form:inline_entity_form'
   - 'jsonapi_extras:jsonapi_extras'
   - 'paragraphs:paragraphs'
+  - 'paragraphs:paragraphs_library'
   - 'time_field:time_field'
   # schemadotorg
   - 'schemadotorg:schemadotorg'
@@ -41,3 +42,4 @@ dependencies:
   - 'schemadotorg:schemadotorg_jsonld_endpoint'
   - 'schemadotorg:schemadotorg_jsonld_embed'
   - 'schemadotorg:schemadotorg_jsonld_preview'
+  - 'schemadotorg:schemadotorg_paragraphs'
