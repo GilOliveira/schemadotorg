@@ -88,12 +88,6 @@ recommended_schema_types:
       - MedicalStudy
       - MedicalTrial
       - MedicalCondition
-  commerce:
-    label: Commerce
-    types:
-      - Product
-      - ProductCollection
-      - ProductGroup
 default_schema_types:
   article: Article
   page: WebPage
@@ -125,6 +119,7 @@ default_base_fields:
   title:
     - name
     - headline
+    - title
   body:
     - description
     - articleBody
@@ -145,15 +140,30 @@ default_field_weights:
   - productionCompany
   - countryOfOrigin
   - musicBy
+  - dietFeatures
+  - expertConsiderations
+  - physiologicalBenefits
+  - risks
+  - webFeed
+  - hasPart
+  - hasMenuSection
+  - itemListElement
+  - announcementLocation
+  - newsUpdatesAndGuidelines
+  - publicTransportClosuresInfo
+  - schoolClosuresInfo
+  - travelBans
 default_field_groups:
   general:
     label: 'General information'
     properties:
       - type
+      - title
       - name
       - headline
       - alternativeHeadline
       - description
+      - about
       - articleBody
       - text
       - author
@@ -193,6 +203,25 @@ default_field_groups:
       - affiliation
       - alumniOf
       - award
+  employment:
+    label: 'Employment information'
+    properties:
+      - benefits
+      - datePosted
+      - validThrough
+      - employmentType
+      - experienceRequirements
+      - qualifications
+      - responsibilities
+      - skills
+      - educationRequirements
+      - estimatedSalary
+      - jobBenefits
+      - jobLocation
+      - jobLocationType
+      - eligibilityToWorkRequirement
+      - employerOverview
+      - applicationContact
   organization:
     label: 'Organization information'
     properties:
@@ -203,13 +232,13 @@ default_field_groups:
       - member
       - memberOf
       - alumni
-      - alumniOf
       - parentOrganization
   education:
     label: 'Education information'
     properties:
       - instructor
       - teaches
+      - assesses
       - numberOfCredits
       - educationalLevel
       - courseCode
@@ -225,13 +254,32 @@ default_field_groups:
     label: 'Business information'
     properties:
       - openingHours
-      - department
       - paymentAccepted
       - priceRange
       - acceptsReservations
       - servesCuisine
       - hasMenu
       - availableService
+  service:
+    label: 'Service information'
+    properties:
+      - availableChannel
+      - hoursAvailable
+      - provider
+      - serviceArea
+      - serviceAudience
+      - serviceOutput
+      - serviceType
+  lodging:
+    label: 'Lodging information'
+    properties:
+      - starRating
+      - amenityFeature
+      - numberOfRooms
+      - checkinTime
+      - checkoutTime
+      - petsAllowed
+      - smokingAllowed
   contact:
     label: 'Contact information'
     properties:
@@ -255,14 +303,13 @@ default_field_groups:
   medical:
     label: 'Medical information'
     properties:
-      - availableService
       - availableTest
       - medicalAudience
       - medicineSystem
-      - medicalSystem
       - medicalSpecialty
       - relevantSpecialty
       - healthCondition
+      - hasHealthAspect
       - usedToDiagnose
       - affectedBy
       - causeOf
@@ -270,6 +317,28 @@ default_field_groups:
       - hospitalAffiliation
       - healthPlanNetworkId
       - isAcceptingNewPatients
+  medical_substance:
+    label: 'Medical condition'
+    properties:
+      - proprietaryName
+      - nonProprietaryName
+      - drugClass
+      - drugUnit
+      - activeIngredient
+      - mechanismOfAction
+      - targetPopulation
+      - clinicalPharmacology
+      - dosageForm
+      - doseSchedule
+      - recommendedIntake
+      - safetyConsideration
+      - foodWarning
+      - manufacturer
+      - maximumIntake
+      - overdosage
+      - relatedDrug
+      - isAvailableGenerically
+      - isProprietary
   medical_condition:
     label: 'Medical condition'
     properties:
@@ -284,6 +353,9 @@ default_field_groups:
   medical_study:
     label: medical study
     properties:
+      - status
+      - sponsor
+      - trialDesign
       - studyLocation
       - studySubject
   how_to:
@@ -296,6 +368,18 @@ default_field_groups:
       - performTime
       - totalTime
       - yield
+  recipe:
+    label: 'Recipe information'
+    properties:
+      - recipeCategory
+      - recipeCuisine
+      - recipeIngredient
+      - suitableForDiet
+      - recipeYield
+      - cookingMethod
+      - cookTime
+      - recipeInstructions
+      - nutrition
   meta:
     label: 'Meta data'
     properties:

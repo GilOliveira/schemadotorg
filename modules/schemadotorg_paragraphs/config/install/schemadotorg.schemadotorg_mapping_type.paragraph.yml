@@ -50,10 +50,6 @@ recommended_schema_types:
       - NutritionInformation
       - MenuSection
       - MenuItem
-  entertainment:
-    label: Entertainment
-    types:
-      - Episode
   education:
     label: Education
     types:
@@ -70,12 +66,6 @@ recommended_schema_types:
       - MedicalTest
       - MedicalTherapy
       - MedicalSignOrSymptom
-  commerce:
-    label: Commerce
-    types:
-      - MonetaryAmount
-      - Offer
-      - Review
 default_schema_types:
   - MedicalIndication
   - MedicalProcedure
@@ -90,10 +80,15 @@ default_base_fields:
     - inLanguage
 default_field_weights:
   - name
+  - title
   - alternateName
   - description
+  - text
   - acceptedAnswer
   - image
+  - logo
+  - slogan
+  - author
   - contactType
   - telephone
   - email
@@ -103,10 +98,13 @@ default_field_weights:
   - addressRegion
   - addressCountry
   - postalCode
+  - startDate
+  - endDate
   - dayOfWeek
   - opens
   - hoursAvailable
   - closes
+  - termCode
   - value
   - valueReference
   - unitText
@@ -115,6 +113,7 @@ default_field_weights:
   - prepTime
   - performTime
   - totalTime
+  - requiredQuantity
   - servingSize
   - calories
   - fatContent
@@ -133,6 +132,51 @@ default_field_weights:
   - reviewBody
   - positiveNotes
   - negativeNotes
+  - hasMenuItem
+  - offers
+  - price
+  - suitableForDiet
+  - datePosted
+  - validThrough
+  - aggregateRating
+  - programName
+  - programType
+  - programPrerequisites
+  - member
+  - membershipNumber
+  - roleName
+  - audienceType
+  - timeOfDay
+  - timeToComplete
+  - affectedBy
+  - applicationDeadline
+  - applicationStartDate
+  - bodyLocation
+  - causeOf
+  - educationalCredentialAwarded
+  - educationalProgramMode
+  - epidemiology
+  - followup
+  - hasCourse
+  - healthCondition
+  - hostingOrganization
+  - howPerformed
+  - increasesRiskOf
+  - maximumEnrollment
+  - monthsOfExperience
+  - namedPosition
+  - numberOfCredits
+  - occupationalCategory
+  - possibleTreatment
+  - preparation
+  - primaryPrevention
+  - procedureType
+  - provider
+  - ratingExplanation
+  - ratingValue
+  - review
+  - usedToDiagnose
+  - usesDevice
 default_field_groups: {  }
 default_field_group_label_suffix: ''
 default_field_group_form_type: ''

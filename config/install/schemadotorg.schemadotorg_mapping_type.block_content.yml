@@ -33,7 +33,10 @@ default_field_weights:
   - name
   - description
   - image
+  - creator
   - about
+  - isPartOf
+  - itemListElement
 default_field_groups: {  }
 default_field_group_label_suffix: ''
 default_field_group_form_type: ''

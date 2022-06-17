@@ -4,6 +4,7 @@ namespace Drupal\schemadotorg_report\Controller;
 
 use Drupal\Core\Link;
 use Drupal\field_ui\FieldUI;
+use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
 
 /**
  * Returns responses for Schema.org report mapping routes.
@@ -21,19 +22,35 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
     $mapping_type_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping_type');
 
     $header = [
-      ['data' => $this->t('Entity type'), 'width' => '10%'],
-      ['data' => $this->t('Group'), 'width' => '10%'],
-      ['data' => $this->t('Schema.org breadcrumb'), 'width' => '30%'],
-      ['data' => $this->t('Schema.org type'), 'width' => '10%'],
-      ['data' => $this->t('Schema.org properties'), 'width' => '40%'],
+      ['data' => $this->t('Type'), 'width' => '20%'],
+      ['data' => $this->t('Breadcrumb'), 'width' => '20%'],
+      ['data' => $this->t('Default Properties'), 'width' => '40%'],
+      ['data' => $this->t('Unsorted Properties'), 'width' => '20%'],
     ];
+
+    $build = [];
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface[] $mapping_types */
     $mapping_types = $mapping_type_storage->loadMultiple();
-    $rows = [];
-    foreach ($mapping_types as $mapping_type) {
+    foreach ($mapping_types as $entity_type_id => $mapping_type) {
       $recomended_types = $mapping_type->getRecommendedSchemaTypes();
-      foreach ($recomended_types as $recommendation_type) {
+      if (empty($recomended_types)) {
+        continue;
+      }
+
+      $build[$entity_type_id] = [
+        '#type' => 'details',
+        '#title' => $mapping_type->label(),
+        '#open' => TRUE,
+      ];
+
+      $base_field_mappings = $mapping_type->getBaseFieldMappings();
+      $sorted_properties = $this->getSortedProperties($mapping_type);
+      $expected_properties = [];
+
+      // Recommended types.
+      foreach ($recomended_types as $recomendedation_name => $recommendation_type) {
+        $rows = [];
         foreach ($recommendation_type['types'] as $type) {
           // Display message when a recommended type does not exist.
           if (!$this->schemaTypeManager->isType($type)) {
@@ -48,30 +65,71 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
 
           $properties = $mapping_type->getDefaultSchemaTypeProperties($type);
 
-          $row = [];
+          $unsorted_properties = array_diff_key($properties, $sorted_properties);
+          $base_field_mappings = $mapping_type->getBaseFieldMappings();
+          $unsorted_properties = array_diff_key($unsorted_properties, $base_field_mappings);
 
-          $row[] = $mapping_type->label();
-          $row[] = $recommendation_type['label'];
-          $row[] = ['data' => $this->buildTypeBreadcrumbs($type)];
+          $expected_properties += $properties;
+
+          $row = [];
           $row[] = ['data' => $this->schemaTypeBuilder->buildItemsLinks($type)];
+          $row[] = ['data' => $this->buildTypeBreadcrumbs($type)];
           $row[] = $properties ? ['data' => $this->schemaTypeBuilder->buildItemsLinks($properties)] : '';
-          if (empty($properties)) {
+          $row[] = $unsorted_properties ? ['data' => $this->schemaTypeBuilder->buildItemsLinks($unsorted_properties)] : '';
+          if (empty($properties) || !empty($unsorted_properties)) {
             $rows[] = ['data' => $row, 'class' => ['color-warning']];
           }
           else {
             $rows[] = $row;
           }
         }
+
+        // Mapping type summary.
+        $build[$entity_type_id][$recomendedation_name] = [
+          '#type' => 'fieldset',
+          '#title' => $recommendation_type['label'],
+          '#open' => TRUE,
+        ];
+        // Recommended types.
+        $build[$entity_type_id][$recomendedation_name]['table'] = [
+          '#type' => 'table',
+          '#header' => $header,
+          '#rows' => $rows,
+        ];
+      }
+
+      // Expected properties.
+      ksort($expected_properties);
+      $build[$entity_type_id]['expected_properties'] = [
+        '#type' => 'item',
+        '#title' => $this->t('Expected properties'),
+        'links' => $this->schemaTypeBuilder->buildItemsLinks($expected_properties),
+      ];
+
+      // Sorted properties.
+      if ($sorted_properties) {
+        $build[$entity_type_id]['sorted_properties'] = [
+          '#type' => 'item',
+          '#title' => $this->t('Sorted properties'),
+          'links' => $this->schemaTypeBuilder->buildItemsLinks($sorted_properties),
+        ];
+
+        // Unsorted properties.
+        $unsorted_properties = array_diff_key($expected_properties, $sorted_properties);
+        $base_field_mappings = $mapping_type->getBaseFieldMappings();
+        $unsorted_properties = array_diff_key($unsorted_properties, $base_field_mappings);
+        if ($unsorted_properties) {
+          ksort($unsorted_properties);
+          $build[$entity_type_id]['unsorted_properties'] = [
+            '#type' => 'item',
+            '#title' => $this->t('Unsorted properties'),
+            'links' => $this->schemaTypeBuilder->buildItemsLinks($unsorted_properties),
+          ];
+        }
       }
     }
 
-    return [
-      '#type' => 'table',
-      '#header' => $header,
-      '#rows' => $rows,
-      '#empty' => $this->t('There are no Schema.org recommendations yet.'),
-      '#sticky' => TRUE,
-    ];
+    return $build;
   }
 
   /**
@@ -169,6 +227,43 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
       '#empty' => $this->t('There are no Schema.org relationships yet.'),
       '#sticky' => TRUE,
     ];
+  }
+
+  /**
+   * Get sorted properties for a mapping type.
+   *
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type
+   *   A Schema.org mapping type.
+   *
+   * @return array|false
+   *   Sorted properties for a mapping type.
+   */
+  protected function getSortedProperties(SchemaDotOrgMappingTypeInterface $mapping_type) {
+    $sorted_properties = [];
+
+    // Get properties from default field groups.
+    $groups = $mapping_type->getDefaultFieldGroups();
+    foreach ($groups as $group) {
+      $group_properties = array_combine($group['properties'], $group['properties']);
+      $duplicate_properties = array_intersect_key($sorted_properties, $group_properties);
+      if ($duplicate_properties) {
+        $t_args = [
+          '@entity_type' => $mapping_type->label(),
+          '@group_label' => $group['label'],
+          '@properties' => implode(', ', $duplicate_properties),
+        ];
+        $message = $this->t('Group @entity_type:@group_label has duplicate properties @properties', $t_args);
+        $this->messenger()->addWarning($message);
+      }
+      $sorted_properties += $group_properties;
+    }
+
+    // Get properties from default field weights.
+    $default_field_weights = $mapping_type->getDefaultFieldWeights();
+    $default_field_weights = array_keys($default_field_weights);
+    $sorted_properties += array_combine($default_field_weights, $default_field_weights);
+
+    return $sorted_properties;
   }
 
 }

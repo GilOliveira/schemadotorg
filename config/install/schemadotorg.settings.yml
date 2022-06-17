@@ -595,6 +595,37 @@ schema_types:
       - recommendedIntake
       - safetyConsideration
       - targetPopulation
+    JobPosting:
+      - applicationContact
+      - benefits
+      - datePosted
+      - educationRequirements
+      - eligibilityToWorkRequirement
+      - employerOverview
+      - employmentType
+      - estimatedSalary
+      - experienceRequirements
+      - jobBenefits
+      - jobLocation
+      - jobLocationType
+      - qualifications
+      - responsibilities
+      - skills
+      - title
+      - validThrough
+    Service:
+      - availableChannel
+      - hoursAvailable
+      - provider
+      - serviceArea
+      - serviceAudience
+      - serviceOutput
+      - serviceType
+    ProgramMembership:
+      - hostingOrganization
+      - member
+      - membershipNumber
+      - programName
   default_property_values:
     Offer:
       priceCurrency: USD
