@@ -1,22 +1,20 @@
-name: Schema.org Blueprints Demo
+name: 'Schema.org Blueprints Demo'
 type: module
 description: |
   Provides an opinionated demo of the Schema.org Blueprints implemented using layout and embed content authoring UX patterns.
   THIS DEMO SHOULD ONLY BE INSTALLED ON A PLAIN VANILLA TEST INSTANCE OF DRUPAL
-package: Schema.org Blueprints
-core_version_requirement: ^9
+package: 'Schema.org Blueprints'
+core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental
 dependencies:
-  # core
+  - 'address:address'
+  - 'config_rewrite:config_rewrite'
+  - 'content_browser:content_browser'
   - 'drupal:inline_form_errors'
   - 'drupal:media'
   - 'drupal:media_library'
   - 'drupal:settings_tray'
   - 'drupal:telephone'
-  # contrib
-  - 'address:address'
-  - 'config_rewrite:config_rewrite'
-  - 'content_browser:content_browser'
   - 'embed:embed'
   - 'entity_browser:entity_browser'
   - 'entity_embed:entity_embed'
@@ -26,20 +24,19 @@ dependencies:
   - 'jsonapi_extras:jsonapi_extras'
   - 'paragraphs:paragraphs'
   - 'paragraphs:paragraphs_library'
-  - 'time_field:time_field'
-  # schemadotorg
   - 'schemadotorg:schemadotorg'
   - 'schemadotorg:schemadotorg_descriptions'
   - 'schemadotorg:schemadotorg_export'
   - 'schemadotorg:schemadotorg_inline_entity_form'
+  - 'schemadotorg:schemadotorg_jsonapi'
+  - 'schemadotorg:schemadotorg_jsonld'
+  - 'schemadotorg:schemadotorg_jsonld_breadcrumb'
+  - 'schemadotorg:schemadotorg_jsonld_embed'
+  - 'schemadotorg:schemadotorg_jsonld_endpoint'
+  - 'schemadotorg:schemadotorg_jsonld_preview'
+  - 'schemadotorg:schemadotorg_paragraphs'
   - 'schemadotorg:schemadotorg_rdf'
   - 'schemadotorg:schemadotorg_report'
   - 'schemadotorg:schemadotorg_taxonomy'
   - 'schemadotorg:schemadotorg_ui'
-  - 'schemadotorg:schemadotorg_jsonapi'
-  - 'schemadotorg:schemadotorg_jsonld'
-  - 'schemadotorg:schemadotorg_jsonld_breadcrumb'
-  - 'schemadotorg:schemadotorg_jsonld_endpoint'
-  - 'schemadotorg:schemadotorg_jsonld_embed'
-  - 'schemadotorg:schemadotorg_jsonld_preview'
-  - 'schemadotorg:schemadotorg_paragraphs'
+  - 'time_field:time_field'

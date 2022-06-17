@@ -193,6 +193,11 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
       $handler_settings = $field->getSetting('handler_settings');
       $actual_target_bundles = $handler_settings['target_bundles'];
 
+      // Manually sync paragraph:from_library.
+      if ($target_type === 'paragraph' && isset($actual_target_bundles['from_library'])) {
+        $expected_target_bundles['from_library'] = 'from_library';
+      }
+
       // Manage link.
       if ($route_info = FieldUI::getOverviewRouteInfo($entity_type_id, $bundle)) {
         $link = Link::fromTextAndUrl($this->t('Manage'), $route_info)->toRenderable()

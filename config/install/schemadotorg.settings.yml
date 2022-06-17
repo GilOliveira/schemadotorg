@@ -859,7 +859,7 @@ schema_properties:
       label: 'Alternate names'
       unlimited: true
     alumni:
-      label: 'Alumni'
+      label: Alumni
       unlimited: true
     alumniOf:
       unlimited: true
@@ -926,7 +926,7 @@ schema_properties:
       label: 'Contact points'
       unlimited: true
     containsSeason:
-      label: 'Seasons'
+      label: Seasons
       unlimited: true
     contributor:
       label: Contributors
@@ -948,7 +948,7 @@ schema_properties:
     educationRequirements:
       unlimited: true
     educationalUse:
-      label: Educational uses
+      label: 'Educational uses'
       unlimited: true
     email:
       type: email
@@ -1002,7 +1002,7 @@ schema_properties:
       label: 'Knows languages'
       unlimited: true
     learningResourceType:
-      label: Learning resource types
+      label: 'Learning resource types'
       unlimited: true
     material:
       label: Materials
@@ -1018,7 +1018,7 @@ schema_properties:
       label: 'Menu add-ons'
       unlimited: true
     member:
-      label: 'Members'
+      label: Members
       unlimited: true
     memberOf:
       unlimited: true

@@ -1,11 +1,11 @@
-name: Schema.org Blueprints
+name: 'Schema.org Blueprints'
 type: module
 description: 'Uses Schema.org as the blueprint for the content architecture and structured data in a Drupal website.'
-package: Schema.org Blueprints
+package: 'Schema.org Blueprints'
 core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental
 configure: entity.schemadotorg_mapping.collection
 dependencies:
   - 'drupal:field'
-  - 'drupal:text'
   - 'drupal:options'
+  - 'drupal:text'

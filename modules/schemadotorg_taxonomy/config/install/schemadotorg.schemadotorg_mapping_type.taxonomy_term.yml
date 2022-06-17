@@ -16,6 +16,10 @@ recommended_schema_types:
       - MenuItem
       - MenuSection
       - Menu
+default_schema_types:
+  tags: DefinedTerm
+default_schema_type_properties: {  }
+default_schema_type_subtypes: {  }
 default_base_fields:
   status: {  }
   uuid:
@@ -28,10 +32,6 @@ default_base_fields:
     - name
   description:
     - description
-default_schema_types:
-  tags: DefinedTerm
-default_schema_type_properties: { }
-default_schema_type_subtypes: { }
 default_field_weights:
   - name
   - description
@@ -42,7 +42,7 @@ default_field_weights:
   - menuAddOn
   - hasMenuItem
   - hasMenuSection
-default_field_groups: { }
+default_field_groups: {  }
 default_field_group_label_suffix: ''
 default_field_group_form_type: ''
 default_field_group_view_type: ''

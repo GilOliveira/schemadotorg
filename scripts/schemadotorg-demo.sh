@@ -118,6 +118,20 @@ function import() {
   drush features:import -y schemadotorg_taxonomy
 }
 
+function export() {
+  drush features:export -y schemadotorg
+  drush features:export -y schemadotorg_descriptions
+  drush features:export -y schemadotorg_demo
+  # drush features:export -y schemadotorg_flexfield
+  drush features:export -y schemadotorg_inline_entity_form
+  drush features:export -y schemadotorg_jsonapi
+  drush features:export -y schemadotorg_jsonld
+  drush features:export -y schemadotorg_jsonld_endpoint
+  drush features:export -y schemadotorg_paragraphs
+  drush features:export -y schemadotorg_report
+  drush features:export -y schemadotorg_taxonomy
+}
+
 ################################################################################
 
 SCRIPT_DIRECTORY=`dirname "$0"`

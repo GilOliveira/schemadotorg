@@ -48,27 +48,45 @@ function schemadotorg_paragraphs_schemadotorg_property_field_alter(
     || $field_storage_values['settings']['target_type'] !== 'paragraph') {
     return;
   }
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorage $mapping_storage */
+  $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
 
-  // Handler.
-  $handler_settings =& $field_values['settings']['handler_settings'];
-
-  $target_bundles =& $handler_settings['target_bundles'];
-  // If the Schema.org type should use the Paragraphs library,
+  // If any of the target bundles use the Paragraphs library,
   // append 'from_library' to target bundles.
-  if (_schemadotorg_paragraphs_use_library($type)) {
-    $target_bundles['from_library'] = 'from_library';
+  $target_type = $field_storage_values['settings']['target_type'];
+  $target_bundles = $field_values['settings']['handler_settings']['target_bundles'];
+  foreach ($target_bundles as $target_bundle) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $target_mapping */
+    $target_mappings = $mapping_storage->loadByProperties([
+      'target_entity_type_id' => $target_type,
+      'target_bundle' => $target_bundle,
+    ]);
+    if (!$target_mappings) {
+      continue;
+    }
+
+    $target_mapping = reset($target_mappings);
+    $target_schema_type = $target_mapping->getSchemaType();
+    if (_schemadotorg_paragraphs_use_library($target_schema_type)) {
+      $target_bundles['from_library'] = 'from_library';
+      break;
+    }
   }
 
   // Set the target bundles drag and drop order.
+  $handler_settings = $field_values['settings']['handler_settings'];
   $handler_settings['target_bundles_drag_drop'] = [];
   $weight = 0;
-  foreach ($handler_settings['target_bundles'] as $target_bundle) {
+  foreach ($target_bundles as $target_bundle) {
     $handler_settings['target_bundles_drag_drop'][$target_bundle] = [
       'weight' => $weight,
       'enabled' => TRUE,
     ];
     $weight++;
   }
+
+  $field_values['settings']['handler_settings'] = $handler_settings;
+  $field_values['settings']['handler_settings']['target_bundles'] = $target_bundles;
 
   // Widget.
   $widget_id = 'paragraphs';
@@ -129,5 +147,5 @@ function _schemadotorg_paragraphs_use_library($type) {
   $paragraphs_library = \Drupal::configFactory()
     ->get('schemadotorg_paragraphs.settings')
     ->get('paragraphs_library');
-  return (!in_array($type, $paragraphs_library));
+  return in_array($type, $paragraphs_library);
 }

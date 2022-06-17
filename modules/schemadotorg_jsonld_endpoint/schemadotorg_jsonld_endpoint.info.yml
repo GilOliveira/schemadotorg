@@ -1,8 +1,8 @@
-name: Schema.org Blueprints JSON-LD Endpoint
+name: 'Schema.org Blueprints JSON-LD Endpoint'
 type: module
-description: Provides an endpoint to get an entity's Schema.org JSON-LD.
-package: Schema.org Blueprints
-core_version_requirement: ^9
+description: 'Provides an endpoint to get an entity''s Schema.org JSON-LD.'
+package: 'Schema.org Blueprints'
+core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental
 dependencies:
   - 'schemadotorg:schemadotorg_jsonld'
