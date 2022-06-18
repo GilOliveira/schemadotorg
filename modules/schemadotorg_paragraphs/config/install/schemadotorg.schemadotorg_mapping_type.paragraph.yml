@@ -151,30 +151,30 @@ default_field_weights:
   - affectedBy
   - applicationDeadline
   - applicationStartDate
-  - bodyLocation
-  - causeOf
   - educationalCredentialAwarded
   - educationalProgramMode
-  - epidemiology
-  - followup
-  - hasCourse
-  - healthCondition
-  - hostingOrganization
-  - howPerformed
-  - increasesRiskOf
-  - maximumEnrollment
-  - monthsOfExperience
-  - namedPosition
   - numberOfCredits
+  - monthsOfExperience
+  - maximumEnrollment
+  - namedPosition
   - occupationalCategory
-  - possibleTreatment
-  - preparation
-  - primaryPrevention
-  - procedureType
+  - hostingOrganization
   - provider
   - ratingExplanation
   - ratingValue
   - review
+  - epidemiology
+  - primaryPrevention
+  - possibleTreatment
+  - bodyLocation
+  - procedureType
+  - preparation
+  - howPerformed
+  - followup
+  - causeOf
+  - hasCourse
+  - healthCondition
+  - increasesRiskOf
   - usedToDiagnose
   - usesDevice
 default_field_groups: {  }

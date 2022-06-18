@@ -842,6 +842,8 @@ schema_properties:
     VideoGallery--hasPart:
       label: Videos
       unlimited: true
+    about:
+      type: text_long
     acceptedAnswer:
       type: text_long
     activeIngredient:
@@ -916,6 +918,8 @@ schema_properties:
     citation:
       label: Citations
       unlimited: true
+    clinicalPharmacology:
+      type: text_long
     colleague:
       label: Colleagues
       unlimited: true
@@ -969,11 +973,16 @@ schema_properties:
       type: text_long
     faxNumber:
       type: telephone
+    foodWarning:
+      type: text_long
     gamePlatform:
       label: 'Game platforms'
       unlimited: true
     hasCourseInstance:
       label: 'Course instances'
+      unlimited: true
+    hasHealthAspect:
+      label: 'Health aspects'
       unlimited: true
     hasMenu:
       label: Menus
@@ -1004,9 +1013,13 @@ schema_properties:
     learningResourceType:
       label: 'Learning resource types'
       unlimited: true
+    manufacturer:
+      type: string
     material:
       label: Materials
       unlimited: true
+    mechanismOfAction:
+      type: text_long
     medicalSpecialty:
       label: 'Medical specialties'
       unlimited: true
@@ -1027,6 +1040,8 @@ schema_properties:
     occupationalCategory:
       label: 'Occupational categories'
       unlimited: true
+    overdosage:
+      type: text_long
     organizer:
       label: Organizers
       unlimited: true
@@ -1040,11 +1055,14 @@ schema_properties:
     possibleComplication:
       label: 'Possible complications'
       unlimited: true
+      type: text_long
     possibleTreatment:
       label: 'Possible treatments'
       unlimited: true
     primaryPrevention:
       unlimited: true
+    safetyConsideration:
+      type: text_long
     secondaryPrevention:
       unlimited: true
     programPrerequisites:
@@ -1072,6 +1090,9 @@ schema_properties:
       unlimited: true
     relatedLink:
       label: 'Related links'
+      unlimited: true
+    relatedDrug:
+      label: 'Related drugs'
       unlimited: true
     relevantSpecialty:
       label: 'Relevant specialties'
@@ -1120,6 +1141,10 @@ schema_properties:
       unlimited: true
     usedToDiagnose:
       unlimited: true
+    usesDevice:
+      label: Devices
+      unlimited: true
+      type: text_long
     width:
       type: string
     worksFor:

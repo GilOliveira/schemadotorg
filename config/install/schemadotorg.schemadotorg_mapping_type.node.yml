@@ -226,13 +226,13 @@ default_field_groups:
     label: 'Organization information'
     properties:
       - nonprofitStatus
-      - department
       - founder
       - employee
       - member
       - memberOf
-      - alumni
+      - department
       - parentOrganization
+      - alumni
   education:
     label: 'Education information'
     properties:
@@ -318,27 +318,27 @@ default_field_groups:
       - healthPlanNetworkId
       - isAcceptingNewPatients
   medical_substance:
-    label: 'Medical condition'
+    label: 'Medical substance'
     properties:
       - proprietaryName
       - nonProprietaryName
+      - isProprietary
+      - isAvailableGenerically
       - drugClass
       - drugUnit
-      - activeIngredient
       - mechanismOfAction
-      - targetPopulation
       - clinicalPharmacology
+      - overdosage
+      - foodWarning
+      - safetyConsideration
+      - targetPopulation
       - dosageForm
       - doseSchedule
       - recommendedIntake
-      - safetyConsideration
-      - foodWarning
-      - manufacturer
       - maximumIntake
-      - overdosage
+      - manufacturer
       - relatedDrug
-      - isAvailableGenerically
-      - isProprietary
+      - activeIngredient
   medical_condition:
     label: 'Medical condition'
     properties:
@@ -351,13 +351,13 @@ default_field_groups:
       - possibleComplication
       - expectedPrognosis
   medical_study:
-    label: 'medical study'
+    label: 'Medical study information'
     properties:
       - status
-      - sponsor
-      - trialDesign
-      - studyLocation
       - studySubject
+      - trialDesign
+      - sponsor
+      - studyLocation
   how_to:
     label: 'How to'
     properties:
