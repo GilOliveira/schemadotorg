@@ -74,10 +74,61 @@ class SchemaDotOrgCommands extends DrushCommands {
    * @see \Drupal\schemadotorg_report\Controller\SchemaDotOrgReportMappingsController::relationships
    */
   public function repair() {
-    if (!$this->io()->confirm($this->t('Are you sure you want to repair Schema.org relationships?'))) {
+    if (!$this->io()->confirm($this->t('Are you sure you want to repair Schema.org configuration and relationships?'))) {
       throw new UserAbortException();
     }
 
+    $this->repairConfiguration();
+    $this->repairRelationships();
+  }
+
+  /**
+   * Repair configuration.
+   */
+  protected function repairConfiguration() {
+    $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
+    $sort = [
+      'ksort' => [
+        'schema_types.main_properties',
+        'schema_properties.range_includes',
+        'schema_properties.default_fields',
+        'names.custom_words',
+        'names.custom_names',
+        'names.prefixes',
+        'names.suffixes',
+        'names.abbreviations',
+      ],
+      'sort' => [
+        'schema_properties.ignored_properties',
+        'names.acronyms',
+        'names.minor_words',
+      ],
+    ];
+    foreach ($sort as $method => $keys) {
+      foreach ($keys as $key) {
+        $value = $config->get($key);
+        if (!$value) {
+          throw new \Exception('Unable to locate ' . $key);
+        }
+        $method($value);
+        $config->set($key, $value);
+      }
+    }
+
+    $default_properties = $config->get('schema_types.default_properties');
+    foreach ($default_properties as $type => $properties) {
+      sort($properties);
+      $default_properties[$type] = $properties;
+    }
+    $config->set('schema_types.default_properties', $default_properties);
+
+    $config->save();
+  }
+
+  /**
+   * Repair relationships.
+   */
+  protected function repairRelationships() {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
 

@@ -14,9 +14,9 @@ schema_types:
     CreativeWork:
       - inLanguage
     Article:
-      - author
       - alternativeHeadline
       - articleBody
+      - author
       - headline
       - keywords
     Atlas:
@@ -28,9 +28,9 @@ schema_types:
     ComicIssue:
       - artist
       - colorist
-      - name
       - inker
       - letterer
+      - name
       - penciler
     ComicStory:
       - name
@@ -40,8 +40,8 @@ schema_types:
       - name
     Game:
       - characterAttribute
-      - name
       - gameItem
+      - name
       - quest
     Guide:
       - name
@@ -57,13 +57,13 @@ schema_types:
     Course:
       - courseCode
       - coursePrerequisites
-      - numberOfCredits
       - hasCourseInstance
+      - numberOfCredits
     CourseInstance:
       - '-attendee'
       - '-audience'
-      - '-performer'
       - '-organizer'
+      - '-performer'
       - courseMode
       - courseWorkload
       - instructor
@@ -88,21 +88,21 @@ schema_types:
     QAPage:
       - mainEntity
     Quotation:
-      - name
-      - text
       - creator
       - isPartOf
+      - name
+      - text
     HowTo:
       - educationalLevel
       - image
-      - name
       - keywords
+      - name
       - performTime
       - prepTime
       - step
       - supply
-      - tool
       - text
+      - tool
       - totalTime
       - yield
     Recipe:
@@ -162,15 +162,15 @@ schema_types:
       - playMode
     VisualArtwork:
       - artMedium
-      - artworkSurface
       - artform
       - artist
+      - artworkSurface
       - name
     WebContent:
-      - description
-      - name
-      - image
       - about
+      - description
+      - image
+      - name
     WebApplication:
       - browserRequirements
     WebSite:
@@ -208,8 +208,8 @@ schema_types:
       - description
       - email
       - image
-      - name
       - memberOf
+      - name
       - sameAs
       - telephone
     EducationalOrganization:
@@ -217,10 +217,10 @@ schema_types:
       - nonprofitStatus
     FoodEstablishment:
       - acceptsReservations
-      - servesCuisine
       - hasMenu
       - paymentAccepted
       - priceRange
+      - servesCuisine
     CivicStructure:
       - openingHours
     Hospital:
@@ -321,8 +321,8 @@ schema_types:
     DataDownload:
       - contentUrl
     ImageObject:
-      - thumbnail
       - image
+      - thumbnail
     VideoObject:
       - thumbnail
       - video
@@ -345,19 +345,19 @@ schema_types:
       - telephone
     PropertyValue:
       - name
-      - value
-      - valueReference
       - unitCode
       - unitText
+      - value
+      - valueReference
     QuantitativeValue:
       - name
-      - value
-      - valueReference
       - unitCode
       - unitText
+      - value
+      - valueReference
     Question:
-      - name
       - acceptedAnswer
+      - name
     HowToItem:
       - name
       - requiredQuantity
@@ -374,21 +374,21 @@ schema_types:
     Offer:
       - price
     DefinedTerm:
-      - name
       - description
+      - name
       - termCode
     MenuItem:
       - name
       - offers
       - suitableForDiet
     MenuSection:
-      - name
       - hasMenuItem
+      - name
     Menu:
       - description
+      - hasMenuSection
+      - hasMenuSection
       - name
-      - hasMenuSection
-      - hasMenuSection
     Movie:
       - actor
       - description
@@ -403,8 +403,8 @@ schema_types:
       - description
       - endDate
       - image
-      - startDate
       - name
+      - startDate
     CreativeWorkSeason:
       - description
       - endDate
@@ -490,8 +490,8 @@ schema_types:
     MedicalCause:
       - causeOf
     MedicalEntity:
-      - name
       - description
+      - name
     MedicalSignOrSymptom:
       - '-expectedPrognosis'
       - '-medicineSystem'
@@ -507,8 +507,8 @@ schema_types:
       - preparation
       - procedureType
     MedicalStudy:
-      - medicineSystem
       - healthCondition
+      - medicineSystem
       - relevantSpecialty
       - sponsor
       - status
@@ -534,8 +534,8 @@ schema_types:
       - secondaryPrevention
       - signOrSymptom
     MedicalAudience:
-      - healthCondition
       - audienceType
+      - healthCondition
     MedicalTest:
       - affectedBy
       - usedToDiagnose
@@ -690,34 +690,34 @@ schema_types:
       - text_with_summary
 schema_properties:
   range_includes:
+    FAQPage--mainEntity:
+      - Question
     HowTo--step:
       - HowToStep
       - HowToSection
+    HowToSection--itemListElement:
+      - HowToStep
     HowToStep--itemListElement:
       - HowToDirection
       - HowToTip
-    HowToSection--itemListElement:
-      - HowToStep
-    FAQPage--mainEntity:
-      - Question
-    QAPage--mainEntity:
-      - Question
-    MenuItem--offers:
-      - Offer
-      - Demand
-    TVSeries--containsSeason:
-      - TVSeason
-    TVSeason--episode:
-      - TVEpisode
-    PodcastSeries--containsSeason:
-      - PodcastSeason
-    PodcastSeason--episode:
-      - PodcastEpisode
+    ImageGallery--hasPart:
+      - ImageObject
     MediaGallery--hasPart:
       - ImageObject
       - VideoObject
-    ImageGallery--hasPart:
-      - ImageObject
+    MenuItem--offers:
+      - Offer
+      - Demand
+    PodcastSeason--episode:
+      - PodcastEpisode
+    PodcastSeries--containsSeason:
+      - PodcastSeason
+    QAPage--mainEntity:
+      - Question
+    TVSeason--episode:
+      - TVEpisode
+    TVSeries--containsSeason:
+      - TVSeason
     VideoGallery--hasPart:
       - VideoObject
     itemListElement:
@@ -725,13 +725,13 @@ schema_properties:
     member:
       - Organization
   ignored_properties:
+    - accessMode
+    - accessModeSufficient
     - accessibilityAPI
     - accessibilityControl
     - accessibilityFeature
     - accessibilityHazard
     - accessibilitySummary
-    - accessMode
-    - accessModeSufficient
     - accountablePerson
     - acquireLicensePage
     - actionableFeedbackPolicy
@@ -741,23 +741,22 @@ schema_properties:
     - assesses
     - associatedMedia
     - branchCode
-    - deathDate
-    - deathPlace
-    - duns
     - conditionsOfAccess
     - contentLocation
     - contentRating
     - contentReferenceTime
     - correction
     - creditText
+    - deathDate
+    - deathPlace
     - diversityStaffingReport
     - downvoteCount
+    - duns
     - editEIDR
     - encoding
     - encodingFormat
     - funder
     - funding
-    - globalLocationNumber
     - geo
     - geoContains
     - geoCoveredBy
@@ -769,6 +768,7 @@ schema_properties:
     - geoOverlaps
     - geoTouches
     - geoWithin
+    - globalLocationNumber
     - globalLocationNumber
     - gtin
     - gtin12
@@ -785,10 +785,10 @@ schema_properties:
     - iso6523Code
     - itemListOrder
     - leiCode
+    - materialExtent
     - naics
     - netWorth
     - numberOfItems
-    - materialExtent
     - ownershipFundingInfo
     - pageEnd
     - pageStart
@@ -796,8 +796,8 @@ schema_properties:
     - pattern
     - position
     - potentialAction
-    - publishingPrinciples
     - publisherImprint
+    - publishingPrinciples
     - schemaVersion
     - sdDatePublished
     - sdLicense
@@ -806,9 +806,9 @@ schema_properties:
     - spatial
     - spatialCoverage
     - suggestedAnswer
+    - taxID
     - temporal
     - temporalCoverage
-    - taxID
     - unnamedSourcesPolicy
     - vatID
     - wordCount
@@ -822,9 +822,9 @@ schema_properties:
       label: Media
       unlimited: true
     MenuItem--offers:
-      label: Price
-      name: offers_price
       type: decimal
+      name: offers_price
+      label: Price
     Person--additionalName:
       label: 'Middle name'
     Person--familyName:
@@ -936,21 +936,21 @@ schema_properties:
       label: Contributors
       unlimited: true
     courseMode:
-      unlimited: true
       type: string
+      unlimited: true
     coursePrerequisites:
-      unlimited: true
       type: string
+      unlimited: true
     description:
       type: text_long
     dietFeatures:
       unlimited: true
     disambiguatingDescription:
       type: text_long
-    educationalLevel:
-      label: Difficulty
     educationRequirements:
       unlimited: true
+    educationalLevel:
+      label: Difficulty
     educationalUse:
       label: 'Educational uses'
       unlimited: true
@@ -967,10 +967,10 @@ schema_properties:
     exceptDate:
       label: 'Except dates'
       unlimited: true
-    experienceRequirements:
-      unlimited: true
     expectedPrognosis:
       type: text_long
+    experienceRequirements:
+      unlimited: true
     faxNumber:
       type: telephone
     foodWarning:
@@ -993,17 +993,17 @@ schema_properties:
     hasMenuSection:
       label: 'Menu sections'
       unlimited: true
-    height:
-      type: string
     healthCondition:
       label: 'Health conditions'
+      unlimited: true
+    height:
+      type: string
+    hospitalAffiliation:
       unlimited: true
     increasesRiskOf:
       unlimited: true
     itemListElement:
       label: Items
-      unlimited: true
-    hospitalAffiliation:
       unlimited: true
     keywords:
       unlimited: true
@@ -1025,26 +1025,26 @@ schema_properties:
       unlimited: true
     medicineSystem:
       unlimited: true
-    mentions:
-      unlimited: true
-    menuAddOn:
-      label: 'Menu add-ons'
-      unlimited: true
     member:
       label: Members
       unlimited: true
     memberOf:
+      unlimited: true
+    mentions:
+      unlimited: true
+    menuAddOn:
+      label: 'Menu add-ons'
       unlimited: true
     musicBy:
       unlimited: true
     occupationalCategory:
       label: 'Occupational categories'
       unlimited: true
-    overdosage:
-      type: text_long
     organizer:
       label: Organizers
       unlimited: true
+    overdosage:
+      type: text_long
     performer:
       label: Performers
       unlimited: true
@@ -1053,23 +1053,19 @@ schema_properties:
     physiologicalBenefits:
       unlimited: true
     possibleComplication:
+      type: text_long
       label: 'Possible complications'
       unlimited: true
-      type: text_long
     possibleTreatment:
       label: 'Possible treatments'
       unlimited: true
     primaryPrevention:
       unlimited: true
-    safetyConsideration:
-      type: text_long
-    secondaryPrevention:
-      unlimited: true
-    programPrerequisites:
-      unlimited: true
-      type: string
     productionCompany:
       label: 'Production companies'
+      unlimited: true
+    programPrerequisites:
+      type: string
       unlimited: true
     publication:
       label: Publications
@@ -1088,11 +1084,11 @@ schema_properties:
     recipeInstructions:
       type: text_long
       unlimited: true
-    relatedLink:
-      label: 'Related links'
-      unlimited: true
     relatedDrug:
       label: 'Related drugs'
+      unlimited: true
+    relatedLink:
+      label: 'Related links'
       unlimited: true
     relevantSpecialty:
       label: 'Relevant specialties'
@@ -1104,7 +1100,11 @@ schema_properties:
       unlimited: true
     risks:
       unlimited: true
+    safetyConsideration:
+      type: text_long
     sameAs:
+      unlimited: true
+    secondaryPrevention:
       unlimited: true
     signOrSymptom:
       label: 'Sign or symptoms'
@@ -1142,9 +1142,9 @@ schema_properties:
     usedToDiagnose:
       unlimited: true
     usesDevice:
+      type: text_long
       label: Devices
       unlimited: true
-      type: text_long
     width:
       type: string
     worksFor:
@@ -1168,57 +1168,60 @@ names:
     approved: appr
     benefits: bene
     body_measurement: body_meas
-    customer_remorse_return: cust_rem_ret
-    customer: cust
     currency: cur
+    customer: cust
+    customer_remorse_return: cust_rem_ret
     cvd_num: cvd
     delivery: del
     digital_document: digit_doc
     discussion: disc
-    educational_occupational: edu_occ
     educational: edu
-    eu_energy_efficiency_category: eu_energy_eff_cat
+    educational_occupational: edu_occ
     energy_star_energy_efficiency: en_star_eff
+    eu_energy_efficiency_category: eu_energy_eff_cat
     food_establishment: food_est
-    item_defect_return: itm_def_ret
     included: inc
     includes: inc
-    number_of_available: num_of_avail
-    number: num
+    item_defect_return: itm_def_ret
     maximum: max
-    merchant_return_policy: mer_ret_pol
-    merchant: mer
     medical: med
-    mission: mis
+    merchant: mer
+    merchant_return_policy: mer_ret_pol
     misconceptions: miscon
+    mission: mis
+    number: num
+    number_of_available: num_of_avail
     original: orig
     payment: pay
     performing: perf
     physical: phys
-    prevention: prev
     presentation: pres
-    verification: ver
+    prevention: prev
     reservation: res
-    return_label: ret_lbl
     return_fees: ret_fees
+    return_label: ret_lbl
     risks_or_complications: risks_or_comp
     suggested: sug
+    verification: ver
     wearable_measurement: wear_measure
     wearable_size: wear_size
   suffixes:
     affiliation: affl
-    ascending: asc
-    audience: aud
-    aspect: asp
     amount: amt
     application: app
+    ascending: asc
+    aspect: asp
+    audience: aud
     background: back
+    buildings: bld
     business: biz
     calculator: calc
     capacity: cap
     category: cat
     collection: col
     composition: comp
+    configuration: conf
+    consideration: consid
     contraindication: contra
     credential: cred
     descending: dsc
@@ -1226,16 +1229,12 @@ names:
     distribution: dist
     duration: dur
     education: ed
-    buildings: bld
-    consideration: consid
-    configuration: conf
-    enumeration: enum
     entity: ent
+    enumeration: enum
     establishment: est
     geometry: geo
     indication: ind
     information: info
-    specification: spec
     language: lang
     location: loc
     modification: mod
@@ -1243,96 +1242,94 @@ names:
     object: obj
     organization: org
     override: over
+    policy: pol
+    procedure: proc
     process: proc
     processing: proc
-    procedure: proc
-    policy: pol
     recommendation: rec
-    reservation: res
-    requirement: req
-    requirements: req
     registered: reg
     registration: reg
-    restaurant: rest
+    requirement: req
+    requirements: req
+    reservation: res
     responsibility: resp
+    restaurant: rest
     service: srv
+    specification: spec
     standard: stand
     statistics: stats
-    symptom: sym
     subscription: sub
+    symptom: sym
     volume: vol
   abbreviations:
-    health_insurance_plan: hth_ins_plan
-    health_plan: hth_plan
-    monoisotopic_molecular: mono_molec
-    updates_and_guidelines: up_and_guide
-    size_group: size_grp
-    shipping_fees: ship_fees
-    biological: bio
-    association: assoc
-    apartment: apt
     accessory: access
     accommodation: accom
     amount: amt
+    apartment: apt
     article: art
     associated: assoc
+    association: assoc
     attendance: attend
     availability: avail
+    biological: bio
     business: biz
-    department: dept
-    document: doc
-    customer: cust
     coinsurance: coin
+    community: comm
+    composition: comp
     condition: cond
     configuration: conf
-    consumption: cons
-    composition: comp
-    community: comm
-    coverage: cover
-    conversion: conv
     construction: const
+    consumption: cons
+    conversion: conv
+    coverage: cover
     credential: cred
-    diagnostic: diag
+    customer: cust
     defect: def
+    department: dept
+    diagnostic: diag
+    document: doc
     efficiency: eff
-    encoded: enc
-    entertainment: ent
     employer: emp
     employment: emp
+    encoded: enc
+    entertainment: ent
+    enumeration: enum
     equipment: equip
     establishment: est
-    enumeration: enum
     experience: exp
-    guideline: guide
-    government: gov
     frequency: freq
+    government: gov
+    guideline: guide
+    health: hth
+    health_insurance_plan: hth_ins_plan
+    health_plan: hth_plan
     historical: hist
     hospital: hosp
+    hours: hrs
     identification: id
     included: inc
     includes: inc
     incorporated: inc
     information: info
     insurance: ins
-    health: hth
-    hours: hrs
     language: lang
-    minutes: min
+    maximum: max
     measurement: measure
     medical: med
     membership: mem
     minimum: min
-    maximum: max
+    minutes: min
+    monoisotopic_molecular: mono_molec
     number: num
     observational: obs
     occupational: occ
     organization: org
-    pregnancy: preg
-    program: prog
     permission: perm
-    process: proc
+    pregnancy: preg
     procedure: proc
+    process: proc
     production: prod
+    program: prog
     publication: pub
     reference: ref
     relevance: rel
@@ -1341,10 +1338,13 @@ names:
     residence: res
     return: ret
     sequence: seq
+    shipping_fees: ship_fees
+    size_group: size_grp
     specification: spec
     suggested: sug
     swimming: swim
     transport: trans
+    updates_and_guidelines: up_and_guide
   acronyms:
     - cvd
     - id
@@ -1362,9 +1362,9 @@ names:
     - sha
     - sku
     - sms
-    - vat
-    - url
     - uri
+    - url
+    - vat
   minor_words:
     - a
     - an
@@ -1374,13 +1374,13 @@ names:
     - but
     - by
     - for
-    - in
     - if
+    - in
+    - nor
+    - not
     - of
     - 'off'
     - 'on'
-    - nor
-    - not
     - or
     - per
     - so
