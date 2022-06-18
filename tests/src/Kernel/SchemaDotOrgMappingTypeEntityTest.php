@@ -114,18 +114,21 @@ class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
     // Check getting default field weights.
     $default_field_weights = $paragaph_mapping_type->getDefaultFieldWeights();
     $this->assertEquals(1, $default_field_weights['name']);
-    $this->assertEquals(2, $default_field_weights['alternateName']);
-    $this->assertEquals(3, $default_field_weights['description']);
+    $this->assertEquals(2, $default_field_weights['title']);
+    $this->assertEquals(3, $default_field_weights['alternateName']);
+    $this->assertEquals(4, $default_field_weights['description']);
 
     // Check getting default field groups.
     $expected_default_field_group = [
       'label' => 'General information',
       'properties' => [
         'type',
+        'title',
         'name',
         'headline',
         'alternativeHeadline',
         'description',
+        'about',
         'articleBody',
         'text',
         'author',
