@@ -43,7 +43,6 @@ recommended_schema_types:
     types:
       - LocalBusiness
       - LodgingBusiness
-      - Store
       - Service
       - JobPosting
   education:

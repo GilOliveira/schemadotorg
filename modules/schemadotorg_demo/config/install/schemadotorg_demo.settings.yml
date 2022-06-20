@@ -60,6 +60,14 @@ demos:
     - 'node:EducationalOrganization'
     - 'node:CourseInstance'
     - 'node:Course'
+  organization:
+    - 'paragraph:OpeningHoursSpecification'
+    - 'paragraph:Rating'
+    - 'paragraph:ServiceChannel'
+    - 'node:Service'
+    - 'node:JobPosting'
+    - 'node:LocalBusiness'
+    - 'node:LodgingBusiness'
   medical_organization:
     - 'paragraph:MedicalAudience'
     - 'node:MedicalTest'

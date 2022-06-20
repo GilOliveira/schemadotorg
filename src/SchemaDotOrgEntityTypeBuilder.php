@@ -439,7 +439,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $group_name = NULL;
     $group_label = NULL;
     $field_weight = NULL;
-    $index = 0 - count($default_field_groups);
+    $index = -5;
     foreach ($default_field_groups as $default_field_group_name => $default_field_group) {
       $properties = array_flip($default_field_group['properties']);
       if (isset($properties[$schema_property])) {

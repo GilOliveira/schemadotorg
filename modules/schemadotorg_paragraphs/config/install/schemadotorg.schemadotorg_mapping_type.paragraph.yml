@@ -37,13 +37,9 @@ recommended_schema_types:
   organization:
     label: Organization
     types:
-      - Brand
       - OpeningHoursSpecification
-      - Rating
-      - Review
-      - Role
+      - ServiceChannel
       - ProgramMembership
-      - OccupationalExperienceRequirements
   food:
     label: Food
     types:
