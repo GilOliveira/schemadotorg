@@ -7,6 +7,7 @@ use Drupal\Core\Link;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\field_ui\FieldUI;
 use Drupal\schemadotorg\SchemaDotOrgInstallerInterface;
+use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Drush\Commands\DrushCommands;
 use Drush\Exceptions\UserAbortException;
 
@@ -31,17 +32,32 @@ class SchemaDotOrgCommands extends DrushCommands {
   protected $schemaInstaller;
 
   /**
+   * The Schema.org schema type manager.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
+   */
+  protected $schemaTypeManager;
+
+
+  /**
    * SchemaDotOrgCommands constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $schema_installer
    *   The Schema.org installer service.
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   *   The Schema.org schema type manager.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgInstallerInterface $schema_installer) {
+  public function __construct(
+    EntityTypeManagerInterface $entity_type_manager,
+    SchemaDotOrgInstallerInterface $schema_installer,
+    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+  ) {
     parent::__construct();
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaInstaller = $schema_installer;
+    $this->schemaTypeManager = $schema_type_manager;
   }
 
   /**
@@ -87,6 +103,23 @@ class SchemaDotOrgCommands extends DrushCommands {
    */
   protected function repairConfiguration() {
     $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
+
+    // Default properties sorted by path/breadcrumb.
+    $default_properties = $config->get('schema_types.default_properties');
+    $paths = [];
+    foreach (array_keys($default_properties) as $type) {
+      $breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs($type);
+      $path = array_key_first($breadcrumbs);
+      $paths[$path] = $type;
+    }
+    ksort($paths);
+    $sorted_default_properties = [];
+    foreach ($paths as $type) {
+      $sorted_default_properties[$type] = $default_properties[$type];
+    }
+    $config->set('schema_types.default_properties', $sorted_default_properties);
+
+    // Sorting.
     $sort = [
       'ksort' => [
         'schema_types.main_properties',

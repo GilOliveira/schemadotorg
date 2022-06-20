@@ -19,23 +19,76 @@ schema_types:
       - author
       - headline
       - keywords
+    NewsArticle:
+      - dateline
+      - printColumn
+      - printEdition
+      - printPage
+      - printSection
+    TechArticle:
+      - dependencies
+      - proficiencyLevel
     Atlas:
-      - name
-    Book:
       - name
     Blog:
       - blogPost
-    ComicIssue:
-      - artist
-      - colorist
-      - inker
-      - letterer
+    Book:
       - name
-      - penciler
     ComicStory:
       - name
+    Question:
+      - acceptedAnswer
+      - name
+    Course:
+      - courseCode
+      - coursePrerequisites
+      - hasCourseInstance
+      - numberOfCredits
+    CreativeWorkSeason:
+      - description
+      - endDate
+      - episode
+      - image
+      - name
+      - seasonNumber
+      - startDate
+      - trailer
+    CreativeWorkSeries:
+      - description
+      - endDate
+      - image
+      - name
+      - startDate
+    PodcastSeries:
+      - actor
+      - webFeed
+    TVSeries:
+      - actor
+      - containsSeason
+      - director
+      - musicBy
+      - productionCompany
+      - trailer
+    Diet:
+      - dietFeatures
+      - expertConsiderations
+      - physiologicalBenefits
+      - risks
     Drawing:
       - name
+    Episode:
+      - description
+      - duration
+      - episodeNumber
+      - name
+    PodcastEpisode:
+      - actor
+    TVEpisode:
+      - actor
+      - director
+      - image
+      - musicBy
+      - trailer
     ExercisePlan:
       - name
     Game:
@@ -43,55 +96,12 @@ schema_types:
       - gameItem
       - name
       - quest
+    VideoGame:
+      - gamePlatform
+      - musicBy
+      - playMode
     Guide:
       - name
-    FAQPage:
-      - mainEntity
-    LearningResource:
-      - assesses
-      - educationalLevel
-      - educationalUse
-      - learningResourceType
-      - name
-      - teaches
-    Course:
-      - courseCode
-      - coursePrerequisites
-      - hasCourseInstance
-      - numberOfCredits
-    CourseInstance:
-      - '-attendee'
-      - '-audience'
-      - '-organizer'
-      - '-performer'
-      - courseMode
-      - courseWorkload
-      - instructor
-    MusicComposition:
-      - name
-    MusicPlaylist:
-      - name
-    MusicRecording:
-      - name
-    NewsArticle:
-      - dateline
-      - printColumn
-      - printEdition
-      - printPage
-      - printSection
-    Painting:
-      - name
-    Photograph:
-      - name
-    PublicationIssue:
-      - issueNumber
-    QAPage:
-      - mainEntity
-    Quotation:
-      - creator
-      - isPartOf
-      - name
-      - text
     HowTo:
       - educationalLevel
       - image
@@ -117,20 +127,89 @@ schema_types:
       - recipeInstructions
       - recipeYield
       - suitableForDiet
+    HowToDirection:
+      - text
+    HowToSection:
+      - itemListElement
+      - name
+    HowToStep:
+      - itemListElement
+      - name
+    HowToTip:
+      - text
+    LearningResource:
+      - assesses
+      - educationalLevel
+      - educationalUse
+      - learningResourceType
+      - name
+      - teaches
+    MediaObject:
+      - name
+    AudioObject:
+      - contentUrl
+    DataDownload:
+      - contentUrl
+    ImageObject:
+      - image
+      - thumbnail
+    VideoObject:
+      - thumbnail
+      - video
+    Menu:
+      - description
+      - hasMenuSection
+      - hasMenuSection
+      - name
+    MenuSection:
+      - hasMenuItem
+      - name
+    Movie:
+      - actor
+      - description
+      - director
+      - duration
+      - image
+      - musicBy
+      - name
+      - productionCompany
+      - trailer
+    MusicComposition:
+      - name
+    MusicPlaylist:
+      - name
+    MusicRecording:
+      - name
+    Painting:
+      - name
+    Photograph:
+      - name
+    PublicationIssue:
+      - issueNumber
+    ComicIssue:
+      - artist
+      - colorist
+      - inker
+      - letterer
+      - name
+      - penciler
+    Quotation:
+      - creator
+      - isPartOf
+      - name
+      - text
+    Review:
+      - itemReviewed
+      - negativeNotes
+      - positiveNotes
+      - reviewBody
+      - reviewRating
     Sculpture:
       - name
     SheetMusic:
       - name
     ShortStory:
       - name
-    SpecialAnnouncement:
-      - announcementLocation
-      - name
-      - newsUpdatesAndGuidelines
-      - publicTransportClosuresInfo
-      - schoolClosuresInfo
-      - travelBans
-      - webFeed
     SoftwareApplication:
       - applicationCategory
       - applicationSubCategory
@@ -145,21 +224,24 @@ schema_types:
       - softwareRequirements
       - softwareVersion
       - storageRequirements
+    WebApplication:
+      - browserRequirements
     SoftwareSourceCode:
       - codeRepositor
       - codeSampleType
       - programmingLanguage
       - runtimePlatform
       - targetProduct
-    TechArticle:
-      - dependencies
-      - proficiencyLevel
+    SpecialAnnouncement:
+      - announcementLocation
+      - name
+      - newsUpdatesAndGuidelines
+      - publicTransportClosuresInfo
+      - schoolClosuresInfo
+      - travelBans
+      - webFeed
     Thesis:
       - name
-    VideoGame:
-      - gamePlatform
-      - musicBy
-      - playMode
     VisualArtwork:
       - artMedium
       - artform
@@ -171,15 +253,24 @@ schema_types:
       - description
       - image
       - name
-    WebApplication:
-      - browserRequirements
-    WebSite:
-      - name
+    HealthTopicContent:
+      - hasHealthAspect
     WebPage:
       - name
       - primaryImageOfPage
       - relatedLink
       - significantLink
+    CollectionPage:
+      - hasPart
+      - mentions
+    FAQPage:
+      - mainEntity
+    MedicalWebPage:
+      - medicalAudience
+    QAPage:
+      - mainEntity
+    WebSite:
+      - name
     Event:
       - attendee
       - audience
@@ -194,6 +285,14 @@ schema_types:
       - organizer
       - performer
       - startDate
+    CourseInstance:
+      - '-attendee'
+      - '-audience'
+      - '-organizer'
+      - '-performer'
+      - courseMode
+      - courseWorkload
+      - instructor
     PublicationEvent:
       - publishedBy
       - publishedOn
@@ -202,6 +301,217 @@ schema_types:
       - isLiveBroadcast
       - subtitleLanguage
       - videoFormat
+    MedicalAudience:
+      - audienceType
+      - healthCondition
+    DefinedTerm:
+      - description
+      - name
+      - termCode
+    EducationalOccupationalProgram:
+      - applicationDeadline
+      - applicationStartDate
+      - dayOfWeek
+      - educationalCredentialAwarded
+      - educationalProgramMode
+      - endDate
+      - hasCourse
+      - maximumEnrollment
+      - numberOfCredits
+      - occupationalCategory
+      - programPrerequisites
+      - programType
+      - provider
+      - startDate
+      - timeOfDay
+      - timeToComplete
+    ItemList:
+      - itemListElement
+    JobPosting:
+      - applicationContact
+      - benefits
+      - datePosted
+      - description
+      - educationRequirements
+      - eligibilityToWorkRequirement
+      - employerOverview
+      - employmentType
+      - estimatedSalary
+      - experienceRequirements
+      - jobBenefits
+      - jobLocation
+      - jobLocationType
+      - qualifications
+      - responsibilities
+      - skills
+      - title
+      - validThrough
+    HowToItem:
+      - name
+      - requiredQuantity
+    MenuItem:
+      - name
+      - offers
+      - suitableForDiet
+    Occupation:
+      - name
+    Offer:
+      - price
+    ProgramMembership:
+      - hostingOrganization
+      - member
+      - membershipNumber
+      - programName
+    Rating:
+      - author
+      - ratingExplanation
+      - ratingValue
+    Service:
+      - availableChannel
+      - description
+      - hoursAvailable
+      - name
+      - provider
+      - serviceArea
+      - serviceAudience
+      - serviceOutput
+      - serviceType
+    ServiceChannel:
+      - availableLanguage
+      - providesService
+      - serviceLocation
+      - servicePhone
+      - servicePostalAddress
+      - serviceUrl
+    ContactPoint:
+      - contactType
+      - email
+      - telephone
+    PostalAddress:
+      - addressCountry
+      - addressLocality
+      - addressRegion
+      - alternateName
+      - description
+      - hoursAvailable
+      - postOfficeBoxNumber
+      - postalCode
+      - streetAddress
+      - telephone
+    MonetaryAmount:
+      - currency
+      - value
+    OpeningHoursSpecification:
+      - closes
+      - dayOfWeek
+      - opens
+    PropertyValue:
+      - name
+      - unitCode
+      - unitText
+      - value
+      - valueReference
+    QuantitativeValue:
+      - name
+      - unitCode
+      - unitText
+      - value
+      - valueReference
+    MedicalEntity:
+      - description
+      - name
+    AnatomicalStructure:
+      - bodyLocation
+      - connectedTo
+      - partOfSystem
+      - subStructure
+    AnatomicalSystem:
+      - associatedPathophysiology
+      - comprisedOf
+      - relatedCondition
+      - relatedStructure
+      - relatedTherapy
+    MedicalCause:
+      - causeOf
+    MedicalCondition:
+      - epidemiology
+      - expectedPrognosis
+      - medicineSystem
+      - possibleComplication
+      - possibleTreatment
+      - primaryPrevention
+      - relevantSpecialty
+      - riskFactor
+      - secondaryPrevention
+      - signOrSymptom
+    InfectiousDisease:
+      - infectiousAgent
+      - infectiousAgentClass
+      - transmissionMethod
+    MedicalSignOrSymptom:
+      - '-expectedPrognosis'
+      - '-medicineSystem'
+      - '-possibleComplication'
+      - '-relevantSpecialty'
+      - '-riskFactor'
+      - '-secondaryPrevention'
+      - '-signOrSymptom'
+    MedicalDevice:
+      - adverseOutcome
+      - contraindication
+      - postOp
+      - preOp
+      - procedure
+    MedicalProcedure:
+      - bodyLocation
+      - followup
+      - howPerformed
+      - preparation
+      - procedureType
+    MedicalRiskFactor:
+      - increasesRiskOf
+    MedicalStudy:
+      - healthCondition
+      - medicineSystem
+      - relevantSpecialty
+      - sponsor
+      - status
+      - studyLocation
+      - studySubject
+    MedicalTrial:
+      - trialDesign
+    MedicalTest:
+      - affectedBy
+      - usedToDiagnose
+      - usesDevice
+    Substance:
+      - activeIngredient
+      - maximumIntake
+    DietarySupplement:
+      - isProprietary
+      - maximumIntake
+      - mechanismOfAction
+      - nonProprietaryName
+      - proprietaryName
+      - recommendedIntake
+      - safetyConsideration
+      - targetPopulation
+    Drug:
+      - clinicalPharmacology
+      - dosageForm
+      - doseSchedule
+      - drugClass
+      - drugUnit
+      - foodWarning
+      - isAvailableGenerically
+      - isProprietary
+      - manufacturer
+      - maximumIntake
+      - mechanismOfAction
+      - nonProprietaryName
+      - overdosage
+      - proprietaryName
+      - relatedDrug
     Organization:
       - address
       - contactPoint
@@ -215,21 +525,21 @@ schema_types:
     EducationalOrganization:
       - alumni
       - nonprofitStatus
+    LocalBusiness:
+      - employee
+      - openingHours
+    Hospital:
+      - '-employee'
+      - availableService
+      - medicalSpecialty
+    MovieTheater:
+      - screenCount
     FoodEstablishment:
       - acceptsReservations
       - hasMenu
       - paymentAccepted
       - priceRange
       - servesCuisine
-    CivicStructure:
-      - openingHours
-    Hospital:
-      - '-employee'
-      - availableService
-      - medicalSpecialty
-    LocalBusiness:
-      - employee
-      - openingHours
     LodgingBusiness:
       - amenityFeature
       - checkinTime
@@ -239,8 +549,30 @@ schema_types:
       - priceRange
       - smokingAllowed
       - starRating
-    MovieTheater:
-      - screenCount
+    MedicalBusiness:
+      - availableService
+      - department
+      - email
+      - faxNumber
+      - founder
+      - hospitalAffiliation
+      - isAcceptingNewPatients
+      - medicalSpecialty
+      - memberOf
+      - openingHours
+      - telephone
+    MedicalClinic:
+      - availableService
+      - medicalSpecialty
+    Physician:
+      - availableService
+      - hospitalAffiliation
+      - medicalSpecialty
+    MedicalOrganization:
+      - healthPlanNetworkId
+      - medicalSpecialty
+    DiagnosticLab:
+      - availableTest
     SportsOrganization:
       - sport
     Person:
@@ -272,20 +604,14 @@ schema_types:
       - image
       - name
       - telephone
+    CivicStructure:
+      - openingHours
     TouristAttraction:
       - availableLanguage
       - touristType
     TouristDestination:
       - includesAttraction
       - touristType
-    Diet:
-      - dietFeatures
-      - expertConsiderations
-      - physiologicalBenefits
-      - risks
-    MedicalClinic:
-      - availableService
-      - medicalSpecialty
     Product:
       - alternateName
       - brand
@@ -313,332 +639,6 @@ schema_types:
       - vehicleEngine
       - vehicleModelDate
       - vehicleSeatingCapacity
-    MediaObject:
-      - name
-    AudioObject:
-      - contentUrl
-    DataDownload:
-      - contentUrl
-    ImageObject:
-      - image
-      - thumbnail
-    VideoObject:
-      - thumbnail
-      - video
-    ContactPoint:
-      - contactType
-      - email
-      - telephone
-    Occupation:
-      - name
-    PostalAddress:
-      - addressCountry
-      - addressLocality
-      - addressRegion
-      - alternateName
-      - description
-      - hoursAvailable
-      - postOfficeBoxNumber
-      - postalCode
-      - streetAddress
-      - telephone
-    PropertyValue:
-      - name
-      - unitCode
-      - unitText
-      - value
-      - valueReference
-    QuantitativeValue:
-      - name
-      - unitCode
-      - unitText
-      - value
-      - valueReference
-    Question:
-      - acceptedAnswer
-      - name
-    HowToItem:
-      - name
-      - requiredQuantity
-    HowToDirection:
-      - text
-    HowToTip:
-      - text
-    HowToSection:
-      - itemListElement
-      - name
-    HowToStep:
-      - itemListElement
-      - name
-    Offer:
-      - price
-    DefinedTerm:
-      - description
-      - name
-      - termCode
-    MenuItem:
-      - name
-      - offers
-      - suitableForDiet
-    MenuSection:
-      - hasMenuItem
-      - name
-    Menu:
-      - description
-      - hasMenuSection
-      - hasMenuSection
-      - name
-    Movie:
-      - actor
-      - description
-      - director
-      - duration
-      - image
-      - musicBy
-      - name
-      - productionCompany
-      - trailer
-    CreativeWorkSeries:
-      - description
-      - endDate
-      - image
-      - name
-      - startDate
-    CreativeWorkSeason:
-      - description
-      - endDate
-      - episode
-      - image
-      - name
-      - seasonNumber
-      - startDate
-      - trailer
-    Episode:
-      - description
-      - duration
-      - episodeNumber
-      - name
-    TVSeries:
-      - actor
-      - containsSeason
-      - director
-      - musicBy
-      - productionCompany
-      - trailer
-    PodcastSeries:
-      - actor
-      - webFeed
-    TVEpisode:
-      - actor
-      - director
-      - image
-      - musicBy
-      - trailer
-    PodcastEpisode:
-      - actor
-    CollectionPage:
-      - hasPart
-      - mentions
-    ItemList:
-      - itemListElement
-    OpeningHoursSpecification:
-      - closes
-      - dayOfWeek
-      - opens
-    Rating:
-      - author
-      - ratingExplanation
-      - ratingValue
-    Review:
-      - itemReviewed
-      - negativeNotes
-      - positiveNotes
-      - reviewBody
-      - reviewRating
-    MonetaryAmount:
-      - currency
-      - value
-    EducationalOccupationalProgram:
-      - applicationDeadline
-      - applicationStartDate
-      - dayOfWeek
-      - educationalCredentialAwarded
-      - educationalProgramMode
-      - endDate
-      - hasCourse
-      - maximumEnrollment
-      - numberOfCredits
-      - occupationalCategory
-      - programPrerequisites
-      - programType
-      - provider
-      - startDate
-      - timeOfDay
-      - timeToComplete
-    AnatomicalStructure:
-      - bodyLocation
-      - connectedTo
-      - partOfSystem
-      - subStructure
-    AnatomicalSystem:
-      - associatedPathophysiology
-      - comprisedOf
-      - relatedCondition
-      - relatedStructure
-      - relatedTherapy
-    MedicalCause:
-      - causeOf
-    MedicalEntity:
-      - description
-      - name
-    MedicalSignOrSymptom:
-      - '-expectedPrognosis'
-      - '-medicineSystem'
-      - '-possibleComplication'
-      - '-relevantSpecialty'
-      - '-riskFactor'
-      - '-secondaryPrevention'
-      - '-signOrSymptom'
-    MedicalProcedure:
-      - bodyLocation
-      - followup
-      - howPerformed
-      - preparation
-      - procedureType
-    MedicalStudy:
-      - healthCondition
-      - medicineSystem
-      - relevantSpecialty
-      - sponsor
-      - status
-      - studyLocation
-      - studySubject
-    MedicalRiskFactor:
-      - increasesRiskOf
-    MedicalDevice:
-      - adverseOutcome
-      - contraindication
-      - postOp
-      - preOp
-      - procedure
-    MedicalCondition:
-      - epidemiology
-      - expectedPrognosis
-      - medicineSystem
-      - possibleComplication
-      - possibleTreatment
-      - primaryPrevention
-      - relevantSpecialty
-      - riskFactor
-      - secondaryPrevention
-      - signOrSymptom
-    InfectiousDisease:
-      - infectiousAgent
-      - infectiousAgentClass
-      - transmissionMethod
-    MedicalAudience:
-      - audienceType
-      - healthCondition
-    MedicalTest:
-      - affectedBy
-      - usedToDiagnose
-      - usesDevice
-    MedicalTrial:
-      - trialDesign
-    MedicalWebPage:
-      - medicalAudience
-    HealthTopicContent:
-      - hasHealthAspect
-    MedicalOrganization:
-      - healthPlanNetworkId
-      - medicalSpecialty
-    MedicalBusiness:
-      - availableService
-      - department
-      - email
-      - faxNumber
-      - founder
-      - hospitalAffiliation
-      - isAcceptingNewPatients
-      - medicalSpecialty
-      - memberOf
-      - openingHours
-      - telephone
-    Physician:
-      - availableService
-      - hospitalAffiliation
-      - medicalSpecialty
-    DiagnosticLab:
-      - availableTest
-    Substance:
-      - activeIngredient
-      - maximumIntake
-    Drug:
-      - clinicalPharmacology
-      - dosageForm
-      - doseSchedule
-      - drugClass
-      - drugUnit
-      - foodWarning
-      - isAvailableGenerically
-      - isProprietary
-      - manufacturer
-      - maximumIntake
-      - mechanismOfAction
-      - nonProprietaryName
-      - overdosage
-      - proprietaryName
-      - relatedDrug
-    DietarySupplement:
-      - isProprietary
-      - maximumIntake
-      - mechanismOfAction
-      - nonProprietaryName
-      - proprietaryName
-      - recommendedIntake
-      - safetyConsideration
-      - targetPopulation
-    JobPosting:
-      - applicationContact
-      - benefits
-      - description
-      - datePosted
-      - educationRequirements
-      - eligibilityToWorkRequirement
-      - employerOverview
-      - employmentType
-      - estimatedSalary
-      - experienceRequirements
-      - jobBenefits
-      - jobLocation
-      - jobLocationType
-      - qualifications
-      - responsibilities
-      - skills
-      - title
-      - validThrough
-    Service:
-      - availableChannel
-      - description
-      - hoursAvailable
-      - name
-      - provider
-      - serviceArea
-      - serviceAudience
-      - serviceOutput
-      - serviceType
-    ProgramMembership:
-      - hostingOrganization
-      - member
-      - membershipNumber
-      - programName
-    ServiceChannel:
-      - availableLanguage
-      - providesService
-      - serviceLocation
-      - servicePhone
-      - servicePostalAddress
-      - serviceUrl
   default_property_values:
     Offer:
       priceCurrency: USD
@@ -967,10 +967,10 @@ schema_properties:
     educationalUse:
       label: 'Educational uses'
       unlimited: true
-    email:
-      type: email
     eligibilityToWorkRequirement:
       type: text_long
+    email:
+      type: email
     employee:
       label: Employees
       unlimited: true
