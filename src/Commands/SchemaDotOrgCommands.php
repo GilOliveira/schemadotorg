@@ -179,6 +179,19 @@ class SchemaDotOrgCommands extends DrushCommands {
 
       // Update target bundles to match expected.
       $handler_settings['target_bundles'] = $expected_target_bundles;
+
+      // Update paragraph's weighted target bundles to match expected.
+      if (isset($handler_settings['target_bundles_drag_drop'])) {
+        $weight = 0;
+        foreach ($handler_settings['target_bundles'] as $target_bundle) {
+          $handler_settings['target_bundles_drag_drop'][$target_bundle] = [
+            'weight' => $weight,
+            'enabled' => TRUE,
+          ];
+          $weight++;
+        }
+      }
+
       $field->setSetting('handler_settings', $handler_settings);
       $field->save();
 

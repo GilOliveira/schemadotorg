@@ -159,6 +159,9 @@ class SchemaDotOrgJsonApiEventSubscriber extends ServiceProviderBase implements 
     $mapping = $this->entityTypeManager
       ->getStorage('schemadotorg_mapping')
       ->load("$entity_type_id.$bundle");
+    if (!$mapping) {
+      return [];
+    }
 
     $includes = [];
 

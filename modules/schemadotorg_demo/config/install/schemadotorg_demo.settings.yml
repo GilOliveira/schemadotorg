@@ -83,4 +83,5 @@ demos:
     - 'node:Drug'
     - 'node:DietarySupplement'
     - 'node:MedicalStudy'
+    - 'node:MedicalTrial'
     - 'node:MedicalCondition'

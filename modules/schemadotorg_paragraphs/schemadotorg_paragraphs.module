@@ -92,7 +92,7 @@ function schemadotorg_paragraphs_schemadotorg_property_field_alter(
   $widget_id = 'paragraphs';
 
   // Set the default paragraph type to 'none', to provide a cleaner initial UX
-  // because all fields/properties are optional.
+  // because all Schema.org fields/properties are optional.
   $widget_settings['default_paragraph_type'] = '_none';
 }
 

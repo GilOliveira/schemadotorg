@@ -554,6 +554,7 @@ schema_types:
       - department
       - email
       - faxNumber
+      - founder
       - hospitalAffiliation
       - isAcceptingNewPatients
       - medicalSpecialty
@@ -562,7 +563,6 @@ schema_types:
       - telephone
     Physician:
       - availableService
-      - founder
       - hospitalAffiliation
       - medicalSpecialty
     DiagnosticLab:

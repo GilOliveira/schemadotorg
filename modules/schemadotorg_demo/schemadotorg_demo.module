@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Provides an opinionated demo of the Schema.org Blueprints.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_demo_help($route_name, RouteMatchInterface $route_match) {
+  if ($route_name === 'schemadotorg_demo.settings') {
+    return '<p>' . t('The <strong>Schema.org demo settings</strong> page allows administrators to defined demos of Schema.org Blueprints modules that can be setup and managed using <a href=":href">Drush<a/>.', [':href' => 'https://www.drush.org']) . '<p>';
+  }
+}
