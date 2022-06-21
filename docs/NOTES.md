@@ -3,9 +3,6 @@ Schema.org Blueprints
 
 # Todo
 
-- Possibly do not use range includes reference selection for
-  taxonomy term relationship.
-
 Tests
 - Write tests schemadotorg_jsonld_embed.module
 - Write tests schemadotorg_flexfield.module
@@ -40,22 +37,6 @@ Ajax
 - https://iptc.org/
 
 # Ideas
-
-- Schema.org Blueprints Demo module
-  - Recipes to create sector specific demos
-  - Includes all dependencies.
-  - Generates dummy content.
-  - Possibly mirror Umami (@see Contenta)
-  - Demos could be Drush commands
-  - `drush schemadotorg-demo personal`
-  - Demos
-    - Personal website
-    - Company website
-    - Restaurant website
-    - Dealership website
-    - Hotel website
-    - Hospital website
-    - University website
 
 - Schema.org Blueprint Configuration module
   - Established the best practice of collecting configuration settings in a
