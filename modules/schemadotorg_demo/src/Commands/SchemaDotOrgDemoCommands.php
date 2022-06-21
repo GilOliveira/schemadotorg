@@ -412,9 +412,8 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
     $commands = [
       'user' => ['users'],
       'node' => ['content', ['add-type-label' => TRUE]],
-      // 'node' => ['content', ['add-type-label' => TRUE, 'skip-fields' => 'menu_link']],
       'media' => ['media'],
-      'taxonomy_term' => ['terms'],
+      'taxonomy_term' => ['term'],
     ];
     foreach ($entity_types as $entity_type => $bundles) {
       if (!isset($commands[$entity_type])) {

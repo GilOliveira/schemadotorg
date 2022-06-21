@@ -2,10 +2,9 @@
 
 namespace Drupal\schemadotorg\Commands;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Link;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\field_ui\FieldUI;
 use Drupal\schemadotorg\SchemaDotOrgInstallerInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Drush\Commands\DrushCommands;
@@ -16,6 +15,13 @@ use Drush\Exceptions\UserAbortException;
  */
 class SchemaDotOrgCommands extends DrushCommands {
   use StringTranslationTrait;
+
+  /**
+   * The configuration factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
 
   /**
    * The entity type manager.
@@ -38,10 +44,11 @@ class SchemaDotOrgCommands extends DrushCommands {
    */
   protected $schemaTypeManager;
 
-
   /**
    * SchemaDotOrgCommands constructor.
    *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The configuration object factory.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $schema_installer
@@ -50,11 +57,13 @@ class SchemaDotOrgCommands extends DrushCommands {
    *   The Schema.org schema type manager.
    */
   public function __construct(
+    ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
     SchemaDotOrgInstallerInterface $schema_installer,
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
   ) {
     parent::__construct();
+    $this->configFactory = $config_factory;
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaInstaller = $schema_installer;
     $this->schemaTypeManager = $schema_type_manager;
@@ -102,7 +111,7 @@ class SchemaDotOrgCommands extends DrushCommands {
    * Repair configuration.
    */
   protected function repairConfiguration() {
-    $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
+    $config = $this->configFactory->getEditable('schemadotorg.settings');
 
     // Default properties sorted by path/breadcrumb.
     $default_properties = $config->get('schema_types.default_properties');
@@ -115,7 +124,9 @@ class SchemaDotOrgCommands extends DrushCommands {
     ksort($paths);
     $sorted_default_properties = [];
     foreach ($paths as $type) {
-      $sorted_default_properties[$type] = $default_properties[$type];
+      $properties = $default_properties[$type];
+      sort($properties);
+      $sorted_default_properties[$type] = $properties;
     }
     $config->set('schema_types.default_properties', $sorted_default_properties);
 
@@ -147,13 +158,6 @@ class SchemaDotOrgCommands extends DrushCommands {
         $config->set($key, $value);
       }
     }
-
-    $default_properties = $config->get('schema_types.default_properties');
-    foreach ($default_properties as $type => $properties) {
-      sort($properties);
-      $default_properties[$type] = $properties;
-    }
-    $config->set('schema_types.default_properties', $default_properties);
 
     $config->save();
   }
