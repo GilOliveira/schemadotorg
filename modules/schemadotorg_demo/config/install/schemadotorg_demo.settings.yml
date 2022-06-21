@@ -50,6 +50,7 @@ demos:
     - 'node:PodcastSeason'
     - 'node:PodcastSeries'
   web:
+    - 'paragraph:Question'
     - 'node:WebPage'
     - 'node:WebSite'
     - 'node:FAQPage'

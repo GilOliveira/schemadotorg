@@ -1176,8 +1176,10 @@ names:
   custom_names:
     applies_to_delivery_method: applies_to_delivery_meth
     customer_remorse_return_shipping_fees_amount: cust_rem_ret_ship_fee_amt
+    customer_remorse_return_label_source:  cust_rem_ret_label_src
     is_accessory_or_spare_part_for: is_access_or_part_for
     is_located_in_subcellular_location: is_located_in_subcell_loc
+    number_of_available_accommodation_units: num_accom_units
     offers_prescription_by_mail: offers_prescript_by_mail
     provides_broadcast_service: provides_broadcast_serv
     public_transport_closures_info: pub_trans_closures_info
@@ -1274,6 +1276,7 @@ names:
     responsibility: resp
     restaurant: rest
     service: srv
+    source: src
     specification: spec
     standard: stand
     statistics: stats

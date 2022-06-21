@@ -15,7 +15,7 @@ dependencies:
   - 'address:address'
   - 'config_rewrite:config_rewrite'
   - 'content_browser:content_browser'
-  - 'dropzonejs:dropzonejs:'
+  - 'dropzonejs:dropzonejs'
   - 'embed:embed'
   - 'entity_browser:entity_browser'
   - 'entity_embed:entity_embed'

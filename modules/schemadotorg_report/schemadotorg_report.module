@@ -55,7 +55,7 @@ function schemadotorg_report_help($route_name, RouteMatchInterface $route_match)
       return '<p>' . t("The <strong>Schema.org: Mappings relationships</strong> report lists entity reference field relationships from a Schema.org property's range includes to a corresponding mapping's Schema.org type.") . '</p>';
 
     case 'schemadotorg_report.names':
-      return '<p>' . t("The <strong>Schema.org: Names</strong> report summarizes the abbreviations used to convert Schema.org type and property names to Drupal entity type and field names.") . '</p>';
+      return '<p>' . t("The <strong>Schema.org: Names overview</strong> report summarizes the abbreviations used to convert Schema.org type and property names to Drupal entity type and field names.") . '</p>';
 
     case 'schemadotorg_report.names.all':
       return '<p>' . t('The <strong>Schema.org: All names</strong> report lists Schema.org types and properties and their corresponding entity type ids and field names.') . '</p>';

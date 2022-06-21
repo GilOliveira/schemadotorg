@@ -7,6 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\devel_generate\DevelGeneratePluginManager;
 use Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface;
 use Drush\Commands\DrushCommands;
 use Drush\Drush;
@@ -41,6 +42,13 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
   protected $schemaApi;
 
   /**
+   * The devel generate plugin manager.
+   *
+   * @var \Drupal\devel_generate\DevelGeneratePluginManager|null
+   */
+  protected $develGenerateManager;
+
+  /**
    * SchemaDotOrgDemoCommands constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -50,11 +58,12 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
    * @param \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface $schema_api
    *   The Schema.org UI API.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgUiApiInterface $schema_api) {
+  public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgUiApiInterface $schema_api, DevelGeneratePluginManager $devel_generate_manager = NULL) {
     parent::__construct();
     $this->configFactory = $config_factory;
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaApi = $schema_api;
+    $this->develGenerateManager = $devel_generate_manager;
   }
 
   /* ************************************************************************ */
@@ -391,6 +400,11 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
    *   The number of entities to create for each type.
    */
   protected function develGenerate(array $types, $num = 5) {
+    // Make sure the devel generate manager and module are installed.
+    if (!$this->develGenerateManager) {
+      throw new \Exception('The devel_generate.module needs to be enabled.');
+    }
+
     // Collect the entity type and bundles to be generated.
     $entity_types = $this->getEntityTypeBundles($types);
 
@@ -407,19 +421,21 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
         continue;
       }
 
-      // Site alias.
-      $site_alias = Drush::aliasManager()->getSelf();
-      // Command.
-      $command = 'devel-generate:' . $commands[$entity_type][0];
+      $devel_generate_plugin_id = $commands[$entity_type][0];
       foreach ($bundles as $bundle) {
         // Args.
         $args = [(string) $num];
         // Options.
         $options = $commands[$entity_type][1] ?? [];
         $options += ['kill' => TRUE, 'bundles' => $bundle];
-        // Invoke.
-        $site_process = Drush::drush($site_alias, $command, $args, $options);
-        $site_process->run();
+
+        // Plugin.
+        /** @var \Drupal\devel_generate\DevelGenerateBaseInterface $devel_generate_plugin */
+        $devel_generate_plugin = $this->develGenerateManager->createInstance($devel_generate_plugin_id);
+        // Parameters.
+        $parameters = $devel_generate_plugin->validateDrushParams($args, $options);
+        // Generate.
+        $devel_generate_plugin->generate($parameters);
       }
     }
   }
