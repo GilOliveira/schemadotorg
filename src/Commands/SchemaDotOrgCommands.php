@@ -2,7 +2,6 @@
 
 namespace Drupal\schemadotorg\Commands;
 
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgInstallerInterface;
@@ -13,7 +12,6 @@ use Drush\Exceptions\UserAbortException;
  * Schema.org Drush commands.
  */
 class SchemaDotOrgCommands extends DrushCommands {
-  use StringTranslationTrait;
 
   /**
    * The Schema.org installer service.
@@ -67,12 +65,12 @@ class SchemaDotOrgCommands extends DrushCommands {
    * @aliases soup
    */
   public function update() {
-    if (!$this->io()->confirm($this->t('Are you sure you want to update Schema.org data?'))) {
+    if (!$this->io()->confirm(dt('Are you sure you want to update Schema.org data?'))) {
       throw new UserAbortException();
     }
 
     $this->schemaInstaller->install();
-    $this->output()->writeln($this->t('Schema.org data.'));
+    $this->output()->writeln(dt('Schema.org data.'));
   }
 
   /**
@@ -87,7 +85,7 @@ class SchemaDotOrgCommands extends DrushCommands {
    * @see \Drupal\schemadotorg_report\Controller\SchemaDotOrgReportMappingsController::relationships
    */
   public function repair() {
-    if (!$this->io()->confirm($this->t('Are you sure you want to repair Schema.org configuration and relationships?'))) {
+    if (!$this->io()->confirm(dt('Are you sure you want to repair Schema.org configuration and relationships?'))) {
       throw new UserAbortException();
     }
 

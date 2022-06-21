@@ -4,7 +4,6 @@ namespace Drupal\schemadotorg_ui\Commands;
 
 use Consolidation\AnnotatedCommand\CommandData;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface;
 use Drush\Commands\DrushCommands;
 use Drush\Exceptions\UserAbortException;
@@ -13,7 +12,6 @@ use Drush\Exceptions\UserAbortException;
  * Schema.org UI Drush commands.
  */
 class SchemaDotOrgUiCommands extends DrushCommands {
-  use StringTranslationTrait;
 
   /**
    * The entity type manager.
@@ -63,7 +61,7 @@ class SchemaDotOrgUiCommands extends DrushCommands {
       // Validate mapping type.
       if (strpos($type, ':') === FALSE) {
         $t_args = ['@type' => $type];
-        $message = $this->t("The Schema.org mapping type '@type' is not valid. A Schema.org type must be defined with an entity type and Schema.org type delimited using a colon (:).", $t_args);
+        $message = dt("The Schema.org mapping type '@type' is not valid. A Schema.org type must be defined with an entity type and Schema.org type delimited using a colon (:).", $t_args);
         throw new \Exception($message);
       }
 
@@ -97,7 +95,7 @@ class SchemaDotOrgUiCommands extends DrushCommands {
    */
   public function createType(array $types, array $options = ['default-properties' => NULL, 'unlimited-properties' => NULL, 'subtypes' => NULL]) {
     $t_args = ['@types' => implode(', ', $types)];
-    if (!$this->io()->confirm($this->t('Are you sure you want to create these types (@types)?', $t_args))) {
+    if (!$this->io()->confirm(dt('Are you sure you want to create these types (@types)?', $t_args))) {
       throw new UserAbortException();
     }
     $types = array_combine($types, $types);
@@ -110,7 +108,7 @@ class SchemaDotOrgUiCommands extends DrushCommands {
       ]);
       if ($existing_mapping) {
         $t_args = ['@type' => $type];
-        $this->io()->writeln($this->t("Schema.org type '@type' already exists.", $t_args));
+        $this->io()->writeln(dt("Schema.org type '@type' already exists.", $t_args));
         unset($types[$type]);
       }
       else {
@@ -120,7 +118,7 @@ class SchemaDotOrgUiCommands extends DrushCommands {
 
     if ($types) {
       $t_args = ['@types' => implode(', ', $types)];
-      $this->io()->writeln($this->t('Schema.org types (@types) created.', $t_args));
+      $this->io()->writeln(dt('Schema.org types (@types) created.', $t_args));
     }
   }
 
@@ -170,7 +168,7 @@ class SchemaDotOrgUiCommands extends DrushCommands {
    */
   public function deleteType(array $types, array $options = ['delete-entity' => FALSE, 'delete-fields' => FALSE]) {
     $t_args = ['@types' => implode(', ', $types)];
-    if (!$this->io()->confirm($this->t('Are you sure you want to delete these Schema.org types (@types) and their associated entities and fields?', $t_args))) {
+    if (!$this->io()->confirm(dt('Are you sure you want to delete these Schema.org types (@types) and their associated entities and fields?', $t_args))) {
       throw new UserAbortException();
     }
 
@@ -178,7 +176,7 @@ class SchemaDotOrgUiCommands extends DrushCommands {
       [$entity_type, $schema_type] = explode(':', $type);
       $this->schemaApi->deleteType($entity_type, $schema_type, $options);
     }
-    $this->io()->writeln($this->t('Schema.org types (@types) deleted.', $t_args));
+    $this->io()->writeln(dt('Schema.org types (@types) deleted.', $t_args));
   }
 
   /**

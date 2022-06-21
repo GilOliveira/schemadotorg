@@ -1,0 +1,5 @@
+services:
+  schemadotorg_demo.manager:
+    class: \Drupal\schemadotorg_demo\SchemaDotOrgDemoManager
+    arguments: ['@config.factory', '@entity_type.manager', '@schemadotorg.entity_relationship_manager', '@schemadotorg_ui.api', '@?plugin.manager.develgenerate']
+
