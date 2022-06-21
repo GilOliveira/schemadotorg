@@ -8,9 +8,9 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\devel_generate\DevelGeneratePluginManager;
+use Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface;
 use Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface;
 use Drush\Commands\DrushCommands;
-use Drush\Drush;
 use Drush\Exceptions\UserAbortException;
 use Symfony\Component\Console\Input\InputInterface;
 
@@ -34,6 +34,14 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
    */
   protected $entityTypeManager;
 
+
+  /**
+   * The Schema.org entity relationship manager service.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface
+   */
+  protected $schemaEntityRelationshipManager;
+
   /**
    * The Schema.org UI API.
    *
@@ -55,13 +63,24 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
    *   The configuration object factory.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface $schema_entity_relationship_manager
+   *   The Schema.org schema entity relationship manager.
    * @param \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface $schema_api
    *   The Schema.org UI API.
+   * @param \Drupal\devel_generate\DevelGeneratePluginManager|null $devel_generate_manager
+   *   The Devel generate manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgUiApiInterface $schema_api, DevelGeneratePluginManager $devel_generate_manager = NULL) {
+  public function __construct(
+    ConfigFactoryInterface $config_factory,
+    EntityTypeManagerInterface $entity_type_manager,
+    SchemaDotOrgEntityRelationshipManagerInterface $schema_entity_relationship_manager,
+    SchemaDotOrgUiApiInterface $schema_api,
+    DevelGeneratePluginManager $devel_generate_manager = NULL
+  ) {
     parent::__construct();
     $this->configFactory = $config_factory;
     $this->entityTypeManager = $entity_type_manager;
+    $this->schemaEntityRelationshipManager = $schema_entity_relationship_manager;
     $this->schemaApi = $schema_api;
     $this->develGenerateManager = $devel_generate_manager;
   }
@@ -119,13 +138,12 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
     }
 
     if ($types) {
+      // Display message.
       $t_args = ['@types' => implode(', ', $types)];
       $this->io()->writeln($this->t('Schema.org types (@types) created.', $t_args));
 
       // Repair.
-      $site_alias = Drush::aliasManager()->getSelf();
-      $site_process = Drush::drush($site_alias, 'schemadotorg:repair', [], ['yes' => TRUE]);
-      $site_process->run();
+      $this->schemaEntityRelationshipManager->repair();
     }
   }
 
