@@ -259,7 +259,7 @@ class SchemaDotOrgDemoCommands extends DrushCommands {
       '@name' => $name,
       '@types' => implode(', ', $types),
     ];
-    if (!$this->io()->confirm(dt("Are you sure you want to @action '@name' demo with these types (@types)?", $t_args))) {
+    if (!$this->io()->confirm(dt("Are you sure you want to @action the '@name' demo with these types (@types)?", $t_args))) {
       throw new UserAbortException();
     }
   }

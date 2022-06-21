@@ -6,5 +6,15 @@ schemadotorg_demo.settings:
       type: sequence
       label: 'Demos'
       sequence:
-        type: string
-        label: 'Demo Schema.org types'
+        type: mapping
+        label: 'Demo'
+        mapping:
+          label:
+            type: string
+            label: 'Label'
+          types:
+            type: sequence
+            label: 'Types'
+            sequence:
+              type: string
+              label: 'Type'

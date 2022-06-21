@@ -58,4 +58,15 @@ interface SchemaDotOrgDemoManagerInterface {
    */
   public function getTypes($name, $required = FALSE);
 
+  /**
+   * Detemine if a Schema.org demo is already setup.
+   *
+   * @param string $name
+   *   A demo name.
+   *
+   * @return bool
+   *   If a Schema.org demo is already setup.
+   */
+  public function isSetup($name);
+
 }

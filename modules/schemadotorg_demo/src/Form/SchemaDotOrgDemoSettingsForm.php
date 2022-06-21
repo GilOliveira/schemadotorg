@@ -32,8 +32,9 @@ class SchemaDotOrgDemoSettingsForm extends ConfigFormBase {
     $config = $this->config('schemadotorg_demo.settings');
     $form['demos'] = [
       '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
-      '#settings_format' => 'name|entity_type01:SchemaType01,name|entity_type02:SchemaType02',
+      '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED_NAMED,
+      '#settings_format' => 'demo_name|demo_label|entity_type_id:SchemaType01,entity_type_id:SchemaType02',
+      '#array_name' => 'types',
       '#title' => $this->t('Demos'),
       '#description' => $this->t('Enter Drupal entity type and Schema.org types to demo.'),
       '#default_value' => $config->get('demos'),

@@ -4,6 +4,7 @@ namespace Drupal\schemadotorg_demo;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\State\StateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\devel_generate\DevelGeneratePluginManager;
 use Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface;
@@ -14,6 +15,13 @@ use Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface;
  */
 class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
   use StringTranslationTrait;
+
+  /**
+   * The state service.
+   *
+   * @var \Drupal\Core\State\StateInterface
+   */
+  protected $state;
 
   /**
    * The configuration factory.
@@ -54,6 +62,8 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
   /**
    * SchemaDotOrgDemoCommands constructor.
    *
+   * @param \Drupal\Core\State\StateInterface $state
+   *   The state service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -66,12 +76,14 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
    *   The Devel generate manager.
    */
   public function __construct(
+    StateInterface $state,
     ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
     SchemaDotOrgEntityRelationshipManagerInterface $schema_entity_relationship_manager,
     SchemaDotOrgUiApiInterface $schema_api,
     DevelGeneratePluginManager $devel_generate_manager = NULL
   ) {
+    $this->state = $state;
     $this->configFactory = $config_factory;
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaEntityRelationshipManager = $schema_entity_relationship_manager;
@@ -83,6 +95,10 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
    * {@inheritdoc}
    */
   public function setup($name) {
+    if ($this->isSetup($name)) {
+      return [$this->t('Schema.org demo $name is already setup.')];
+    }
+
     $messages = [];
 
     $types = $this->getTypes($name, TRUE);
@@ -109,6 +125,11 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
       $this->schemaEntityRelationshipManager->repair();
     }
 
+    // Set that the demo was set up.
+    $setup = $this->state->get('schemadotorg_demo_setup') ?? [];
+    $setup[$name] = $name;
+    $this->state->set('schemadotorg_demo_setup', $setup);
+
     return $messages;
   }
 
@@ -116,6 +137,10 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
    * {@inheritdoc}
    */
   public function teardown($name) {
+    if (!$this->isSetup($name)) {
+      return [$this->t('Schema.org demo $name is not setup.')];
+    }
+
     $this->kill($name);
 
     $messages = [];
@@ -160,6 +185,12 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
       $t_args = ['@type' => implode(', ', $types)];
       $messages[] = $this->t('Schema.org types (@types) deleted.', $t_args);
     }
+
+    // Unset that the demo was set up.
+    $setup = $this->state->get('schemadotorg_demo_setup') ?? [];
+    unset($setup[$name]);
+    $this->state->set('schemadotorg_demo_setup', $setup);
+
     return $messages;
   }
 
@@ -182,20 +213,27 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
   /**
    * {@inheritdoc}
    */
+  public function isSetup($name) {
+    $setup = $this->state->get('schemadotorg_demo_setup') ?? [];
+    return isset($setup[$name]);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getTypes($name, $required = FALSE) {
-    $types = $this->configFactory
+    $demo = $this->configFactory
       ->get('schemadotorg_demo.settings')
       ->get("demos.$name");
-    $types = array_combine($types, $types);
+    if (empty($demo)) {
+      return [];
+    }
+
+    $types = array_combine($demo['types'], $demo['types']);
 
     // Prepend required types.
     if ($required) {
-      $required_types = $this->configFactory
-        ->get('schemadotorg_demo.settings')
-        ->get("demos.required");
-      if ($required_types) {
-        $types = array_combine($required_types, $required_types) + $types;
-      }
+      $types = $this->getTypes('required') + $types;
     }
 
     return $types;
