@@ -197,7 +197,6 @@ class SchemaDotOrgUiApi implements SchemaDotOrgUiApiInterface {
       'delete-fields' => FALSE,
     ];
 
-    $mapping_type_storage = $this->getSchemaMappingTypeStorage();
     $mappings = $this->loadSchemaMappingsByType($entity_type, $schema_type);
     foreach ($mappings as $mapping) {
       $target_entity_bundle = $mapping->getTargetEntityBundleEntity();
