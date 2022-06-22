@@ -4,9 +4,8 @@ Schema.org Blueprints
 # Todo
 
 Tests
-- Write tests schemadotorg_flexfield.module
-- Write tests schemadotorg_inline_entity_form.module
 - Write tests schemadotorg_paragraphs.module
+- Write tests schemadotorg_flexfield.module
 - Write tests schemadotorg_demo.module
 
 ## Ongoing
