@@ -6,6 +6,7 @@ dependencies:
     - editor
     - entity_embed
     - media
+    - video_embed_wysiwyg
 name: 'Full HTML'
 format: full_html
 weight: 2
@@ -57,4 +58,10 @@ filters:
     provider: entity_embed
     status: true
     weight: 100
+    settings: {  }
+  video_embed_wysiwyg:
+    id: video_embed_wysiwyg
+    provider: video_embed_wysiwyg
+    status: true
+    weight: 0
     settings: {  }

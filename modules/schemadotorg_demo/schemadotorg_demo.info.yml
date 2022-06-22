@@ -19,6 +19,8 @@ dependencies:
   - 'consumers:consumers'
   - 'dropzonejs:dropzonejs'
   - 'embed:embed'
+  - 'video_embed_field:video_embed_field'
+  - 'video_embed_field:video_embed_wysiwyg'
   - 'entity_browser:entity_browser'
   - 'entity_embed:entity_embed'
   - 'entity_usage:entity_usage'
