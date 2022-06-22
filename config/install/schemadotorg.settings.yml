@@ -1,15 +1,19 @@
 field_prefix: schema_
 schema_types:
   main_properties:
+    AudioObject: null
     Comment: text
+    Clip: null
     Duration: null
     Energy: null
+    ImageObject: null
     Mass: null
     Offer: price
     ProgramMembership: programName
     QuantitativeValue: value
     Rating: ratingValue
     Role: roleName
+    VideoObject: null
   default_properties:
     CreativeWork:
       - inLanguage
