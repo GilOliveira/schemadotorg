@@ -1,4 +1,5 @@
 paragraphs_library:
+  - ContactPoint
   - MedicalAudience
   - MedicalContraindication
   - MedicalIndication
