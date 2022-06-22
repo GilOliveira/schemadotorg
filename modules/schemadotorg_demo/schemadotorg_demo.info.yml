@@ -1,7 +1,7 @@
 name: 'Schema.org Blueprints Demo'
 type: module
 description: |
-  Provides an opinionated demo of the Schema.org Blueprints implemented using layout and embed content authoring UX patterns.
+  Provides an opinionated demo of the Schema.org Blueprints.
   THIS DEMO SHOULD ONLY BE INSTALLED ON A PLAIN VANILLA TEST INSTANCE OF DRUPAL
 package: 'Schema.org Blueprints'
 core_version_requirement: '^8.9 || ^9'
@@ -15,6 +15,8 @@ dependencies:
   - 'address:address'
   - 'config_rewrite:config_rewrite'
   - 'content_browser:content_browser'
+  - 'consumer_image_styles:consumer_image_styles'
+  - 'consumers:consumers'
   - 'dropzonejs:dropzonejs'
   - 'embed:embed'
   - 'entity_browser:entity_browser'

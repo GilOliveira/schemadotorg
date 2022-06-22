@@ -198,7 +198,7 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
    * {@inheritdoc}
    */
   public function generate($name) {
-    $types = $this->getTypes($name);
+    $types = $this->getTypes($name, TRUE);
     $this->develGenerate($types);
   }
 
@@ -206,7 +206,7 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
    * {@inheritdoc}
    */
   public function kill($name) {
-    $types = $this->getTypes($name);
+    $types = $this->getTypes($name, TRUE);
     $this->develGenerate($types, 0);
   }
 

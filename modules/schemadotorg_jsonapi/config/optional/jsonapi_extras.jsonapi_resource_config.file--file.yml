@@ -39,7 +39,7 @@ resourceFields:
     enhancer:
       id: ''
   uri:
-    disabled: true
+    disabled: false
     fieldName: uri
     publicName: uri
     enhancer:
