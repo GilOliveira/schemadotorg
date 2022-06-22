@@ -96,7 +96,7 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
    */
   public function setup($name) {
     if ($this->isSetup($name)) {
-      return [$this->t('Schema.org demo $name is already setup.')];
+      return [$this->t('Schema.org demo @name is already setup.', ['@name' => $name])];
     }
 
     $messages = [];
@@ -317,7 +317,7 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
         $args = [(string) $num];
         // Options.
         $options = $commands[$entity_type][1] ?? [];
-        $options += ['kill' => TRUE, 'bundles' => $bundle];
+        $options += ['kill' => TRUE, 'bundles' => $bundle, 'languages' => NULL, 'translations' => NULL];
 
         // Plugin.
         /** @var \Drupal\devel_generate\DevelGenerateBaseInterface $devel_generate_plugin */

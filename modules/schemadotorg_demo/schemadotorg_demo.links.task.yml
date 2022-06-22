@@ -1,5 +1,5 @@
-schemadotorg_demo.settings:
-  title: Demo
-  route_name: schemadotorg_demo.settings
-  parent_id: schemadotorg.settings
-  weight: 70
+schemadotorg_demo.demos:
+  title: Demos
+  route_name: schemadotorg_demo.demos
+  base_route: entity.schemadotorg_mapping.collection
+  weight: 20
