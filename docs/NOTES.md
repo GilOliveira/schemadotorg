@@ -4,7 +4,6 @@ Schema.org Blueprints
 # Todo
 
 Tests
-- Write tests schemadotorg_demo.module
 - Write tests schemadotorg_flexfield.module
 
 ## Ongoing

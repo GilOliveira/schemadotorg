@@ -99,9 +99,16 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
       return [$this->t('Schema.org demo @name is already setup.', ['@name' => $name])];
     }
 
+    // Setup required.
+    if ($name !== 'required'
+      && !$this->isSetup('required')
+      && $this->getTypes('required')) {
+      $this->setup('required');
+    }
+
     $messages = [];
 
-    $types = $this->getTypes($name, TRUE);
+    $types = $this->getTypes($name);
     foreach ($types as $type) {
       [$entity_type, $schema_type] = explode(':', $type);
 

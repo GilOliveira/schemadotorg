@@ -32,10 +32,10 @@ class SchemadotorgDemoController extends ControllerBase {
   public function build() {
     // Header.
     $header = [
-      ['data' => $this->t('Title'), 'width' => '20%'],
-      ['data' => $this->t('Name'), 'width' => '10%'],
-      ['data' => $this->t('Setup'), 'width' => '20%'],
-      ['data' => $this->t('Types'), 'width' => '50%'],
+      ['data' => $this->t('Title'), 'width' => '15%'],
+      ['data' => $this->t('Name'), 'width' => '15%'],
+      ['data' => $this->t('Setup'), 'width' => '10%'],
+      ['data' => $this->t('Types'), 'width' => '60%'],
     ];
 
     // Rows.
@@ -49,7 +49,12 @@ class SchemadotorgDemoController extends ControllerBase {
       $row[] = $name;
       $row[] = $is_setup ? $this->t('Yes') : $this->t('No');
       $row[] = implode(', ', $demo['types']);
-      $rows[] = $row;
+      if ($is_setup) {
+        $rows[] = ['data' => $row, 'class' => ['color-success']];
+      }
+      else {
+        $rows[] = $row;
+      }
     }
 
     return [
