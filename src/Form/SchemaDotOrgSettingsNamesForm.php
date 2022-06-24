@@ -8,7 +8,7 @@ use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Configure Schema.org settings for this site.
+ * Configure Schema.org settings for names.
  */
 class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
 
@@ -39,14 +39,14 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   protected function getEditableConfigNames() {
-    return ['schemadotorg.settings'];
+    return ['schemadotorg.names'];
   }
 
   /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('schemadotorg.settings');
+    $config = $this->config('schemadotorg.names');
 
     // Display warning about updating names.
     $message = $this->t('Adjusting prefixes, suffixes, and abbreviations can impact existing Schema.org mappings because the expected Drupal field names can change.');
@@ -62,7 +62,7 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
       '#settings_format' => 'search|replace',
       '#title' => $this->t('Custom words'),
       '#description' => $this->t('Enter titles used when Schema.org types and names are converted to Drupal entity and field machine names.'),
-      '#default_value' => $config->get('names.custom_words'),
+      '#default_value' => $config->get('custom_words'),
     ];
     $form['names']['custom_names'] = [
       '#type' => 'schemadotorg_settings',
@@ -70,7 +70,7 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
       '#settings_format' => 'search|replace',
       '#title' => $this->t('Custom names'),
       '#description' => $this->t('Enter custom names used when Schema.org types and names are converted to Drupal entity and field machine names.'),
-      '#default_value' => $config->get('names.custom_names'),
+      '#default_value' => $config->get('custom_names'),
     ];
     $form['names']['prefixes'] = [
       '#type' => 'schemadotorg_settings',
@@ -78,7 +78,7 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
       '#settings_format' => 'search|replace',
       '#title' => $this->t('Prefixes'),
       '#description' => $this->t('Enter replacement prefixes used when Schema.org types and names are converted to Drupal entity and field machine names.'),
-      '#default_value' => $config->get('names.prefixes'),
+      '#default_value' => $config->get('prefixes'),
     ];
     $form['names']['suffixes'] = [
       '#type' => 'schemadotorg_settings',
@@ -86,7 +86,7 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
       '#settings_format' => 'search|replace',
       '#title' => $this->t('Suffixes'),
       '#description' => $this->t('Enter replacement suffixes used when Schema.org types and names are converted to Drupal entity and field machine names.'),
-      '#default_value' => $config->get('names.suffixes'),
+      '#default_value' => $config->get('suffixes'),
     ];
     $form['names']['abbreviations'] = [
       '#type' => 'schemadotorg_settings',
@@ -94,21 +94,21 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
       '#settings_format' => 'search|replace',
       '#title' => $this->t('Abbreviations'),
       '#description' => $this->t('Enter replacement abbreviation used when Schema.org types and names are converted to Drupal entity and field machine names.'),
-      '#default_value' => $config->get('names.abbreviations'),
+      '#default_value' => $config->get('abbreviations'),
     ];
     $form['names']['acronyms'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Acronyms'),
       '#description' => $this->t('Enter acronyms used when creating labels.'),
-      '#default_value' => $config->get('names.acronyms'),
+      '#default_value' => $config->get('acronyms'),
     ];
     $form['names']['minor_words'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Minor words'),
       '#description' => $this->t('Enter minor word used when creating capitalized labels.'),
-      '#default_value' => $config->get('names.minor_words'),
+      '#default_value' => $config->get('minor_words'),
     ];
     return parent::buildForm($form, $form_state);
   }
@@ -117,9 +117,13 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->config('schemadotorg.settings')
-      ->set('names', $form_state->getValue('names'))
-      ->save();
+    $names = $form_state->getValue('names');
+    $config = $this->config('schemadotorg.names');
+    foreach ($names as $key => $value) {
+      $config->set($key, $value);
+    }
+    $config->save();
+
     parent::submitForm($form, $form_state);
   }
 

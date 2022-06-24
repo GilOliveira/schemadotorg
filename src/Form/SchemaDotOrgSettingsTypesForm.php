@@ -8,7 +8,7 @@ use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Configure Schema.org types settings for this site.
+ * Configure Schema.org types settings for types.
  */
 class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
 

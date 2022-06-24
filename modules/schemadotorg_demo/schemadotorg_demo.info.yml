@@ -35,7 +35,7 @@ dependencies:
   - 'paragraphs:paragraphs_library'
   - 'time_field:time_field'
   - 'schemata:schemata'
-  - 'schemata_json_schema:schemata_json_schema'
+  - 'schemata:schemata_json_schema'
   - 'schemadotorg:schemadotorg'
   - 'schemadotorg:schemadotorg_descriptions'
   - 'schemadotorg:schemadotorg_export'

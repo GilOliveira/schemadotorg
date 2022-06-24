@@ -7,7 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 
 /**
- * Configure Schema.org Demo settings for this site.
+ * Configure Schema.org Demo settings.
  */
 class SchemaDotOrgDemoSettingsForm extends ConfigFormBase {
 

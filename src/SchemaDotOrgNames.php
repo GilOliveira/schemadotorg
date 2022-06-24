@@ -32,7 +32,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
    * {@inheritdoc}
    */
   public function getFieldPrefix() {
-    return $this->getConfig()->get('field_prefix');
+    return $this->getSettingsConfig()->get('field_prefix');
   }
 
   /**
@@ -84,19 +84,19 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
     $title = preg_replace('/(?!^)([[:lower:]])([[:upper:]])/', '$1 $2', $intermediate);
 
     // Custom words.
-    $custom_words = $this->getConfig()->get('names.custom_words');
+    $custom_words = $this->getNamesConfig()->get('custom_words');
     foreach ($custom_words as $search => $replace) {
       $title = str_replace($search, $replace, $title);
     }
 
     // Acronyms.
-    $acronyms = $this->getConfig()->get('names.acronyms');
+    $acronyms = $this->getNamesConfig()->get('acronyms');
     $title = preg_replace_callback('/(\b)(' . implode('|', $acronyms) . ')(\b)/i', function ($matches) {
       return $matches[1] . strtoupper($matches[2]) . $matches[3];
     }, $title);
 
     // Minor words.
-    $minor_words = $this->getConfig()->get('names.minor_words');
+    $minor_words = $this->getNamesConfig()->get('minor_words');
     $title = preg_replace_callback('/ (' . implode('|', $minor_words) . ')(\b)/i', function ($matches) {
       return ' ' . strtolower($matches[1]) . $matches[2];
     }, $title);
@@ -132,13 +132,13 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
     $drupal_name = $this->camelCaseToSnakeCase($string);
 
     // Custom names.
-    $custom_names = $this->getConfig()->get('names.custom_names');
+    $custom_names = $this->getNamesConfig()->get('custom_names');
     if (isset($custom_names[$drupal_name])) {
       return $custom_names[$drupal_name];
     }
 
     // Prefixes.
-    $prefixes = $this->getConfig()->get('names.prefixes');
+    $prefixes = $this->getNamesConfig()->get('prefixes');
     foreach ($prefixes as $search => $replace) {
       $drupal_name = preg_replace('/^' . $search . '_/', $replace . '_', $drupal_name);
     }
@@ -149,13 +149,13 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
     }
 
     // Suffixes.
-    $suffixes = $this->getConfig()->get('names.suffixes');
+    $suffixes = $this->getNamesConfig()->get('suffixes');
     foreach ($suffixes as $search => $replace) {
       $drupal_name = preg_replace('/_' . $search . '$/', '_' . $replace, $drupal_name);
     }
 
     // Abbreviations.
-    $abbreviations = $this->getConfig()->get('names.abbreviations');
+    $abbreviations = $this->getNamesConfig()->get('abbreviations');
     foreach ($abbreviations as $search => $replace) {
       $drupal_name = preg_replace('/(^|_)' . $search . '($|_)/', '\1' . $replace . '\2', $drupal_name);
     }
@@ -169,8 +169,17 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
    * @return \Drupal\Core\Config\ImmutableConfig
    *   The Schema.org settings configuration.
    */
-  protected function getConfig() {
+  protected function getSettingsConfig() {
     return $this->configFactory->get('schemadotorg.settings');
   }
 
+  /**
+   * Get the Schema.org names configuration.
+   *
+   * @return \Drupal\Core\Config\ImmutableConfig
+   *   The Schema.org names configuration.
+   */
+  protected function getNamesConfig() {
+    return $this->configFactory->get('schemadotorg.names');
+  }
 }

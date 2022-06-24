@@ -7,7 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 
 /**
- * Configure Schema.org JSON:API settings for this site.
+ * Configure Schema.org JSON:API settings.
  */
 class SchemaDotOrgJsonApiSettingsForm extends ConfigFormBase {
 

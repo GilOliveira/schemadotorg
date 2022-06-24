@@ -5,10 +5,9 @@ namespace Drupal\schemadotorg_jsonld\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Configure Schema.org JSON-LD settings for this site.
+ * Configure Schema.org JSON-LD settings.
  */
 class SchemaDotOrgJsonLdSettingsForm extends ConfigFormBase {
 

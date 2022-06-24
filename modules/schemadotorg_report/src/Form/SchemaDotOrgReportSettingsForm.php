@@ -7,7 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 
 /**
- * Configure Schema.org report settings for this site.
+ * Configure Schema.org report settings.
  */
 class SchemaDotOrgReportSettingsForm extends ConfigFormBase {
 

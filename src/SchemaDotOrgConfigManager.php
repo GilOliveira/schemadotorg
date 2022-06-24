@@ -40,9 +40,8 @@ class SchemaDotOrgConfigManager implements SchemaDotOrgConfigManagerInterface {
    * {@inheritdoc}
    */
   public function repair() {
-    $config = $this->configFactory->getEditable('schemadotorg.settings');
-
     // Default properties sorted by path/breadcrumb.
+    $config = $this->configFactory->getEditable('schemadotorg.settings');
     $default_properties = $config->get('schema_types.default_properties');
     $paths = [];
     foreach (array_keys($default_properties) as $type) {
@@ -58,37 +57,48 @@ class SchemaDotOrgConfigManager implements SchemaDotOrgConfigManagerInterface {
       $sorted_default_properties[$type] = $properties;
     }
     $config->set('schema_types.default_properties', $sorted_default_properties);
+    $config->save();
 
-    // Sorting.
-    $sort = [
-      'ksort' => [
-        'schema_types.main_properties',
-        'schema_properties.range_includes',
-        'schema_properties.default_fields',
-        'names.custom_words',
-        'names.custom_names',
-        'names.prefixes',
-        'names.suffixes',
-        'names.abbreviations',
+    // Config sorting.
+    $config_sort = [
+      'schemadotorg.settings' => [
+        'ksort' => [
+          'schema_types.main_properties',
+          'schema_properties.range_includes',
+          'schema_properties.default_fields',
+        ],
+        'sort' => [
+          'schema_properties.ignored_properties',
+        ],
       ],
-      'sort' => [
-        'schema_properties.ignored_properties',
-        'names.acronyms',
-        'names.minor_words',
+      'schemadotorg.names' => [
+        'ksort' => [
+          'custom_words',
+          'custom_names',
+          'prefixes',
+          'suffixes',
+          'abbreviations',
+        ],
+        'sort' => [
+          'acronyms',
+          'minor_words',
+        ],
       ],
     ];
-    foreach ($sort as $method => $keys) {
-      foreach ($keys as $key) {
-        $value = $config->get($key);
-        if (!$value) {
-          throw new \Exception('Unable to locate ' . $key);
+    foreach ($config_sort as $config_name => $sort) {
+      $config = $this->configFactory->getEditable($config_name);
+      foreach ($sort as $method => $keys) {
+        foreach ($keys as $key) {
+          $value = $config->get($key);
+          if (!$value) {
+            throw new \Exception('Unable to locate ' . $key);
+          }
+          $method($value);
+          $config->set($key, $value);
         }
-        $method($value);
-        $config->set($key, $value);
       }
+      $config->save();
     }
-
-    $config->save();
   }
 
 }

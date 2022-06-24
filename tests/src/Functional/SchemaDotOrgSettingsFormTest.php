@@ -6,7 +6,7 @@ namespace Drupal\Tests\schemadotorg\Functional;
  * Tests the functionality of the Schema.org settings form.
  *
  * @covers \Drupal\schemadotorg\Form\SchemaDotOrgSettingsPropertiesForm
- * @covers \Drupal\schemadotorg\Form\SchemaDotOrgSettingsNamesForm
+ * @covers \Drupal\schemadotorg\Form\SchemaDotOrgNamesForm
  * @group schemadotorg
  */
 class SchemaDotOrgSettingsFormTest extends SchemaDotOrgBrowserTestBase {

@@ -8,7 +8,7 @@ use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Configure Schema.org properties settings for this site.
+ * Configure Schema.org properties settings for properties.
  */
 class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
 

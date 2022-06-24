@@ -6,10 +6,9 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Configure Schema.org Descriptions settings for this site.
+ * Configure Schema.org Descriptions settings.
  */
 class SchemaDotOrgDescriptionsSettingsForm extends ConfigFormBase {
 
