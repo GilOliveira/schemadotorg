@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Schema.org Standard module.
+ */
+
+use Drupal\consumers\Entity\Consumer;
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_standard_install() {
+  // Add image styles to the 'Default Consumer'.
+  $consumer = Consumer::load(1);
+  if ($consumer) {
+    $consumer->get('image_styles')->setValue([
+      ['target_id' => 'large'],
+      ['target_id' => 'medium'],
+      ['target_id' => 'thumbnail'],
+    ]);
+    $consumer->save();
+  }
+}

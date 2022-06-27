@@ -67,8 +67,8 @@ function recommended() {
 }
 
 function install() {
-  echo "Installing Schema.org demo with core and contrib modules";
-  drush -y pm-enable schemadotorg_demo;
+  echo "Installing Schema.org Standard Profile demo with core and contrib modules";
+  drush -y pm-enable schemadotorg_standard;
 
   echo "Installing contrib modules";
   drush -y pm-enable \

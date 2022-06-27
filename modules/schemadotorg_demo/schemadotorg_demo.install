@@ -5,24 +5,6 @@
  * Install, update and uninstall functions for the Schema.org demo module.
  */
 
-use Drupal\consumers\Entity\Consumer;
-
-/**
- * Implements hook_install().
- */
-function schemadotorg_demo_install() {
-  // Add image styles to the 'Default Consumer'.
-  $consumer = Consumer::load(1);
-  if ($consumer) {
-    $consumer->get('image_styles')->setValue([
-      ['target_id' => 'large'],
-      ['target_id' => 'medium'],
-      ['target_id' => 'thumbnail'],
-    ]);
-    $consumer->save();
-  }
-}
-
 /**
  * Implements hook_uninstall().
  */
