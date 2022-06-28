@@ -6,6 +6,7 @@
  */
 
 use Drupal\consumers\Entity\Consumer;
+use Drupal\path_alias\Entity\PathAlias;
 
 /**
  * Implements hook_install().
@@ -21,4 +22,11 @@ function schemadotorg_standard_install() {
     ]);
     $consumer->save();
   }
+
+  // Create a path alias for /api/documentation.
+  PathAlias::create([
+    'alias' => '/api/documentation',
+    'path' => '/admin/config/services/openapi/redoc/jsonapi',
+    'langcode' => 'en',
+  ])->save();
 }

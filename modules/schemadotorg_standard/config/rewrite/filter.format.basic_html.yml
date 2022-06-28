@@ -59,9 +59,3 @@ filters:
     status: true
     weight: 100
     settings: {  }
-  video_embed_wysiwyg:
-    id: video_embed_wysiwyg
-    provider: video_embed_wysiwyg
-    status: true
-    weight: 0
-    settings: {  }

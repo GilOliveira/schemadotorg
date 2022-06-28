@@ -3,6 +3,75 @@ Schema.org Blueprints
 
 Below are recommended core and contribute modules that can be used with the Schema.org Blueprints module.
 
+## Sub-modules
+
+_The below modules are included with the Schema.org Blueprints module/package._
+
+Core
+
+- **Schema.org Blueprints**  
+  Uses Schema.org as the blueprint for the content architecture and structured data in a Drupal website.
+
+- **Schema.org Blueprints UI**  
+  Allows administrators to attach custom Schema.org properties to fieldable types.
+
+- **Schema.org Blueprints Report**  
+  Provides a report for browsing Schema.org types, properties, and naming conventions.
+
+Demo
+
+- **Schema.org Blueprints Demo**  
+  Provides the ability to create related Schema.org types via Drush.
+
+- **Schema.org Blueprints Standard Profile Setup**  
+  Provides an opinionated demo of the Schema.org Blueprints built on top of Drupal's standard profile. THIS DEMO SHOULD ONLY BE INSTALLED ON A PLAIN VANILLA STANDARD INSTANCE OF DRUPAL
+
+UI/UX
+
+- **Schema.org Blueprints Descriptions**  
+  Sets entity type and field descriptions to their corresponding Schema.org type and property comments.
+
+- **Schema.org Blueprints Export**  
+  Provides a CSV export of Schema.org type mappings.
+
+Fields
+
+- **Schema.org Blueprints Flex Field**  
+  Allows a Flex field to be used to create Schema.org relationships within an entity type/bundle Schema.org mapping.
+
+- **Schema.org Blueprints Inline Entity Form**  
+  Allows an inline entity form to be automatically added to Schema.org properties within an entity type/bundle Schema.org mapping.
+
+Entities
+
+- **Schema.org Blueprints Paragraphs**  
+  Integrates the Paragraphs and Paragraphs Library module with the Schema.org Blueprints module.
+
+- **Schema.org Blueprints Taxonomy**  
+  Provides mappings from taxonomy vocabularies and terms to https://schema.org/DefinedTermSet and https://schema.org/DefinedTerm.
+
+JSON-LD 
+
+- **Schema.org Blueprints JSON-LD**  
+  Adds Schema.org structured data as JSON-LD in the head of web pages.
+
+- **Schema.org Blueprints JSON-LD Breadcrumb**  
+  Add Drupal's breadcrumb to Schema.org JSON-LD for the current route.
+
+- **Schema.org Blueprints JSON-LD Embed**  
+  Extracts embedded media and content from an entity and includes the associated Schema.org type in JSON-LD.
+
+- **Schema.org Blueprints JSON-LD Endpoint**  
+  Provides an endpoint to get an entity's Schema.org JSON-LD.
+
+- **Schema.org Blueprints JSON-LD Preview**  
+  Allows users to preview a web page's Schema.org JSON-LD.
+
+API
+
+- **Schema.org Blueprints JSON:API**  
+  Builds on top of the JSON:API and JSON:API extras modules to apply Schema.org type and property mappings to JSON:API resources.
+
 ## Core Modules
 
 - **[Datetime](https://www.drupal.org/docs/8/core/modules/datetime)**

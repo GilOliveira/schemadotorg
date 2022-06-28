@@ -28,12 +28,6 @@ demos:
       - 'block_content:Quotation'
       - 'block_content:WebContent'
       - 'block_content:ItemList'
-  collection:
-    label: Collection
-    types:
-      - 'node:MediaGallery'
-      - 'node:ImageGallery'
-      - 'node:VideoGallery'
   howto:
     label: 'How to'
     types:

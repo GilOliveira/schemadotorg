@@ -153,8 +153,10 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
         ],
       ];
 
-      return $build;
+      $build['modules'] = [
 
+      ];
+      return $build;
   }
 }
 

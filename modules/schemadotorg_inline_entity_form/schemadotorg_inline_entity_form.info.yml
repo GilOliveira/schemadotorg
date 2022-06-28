@@ -1,6 +1,6 @@
 name: 'Schema.org Blueprints Inline Entity Form'
 type: module
-description: 'Allows a inline entity form to be automatically add to Schema.org properties within an entity type/bundle Schema.org mapping.'
+description: 'Allows an inline entity form to be automatically added to Schema.org properties within an entity type/bundle Schema.org mapping.'
 package: 'Schema.org Blueprints'
 core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental

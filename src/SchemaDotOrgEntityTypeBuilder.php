@@ -309,6 +309,11 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     if ($type) {
       $options['type'] = $type;
       if (!empty($settings)) {
+
+        if (isset($settings['third_party_settings'])) {
+          $options['third_party_settings'] = $settings['third_party_settings'];
+          unset($settings['third_party_settings']);
+        }
         $options['settings'] = $settings;
       }
     }

@@ -37,7 +37,6 @@ settings:
           items:
             - Blockquote
             - DrupalImage
-            - video_embed
             - DrupalMediaLibrary
             - content_browser
             - Table

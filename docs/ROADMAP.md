@@ -19,6 +19,7 @@ Schema.org Blueprints
 - Ensure baseline test coverage
 - Finalize core dependencies
 - Research and support contrib modules
+- Remove deprecated modules
 
 ## Beta
 
@@ -31,6 +32,7 @@ Schema.org Blueprints
 - Establish supported contrib modules
 
 ## Stable 
+ 
 - Add Schema.org types and properties as needed
 - Provide additional enhancements via custom code or contrib modules
 --------------------------------------------------------------------------------
