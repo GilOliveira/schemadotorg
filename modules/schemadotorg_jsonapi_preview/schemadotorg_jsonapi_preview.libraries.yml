@@ -4,4 +4,3 @@ schemadotorg_jsonapi_preview:
       css/schemadotorg_jsonapi_preview.css: {}
   dependencies:
     - schemadotorg/schemadotorg.details
-    - schemadotorg/schemadotorg.prettify

@@ -116,13 +116,13 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
 
     // JSON.
     // Make the JSON pretty and enhance it.
-    // Generate markup.
-    $flags = JSON_HEX_TAG
-      | JSON_HEX_APOS
-      | JSON_HEX_AMP
-      | JSON_HEX_QUOT
-      | JSON_PRETTY_PRINT;
-    $json = json_encode($data, $flags);
+    $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    // Escape HTML special characters.
+    $json_markup = htmlspecialchars($json);
+    // Add <span> tag to properties.
+    $json_markup = preg_replace('/&quot;([^&]+)&quot;: /', '<span>&quot;$1&quot;</span>: ', $json_markup);
+    // Add links to URLs.
+    $json_markup = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.-]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $json_markup);
     $build['json'] = [
       'input' => [
         '#type' => 'hidden',
@@ -131,13 +131,8 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
       'code' => [
         '#type' => 'html_tag',
         '#tag' => 'pre',
-        '#attributes' => ['class' => ['prettyprint']],
-        'code' => [
-          '#type' => 'html_tag',
-          '#tag' => 'code',
-          '#attributes' => ['class' => ['language-js']],
-          '#value' => $json,
-        ],
+        '#attributes' => ['class' => ['schemadotorg-jsonld-preview-code']],
+        '#value' => $json_markup,
       ],
     ];
 

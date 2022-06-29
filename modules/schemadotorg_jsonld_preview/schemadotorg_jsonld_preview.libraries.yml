@@ -10,4 +10,3 @@ schemadotorg_jsonld_preview:
     - core/jquery
     - core/jquery.once
     - schemadotorg/schemadotorg.details
-    - schemadotorg/schemadotorg.prettify
