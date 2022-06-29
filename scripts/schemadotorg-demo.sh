@@ -38,12 +38,8 @@ function install() {
 
 function configure() {
   echo "Configuring system settings";
-  drush -y config-set system.logging error_level verbose
   drush -y config-set system.site name 'Schema.org Blueprints Demo Site'
   drush -y config-set system.site slogan 'A demo of the Schema.org Blueprints module for Drupal.'
-
-  echo "Configuring Devel module";
-  drush -y config-set devel.settings devel_dumper kint
 }
 
 function import() {
