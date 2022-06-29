@@ -5,6 +5,14 @@ schemadotorg.autocomplete:
     - core/jquery
     - core/drupal
 
+schemadotorg.details:
+  js:
+    js/schemadotorg.details.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+
 schemadotorg.dialog:
   js:
     js/schemadotorg.dialog.js: {}
@@ -24,6 +32,13 @@ schemadotorg.jstree:
     - core/drupal
     - schemadotorg/jstree
 
+schemadotorg.prettify:
+  css:
+    component:
+      css/schemadotorg.prettify.css: {}
+  dependencies:
+    - schemadotorg/prettify
+
 jstree:
   remote: https://www.jstree.com/
   version: 3.3.12
@@ -38,3 +53,8 @@ jstree:
       https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css: { type: external, minified: true }
   dependencies:
     - core/jquery
+
+prettify:
+  version: '1.0'
+  js:
+    https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sunburst: { type: external, minified: true }

@@ -9,3 +9,5 @@ schemadotorg_jsonld_preview:
     - core/drupal.announce
     - core/jquery
     - core/jquery.once
+    - schemadotorg/schemadotorg.details
+    - schemadotorg/schemadotorg.prettify

@@ -1,0 +1,15 @@
+/**
+ * @file
+ * Schema.org JSON:API preview styles.
+ */
+
+.schemadotorg-jsonapi-preview-endpoints .form-item {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.schemadotorg-jsonapi-preview-endpoints .form-item label {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}

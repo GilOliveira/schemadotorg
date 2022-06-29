@@ -2,8 +2,6 @@
 
 namespace Drupal\schemadotorg_jsonld_preview;
 
-use Drupal\Core\Entity\EntityInterface;
-
 /**
  * Schema.org JSON-LD preview builder interface.
  */

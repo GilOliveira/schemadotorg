@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Allows users to preview a web page's Schema.org JSON-LD.
+ * Allows users to preview a web page's Schema.org JSON:API.
  */
 
 use Drupal\Core\Cache\Cache;
@@ -11,8 +11,8 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function schemadotorg_jsonld_preview_form_schemadotorg_jsonld_settings_form_alter(&$form, FormStateInterface $form_state) {
-  $config = \Drupal::config('schemadotorg_jsonld_preview.settings');
+function schemadotorg_jsonapi_preview_form_schemadotorg_jsonapi_settings_form_alter(&$form, FormStateInterface $form_state) {
+  $config = \Drupal::config('schemadotorg_jsonapi_preview.settings');
 
   // Load the request path condition plugin.
   /** @var \Drupal\Core\Condition\ConditionManager $condition_manager */
@@ -23,17 +23,17 @@ function schemadotorg_jsonld_preview_form_schemadotorg_jsonld_settings_form_alte
   $condition->setConfiguration($config->get('visibility.request_path'));
 
   // Build preview visibility container.
-  $form['schemadotorg_jsonld_preview'] = [
+  $form['schemadotorg_jsonapi_preview'] = [
     '#type' => 'details',
-    '#title' => t('JSON-LD preview visibility'),
-    '#description' => t('Use the below configuration settings to determine what pages the JSON-LD preview is displayed on.'),
+    '#title' => t('JSON:API preview visibility'),
+    '#description' => t('Use the below configuration settings to determine what pages the JSON:API preview is displayed on.'),
     '#open' => TRUE,
     '#tree' => TRUE,
     'visibility' => [],
   ];
   // Append the request path condition configuration form.
-  $form['schemadotorg_jsonld_preview']['visibility']['request_path'] = [];
-  $request_path =& $form['schemadotorg_jsonld_preview']['visibility']['request_path'];
+  $form['schemadotorg_jsonapi_preview']['visibility']['request_path'] = [];
+  $request_path =& $form['schemadotorg_jsonapi_preview']['visibility']['request_path'];
   $request_path = $condition->buildConfigurationForm($request_path, $form_state);
 
   // Check negate checkbox to radio so that it aligned with the Block UI.
@@ -46,22 +46,22 @@ function schemadotorg_jsonld_preview_form_schemadotorg_jsonld_settings_form_alte
     t('Hide for the listed pages'),
   ];
 
-  $form['#submit'][] = 'schemadotorg_jsonld_preview_settings_form_submit';
+  $form['#submit'][] = 'schemadotorg_jsonapi_preview_settings_form_submit';
 }
 
 /**
- * Form submission handler for schemadotorg_jsonld_settings_form().
+ * Form submission handler for schemadotorg_jsonapi_settings_form().
  *
- * @see schemadotorg_jsonld_preview_form_schemadotorg_jsonld_settings_form_alter()
+ * @see schemadotorg_jsonapi_preview_form_schemadotorg_jsonapi_settings_form_alter()
  */
-function schemadotorg_jsonld_preview_settings_form_submit(&$form, FormStateInterface $form_state) {
+function schemadotorg_jsonapi_preview_settings_form_submit(&$form, FormStateInterface $form_state) {
   $cache_backends = Cache::getBins();
   if (isset($cache_backends['dynamic_page_cache'])) {
     $cache_backends['dynamic_page_cache']->deleteAll();
   }
 
-  $values = $form_state->getValue('schemadotorg_jsonld_preview');
-  \Drupal::configFactory()->getEditable('schemadotorg_jsonld_preview.settings')
+  $values = $form_state->getValue('schemadotorg_jsonapi_preview');
+  \Drupal::configFactory()->getEditable('schemadotorg_jsonapi_preview.settings')
     ->set('visibility', $values['visibility'])
     ->save();
 }
@@ -69,16 +69,19 @@ function schemadotorg_jsonld_preview_settings_form_submit(&$form, FormStateInter
 /**
  * Implements hook_preprocess_html().
  */
-function schemadotorg_jsonld_preview_preprocess_html(array &$variables) {
-  /** @var \Drupal\schemadotorg_jsonld_preview\SchemaDotOrgJsonLdPreviewAccessCheckerInterface $access_checker */
-  $access_checker = \Drupal::service('schemadotorg_jsonld_preview.access_checker');
+function schemadotorg_jsonapi_preview_preprocess_html(array &$variables) {
+  /** @var \Drupal\schemadotorg_jsonapi_preview\SchemaDotOrgJsonApiPreviewAccessCheckerInterface $access_checker */
+  $access_checker = \Drupal::service('schemadotorg_jsonapi_preview.access_checker');
   if (!$access_checker->access()) {
     return;
   }
 
-  /** @var \Drupal\schemadotorg_jsonld_preview\SchemaDotOrgJsonLdPreviewBuilderInterface $preview_builder */
-  $preview_builder = \Drupal::service('schemadotorg_jsonld_preview.builder');
+  /** @var \Drupal\schemadotorg_jsonapi_preview\SchemaDotOrgJsonApiPreviewBuilderInterface $preview_builder */
+  $preview_builder = \Drupal::service('schemadotorg_jsonapi_preview.builder');
   $build = $preview_builder->build();
+  if (!$build) {
+    return;
+  }
 
   // Make sure the cache is cleared when any Schema.org mapping is updated.
   // @todo Determine how best to invalidate cache when a mapping is updated.
@@ -88,7 +91,7 @@ function schemadotorg_jsonld_preview_preprocess_html(array &$variables) {
   $build['#cache']['tags'] = array_merge($build['#cache']['tags'], $mapping_definition->getListCacheTags());
 
   if ($build) {
-    $variables['page']['content']['schemadotorg_jsonld_preview'] = $build;
+    $variables['page']['content']['schemadotorg_jsonapi_preview'] = $build;
   }
 }
 

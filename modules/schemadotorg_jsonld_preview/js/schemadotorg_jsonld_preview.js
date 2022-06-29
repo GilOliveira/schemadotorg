@@ -7,48 +7,6 @@
 
   'use strict';
 
-  // Determine if local storage exists and is enabled.
-  // This approach is copied from Modernizr.
-  // @see https://github.com/Modernizr/Modernizr/blob/c56fb8b09515f629806ca44742932902ac145302/modernizr.js#L696-731
-  var hasLocalStorage = (function () {
-    try {
-      localStorage.setItem('schemadotorg_jsonld', 'schemadotorg_jsonld');
-      localStorage.removeItem('schemadotorg_jsonld');
-      return true;
-    }
-    catch (e) {
-      return false;
-    }
-  }());
-
-  /**
-   * Tracks Schema.org JSON-LD preview details open/close state.
-   *
-   * @type {Drupal~behavior}
-   */
-  Drupal.behaviors.schemaDotOrgJsonLdPreviewState = {
-    attach: function attach(context) {
-      if (!hasLocalStorage) {
-        return;
-      }
-
-      $('details', context)
-        .once('schemadotorg-jsonld-preview-state')
-        .each( function () {
-          var $details = $(this);
-          $details.find('summary').on('click', function () {
-            var open = ($details.attr('open') !== 'open') ? '1' : '0';
-            localStorage.setItem('schemadotorg_jsonld_details', open);
-          });
-
-          var open = localStorage.getItem('schemadotorg_jsonld_details');
-          if (open === '1') {
-            $details.attr('open', 'open');
-          }
-        });
-    }
-  }
-
   /**
    * Schema.org JSON-LD preview copy.
    *

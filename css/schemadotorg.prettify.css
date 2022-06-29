@@ -1,0 +1,8 @@
+/**
+ * @file
+ * Schema.org prettify styles.
+ */
+
+html pre.prettyprint {
+  margin: 0;
+}
