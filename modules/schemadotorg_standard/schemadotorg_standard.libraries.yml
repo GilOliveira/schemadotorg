@@ -1,0 +1,9 @@
+schemadotorg_standard:
+  header: true
+  css:
+    component:
+      css/schemadotorg_standard.css: { }
+  js:
+    js/schemadotorg_standard.js: {}
+  dependencies:
+    - 'core/drupalSettings'

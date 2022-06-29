@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Provides an opinionated demo of the Schema.org Blueprints
+ */
+
+/**
+ * Implements hook_page_attachments().
+ */
+function schemadotorg_standard_page_attachments(array &$page) {
+  $page['#attached']['library'][] = 'schemadotorg_standard/schemadotorg_standard';
+}

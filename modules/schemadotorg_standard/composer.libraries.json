@@ -1,0 +1,84 @@
+{
+  "name": "drupal/schemadotorg",
+  "description": "Provides an opinionated demo of the Schema.org Blueprints.",
+  "type": "drupal-module",
+  "license": "GPL-2.0-or-later",
+  "minimum-stability": "dev",
+  "homepage": "https://drupal.org/project/schemadotorg",
+  "authors": [
+    {
+      "name": "Jacob Rockowitz (jrockowitz)",
+      "homepage": "https://www.drupal.org/u/jrockowitz",
+      "role": "Maintainer"
+    }
+  ],
+  "support": {
+    "issues": "https://drupal.org/project/issues/schemadotorg",
+    "source": "https://git.drupalcode.org/project/schemadotorg"
+  },
+  "repositories": {
+    "masonry/masonry": {
+      "type": "package",
+      "package": {
+        "name": "masonry/masonry",
+        "version": "4.2.2",
+        "type": "drupal-library",
+        "extra": {
+          "installer-name": "masonry"
+        },
+        "dist": {
+          "url": "https://github.com/desandro/masonry/archive/refs/tags/v4.2.2.zip",
+          "type": "zip"
+        },
+        "license": "MIT"
+      }
+    }
+  },
+  "require": {
+    "drupal/admin_toolbar": "^3.1",
+    "drupal/address": "^1.10",
+    "drupal/coffee": "^1.2",
+    "drupal/config_inspector": "^2.0",
+    "drupal/config_rewrite": "^1.4",
+    "drupal/consumer_image_styles": "^4.0",
+    "drupal/content_browser": "^1.0",
+    "drupal/devel": "^4.1",
+    "drupal/dropzonejs": "^2.6",
+    "drupal/embed": "^1.5",
+    "drupal/entity_browser": "^2.6",
+    "drupal/entity_embed": "^1.2",
+    "drupal/entity_usage": "^2.0@beta",
+    "drupal/features": "^3.12",
+    "drupal/field_group": "^3.2",
+    "drupal/gin": "^3.0@beta",
+    "drupal/gin_login": "^1.2",
+    "drupal/inline_entity_form": "^1.0@RC",
+    "drupal/jsonapi_extras": "^3.20",
+    "drupal/openapi_jsonapi": "^3.0",
+    "drupal/openapi_ui": "^1.0@RC",
+    "drupal/openapi_ui_redoc": "^1.0@RC",
+    "drupal/paragraphs": "^1.14",
+    "drupal/time_field": "^2.0",
+    "drupal/token": "^1.10",
+    "masonry/masonry": "*"
+  },
+  "extra": {
+    "composer-exit-on-patch-failure": true,
+    "patchLevel": {
+      "drupal/core": "-p2"
+    },
+    "patches": {
+      "drupal/core": {
+        "Issue #3087632: menu_name max length is too long":  "https://git.drupalcode.org/project/drupal/-/merge_requests/1459.diff",
+        "Issue #2764829: EditorConfig file lack settings for markdown files": "https://www.drupal.org/files/issues/2022-06-14/drupal-2764829-21.patch",
+        "Issue #3100732: Allow specifying `meta` data on JSON:API objects": "https://www.drupal.org/files/issues/2022-05-15/3100732-33.patch"
+      },
+      "drupal/token": {
+        "Remove token_node_insert() which breaking devel generate": "/Users/rockowij/Sites/osx/files/drupal/drupal_schema/patches/token.patch"
+      },
+      "drupal/address": {
+        "Issue #2819251: generateSampleValue": "https://www.drupal.org/files/issues/2022-05-16/address-2819251-6.patch"
+      }
+    }
+  }
+}

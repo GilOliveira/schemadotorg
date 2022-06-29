@@ -1,0 +1,12 @@
+/**
+ * @file
+ * Schema.org standard styles.
+ */
+
+/**
+ * Issue #2887220: ReDoc: "(Versioning not supported)"
+ * @see https://www.drupal.org/node/2887220
+ */
+.api-info-version {
+  display: none;
+}

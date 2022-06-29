@@ -86,3 +86,16 @@ The Schema.org Reports module provides a browsable instance of [Schema.org](http
 
 JSON:API documentation is provides by [ReDoc](https://redocly.github.io/redoc/) 
 @see /api/documentation
+
+# Schema.org JSON-LD Examples
+
+- [NY Times](https://validator.schema.org/#url=nytimes.com)
+- [Stack overflow](https://validator.schema.org/#url=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F28687653%2Fschema-org-json-ld-where-to-place)
+- [Amazon](https://validator.schema.org/#url=https%3A%2F%2Fwww.amazon.com%2FThe-Boys-Season-3%2Fdp%2FB09WV8HF7Q)
+- [BBC](https://validator.schema.org/#url=bbc.co.uk)
+  - [BBC: News](https://validator.schema.org/#url=https%3A%2F%2Fwww.bbc.com%2Fnews%2Fuk-61626176)
+- [MayoClinic](https://validator.schema.org/#url=https%3A%2F%2Fwww.mayoclinic.org%2F)
+  - [MayoClinic: Condition](https://validator.schema.org/#url=https%3A%2F%2Fwww.mayoclinic.org%2Fdiseases-conditions%2Facne%2Fdiagnosis-treatment%2Fdrc-20368048)
+- [MSKCC](https://validator.schema.org/#url=mskcc.org)
+- [GrubHub](https://validator.schema.org/#url=https%3A%2F%2Fwww.grubhub.com%2Frestaurant%2Fred-hot-ii-349-7th-ave-brooklyn%2F347523)
+- [Gap](https://validator.schema.org/#url=https%3A%2F%2Fwww.gap.com%2Fbrowse%2Fproduct.do%3Fpid%3D406387012) 

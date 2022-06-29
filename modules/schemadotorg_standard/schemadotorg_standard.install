@@ -29,4 +29,21 @@ function schemadotorg_standard_install() {
     'path' => '/admin/config/services/openapi/redoc/jsonapi',
     'langcode' => 'en',
   ])->save();
+
+  // Enable the Gin admin theme and related modules.
+  \Drupal::service('theme_installer')->install(['gin']);
+  \Drupal::service('module_installer')->install(['gin_login', 'gin_toolbar']);
+
+  // Configure the Gin admin theme.
+  \Drupal::configFactory()->getEditable('system.theme')
+    ->set('default', 'gin')
+    ->set('admin', 'gin')
+    ->save();
+  \Drupal::configFactory()->getEditable('system.theme.global')
+    ->set('features.node_user_picture', FALSE)
+    ->save();
+  \Drupal::configFactory()->getEditable('gin.settings')
+    ->set('classic_toolbar', 'horizontal')
+    ->set('show_description_toggle', TRUE)
+    ->save();
 }

@@ -16,54 +16,14 @@ function help() {
   echo "Usage:"
   echo;
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh help";
-  echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh require";
-  echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh recommended";
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh install";
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh configure";
+  echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh import";
+  echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh export";
 }
 
 function status() {
   drush status;
-}
-
-function require() {
-  echo "Adding composer dependencies";
-  composer require drupal/address
-  composer require drupal/admin_toolbar
-  composer require drupal/anonymous_redirect
-  composer require drupal/coffee
-  composer require drupal/devel
-  composer require drupal/features
-  composer require drupal/field_group
-  composer require drupal/gin
-  composer require drupal/gin_login
-  composer require drupal/inline_entity_form
-  composer require drupal/jsonapi_extras
-  composer require drupal/paragraphs
-  composer require drupal/token
-}
-
-function recommended() {
-  composer require drupal/gin_lb
-  composer require drupal/layout_builder_modal
-  composer require drupal/embed
-  composer require drupal/entity_embed
-  composer require drupal/entity_usage
-  composer require drupal/inline_entity_form
-  composer require drupal/flexfield
-  composer require drupal/time_field
-  composer require drupal/smart_date
-  composer require drupal/range
-  # composer require drupal/gender
-  composer require drupal/address
-  composer require drupal/phone_international
-  composer require drupal/telephone_formatter
-  composer require drupal/select_or_other
-  composer require drupal/select_text_value
-  composer require drupal/double_field
-  composer require drupal/key_value_field
-  composer require drupal/computed_field
-  composer require drupal/field_token_value
 }
 
 function install() {
@@ -72,12 +32,6 @@ function install() {
 
   echo "Installing contrib modules";
   drush -y pm-enable \
-    admin_toolbar\
-    admin_toolbar_tools\
-    anonymous_redirect\
-    coffee\
-    devel\
-    devel_generate\
     features\
     webprofiler;
 }
@@ -85,20 +39,8 @@ function install() {
 function configure() {
   echo "Configuring system settings";
   drush -y config-set system.logging error_level verbose
-  drush -y config-set system.site name 'Schema.org Demo Site'
-  drush -y config-set system.site slogan 'A demo of Schema.org integration with Drupal.'
-
-  echo "Configuring administrative theme";
-  drush theme:enable gin
-  drush -y config-set system.theme default gin
-  drush -y config-set system.theme admin gin
-  drush -y config-set gin.settings classic_toolbar horizontal
-  drush -y config-set gin.settings show_description_toggle 1
-  drush -y config-set system.theme.global features.node_user_picture 0
-  drush -y pm-enable gin_toolbar gin_login
-
-  echo "Configuring anonymous redirect module";
-  drush -y config-set anonymous_redirect.settings enable_redirect true
+  drush -y config-set system.site name 'Schema.org Blueprints Demo Site'
+  drush -y config-set system.site slogan 'A demo of the Schema.org Blueprints module for Drupal.'
 
   echo "Configuring Devel module";
   drush -y config-set devel.settings devel_dumper kint
