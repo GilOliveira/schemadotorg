@@ -2,14 +2,11 @@
 
 namespace Drupal\schemadotorg_jsonapi\EventSubscriber;
 
-use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityFieldManagerInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
-use Drupal\jsonapi\ResourceType\ResourceType;
 use Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository;
+use Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -39,25 +36,18 @@ class SchemaDotOrgJsonApiEventSubscriber extends ServiceProviderBase implements 
   protected $routeMatch;
 
   /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The entity field manager.
-   *
-   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
-   */
-  protected $fieldManager;
-
-  /**
    * The JSON:API configurable resource type repository.
    *
    * @var \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository
    */
   protected $resourceTypeRepository;
+
+  /**
+   * The Schema.org JSON:API manager.
+   *
+   * @var \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface
+   */
+  protected $schemaJsonApiManager;
 
   /**
    * Constructs an SchemaDotOrgJsonApiEventSubscriber object.
@@ -66,19 +56,21 @@ class SchemaDotOrgJsonApiEventSubscriber extends ServiceProviderBase implements 
    *   The configuration object factory.
    * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
    *   The current route match.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager.
-   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager
-   *   The entity field manager.
-   * @param \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository $resource_type_respository
+   * @param \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository $resource_type_repository
    *   The JSON:API configurable resource type repository.
+   * @param \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface $schema_jsonapi_manager
+   *   The Schema.org JSON:API manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, RouteMatchInterface $route_match, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $field_manager, ConfigurableResourceTypeRepository $resource_type_respository) {
+  public function __construct(
+    ConfigFactoryInterface $config_factory,
+    RouteMatchInterface $route_match,
+    ConfigurableResourceTypeRepository $resource_type_repository,
+    SchemaDotOrgJsonApiManagerInterface $schema_jsonapi_manager
+  ) {
     $this->configFactory = $config_factory;
     $this->routeMatch = $route_match;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->fieldManager = $field_manager;
-    $this->resourceTypeRepository = $resource_type_respository;
+    $this->resourceTypeRepository = $resource_type_repository;
+    $this->schemaJsonApiManager = $schema_jsonapi_manager;
   }
 
   /**
@@ -121,7 +113,7 @@ class SchemaDotOrgJsonApiEventSubscriber extends ServiceProviderBase implements 
       $resource_id = "$entity_type_id--$bundle";
       $resource_type = $this->resourceTypeRepository->getByTypeName($resource_id);
       $resource_path = sprintf('/%s%s', $path_prefix, $resource_type->getPath());
-      $resource_includes = $this->getResourceIncludes($resource_type);
+      $resource_includes = $this->schemaJsonApiManager->getResourceIncludes($resource_type);
       $resource_options = $resource_includes
       ? ['query' => ['include' => implode(',', $resource_includes)]]
       : [];
@@ -138,72 +130,6 @@ class SchemaDotOrgJsonApiEventSubscriber extends ServiceProviderBase implements 
     }
 
     $event->setControllerResult($result);
-  }
-
-  /**
-   * Get resource type's entity reference fields as an array of includes.
-   *
-   * @param \Drupal\jsonapi\ResourceType\ResourceType $resource_type
-   *   The resource type.
-   * @param int $level
-   *   The level of includes
-   *
-   * @return array
-   *   An array of entity reference field public names to be used as includes.
-   */
-  protected function getResourceIncludes(ResourceType $resource_type, $level = 0) {
-    $entity_type_id = $resource_type->getEntityTypeId();
-    $bundle = $resource_type->getBundle();
-
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
-    $mapping = $this->entityTypeManager
-      ->getStorage('schemadotorg_mapping')
-      ->load("$entity_type_id.$bundle");
-    if (!$mapping) {
-      return [];
-    }
-
-    $includes = [];
-
-    $relationships = $resource_type->getRelatableResourceTypes();
-    $field_names = array_keys($mapping->getAllSchemaProperties());
-    $field_definitions = $this->fieldManager->getFieldDefinitions($entity_type_id, $bundle);
-    foreach ($field_names as $field_name) {
-      $field = $resource_type->getFieldByInternalName($field_name);
-      if (!$field) {
-        continue;
-      }
-
-      $public_name = $field->getPublicName();
-      if (!isset($relationships[$public_name])) {
-        continue;
-      }
-
-      // Append field's public name to includes.
-      $includes[$public_name] = $public_name;
-
-      // Get nested includes for entity references.
-      // @todo Determine how many include levels should be returned.
-      if ($level < 1) {
-        $field_type = $field_definitions[$field_name]->getType();
-        if (in_array($field_type, ['entity_reference', 'entity_reference_revisions'])) {
-          $settings = $field_definitions[$field_name]->getSettings();
-          $target_type = $settings['target_type'];
-          $target_bundles = NestedArray::getValue($settings, ['handler_settings', 'target_bundles']) ?? [];
-          foreach ($target_bundles as $target_bundle) {
-            $target_resource_id = "$target_type--$target_bundle";
-            $target_resource_type = $this->resourceTypeRepository->getByTypeName($target_resource_id);
-            $target_includes = $this->getResourceIncludes($target_resource_type, $level + 1);
-            foreach ($target_includes as $target_include) {
-              // Append target bundle's field's public name to includes.
-              $includes["$public_name.$target_include"] = "$public_name.$target_include";
-            }
-          }
-        }
-      }
-    }
-
-    return $includes;
   }
 
   /**

@@ -94,4 +94,3 @@ function schemadotorg_jsonapi_preview_preprocess_html(array &$variables) {
     $variables['page']['content']['schemadotorg_jsonapi_preview'] = $build;
   }
 }
-

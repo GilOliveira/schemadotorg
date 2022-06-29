@@ -7,7 +7,7 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
-use Drupal\schemadotorg\SchemaDotOrgMappingInterface ;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
  * Implements hook_ENTITY_TYPE_presave().
@@ -27,7 +27,6 @@ function schemadotorg_paragraphs_schemadotorg_mapping_presave(SchemaDotOrgMappin
   $paragraph_type->setThirdPartySetting('paragraphs_library', 'allow_library_conversion', TRUE);
   $paragraph_type->save();
 }
-
 
 /**
  * Implements hook_schemadotorg_property_field_alter().

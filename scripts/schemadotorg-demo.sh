@@ -111,8 +111,10 @@ function import() {
   # drush features:import -y schemadotorg_flexfield
   drush features:import -y schemadotorg_inline_entity_form
   drush features:import -y schemadotorg_jsonapi
+  drush features:import -y schemadotorg_jsonapi_preview
   drush features:import -y schemadotorg_jsonld
   drush features:import -y schemadotorg_jsonld_endpoint
+  drush features:import -y schemadotorg_jsonld_preview
   drush features:import -y schemadotorg_paragraphs
   drush features:import -y schemadotorg_report
   drush features:import -y schemadotorg_taxonomy
@@ -125,8 +127,10 @@ function export() {
   # drush features:export -y schemadotorg_flexfield
   drush features:export -y schemadotorg_inline_entity_form
   drush features:export -y schemadotorg_jsonapi
+  drush features:export -y schemadotorg_jsonapi_preview
   drush features:export -y schemadotorg_jsonld
   drush features:export -y schemadotorg_jsonld_endpoint
+  drush features:export -y schemadotorg_jsonld_preview
   drush features:export -y schemadotorg_paragraphs
   drush features:export -y schemadotorg_report
   drush features:export -y schemadotorg_taxonomy

@@ -3,6 +3,7 @@
 namespace Drupal\schemadotorg_jsonapi;
 
 use Drupal\field\FieldConfigInterface;
+use Drupal\jsonapi\ResourceType\ResourceType;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
@@ -20,6 +21,17 @@ interface SchemaDotOrgJsonApiManagerInterface {
    *   An associative array containing installation requirements.
    */
   public function requirements($phase);
+
+  /**
+   * Get resource type's entity reference fields as an array of includes.
+   *
+   * @param \Drupal\jsonapi\ResourceType\ResourceType $resource_type
+   *   The resource type.
+   *
+   * @return array
+   *   An array of entity reference field public names to be used as includes.
+   */
+  public function getResourceIncludes(ResourceType $resource_type);
 
   /**
    * Insert Schema.org mapping JSON:API resource config.

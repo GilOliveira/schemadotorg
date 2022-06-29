@@ -31,8 +31,7 @@
       if (!hasLocalStorage) {
         return;
       }
-
-      $('details[data-schemadotorg-details-state]', context)
+      $('details[data-schemadotorg-details-key]', context)
         .once('schemadotorg-details-state')
         .each( function () {
           var $details = $(this);

@@ -152,10 +152,6 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
           'cellspacing' => 0,
         ],
       ];
-
-      $build['modules'] = [
-
-      ];
       return $build;
   }
 }

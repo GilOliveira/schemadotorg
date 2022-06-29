@@ -182,4 +182,5 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
   protected function getNamesConfig() {
     return $this->configFactory->get('schemadotorg.names');
   }
+
 }

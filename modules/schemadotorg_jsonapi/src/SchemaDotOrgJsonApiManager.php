@@ -2,6 +2,7 @@
 
 namespace Drupal\schemadotorg_jsonapi;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
@@ -12,6 +13,8 @@ use Drupal\Core\Routing\RedirectDestinationInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\field\FieldConfigInterface;
+use Drupal\jsonapi\ResourceType\ResourceType;
+use Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 
@@ -50,6 +53,13 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
   protected $fieldManager;
 
   /**
+   * The JSON:API configurable resource type repository.
+   *
+   * @var \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository
+   */
+  protected $resourceTypeRepository;
+
+  /**
    * The Schema.org names service.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
@@ -67,6 +77,8 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    *   The entity type manager.
    * @param \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager
    *   The entity field manager.
+   * @param \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository $resource_type_respository
+   *   The JSON:API configurable resource type repository.
    * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
    *   The Schema.org names service.
    */
@@ -75,12 +87,14 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
     RedirectDestinationInterface $redirect_destination,
     EntityTypeManagerInterface $entity_type_manager,
     EntityFieldManagerInterface $field_manager,
+    ConfigurableResourceTypeRepository $resource_type_respository,
     SchemaDotOrgNamesInterface $schema_names
   ) {
     $this->configFactory = $config_factory;
     $this->redirectDestination = $redirect_destination;
     $this->entityTypeManager = $entity_type_manager;
     $this->fieldManager = $field_manager;
+    $this->resourceTypeRepository = $resource_type_respository;
     $this->schemaNames = $schema_names;
   }
 
@@ -158,6 +172,79 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
     }
 
     return $requirements;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getResourceIncludes(ResourceType $resource_type) {
+    return $this->getResourceIncludesRecursive($resource_type);
+  }
+
+  /**
+   * Get resource type's entity reference fields as an array of includes.
+   *
+   * @param \Drupal\jsonapi\ResourceType\ResourceType $resource_type
+   *   The resource type.
+   * @param int $level
+   *   The level of includes.
+   *
+   * @return array
+   *   An array of entity reference field public names to be used as includes.
+   */
+  protected function getResourceIncludesRecursive(ResourceType $resource_type, $level = 0) {
+    $entity_type_id = $resource_type->getEntityTypeId();
+    $bundle = $resource_type->getBundle();
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
+    $mapping = $this->entityTypeManager
+      ->getStorage('schemadotorg_mapping')
+      ->load("$entity_type_id.$bundle");
+    if (!$mapping) {
+      return [];
+    }
+
+    $includes = [];
+
+    $relationships = $resource_type->getRelatableResourceTypes();
+    $field_names = array_keys($mapping->getAllSchemaProperties());
+    $field_definitions = $this->fieldManager->getFieldDefinitions($entity_type_id, $bundle);
+    foreach ($field_names as $field_name) {
+      $field = $resource_type->getFieldByInternalName($field_name);
+      if (!$field) {
+        continue;
+      }
+
+      $public_name = $field->getPublicName();
+      if (!isset($relationships[$public_name])) {
+        continue;
+      }
+
+      // Append field's public name to includes.
+      $includes[$public_name] = $public_name;
+
+      // Get nested includes for entity references.
+      // @todo Determine how many include levels should be returned.
+      if ($level < 1) {
+        $field_type = $field_definitions[$field_name]->getType();
+        if (in_array($field_type, ['entity_reference', 'entity_reference_revisions'])) {
+          $settings = $field_definitions[$field_name]->getSettings();
+          $target_type = $settings['target_type'];
+          $target_bundles = NestedArray::getValue($settings, ['handler_settings', 'target_bundles']) ?? [];
+          foreach ($target_bundles as $target_bundle) {
+            $target_resource_id = "$target_type--$target_bundle";
+            $target_resource_type = $this->resourceTypeRepository->getByTypeName($target_resource_id);
+            $target_includes = $this->getResourceIncludesRecursive($target_resource_type, $level + 1);
+            foreach ($target_includes as $target_include) {
+              // Append target bundle's field's public name to includes.
+              $includes["$public_name.$target_include"] = "$public_name.$target_include";
+            }
+          }
+        }
+      }
+    }
+
+    return $includes;
   }
 
   /**
@@ -295,8 +382,6 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * {@inheritdoc}
    */
   public function insertFieldConfigResource(FieldConfigInterface $field) {
-    $entity_type_id = $field->getTargetEntityTypeId();
-    $bundle = $field->getTargetBundle();
     $this->insertMappingFieldConfigResource($field);
   }
 

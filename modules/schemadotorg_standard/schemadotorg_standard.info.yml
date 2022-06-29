@@ -42,6 +42,7 @@ dependencies:
   - 'schemadotorg:schemadotorg_export'
   - 'schemadotorg:schemadotorg_inline_entity_form'
   - 'schemadotorg:schemadotorg_jsonapi'
+  - 'schemadotorg:schemadotorg_jsonapi_preview'
   - 'schemadotorg:schemadotorg_jsonld'
   - 'schemadotorg:schemadotorg_jsonld_breadcrumb'
   - 'schemadotorg:schemadotorg_jsonld_embed'
