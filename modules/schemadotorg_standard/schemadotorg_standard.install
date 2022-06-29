@@ -30,9 +30,16 @@ function schemadotorg_standard_install() {
     'langcode' => 'en',
   ])->save();
 
+  /** @var \Drupal\Core\Extension\ThemeInstallerInterface $theme_installer */
+  $theme_installer = \Drupal::service('theme_installer');
+  /** @var \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler */
+  $theme_handler = \Drupal::service('theme_handler');
+  /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
+  $module_installer = \Drupal::service('module_installer');
+
   // Enable the Gin admin theme and related modules.
-  \Drupal::service('theme_installer')->install(['gin']);
-  \Drupal::service('module_installer')->install(['gin_login', 'gin_toolbar']);
+  $theme_installer->install(['gin']);
+  $module_installer->install(['gin_login', 'gin_toolbar']);
 
   // Configure the Gin admin theme.
   \Drupal::configFactory()->getEditable('system.theme')
@@ -46,6 +53,18 @@ function schemadotorg_standard_install() {
     ->set('classic_toolbar', 'horizontal')
     ->set('show_description_toggle', TRUE)
     ->save();
+
+  // Uninstall unused themes.
+  $themes = ['bartik', 'olivero', 'seven'];
+  $themes = array_combine($themes, $themes);
+  foreach ($themes as $theme) {
+    if (!$theme_handler->themeExists($theme)) {
+      unset($themes[$theme]);
+    }
+  }
+  if ($themes) {
+    $theme_installer->uninstall($themes);
+  }
 
   // Configure development settings.
   \Drupal::configFactory()->getEditable('system.logging')
