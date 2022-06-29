@@ -26,7 +26,7 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
   protected $routeMatch;
 
   /**
-   * Constructs an SchemaDotOrgJsonApiExtrasEventSubscriber object.
+   * Constructs a SchemaDotOrgJsonApiExtrasEventSubscriber object.
    *
    * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
    *   The current route match.

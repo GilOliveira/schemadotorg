@@ -1,0 +1,74 @@
+<?php
+
+namespace Drupal\schemadotorg_jsonld_endpoint\EventSubscriber;
+
+use Drupal\Core\Routing\AccessAwareRouterInterface;
+use Drupal\Core\Url;
+use Drupal\jsonapi\Events\CollectResourceObjectMetaEvent;
+use Drupal\jsonapi\Events\MetaDataEvents;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Drupal\Core\DependencyInjection\ServiceProviderBase;
+
+/**
+ * Alters JSON:API resource meta data to include JSON-LD uri
+ */
+class SchemaDotOrgJsonLdEndpointEventSubscriber extends ServiceProviderBase implements EventSubscriberInterface {
+
+  /**
+   * The route provider.
+   *
+   * @var \Drupal\Core\Routing\AccessAwareRouterInterface
+   */
+  protected $routeProvider;
+
+  /**
+   * Constructs a SchemaDotOrgJsonLdEndpointEventSubscriber object.
+   *
+   * @param \Drupal\Core\Routing\AccessAwareRouterInterface $route_provider
+   *   The route provider.
+   */
+  public function __construct(AccessAwareRouterInterface $route_provider) {
+    $this->routeProvider = $route_provider;
+  }
+
+  /**
+   * Add JSON-LD URI to JSON:API resource object meta data.
+   *
+   * @param \Drupal\jsonapi\Events\CollectResourceObjectMetaEvent $event
+   *   The event used for collecting resource object metadata.
+   */
+  public function addResourceObjectMeta(CollectResourceObjectMetaEvent $event) {
+    $resource_object = $event->getResourceObject();
+    $resource_type = $resource_object ->getResourceType();
+
+    $entity_type_id = $resource_type->getEntityTypeId();
+    $entity_uuid = $resource_object ->getId();
+
+    $route_name = 'schemadotorg_jsonld_endpoint.' . $entity_type_id;
+    $route_parameters = ['entity' => $entity_uuid];
+    $route_options = ['absolute' => TRUE];
+
+    // Make sure the JSON-LD route exists.
+    // @see \Drupal\schemadotorg_jsonld_endpoint\Routing\SchemaDotOrgJsonLdEndpointRoutes::routes
+    if (!$this->routeProvider->getRouteCollection()->get($route_name)) {
+      return;
+    }
+
+    $uri = Url::fromRoute($route_name, $route_parameters, $route_options)->toString();
+
+    $event->setMeta('json-ld', $uri);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getSubscribedEvents() {
+    if (!class_exists('\Drupal\jsonapi\Events\MetaDataEvents')) {
+      return [];
+    }
+    else {
+      return [MetaDataEvents::COLLECT_RESOURCE_OBJECT_META => 'addResourceObjectMeta'];
+    }
+  }
+
+}

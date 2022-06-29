@@ -50,7 +50,7 @@ class SchemaDotOrgJsonApiEventSubscriber extends ServiceProviderBase implements 
   protected $schemaJsonApiManager;
 
   /**
-   * Constructs an SchemaDotOrgJsonApiEventSubscriber object.
+   * Constructs a SchemaDotOrgJsonApiEventSubscriber object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.

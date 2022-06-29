@@ -1,10 +1,10 @@
 services:
   schemadotorg_ui.field_manager:
-    class: \Drupal\schemadotorg_ui\SchemaDotOrgUiFieldManager
+    class: Drupal\schemadotorg_ui\SchemaDotOrgUiFieldManager
     arguments: ['@module_handler', '@config.factory', '@entity_type.manager', '@entity_field.manager', '@plugin.manager.field.field_type', '@schemadotorg.schema_type_manager']
 
   schemadotorg_ui.api:
-    class: \Drupal\schemadotorg_ui\SchemaDotOrgUiApi
+    class: Drupal\schemadotorg_ui\SchemaDotOrgUiApi
     arguments: ['@module_handler', '@form_builder', '@entity_type.manager', '@entity_field.manager', '@schemadotorg.names', '@schemadotorg.schema_type_manager']
 
   schemadotorg_ui.subscriber:

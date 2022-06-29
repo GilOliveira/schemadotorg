@@ -6,7 +6,7 @@ services:
     class: Drupal\schemadotorg\SchemaDotOrgNames
     arguments: ['@config.factory']
   schemadotorg.config_manager:
-    class: \Drupal\schemadotorg\SchemaDotOrgConfigManager
+    class: Drupal\schemadotorg\SchemaDotOrgConfigManager
     arguments: ['@config.factory', '@schemadotorg.schema_type_manager']
   schemadotorg.schema_type_manager:
     class: Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager
@@ -18,7 +18,7 @@ services:
     class: Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder
     arguments: ['@module_handler', '@entity_type.manager', '@entity_display.repository', '@plugin.manager.field.field_type', '@schemadotorg.names', '@schemadotorg.schema_type_manager']
   schemadotorg.entity_relationship_manager:
-    class: \Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManager
+    class: Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManager
     arguments: ['@entity_type.manager', '@schemadotorg.schema_type_manager']
   schemadotorg.breadcrumb:
     class: Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder

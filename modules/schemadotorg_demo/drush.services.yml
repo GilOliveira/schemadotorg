@@ -1,6 +1,6 @@
 services:
   schemadotorg_demo.commands:
-    class: \Drupal\schemadotorg_demo\Commands\SchemaDotOrgDemoCommands
+    class: Drupal\schemadotorg_demo\Commands\SchemaDotOrgDemoCommands
     arguments: ['@config.factory', '@schemadotorg_demo.manager']
     tags:
       - { name: drush.command }
