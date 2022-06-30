@@ -81,6 +81,9 @@
       },
       "drupal/address": {
         "Issue #2819251: generateSampleValue": "https://www.drupal.org/files/issues/2022-05-16/address-2819251-6.patch"
+      },
+      "drupal/dashboards": {
+        "Issue #3293693: Parameter 3 to dashboards_preprocess_dashboards_admin_list() expected to be a reference, value given": "https://www.drupal.org/files/issues/2022-06-30/dashboards-3293693-2.patch"
       }
     }
   }
