@@ -90,7 +90,7 @@ sections:
         region: two
         configuration:
           id: 'dashboards_block:dashboard:node_statistics'
-          label: 'Content types'
+          label: 'Content overview'
           label_display: visible
           provider: dashboards
           context_mapping: {  }
