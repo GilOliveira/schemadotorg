@@ -12,24 +12,6 @@ use Drupal\path_alias\Entity\PathAlias;
  * Implements hook_install().
  */
 function schemadotorg_standard_install() {
-  // Add image styles to the 'Default Consumer'.
-  $consumer = Consumer::load(1);
-  if ($consumer) {
-    $consumer->get('image_styles')->setValue([
-      ['target_id' => 'large'],
-      ['target_id' => 'medium'],
-      ['target_id' => 'thumbnail'],
-    ]);
-    $consumer->save();
-  }
-
-  // Create a path alias for /api/documentation.
-  PathAlias::create([
-    'alias' => '/api/documentation',
-    'path' => '/admin/config/services/openapi/redoc/jsonapi',
-    'langcode' => 'en',
-  ])->save();
-
   /** @var \Drupal\Core\Extension\ThemeInstallerInterface $theme_installer */
   $theme_installer = \Drupal::service('theme_installer');
   /** @var \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler */
@@ -37,9 +19,14 @@ function schemadotorg_standard_install() {
   /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
   $module_installer = \Drupal::service('module_installer');
 
-  // Enable the Gin admin theme and related modules.
+  // Enable the Gin admin theme.
   $theme_installer->install(['gin']);
-  $module_installer->install(['gin_login', 'gin_toolbar']);
+
+  // Flush cache to enable the Gin admin theme.
+  drupal_flush_all_caches();
+
+  // Enable the Gin related modules.
+  $module_installer->install(['gin_login', 'gin_lb', 'gin_toolbar']);
 
   // Configure the Gin admin theme.
   \Drupal::configFactory()->getEditable('system.theme')
@@ -73,4 +60,25 @@ function schemadotorg_standard_install() {
   \Drupal::configFactory()->getEditable('devel.settings')
     ->set('dumper', 'kint')
     ->save();
+
+  // Add image styles to the 'Default Consumer'.
+  $consumer = Consumer::load(1);
+  if ($consumer) {
+    $consumer->get('image_styles')->setValue([
+      ['target_id' => 'large'],
+      ['target_id' => 'medium'],
+      ['target_id' => 'thumbnail'],
+    ]);
+    $consumer->save();
+  }
+
+  // Create a path alias for /api/documentation.
+  PathAlias::create([
+    'alias' => '/api/documentation',
+    'path' => '/admin/config/services/openapi/redoc/jsonapi',
+    'langcode' => 'en',
+  ])->save();
+
+  // Make sure update status is checked.
+  update_cron();
 }

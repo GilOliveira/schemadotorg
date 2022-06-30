@@ -7,7 +7,7 @@ function function_exists() {
 function help() {
   echo "schemadotorg-demo.sh";
   echo;
-  echo "Download, installs, and configures a demo of the Schema.org Blueprints module."
+  echo "Installs a demo of the Schema.org Blueprints module."
   echo;
   echo "This scripts assumes you are starting with a plain vanilla standard instance of Drupal."
   echo;
@@ -17,7 +17,6 @@ function help() {
   echo;
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh help";
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh install";
-  echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh configure";
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh import";
   echo "./web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh export";
 }
@@ -28,25 +27,23 @@ function status() {
 
 function install() {
   echo "Installing Schema.org Standard Profile demo with core and contrib modules";
-  drush -y pm-enable schemadotorg_standard;
 
-  echo "Installing contrib modules";
-  drush -y pm-enable \
-    features\
-    webprofiler;
-}
+  EMAIL=`git config user.email`
+  drush -yv site-install --account-mail="$EMAIL"\
+    --account-name="demo"\
+    --account-pass="demo"\
+    --site-mail="$EMAIL"\
+    --site-name="Schema.org Blueprints Demo";
 
-function configure() {
-  echo "Configuring system settings";
-  drush -y config-set system.site name 'Schema.org Blueprints Demo Site'
   drush -y config-set system.site slogan 'A demo of the Schema.org Blueprints module for Drupal.'
+
+  drush -y pm-enable schemadotorg_standard;
 }
 
 function import() {
   drush features:import -y schemadotorg
   drush features:import -y schemadotorg_descriptions
   drush features:import -y schemadotorg_demo
-  # drush features:import -y schemadotorg_flexfield
   drush features:import -y schemadotorg_inline_entity_form
   drush features:import -y schemadotorg_jsonapi
   drush features:import -y schemadotorg_jsonapi_preview
@@ -55,14 +52,15 @@ function import() {
   drush features:import -y schemadotorg_jsonld_preview
   drush features:import -y schemadotorg_paragraphs
   drush features:import -y schemadotorg_report
+  drush features:import -y schemadotorg_standard
   drush features:import -y schemadotorg_taxonomy
+  # drush features:import -y schemadotorg_flexfield
 }
 
 function export() {
   drush features:export -y schemadotorg
   drush features:export -y schemadotorg_descriptions
   drush features:export -y schemadotorg_demo
-  # drush features:export -y schemadotorg_flexfield
   drush features:export -y schemadotorg_inline_entity_form
   drush features:export -y schemadotorg_jsonapi
   drush features:export -y schemadotorg_jsonapi_preview
@@ -71,7 +69,9 @@ function export() {
   drush features:export -y schemadotorg_jsonld_preview
   drush features:export -y schemadotorg_paragraphs
   drush features:export -y schemadotorg_report
+  drush features:export -y schemadotorg_standard
   drush features:export -y schemadotorg_taxonomy
+  # drush features:export -y schemadotorg_flexfield
 }
 
 ################################################################################

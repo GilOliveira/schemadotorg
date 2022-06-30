@@ -10,3 +10,13 @@
 .api-info-version {
   display: none;
 }
+
+.dashboards-container .block-views-blockwho-s-online-who-s-online-block .panel__content,
+.dashboards-container .block-dashboards-blockdashboardaccount .panel__content {
+  margin: 0 .75rem;
+  padding: 0 24px;
+}
+
+.dashboards-container .block-search .panel__content {
+  margin: 0 .75rem;
+}

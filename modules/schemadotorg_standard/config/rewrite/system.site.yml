@@ -1,0 +1,4 @@
+config_rewrite:
+  replace: ["page.fronts"]
+page:
+  front: /dashboard/schemadotorg

@@ -4,6 +4,7 @@ namespace Drupal\schemadotorg_jsonld_preview;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Routing\AccessAwareRouterInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface;
@@ -14,6 +15,13 @@ use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface;
  */
 class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuilderInterface {
   use StringTranslationTrait;
+
+  /**
+   * The route provider.
+   *
+   * @var \Drupal\Core\Routing\AccessAwareRouterInterface
+   */
+  protected $routeProvider;
 
   /**
    * The module handler.
@@ -46,6 +54,8 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
   /**
    * Constructs a SchemaDotOrgJsonLdPreviewBuilder object.
    *
+   * @param \Drupal\Core\Routing\AccessAwareRouterInterface $route_provider
+   *   The route provider.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -56,11 +66,13 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
    *   The Schema.org JSON-LD builder service.
    */
   public function __construct(
+    AccessAwareRouterInterface $route_provider,
     ModuleHandlerInterface $module_handler,
     EntityTypeManagerInterface $entity_type_manager,
     SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager,
     SchemaDotOrgJsonLdBuilderInterface $schema_jsonld_builder
   ) {
+    $this->routeProvider = $route_provider;
     $this->moduleHandler = $module_handler;
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaJsonLdManager = $schema_jsonld_manager;
@@ -141,27 +153,32 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
     $entity = $this->schemaJsonLdManager->getRouteMatchEntity();
     if ($entity && $this->moduleHandler->moduleExists('schemadotorg_jsonld_endpoint')) {
       $entity_type_id = $entity->getEntityTypeId();
-      $jsonld_url = Url::fromRoute(
-        'schemadotorg_jsonld_endpoint.' . $entity_type_id,
-        ['entity' => $entity->uuid()],
-        ['absolute' => TRUE],
-      );
-      // Allow other modules to link to additional endpoints.
-      // @see schemadotorg_taxonomy_entity_view_alter()
-      $build['endpoints'] = [
-        '#type' => 'container',
-        '#attributes' => ['class' => ['schemadotorg-jsonld-preview-endpoints']],
-      ];
-      $build['endpoints'][$entity_type_id] = [
-        '#type' => 'item',
-        '#title' => $this->t('JSON-LD endpoint'),
-        '#wrapper_attributes' => ['class' => ['container-inline']],
-        'link' => [
-          '#type' => 'link',
-          '#url' => $jsonld_url,
-          '#title' => $jsonld_url->toString(),
-        ],
-      ];
+      $route_name = 'schemadotorg_jsonld_endpoint.' . $entity_type_id;
+      $route_parameters = ['entity' => $entity->uuid()];
+      $route_options = ['absolute' => TRUE];
+
+      // Make sure the JSON-LD route exists.
+      // @see \Drupal\schemadotorg_jsonld_endpoint\Routing\SchemaDotOrgJsonLdEndpointRoutes::routes
+      if ($this->routeProvider->getRouteCollection()->get($route_name)) {
+        $jsonld_url = Url::fromRoute($route_name, $route_parameters, $route_options);
+
+        // Allow other modules to link to additional endpoints.
+        // @see schemadotorg_taxonomy_entity_view_alter()
+        $build['endpoints'] = [
+          '#type' => 'container',
+          '#attributes' => ['class' => ['schemadotorg-jsonld-preview-endpoints']],
+        ];
+        $build['endpoints'][$entity_type_id] = [
+          '#type' => 'item',
+          '#title' => $this->t('JSON-LD endpoint'),
+          '#wrapper_attributes' => ['class' => ['container-inline']],
+          'link' => [
+            '#type' => 'link',
+            '#url' => $jsonld_url,
+            '#title' => $jsonld_url->toString(),
+          ],
+        ];
+      }
     }
     return $build;
   }

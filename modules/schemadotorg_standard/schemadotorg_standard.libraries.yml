@@ -6,4 +6,4 @@ schemadotorg_standard:
   js:
     js/schemadotorg_standard.js: {}
   dependencies:
-    - 'core/drupalSettings'
+    - core/drupalSettings

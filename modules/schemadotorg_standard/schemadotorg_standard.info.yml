@@ -2,7 +2,7 @@ name: 'Schema.org Blueprints Standard Profile Setup'
 type: module
 description: |
   Provides an opinionated demo of the Schema.org Blueprints built on top of Drupal's standard profile.
-  THIS DEMO SHOULD ONLY BE INSTALLED ON A PLAIN VANILLA STANDARD INSTANCE OF DRUPAL
+  THIS MODULE SHOULD ONLY BE INSTALLED ON A PLAIN VANILLA STANDARD INSTANCE OF DRUPAL
 package: 'Schema.org Blueprints'
 core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental
@@ -21,14 +21,18 @@ dependencies:
   - 'content_browser:content_browser'
   - 'consumer_image_styles:consumer_image_styles'
   - 'consumers:consumers'
+  - 'dashboards:dashboards'
+  - 'dashboards:dashboards_views'
   - 'devel:devel'
   - 'devel:devel_generate'
+  - 'devel:webprofiler'
   - 'dropzonejs:dropzonejs'
   - 'embed:embed'
   - 'entity_browser:entity_browser'
   - 'entity_browser:entity_browser_entity_form'
   - 'entity_embed:entity_embed'
   - 'entity_usage:entity_usage'
+  - 'features:features'
   - 'field_group:field_group'
   - 'inline_entity_form:inline_entity_form'
   - 'jsonapi_extras:jsonapi_extras'

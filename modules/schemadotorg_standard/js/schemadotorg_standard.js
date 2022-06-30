@@ -15,4 +15,13 @@
     window.location = drupalSettings.path.baseUrl + 'user/login?destination=' + drupalSettings.path.baseUrl;
   }
 
+  window.addEventListener('load', (event) => {
+    if (drupalSettings.path.currentPath === 'user/login') {
+      setTimeout(() => {
+        document.getElementById('edit-name').value = 'demo';
+        document.getElementById('edit-pass').value = 'demo';
+      }, 100);
+    }
+  });
+
 } (drupalSettings));

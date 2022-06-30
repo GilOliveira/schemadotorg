@@ -1,0 +1,151 @@
+langcode: en
+status: true
+dependencies: {  }
+id: schemadotorg
+admin_label: 'Schema.org Blueprints Demo'
+category: ''
+frontend: false
+weight: 0
+sections:
+  -
+    layout_id: layout_3
+    layout_settings:
+      label: 'Main content'
+      context_mapping: {  }
+      reverse: 0
+    components:
+      9127b399-d4db-4dce-b6d9-8dfc0866b1c9:
+        uuid: 9127b399-d4db-4dce-b6d9-8dfc0866b1c9
+        region: one
+        configuration:
+          id: 'dashboards_block:dashboard:add_content_menu'
+          label: 'Add content'
+          label_display: visible
+          provider: dashboards
+          context_mapping: {  }
+          items:
+            article:
+              weight: '0'
+            page:
+              weight: '0'
+        weight: 2
+        additional: {  }
+      8df4432a-aea7-4631-9243-b0dae0cfe5f4:
+        uuid: 8df4432a-aea7-4631-9243-b0dae0cfe5f4
+        region: two
+        configuration:
+          id: 'dashboards_block:dashboard:view_embed'
+          label: 'Browse content'
+          label_display: visible
+          provider: dashboards
+          context_mapping: {  }
+          view: 'dashboard_last_content:embed_1'
+        weight: 0
+        additional: {  }
+      44da10c6-0da8-4cf6-94bc-fd6e6b5148ac:
+        uuid: 44da10c6-0da8-4cf6-94bc-fd6e6b5148ac
+        region: one
+        configuration:
+          id: 'dashboards_block:dashboard:account'
+          label: 'Your account information'
+          label_display: visible
+          provider: dashboards
+          view_mode: default
+          context_mapping: {  }
+        weight: 0
+        additional: {  }
+      8929ac86-bfff-4c00-be04-c6aa946e0c24:
+        uuid: 8929ac86-bfff-4c00-be04-c6aa946e0c24
+        region: one
+        configuration:
+          id: shortcuts
+          label: Shortcuts
+          label_display: visible
+          provider: shortcut
+          context_mapping: {  }
+        weight: 1
+        additional: {  }
+    third_party_settings: {  }
+  -
+    layout_id: layout_2
+    layout_settings:
+      label: Stats
+      context_mapping: {  }
+    components:
+      c3b330fc-39a3-4129-abc3-1798d80b2b96:
+        uuid: c3b330fc-39a3-4129-abc3-1798d80b2b96
+        region: one
+        configuration:
+          id: 'views_block:who_s_online-who_s_online_block'
+          label: ''
+          label_display: visible
+          provider: views
+          context_mapping: {  }
+          views_label: ''
+          items_per_page: none
+        weight: 0
+        additional: {  }
+      46e0542b-c662-454a-840b-06f31e384467:
+        uuid: 46e0542b-c662-454a-840b-06f31e384467
+        region: two
+        configuration:
+          id: 'dashboards_block:dashboard:node_statistics'
+          label: 'Content types'
+          label_display: visible
+          provider: dashboards
+          context_mapping: {  }
+          chart_type: pie
+        weight: 0
+        additional: {  }
+      7876eb35-62ae-4780-89cf-af392e2c180e:
+        uuid: 7876eb35-62ae-4780-89cf-af392e2c180e
+        region: three
+        configuration:
+          id: 'dashboards_block:dashboard:report_not_found'
+          label: 'Top 404 pages'
+          label_display: visible
+          provider: dashboards
+          context_mapping: {  }
+        weight: 0
+        additional: {  }
+    third_party_settings: {  }
+  -
+    layout_id: layout_2
+    layout_settings:
+      label: Reports
+      context_mapping: {  }
+    components:
+      e10e0c8d-afec-4294-b659-ebfa69db2f8f:
+        uuid: e10e0c8d-afec-4294-b659-ebfa69db2f8f
+        region: one
+        configuration:
+          id: 'dashboards_block:dashboard:system_info'
+          label: 'Show system info'
+          label_display: visible
+          provider: dashboards
+          context_mapping: {  }
+        weight: 0
+        additional: {  }
+      3798d246-a5f1-4323-af83-f3cd491779d0:
+        uuid: 3798d246-a5f1-4323-af83-f3cd491779d0
+        region: two
+        configuration:
+          id: 'dashboards_block:dashboard:error_report'
+          label: 'Show error info'
+          label_display: visible
+          provider: dashboards
+          context_mapping: {  }
+        weight: 0
+        additional: {  }
+      29a7dbab-94db-43c8-8e7c-194dfa2be5e0:
+        uuid: 29a7dbab-94db-43c8-8e7c-194dfa2be5e0
+        region: three
+        configuration:
+          id: 'dashboards_block:dashboard:status_updates'
+          label: 'Module update status'
+          label_display: visible
+          provider: dashboards
+          context_mapping: {  }
+        weight: 0
+        additional: {  }
+    third_party_settings: {  }
