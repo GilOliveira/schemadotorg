@@ -42,7 +42,7 @@ function schemadotorg_taxonomy_preprocess_html(array &$variables) {
   }
 
   // Get JSON-LD endpoint render array.
-  $build_endpoints = &NestedArray::getValue($variables, ['page', 'content', 'schemadotorg_jsonid_preview', 'endpoints']);
+  $build_endpoints = &NestedArray::getValue($variables, ['page', 'content', 'schemadotorg_jsonld_preview', 'endpoints']);
 
   // Make sure the Schema.org JSON-LD taxonomy term preview with
   // endpoints exists.

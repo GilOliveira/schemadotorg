@@ -60,7 +60,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    *
    * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface
    */
-  protected $schemaJsonIdManager;
+  protected $schemaJsonLdManager;
 
   /**
    * Constructs a SchemaDotOrgJsonLdBuilder object.
@@ -87,7 +87,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $this->routeMatch = $route_match;
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaTypeManager = $schema_type_manager;
-    $this->schemaJsonIdManager = $schema_jsonld_manager;
+    $this->schemaJsonLdManager = $schema_jsonld_manager;
   }
 
   /**
@@ -103,7 +103,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $data += $this->invokeDataHook('schemadotorg_jsonld', [$route_match]);
 
     // Add entity data.
-    $entity = $this->schemaJsonIdManager->getRouteMatchEntity($route_match);
+    $entity = $this->schemaJsonLdManager->getRouteMatchEntity($route_match);
     $entity_data = $this->buildEntity($entity);
     if ($entity_data) {
       $data['schemadotorg_jsonld_entity'] = $entity_data;
@@ -137,7 +137,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $this->invokeEntityHook('schemadotorg_jsonld_entity_load', $data, $entity);
 
     // Add Schema.org identifiers. (Defaults to UUID)
-    $identifiers = $this->schemaJsonIdManager->getSchemaIdentifiers($entity);
+    $identifiers = $this->schemaJsonLdManager->getSchemaIdentifiers($entity);
     if ($identifiers) {
       // Make sure existing identifier data is an indexed array.
       if (isset($data['identifier']) && is_array($data['identifier'])) {
@@ -156,7 +156,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $this->invokeEntityHook('schemadotorg_jsonld_entity_alter', $data, $entity);
 
     // Sort Schema.org properties in specified order and then alphabetically.
-    $data = $this->schemaJsonIdManager->sortProperties($data);
+    $data = $this->schemaJsonLdManager->sortProperties($data);
 
     // Return data if a Schema.org @type is defined.
     return (isset($data['@type']))
@@ -291,11 +291,11 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     }
 
     // Get Schema.org property value.
-    $property_value = $this->schemaJsonIdManager->getSchemaPropertyValue($item);
+    $property_value = $this->schemaJsonLdManager->getSchemaPropertyValue($item);
 
     // Get Schema.org property value with the property's
     // default Schema.org type.
-    return $this->schemaJsonIdManager->getSchemaPropertyValueDefaultType($schema_type, $schema_property, $property_value);
+    return $this->schemaJsonLdManager->getSchemaPropertyValueDefaultType($schema_type, $schema_property, $property_value);
   }
 
   /**

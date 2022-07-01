@@ -12,7 +12,6 @@ Tests
 - Determine the recommended types per entity type.
   - Document tested and supported default Schema.org types.
   - Always review default Schema.org type properties.
-  - Can we provide sector specific demos?
 - Build out the default schema types properties.
 - Review patterns and tests.
 
@@ -25,26 +24,8 @@ Code
 Ajax
 - Add Ajax to mapping form add field UI/UX
   - @see \Drupal\jsonapi_extras\Form\JsonapiResourceConfigForm
-
-# Research
-
-- https://www.drupal.org/docs/drupal-apis/entity-api/dynamicvirtual-field-values-using-computed-field-property-classes
-- https://www.lullabot.com/articles/write-better-code-typed-entity
-- https://www.wikidata.org/wiki/Wikidata:Introduction
-- https://iptc.org/
-
+  
 # Ideas
-
-- Schema.org Blueprint Configuration module
-  - Established the best practice of collecting configuration settings in a
-    field type
-  - Configuration field type is automatically included via APIs.
-  - Configuration field data is simple key/values.
-  - Configuration field data is not displayed on the page.
-  - Add Configuration details to the entity edit form
-  - Create a Schema.org type specific flexfield.
-  - Label 'Custom configuration'
-  - Can be preconfigured and altered as needed.
 
 - Automatically generate corresponding View for Schema.org mapping (node and media)
   - Huge amount of work to understand the Views entity and APIs.
@@ -79,8 +60,6 @@ Ajax
 
 # TBD
 
-## General
-
 What field types won't easily work or map to Schema.org?
 - text with summary and formatting
 - Date range
@@ -91,30 +70,4 @@ What field types won't easily work or map to Schema.org?
 
 - How to handle translations for imported data?
   - Include descriptions added via the schemadotorg_descriptions.module
-
-## JSON:API
-
-- Should/could we add a link to JSON-LD (jsonld) via the JSON:API meta information?
-  - https://www.drupal.org/project/drupal/issues/3100732
-
-- Should field sub-properties for address and flexfield be converted to camelCase?
-  - Seems unnecessary.
-
-## JSON-LD
-
-- Should the JSON-LD preview be moved to a configurable block?
-
-## Schema.org
-
-What Schema.org types should we document?
-- Thing
-- Recipe
-- Restaurant
-- Logging business: Hotel
-- Person
-- LocalBusiness
-- Physician
-- Movie
-- Blogpost
-- CreativeWork: FAQ
-- HowTo
+  
