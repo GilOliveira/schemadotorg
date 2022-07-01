@@ -832,6 +832,7 @@ schema_properties:
   default_fields:
     FAQPage--mainEntity:
       label: Questions
+      unlimited: true
     ImageGallery--hasPart:
       label: Images
       unlimited: true
@@ -852,6 +853,7 @@ schema_properties:
       label: 'Physician biography'
     QAPage--mainEntity:
       label: Questions
+      unlimited: true
     Question--acceptedAnswer:
       label: Answer
     Question--name:

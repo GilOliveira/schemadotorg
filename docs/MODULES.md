@@ -72,6 +72,9 @@ API
 - **Schema.org Blueprints JSON:API**  
   Builds on top of the JSON:API and JSON:API extras modules to apply Schema.org type and property mappings to JSON:API resources.
 
+- **Schema.org Blueprints JSON:API Preview**  
+  Allows users to preview a web page's Schema.org JSON:API.
+
 ## Core Modules
 
 - **[Datetime](https://www.drupal.org/docs/8/core/modules/datetime)**
