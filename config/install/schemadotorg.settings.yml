@@ -1107,7 +1107,7 @@ schema_properties:
       label: 'Recipe ingredients'
       unlimited: true
     recipeInstructions:
-      type: text_long
+      type: string_long
       unlimited: true
     relatedDrug:
       label: 'Related drugs'

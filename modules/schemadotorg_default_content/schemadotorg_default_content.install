@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Schema.org Default Content module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_default_content_install($is_syncing) {
+  if ($is_syncing) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_mapping_set\SchemaDotOrgMappingSetManagerInterface $mapping_set_manager */
+  $mapping_set_manager = \Drupal::service('schemadotorg_mapping_set.manager');
+  $mapping_set_manager->setup('common');
+}

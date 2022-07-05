@@ -23,6 +23,7 @@ dependencies:
   - 'consumers:consumers'
   - 'dashboards:dashboards'
   - 'dashboards:dashboards_views'
+  - 'default_content:default_content'
   - 'devel:devel'
   - 'devel:devel_generate'
   - 'devel:webprofiler'

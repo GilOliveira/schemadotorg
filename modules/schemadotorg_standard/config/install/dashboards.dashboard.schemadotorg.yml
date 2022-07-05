@@ -28,7 +28,7 @@ sections:
               weight: '0'
             page:
               weight: '0'
-        weight: 2
+        weight: 3
         additional: {  }
       8df4432a-aea7-4631-9243-b0dae0cfe5f4:
         uuid: 8df4432a-aea7-4631-9243-b0dae0cfe5f4
@@ -63,6 +63,18 @@ sections:
           label_display: visible
           provider: shortcut
           context_mapping: {  }
+        weight: 2
+        additional: {  }
+      930e8fb8-9bc6-4ead-9e7c-09c84a17fdd4:
+        uuid: 930e8fb8-9bc6-4ead-9e7c-09c84a17fdd4
+        region: one
+        configuration:
+          id: search_form_block
+          label: 'Find content'
+          label_display: visible
+          provider: search
+          context_mapping: {  }
+          page_id: ''
         weight: 1
         additional: {  }
     third_party_settings: {  }

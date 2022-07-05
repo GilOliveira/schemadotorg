@@ -1,0 +1,77 @@
+
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Schema.org Standard module.
+ */
+
+use \Drupal\schemadotorg_demo_umami_content\SchemaDotOrgDemoUmamiContentInstallHelper;
+
+/**
+ * Implements hook_install().
+ *
+ * @see demo_umami_content_module_preinstall()
+ */
+function schemadotorg_demo_umami_content_install($is_syncing) {
+  if ($is_syncing) {
+    return;
+  }
+
+  // Create Schema.org type mappings.
+  /** @var \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface $schema_api */
+  $schema_api = \Drupal::service('schemadotorg_ui.api');
+  $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
+  $types = [
+    'media:ImageObject',
+    'taxonomy_term:DefinedTerm',
+    'paragraph:NutritionInformation',
+    'node:Article',
+    'node:WebPage',
+    'node:Recipe',
+  ];
+  foreach ($types as $type) {
+    [$entity_type, $schema_type] = explode(':', $type);
+    $mapping = $mapping_storage->loadByProperties([
+      'target_entity_type_id' => $entity_type,
+      'type' => $schema_type,
+    ]);
+    if ($mapping) {
+      continue;
+    }
+    $schema_api->createType($entity_type, $schema_type);
+  }
+
+  \Drupal::classResolver(SchemaDotOrgDemoUmamiContentInstallHelper::class)->importContent();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function schemadotorg_demo_umami_content_uninstall($is_syncing) {
+  if ($is_syncing) {
+    return;
+  }
+
+  \Drupal::classResolver(SchemaDotOrgDemoUmamiContentInstallHelper::class)->deleteImportedContent();
+
+  // Delete Schema.org type mappings.
+  /** @var \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface $schema_api */
+  $schema_api = \Drupal::service('schemadotorg_ui.api');
+  $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
+  $types = [
+    'node:Recipe',
+    'paragraph:NutritionInformation',
+  ];
+  foreach ($types as $type) {
+    [$entity_type, $schema_type] = explode(':', $type);
+    $mapping = $mapping_storage->loadByProperties([
+      'target_entity_type_id' => $entity_type,
+      'type' => $schema_type,
+    ]);
+    if ($mapping) {
+      continue;
+    }
+    $schema_api->deleteType($entity_type, $schema_type);
+  }
+}

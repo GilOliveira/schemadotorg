@@ -1,0 +1,65 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: be8f941d-0d26-4d38-a4fb-8e4a43b65ec2
+  bundle: person
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'George Washington'
+  created:
+    -
+      value: 1657041130
+  promote:
+    -
+      value: true
+  sticky:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  path:
+    -
+      alias: ''
+      langcode: en
+  schema_additional_name:
+    -
+      value: Samuel
+  schema_address:
+    -
+      langcode: ''
+      country_code: US
+      administrative_area: NY
+      locality: Brooklyn
+      dependent_locality: ''
+      postal_code: '11111'
+      sorting_code: ''
+      address_line1: 'Some street'
+      address_line2: ''
+      organization: 'United States'
+      given_name: George
+      additional_name: ''
+      family_name: Washington
+  schema_email:
+    -
+      value: example@example
+  schema_family_name:
+    -
+      value: Washington
+  schema_given_name:
+    -
+      value: George
+  schema_telephone:
+    -
+      value: '1234567890'

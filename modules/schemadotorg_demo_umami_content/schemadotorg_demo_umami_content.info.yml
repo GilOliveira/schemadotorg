@@ -1,0 +1,9 @@
+name: 'Schema.org Blueprints Umami Demo Content'
+type: module
+description: Imports the content for the Umami demo with Schema.org Blueprints.
+package: 'Schema.org Blueprints'
+core_version_requirement: '^8.9 || ^9'
+lifecycle: experimental
+dependencies:
+  - 'schemadotorg:schemadotorg'
+  - 'schemadotorg:schemadotorg_ui'

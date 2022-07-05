@@ -14,6 +14,7 @@
 /**
  * Dashboards.
  */
+.dashboards-container .block-search .panel__content,
 .dashboards-container .block-dashboards-blockdashboardnode-statistics .panel__content,
 .dashboards-container .block-views-blockwho-s-online-who-s-online-block .panel__content,
 .dashboards-container .block-dashboards-blockdashboardaccount .panel__content {
