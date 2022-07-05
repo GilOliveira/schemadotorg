@@ -150,6 +150,7 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertEquals('Organization', $this->schemaTypeManager->getPropertyDefaultType('brand'));
     $this->assertEquals('CreativeWork', $this->schemaTypeManager->getPropertyDefaultType('subjectOf'));
     $this->assertEquals('Answer', $this->schemaTypeManager->getPropertyDefaultType('acceptedAnswer'));
+    $this->assertNull($this->schemaTypeManager->getPropertyDefaultType('recipeInstructions'));
 
     // Check getting Schema.org type or property items.
     $items = $this->schemaTypeManager->getItems('types', ['Thing', 'Place']);

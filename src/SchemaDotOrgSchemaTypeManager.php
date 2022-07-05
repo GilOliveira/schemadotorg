@@ -258,18 +258,30 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
     $range_includes = $this->parseIds($property_definition['range_includes']);
     $type_definitions = $this->getTypes($range_includes);
 
+    $sub_types_of_thing = [];
     foreach ($type_definitions as $type => $type_definition) {
       // Remove all types definitions without properties
       // (i.e. Enumerations and Data types).
       if (empty($type_definition['properties'])) {
-        unset($type_definitions[$type]);
+        // If the property range can be a simple data type, do not return a
+        // default type.
+        if ($this->isDataType($type)) {
+          return NULL;
+        }
+        // Otherwise. unset the enumeration.
+        else {
+          unset($type_definitions[$type]);
+        }
       }
-      // Target the most generic Schema.org type
-      // (i.e. a sub type of Thing).
+      // Track subtypes of Thing.
       elseif ($type_definition['sub_type_of'] === 'https://schema.org/Thing') {
-        return $type;
+        $sub_types_of_thing[$type] = $type;
       }
     }
+
+    // Make sure sub types of Thing comes first.
+    $type_definitions = $sub_types_of_thing + $type_definitions;
+
     // Finally, return the first type in range_includes type definitions.
     return array_key_first($type_definitions);
   }
