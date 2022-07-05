@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Schema.org mapping set module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function schemadotorg_mapping_set_uninstall() {
+  \Drupal::state()->delete('schemadotorg_mapping_set_setup');
+}

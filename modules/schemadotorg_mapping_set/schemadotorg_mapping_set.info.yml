@@ -1,4 +1,4 @@
-name: 'Schema.org Blueprints Demo'
+name: 'Schema.org Blueprints Mapping Sets'
 type: module
 description: |
   Provides the ability to create related Schema.org types via Drush.

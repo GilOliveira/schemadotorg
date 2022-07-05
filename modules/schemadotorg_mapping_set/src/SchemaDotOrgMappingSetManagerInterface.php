@@ -1,17 +1,17 @@
 <?php
 
-namespace Drupal\schemadotorg_demo;
+namespace Drupal\schemadotorg_mapping_set;
 
 /**
- * Schema.org demo manager interface.
+ * Schema.org mapping set manager interface.
  */
-interface SchemaDotOrgDemoManagerInterface {
+interface SchemaDotOrgMappingSetManagerInterface {
 
   /**
-   * Setup the Schema.org demo.
+   * Setup the Schema.org mapping set.
    *
    * @param string $name
-   *   The name of demo.
+   *   The name of mapping set.
    *
    * @return array
    *   An array of messages.
@@ -19,10 +19,10 @@ interface SchemaDotOrgDemoManagerInterface {
   public function setup($name);
 
   /**
-   * Teardown the Schema.org demo.
+   * Teardown the Schema.org mapping set.
    *
    * @param string $name
-   *   The name of demo.
+   *   The name of mapping set.
    *
    * @return array
    *   An array of messages.
@@ -30,42 +30,42 @@ interface SchemaDotOrgDemoManagerInterface {
   public function teardown($name);
 
   /**
-   * Generate the Schema.org demo.
+   * Generate the Schema.org mapping set.
    *
    * @param string $name
-   *   The name of demo.
+   *   The name of mapping set.
    */
   public function generate($name);
 
   /**
-   * Kill the Schema.org demo.
+   * Kill the Schema.org mapping set.
    *
    * @param string $name
-   *   The name of demo.
+   *   The name of mapping set.
    */
   public function kill($name);
 
   /**
-   * Get demo types from demo name.
+   * Get Schema.org types from mapping set name.
    *
    * @param string $name
-   *   Demo name.
+   *   Schema.org mapping set name.
    * @param bool $required
    *   Include required types.
    *
    * @return array
-   *   Demo types.
+   *   Schema.org types.
    */
   public function getTypes($name, $required = FALSE);
 
   /**
-   * Detemine if a Schema.org demo is already setup.
+   * Detemine if a Schema.org mapping set is already setup.
    *
    * @param string $name
-   *   A demo name.
+   *   A Schema.org mapping set name.
    *
    * @return bool
-   *   If a Schema.org demo is already setup.
+   *   If a Schema.org mapping set is already setup.
    */
   public function isSetup($name);
 

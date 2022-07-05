@@ -1,13 +1,13 @@
-schemadotorg_demo.settings:
+schemadotorg_mapping_set.settings:
   type: config_entity
-  label: Schema.org Demo settings
+  label: Schema.org mapping set settings
   mapping:
-    demos:
+    sets:
       type: sequence
-      label: 'Demos'
+      label: 'Mapping sets'
       sequence:
         type: mapping
-        label: 'Demo'
+        label: 'Mapping set'
         mapping:
           label:
             type: string

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\schemadotorg_demo;
+namespace Drupal\schemadotorg_mapping_set;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -11,9 +11,9 @@ use Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface;
 use Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface;
 
 /**
- * Schema.org Demo manager.
+ * Schema.org mapping set manager.
  */
-class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
+class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInterface {
   use StringTranslationTrait;
 
   /**
@@ -60,7 +60,7 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
   protected $develGenerateManager;
 
   /**
-   * SchemaDotOrgDemoCommands constructor.
+   * SchemaDotOrgMappingSetCommands constructor.
    *
    * @param \Drupal\Core\State\StateInterface $state
    *   The state service.
@@ -96,7 +96,7 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
    */
   public function setup($name) {
     if ($this->isSetup($name)) {
-      return [$this->t('Schema.org demo @name is already setup.', ['@name' => $name])];
+      return [$this->t('Schema.org mapping set @name is already setup.', ['@name' => $name])];
     }
 
     // Setup required.
@@ -132,10 +132,10 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
       $this->schemaEntityRelationshipManager->repair();
     }
 
-    // Set that the demo was set up.
-    $setup = $this->state->get('schemadotorg_demo_setup') ?? [];
+    // Set that the mapping set was set up.
+    $setup = $this->state->get('schemadotorg_mapping_set_setup') ?? [];
     $setup[$name] = $name;
-    $this->state->set('schemadotorg_demo_setup', $setup);
+    $this->state->set('schemadotorg_mapping_set_setup', $setup);
 
     return $messages;
   }
@@ -145,7 +145,7 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
    */
   public function teardown($name) {
     if (!$this->isSetup($name)) {
-      return [$this->t('Schema.org demo $name is not setup.')];
+      return [$this->t('Schema.org mapping set $name is not setup.')];
     }
 
     $this->kill($name);
@@ -193,10 +193,10 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
       $messages[] = $this->t('Schema.org types (@types) deleted.', $t_args);
     }
 
-    // Unset that the demo was set up.
-    $setup = $this->state->get('schemadotorg_demo_setup') ?? [];
+    // Unset that the mapping set was set up.
+    $setup = $this->state->get('schemadotorg_mapping_set_setup') ?? [];
     unset($setup[$name]);
-    $this->state->set('schemadotorg_demo_setup', $setup);
+    $this->state->set('schemadotorg_mapping_set_setup', $setup);
 
     return $messages;
   }
@@ -221,7 +221,7 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
    * {@inheritdoc}
    */
   public function isSetup($name) {
-    $setup = $this->state->get('schemadotorg_demo_setup') ?? [];
+    $setup = $this->state->get('schemadotorg_mapping_set_setup') ?? [];
     return isset($setup[$name]);
   }
 
@@ -229,14 +229,14 @@ class SchemaDotOrgDemoManager implements SchemaDotOrgDemoManagerInterface {
    * {@inheritdoc}
    */
   public function getTypes($name, $required = FALSE) {
-    $demo = $this->configFactory
-      ->get('schemadotorg_demo.settings')
-      ->get("demos.$name");
-    if (empty($demo)) {
+    $mapping_set = $this->configFactory
+      ->get('schemadotorg_mapping_set.settings')
+      ->get("sets.$name");
+    if (empty($mapping_set)) {
       return [];
     }
 
-    $types = array_combine($demo['types'], $demo['types']);
+    $types = array_combine($mapping_set['types'], $mapping_set['types']);
 
     // Prepend required types.
     if ($required) {

@@ -1,28 +1,28 @@
 <?php
 
-namespace Drupal\schemadotorg_demo\Controller;
+namespace Drupal\schemadotorg_mapping_set\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Returns responses for Schema.org Blueprints Demo routes.
+ * Returns responses for Schema.org Blueprints Mapping Sets routes.
  */
-class SchemadotorgDemoController extends ControllerBase {
+class SchemadotorgMappingSetController extends ControllerBase {
 
   /**
-   * The Schema.org demo manager service.
+   * The Schema.org mapping set manager service.
    *
-   * @var \Drupal\schemadotorg_demo\SchemaDotOrgDemoManagerInterface
+   * @var \Drupal\schemadotorg_mapping_set\SchemaDotOrgMappingSetManagerInterface
    */
-  protected $schemaDemoManager;
+  protected $schemaMappingSetManager;
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     $instance = new static();
-    $instance->schemaDemoManager = $container->get('schemadotorg_demo.manager');
+    $instance->schemaMappingSetManager = $container->get('schemadotorg_mapping_set.manager');
     return $instance;
   }
 
@@ -40,15 +40,15 @@ class SchemadotorgDemoController extends ControllerBase {
 
     // Rows.
     $rows = [];
-    $demos = $this->config('schemadotorg_demo.settings')->get('demos');
-    foreach ($demos as $name => $demo) {
-      $is_setup = $this->schemaDemoManager->isSetup($name);
+    $mapping_sets = $this->config('schemadotorg_mapping_set.settings')->get('sets');
+    foreach ($mapping_sets as $name => $mapping_set) {
+      $is_setup = $this->schemaMappingSetManager->isSetup($name);
 
       $row = [];
-      $row[] = $demo['label'];
+      $row[] = $mapping_set['label'];
       $row[] = $name;
       $row[] = $is_setup ? $this->t('Yes') : $this->t('No');
-      $row[] = implode(', ', $demo['types']);
+      $row[] = implode(', ', $mapping_set['types']);
       if ($is_setup) {
         $rows[] = ['data' => $row, 'class' => ['color-success']];
       }

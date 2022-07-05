@@ -1,5 +1,5 @@
 services:
-  schemadotorg_demo.manager:
-    class: Drupal\schemadotorg_demo\SchemaDotOrgDemoManager
+  schemadotorg_mapping_set.manager:
+    class: Drupal\schemadotorg_mapping_set\SchemaDotOrgMappingSetManager
     arguments: ['@state', '@config.factory', '@entity_type.manager', '@schemadotorg.entity_relationship_manager', '@schemadotorg_ui.api', '@?plugin.manager.develgenerate']
 
