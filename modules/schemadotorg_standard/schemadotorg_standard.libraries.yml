@@ -7,3 +7,4 @@ schemadotorg_standard:
     js/schemadotorg_standard.js: {}
   dependencies:
     - core/drupalSettings
+    - core/drupal.message

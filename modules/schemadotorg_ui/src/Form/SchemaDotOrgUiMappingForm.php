@@ -290,6 +290,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 
+    $schema_type = $this->getSchemaType();
     $mapping_entity = $this->getEntity();
 
     // Default the redirect to the current page if we are update the
@@ -300,25 +301,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     // Create the new target bundle entity.
     if ($mapping_entity->isNewTargetEntityTypeBundle()) {
+      // Add new target bundle entity.
       $bundle_entity_type_id = $mapping_entity->getTargetEntityTypeBundleId();
       $bundle_entity_type_definition = $mapping_entity->getTargetEntityTypeBundleDefinition();
-
-      // Get bundle entity values and map id and label keys.
-      // (i.e, A node's label is saved in the database as its title)
       $bundle_entity_values = $form_state->getValue('entity');
-      $keys = ['id', 'label'];
-      foreach ($keys as $key) {
-        $key_name = $bundle_entity_type_definition->getKey($key);
-        if ($key_name !== $key) {
-          $bundle_entity_values[$key_name] = $bundle_entity_values[$key];
-          unset($bundle_entity_values[$key]);
-        }
-      }
-
-      /** @var \Drupal\Core\Entity\Sql\SqlContentEntityStorage $bundle_entity_storage */
-      $bundle_entity_storage = $this->entityTypeManager->getStorage($bundle_entity_type_id);
-      $bundle_entity = $bundle_entity_storage->create($bundle_entity_values);
-      $bundle_entity->save();
+      $bundle_entity = $this->schemaEntityTypeBuilder->addBundleEntity($schema_type, $bundle_entity_type_id, $bundle_entity_values);
 
       // Set mapping entity target bundle.
       $mapping_entity->setTargetBundle($bundle_entity->id());
@@ -331,16 +318,17 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $this->messenger()->addStatus($this->t('The @type %name has been added.', $t_args));
 
       // Log new bundle entity.
+      // @todo Determine if and how we should log the bundle entity creation.
       $entity_type_id = $this->getTargetEntityTypeId();
       $context = array_merge($t_args, ['link' => $bundle_entity->toLink($this->t('View'), 'collection')->toString()]);
       $this->logger($entity_type_id)->notice('Added @type %name.', $context);
 
+      // Set redirect to bundle entity collection.
       $form_state->setRedirectUrl($bundle_entity->toUrl('collection'));
     }
 
     $entity_type_id = $this->getTargetEntityTypeId();
     $bundle = $this->getTargetBundle();
-    $schema_type = $this->getSchemaType();
 
     $new_field_names = [];
 

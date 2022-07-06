@@ -1,0 +1,15 @@
+name: 'Schema.org Blueprints Standard Profile Translate'
+type: module
+description: |
+  Provides an opinionated translation of the Schema.org Blueprints built on top of Drupal's standard profile.
+  THIS MODULE SHOULD ONLY BE INSTALLED ON A PLAIN VANILLA STANDARD INSTANCE OF DRUPAL
+package: 'Schema.org Blueprints'
+core_version_requirement: '^8.9 || ^9'
+lifecycle: experimental
+dependencies:
+  - 'drupal:config_translation'
+  - 'drupal:content_translation'
+  - 'drupal:language'
+  - 'drupal:locale'
+  - 'toolbar_language_switcher:toolbar_language_switcher'
+  - 'schemadotorg:schemadotorg_standard'

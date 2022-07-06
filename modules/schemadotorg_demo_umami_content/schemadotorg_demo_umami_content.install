@@ -42,7 +42,9 @@ function schemadotorg_demo_umami_content_install($is_syncing) {
     $schema_api->createType($entity_type, $schema_type);
   }
 
-  \Drupal::classResolver(SchemaDotOrgDemoUmamiContentInstallHelper::class)->importContent();
+  /** @var \Drupal\schemadotorg_demo_umami_content\SchemaDotOrgDemoUmamiContentInstallHelper $install_helper */
+  $install_helper = \Drupal::classResolver(SchemaDotOrgDemoUmamiContentInstallHelper::class);
+  $install_helper->importContent();
 }
 
 /**
@@ -53,7 +55,9 @@ function schemadotorg_demo_umami_content_uninstall($is_syncing) {
     return;
   }
 
-  \Drupal::classResolver(SchemaDotOrgDemoUmamiContentInstallHelper::class)->deleteImportedContent();
+  /** @var \Drupal\schemadotorg_demo_umami_content\SchemaDotOrgDemoUmamiContentInstallHelper $install_helper */
+  $install_helper = \Drupal::classResolver(SchemaDotOrgDemoUmamiContentInstallHelper::class);
+  $install_helper->deleteImportedContent();
 
   // Delete Schema.org type mappings.
   /** @var \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface $schema_api */

@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Schema.org Standard Translate module.
+ */
+
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_translate_install() {
+  /** @var \Drupal\schemadotorg_translate\SchemaDotOrgTranslateManagerInterface $translate_manager */
+  $translate_manager = \Drupal::service('schemadotorg_translate.manager');
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
+  $mappings = SchemaDotOrgMapping::loadMultiple();
+  foreach ($mappings as $mapping) {
+    $translate_manager->enableMapping($mapping);
+  }
+}

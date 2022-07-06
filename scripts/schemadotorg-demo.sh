@@ -40,6 +40,14 @@ function install() {
   drush -y pm-enable schemadotorg_standard;
 }
 
+function translate() {
+  drush -y pm-enable schemadotorg_standard_translate;
+  drush -y pm-enable schemadotorg_translate;
+  drush locale:check
+  drush locale:update
+  drush -y pm-enable schemadotorg_demo_umami_content;
+}
+
 function import() {
   drush features:import -y schemadotorg
   drush features:import -y schemadotorg_descriptions
@@ -53,6 +61,7 @@ function import() {
   drush features:import -y schemadotorg_paragraphs
   drush features:import -y schemadotorg_report
   drush features:import -y schemadotorg_standard
+  drush features:import -y schemadotorg_translate
   drush features:import -y schemadotorg_taxonomy
   # drush features:import -y schemadotorg_flexfield
 }
@@ -70,6 +79,7 @@ function export() {
   drush features:export -y schemadotorg_paragraphs
   drush features:export -y schemadotorg_report
   drush features:export -y schemadotorg_standard
+  drush features:export -y schemadotorg_translate
   drush features:export -y schemadotorg_taxonomy
   # drush features:export -y schemadotorg_flexfield
 }

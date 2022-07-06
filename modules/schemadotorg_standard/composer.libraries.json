@@ -64,6 +64,7 @@
     "drupal/paragraphs": "~1.0",
     "drupal/time_field": "~2.0",
     "drupal/token": "~1.0",
+    "drupal/toolbar_language_switcher": "~2.0",
     "masonry/masonry": "*"
   },
   "extra": {

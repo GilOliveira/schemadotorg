@@ -115,10 +115,7 @@ class SchemaDotOrgJsonLdEmbedTest extends SchemaDotOrgKernelEntityTestBase {
             'value' => $media->uuid(),
           ],
         ],
-        'inLanguage' => [
-          '@type' => 'Language',
-          'name' => 'en',
-        ],
+        'inLanguage' => 'en',
         'name' => 'Some image',
         'dateCreated' => $this->dataFormatter->format($media->getCreatedTime(), 'custom', 'Y-m-d H:i:s P'),
         'dateModified' => $this->dataFormatter->format($media->getChangedTime(), 'custom', 'Y-m-d H:i:s P'),

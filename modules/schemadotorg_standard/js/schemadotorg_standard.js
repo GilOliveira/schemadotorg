@@ -15,13 +15,18 @@
     window.location = drupalSettings.path.baseUrl + 'user/login?destination=' + drupalSettings.path.baseUrl;
   }
 
-  window.addEventListener('load', (event) => {
-    if (drupalSettings.path.currentPath === 'user/login') {
+  if (drupalSettings.path.currentPath === 'user/login') {
+    window.addEventListener('load', (event) => {
+      // Display welcome message.
+      const messages = new Drupal.Message();
+      messages.add(Drupal.t('Please log in to the Schema.org Blueprints Demo website.'), {type: 'status'});
+
+      // Set user name and password to demo/demo.
       setTimeout(() => {
         document.getElementById('edit-name').value = 'demo';
         document.getElementById('edit-pass').value = 'demo';
       }, 100);
-    }
-  });
+    });
+  }
 
 } (drupalSettings));

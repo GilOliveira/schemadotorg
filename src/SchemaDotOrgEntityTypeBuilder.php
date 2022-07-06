@@ -90,6 +90,33 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $this->schemaTypeManager = $schema_type_manager;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function addBundleEntity($schema_type, $entity_type_id, array $values) {
+    $entity_type_definition = $this->entityTypeManager->getDefinition($entity_type_id);
+
+    // Get bundle entity values and map id and label keys.
+    // (i.e, A node's label is saved in the database as its title)
+    $keys = ['id', 'label'];
+    foreach ($keys as $key) {
+      $key_name = $entity_type_definition->getKey($key);
+      if ($key_name !== $key) {
+        $values[$key_name] = $values[$key];
+        unset($values[$key]);
+      }
+    }
+
+    // Alter Schema.org bundle entity values.
+    $this->moduleHandler->invokeAll('schemadotorg_bundle_entity_alter', [$schema_type, $entity_type_id, &$values]);
+
+    /** @var \Drupal\Core\Entity\Sql\SqlContentEntityStorage $bundle_entity_storage */
+    $bundle_entity_storage = $this->entityTypeManager->getStorage($entity_type_id);
+    $bundle_entity = $bundle_entity_storage->create($values);
+    $bundle_entity->save();
+    return $bundle_entity;
+  }
+
   /* ************************************************************************ */
   // Field creation methods copied from FieldStorageAddForm.
   // @see \Drupal\field_ui\Form\FieldStorageAddForm
@@ -554,21 +581,16 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       $formatter_settings
     );
 
-    $hook = 'schemadotorg_property_field_alter';
-    $implementations = $this->moduleHandler->getImplementations($hook);
-    foreach ($implementations as $module) {
-      $function = $module . '_' . $hook;
-      $function(
-        $type,
-        $property,
-        $field_storage_values,
-        $field_values,
-        $widget_id,
-        $widget_settings,
-        $formatter_id,
-        $formatter_settings
-      );
-    }
+    $this->moduleHandler->invokeAll('schemadotorg_property_field_alter', [
+      $type,
+      $property,
+      &$field_storage_values,
+      &$field_values,
+      &$widget_id,
+      &$widget_settings,
+      &$formatter_id,
+      &$formatter_settings,
+    ]);
   }
 
   /**

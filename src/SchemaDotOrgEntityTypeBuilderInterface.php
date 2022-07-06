@@ -8,6 +8,21 @@ namespace Drupal\schemadotorg;
 interface SchemaDotOrgEntityTypeBuilderInterface {
 
   /**
+   * Add bundle entity.
+   *
+   * @param string $schema_type
+   *   The Schema.org type.
+   * @param string $entity_type_id
+   *   The entity type id.
+   * @param array $values
+   *   The entity bundle values.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface
+   *   The bundle entity type.
+   */
+  public function addBundleEntity($entity_type_id, $schema_type, array $values);
+
+  /**
    * Add a field to an entity.
    *
    * @param string $entity_type_id

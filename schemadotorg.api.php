@@ -41,6 +41,20 @@ function hook_schemadotorg_property_field_prepare($type, $property, array &$defa
 }
 
 /**
+ * Alter bundle entity type before it is created.
+ *
+ * @param string $schema_type
+ *   The Schema.org type.
+ * @param string $entity_type_id
+ *   The entity type id.
+ * @param array &$values
+ *   The bundle entity type values.
+ */
+function hook_schemadotorg_bundle_entity_alter($schema_type, $entity_type_id, &$values) {
+  // @todo Provide an example.
+}
+
+/**
  * Alter field storage and field values before they are created.
  *
  * @param string $type
