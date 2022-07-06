@@ -6,7 +6,6 @@ use Drupal\content_translation\ContentTranslationManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Language\LanguageInterface;
 use Drupal\language\Entity\ContentLanguageSettings;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
@@ -85,10 +84,6 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
   public function enableField($field) {
     $entity_type_id = $field->getTargetEntityTypeId();
     $bundle = $field->getTargetBundle();
-    if (!$this->isEntityTranslated($entity_type_id, $bundle)) {
-      return;
-    }
-
     $field_name = $field->getName();
     if (!$this->isFieldTranslated($entity_type_id, $bundle, $field_name)) {
       $field->setTranslatable(FALSE)->save();
@@ -216,15 +211,15 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    *   TRUE if a field should be translated.
    */
   protected function isFieldTranslated($entity_type_id, $bundle, $field_name) {
-    $config = $this->configFactory->get('schemadotorg_translation.settings');
-
     // Check that Schema.org mapping exists.
-    $mapping = $this->loadMapping($entity_type_id, $bundle);
-    if (empty($mapping)) {
+    if (!$this->isEntityTranslated($entity_type_id, $bundle)) {
       return FALSE;
     }
 
+    $config = $this->configFactory->get('schemadotorg_translation.settings');
+
     // Check excluded Schema.org properties.
+    $mapping = $this->loadMapping($entity_type_id, $bundle);
     $schema_type = $mapping->getSchemaType();
     $schema_properties = $mapping->getSchemaProperties();
     $schema_property = $schema_properties[$field_name] ?? '';

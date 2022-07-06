@@ -2,7 +2,7 @@ langcode: en
 status: true
 dependencies: {  }
 id: schemadotorg
-admin_label: 'Schema.org Blueprints Dashboard'
+admin_label: 'Schema.org Blueprints'
 category: ''
 frontend: false
 weight: 0
