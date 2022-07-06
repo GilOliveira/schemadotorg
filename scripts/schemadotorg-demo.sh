@@ -41,8 +41,8 @@ function install() {
 }
 
 function translate() {
-  drush -y pm-enable schemadotorg_standard_translate;
-  drush -y pm-enable schemadotorg_translate;
+  drush -y pm-enable schemadotorg_standard_translation;
+  drush -y pm-enable schemadotorg_translation;
   drush locale:check
   drush locale:update
   drush -y pm-enable schemadotorg_demo_umami_content;

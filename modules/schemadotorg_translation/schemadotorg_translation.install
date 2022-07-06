@@ -10,9 +10,9 @@ use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 /**
  * Implements hook_install().
  */
-function schemadotorg_translate_install() {
-  /** @var \Drupal\schemadotorg_translate\SchemaDotOrgTranslateManagerInterface $translate_manager */
-  $translate_manager = \Drupal::service('schemadotorg_translate.manager');
+function schemadotorg_translation_install() {
+  /** @var \Drupal\schemadotorg_translation\SchemaDotOrgTranslationManagerInterface $translate_manager */
+  $translate_manager = \Drupal::service('schemadotorg_translation.manager');
   /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
   $mappings = SchemaDotOrgMapping::loadMultiple();
   foreach ($mappings as $mapping) {

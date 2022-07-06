@@ -1,4 +1,4 @@
-schemadotorg_translate.settings:
+schemadotorg_translation.settings:
   type: config_entity
   label: Schema.org Translate settings
   mapping:

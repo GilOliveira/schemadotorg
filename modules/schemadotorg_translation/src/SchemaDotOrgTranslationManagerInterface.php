@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\schemadotorg_translate;
+namespace Drupal\schemadotorg_translation;
 
 use Drupal\field\FieldConfigInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
@@ -8,7 +8,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 /**
  * Schema.org translate manager interface.
  */
-interface SchemaDotOrgTranslateManagerInterface {
+interface SchemaDotOrgTranslationManagerInterface {
 
   /**
    * Enable translation for a Schema.org mapping.

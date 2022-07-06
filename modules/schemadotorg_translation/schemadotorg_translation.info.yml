@@ -1,4 +1,4 @@
-name: 'Schema.org Blueprints Translate'
+name: 'Schema.org Blueprints Translation'
 type: module
 description: Automatically enables translations for Schema.org types and properties as they are created.
 package: 'Schema.org Blueprints'
