@@ -71,11 +71,10 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
   public function enableMapping(SchemaDotOrgMappingInterface $mapping) {
     $entity_type_id = $mapping->getTargetEntityTypeId();
     $bundle = $mapping->getTargetBundle();
-    if (!$this->isEntityTranslated($entity_type_id, $bundle)) {
-      return;
+    if ($this->isEntityTranslated($entity_type_id, $bundle)) {
+      $this->enableEntityType($entity_type_id, $bundle);
+      $this->enableEntityFields($entity_type_id, $bundle);
     }
-    $this->enableEntityType($entity_type_id, $bundle);
-    // $this->enableEntityFields($entity_type_id, $bundle);
   }
 
   /**
@@ -174,12 +173,6 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    *   TRUE if an entity should be translated.
    */
   protected function isEntityTranslated($entity_type_id, $bundle) {
-    // Check that Schema.org mapping exists.
-    $mapping = $this->loadMapping($entity_type_id, $bundle);
-    if (empty($mapping)) {
-      return FALSE;
-    }
-
     // Check that Schema.org mapping exists.
     $mapping = $this->loadMapping($entity_type_id, $bundle);
     if (empty($mapping)) {
