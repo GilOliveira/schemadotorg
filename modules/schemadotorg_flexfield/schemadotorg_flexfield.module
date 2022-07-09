@@ -145,7 +145,7 @@ function schemadotorg_flexfield_schemadotorg_jsonld_schema_property_alter(&$valu
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_flexfield_form_schemadotorg_properties_settings_form_alter(&$form, FormStateInterface $form_state) {
-  $config = \Drupal::config('schemadotorg_flexfield.settings');
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_flexfield.settings');
 
   $form['flexfield_default_properties'] = [
     '#type' => 'schemadotorg_settings',

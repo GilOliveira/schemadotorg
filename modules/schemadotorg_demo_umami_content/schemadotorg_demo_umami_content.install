@@ -6,7 +6,7 @@
  * Install, update and uninstall functions for the Schema.org Standard module.
  */
 
-use \Drupal\schemadotorg_demo_umami_content\SchemaDotOrgDemoUmamiContentInstallHelper;
+use Drupal\schemadotorg_demo_umami_content\SchemaDotOrgDemoUmamiContentInstallHelper;
 
 /**
  * Implements hook_install().

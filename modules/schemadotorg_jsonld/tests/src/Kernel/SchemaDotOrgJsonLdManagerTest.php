@@ -214,7 +214,7 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
           'value' => $node->uuid(),
         ],
     ];
-    $this->assertEqual($expected_value, $actual_value);
+    $this->assertEquals($expected_value, $actual_value);
   }
 
 }

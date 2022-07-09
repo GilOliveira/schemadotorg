@@ -12,7 +12,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_jsonld_preview_form_schemadotorg_jsonld_settings_form_alter(&$form, FormStateInterface $form_state) {
-  $config = \Drupal::config('schemadotorg_jsonld_preview.settings');
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonld_preview.settings');
 
   // Load the request path condition plugin.
   /** @var \Drupal\Core\Condition\ConditionManager $condition_manager */

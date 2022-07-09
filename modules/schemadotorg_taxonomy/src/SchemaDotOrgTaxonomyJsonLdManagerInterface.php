@@ -5,9 +5,9 @@ namespace Drupal\schemadotorg_taxonomy;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
- * Schema.org taxonomy manager interface.
+ * Schema.org taxonomy JSON-LD manager interface.
  */
-interface SchemaDotOrgTaxonomyManagerInterface {
+interface SchemaDotOrgTaxonomyJsonLdManagerInterface {
 
   /**
    * Load Schema.org JSON-LD for an entity.
@@ -28,5 +28,13 @@ interface SchemaDotOrgTaxonomyManagerInterface {
    *   The entity.
    */
   public function alter(array &$data, EntityInterface $entity);
+
+  /**
+   * Preprocess HTML alter JSON-LD Term endpoint.
+   *
+   * @param array $variables
+   *   An array of variables.
+   */
+  public function preprocessHtml(array &$variables);
 
 }

@@ -12,7 +12,7 @@ use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_jsonld_endpoint_form_schemadotorg_jsonld_settings_form_alter(&$form, FormStateInterface $form_state) {
-  $config = \Drupal::config('schemadotorg_jsonld_endpoint.settings');
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonld_endpoint.settings');
 
   $form['entity_type_endpoints'] = [
     '#type' => 'schemadotorg_settings',

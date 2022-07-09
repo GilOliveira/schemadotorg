@@ -9,11 +9,11 @@ use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 
 /**
- * Tests the functionality of the Schema.org taxonomy.
+ * Tests the functionality of the Schema.org taxonomy JSON-LD support.
  *
  * @group schemadotorg
  */
-class SchemaDotOrgTaxonomyTest extends SchemaDotOrgBrowserTestBase {
+class SchemaDotOrgTaxonomyJsonLdTest extends SchemaDotOrgBrowserTestBase {
 
   /**
    * Modules to install.

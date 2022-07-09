@@ -1,0 +1,21 @@
+schemadotorg_taxonomy.settings:
+  type: config_entity
+  label: Schema.org Taxonomy settings
+  mapping:
+    property_vocabularies:
+      type: sequence
+      label: 'Default properties'
+      sequence:
+        type: mapping
+        label: 'Default property'
+        mapping:
+          id:
+            type: string
+            label: Vocabulary ID
+          label:
+            type: text
+            label: Vocabulary name
+          description:
+            type: text
+            label: Vocabulary description
+

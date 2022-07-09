@@ -49,7 +49,7 @@ function schemadotorg_inline_entity_form_schemadotorg_property_field_alter(
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_inline_entity_form_form_schemadotorg_properties_settings_form_alter(&$form, FormStateInterface $form_state) {
-  $config = \Drupal::config('schemadotorg_inline_entity_form.settings');
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_inline_entity_form.settings');
 
   $form['inline_entity_form_default_properties'] = [
     '#type' => 'schemadotorg_settings',

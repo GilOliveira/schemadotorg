@@ -104,7 +104,7 @@ function schemadotorg_paragraphs_form_schemadotorg_types_settings_form_alter(&$f
     return;
   }
 
-  $config = \Drupal::config('schemadotorg_paragraphs.settings');
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_paragraphs.settings');
 
   $form['paragraphs_paragraphs_library'] = [
     '#type' => 'schemadotorg_settings',

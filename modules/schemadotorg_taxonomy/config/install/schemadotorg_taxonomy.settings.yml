@@ -1,0 +1,4 @@
+property_vocabularies:
+  recipeCategory:
+    id: recipe_category
+    label: Recipe category
