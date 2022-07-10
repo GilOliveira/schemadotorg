@@ -2,7 +2,6 @@
 
 namespace Drupal\schemadotorg_translation;
 
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\field\FieldConfigInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
@@ -20,19 +19,11 @@ interface SchemaDotOrgTranslationManagerInterface {
   public function enableMapping(SchemaDotOrgMappingInterface $mapping);
 
   /**
-   * Enable entity translation.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity.
-   */
-  public function enableEntity(EntityInterface $entity);
-
-  /**
    * Enable translation for a Schema.org mapping field.
    *
    * @param \Drupal\field\FieldConfigInterface $field_config
    *   The field.
    */
-  public function enableFieldConfig(FieldConfigInterface $field_config);
+  public function enableMappingField(FieldConfigInterface $field_config);
 
 }

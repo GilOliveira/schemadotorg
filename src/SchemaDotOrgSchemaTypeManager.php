@@ -102,6 +102,23 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
+  public function isSubTypeOf($type, $subtype_of) {
+    $subtype_of = (array) $subtype_of;
+    $breadcrumbs = $this->getTypeBreadcrumbs($type);
+    foreach ($breadcrumbs as $breadcrumb) {
+      $breadcrumb = array_reverse($breadcrumb);
+      foreach ($breadcrumb as $breadcrumb_type) {
+        if (in_array($breadcrumb_type, $subtype_of)) {
+          return TRUE;
+        }
+      }
+    }
+    return FALSE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function isThing($id) {
     $type_definition = $this->getType($id);
     return (!empty($type_definition)

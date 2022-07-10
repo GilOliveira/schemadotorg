@@ -33,5 +33,5 @@ function schemadotorg_translation_schemadotorg_mapping_insert(SchemaDotOrgMappin
 function schemadotorg_translation_field_config_insert(FieldConfigInterface $field_config) {
   /** @var \Drupal\schemadotorg_translation\SchemaDotOrgTranslationManagerInterface $manager */
   $manager = \Drupal::service('schemadotorg_translation.manager');
-  $manager->enableFieldConfig($field_config);
+  $manager->enableMappingField($field_config);
 }

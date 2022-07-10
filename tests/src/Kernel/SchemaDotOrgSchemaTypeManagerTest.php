@@ -62,6 +62,12 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertFalse($this->schemaTypeManager->isType('name'));
     $this->assertFalse($this->schemaTypeManager->isType('xxx'));
 
+    // Check determining if a Schema.org type is a subtype of another
+    // Schema.org type.
+    $this->assertTrue($this->schemaTypeManager->isSubTypeOf('SearchAction', 'Action'));
+    $this->assertTrue($this->schemaTypeManager->isSubTypeOf('Action', 'Action'));
+    $this->assertFalse($this->schemaTypeManager->isSubTypeOf('Action', 'SearchAction'));
+
     // Check determining if ID is a Schema.org Thing type.
     $this->assertTrue($this->schemaTypeManager->isThing('Thing'));
     $this->assertFalse($this->schemaTypeManager->isThing('Text'));

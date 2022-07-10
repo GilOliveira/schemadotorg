@@ -46,8 +46,8 @@ class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
       'type' => 'event',
       'name' => 'Event',
     ]);
-    $this->createSchemaDotOrgField('node', 'event');
-    $this->createSchemaDotOrgSubTypeField('node', 'event');
+    $this->createSchemaDotOrgField('node', 'Event');
+    $this->createSchemaDotOrgSubTypeField('node', 'Event');
     /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository */
     $display_repository = \Drupal::service('entity_display.repository');
     $display_repository->getViewDisplay('node', 'event')

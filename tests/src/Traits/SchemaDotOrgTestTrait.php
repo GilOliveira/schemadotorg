@@ -33,33 +33,44 @@ trait SchemaDotOrgTestTrait {
    *
    * @param string $entity_type_id
    *   The entity type ID.
-   * @param string $bundle
-   *   The name of the bundle.
-   * @param string $field_name
-   *   (optional) The field name. Defaults to 'schema_alternate_name'.
-   * @param string $label
-   *   (optional) The field label. Defaults to 'Alternate name'.
-   * @param string $type
+   * @param string $schema_type
+   *   The Schema.org type.
+   * @param string $schema_property
+   *   The Schema.org property.
+   * @param string $field_type
    *   (optional) The field type.  Defaults to 'string'.
    */
   protected function createSchemaDotOrgField(
     $entity_type_id,
-    $bundle,
-    $field_name = 'schema_alternate_name',
-    $label = 'Alternate name',
-    $type = 'string'
+    $schema_type,
+    $schema_property = 'alternateName',
+    $field_type = 'string'
   ) {
-    FieldStorageConfig::create([
+    /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+    $schema_names = $this->container->get('schemadotorg.names');
+
+    $bundle = $schema_names->camelCaseToSnakeCase($schema_type);
+    $field_name = $schema_names->getFieldPrefix() . $schema_names->toDrupalName('properties', $schema_property);
+    $label = $schema_names->camelCaseToSentenceCase($schema_property);
+
+    $field_storage_config = FieldStorageConfig::create([
       'entity_type' => $entity_type_id,
       'field_name' => $field_name,
-      'type' => $type,
-    ])->save();
-    FieldConfig::create([
+      'type' => $field_type,
+    ]);
+    $field_storage_config->schemaDotOrgType = $schema_type;
+    $field_storage_config->schemaDotOrgProperty = $schema_property;
+    $field_storage_config->save();
+
+    $field_config = FieldConfig::create([
       'entity_type' => $entity_type_id,
       'bundle' => $bundle,
       'field_name' => $field_name,
       'label' => $label,
-    ])->save();
+    ]);
+    $field_config->schemaDotOrgType = $schema_type;
+    $field_config->schemaDotOrgProperty = $schema_property;
+    $field_config->save();
   }
 
   /**
@@ -67,26 +78,25 @@ trait SchemaDotOrgTestTrait {
    *
    * @param string $entity_type_id
    *   The entity type ID.
-   * @param string $bundle
-   *   The name of the bundle.
    * @param string $schema_type
    *   The Schema.org type.
    */
-  protected function createSchemaDotOrgSubTypeField($entity_type_id, $bundle, $schema_type = '') {
-    if ($schema_type) {
-      /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager $schema_type_manager */
-      $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
-      $allowed_values = $schema_type_manager->getAllTypeChildrenAsOptions($schema_type);
-    }
-    else {
-      $allowed_values = [];
-    }
+  protected function createSchemaDotOrgSubTypeField($entity_type_id, $schema_type) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+    $schema_names = $this->container->get('schemadotorg.names');
+    $bundle = $schema_names->camelCaseToSnakeCase($schema_type);
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager $schema_type_manager */
+    $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+    $allowed_values = $schema_type_manager->getAllTypeChildrenAsOptions($schema_type);
+
     FieldStorageConfig::create([
       'entity_type' => $entity_type_id,
       'field_name' => 'schema_' . $bundle . '_subtype',
       'type' => 'list_string',
       'allowed_values' => $allowed_values,
     ])->save();
+
     FieldConfig::create([
       'entity_type' => $entity_type_id,
       'bundle' => $bundle,

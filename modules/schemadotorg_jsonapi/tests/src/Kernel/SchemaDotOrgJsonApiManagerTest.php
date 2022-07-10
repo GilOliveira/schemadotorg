@@ -151,8 +151,8 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
       'name' => 'Thing',
     ]);
     $node_type->save();
-    $this->createSchemaDotOrgField('node', 'thing');
-    $this->createSchemaDotOrgSubTypeField('node', 'thing');
+    $this->createSchemaDotOrgField('node', 'Thing');
+    $this->createSchemaDotOrgSubTypeField('node', 'Thing');
 
     // Create Thing with mapping.
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $thing_mapping */
@@ -213,31 +213,23 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
 
     // Insert new field outside of the mapping.
     // Add some field.
-    $this->createSchemaDotOrgField('node', 'thing', 'some_field', 'some_field');
-
+    FieldStorageConfig::create([
+      'entity_type' => 'node',
+      'field_name' => 'some_field',
+      'type' => 'string',
+    ])->save();
+    FieldConfig::create([
+      'entity_type' => 'node',
+      'bundle' => 'thing',
+      'field_name' => 'some_field',
+      'label' => 'Some field',
+    ])->save();
     $resource = $this->loadResource('node--thing');
     $resource_fields = $resource->get('resourceFields');
     $this->assertTrue($resource_fields['some_field']['disabled']);
 
     // Insert new Schema.org description field.
-    FieldStorageConfig::create([
-      'entity_type' => 'node',
-      'field_name' => 'schema_description',
-      'type' => 'string',
-    ])->save();
-    $field_config = FieldConfig::create([
-      'entity_type' => 'node',
-      'bundle' => 'thing',
-      'field_name' => 'schema_description',
-      'label' => 'schema_description',
-    ]);
-    // Set custom Schema.org type and property, which ensures that the
-    // JSON:API resource is not updated until the mapping is saved.
-    // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::addFieldToEntity
-    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApi::insertMappingFieldConfigResource
-    $field_config->schemaDotOrgType = 'Thing';
-    $field_config->schemaDotOrgProperty = 'Property';
-    $field_config->save();
+    $this->createSchemaDotOrgField('node', 'Thing', 'description');
 
     // Check not inserting field into JSON:API resource config if the Scheme.org
     // entity type builder is adding it via the 'schemaDotOrgAddFieldToEntity'

@@ -61,6 +61,19 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function isType($id);
 
   /**
+   * Determine if a Schema.org type is a subtype of another Schema.org type.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   * @param string|array $subtype_of
+   *   A Schema.org subtype of.
+   *
+   * @return bool
+   *   TRUE if a Schema.org type is a subtype of another Schema.org type.
+   */
+  public function isSubTypeOf($type, $subtype_of);
+
+  /**
    * Determine if ID is a Schema.org Thing type.
    *
    * @param string $id

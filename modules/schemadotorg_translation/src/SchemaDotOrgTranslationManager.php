@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\language\Entity\ContentLanguageSettings;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 
 /**
  * Schema.org translate manager.
@@ -46,6 +47,13 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
   protected $contentTranslationManager;
 
   /**
+   * The Schema.org schema type manager.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
+   */
+  protected $schemaTypeManager;
+
+  /**
    * Constructs a SchemaDotOrgTranslationManager object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -56,16 +64,20 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    *   The entity field manager.
    * @param \Drupal\content_translation\ContentTranslationManagerInterface $content_translation_manager
    *   The content translation manager.
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   *   The Schema.org schema type manager.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
     EntityFieldManagerInterface $field_manager,
-    ContentTranslationManagerInterface $content_translation_manager) {
+    ContentTranslationManagerInterface $content_translation_manager,
+    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager) {
     $this->configFactory = $config_factory;
     $this->entityTypeManager = $entity_type_manager;
     $this->fieldManager = $field_manager;
     $this->contentTranslationManager = $content_translation_manager;
+    $this->schemaTypeManager = $schema_type_manager;
   }
 
   /**
@@ -86,22 +98,14 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
   /**
    * {@inheritdoc}
    */
-  public function enableEntity(EntityInterface $entity) {
-    if (!$entity instanceof ConfigEntityBundleBase) {
+  public function enableMappingField($field_config) {
+    // Check that field is associated with Schema.org type mapping.
+    $entity_type_id = $field_config->getTargetEntityTypeId();
+    $bundle = $field_config->getTargetBundle();
+    if (!$this->loadMapping($entity_type_id, $bundle)) {
       return;
     }
 
-    $entity_type_id = $entity->getEntityType()->getBundleOf();
-    $bundle = $entity->id();
-
-    $this->enableEntityType($entity_type_id, $bundle);
-    $this->enableEntityFields($entity_type_id, $bundle);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function enableFieldConfig($field_config) {
     // Check that the field supports translations.
     if (!$this->supportsFieldTranslations($field_config)) {
       return;
@@ -163,7 +167,7 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
     $field_definitions = $this->fieldManager->getFieldDefinitions($entity_type_id, $bundle);
     foreach ($field_definitions as $field_definition) {
       $field_config = $field_definition->getConfig($bundle);
-      $this->enableFieldConfig($field_config);
+      $this->enableMappingField($field_config);
     }
   }
 
@@ -215,7 +219,7 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
     // Check excluded Schema.org type.
     $excluded_schema_types = $config->get('excluded_schema_types');
     $schema_type = $mapping->getSchemaType();
-    if (in_array($schema_type, $excluded_schema_types)) {
+    if ($this->schemaTypeManager->isSubTypeOf($schema_type, $excluded_schema_types)) {
       return FALSE;
     }
 
@@ -285,15 +289,15 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
     $config = $this->configFactory->get('schemadotorg_translation.settings');
 
     // Check excluded Schema.org properties.
-    $mapping = $this->loadMapping($entity_type_id, $bundle);
-    if ($mapping) {
-      $schema_type = $mapping->getSchemaType();
-      $schema_properties = $mapping->getSchemaProperties();
-      $schema_property = $schema_properties[$field_name] ?? '';
-    }
-    else {
-      $schema_type = $field_name->schemaDotOrgType ?? NULL;
-      $schema_property = $field_name->schemaDotOrgProperty ?? NULL;
+    $schema_type = $field_config->schemaDotOrgType ?? NULL;
+    $schema_property = $field_config->schemaDotOrgProperty ?? NULL;
+    if (!$schema_type || !$schema_property) {
+      $mapping = $this->loadMapping($entity_type_id, $bundle);
+      if ($mapping) {
+        $schema_type = $mapping->getSchemaType();
+        $schema_properties = $mapping->getSchemaProperties();
+        $schema_property = $schema_properties[$field_name] ?? '';
+      }
     }
     if ($schema_type && $schema_property) {
       $excluded_schema_properties = $config->get('excluded_schema_properties');

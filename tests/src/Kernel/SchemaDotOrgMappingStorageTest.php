@@ -71,7 +71,7 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
       'type' => 'image_object',
       'name' => 'ImageObject',
     ])->save();
-    $this->createSchemaDotOrgSubTypeField('node', 'image_object', 'ImageObject');
+    $this->createSchemaDotOrgSubTypeField('node', 'ImageObject');
     SchemaDotOrgMapping::create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'thing',

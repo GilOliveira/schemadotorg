@@ -123,17 +123,28 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
       'description' => $property_definition['comment'],
     ];
 
+    $entity_type_id = 'taxonomy_vocabulary';
+    $vid = $property_vocabulary_settings['id'];
+
     // Make sure the vocabulary exists, if not create it.
     /** @var \Drupal\taxonomy\VocabularyStorageInterface $vocabulary_storage */
-    $vocabulary_storage = $this->entityTypeManager->getStorage('taxonomy_vocabulary');
-    $vocabulary = $vocabulary_storage->load($property_vocabulary_settings['id']);
+    $vocabulary_storage = $this->entityTypeManager->getStorage($entity_type_id);
+    $vocabulary = $vocabulary_storage->load($vid);
     if (!$vocabulary) {
       $vocabulary = $vocabulary_storage->create([
-        'vid' => $property_vocabulary_settings['id'],
+        'vid' => $vid,
         'name' => $property_vocabulary_settings['label'],
         'description' => $property_vocabulary_settings['description'],
       ]);
       $vocabulary->save();
+
+//      // Enable translations for entity type.
+//      $config = ContentLanguageSettings::loadByEntityTypeBundle($entity_type_id, $vid);
+//      $config->save();
+//      \Drupal::service('content_translation.manager')
+//        ->setEnabled($entity_type_id, $vid, TRUE);
+//      \Drupal::entityTypeManager()->clearCachedDefinitions();
+//      \Drupal::service('router.builder')->setRebuildNeeded();
 
       $edit_link = $vocabulary->toLink($this->t('Edit'), 'edit-form')->toString();
       $this->messenger->addStatus($this->t('Created new vocabulary %name.', ['%name' => $vocabulary->label()]));
