@@ -7,9 +7,9 @@ use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 
 /**
- * Tests the functionality of the Schema.org JSON-LD manager.
+ * Tests the functionality of the Schema.org taxonomy property vocabulary manager.
  *
- * @covers \Drupal\schemadotorg_jsonld\SchemaDotOrgTaxonomyPropertyVocabularyManagerTest;
+ * @covers \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyPropertyVocabularyManagerTest;
  * @group schemadotorg
  */
 class SchemaDotOrgTaxonomyPropertyVocabularyManagerTest extends SchemaDotOrgKernelEntityTestBase {

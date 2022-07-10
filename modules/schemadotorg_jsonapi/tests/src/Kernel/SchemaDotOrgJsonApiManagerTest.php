@@ -220,8 +220,6 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertTrue($resource_fields['some_field']['disabled']);
 
     // Insert new Schema.org description field.
-    // Note: Not using ::createSchemaDotOrgField because we need to set
-    // 'schemaDotOrgAddFieldToEntity' to TRUE.
     FieldStorageConfig::create([
       'entity_type' => 'node',
       'field_name' => 'schema_description',
@@ -233,11 +231,12 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
       'field_name' => 'schema_description',
       'label' => 'schema_description',
     ]);
-    // Set add field to entity flag, which ensure the JSON:API resource is
-    // not updated until the mapping is saved.
+    // Set custom Schema.org type and property, which ensures that the
+    // JSON:API resource is not updated until the mapping is saved.
     // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::addFieldToEntity
     // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApi::insertMappingFieldConfigResource
-    $field_config->schemaDotOrgAddFieldToEntity = TRUE;
+    $field_config->schemaDotOrgType = 'Thing';
+    $field_config->schemaDotOrgProperty = 'Property';
     $field_config->save();
 
     // Check not inserting field into JSON:API resource config if the Scheme.org

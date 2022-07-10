@@ -395,7 +395,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
     // Do not insert field into JSON:API resource config if the
     // Scheme.org entity type builder is adding it.
     // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::addFieldToEntity
-    if (!empty($field->schemaDotOrgAddFieldToEntity)) {
+    if (!empty($field->schemaDotOrgType) && !empty($field->schemaDotOrgProperty)) {
       return;
     }
 

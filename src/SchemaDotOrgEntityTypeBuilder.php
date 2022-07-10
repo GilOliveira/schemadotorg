@@ -113,6 +113,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     /** @var \Drupal\Core\Entity\Sql\SqlContentEntityStorage $bundle_entity_storage */
     $bundle_entity_storage = $this->entityTypeManager->getStorage($entity_type_id);
     $bundle_entity = $bundle_entity_storage->create($values);
+    $bundle_entity->schemaDotOrgType = $schema_type;
     $bundle_entity->save();
     return $bundle_entity;
   }
@@ -237,11 +238,13 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         );
 
         $field_storage_config = $this->entityTypeManager->getStorage('field_storage_config')->create($field_storage_values);
+        $field_storage_config->schemaType = $schema_type;
+        $field_storage_config->schemaProperty = $schema_property;
         $field_storage_config->save();
 
         $field = $this->entityTypeManager->getStorage('field_config')->create($field_values);
-        // @see \Drupal\schemadotorg_jsonapi_extras\SchemaDotOrgJsonApiExtras::insertMappingFieldConfigResource
-        $field->schemaDotOrgAddFieldToEntity = TRUE;
+        $field->schemaDotOrgType = $schema_type;
+        $field->schemaDotOrgProperty = $schema_property;
         $field->save();
 
         $this->setEntityDisplays(
@@ -272,7 +275,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         );
 
         $field = $this->entityTypeManager->getStorage('field_config')->create($field_values);
-        $field->schemaDotOrgAddFieldToEntity = TRUE;
+        $field->schemaDotOrgType = $schema_type;
+        $field->schemaDotOrgProperty = $schema_property;
         $field->save();
 
         $this->setEntityDisplays(

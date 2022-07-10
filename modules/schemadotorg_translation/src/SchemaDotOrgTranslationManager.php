@@ -4,7 +4,10 @@ namespace Drupal\schemadotorg_translation;
 
 use Drupal\content_translation\ContentTranslationManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
+use Drupal\Core\Entity\ContentEntityTypeInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\language\Entity\ContentLanguageSettings;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
@@ -69,31 +72,53 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    * {@inheritdoc}
    */
   public function enableMapping(SchemaDotOrgMappingInterface $mapping) {
+    if (!$this->isMappingTranslated($mapping)) {
+      return;
+    }
+
     $entity_type_id = $mapping->getTargetEntityTypeId();
     $bundle = $mapping->getTargetBundle();
-    if ($this->isEntityTranslated($entity_type_id, $bundle)) {
-      $this->enableEntityType($entity_type_id, $bundle);
-      $this->enableEntityFields($entity_type_id, $bundle);
-    }
+
+    $this->enableEntityType($entity_type_id, $bundle);
+    $this->enableEntityFields($entity_type_id, $bundle);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function enableField($field) {
-    $entity_type_id = $field->getTargetEntityTypeId();
-    $bundle = $field->getTargetBundle();
-    $field_name = $field->getName();
-    if (!$this->isFieldTranslated($entity_type_id, $bundle, $field_name)) {
-      $field->setTranslatable(FALSE)->save();
+  public function enableEntity(EntityInterface $entity) {
+    if (!$entity instanceof ConfigEntityBundleBase) {
+      return;
+    }
+
+    $entity_type_id = $entity->getEntityType()->getBundleOf();
+    $bundle = $entity->id();
+
+    $this->enableEntityType($entity_type_id, $bundle);
+    $this->enableEntityFields($entity_type_id, $bundle);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function enableFieldConfig($field_config) {
+    // Check that the field supports translations.
+    if (!$this->supportsFieldTranslations($field_config)) {
+      return;
+    }
+
+    // Check that the field is translated.
+    if (!$this->isFieldTranslated($field_config)) {
+      $field_config->setTranslatable(FALSE);
+      $field_config->save();
       return;
     }
 
     // Set translatable.
-    $field->setTranslatable(TRUE);
+    $field_config->setTranslatable(TRUE);
 
     // Set third party settings.
-    $field_type = $field->getType();
+    $field_type = $field_config->getType();
     switch ($field_type) {
       case 'image':
         $column_settings = [
@@ -101,12 +126,12 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
           'title' => 'title',
           'file' => 0,
         ];
-        $field->setThirdPartySetting('content_translation', 'translation_sync', $column_settings);
+        $field_config->setThirdPartySetting('content_translation', 'translation_sync', $column_settings);
         break;
     }
 
     // Save config.
-    $field->save();
+    $field_config->save();
   }
 
   /**
@@ -118,10 +143,6 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    *   The entity bundle.
    */
   protected function enableEntityType($entity_type_id, $bundle) {
-    if (!$this->isEntityTranslated($entity_type_id, $bundle)) {
-      return;
-    }
-
     // Enable translations for entity type.
     $config = ContentLanguageSettings::loadByEntityTypeBundle($entity_type_id, $bundle);
     $config->save();
@@ -139,9 +160,10 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    *   The entity bundle.
    */
   protected function enableEntityFields($entity_type_id, $bundle) {
-    $fields = $this->fieldManager->getFieldDefinitions($entity_type_id, $bundle);
-    foreach ($fields as $field) {
-      $this->enableField($field->getConfig($bundle));
+    $field_definitions = $this->fieldManager->getFieldDefinitions($entity_type_id, $bundle);
+    foreach ($field_definitions as $field_definition) {
+      $field_config = $field_definition->getConfig($bundle);
+      $this->enableFieldConfig($field_config);
     }
   }
 
@@ -162,28 +184,38 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
   }
 
   /**
-   * Determine if an entity should be translated.
+   * Determine if an entity supports translations.
    *
-   * @param string $entity_type_id
-   *   The entity type id.
-   * @param string $bundle
-   *   The entity bundle.
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity.
    *
    * @return bool
-   *   TRUE if an entity should be translated.
+   *   TRUE if an entity supports translations.
    */
-  protected function isEntityTranslated($entity_type_id, $bundle) {
-    // Check that Schema.org mapping exists.
-    $mapping = $this->loadMapping($entity_type_id, $bundle);
-    if (empty($mapping)) {
-      return FALSE;
-    }
+  protected function supportsEntityTranslation(EntityInterface $entity) {
+    $entity_type_id = $entity->getEntityTypeId();
 
+    // Make sure the field is associate with a content entity.
+    $entity_type = $this->entityTypeManager->getDefinition($entity_type_id);
+    return ($entity_type instanceof ContentEntityTypeInterface);
+  }
+
+  /**
+   * Determine if a Schema.org mapping entity should be translated.
+   *
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
+   *   The Schema.org mapping.
+   *
+   * @return bool
+   *   TRUE if a Schema.org mapping entity should be translated.
+   */
+  protected function isMappingTranslated(SchemaDotOrgMappingInterface $mapping) {
     $config = $this->configFactory->get('schemadotorg_translation.settings');
 
-    // Check excluded Schema.org types.
+    // Check excluded Schema.org type.
+    $excluded_schema_types = $config->get('excluded_schema_types');
     $schema_type = $mapping->getSchemaType();
-    if (in_array($schema_type, $config->get('excluded_schema_properties'))) {
+    if (in_array($schema_type, $excluded_schema_types)) {
       return FALSE;
     }
 
@@ -191,21 +223,62 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
   }
 
   /**
+   * Determine if a field supports translation.
+   *
+   * @param \Drupal\field\FieldConfigInterface $field_config
+   *   The field.
+   *
+   * @return bool
+   *   TRUE if a field supports translation.
+   *
+   * @see _content_translation_form_language_content_settings_form_alter()
+   */
+  protected function supportsFieldTranslations($field_config) {
+    $field_name = $field_config->getName();
+    $entity_type_id = $field_config->getTargetEntityTypeId();
+
+    // Computed field always support translations.
+    if ($field_config->isComputed()) {
+      return TRUE;
+    }
+
+    // Make sure the field is associate with a content entity.
+    $entity_type = $this->entityTypeManager->getDefinition($entity_type_id);
+    if (!$entity_type instanceof ContentEntityTypeInterface) {
+      return FALSE;
+    }
+
+    // Get field storage definition.
+    $storage_definitions = $this->fieldManager->getFieldStorageDefinitions($entity_type_id);
+    $storage_definition = $storage_definitions[$field_name] ?? NULL;
+    if (!$storage_definition) {
+      return FALSE;
+    }
+
+    // Check whether translatability should be configurable for a field.
+    // @see _content_translation_is_field_translatability_configurable
+    return $storage_definition->isTranslatable() &&
+      $storage_definition->getProvider() != 'content_translation' &&
+      !in_array($storage_definition->getName(), [$entity_type->getKey('langcode'), $entity_type->getKey('default_langcode'), 'revision_translation_affected']);
+  }
+
+  /**
    * Determine if a field should be translated.
    *
-   * @param string $entity_type_id
-   *   The entity type id.
-   * @param string $bundle
-   *   The entity bundle.
-   * @param string $field_name
-   *   The field name.
+   * @param \Drupal\field\FieldConfigInterface $field_config
+   *   The field.
    *
    * @return bool
    *   TRUE if a field should be translated.
    */
-  protected function isFieldTranslated($entity_type_id, $bundle, $field_name) {
-    // Check that Schema.org mapping exists.
-    if (!$this->isEntityTranslated($entity_type_id, $bundle)) {
+  protected function isFieldTranslated($field_config) {
+    $entity_type_id = $field_config->getTargetEntityTypeId();
+    $bundle = $field_config->getTargetBundle();
+    $field_name = $field_config->getName();
+    $field_type = $field_config->getType();
+
+    // Check that the entity has translation enabled.
+    if (!$this->contentTranslationManager->isEnabled($entity_type_id, $bundle)) {
       return FALSE;
     }
 
@@ -213,18 +286,22 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
 
     // Check excluded Schema.org properties.
     $mapping = $this->loadMapping($entity_type_id, $bundle);
-    $schema_type = $mapping->getSchemaType();
-    $schema_properties = $mapping->getSchemaProperties();
-    $schema_property = $schema_properties[$field_name] ?? '';
-    $excluded_schema_properties = $config->get('excluded_schema_properties');
-    if (in_array($schema_property, $excluded_schema_properties)
-      || in_array("$schema_type--$schema_property", $excluded_schema_properties)) {
-      return FALSE;
+    if ($mapping) {
+      $schema_type = $mapping->getSchemaType();
+      $schema_properties = $mapping->getSchemaProperties();
+      $schema_property = $schema_properties[$field_name] ?? '';
     }
-
-    $fields = $this->fieldManager->getFieldDefinitions($entity_type_id, $bundle);
-    $field = $fields[$field_name];
-    $field_type = $field->getType();
+    else {
+      $schema_type = $field_name->schemaDotOrgType ?? NULL;
+      $schema_property = $field_name->schemaDotOrgProperty ?? NULL;
+    }
+    if ($schema_type && $schema_property) {
+      $excluded_schema_properties = $config->get('excluded_schema_properties');
+      if (in_array($schema_property, $excluded_schema_properties)
+        || in_array("$schema_type--$schema_property", $excluded_schema_properties)) {
+        return FALSE;
+      }
+    }
 
     // Check excluded field names.
     if (in_array($field_name, $config->get('excluded_field_names'))) {

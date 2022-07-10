@@ -83,8 +83,8 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
    * {@inheritdoc}
    */
   public function propertyFieldTypeAlter(array &$field_types, $type, $property) {
-    $property_vocabularies = $this->getNumberOfPlurals($property);
-    if ($property_vocabularies) {
+    $property_vocabulary_settings = $this->getPropertyVocabularySettings($property);
+    if ($property_vocabulary_settings) {
       $field_types = ['field_ui:entity_reference:taxonomy_term' => 'field_ui:entity_reference:taxonomy_term'] + $field_types;
     }
   }
@@ -110,14 +110,14 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
     }
 
     // Check to see if the Schema.org property has vocabulary settings.
-    $property_vocabulary = $this->getPropertyVocabularySettings($property);
-    if (!$property_vocabulary) {
+    $property_vocabulary_settings = $this->getPropertyVocabularySettings($property);
+    if (!$property_vocabulary_settings) {
       return;
     }
 
     // Set default vocabulary id and label from field name and field label.
     $property_definition = $this->schemaTypeManager->getProperty($property);
-    $property_vocabulary += [
+    $property_vocabulary_settings += [
       'id ' => $field_storage_values['field_name'],
       'label' => $field_values['label'],
       'description' => $property_definition['comment'],
@@ -126,12 +126,12 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
     // Make sure the vocabulary exists, if not create it.
     /** @var \Drupal\taxonomy\VocabularyStorageInterface $vocabulary_storage */
     $vocabulary_storage = $this->entityTypeManager->getStorage('taxonomy_vocabulary');
-    $vocabulary = $vocabulary_storage->load($property_vocabulary['id']);
+    $vocabulary = $vocabulary_storage->load($property_vocabulary_settings['id']);
     if (!$vocabulary) {
       $vocabulary = $vocabulary_storage->create([
-        'vid' => $property_vocabulary['id'],
-        'name' => $property_vocabulary['label'],
-        'description' => $property_vocabulary['description'],
+        'vid' => $property_vocabulary_settings['id'],
+        'name' => $property_vocabulary_settings['label'],
+        'description' => $property_vocabulary_settings['description'],
       ]);
       $vocabulary->save();
 

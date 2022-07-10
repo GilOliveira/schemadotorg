@@ -26,11 +26,12 @@ function schemadotorg_translation_schemadotorg_mapping_insert(SchemaDotOrgMappin
   $manager = \Drupal::service('schemadotorg_translation.manager');
   $manager->enableMapping($mapping);
 }
+
 /**
  * Implements hook_field_config_insert().
  */
 function schemadotorg_translation_field_config_insert(FieldConfigInterface $field_config) {
   /** @var \Drupal\schemadotorg_translation\SchemaDotOrgTranslationManagerInterface $manager */
   $manager = \Drupal::service('schemadotorg_translation.manager');
-  $manager->enableField($field_config);
+  $manager->enableFieldConfig($field_config);
 }
