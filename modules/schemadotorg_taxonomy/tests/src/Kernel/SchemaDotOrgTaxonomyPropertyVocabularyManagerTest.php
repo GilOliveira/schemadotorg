@@ -3,6 +3,8 @@
 namespace Drupal\Tests\schemadotorg_taxonomy\Kernel;
 
 use Drupal\field\Entity\FieldConfig;
+use Drupal\language\Entity\ConfigurableLanguage;
+use Drupal\language\Entity\ContentLanguageSettings;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 
@@ -20,17 +22,30 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManagerTest extends SchemaDotOrgKern
    * @var string[]
    */
   protected static $modules = [
+    'language',
+    'content_translation',
     'taxonomy',
     'schemadotorg_taxonomy',
   ];
+
+  /**
+   * The content translation manager.
+   *
+   * @var \Drupal\content_translation\ContentTranslationManagerInterface
+   */
+  protected $contentTranslationManager;
 
   /**
    * {@inheritdoc}
    */
   protected function setUp() {
     parent::setUp();
+
     $this->installEntitySchema('taxonomy_vocabulary');
+    $this->installEntitySchema('taxonomy_term');
     $this->installConfig(['schemadotorg_taxonomy']);
+
+    $this->contentTranslationManager = $this->container->get('content_translation.manager');
   }
 
   /**
@@ -56,6 +71,10 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManagerTest extends SchemaDotOrgKern
     $this->assertEquals('recipe_category', $vocabulary->id());
     $this->assertEquals('Recipe category', $vocabulary->label());
     $this->assertEquals('The category of the recipe—for example, appetizer, entree, etc.', $vocabulary->getDescription());
+
+    // Check that recipe_category vocabulary is translated.
+    $this->assertNotNull(ContentLanguageSettings::load('taxonomy_term.recipe_category'));
+    $this->assertTrue($this->contentTranslationManager->isEnabled('taxonomy_term', 'recipe_category'));
   }
 
 }

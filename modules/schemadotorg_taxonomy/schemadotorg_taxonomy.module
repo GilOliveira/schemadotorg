@@ -16,6 +16,20 @@ use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 /* ************************************************************************** */
 
 /**
+ * Implements hook_schemadotorg_jsonld_schema_property_alter().
+ */
+function schemadotorg_taxonomy_schemadotorg_jsonld_schema_property_alter(&$value, FieldItemInterface $item) {
+  // If the JSON-LD item value is null for an entity_reference:taxonomy_terms,
+  // the term's name is used as the JSON-LD item value.
+  if (is_null($value)
+    && $item instanceof EntityReferenceItem
+    && $item->getDataDefinition()->getSetting('target_type') === 'taxonomy_term'
+    && $item->entity) {
+    $value = $item->entity->label();
+  }
+}
+
+/**
  * Implements hook_schemadotorg_jsonld_entity_load().
  */
 function schemadotorg_taxonomy_schemadotorg_jsonld_entity_load(array &$data, EntityInterface $entity) {
@@ -117,18 +131,4 @@ function schemadotorg_taxonomy_schemadotorg_property_field_alter(
     $formatter_id,
     $formatter_settings
   );
-}
-
-/**
- * Implements hook_schemadotorg_jsonld_schema_property_alter().
- */
-function schemadotorg_taxonomy_schemadotorg_jsonld_schema_property_alter(&$value, FieldItemInterface $item) {
-  // If the JSON-LD item value is null for an entity_reference:taxonomy_terms,
-  // use the term's label as the JSON-LD item value.
-  if (is_null($value)
-    && $item instanceof EntityReferenceItem
-    && $item->getEntity()
-    && $item->getDataDefinition()->getSetting('target_type') === 'taxonomy_term') {
-    $value = $item->getEntity()->label();
-  }
 }

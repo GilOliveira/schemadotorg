@@ -58,8 +58,6 @@ class SchemaDotOrgTranslationManagerTest extends SchemaDotOrgKernelEntityTestBas
     $this->installEntitySchema('language_content_settings');
     $this->installConfig(['schemadotorg_translation']);
 
-    ConfigurableLanguage::createFromLangcode('es')->save();
-
     $this->fieldManager = $this->container->get('entity_field.manager');
     $this->contentTranslationManager = $this->container->get('content_translation.manager');
     $this->schemaTranslationManager = $this->container->get('schemadotorg_translation.manager');
