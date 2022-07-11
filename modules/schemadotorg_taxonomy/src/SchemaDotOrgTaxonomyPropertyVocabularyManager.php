@@ -2,12 +2,12 @@
 
 namespace Drupal\schemadotorg_taxonomy;
 
+use Drupal\content_translation\ContentTranslationManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\language\Entity\ContentLanguageSettings;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 
 /**
@@ -52,6 +52,13 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
   protected $schemaTypeManager;
 
   /**
+   * The content translation manager.
+   *
+   * @var \Drupal\content_translation\ContentTranslationManagerInterface
+   */
+  protected $contentTranslationManager;
+
+  /**
    * Constructs a SchemaDotOrgTaxonomyPropertyVocabularyManager object.
    *
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
@@ -64,18 +71,22 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
    *   The entity type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
    *   The Schema.org schema type manager.
+   * @param \Drupal\content_translation\ContentTranslationManagerInterface|null $content_translation_manager
+   *   The content translation manager.
    */
   public function __construct(
     MessengerInterface $messenger,
     LoggerChannelFactoryInterface $logger,
     ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
-    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
+    ContentTranslationManagerInterface $content_translation_manager = NULL
   ) {
     $this->messenger = $messenger;
     $this->logger = $logger;
     $this->configFactory = $config_factory;
     $this->entityTypeManager = $entity_type_manager;
+    $this->contentTranslationManager = $content_translation_manager;
     $this->schemaTypeManager = $schema_type_manager;
   }
 
@@ -123,14 +134,14 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
       'description' => $property_definition['comment'],
     ];
 
-    $entity_type_id = 'taxonomy_vocabulary';
     $vid = $property_vocabulary_settings['id'];
 
     // Make sure the vocabulary exists, if not create it.
     /** @var \Drupal\taxonomy\VocabularyStorageInterface $vocabulary_storage */
-    $vocabulary_storage = $this->entityTypeManager->getStorage($entity_type_id);
+    $vocabulary_storage = $this->entityTypeManager->getStorage('taxonomy_vocabulary');
     $vocabulary = $vocabulary_storage->load($vid);
     if (!$vocabulary) {
+      // Create the vocabulary.
       $vocabulary = $vocabulary_storage->create([
         'vid' => $vid,
         'name' => $property_vocabulary_settings['label'],
@@ -138,13 +149,10 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
       ]);
       $vocabulary->save();
 
-//      // Enable translations for entity type.
-//      $config = ContentLanguageSettings::loadByEntityTypeBundle($entity_type_id, $vid);
-//      $config->save();
-//      \Drupal::service('content_translation.manager')
-//        ->setEnabled($entity_type_id, $vid, TRUE);
-//      \Drupal::entityTypeManager()->clearCachedDefinitions();
-//      \Drupal::service('router.builder')->setRebuildNeeded();
+      // Enable translations for the vocabulary's taxonomy terms.
+      if ($this->contentTranslationManager) {
+        $this->contentTranslationManager->setEnabled('taxonomy_term', $vid, TRUE);
+      }
 
       $edit_link = $vocabulary->toLink($this->t('Edit'), 'edit-form')->toString();
       $this->messenger->addStatus($this->t('Created new vocabulary %name.', ['%name' => $vocabulary->label()]));
@@ -161,6 +169,9 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
         'auto_create' => TRUE,
       ],
     ];
+
+    // Use the tags widget.
+    $widget_id = 'entity_reference_autocomplete_tags';
   }
 
   /**

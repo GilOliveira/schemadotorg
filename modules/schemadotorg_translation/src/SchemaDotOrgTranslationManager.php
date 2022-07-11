@@ -147,11 +147,6 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    *   The entity bundle.
    */
   protected function enableEntityType($entity_type_id, $bundle) {
-    // Enable translations for entity type.
-    $config = ContentLanguageSettings::loadByEntityTypeBundle($entity_type_id, $bundle);
-    $config->save();
-
-    // Store whether a bundle has translation enabled or not.
     $this->contentTranslationManager->setEnabled($entity_type_id, $bundle, TRUE);
   }
 

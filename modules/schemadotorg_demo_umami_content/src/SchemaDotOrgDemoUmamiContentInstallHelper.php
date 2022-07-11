@@ -46,7 +46,7 @@ class SchemaDotOrgDemoUmamiContentInstallHelper extends \Drupal\demo_umami_conte
     $mapping = [
       'field_media_image' => 'schema_image',
       'field_summary' => 'body',
-      'field_recipe_category' => 'field_recipe_category',
+      'field_recipe_category' => 'schema_recipe_cat',
       'field_preparation_time' => 'schema_prep_time',
       'field_cooking_time' => 'schema_cook_time',
       'field_difficulty' => 'schema_edu_level',
