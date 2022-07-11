@@ -50,6 +50,7 @@
     "drupal/entity_browser": "~2.0",
     "drupal/entity_embed": "~1.0",
     "drupal/entity_usage": "~2.0",
+    "drupal/environment_indicator": "~4.0",
     "drupal/features": "~3.0",
     "drupal/field_group": "~3.0",
     "drupal/flexfield": "~2.0",

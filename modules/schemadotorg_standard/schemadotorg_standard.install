@@ -7,6 +7,7 @@
 
 use Drupal\consumers\Entity\Consumer;
 use Drupal\path_alias\Entity\PathAlias;
+use Drupal\shortcut\Entity\Shortcut;
 
 /**
  * Implements hook_install().
@@ -70,6 +71,24 @@ function schemadotorg_standard_install() {
       ['target_id' => 'thumbnail'],
     ]);
     $consumer->save();
+  }
+
+  // Add shortcuts.
+  $shortcuts = [
+    '/admin/reports/schemadotorg' => 'Browse Schema.org',
+    '/admin/config/search/schemadotorg' => 'Configure Schema.org Blueprints',
+    '/admin/help/schemadotorg'  => 'Learn more Schema.org Blueprints',
+    '/api/documentation' => 'Explore APIs',
+  ];
+  $weight = -18;
+  foreach ($shortcuts as $path => $title) {
+    Shortcut::create([
+      'shortcut_set' => 'default',
+      'title' => $title,
+      'link' => ['uri' => 'internal:' . $path],
+      'weight' => $weight,
+    ])->save();
+    $weight++;
   }
 
   // Create a path alias for /api/documentation.

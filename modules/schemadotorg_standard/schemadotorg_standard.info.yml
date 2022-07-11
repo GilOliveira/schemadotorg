@@ -33,6 +33,7 @@ dependencies:
   - 'entity_browser:entity_browser_entity_form'
   - 'entity_embed:entity_embed'
   - 'entity_usage:entity_usage'
+  - 'environment_indicator:environment_indicator'
   - 'features:features'
   - 'field_group:field_group'
   - 'inline_entity_form:inline_entity_form'
