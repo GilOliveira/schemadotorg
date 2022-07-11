@@ -15,24 +15,6 @@ schemadotorg:update-schema (soup) Update Schema.org data.
 
 # Usage
 
-## Import features
-
-```
-drush features:import -y schemadotorg
-drush features:import -y schemadotorg_descriptions
-drush features:import -y schemadotorg_flexfield
-drush features:import -y schemadotorg_demo
-drush features:import -y schemadotorg_jsonapi
-drush features:import -y schemadotorg_jsonapi_preview
-drush features:import -y schemadotorg_jsonld
-drush features:import -y schemadotorg_jsonld_endpoint
-drush features:import -y schemadotorg_jsonld_preview
-drush features:import -y schemadotorg_paragraphs
-drush features:import -y schemadotorg_report
-drush features:import -y schemadotorg_standard
-drush features:import -y schemadotorg_taxonomy
-```
-
 ## Setup Schema.org types with example content.
 
 ```
@@ -63,15 +45,4 @@ drush schemadotorg:delete-type -y --delete-fields user:Person
 drush schemadotorg:delete-type -y --delete-fields media:AudioObject media:DataDownload media:ImageObject media:VideoObject
 drush schemadotorg:delete-type -y --delete-entity paragraph:ContactPoint paragraph:PostalAddress
 drush schemadotorg:delete-type -y --delete-entity node:Person node:Organization node:Place node:Event
-```
-
-## Demo
-
-```
-drush schemadotorg:create-type -y paragraph:ContactPoint
-drush schemadotorg:create-type -y media:ImageObject
-drush schemadotorg:create-type -y node:Place node:Organization node:Person node:Event
-drush schemadotorg:create-type -y node:Article node:WebPage
-drush devel-generate:users --kill 50
-drush devel-generate:content --kill --add-type-label  50
 ```

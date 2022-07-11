@@ -27,33 +27,6 @@ Code
 Ajax
 - Add Ajax to mapping form add field UI/UX
   - @see \Drupal\jsonapi_extras\Form\JsonapiResourceConfigForm
-  
-# Ideas
-
-- Automatically generate corresponding View for Schema.org mapping (node and media)
-  - Huge amount of work to understand the Views entity and APIs.
-  - Each Schema.org type could be automatically added below the 'Content' item.
-  - Maybe a default admin view could be setup and cloned
-  - Fields
-    - Label
-    - Type
-    - Subtype
-    - Enumeration
-    - Terms
-    - Keywords
-    - startDate
-    - endDate
-
-- Schema.org Blueprint Speakable module
-  - https://schema.org/speakable
-  - Unlimited text field which can be filled with CSS selectors
-  - Adds 'Set speakable context link' to page.
-  - Selector can be set via sidebar that highlights and tracks what is being
-    clicked.
-  - Algorithm determines the unique selector.
-  - Sidebar has a Save button
-  - JS blocks all click events
-  - Speakable preview would pull the CSS selector text into a report/table
 
 # Test coverage
 

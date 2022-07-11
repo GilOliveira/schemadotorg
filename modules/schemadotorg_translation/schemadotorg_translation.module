@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Automatically enables translations for Schema.org types and properties.
+ * Manages translations for Schema.org types and properties as they are created.
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;

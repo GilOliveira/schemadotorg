@@ -1,6 +1,6 @@
 name: 'Schema.org Blueprints Translation'
 type: module
-description: Automatically enables translations for Schema.org types and properties as they are created.
+description: Manages translations for Schema.org types and properties as they are created.
 package: 'Schema.org Blueprints'
 core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental

@@ -20,12 +20,18 @@ Core
 
 Demo
 
-- **Schema.org Blueprints Demo**  
-  Provides the ability to create related Schema.org types via Drush.
-
 - **Schema.org Blueprints Standard Profile Setup**  
-  Provides an opinionated demo of the Schema.org Blueprints built on top of Drupal's standard profile. THIS DEMO SHOULD ONLY BE INSTALLED ON A PLAIN VANILLA STANDARD INSTANCE OF DRUPAL
+  Provides an opinionated demo of the Schema.org Blueprints built on top of Drupal's standard profile.
 
+- **Schema.org Blueprints Standard Profile Translation**  
+  Provides an opinionated translation of the Schema.org Blueprints built on top of Drupal's standard profile.
+
+- **Schema.org Blueprints Default Content**  
+  Provides default Schema.org types and mappings with default content.
+
+- **Schema.org Blueprints Umami Demo Content**  
+  Imports the content for the Umami demo with Schema.org Blueprints.
+ 
 UI/UX
 
 - **Schema.org Blueprints Descriptions**  
@@ -33,6 +39,12 @@ UI/UX
 
 - **Schema.org Blueprints Export**  
   Provides a CSV export of Schema.org type mappings.
+
+- **Schema.org Blueprints Mapping Set**  
+  Provides the ability to create a set of related Schema.org types via Drush.
+
+- **Schema.org Blueprints Translation**  
+  Manages translations for Schema.org types and properties as they are created.
 
 Fields
 
