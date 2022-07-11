@@ -11,3 +11,18 @@
 function schemadotorg_standard_page_attachments(array &$page) {
   $page['#attached']['library'][] = 'schemadotorg_standard/schemadotorg_standard';
 }
+
+/**
+ * Implements hook_toolbar_alter().
+ */
+function schemadotorg_standard_toolbar_alter(&$items) {
+  $weights = [
+    'coffee' => -20,
+    'environment_indicator' => 999,
+  ];
+  foreach ($weights as $name => $weight) {
+    if (isset($items[$name])) {
+      $items[$name]['#weight'] = $weight;
+    }
+  }
+}

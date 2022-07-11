@@ -59,7 +59,7 @@ function schemadotorg_standard_install() {
     ->set('error_level', 'verbose')
     ->save();
   \Drupal::configFactory()->getEditable('devel.settings')
-    ->set('dumper', 'kint')
+    ->set('devel_dumper', 'kint')
     ->save();
 
   // Add image styles to the 'Default Consumer'.
