@@ -138,13 +138,22 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
     }
 
     // Prefixes.
+    // NOTE: Prefixes are always applied to names to ensure consistency when
+    // visually scanning names.
     $prefixes = $this->getNamesConfig()->get('prefixes');
     foreach ($prefixes as $search => $replace) {
       $drupal_name = preg_replace('/^' . $search . '_/', $replace . '_', $drupal_name);
     }
+    if (strlen($drupal_name) <= $max_length) {
+      return $drupal_name;
+    }
 
-    // Do not do any more abbreviations of a single words.
-    if (substr_count($drupal_name, '_') === 0) {
+    // Abbreviations.
+    $abbreviations = $this->getNamesConfig()->get('abbreviations');
+    foreach ($abbreviations as $search => $replace) {
+      $drupal_name = preg_replace('/_' . $search . '_/', '_' . $replace . '_', $drupal_name);
+    }
+    if (strlen($drupal_name) <= $max_length) {
       return $drupal_name;
     }
 
@@ -152,12 +161,6 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
     $suffixes = $this->getNamesConfig()->get('suffixes');
     foreach ($suffixes as $search => $replace) {
       $drupal_name = preg_replace('/_' . $search . '$/', '_' . $replace, $drupal_name);
-    }
-
-    // Abbreviations.
-    $abbreviations = $this->getNamesConfig()->get('abbreviations');
-    foreach ($abbreviations as $search => $replace) {
-      $drupal_name = preg_replace('/(^|_)' . $search . '($|_)/', '\1' . $replace . '\2', $drupal_name);
     }
 
     return $drupal_name;

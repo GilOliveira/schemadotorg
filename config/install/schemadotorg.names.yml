@@ -6,23 +6,28 @@ custom_names:
   applies_to_delivery_method: applies_to_delivery_meth
   customer_remorse_return_shipping_fees_amount: cust_rem_ret_ship_fee_amt
   customer_remorse_return_label_source:  cust_rem_ret_label_src
+  currency_conversion_service: currency_conv_service
+  delivery_charge_specification: delivery_charge_spec
   is_accessory_or_spare_part_for: is_access_or_part_for
   is_located_in_subcellular_location: is_located_in_subcell_loc
+  news_updates_and_guidelines: news_updates_guidelines
   number_of_available_accommodation_units: num_accom_units
+  monoisotopic_molecular_weight: mono_molecular_weight
   offers_prescription_by_mail: offers_prescript_by_mail
   provides_broadcast_service: provides_broadcast_serv
   public_transport_closures_info: pub_trans_closures_info
   vehicle_identification_number: vin
 prefixes:
+  actionable: action
   alignment: align
   approved: appr
+  associated: assoc
   benefits: bene
   body_measurement: body_meas
   currency: cur
-  customer: cust
   customer_remorse_return: cust_rem_ret
+  customer: cust
   cvd_num: cvd
-  delivery: del
   digital_document: digit_doc
   discussion: disc
   educational: edu
@@ -34,13 +39,14 @@ prefixes:
   includes: inc
   item_defect_return: itm_def_ret
   maximum: max
+  medical_guideline: med_guide
   medical: med
   merchant: mer
   merchant_return_policy: mer_ret_pol
   misconceptions: miscon
   mission: mis
-  number: num
   number_of_available: num_of_avail
+  number: num
   original: orig
   payment: pay
   performing: perf
@@ -50,11 +56,13 @@ prefixes:
   reservation: res
   return_fees: ret_fees
   return_label: ret_lbl
+  return_policy: ret_pol
   risks_or_complications: risks_or_comp
   suggested: sug
   verification: ver
   wearable_measurement: wear_measure
   wearable_size: wear_size
+  wearable: wear
 suffixes:
   affiliation: affl
   amount: amt
@@ -92,6 +100,7 @@ suffixes:
   object: obj
   organization: org
   override: over
+  permission: perm
   policy: pol
   procedure: proc
   process: proc

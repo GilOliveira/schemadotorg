@@ -169,18 +169,18 @@ class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
   public function testToDrupalName() {
     $tests = [
       // Schema.org types.
-      ['types', 'ActionAccessSpecification', 'action_access_spec'],
-      ['types', 'DigitalDocumentPermissionType', 'digit_doc_perm_type'],
+      ['types', 'ActionAccessSpecification', 'action_access_specification'],
+      ['types', 'DigitalDocumentPermissionType', 'digit_doc_permission_type'],
       ['types', 'EUEnergyEfficiencyCategoryA1Plus', 'eu_energy_eff_cat_a1_plus'],
       ['types', 'MedicalCode', 'med_code'],
       ['types', 'WearableMeasurementChestOrBust', 'wear_measure_chest_or_bust'],
       // Schema.org properties.
       ['properties', 'cvdNumBeds', 'cvd_beds'],
       ['properties', 'disambiguatingDescription', 'disambiguating_desc'],
-      ['properties', 'educationalCredentialAwarded', 'edu_cred_awarded'],
+      ['properties', 'educationalCredentialAwarded', 'edu_credential_awarded'],
       ['properties', 'itemDefectReturnShippingFeesAmount', 'itm_def_ret_ship_fees_amt'],
       ['properties', 'specialOpeningHoursSpecification', 'special_opening_hrs_spec'],
-      ['properties', 'verificationFactCheckingPolicy', 'ver_fact_checking_pol'],
+      ['properties', 'verificationFactCheckingPolicy', 'ver_fact_checking_policy'],
     ];
     foreach ($tests as $test) {
       $this->assertEquals($test[2], $this->names->toDrupalName($test[0], $test[1]));

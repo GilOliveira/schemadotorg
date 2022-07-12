@@ -72,7 +72,7 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
       'schema_honorific_prefix' => 'honorificPrefix',
       'schema_honorific_suffix' => 'honorificSuffix',
       'schema_job_title' => 'jobTitle',
-      'schema_knows_lang' => 'knowsLanguage',
+      'schema_knows_language' => 'knowsLanguage',
       'schema_nationality' => 'nationality',
       'schema_same_as' => 'sameAs',
       'schema_telephone' => 'telephone',

@@ -62,7 +62,7 @@ class SchemaDotOrgTaxonomyJsonLdTest extends SchemaDotOrgKernelEntityTestBase {
     $node = Node::create([
       'type' => 'recipe',
       'title' => 'My recipe',
-      'schema_recipe_cat' => [
+      'schema_recipe_category' => [
         'target_id' => $term->id(),
       ],
     ]);

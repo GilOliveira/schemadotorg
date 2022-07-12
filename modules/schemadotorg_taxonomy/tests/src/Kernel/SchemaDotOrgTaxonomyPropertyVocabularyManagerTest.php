@@ -59,7 +59,7 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManagerTest extends SchemaDotOrgKern
     // Check that recipeCategory property defaults to
     // 'entity_reference:taxonomy_term' field type.
     /** @var \Drupal\field\FieldConfigInterface $field_config */
-    $field_config = FieldConfig::loadByName('node', 'recipe', 'schema_recipe_cat');
+    $field_config = FieldConfig::loadByName('node', 'recipe', 'schema_recipe_category');
     $this->assertEquals('default:taxonomy_term', $field_config->getSetting('handler'));
     $handler_settings = $field_config->getSetting('handler_settings');
     $this->assertEquals(['recipe_category' => 'recipe_category'], $handler_settings['target_bundles']);
