@@ -53,7 +53,7 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
 
     $prefixes = [];
     $suffixes = [];
-    $words = [];
+    $abbreviations = [];
 
     $tables = ['types', 'properties'];
     foreach ($tables as $table) {
@@ -64,6 +64,14 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
         ->fetchCol();
 
       foreach ($labels as $label) {
+        // For types, we only care about Things and Intangibles.
+        if ($table === 'types') {
+          $is_enumeration = ($this->schemaTypeManager->isEnumerationValue($label) || $this->schemaTypeManager->isEnumerationType($label));
+          if ($is_enumeration) {
+            continue;
+          }
+        }
+
         $max_length = $this->schemaDotOrgNames->getNameMaxLength($table);
         $name = $this->schemaDotOrgNames->camelCaseToSnakeCase($label);
         $names[$name] = $label;
@@ -100,13 +108,15 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
 
         reset($name_parts);
         foreach ($name_parts as $name_part) {
-          $words += [$name_part => 0];
-          $words[$name_part]++;
+          $abbreviations += [$name_part => 0];
+          $abbreviations[$name_part]++;
         }
       }
     }
 
     $build = [];
+
+    // General.
     $build['general'] = [
       '#type' => 'details',
       '#title' => $this->t('General summary'),
@@ -139,29 +149,27 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
         ],
       ];
     }
-    $config = $this->config('schemadotorg.names');
+
+    // Usage.
     $build['usage'] = [
       '#type' => 'details',
       '#title' => $this->t('Usage summary'),
       '#open' => TRUE,
     ];
-    $build['usage']['words'] = $this->buildWordUsage(
-      $this->t('Words'),
-      $this->t('Word'),
-      $words,
-      $config->get('abbreviations')
-    );
     $build['usage']['prefixes'] = $this->buildWordUsage(
-      $this->t('Prefixes'),
-      $this->t('Prefix'),
+      'prefixes',
       $prefixes,
-      $config->get('prefixes')
+      $names
+    );
+    $build['usage']['abbreviations'] = $this->buildWordUsage(
+      'abbreviations',
+      $abbreviations,
+      $names
     );
     $build['usage']['suffixes'] = $this->buildWordUsage(
-      $this->t('Suffixes'),
-      $this->t('Suffix'),
+      'suffixes',
       $suffixes,
-      $config->get('suffixes')
+      $names
     );
 
     return $build;
@@ -170,19 +178,39 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
   /**
    * Build word usage.
    *
-   * @param string $title
-   *   Details title.
-   * @param string $label
-   *   Header label.
+   * @param string $type
+   *   The type of word usage.
    * @param array $words
    *   Words.
-   * @param array $abbreviations
-   *   Abbreviations.
+   * @param array $names
+   *   Schema.org type and property names.
    *
    * @return array
    *   A renderable array containing word usage.
    */
-  protected function buildWordUsage($title, $label, array $words, array $abbreviations) {
+  protected function buildWordUsage($type, array $words, array $names) {
+    $config = $this->config('schemadotorg.names');
+    $replacements = $config->get($type);
+    switch ($type) {
+      case 'prefixes':
+        $title = $this->t('Prefixes');
+        $label = $this->t('Prefix');
+        $pattern = '/^%s_/';
+        break;
+
+      case 'abbreviations':
+        $title = $this->t('Abbreviations');
+        $label = $this->t('Abbreviation');
+        $pattern = '/_%s_/';
+        break;
+
+      case 'suffixes':
+        $title = $this->t('Suffixes');
+        $label = $this->t('Suffix');
+        $pattern = '/_%s$/';
+        break;
+    }
+
     // Remove words that are less than 5 characters.
     $words = array_filter($words, function ($word) {
       return strlen($word) > 5;
@@ -197,45 +225,71 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
     asort($words, SORT_NUMERIC);
     $words = array_reverse($words);
 
-    // Header.
+    // Find unused replacements.
+    $names = array_keys($names);
+    $unused_replacements = [];
+    foreach ($replacements as $search => $replacement) {
+      if (!preg_grep(sprintf($pattern, $search), $names)) {
+        $unused_replacements[$search] = $search;
+      }
+    }
+
+    $build = [
+      '#type' => 'details',
+      '#title' => $title,
+    ];
+
+    // Words.
     $header = [
       'word' => $label,
       'word_usage' => $this->t('Used'),
       'abbreviation' => $this->t('Abbreviation'),
     ];
-
-    // Rows.
     $rows = [];
     foreach ($words as $word => $usage) {
       $row = [];
       $row['word'] = $word;
       $row['word_usage'] = $usage;
-      $row['abbreviation'] = $abbreviations[$word] ?? '';
+      $row['abbreviation'] = $replacements[$word] ?? '';
       $rows[] = $row;
     }
-
-    $replacements_rows = [];
-    foreach ($abbreviations as $source => $abbreviation) {
-      $replacements_rows[] = [$source, $abbreviation];
-    }
-    $build = [
-      '#type' => 'details',
-      '#title' => $title,
-    ];
     $build['table'] = [
       '#type' => 'table',
       '#header' => $header,
       '#rows' => $rows,
     ];
-    $build['replacements'] = [
+
+    // Replacements.
+    $used_replacements_rows = [];
+    $unused_replacements_rows = [];
+    foreach ($replacements as $source => $abbreviation) {
+      if (isset($unused_replacements[$source])) {
+        $unused_replacements_rows[$source] = [$source, $abbreviation];
+      }
+      else {
+        $used_replacements_rows[$source] = [$source, $abbreviation];
+      }
+    }
+    $build['used_replacements'] = [
       '#type' => 'details',
-      '#title' => $this->t('Replacements'),
+      '#title' => $this->t('Used replacements'),
       'table' => [
         '#type' => 'table',
         '#header' => [$label, $this->t('Replacement')],
-        '#rows' => $replacements_rows,
+        '#rows' => $used_replacements_rows,
       ],
     ];
+    if ($unused_replacements_rows) {
+      $build['unused_replacements'] = [
+        '#type' => 'details',
+        '#title' => $this->t('Unused replacements'),
+        'table' => [
+          '#type' => 'table',
+          '#header' => [$label, $this->t('Replacement')],
+          '#rows' => $unused_replacements_rows,
+        ],
+      ];
+    }
     return $build;
   }
 

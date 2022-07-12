@@ -61,7 +61,7 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
       '#settings_format' => 'search|replace',
       '#title' => $this->t('Custom words'),
-      '#description' => $this->t('Enter titles used when Schema.org types and names are converted to Drupal entity and field machine names.'),
+      '#description' => $this->t('Enter titles used when Schema.org types and properties are converted to Drupal entity and field machine names.'),
       '#default_value' => $config->get('custom_words'),
     ];
     $form['names']['custom_names'] = [
@@ -69,7 +69,7 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
       '#settings_format' => 'search|replace',
       '#title' => $this->t('Custom names'),
-      '#description' => $this->t('Enter custom names used when Schema.org types and names are converted to Drupal entity and field machine names.'),
+      '#description' => $this->t('Enter custom names used when Schema.org types and properties are converted to Drupal entity and field machine names.'),
       '#default_value' => $config->get('custom_names'),
     ];
     $form['names']['prefixes'] = [
@@ -77,24 +77,30 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
       '#settings_format' => 'search|replace',
       '#title' => $this->t('Prefixes'),
-      '#description' => $this->t('Enter replacement prefixes used when Schema.org types and names are converted to Drupal entity and field machine names.'),
+      '#description' => $this->t('Enter replacement prefixes used when Schema.org types and properties are converted to Drupal entity and field machine names.')
+      . '<br/>' .
+      $this->t('Prefixes are always applied to Schema.org types and properties.'),
       '#default_value' => $config->get('prefixes'),
-    ];
-    $form['names']['suffixes'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#settings_format' => 'search|replace',
-      '#title' => $this->t('Suffixes'),
-      '#description' => $this->t('Enter replacement suffixes used when Schema.org types and names are converted to Drupal entity and field machine names.'),
-      '#default_value' => $config->get('suffixes'),
     ];
     $form['names']['abbreviations'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
       '#settings_format' => 'search|replace',
       '#title' => $this->t('Abbreviations'),
-      '#description' => $this->t('Enter replacement abbreviation used when Schema.org types and names are converted to Drupal entity and field machine names.'),
+      '#description' => $this->t('Enter replacement abbreviation used when Schema.org types and properties are converted to Drupal entity and field machine names.')
+      . '<br/>' .
+      $this->t('Abbreviations are only applied to Schema.org types and properties that exceeed the maxium number of allowed characters.'),
       '#default_value' => $config->get('abbreviations'),
+    ];
+    $form['names']['suffixes'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'search|replace',
+      '#title' => $this->t('Suffixes'),
+      '#description' => $this->t('Enter replacement suffixes used when Schema.org types and properties are converted to Drupal entity and field machine names.')
+      . '<br/>' .
+      $this->t('Suffixes are only applied to Schema.org types and properties that exceeed the maxium number of allowed characters.'),
+      '#default_value' => $config->get('suffixes'),
     ];
     $form['names']['acronyms'] = [
       '#type' => 'schemadotorg_settings',

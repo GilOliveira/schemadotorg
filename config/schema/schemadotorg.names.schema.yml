@@ -20,18 +20,18 @@ schemadotorg.names:
       sequence:
         type: string
         label: Prefix
-    suffixes:
-      type: sequence
-      label: Suffixes
-      sequence:
-        type: string
-        label: Suffix
     abbreviations:
       type: sequence
       label: Abbreviations
       sequence:
         type: string
         label: Abbreviation
+    suffixes:
+      type: sequence
+      label: Suffixes
+      sequence:
+        type: string
+        label: Suffix
     acronyms:
       type: sequence
       label: Acronyms

@@ -11,7 +11,8 @@ custom_names:
   is_accessory_or_spare_part_for: is_access_or_part_for
   is_located_in_subcellular_location: is_located_in_subcell_loc
   news_updates_and_guidelines: news_updates_guidelines
-  number_of_available_accommodation_units: num_accom_units
+  number_of_available_accommodation_units: num_of_accom_units
+  mission_coverage_priorities_policy: mis_cover_priorities_pol
   monoisotopic_molecular_weight: mono_molecular_weight
   offers_prescription_by_mail: offers_prescript_by_mail
   provides_broadcast_service: provides_broadcast_serv
@@ -19,11 +20,9 @@ custom_names:
   vehicle_identification_number: vin
 prefixes:
   actionable: action
-  alignment: align
   approved: appr
   associated: assoc
   benefits: bene
-  body_measurement: body_meas
   currency: cur
   customer_remorse_return: cust_rem_ret
   customer: cust
@@ -32,45 +31,76 @@ prefixes:
   discussion: disc
   educational: edu
   educational_occupational: edu_occ
-  energy_star_energy_efficiency: en_star_eff
-  eu_energy_efficiency_category: eu_energy_eff_cat
   food_establishment: food_est
   included: inc
   includes: inc
   item_defect_return: itm_def_ret
   maximum: max
-  medical_guideline: med_guide
-  medical: med
-  merchant: mer
+  medical_guideline: medical_guide
   merchant_return_policy: mer_ret_pol
-  misconceptions: miscon
-  mission: mis
-  number_of_available: num_of_avail
+  merchant: mer
   number: num
   original: orig
-  payment: pay
   performing: perf
   physical: phys
   presentation: pres
   prevention: prev
   reservation: res
-  return_fees: ret_fees
   return_label: ret_lbl
   return_policy: ret_pol
-  risks_or_complications: risks_or_comp
-  suggested: sug
   verification: ver
-  wearable_measurement: wear_measure
-  wearable_size: wear_size
-  wearable: wear
+abbreviations:
+  accessory: access
+  accommodation: accom
+  amount: amt
+  attendance: attend
+  availability: avail
+  biological: bio
+  coinsurance: coin
+  composition: comp
+  condition: cond
+  construction: const
+  consumption: cons
+  conversion: conv
+  coverage: cover
+  credential: cred
+  customer: cust
+  defect: def
+  document: doc
+  efficiency: eff
+  encoded: enc
+  equipment: equip
+  establishment: est
+  experience: exp
+  frequency: freq
+  guideline: guide
+  health: hth
+  health_plan: hth_plan
+  historical: hist
+  hours: hrs
+  identification: id
+  information: info
+  insurance: ins
+  membership: mem
+  minimum: min
+  number: num
+  observational: obs
+  occupational: occ
+  production: prod
+  program: prog
+  reference: ref
+  residence: res
+  return: ret
+  sequence: seq
+  shipping_fees: ship_fees
+  swimming: swim
+  transport: trans
 suffixes:
   affiliation: affl
   amount: amt
   application: app
-  ascending: asc
   aspect: asp
   audience: aud
-  background: back
   buildings: bld
   business: biz
   calculator: calc
@@ -82,7 +112,6 @@ suffixes:
   consideration: consid
   contraindication: contra
   credential: cred
-  descending: dsc
   description: desc
   distribution: dist
   duration: dur
@@ -107,11 +136,9 @@ suffixes:
   processing: proc
   recommendation: rec
   registered: reg
-  registration: reg
   requirement: req
   requirements: req
   reservation: res
-  responsibility: resp
   restaurant: rest
   service: srv
   source: src
@@ -121,91 +148,6 @@ suffixes:
   subscription: sub
   symptom: sym
   volume: vol
-abbreviations:
-  accessory: access
-  accommodation: accom
-  amount: amt
-  apartment: apt
-  article: art
-  associated: assoc
-  association: assoc
-  attendance: attend
-  availability: avail
-  biological: bio
-  business: biz
-  coinsurance: coin
-  community: comm
-  composition: comp
-  condition: cond
-  configuration: conf
-  construction: const
-  consumption: cons
-  conversion: conv
-  coverage: cover
-  credential: cred
-  customer: cust
-  defect: def
-  department: dept
-  diagnostic: diag
-  document: doc
-  efficiency: eff
-  eligibility: elig
-  employer: emp
-  employment: emp
-  encoded: enc
-  entertainment: ent
-  enumeration: enum
-  equipment: equip
-  establishment: est
-  experience: exp
-  frequency: freq
-  government: gov
-  guideline: guide
-  health: hth
-  health_insurance_plan: hth_ins_plan
-  health_plan: hth_plan
-  historical: hist
-  hospital: hosp
-  hours: hrs
-  identification: id
-  included: inc
-  includes: inc
-  incorporated: inc
-  information: info
-  insurance: ins
-  language: lang
-  maximum: max
-  measurement: measure
-  medical: med
-  membership: mem
-  minimum: min
-  minutes: min
-  monoisotopic_molecular: mono_molec
-  number: num
-  observational: obs
-  occupational: occ
-  organization: org
-  permission: perm
-  pregnancy: preg
-  procedure: proc
-  process: proc
-  production: prod
-  program: prog
-  publication: pub
-  reference: ref
-  relevance: rel
-  requirement: req
-  requirements: req
-  residence: res
-  return: ret
-  sequence: seq
-  shipping_fees: ship_fees
-  size_group: size_grp
-  specification: spec
-  suggested: sug
-  swimming: swim
-  transport: trans
-  updates_and_guidelines: up_and_guide
 acronyms:
   - cvd
   - id
