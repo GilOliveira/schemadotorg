@@ -26,6 +26,9 @@ Demo
 - **Schema.org Blueprints Standard Profile Translation**  
   Provides an opinionated translation of the Schema.org Blueprints built on top of Drupal's standard profile.
 
+- **Schema.org Blueprints Standard Profile Admin**  
+  Provides admin UI enhancements for the Schema.org Blueprints demo built on top of Drupal's standard profile.
+
 - **Schema.org Blueprints Default Content**  
   Provides default Schema.org types and mappings with default content.
 

@@ -75,20 +75,24 @@ function schemadotorg_standard_install() {
 
   // Add shortcuts.
   $shortcuts = [
-    '/admin/reports/schemadotorg' => 'Browse Schema.org',
+    '/admin/reports/schemadotorg' => 'Browse Schema.org specification',
     '/admin/config/search/schemadotorg' => 'Configure Schema.org Blueprints',
     '/admin/help/schemadotorg'  => 'Learn more about Schema.org Blueprints',
-    '/api/documentation' => 'Explore APIs',
+    '/api/documentation' => 'Explore Schema.org Blueprints APIs',
   ];
   $weight = -18;
+  $shortcut_storage = \Drupal::entityTypeManager()->getStorage('shortcut');
   foreach ($shortcuts as $path => $title) {
-    Shortcut::create([
+    $values = [
       'shortcut_set' => 'default',
       'title' => $title,
       'link' => ['uri' => 'internal:' . $path],
       'weight' => $weight,
-    ])->save();
-    $weight++;
+    ];
+    if (empty($shortcut_storage->loadByProperties($values))) {
+      $shortcut_storage->create($values)->save();
+      $weight++;
+    }
   }
 
   // Create a path alias for /api/documentation.

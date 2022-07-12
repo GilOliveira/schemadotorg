@@ -66,3 +66,4 @@ dependencies:
   - 'schemadotorg:schemadotorg_report'
   - 'schemadotorg:schemadotorg_taxonomy'
   - 'schemadotorg:schemadotorg_ui'
+  - 'schemadotorg:schemadotorg_standard_admin'

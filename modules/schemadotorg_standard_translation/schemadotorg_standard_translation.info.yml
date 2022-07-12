@@ -1,4 +1,4 @@
-name: 'Schema.org Blueprints Standard Profile Translation'
+name: 'Schema.org Blueprints Standard Profile Setup Translation'
 type: module
 description: |
   Provides an opinionated translation of the Schema.org Blueprints built on top of Drupal's standard profile.
