@@ -28,7 +28,7 @@ dependencies:
   - 'default_content:default_content'
   - 'devel:devel'
   - 'devel:devel_generate'
-  - 'devel:webprofiler'
+#  - 'devel:webprofiler'
   - 'dropzonejs:dropzonejs'
   - 'embed:embed'
   - 'entity_browser:entity_browser'
