@@ -37,6 +37,7 @@
   "require": {
     "drupal/admin_toolbar": "~3.0",
     "drupal/address": "~1.0",
+    "drupal/chosen": "~3.0",
     "drupal/coffee": "~1.0",
     "drupal/config_inspector": "~2.0",
     "drupal/config_rewrite": "~1.0",

@@ -77,7 +77,7 @@ function schemadotorg_standard_install() {
   $shortcuts = [
     '/admin/reports/schemadotorg' => 'Browse Schema.org',
     '/admin/config/search/schemadotorg' => 'Configure Schema.org Blueprints',
-    '/admin/help/schemadotorg'  => 'Learn more Schema.org Blueprints',
+    '/admin/help/schemadotorg'  => 'Learn more about Schema.org Blueprints',
     '/api/documentation' => 'Explore APIs',
   ];
   $weight = -18;

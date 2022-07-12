@@ -17,6 +17,8 @@ dependencies:
   - 'admin_toolbar:admin_toolbar'
   - 'admin_toolbar:admin_toolbar_tools'
   - 'coffee:coffee'
+  - 'chosen:chosen'
+  - 'chosen:chosen_lib'
   - 'config_rewrite:config_rewrite'
   - 'content_browser:content_browser'
   - 'consumer_image_styles:consumer_image_styles'
