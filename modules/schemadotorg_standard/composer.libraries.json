@@ -44,7 +44,7 @@
     "drupal/content_browser": "~1.0",
     "drupal/dashboards": "~2.0",
     "drupal/default_content": "~2.0",
-    "drupal/devel": "~4.0",
+    "drupal/devel": "4.x-dev@dev",
     "drupal/dropzonejs": "~2.0",
     "drupal/embed": "~1.0",
     "drupal/entity_browser": "~2.0",

@@ -2,7 +2,7 @@ name: 'Schema.org Blueprints Taxonomy'
 type: module
 description: 'Provides mappings from taxonomy vocabularies and terms to https://schema.org/DefinedTermSet and https://schema.org/DefinedTerm.'
 package: 'Schema.org Blueprints'
-core_version_requirement: '^8.9 || ^9'
+core_version_requirement: ^9
 lifecycle: experimental
 dependencies:
   - 'drupal:taxonomy'

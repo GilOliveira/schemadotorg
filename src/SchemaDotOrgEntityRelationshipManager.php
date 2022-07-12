@@ -87,6 +87,11 @@ class SchemaDotOrgEntityRelationshipManager implements SchemaDotOrgEntityRelatio
         $expected_target_bundles['from_library'] = 'from_library';
       }
 
+      // Skip if expected target bundles is empty.
+      if (empty($expected_target_bundles)) {
+        continue;
+      }
+
       // Skip if the expected and actual target bundles matches.
       if ($expected_target_bundles == $actual_target_bundles) {
         continue;
