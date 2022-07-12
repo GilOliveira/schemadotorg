@@ -5,10 +5,6 @@
  * Install, update and uninstall functions for the Schema.org Standard module.
  */
 
-use Drupal\consumers\Entity\Consumer;
-use Drupal\path_alias\Entity\PathAlias;
-use Drupal\shortcut\Entity\Shortcut;
-
 /**
  * Implements hook_install().
  */
@@ -62,8 +58,9 @@ function schemadotorg_standard_install() {
     ->set('devel_dumper', 'kint')
     ->save();
 
-  // Add image styles to the 'Default Consumer'.
-  $consumer = Consumer::load(1);
+  // Add consumer image styles to the 'Default Consumer'.
+  $consumer_storage = \Drupal::entityTypeManager()->getStorage('consumer');
+  $consumer = $consumer_storage->load(1);
   if ($consumer) {
     $consumer->get('image_styles')->setValue([
       ['target_id' => 'large'],
@@ -73,12 +70,13 @@ function schemadotorg_standard_install() {
     $consumer->save();
   }
 
-  // Add shortcuts.
+  // Add shortcuts to key Schema.org Blueprints URLs.
   $shortcuts = [
     '/admin/reports/schemadotorg' => 'Browse Schema.org specification',
     '/admin/config/search/schemadotorg' => 'Configure Schema.org Blueprints',
     '/admin/help/schemadotorg'  => 'Learn more about Schema.org Blueprints',
-    '/api/documentation' => 'Explore Schema.org Blueprints APIs',
+    '/api/documentation' => 'Explore JSON:API OpenAPI Documentation',
+    '/api/openapi?_format=json' => 'Download JSON:API OpenAPI',
   ];
   $weight = -18;
   $shortcut_storage = \Drupal::entityTypeManager()->getStorage('shortcut');
@@ -95,12 +93,18 @@ function schemadotorg_standard_install() {
     }
   }
 
-  // Create a path alias for /api/documentation.
-  PathAlias::create([
-    'alias' => '/api/documentation',
-    'path' => '/admin/config/services/openapi/redoc/jsonapi',
-    'langcode' => 'en',
-  ])->save();
+  // Create path aliases for /api/*.
+  $path_alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+  $path_aliases = [
+    '/admin/config/services/openapi/redoc/jsonapi' => '/api/documentation',
+    '/openapi/jsonapi' => '/api/openapi',
+  ];
+  foreach ($path_aliases as $path => $alias) {
+    $values = ['path' => $path, 'alias' => $alias, 'langcode' => 'en'];
+    if (empty($path_alias_storage->loadByProperties($values))) {
+      $path_alias_storage->create($values)->save();
+    }
+  }
 
   // Make sure update status is checked.
   update_cron();
