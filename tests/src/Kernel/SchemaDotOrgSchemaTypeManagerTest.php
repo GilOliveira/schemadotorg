@@ -158,6 +158,16 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertEquals('Answer', $this->schemaTypeManager->getPropertyDefaultType('acceptedAnswer'));
     $this->assertNull($this->schemaTypeManager->getPropertyDefaultType('recipeInstructions'));
 
+    // Check getting a Schema.org property's unit.
+    $this->assertNull($this->schemaTypeManager->getPropertyUnit('id'));
+    $this->assertNull($this->schemaTypeManager->getPropertyUnit('id', 1));
+    $this->assertEquals('grams', $this->schemaTypeManager->getPropertyUnit('carbohydrateContent'));
+    $this->assertEquals('gram', $this->schemaTypeManager->getPropertyUnit('carbohydrateContent', 1));
+    $this->assertNull($this->schemaTypeManager->getPropertyUnit('carbohydrateContent', NULL));
+    $this->assertEquals('milligrams', $this->schemaTypeManager->getPropertyUnit('cholesterolContent'));
+    $this->assertEquals('milligram', $this->schemaTypeManager->getPropertyUnit('cholesterolContent', 1));
+    $this->assertNull($this->schemaTypeManager->getPropertyUnit('cholesterolContent', NULL));
+
     // Check getting Schema.org type or property items.
     $items = $this->schemaTypeManager->getItems('types', ['Thing', 'Place']);
     $this->assertEquals('https://schema.org/Thing', $items['Thing']['id']);

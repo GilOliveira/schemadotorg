@@ -205,7 +205,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
         // and https://schema.org/Energy which are used by
         // https://schema.org/NutritionInformation.
         $property = $this->getSchemaProperty($item);
-        $unit = $this->getSchemaPropertyUnit($property, $value);
+        $unit = $this->schemaTypeManager->getPropertyUnit($property, $value);
         return ($unit) ? $value . $unit : $value;
     }
 
@@ -230,41 +230,6 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     return $value;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getSchemaPropertyUnit($property, $value = NULL) {
-    if (!is_numeric($value) && $value !== NULL) {
-      return NULL;
-    }
-
-    $property_definition = $this->schemaTypeManager->getItem('properties', $property);
-    if (!$property_definition) {
-      return NULL;
-    }
-
-    $range_includes = ['https://schema.org/Energy', 'https://schema.org/Mass'];
-    if (!in_array($property_definition['range_includes'], $range_includes)) {
-      return NULL;
-    }
-
-    preg_match('/\b(grams|milligrams|calories)\b/', $property_definition['comment'], $match);
-    $unit = $match[1] ?? NULL;
-
-    switch ($unit) {
-      case 'grams':
-        return ' ' . ($value == '1' ? $this->t('gram') : $this->t('grams'));
-
-      case 'milligrams':
-        return ' ' . ($value == '1' ? $this->t('milligram') : $this->t('milligrams'));
-
-      case 'calories':
-        return ' ' . ($value == '1' ? $this->t('calorie') : $this->t('calories'));
-
-      default:
-        return NULL;
-    }
-  }
 
   /**
    * {@inheritdoc}

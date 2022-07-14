@@ -96,6 +96,16 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
       ],
     ];
 
+    // Add note after the actions element which has a weight of 100.
+    if ($this->operation === 'setup') {
+      $form['note'] = [
+        '#weight' => 101,
+        '#markup' => $this->t('Please note that setting up multiple entity types and fields may take a minute or two to complete.'),
+        '#prefix' => '<div><em>',
+        '#suffix' => '</em></div>',
+      ];
+    }
+
     if ($form_state->isMethodType('GET')
       && in_array($this->operation, ['generate', 'kill'])) {
       $this->messenger()->addWarning($this->t('All existing content will be deleted.'));

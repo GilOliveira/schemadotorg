@@ -229,6 +229,19 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getPropertyDefaultType($property);
 
   /**
+   * Gets Schema.org property's unit.
+   *
+   * @param string $property
+   *   A Schema.org property.
+   * @param int $value
+   *   A numeric value.
+   *
+   * @return string|null
+   *   A Schema.org property's unit.
+   */
+  public function getPropertyUnit($property, $value = 0);
+
+  /**
    * Gets Schema.org type or property items.
    *
    * @param string $table

@@ -167,13 +167,6 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
     $actual_value = $this->manager->getSchemaPropertyValue($node->created->get(0));
     $this->assertEquals(1, preg_match('/^\d\d\d\d-\d\d-\d\d/', $actual_value));
 
-    // Check getting a Schema.org property unit.
-    $this->assertNull($this->manager->getSchemaPropertyUnit('sodiumContent', ''));
-    $this->assertNull($this->manager->getSchemaPropertyUnit('notMass', 10));
-    $this->assertEquals(' milligrams', (string) $this->manager->getSchemaPropertyUnit('sodiumContent'));
-    $this->assertEquals(' milligram', (string) $this->manager->getSchemaPropertyUnit('sodiumContent', 1));
-    $this->assertEquals(' milligrams', (string) $this->manager->getSchemaPropertyUnit('sodiumContent', 10));
-
     // Check getting a Schema.org property's value converted to
     // the default Schema.org type.
     $this->assertEquals(

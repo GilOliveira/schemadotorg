@@ -4,11 +4,13 @@ namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Schema.org schema type manager.
  */
 class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInterface {
+  use StringTranslationTrait;
 
   /**
    * The configuration factory.
@@ -301,6 +303,42 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
 
     // Finally, return the first type in range_includes type definitions.
     return array_key_first($type_definitions);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getPropertyUnit($property, $value = 0) {
+    if ($value === NULL) {
+      return NULL;
+    }
+
+    $property_definition = $this->getItem('properties', $property);
+    if (!$property_definition) {
+      return NULL;
+    }
+
+    $range_includes = ['https://schema.org/Energy', 'https://schema.org/Mass'];
+    if (!in_array($property_definition['range_includes'], $range_includes)) {
+      return NULL;
+    }
+
+    preg_match('/\b(grams|milligrams|calories)\b/', $property_definition['comment'], $match);
+    $unit = $match[1] ?? NULL;
+
+    switch ($unit) {
+      case 'grams':
+        return ($value == '1' ? $this->t('gram') : $this->t('grams'));
+
+      case 'milligrams':
+        return ($value == '1' ? $this->t('milligram') : $this->t('milligrams'));
+
+      case 'calories':
+        return ($value == '1' ? $this->t('calorie') : $this->t('calories'));
+
+      default:
+        return NULL;
+    }
   }
 
   /**

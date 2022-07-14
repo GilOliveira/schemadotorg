@@ -34,3 +34,7 @@
 .api-info-version {
   display: none;
 }
+
+.flexfield__label {
+  font-weight: bold;
+}

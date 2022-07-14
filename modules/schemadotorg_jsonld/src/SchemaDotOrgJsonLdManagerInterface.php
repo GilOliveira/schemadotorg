@@ -61,19 +61,6 @@ interface SchemaDotOrgJsonLdManagerInterface {
   public function getSchemaPropertyValue(FieldItemInterface $item);
 
   /**
-   * Gets Schema.org property unit.
-   *
-   * @param string $property
-   *   The Schema.org property.
-   * @param mixed $value
-   *   The numeric value.
-   *
-   * @return string|null
-   *   The Schema.org property unit.
-   */
-  public function getSchemaPropertyUnit($property, $value = NULL);
-
-  /**
    * Get a Schema.org type property's value converted to the default Schema.org type.
    *
    * @param string $type
