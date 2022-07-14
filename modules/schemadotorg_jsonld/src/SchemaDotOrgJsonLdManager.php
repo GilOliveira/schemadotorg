@@ -201,12 +201,9 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
       case 'float':
       case 'integer':
         $value = $item->value;
-        // Units currently are only applicable to https://schema.org/Mass
-        // and https://schema.org/Energy which are used by
-        // https://schema.org/NutritionInformation.
-        $property = $this->getSchemaProperty($item);
-        $unit = $this->schemaTypeManager->getPropertyUnit($property, $value);
-        return ($unit) ? $value . $unit : $value;
+        $prefix = $item->getFieldDefinition()->getSetting('prefix') ?? '';
+        $suffix = $item->getFieldDefinition()->getSetting('suffix') ?? '';
+        return $prefix . $value . $suffix;
     }
 
     // Main property data type.

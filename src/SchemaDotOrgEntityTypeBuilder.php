@@ -753,6 +753,15 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         ];
         break;
 
+      case 'integer':
+      case 'float':
+      case 'decimal':
+        $unit = $this->schemaTypeManager->getPropertyUnit($property);
+        if ($unit) {
+          $field_values['settings']['suffix'] = ' ' . $unit;
+        }
+        break;
+
       case 'list_string':
         if (!empty($field_storage_values['allowed_values'])) {
           $field_storage_values['settings'] = [
