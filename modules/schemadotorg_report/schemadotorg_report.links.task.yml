@@ -1,11 +1,3 @@
-# Settings
-
-schemadotorg_report.settings:
-  title: References
-  route_name: schemadotorg_report.settings
-  parent_id: schemadotorg.settings
-  weight: 100
-
 # Item
 
 schemadotorg_report:
@@ -99,3 +91,12 @@ schemadotorg_report.references:
   title: References
   route_name: schemadotorg_report.references
   base_route: schemadotorg_report
+schemadotorg_report.overview:
+  title: View
+  route_name: schemadotorg_report.references
+  parent_id: schemadotorg_report.references
+schemadotorg_report.settings:
+  title: Edit
+  route_name: schemadotorg_report.settings
+  parent_id: schemadotorg_report.references
+
