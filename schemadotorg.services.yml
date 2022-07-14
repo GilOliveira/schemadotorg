@@ -23,11 +23,9 @@ services:
   schemadotorg.field_manager:
     class: Drupal\schemadotorg\SchemaDotOrgFieldManager
     arguments: ['@module_handler', '@config.factory', '@entity_type.manager', '@entity_field.manager', '@plugin.manager.field.field_type', '@schemadotorg.schema_type_manager']
-
   schemadotorg.mapping_manager:
     class: Drupal\schemadotorg\SchemaDotOrgMappingManager
     arguments: ['@module_handler', '@config.factory', '@entity_type.manager', '@entity_field.manager', '@schemadotorg.names', '@schemadotorg.schema_type_manager', '@schemadotorg.schema_type_builder', '@schemadotorg.field_manager', '@schemadotorg.entity_type_builder']
-
   schemadotorg.breadcrumb:
     class: Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder
     tags:
