@@ -21,6 +21,15 @@ schemadotorg.dialog:
     - core/drupal
     - core/drupal.dialog.ajax
 
+schemadotorg.form:
+  js:
+    js/schemadotorg.form.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+    - core/drupal.ajax
+
 schemadotorg.jstree:
   css:
     component:

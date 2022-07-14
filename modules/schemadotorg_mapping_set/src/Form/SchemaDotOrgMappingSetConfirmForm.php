@@ -111,6 +111,9 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
       $this->messenger()->addWarning($this->t('All existing content will be deleted.'));
     }
 
+    $form['#attributes']['class'][] = 'js-schemadotorg-submit-once';
+    $form['#attached'] = ['library' => ['schemadotorg/schemadotorg.form']];
+
     return $form;
   }
 
