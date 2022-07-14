@@ -8,6 +8,7 @@ custom_names:
   customer_remorse_return_label_source:  cust_rem_ret_label_src
   currency_conversion_service: currency_conv_service
   delivery_charge_specification: delivery_charge_spec
+  food_establishment: food_est
   is_accessory_or_spare_part_for: is_access_or_part_for
   is_located_in_subcellular_location: is_located_in_subcell_loc
   news_updates_and_guidelines: news_updates_guidelines

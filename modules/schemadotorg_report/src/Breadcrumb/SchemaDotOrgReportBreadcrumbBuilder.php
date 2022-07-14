@@ -12,7 +12,6 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
  * Provides a breadcrumb builder for Schema.org report.
  */
 class SchemaDotOrgReportBreadcrumbBuilder implements BreadcrumbBuilderInterface {
-
   use StringTranslationTrait;
 
   /**

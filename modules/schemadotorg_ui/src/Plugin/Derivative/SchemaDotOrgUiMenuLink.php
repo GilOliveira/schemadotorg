@@ -11,7 +11,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Provides menu link definitions for all entity bundles.
  */
 class SchemaDotOrgUiMenuLink extends DeriverBase implements ContainerDeriverInterface {
-
   use StringTranslationTrait;
 
   /**

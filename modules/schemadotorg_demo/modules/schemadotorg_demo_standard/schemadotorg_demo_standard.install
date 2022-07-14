@@ -73,8 +73,8 @@ function schemadotorg_demo_standard_install() {
   // Add shortcuts to key Schema.org Blueprints URLs.
   $shortcuts = [
     '/admin/reports/schemadotorg' => 'Browse Schema.org specification',
-    '/admin/config/search/schemadotorg' => 'Configure Schema.org Blueprints',
     '/admin/config/search/schemadotorg/sets' => 'Create Schema.org content models',
+    '/admin/config/search/schemadotorg' => 'Configure Schema.org Blueprints',
     '/admin/help/schemadotorg'  => 'Learn more about Schema.org Blueprints',
     '/api/documentation' => 'Explore JSON:API OpenAPI Documentation',
     '/api/openapi?_format=json' => 'Download JSON:API OpenAPI',

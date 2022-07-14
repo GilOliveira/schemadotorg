@@ -11,7 +11,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Provides local action definitions for all entity bundles.
  */
 class SchemaDotOrgUiLocalAction extends DeriverBase implements ContainerDeriverInterface {
-
   use StringTranslationTrait;
 
   /**

@@ -8,10 +8,10 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
- * @coversDefaultClass \Drupal\schemadotorg\Breadcrumb\SchemaDotOrgMappingSetBreadcrumbBuilder
+ * @coversDefaultClass \Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder
  * @group schemadotorg
  */
-class SchemaDotOrgBreadcrumbBuilderBuilderTest extends UnitTestCase {
+class SchemaDotOrgBreadcrumbBuilderTest extends UnitTestCase {
 
   /**
    * {@inheritdoc}
@@ -49,7 +49,7 @@ class SchemaDotOrgBreadcrumbBuilderBuilderTest extends UnitTestCase {
    * @covers ::applies
    */
   public function testApplies($expected, $route_name = NULL) {
-    $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg\Breadcrumb\SchemaDotOrgMappingSetBreadcrumbBuilder')
+    $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder')
       ->onlyMethods([])
       ->getMock();
 
@@ -88,7 +88,7 @@ class SchemaDotOrgBreadcrumbBuilderBuilderTest extends UnitTestCase {
    */
   public function testBuild() {
     // Build a breadcrumb builder to test.
-    $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg\Breadcrumb\SchemaDotOrgMappingSetBreadcrumbBuilder')
+    $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder')
       ->onlyMethods([])
       ->getMock();
 
