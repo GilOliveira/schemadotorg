@@ -1,0 +1,10 @@
+schemadotorg_demo_standard:
+  header: true
+  css:
+    component:
+      css/schemadotorg_demo_standard.css: { }
+  js:
+    js/schemadotorg_demo_standard.js: {}
+  dependencies:
+    - core/drupalSettings
+    - core/drupal.message

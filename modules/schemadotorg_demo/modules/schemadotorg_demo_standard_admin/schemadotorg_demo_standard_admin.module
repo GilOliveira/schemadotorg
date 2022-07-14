@@ -8,14 +8,14 @@
 /**
  * Implements hook_page_attachments().
  */
-function schemadotorg_standard_admin_page_attachments(array &$page) {
-  $page['#attached']['library'][] = 'schemadotorg_standard_admin/schemadotorg_standard_admin';
+function schemadotorg_demo_standard_admin_page_attachments(array &$page) {
+  $page['#attached']['library'][] = 'schemadotorg_demo_standard_admin/schemadotorg_demo_standard_admin';
 }
 
 /**
  * Implements hook_toolbar_alter().
  */
-function schemadotorg_standard_admin_toolbar_alter(&$items) {
+function schemadotorg_demo_standard_admin_toolbar_alter(&$items) {
   $weights = [
     'coffee' => -20,
     'environment_indicator' => 999,

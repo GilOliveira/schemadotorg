@@ -37,12 +37,16 @@ function install() {
 
   drush -y config-set system.site slogan 'A demo of the Schema.org Blueprints module for Drupal.'
 
-  drush -y pm-enable schemadotorg_standard;
+  drush -y pm-enable schemadotorg_demo_standard;
+}
+
+function demo() {
+  install
+  drush -y pm-enable schemadotorg_demo;
 }
 
 function translate() {
-  drush -y pm-enable schemadotorg_standard_translation;
-  drush -y pm-enable schemadotorg_translation;
+  drush -y pm-enable schemadotorg_demo_standard_translation;
   drush locale:check
   drush locale:update
   drush -y pm-enable schemadotorg_demo_umami_content;
@@ -60,7 +64,7 @@ function import() {
   drush features:import -y schemadotorg_mapping_set
   drush features:import -y schemadotorg_paragraphs
   drush features:import -y schemadotorg_report
-  drush features:import -y schemadotorg_standard
+  drush features:import -y schemadotorg_demo_standard
   drush features:import -y schemadotorg_translate
   drush features:import -y schemadotorg_taxonomy
   # drush features:import -y schemadotorg_flexfield
@@ -78,7 +82,7 @@ function export() {
   drush features:export -y schemadotorg_mapping_set
   drush features:export -y schemadotorg_paragraphs
   drush features:export -y schemadotorg_report
-  drush features:export -y schemadotorg_standard
+  drush features:export -y schemadotorg_demo_standard
   drush features:export -y schemadotorg_translate
   drush features:export -y schemadotorg_taxonomy
   # drush features:export -y schemadotorg_flexfield

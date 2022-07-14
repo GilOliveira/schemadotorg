@@ -1,9 +1,9 @@
-name: 'Schema.org Blueprints Standard Profile Setup'
+name: 'Schema.org Blueprints Demo Standard Profile Setup'
 type: module
 description: |
   Provides an opinionated demo of the Schema.org Blueprints built on top of Drupal's standard profile.
   THIS MODULE SHOULD ONLY BE INSTALLED ON A PLAIN VANILLA STANDARD INSTANCE OF DRUPAL
-package: 'Schema.org Blueprints'
+package: Schema.org Blueprints Demo
 core_version_requirement: ^9
 lifecycle: experimental
 dependencies:
@@ -66,4 +66,4 @@ dependencies:
   - 'schemadotorg:schemadotorg_report'
   - 'schemadotorg:schemadotorg_taxonomy'
   - 'schemadotorg:schemadotorg_ui'
-  - 'schemadotorg:schemadotorg_standard_admin'
+  - 'schemadotorg:schemadotorg_demo_standard_admin'

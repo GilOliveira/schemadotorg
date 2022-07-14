@@ -20,13 +20,13 @@ Core
 
 Demo
 
-- **Schema.org Blueprints Standard Profile Setup**  
+- **Schema.org Blueprints Demo Standard Profile Setup**  
   Provides an opinionated demo of the Schema.org Blueprints built on top of Drupal's standard profile.
 
-- **Schema.org Blueprints Standard Profile Translation**  
+- **Schema.org Blueprints Demo Standard Profile Translation**  
   Provides an opinionated translation of the Schema.org Blueprints built on top of Drupal's standard profile.
 
-- **Schema.org Blueprints Standard Profile Admin**  
+- **Schema.org Blueprints Demo Standard Profile Admin**  
   Provides admin UI enhancements for the Schema.org Blueprints demo built on top of Drupal's standard profile.
 
 - **Schema.org Blueprints Default Content**  

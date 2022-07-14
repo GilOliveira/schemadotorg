@@ -1,0 +1,10 @@
+schemadotorg_demo_standard_admin:
+  header: true
+  css:
+    component:
+      css/schemadotorg_demo_standard_admin.css: { }
+  js:
+    js/schemadotorg_demo_standard_admin.js: {}
+  dependencies:
+    - core/drupalSettings
+    - core/drupal.message

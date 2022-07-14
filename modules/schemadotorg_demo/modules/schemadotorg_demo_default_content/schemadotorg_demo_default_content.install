@@ -8,7 +8,7 @@
 /**
  * Implements hook_install().
  */
-function schemadotorg_default_content_install($is_syncing) {
+function schemadotorg_demo_default_content_install($is_syncing) {
   if ($is_syncing) {
     return;
   }

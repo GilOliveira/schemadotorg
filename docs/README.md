@@ -33,7 +33,7 @@ _The use-case for different entity and field types._
 
 # Demo
 
-The Schema.org Blueprints Demo module and the Schema.org Blueprints Standard Profile Setup module can be installed on a plain standard Drupal instance to provide an opinionated demonstration of the Schema.org Blueprints modules with an advanced Schema.org types and content authoring user experience.
+The Schema.org Blueprints Demo module and the Schema.org Blueprints Demo Standard Profile Setup module can be installed on a plain standard Drupal instance to provide an opinionated demonstration of the Schema.org Blueprints modules with an advanced Schema.org types and content authoring user experience.
 
 ## Demo Schema.org types
 
@@ -54,7 +54,7 @@ Use cases include...
 
 ## Content authoring user experience
 
-Schema.org Blueprints Standard Profile Setup module requires and configures 
+Schema.org Blueprints Demo Standard Profile Setup module requires and configures 
 a suite of contributed modules that provide the below content authoring user
 experiences with the Drupal administrative UI.
 

@@ -1,7 +1,7 @@
-name: 'Schema.org Blueprints Standard Profile Admin'
+name: 'Schema.org Blueprints Demo Standard Profile Admin'
 type: module
 description: Provides admin UI enhancements for the Schema.org Blueprints demo built on top of Drupal's standard profile.
-package: 'Schema.org Blueprints'
+package: Schema.org Blueprints Demo
 core_version_requirement: ^9
 lifecycle: experimental
 dependencies: {  }

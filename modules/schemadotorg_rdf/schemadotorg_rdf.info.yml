@@ -5,7 +5,6 @@ package: Schema.org Blueprints [DEPRECATED]
 core_version_requirement: ^9
 lifecycle: deprecated
 lifecycle_link: 'https://www.drupal.org/project/ideas/issues/2152459'
-
 dependencies:
   - 'schemadotorg:schemadotorg'
   - 'drupal:rdf'

@@ -1,9 +1,9 @@
-name: 'Schema.org Blueprints Standard Profile Setup Translation'
+name: 'Schema.org Blueprints Demo Standard Profile Setup Translation'
 type: module
 description: |
   Provides an opinionated translation of the Schema.org Blueprints built on top of Drupal's standard profile.
   THIS MODULE SHOULD ONLY BE INSTALLED ON A PLAIN VANILLA STANDARD INSTANCE OF DRUPAL
-package: 'Schema.org Blueprints'
+package: Schema.org Blueprints Demo
 core_version_requirement: ^9
 lifecycle: experimental
 dependencies:
@@ -12,4 +12,5 @@ dependencies:
   - 'drupal:language'
   - 'drupal:locale'
   - 'toolbar_language_switcher:toolbar_language_switcher'
-  - 'schemadotorg:schemadotorg_standard'
+  - 'schemadotorg:schemadotorg_translation'
+  - 'schemadotorg:schemadotorg_demo_standard'
