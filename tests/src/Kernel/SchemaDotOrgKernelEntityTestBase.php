@@ -38,7 +38,6 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
     'link',
     'options',
     'schemadotorg_paragraphs',
-    'schemadotorg_ui',
   ];
 
   /**
@@ -84,9 +83,9 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
   protected $mappingStorage;
 
   /**
-   * The Schema.org UI API service.
+   * The Schema.org mapping manager.
    *
-   * @var \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface
+   * @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface
    */
   protected $api;
 
@@ -112,7 +111,7 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
     $installer->importTables();
 
     $this->mappingStorage = $this->container->get('entity_type.manager')->getStorage('schemadotorg_mapping');
-    $this->api = $this->container->get('schemadotorg_ui.api');
+    $this->api = $this->container->get('schemadotorg.mapping_manager');
   }
 
   /**
@@ -164,13 +163,7 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
     $this->installEntityDependencies($entity_type_id);
 
     // Create the entity type and mappings.
-    $errors = $this->api->createType($entity_type_id, $schema_type, $options);
-    // Assume there are no errors but throw an exception when there is one.
-    if ($errors) {
-      foreach ($errors as $error) {
-        throw new \Exception((string) $error);
-      }
-    }
+    $this->api->createType($entity_type_id, $schema_type, $options);
 
     // Load the newly created Schema.org mapping.
     $mappings = $this->mappingStorage->loadByProperties([

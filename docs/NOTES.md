@@ -3,10 +3,12 @@ Schema.org Blueprints
 
 # Todo
 
-Tests
+Test coverage
+
+- Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgApiTest
+- Improve \Drupal\Tests\schemadotorg\Functional\SchemaDotOrgSettingsElementTest
+- JavaScript test coverage for UI and Report.
 - Write tests schemadotorg_mapping_set.module
-  - Form
-  - Overview
 - Write tests schemadotorg_flexfield.module
 
 ## Ongoing
@@ -27,12 +29,6 @@ Code
 Ajax
 - Add Ajax to mapping form add field UI/UX
   - @see \Drupal\jsonapi_extras\Form\JsonapiResourceConfigForm
-
-# Test coverage
-
-- Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgUiApiTest
-- Improve \Drupal\Tests\schemadotorg\Functional\SchemaDotOrgSettingsElementTest
-- JavaScript test coverage for UI and Report.
 
 # TBD
 

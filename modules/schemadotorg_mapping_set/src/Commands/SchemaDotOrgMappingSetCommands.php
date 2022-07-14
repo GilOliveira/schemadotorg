@@ -222,7 +222,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
       $sets = $this->configFactory->get('schemadotorg_mapping_set.settings')->get('sets');
       $sets = array_keys($sets);
       $choices = array_combine($sets, $sets);
-      $choice = $this->io()->choice(dt('Choose a Schema.org mapping set to @action.', ['@action' => $action]), $choices);
+      $choice = $this->io()->choice(dt('Choose a Schema.org mapping set to @action', ['@action' => $action]), $choices);
       $input->setArgument('name', $choice);
     }
   }
@@ -243,9 +243,9 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
    * Convert Schema.org mapping set command action.
    *
    * @param string $name
-   *   the mapping set name.
+   *   The mapping set name.
    * @param string $action
-   *   the mapping set action.
+   *   The mapping set action.
    * @param bool $required
    *   Include required types.
    *

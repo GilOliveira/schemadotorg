@@ -8,7 +8,7 @@ use Drupal\Core\State\StateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\devel_generate\DevelGeneratePluginManager;
 use Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface;
-use Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
 
 /**
  * Schema.org mapping set manager.
@@ -46,11 +46,11 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
   protected $schemaEntityRelationshipManager;
 
   /**
-   * The Schema.org UI API.
+   * The Schema.org mapping manager.
    *
-   * @var \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface
+   * @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface
    */
-  protected $schemaApi;
+  protected $schemaMappingManager;
 
   /**
    * The devel generate plugin manager.
@@ -70,8 +70,8 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
    *   The entity type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface $schema_entity_relationship_manager
    *   The Schema.org schema entity relationship manager.
-   * @param \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface $schema_api
-   *   The Schema.org UI API.
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $schema_mapping_manager
+   *   The Schema.org mapping manager.
    * @param \Drupal\devel_generate\DevelGeneratePluginManager|null $devel_generate_manager
    *   The Devel generate manager.
    */
@@ -80,14 +80,14 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
     ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
     SchemaDotOrgEntityRelationshipManagerInterface $schema_entity_relationship_manager,
-    SchemaDotOrgUiApiInterface $schema_api,
+    SchemaDotOrgMappingManagerInterface $schema_mapping_manager,
     DevelGeneratePluginManager $devel_generate_manager = NULL
   ) {
     $this->state = $state;
     $this->configFactory = $config_factory;
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaEntityRelationshipManager = $schema_entity_relationship_manager;
-    $this->schemaApi = $schema_api;
+    $this->schemaMappingManager = $schema_mapping_manager;
     $this->develGenerateManager = $devel_generate_manager;
   }
 
@@ -119,7 +119,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
         unset($types[$type]);
       }
       else {
-        $this->schemaApi->createType($entity_type, $schema_type);
+        $this->schemaMappingManager->createType($entity_type, $schema_type);
       }
     }
 
@@ -185,7 +185,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
         $options = ['delete-entity' => TRUE];
       }
 
-      $this->schemaApi->deleteType($entity_type, $schema_type, $options);
+      $this->schemaMappingManager->deleteType($entity_type, $schema_type, $options);
     }
 
     if ($types) {
@@ -308,7 +308,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
 
     // Mapping entity type to devel-generate command with default options.
     $commands = [
-      'user' => ['users'],
+      'user' => ['users', ['roles' => NULL]],
       'node' => ['content', ['add-type-label' => TRUE]],
       'media' => ['media'],
       'taxonomy_term' => ['term'],
@@ -324,7 +324,16 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
         $args = [(string) $num];
         // Options.
         $options = $commands[$entity_type][1] ?? [];
-        $options += ['kill' => TRUE, 'bundles' => $bundle, 'languages' => NULL, 'translations' => NULL];
+        $options += [
+          'kill' => TRUE,
+          'bundles' => $bundle,
+          'media-types' => $bundles,
+          // Setting the below options to NULL prevents PHP warnings.
+          'authors' => NULL,
+          'feedback' => NULL,
+          'languages' => NULL,
+          'translations' => NULL,
+        ];
 
         // Plugin.
         /** @var \Drupal\devel_generate\DevelGenerateBaseInterface $devel_generate_plugin */

@@ -63,10 +63,14 @@ class SchemaDotOrgJsonLdEmbedTest extends SchemaDotOrgKernelEntityTestBase {
    * Test Schema.org JSON-LD embed.
    */
   public function testEmbed() {
+    // Allow Schema.org Thing to have default properties.
+    $this->config('schemadotorg.settings')
+      ->set('schema_types.default_properties.Thing', ['name', 'description'])
+      ->save();
+
     $this->createMediaImage();
     $this->createSchemaEntity('media', 'ImageObject');
-    $options = ['default-properties' => ['name', 'description']];
-    $this->createSchemaEntity('node', 'Thing', $options);
+    $this->createSchemaEntity('node', 'Thing');
 
     // Filter format.
     FilterFormat::create([

@@ -77,7 +77,7 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
       'schema_same_as' => 'sameAs',
       'schema_telephone' => 'telephone',
       'schema_works_for' => 'worksFor',
-      'user_picture' => 'image',
+      'schema_image' => 'image',
     ]);
 
     // Check creating node:Place Schema.org mapping.

@@ -32,6 +32,7 @@ class SchemaDotOrgMappingSetSettingsForm extends ConfigFormBase {
     $config = $this->config('schemadotorg_mapping_set.settings');
     $form['sets'] = [
       '#type' => 'schemadotorg_settings',
+      '#rows' => 12,
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED_NAMED,
       '#settings_format' => 'set_name|set_label|entity_type_id:SchemaType01,entity_type_id:SchemaType02',
       '#array_name' => 'types',

@@ -1,17 +1,16 @@
 <?php
 
-namespace Drupal\Tests\schemadotorg_ui\Kernel;
+namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
-use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelTestBase;
 
 /**
- * Tests the Schema.org UI API service.
+ * Tests the Schema.org mapping manager service.
  *
- * @coversDefaultClass \Drupal\schemadotorg_ui\SchemaDotOrgUiApi
+ * @coversDefaultClass \Drupal\schemadotorg\SchemaDotOrgApi
  * @group schemadotorg
  */
-class SchemaDotOrgUiApiTest extends SchemaDotOrgKernelTestBase {
+class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
 
   /**
    * Modules to install.
@@ -30,13 +29,12 @@ class SchemaDotOrgUiApiTest extends SchemaDotOrgKernelTestBase {
     'text',
     'link',
     'options',
-    'schemadotorg_ui',
   ];
 
   /**
-   * The Schema.org UI API service.
+   * The Schema.org mapping manager.
    *
-   * @var \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface
+   * @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface
    */
   protected $api;
 
@@ -58,7 +56,7 @@ class SchemaDotOrgUiApiTest extends SchemaDotOrgKernelTestBase {
     $installer = $this->container->get('schemadotorg.installer');
     $installer->importTables();
 
-    $this->api = $this->container->get('schemadotorg_ui.api');
+    $this->api = $this->container->get('schemadotorg.mapping_manager');
   }
 
   /**

@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\Core\DependencyInjection\ServiceProviderBase;
 
 /**
-. * Alters JSON:API resource meta data to include JSON-LD URI.
+.* Alters JSON:API resource meta data to include JSON-LD URI.
  */
 class SchemaDotOrgJsonLdEndpointEventSubscriber extends ServiceProviderBase implements EventSubscriberInterface {
 
@@ -39,10 +39,10 @@ class SchemaDotOrgJsonLdEndpointEventSubscriber extends ServiceProviderBase impl
    */
   public function addResourceObjectMeta(CollectResourceObjectMetaEvent $event) {
     $resource_object = $event->getResourceObject();
-    $resource_type = $resource_object ->getResourceType();
+    $resource_type = $resource_object->getResourceType();
 
     $entity_type_id = $resource_type->getEntityTypeId();
-    $entity_uuid = $resource_object ->getId();
+    $entity_uuid = $resource_object->getId();
 
     $route_name = 'schemadotorg_jsonld_endpoint.' . $entity_type_id;
     $route_parameters = ['entity' => $entity_uuid];

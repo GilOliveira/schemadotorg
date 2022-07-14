@@ -1,4 +1,3 @@
-
 <?php
 
 /**
@@ -19,8 +18,8 @@ function schemadotorg_demo_umami_content_install($is_syncing) {
   }
 
   // Create Schema.org type mappings.
-  /** @var \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface $schema_api */
-  $schema_api = \Drupal::service('schemadotorg_ui.api');
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $schema_mapping_manager */
+  $schema_mapping_manager = \Drupal::service('schemadotorg.mapping_manager');
   $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
   $types = [
     'media:ImageObject',
@@ -39,7 +38,7 @@ function schemadotorg_demo_umami_content_install($is_syncing) {
     if ($mapping) {
       continue;
     }
-    $schema_api->createType($entity_type, $schema_type);
+    $schema_mapping_manager->createType($entity_type, $schema_type);
   }
 
   /** @var \Drupal\schemadotorg_demo_umami_content\SchemaDotOrgDemoUmamiContentInstallHelper $install_helper */
@@ -60,8 +59,8 @@ function schemadotorg_demo_umami_content_uninstall($is_syncing) {
   $install_helper->deleteImportedContent();
 
   // Delete Schema.org type mappings.
-  /** @var \Drupal\schemadotorg_ui\SchemaDotOrgUiApiInterface $schema_api */
-  $schema_api = \Drupal::service('schemadotorg_ui.api');
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $schema_mapping_manager */
+  $schema_mapping_manager = \Drupal::service('schemadotorg.mapping_manager');
   $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
   $types = [
     'node:Recipe',
@@ -76,6 +75,6 @@ function schemadotorg_demo_umami_content_uninstall($is_syncing) {
     if ($mapping) {
       continue;
     }
-    $schema_api->deleteType($entity_type, $schema_type);
+    $schema_mapping_manager->deleteType($entity_type, $schema_type);
   }
 }

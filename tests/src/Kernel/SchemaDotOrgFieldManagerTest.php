@@ -1,13 +1,12 @@
 <?php
 
-namespace Drupal\Tests\schemadotorg_ui\Kernel;
+namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\node\Entity\NodeType;
 use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
-use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelTestBase;
 
 /**
  * Tests the Schema.org type manager service.
@@ -15,7 +14,7 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelTestBase;
  * @coversClass \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager
  * @group schemadotorg
  */
-class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
+class SchemaDotOrgFieldManagerTest extends SchemaDotOrgKernelTestBase {
 
   /**
    * Modules to enable.
@@ -40,9 +39,9 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
   ];
 
   /**
-   * The Schema.org UI field manager.
+   * The Schema.org field manager.
    *
-   * @var \Drupal\schemadotorg_ui\SchemaDotOrgUiFieldManagerInterface
+   * @var \Drupal\schemadotorg\SchemaDotOrgFieldManagerInterface
    */
   protected $fieldManager;
 
@@ -110,12 +109,12 @@ class SchemaDotOrgUiFieldManagerTest extends SchemaDotOrgKernelTestBase {
       'type' => 'ContactPoint',
     ])->save();
 
-    // Set Schema.org UI field manager.
-    $this->fieldManager = $this->container->get('schemadotorg_ui.field_manager');
+    // Set Schema.org field manager.
+    $this->fieldManager = $this->container->get('schemadotorg.field_manager');
   }
 
   /**
-   * Test Schema.org UI field manager.
+   * Test Schema.org field manager.
    */
   public function testFieldManager() {
     // Check determining if a field exists.

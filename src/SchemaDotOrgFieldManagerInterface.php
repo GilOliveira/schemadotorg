@@ -1,11 +1,11 @@
 <?php
 
-namespace Drupal\schemadotorg_ui;
+namespace Drupal\schemadotorg;
 
 /**
- * Schema.org UI field manager interface.
+ * Schema.org field manager interface.
  */
-interface SchemaDotOrgUiFieldManagerInterface {
+interface SchemaDotOrgFieldManagerInterface {
 
   /**
    * Add new field mapping option.

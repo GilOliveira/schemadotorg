@@ -9,7 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
-use Drupal\schemadotorg_ui\SchemaDotOrgUiFieldManagerInterface;
+use Drupal\schemadotorg\SchemaDotOrgFieldManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -24,7 +24,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   /**
    * Add new field mapping option.
    */
-  public const ADD_FIELD = SchemaDotOrgUiFieldManagerInterface::ADD_FIELD;
+  public const ADD_FIELD = SchemaDotOrgFieldManagerInterface::ADD_FIELD;
 
   /**
    * The service container.
@@ -41,6 +41,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   protected $themeManager;
 
   /**
+   * The Schema.org schema names services.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
+   */
+  protected $schemaNames;
+
+  /**
    * The Schema.org schema type manager.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
@@ -55,46 +62,18 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   protected $schemaTypeBuilder;
 
   /**
-   * The Schema.org schema names services.
+   * The Schema.org field manager.
    *
-   * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
-   */
-  protected $schemaNames;
-
-  /**
-   * The Schema.org entity type builder.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilderInterface
-   */
-  protected $schemaEntityTypeBuilder;
-
-  /**
-   * The Schema.org UI field manager.
-   *
-   * @var \Drupal\schemadotorg_ui\SchemaDotOrgUiFieldManagerInterface
+   * @var \Drupal\schemadotorg\SchemaDotOrgFieldManagerInterface
    */
   protected $schemaFieldManager;
 
   /**
-   * Custom default properties.
+   * The Schema.org mapping manager.
    *
-   * @var array
+   * @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface
    */
-  protected $defaultProperties;
-
-  /**
-   * Custom unlimited properties.
-   *
-   * @var array
-   */
-  protected $unlimitedProperties;
-
-  /**
-   * Schema.org entities that should be subtyped.
-   *
-   * @var array
-   */
-  protected $subtypes;
+  protected $schemaMappingManager;
 
   /**
    * Available fields as options.
@@ -110,11 +89,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $instance = parent::create($container);
     $instance->container = $container;
     $instance->themeManager = $container->get('theme.manager');
+    $instance->schemaNames = $container->get('schemadotorg.names');
     $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
     $instance->schemaTypeBuilder = $container->get('schemadotorg.schema_type_builder');
-    $instance->schemaNames = $container->get('schemadotorg.names');
-    $instance->schemaEntityTypeBuilder = $container->get('schemadotorg.entity_type_builder');
-    $instance->schemaFieldManager = $container->get('schemadotorg_ui.field_manager');
+    $instance->schemaFieldManager = $container->get('schemadotorg.field_manager');
+    $instance->schemaMappingManager = $container->get('schemadotorg.mapping_manager');
     return $instance;
   }
 
@@ -132,7 +111,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $schema_type = $this->getRequest()->query->get('type');
 
     // Validate the Schema.org type before continuing.
-    if ($schema_type && !$this->isSchemaThing($schema_type)) {
+    if ($schema_type && !$this->schemaTypeManager->isThing($schema_type)) {
       // Only display a warning when an invalid type is passed via
       // the query string.
       if ($this->getRequest()->isMethod('get')) {
@@ -208,6 +187,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       return $this->buildFieldTypeForm($form);
     }
     else {
+      // Display select Schema.org form.
       $entity_type_id = $this->getTargetEntityTypeId();
       return SchemaDotOrgUiMappingTypeSelectForm::create($this->container)
         ->buildForm($form, $form_state, $entity_type_id);
@@ -272,7 +252,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
         // Validate that a new field name does not already exist.
         if (!empty($property_values['field'][static::ADD_FIELD]['machine_name'])) {
-          $field_name = $this->getFieldPrefix() . $property_values['field'][static::ADD_FIELD]['machine_name'];
+          $field_name = $this->schemaNames->getFieldPrefix() . $property_values['field'][static::ADD_FIELD]['machine_name'];
           if ($field_storage_config_storage->load($entity_type_id . '.' . $field_name)) {
             $element = NestedArray::getValue($form, ['properties', $property_name, 'field', static::ADD_FIELD, 'machine_name']);
             $t_args = ['%name' => $field_name];
@@ -291,6 +271,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     parent::submitForm($form, $form_state);
 
     $schema_type = $this->getSchemaType();
+    $entity_type_id = $this->getTargetEntityTypeId();
     $mapping_entity = $this->getEntity();
 
     // Default the redirect to the current page if we are update the
@@ -299,18 +280,32 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $form_state->setRedirect('<current>');
     }
 
-    // Create the new target bundle entity.
-    if ($mapping_entity->isNewTargetEntityTypeBundle()) {
-      // Add new target bundle entity.
-      $bundle_entity_type_id = $mapping_entity->getTargetEntityTypeBundleId();
+    $values = $this->getMappingValuesFromFormState($form_state);
+
+    // Track if new entity is being created.
+    $is_new_mapping = $mapping_entity->isNew();
+    $is_new_entity = $mapping_entity->isNewTargetEntityTypeBundle();
+
+    // Track new subtype and property fields being created.
+    $new_field_names = [];
+    if (!empty($values['subtype'])) {
+      $new_field_names[] = $values['subtype']['label'];
+    }
+    foreach ($values['properties'] as $field) {
+      if ($field['name'] == static::ADD_FIELD) {
+        $new_field_names[] = $field['label'];
+      }
+    }
+
+    // Set the mapping which will create or update it.
+    $mapping_entity = $this->schemaMappingManager->saveMapping($entity_type_id, $schema_type, $values);
+    $this->setEntity($mapping_entity);
+
+    // Display message and log new bundle entity.
+    if ($is_new_entity) {
+      // Display message.
+      $bundle_entity = $mapping_entity->getTargetEntityBundleEntity();
       $bundle_entity_type_definition = $mapping_entity->getTargetEntityTypeBundleDefinition();
-      $bundle_entity_values = $form_state->getValue('entity');
-      $bundle_entity = $this->schemaEntityTypeBuilder->addBundleEntity($schema_type, $bundle_entity_type_id, $bundle_entity_values);
-
-      // Set mapping entity target bundle.
-      $mapping_entity->setTargetBundle($bundle_entity->id());
-
-      // Display message about new bundle entity.
       $t_args = [
         '@type' => $bundle_entity_type_definition->getSingularLabel(),
         '%name' => $bundle_entity->label(),
@@ -318,7 +313,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $this->messenger()->addStatus($this->t('The @type %name has been added.', $t_args));
 
       // Log new bundle entity.
-      // @todo Determine if and how we should log the bundle entity creation.
       $entity_type_id = $this->getTargetEntityTypeId();
       $context = array_merge($t_args, ['link' => $bundle_entity->toLink($this->t('View'), 'collection')->toString()]);
       $this->logger($entity_type_id)->notice('Added @type %name.', $context);
@@ -326,81 +320,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       // Set redirect to bundle entity collection.
       $form_state->setRedirectUrl($bundle_entity->toUrl('collection'));
     }
-
-    $entity_type_id = $this->getTargetEntityTypeId();
-    $bundle = $this->getTargetBundle();
-
-    $new_field_names = [];
-
-    // Add subtype field and update the mapping.
-    $subtype = $form_state->getValue('subtyping') ?: [];
-    if (!empty($subtype['enable'])) {
-      if (isset($subtype[static::ADD_FIELD])) {
-        $field = $subtype[static::ADD_FIELD];
-        $field['schema_type'] = $schema_type;
-        $field['machine_name'] = $this->getSubtypeFieldName();
-        $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
-        $new_field_names[$field['machine_name']] = $field['label'];
-        $this->schemaEntityTypeBuilder->setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, [$field['machine_name'] => 'type']);
-      }
-      $mapping_entity->setSchemaSubtype(TRUE);
-    }
-
-    // Reset Schema.org properties.
-    $original_properties = $mapping_entity->get('properties');
-    $mapping_entity->set('properties', []);
-
-    // Get Schema.org property mappings.
-    $properties = $form_state->getValue('properties');
-    foreach ($properties as $property_name => $property_values) {
-      $field_name = $property_values['field']['name'];
-      // Skip empty field names.
-      if (!$field_name) {
-        continue;
-      }
-
-      // Create new field instance if the selected field instance does not exist.
-      if (!$this->fieldExists($field_name)) {
-        if ($this->fieldStorageExists($field_name)) {
-          // Create new field instance using existing field storage.
-          $existing_field = $this->getField($field_name);
-          $default_field = $this->schemaFieldManager->getPropertyDefaultField($schema_type, $property_name);
-          $field = [
-            'machine_name' => $field_name,
-            'label' => $default_field['label'],
-            'description' => $existing_field ? $existing_field->get('description') : '',
-            'schema_type' => $schema_type,
-            'schema_property' => $property_name,
-          ];
-          $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
-        }
-        elseif ($field_name === static::ADD_FIELD) {
-          // Create new field storage and field instance.
-          $field = $property_values['field'][static::ADD_FIELD];
-          $field['schema_property'] = $property_name;
-          $field['schema_type'] = $schema_type;
-          $field['machine_name'] = $this->getFieldPrefix() . $field['machine_name'];
-          $field_name = $field['machine_name'];
-          if (!$this->fieldExists($field_name)) {
-            $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $field);
-            $new_field_names[$field_name] = $field['label'];
-          }
-        }
-      }
-
-      $mapping_entity->setSchemaPropertyMapping($field_name, $property_name);
-    }
-
-    // Get new properties and set entity display field weights and groups.
-    $new_properties = array_diff_key($mapping_entity->get('properties'), $original_properties);
-
-    // Set field weights for new mappings.
-    if ($mapping_entity->isNew()) {
-      $this->schemaEntityTypeBuilder->setEntityDisplayFieldWeights($entity_type_id, $bundle, $new_properties);
-    }
-
-    // Always set field groups when field groups are supported and available.
-    $this->schemaEntityTypeBuilder->setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, $new_properties);
 
     // Display message about new fields.
     if ($new_field_names) {
@@ -413,10 +332,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $this->messenger()->addStatus($message);
     }
 
-    $result = $mapping_entity->save();
-
+    // Display message about mapping.
     $t_args = ['%label' => $this->getEntity()->label()];
-    $message = ($result === SAVED_NEW)
+    $message = ($is_new_mapping)
       ? $this->t('Created %label mapping.', $t_args)
       : $this->t('Updated %label mapping.', $t_args);
     $this->messenger()->addStatus($message);
@@ -427,6 +345,44 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   public function save(array $form, FormStateInterface $form_state) {
     // Do nothing and allow the entity to be saved via ::submitForm.
+  }
+
+  /**
+   * Get Schema.org mapping values from form state.
+   *
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   Schema.org mapping values.
+   */
+  protected function getMappingValuesFromFormState(FormStateInterface $form_state) {
+    $form_values = $form_state->getValues();
+
+    $values = [];
+
+    // Entity.
+    $values['entity'] = $form_values['entity'] ?? [];
+
+    // Subtype.
+    $subtyping = $form_values['subtyping'] ?? [];
+    if (!empty($subtyping['enable'])) {
+      $values['subtype'] = ['enable' => TRUE] + $subtyping[static::ADD_FIELD];
+    }
+    else {
+      $values['subtype'] = [];
+    }
+
+    // Properties.
+    $properties = [];
+    foreach ($form_values['properties'] as $property => $property_values) {
+      $properties[$property] = [
+        'name' => $property_values['field']['name'],
+      ] + $property_values['field'][static::ADD_FIELD];
+    }
+    $values['properties'] = $properties;
+
+    return $values;
   }
 
   /* ************************************************************************ */
@@ -440,22 +396,27 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   An associative array containing the structure of the form.
    */
   protected function buildFieldTypeForm(array &$form) {
+    // Get mapping defaults.
+    $defaults = $this->schemaMappingManager->getMappingDefaults(
+      $this->getTargetEntityTypeId(),
+      $this->getTargetBundle(),
+      $this->getSchemaType()
+    );
+
     // Build the entity type summary form.
     $this->buildEntityTypeForm($form);
 
     // Build the Schema.org type summary form.
     $this->buildSchemaTypeForm($form);
 
-    // Build add new entity bundle form.
-    if ($this->getEntity()->isNewTargetEntityTypeBundle()) {
-      $this->buildAddEntityForm($form);
-    }
+    // Build add Schema.org  entity type/bundle form.
+    $this->buildAddEntityForm($form, $defaults['entity']);
 
-    // Build subtype form.
-    $this->buildSubtypeForm($form);
+    // Build Schema.org type subtype form.
+    $this->buildSubtypeForm($form, $defaults['subtype']);
 
     // Build Schema.org type properties table.
-    $this->buildSchemaPropertiesForm($form);
+    $this->buildSchemaPropertiesForm($form, $defaults['properties']);
 
     // Load the jsTree before the Schema.org UI library to ensure that
     // jsTree loads and works inside modal dialogs.
@@ -547,11 +508,19 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *
    * @param array $form
    *   An associative array containing the structure of the form.
+   * @param array $defaults
+   *   The entity type default values.
    */
-  protected function buildAddEntityForm(array &$form) {
-    $target_entity_type_bundle_definition = $this->getEntity()->getTargetEntityTypeBundleDefinition();
-    $type_definition = $this->getSchemaTypeDefinition();
+  protected function buildAddEntityForm(array &$form, array $defaults) {
+    if (!$this->getEntity()->isNewTargetEntityTypeBundle()) {
+      $form['entity'] = [
+        '#type' => 'value',
+        '#value' => $defaults,
+      ];
+      return;
+    }
 
+    $target_entity_type_bundle_definition = $this->getEntity()->getTargetEntityTypeBundleDefinition();
     $t_args = ['@name' => $target_entity_type_bundle_definition->getSingularLabel()];
 
     $form['entity'] = [
@@ -565,7 +534,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#title' => $this->t('Name'),
       '#description' => $this->t('The human-readable name of this content type. This text will be displayed as part of the list on the Add content page. This name must be unique.'),
       '#required' => TRUE,
-      '#default_value' => $type_definition['drupal_label'],
+      '#default_value' => $defaults['label'],
     ];
     $form['entity']['id'] = [
       '#type' => 'textfield',
@@ -574,13 +543,13 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#required' => TRUE,
       '#pattern' => '[_0-9a-z]+',
       '#maxlength' => $this->schemaNames->getNameMaxLength('types'),
-      '#default_value' => $type_definition['drupal_name'],
+      '#default_value' => $defaults['id'],
     ];
     $form['entity']['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
       '#description' => $this->t('This text will be displayed on the <em>Add new content</em> page.'),
-      '#default_value' => $this->schemaTypeBuilder->formatComment($type_definition['comment'], ['base_path' => 'https://schema.org/']),
+      '#default_value' => $defaults['description'],
     ];
   }
 
@@ -589,20 +558,23 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *
    * @param array $form
    *   An associative array containing the structure of the form.
+   * @param array $defaults
+   *   The subtype field default values.
    */
-  protected function buildSubtypeForm(array &$form) {
+  protected function buildSubtypeForm(array &$form, array $defaults) {
     $mapping = $this->getEntity();
-    $schema_type = $this->getSchemaType();
-    $subtype_field_name = $this->getSubtypeFieldName();
-    $subtype_allowed_values = $this->schemaTypeManager->getAllTypeChildrenAsOptions($schema_type);
 
     // Make sure the current Schema.org type has subtypes.
-    if (empty($subtype_allowed_values)) {
+    if (empty($defaults)) {
       return $form;
     }
 
     // Determine if Schema.org type already has subtyping enabled.
-    $subtype_exists = $this->fieldExists($subtype_field_name);
+    $subtype_exists = $this->schemaFieldManager->fieldExists(
+      $this->getTargetEntityTypeId(),
+      $this->getTargetBundle(),
+      $defaults['field_name']
+    );
     if ($subtype_exists) {
       if (!$mapping->supportsSubtyping()) {
         // Handle edge case where the mapping was lost.
@@ -626,11 +598,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       return $form;
     }
 
-    $subtype_default = $this->getEntity()->isNew() && $this->getSchemaTypeSubtypes();
     $form['subtyping'] = [
       '#type' => 'details',
       '#title' => $this->t('Schema.org subtyping'),
-      '#open' => $subtype_default,
+      '#open' => ($this->getEntity()->isNew() && $defaults['enable']),
       '#tree' => TRUE,
     ];
     $form['subtyping']['enable'] = [
@@ -638,7 +609,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#title' => $this->t('Enable Schema.org subtyping'),
       '#description' => $this->t("If checked, a 'Type' field is added to the entity which allows content authors to specify a more specific (sub)type for the entity."),
       '#return_value' => TRUE,
-      '#default_value' => $subtype_default,
+      '#default_value' => $defaults['enable'],
     ];
     $form['subtyping'][static::ADD_FIELD] = [
       '#type' => 'details',
@@ -654,25 +625,25 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#type' => 'item',
       '#title' => $this->t('Type'),
       '#markup' => $this->t('List (text)'),
-      '#value' => 'list_string',
+      '#value' => $defaults['type'],
     ];
     $form['subtyping'][static::ADD_FIELD]['label'] = [
       '#type' => 'item',
       '#title' => $this->t('Label'),
       '#markup' => $this->t('Subtype'),
-      '#value' => 'Subtype',
+      '#value' => $defaults['label'],
     ];
     $form['subtyping'][static::ADD_FIELD]['machine_name'] = [
       '#type' => 'item',
       '#title' => $this->t('Machine-readable name'),
-      '#markup' => $subtype_field_name,
-      '#value' => $subtype_field_name,
+      '#markup' => $defaults['machine_name'],
+      '#value' => $defaults['machine_name'],
     ];
     $form['subtyping'][static::ADD_FIELD]['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
       '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
-      '#default_value' => $this->t('A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.'),
+      '#default_value' => $defaults['description'],
     ];
     $form['subtyping'][static::ADD_FIELD]['allowed_values'] = [
       '#type' => 'schemadotorg_settings',
@@ -685,22 +656,26 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       . $this->t('The label is optional: if a line contains a single string, it will be used as key and label.')
       . '</p>'
       . '<p>' . $this->t('Allowed HTML tags in labels: @tags', ['@tags' => FieldFilteredMarkup::displayAllowedTags()]) . '</p>',
-      '#default_value' => $subtype_allowed_values,
+      '#default_value' => $defaults['allowed_values'],
     ];
 
     return $form;
   }
 
   /**
-   * Build Schema.org type properties table.
+   * Build Schema.org properties table.
    *
    * @param array $form
    *   An associative array containing the structure of the form.
+   * @param array $defaults
+   *   The Schema.org properties default values.
    */
-  protected function buildSchemaPropertiesForm(array &$form) {
-    $property_definitions = $this->getSchemaTypePropertyDefinitions();
+  protected function buildSchemaPropertiesForm(array &$form, array $defaults) {
+    $type = $this->getSchemaType();
+    $fields = ['label', 'comment', 'range_includes', 'superseded_by'];
+    $property_definitions = $this->schemaTypeManager->getTypeProperties($type, $fields);
 
-    $ignored_properties = $this->getSchemaTypeIgnoredProperties();
+    $ignored_properties = $this->schemaMappingManager->getIgnoredProperties();
     $ignored_properties = array_intersect_key($ignored_properties, $property_definitions);
     $property_definitions = array_diff_key($property_definitions, $ignored_properties);
 
@@ -712,9 +687,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     // Rows.
     $rows = [];
     foreach ($property_definitions as $property => $property_definition) {
-      // Skip a superseded property unless it is already mapped.
-      if (!empty($property_definition['superseded_by'])
-        && empty($this->getEntity()->getSchemaPropertyMapping($property))) {
+      // Skip properties without defaults which are usually
+      // superseded or ignored properties.
+      if (empty($defaults[$property])) {
         continue;
       }
 
@@ -724,7 +699,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $row['property'] = $this->buildSchemaPropertyDefinitionInformation($property_definition);
 
       // Field.
-      $row['field'] = $this->buildSchemaPropertyFieldForm($property_definition);
+      $row['field'] = $this->buildSchemaPropertyFieldForm($property_definition, $defaults[$property]);
 
       // Highlight mapped properties using custom '#row_class' property.
       if (isset($row['field']['#row_class'])) {
@@ -823,46 +798,35 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *
    * @param array $definition
    *   The Schema.org property's definition.
+   * @param array $defaults
+   *   The Schema.org property's default values.
    *
    * @return array
    *   A Schema.org property field form.
    */
-  protected function buildSchemaPropertyFieldForm(array $definition) {
-    $type = $this->getSchemaType();
+  protected function buildSchemaPropertyFieldForm(array $definition, array $defaults) {
+    $schema_type = $this->getSchemaType();
     $property = $definition['label'];
+    $property_maxlength = $this->schemaNames->getNameMaxLength('properties');
 
-    $default_field = $this->schemaFieldManager->getPropertyDefaultField($type, $property);
-    $field_name = $this->getFieldPrefix() . $default_field['name'];
-
-    $base_field_mappings = $this->getSchemaBaseFieldMappings();
-    $property_defaults = $this->getSchemaTypeDefaultProperties();
-    $property_mappings = $this->getSchemaTypePropertyMappings();
-
-    $field_name_default_value = NULL;
-    if (isset($property_mappings[$property])) {
-      $field_name_default_value = $property_mappings[$property];
+    // Initialize field options.
+    if (!isset($this->fieldOptions)) {
+      $this->fieldOptions = $this->schemaFieldManager->getFieldOptions(
+        $this->getTargetEntityTypeId(),
+        $this->getTargetBundle()
+      );
     }
-    elseif ($this->getEntity()->isNew() && isset($property_defaults[$property])) {
-      if (isset($base_field_mappings[$property])) {
-        if (count($base_field_mappings[$property]) === 1) {
-          $field_name_default_value = reset($base_field_mappings[$property]);
-        }
-        else {
-          foreach ($base_field_mappings[$property] as $base_field_name) {
-            if ($this->fieldExists($base_field_name)) {
-              $field_name_default_value = $base_field_name;
-              break;
-            }
-          }
-        }
-      }
-      elseif ($this->fieldStorageExists($field_name)) {
-        $field_name_default_value = $field_name;
-      }
-      else {
-        $field_name_default_value = static::ADD_FIELD;
-      }
-    }
+
+    // Get Schema.org property field type options with optgroups.
+    $field_type_options = $this->schemaFieldManager->getPropertyFieldTypeOptions($schema_type, $property);
+
+    // NOTE:
+    // Setting .form-required via #label_attributes instead of using
+    // #states to improve the page load time.
+    // phpcs:ignore
+    // $required_property = ['#states' => ['required' => [':input[name="properties[' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD]]]];
+    // @see ::validateForm
+    $required_property = ['#label_attributes' => ['class' => ['form-required']]];
 
     $form = [];
 
@@ -871,8 +835,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#type' => 'select',
       '#title' => $this->t('Field'),
       '#title_display' => 'invisible',
-      '#options' => $this->getFieldOptions(),
-      '#default_value' => $field_name_default_value,
+      '#options' => $this->fieldOptions,
+      '#default_value' => $defaults['name'],
       '#empty_option' => $this->t('- Select or add field -'),
     ];
 
@@ -888,38 +852,21 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       ],
     ];
 
-    // NOTE:
-    // Setting .form-required via #label_attributes instead of using
-    // #states to improve the page load time.
-    // phpcs:ignore
-    // $required_property = ['#states' => ['required' => [':input[name="properties[' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD]]]];
-    $required_property = ['#label_attributes' => ['class' => ['form-required']]];
-
-    // Get Schema.org property field type options with optgroups.
-    $field_type_options = $this->getPropertyFieldTypeOptions($property);
-
-    // Get field type default value.
-    $recommended_category = (string) $this->t('Recommended');
-    $field_type_default_value = (isset($field_type_options[$recommended_category]))
-      ? array_key_first($field_type_options[$recommended_category])
-      : NULL;
-
     $form[static::ADD_FIELD]['type'] = [
       '#type' => 'select',
       '#title' => $this->t('Field type'),
       '#empty_option' => $this->t('- Select a field type -'),
       '#options' => $field_type_options,
-      '#default_value' => $field_type_default_value,
+      '#default_value' => $defaults['type'],
     ] + $required_property;
 
     $form[static::ADD_FIELD]['label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Label'),
       '#size' => 40,
-      '#default_value' => $default_field['label'],
+      '#default_value' => $defaults['label'],
     ] + $required_property;
 
-    $property_maxlength = $this->schemaNames->getNameMaxLength('properties');
     $form[static::ADD_FIELD]['machine_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Machine-readable name'),
@@ -927,8 +874,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#maxlength' => $property_maxlength,
       '#size' => $property_maxlength,
       '#pattern' => '[_0-9a-z]+',
-      '#field_prefix' => $this->getFieldPrefix(),
-      '#default_value' => $default_field['name'],
+      '#field_prefix' => $this->schemaNames->getFieldPrefix(),
+      '#default_value' => $defaults['machine_name'],
       '#attributes' => ['style' => 'width: 20em'],
       '#wrapper_attributes' => ['style' => 'white-space: nowrap'],
     ] + $required_property;
@@ -937,17 +884,18 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
       '#description' => $this->t('Instructions to present to the user below this field on the editing form.'),
-      '#default_value' => $this->schemaTypeBuilder->formatComment($default_field['description'], ['base_path' => 'https://schema.org/']),
+      '#default_value' => $defaults['description'],
     ];
 
     $form[static::ADD_FIELD]['unlimited'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Unlimited number of values'),
-      '#default_value' => $default_field['unlimited'],
+      '#default_value' => $defaults['unlimited'],
     ];
 
-    if ($field_name_default_value) {
-      $form['#row_class'] = ($field_name_default_value === static::ADD_FIELD)
+    // Display property status, which can be new (warning) or mapped (success).
+    if ($defaults['name']) {
+      $form['#row_class'] = ($defaults['name'] === static::ADD_FIELD)
         ? 'color-warning'
         : 'color-success';
     }
@@ -980,21 +928,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   }
 
   /* ************************************************************************ */
-  // Schema.org methods.
+  // Schema.org helper methods.
   /* ************************************************************************ */
-
-  /**
-   * Determine if a Schema.org type is a valid Thing.
-   *
-   * @param string $schema_type
-   *   The Schema.org type.
-   *
-   * @return bool
-   *   TRUE if a Schema.org type is a valid Thing.
-   */
-  protected function isSchemaThing($schema_type) {
-    return $this->schemaTypeManager->isThing($schema_type);
-  }
 
   /**
    * Gets the Schema.org type.
@@ -1016,110 +951,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     return $this->schemaTypeManager->getType($this->getSchemaType());
   }
 
-  /**
-   * Gets Schema.org property definitions for the current Schema.org type.
-   *
-   * @return array
-   *   Schema.org property definitions for the current Schema.org type.
-   */
-  protected function getSchemaTypePropertyDefinitions() {
-    $type = $this->getSchemaType();
-    $fields = ['label', 'comment', 'range_includes', 'superseded_by'];
-    return $this->schemaTypeManager->getTypeProperties($type, $fields);
-  }
-
-  /**
-   * Gets an entity type's base field mappings.
-   *
-   * @return array
-   *   An entity type's base field mappings.
-   */
-  protected function getSchemaBaseFieldMappings() {
-    return $this->getMappingType()->getBaseFieldMappings();
-  }
-
-  /**
-   * Gets Schema.org property to field mappings for the current Schema.org type.
-   *
-   * @return array
-   *   Schema.org property to field mappings for the current Schema.org type.
-   */
-  protected function getSchemaTypePropertyMappings() {
-    $mapping_entity = $this->getEntity();
-    return array_flip($mapping_entity->getSchemaProperties());
-  }
-
-  /**
-   * Set default Schema.org properties.
-   *
-   * @param array $properties
-   *   Default Schema.org properties.
-   */
-  public function setSchemaTypeDefaultProperties(array $properties) {
-    $this->defaultProperties = $this->getSchemaTypeDefaultProperties()
-      + array_combine($properties, $properties);
-  }
-
-  /**
-   * Gets default Schema.org properties.
-   *
-   * @return array
-   *   Default Schema.org properties.
-   */
-  protected function getSchemaTypeDefaultProperties() {
-    if (!isset($this->defaultProperties)) {
-      $schema_type = $this->getSchemaType();
-      $this->defaultProperties = $this->getMappingType()->getDefaultSchemaTypeProperties($schema_type);
-    }
-    return $this->defaultProperties;
-  }
-
-  /**
-   * Set unlimited Schema.org properties.
-   *
-   * @param array $properties
-   *   Unlimited Schema.org properties.
-   */
-  public function setSchemaTypeUnlimitedProperties(array $properties) {
-    $this->unlimitedProperties = array_combine($properties, $properties);
-  }
-
-  /**
-   * Gets ignored Schema.org properties.
-   *
-   * @return array
-   *   Ignored Schema.org properties.
-   */
-  protected function getSchemaTypeIgnoredProperties() {
-    $ignored_properties = $this->config('schemadotorg.settings')
-      ->get('schema_properties.ignored_properties');
-    return $ignored_properties ? array_combine($ignored_properties, $ignored_properties) : [];
-  }
-
-  /**
-   * Set Schema.org types that support subtyping.
-   *
-   * @param array $subtypes
-   *   Schema.org types that support subtyping.
-   */
-  public function setSchemaTypeSubtypes(array $subtypes) {
-    $this->subtypes = $subtypes;
-  }
-
-  /**
-   * Determine if Schema.org type should be subtyped by default.
-   *
-   * @return bool
-   *   TRUE if Schema.org type should be subtyped by default.
-   */
-  protected function getSchemaTypeSubtypes() {
-    $subtypes = $this->getMappingType()->getDefaultSchemaTypeSubtypes();
-    $schema_type = $this->getSchemaType();
-    return in_array($schema_type, $subtypes);
-  }
-
   /* ************************************************************************ */
-  // Entity methods.
+  // Entity helper methods.
   /* ************************************************************************ */
 
   /**
@@ -1180,112 +1013,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function getTargetBundle() {
     return $this->getEntity()->getTargetBundle();
-  }
-
-  /* ************************************************************************ */
-  // Field methods.
-  /* ************************************************************************ */
-
-  /**
-   * Determine if a field storage exists for the current entity.
-   *
-   * @param string $field_name
-   *   A field name.
-   *
-   * @return bool
-   *   TRUE if a field storage exists for the current entity.
-   */
-  protected function fieldStorageExists($field_name) {
-    return $this->schemaFieldManager->fieldStorageExists(
-      $this->getTargetEntityTypeId(),
-      $field_name
-    );
-  }
-
-  /**
-   * Determine if a field exists for the current entity.
-   *
-   * @param string $field_name
-   *   A field name.
-   *
-   * @return bool
-   *   TRUE if a field exists for the current entity.
-   */
-  protected function fieldExists($field_name) {
-    return $this->schemaFieldManager->fieldExists(
-      $this->getTargetEntityTypeId(),
-      $this->getTargetBundle(),
-      $field_name
-    );
-  }
-
-  /**
-   * Gets an existing field instance.
-   *
-   * @param string $field_name
-   *   A field name.
-   *
-   * @return \Drupal\Core\Entity\EntityInterface|null
-   *   An existing field instance.
-   */
-  protected function getField($field_name) {
-    return $this->schemaFieldManager->getField(
-      $this->getTargetEntityTypeId(),
-      $field_name
-    );
-  }
-
-  /**
-   * Gets available fields as options.
-   *
-   * @return array
-   *   Available fields as options.
-   */
-  protected function getFieldOptions() {
-    if (isset($this->fieldOptions)) {
-      return $this->fieldOptions;
-    }
-
-    $this->fieldOptions = $this->schemaFieldManager->getFieldOptions(
-      $this->getTargetEntityTypeId(),
-      $this->getTargetBundle()
-    );
-    return $this->fieldOptions;
-  }
-
-  /**
-   * Gets a Schema.org property's available field types as options.
-   *
-   * @param string $property
-   *   The Schema.org property.
-   *
-   * @return array[]
-   *   A property's available field types as options.
-   */
-  protected function getPropertyFieldTypeOptions($property) {
-    $schema_type = $this->getSchemaType();
-    return $this->schemaFieldManager->getPropertyFieldTypeOptions($schema_type, $property);
-  }
-
-  /**
-   * Gets the field suffix for Schema.org properties.
-   *
-   * @return string
-   *   The field suffix for Schema.org properties.
-   */
-  protected function getFieldPrefix() {
-    return $this->schemaNames->getFieldPrefix();
-  }
-
-  /**
-   * Gets the field name for Schema.org type subtyping.
-   *
-   * @return string
-   *   The field name for Schema.org type subtyping.
-   */
-  protected function getSubtypeFieldName() {
-    $bundle = $this->getTargetBundle() ?: '{machine-name}';
-    return $this->schemaNames->getSubtypeFieldName($bundle);
   }
 
 }

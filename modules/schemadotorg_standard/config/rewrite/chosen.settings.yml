@@ -1,0 +1,3 @@
+config_rewrite:
+  replace: ['jquery_selector']
+jquery_selector: 'select:visible[multiple]'

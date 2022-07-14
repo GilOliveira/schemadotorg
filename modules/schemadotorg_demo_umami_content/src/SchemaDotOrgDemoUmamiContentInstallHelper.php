@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Drupal\schemadotorg_demo_umami_content;
 
 use Drupal\Component\Utility\Html;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\schemadotorg_ui;
+namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
@@ -9,13 +9,11 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\field\FieldStorageConfigInterface;
-use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
-use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 
 /**
- * Schema.org UI field manager.
+ * Schema.org field manager.
  */
-class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface {
+class SchemaDotOrgFieldManager implements SchemaDotOrgFieldManagerInterface {
   use StringTranslationTrait;
 
   /**
@@ -61,7 +59,7 @@ class SchemaDotOrgUiFieldManager implements SchemaDotOrgUiFieldManagerInterface 
   protected $schemaTypeManager;
 
   /**
-   * Constructs a SchemaDotOrgUiFieldManager object.
+   * Constructs a SchemaDotOrgFieldManager object.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler service.

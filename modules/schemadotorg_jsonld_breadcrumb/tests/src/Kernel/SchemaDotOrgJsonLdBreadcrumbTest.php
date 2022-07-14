@@ -51,8 +51,11 @@ class SchemaDotOrgJsonLdBreadcrumbTest extends SchemaDotOrgKernelEntityTestBase 
    * Test Schema.org JSON-LD breadcrumb.
    */
   public function testBreadcrumb() {
-    $options = ['default-properties' => ['name']];
-    $this->createSchemaEntity('node', 'Thing', $options);
+    // Allow Schema.org Thing to have default properties.
+    $this->config('schemadotorg.settings')
+      ->set('schema_types.default_properties.Thing', ['name'])
+      ->save();
+    $this->createSchemaEntity('node', 'Thing');
 
     $node = Node::create([
       'type' => 'thing',

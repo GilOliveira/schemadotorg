@@ -10,10 +10,10 @@ interface SchemaDotOrgEntityTypeBuilderInterface {
   /**
    * Add bundle entity.
    *
-   * @param string $schema_type
-   *   The Schema.org type.
    * @param string $entity_type_id
    *   The entity type id.
+   * @param string $schema_type
+   *   The Schema.org type.
    * @param array $values
    *   The entity bundle values.
    *

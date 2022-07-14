@@ -45,10 +45,12 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
    * Test Schema.org JSON-LD builder.
    */
   public function testBuilder() {
-    $options = [
-      'default-properties' => ['name', 'alternateName', 'description', 'subjectOf']
-    ];
-    $this->createSchemaEntity('node', 'Thing', $options);
+    // Allow Schema.org Thing to have default properties.
+    $this->config('schemadotorg.settings')
+      ->set('schema_types.default_properties.Thing', ['name', 'alternateName', 'description', 'subjectOf'])
+      ->save();
+
+    $this->createSchemaEntity('node', 'Thing');
 
     FilterFormat::create([
       'format' => 'empty_format',
