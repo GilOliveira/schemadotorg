@@ -9,7 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
-use Drupal\schemadotorg\SchemaDotOrgFieldManagerInterface;
+use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -24,7 +24,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   /**
    * Add new field mapping option.
    */
-  public const ADD_FIELD = SchemaDotOrgFieldManagerInterface::ADD_FIELD;
+  public const ADD_FIELD = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
 
   /**
    * The service container.
@@ -62,11 +62,11 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   protected $schemaTypeBuilder;
 
   /**
-   * The Schema.org field manager.
+   * The Schema.org entity field manager.
    *
-   * @var \Drupal\schemadotorg\SchemaDotOrgFieldManagerInterface
+   * @var \Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface
    */
-  protected $schemaFieldManager;
+  protected $schemaEntityFieldManager;
 
   /**
    * The Schema.org mapping manager.
@@ -92,7 +92,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $instance->schemaNames = $container->get('schemadotorg.names');
     $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
     $instance->schemaTypeBuilder = $container->get('schemadotorg.schema_type_builder');
-    $instance->schemaFieldManager = $container->get('schemadotorg.field_manager');
+    $instance->schemaEntityFieldManager = $container->get('schemadotorg.entity_field_manager');
     $instance->schemaMappingManager = $container->get('schemadotorg.mapping_manager');
     return $instance;
   }
@@ -570,7 +570,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     }
 
     // Determine if Schema.org type already has subtyping enabled.
-    $subtype_exists = $this->schemaFieldManager->fieldExists(
+    $subtype_exists = $this->schemaEntityFieldManager->fieldExists(
       $this->getTargetEntityTypeId(),
       $this->getTargetBundle(),
       $defaults['field_name']
@@ -811,14 +811,14 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     // Initialize field options.
     if (!isset($this->fieldOptions)) {
-      $this->fieldOptions = $this->schemaFieldManager->getFieldOptions(
+      $this->fieldOptions = $this->schemaEntityFieldManager->getFieldOptions(
         $this->getTargetEntityTypeId(),
         $this->getTargetBundle()
       );
     }
 
     // Get Schema.org property field type options with optgroups.
-    $field_type_options = $this->schemaFieldManager->getPropertyFieldTypeOptions($schema_type, $property);
+    $field_type_options = $this->schemaEntityFieldManager->getPropertyFieldTypeOptions($schema_type, $property);
 
     // NOTE:
     // Setting .form-required via #label_attributes instead of using

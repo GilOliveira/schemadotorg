@@ -3,9 +3,9 @@
 namespace Drupal\schemadotorg;
 
 /**
- * Schema.org field manager interface.
+ * Schema.org entity field manager interface.
  */
-interface SchemaDotOrgFieldManagerInterface {
+interface SchemaDotOrgEntityFieldManagerInterface {
 
   /**
    * Add new field mapping option.

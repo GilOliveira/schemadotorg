@@ -11,9 +11,9 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\field\FieldStorageConfigInterface;
 
 /**
- * Schema.org field manager.
+ * Schema.org entity field manager.
  */
-class SchemaDotOrgFieldManager implements SchemaDotOrgFieldManagerInterface {
+class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerInterface {
   use StringTranslationTrait;
 
   /**
@@ -59,7 +59,7 @@ class SchemaDotOrgFieldManager implements SchemaDotOrgFieldManagerInterface {
   protected $schemaTypeManager;
 
   /**
-   * Constructs a SchemaDotOrgFieldManager object.
+   * Constructs a SchemaDotOrgEntityFieldManager object.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler service.

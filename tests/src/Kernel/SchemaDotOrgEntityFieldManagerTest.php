@@ -9,12 +9,12 @@ use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
 /**
- * Tests the Schema.org type manager service.
+ * Tests the Schema.org entity field manager service.
  *
- * @coversClass \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager
+ * @coversClass \Drupal\schemadotorg\SchemaDotOrgEntityFieldManager
  * @group schemadotorg
  */
-class SchemaDotOrgFieldManagerTest extends SchemaDotOrgKernelTestBase {
+class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
 
   /**
    * Modules to enable.
@@ -39,9 +39,9 @@ class SchemaDotOrgFieldManagerTest extends SchemaDotOrgKernelTestBase {
   ];
 
   /**
-   * The Schema.org field manager.
+   * The Schema.org entity field manager.
    *
-   * @var \Drupal\schemadotorg\SchemaDotOrgFieldManagerInterface
+   * @var \Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface
    */
   protected $fieldManager;
 
@@ -110,13 +110,13 @@ class SchemaDotOrgFieldManagerTest extends SchemaDotOrgKernelTestBase {
     ])->save();
 
     // Set Schema.org field manager.
-    $this->fieldManager = $this->container->get('schemadotorg.field_manager');
+    $this->fieldManager = $this->container->get('schemadotorg.entity_field_manager');
   }
 
   /**
-   * Test Schema.org field manager.
+   * Test Schema.org entity field manager.
    */
-  public function testFieldManager() {
+  public function testEntityFieldManager() {
     // Check determining if a field exists.
     $this->assertTrue($this->fieldManager->fieldExists('node', 'thing', 'schema_alternate_name'));
     $this->assertFalse($this->fieldManager->fieldExists('node', 'thing', 'not_schema_alternate_name'));

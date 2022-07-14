@@ -64,11 +64,11 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   protected $schemaTypeBuilder;
 
   /**
-   * The Schema.org field manager.
+   * The Schema.org entity field manager.
    *
-   * @var \Drupal\schemadotorg\SchemaDotOrgFieldManagerInterface
+   * @var \Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface
    */
-  protected $schemaFieldManager;
+  protected $schemaEntityFieldManager;
 
   /**
    * The Schema.org schema type builder service.
@@ -94,8 +94,8 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    *   The Schema.org schema type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface $schema_type_builder
    *   The Schema.org schema type builder.
-   * @param \Drupal\schemadotorg\SchemaDotOrgFieldManagerInterface $schema_field_manager
-   *   The Schema.org field manager.
+   * @param \Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface $schema_field_manager
+   *   The Schema.org entity field manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilderInterface $schema_entity_type_builder
    *   The Schema.org entity type builder.
    */
@@ -107,7 +107,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     SchemaDotOrgNamesInterface $schema_names,
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
     SchemaDotOrgSchemaTypeBuilderInterface $schema_type_builder,
-    SchemaDotOrgFieldManagerInterface $schema_field_manager,
+    SchemaDotOrgEntityFieldManagerInterface $schema_field_manager,
     SchemaDotOrgEntityTypeBuilderInterface $schema_entity_type_builder
   ) {
     $this->moduleHandler = $module_handler;
@@ -117,7 +117,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     $this->schemaNames = $schema_names;
     $this->schemaTypeManager = $schema_type_manager;
     $this->schemaTypeBuilder = $schema_type_builder;
-    $this->schemaFieldManager = $schema_field_manager;
+    $this->schemaEntityFieldManager = $schema_field_manager;
     $this->schemaEntityTypeBuilder = $schema_entity_type_builder;
   }
 
@@ -273,7 +273,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     $property_defaults = $mapping_type->getDefaultSchemaTypeProperties($schema_type);
     $property_mappings = $mapping ? array_flip($mapping->getSchemaProperties()) : [];
 
-    $default_field = $this->schemaFieldManager->getPropertyDefaultField($schema_type, $schema_property);
+    $default_field = $this->schemaEntityFieldManager->getPropertyDefaultField($schema_type, $schema_property);
 
     // Get field name default value.
     $field_name = $property_mappings[$schema_property] ?? NULL;
@@ -281,7 +281,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       // Try getting the base field mapping.
       if (isset($base_field_mappings[$schema_property])) {
         foreach ($base_field_mappings[$schema_property] as $base_field_name) {
-          $field_exists = $this->schemaFieldManager->fieldStorageExists(
+          $field_exists = $this->schemaEntityFieldManager->fieldStorageExists(
             $entity_type_id,
             $base_field_name
           );
@@ -294,18 +294,18 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
 
       if (!$field_name) {
         $field_name = $this->schemaNames->getFieldPrefix() . $default_field['name'];
-        $field_storage_exists = $this->schemaFieldManager->fieldStorageExists(
+        $field_storage_exists = $this->schemaEntityFieldManager->fieldStorageExists(
           $entity_type_id,
           $field_name
         );
         if (!$field_storage_exists) {
-          $field_name = SchemaDotOrgFieldManagerInterface::ADD_FIELD;
+          $field_name = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
         }
       }
     }
 
     // Get field type default value from field type options.
-    $field_type_options = $this->schemaFieldManager->getPropertyFieldTypeOptions($schema_type, $schema_property);
+    $field_type_options = $this->schemaEntityFieldManager->getPropertyFieldTypeOptions($schema_type, $schema_property);
     $recommended_category = (string) $this->t('Recommended');
     $field_type = (isset($field_type_options[$recommended_category]))
       ? array_key_first($field_type_options[$recommended_category])
@@ -370,13 +370,13 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       $field['schema_type'] = $schema_type;
       $field['schema_property'] = $property_name;
 
-      $field_exists = $this->schemaFieldManager->fieldExists(
+      $field_exists = $this->schemaEntityFieldManager->fieldExists(
         $entity_type_id,
         $bundle,
         $field_name
       );
       if (!$field_exists) {
-        if ($field_name === SchemaDotOrgFieldManagerInterface::ADD_FIELD) {
+        if ($field_name === SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD) {
           $field_name = $this->schemaNames->getFieldPrefix() . $field['machine_name'];
         }
         $field['machine_name'] = $field_name;
