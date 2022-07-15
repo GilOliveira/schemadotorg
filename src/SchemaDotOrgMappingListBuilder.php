@@ -31,7 +31,6 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
    * {@inheritdoc}
    */
   public function buildHeader() {
-
     $header['entity_type'] = [
       'data' => $this->t('Type'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
