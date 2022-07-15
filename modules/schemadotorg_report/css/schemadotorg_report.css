@@ -10,6 +10,23 @@
   display: none;
 }
 
+.ui-dialog hr {
+  margin: 1rem 0;
+}
+
+.schemadotorg-report-dialog-header nav {
+  float: left;
+}
+
+.schemadotorg-report-dialog-header .schemadotorg-report-filter-form {
+  float: right;
+}
+
+.schemadotorg-report-dialog-header .form-item {
+  margin: 0;
+}
+
+
 .schemadotorg-report-add-type {
   float: right;
 }

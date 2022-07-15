@@ -32,7 +32,7 @@ class SchemaDotOrgReportHierarchyController extends SchemaDotOrgReportController
       $tree = $this->schemaTypeManager->getTypeTree($type, $ignored_types);
       $count = count($this->schemaTypeManager->getAllTypeChildren($type, ['label'], $ignored_types));
     }
-    $build = parent::buildLocalTasksBlock();
+    $build = [];
     $build['info'] = $this->buildInfo($type, $count);
     $build['tree'] = $this->schemaTypeBuilder->buildTypeTree($tree);
     return $build;

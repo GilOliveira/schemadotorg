@@ -64,8 +64,11 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
       '@type' => ($table === 'types') ? $this->t('types') : $this->t('properties'),
     ];
 
-    $build = parent::buildLocalTasksBlock();
-    $build['filter'] = $this->getFilterForm($table, $id);
+    $build = parent::buildHeader($table);
+    if (!$this->isAjax()) {
+      $build['filter'] = $this->getFilterForm($table, $id);
+    }
+
     $build['info'] = $this->buildInfo($table, $count);
     $build['table'] = [
       '#type' => 'table',

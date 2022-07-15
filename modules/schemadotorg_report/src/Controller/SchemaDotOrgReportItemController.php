@@ -76,32 +76,35 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    *   A renderable array containing Schema.org about page.
    */
   protected function about() {
-    $build = parent::buildLocalTasksBlock();
+    $build = parent::buildHeader();
 
-    // Introduction.
-    $introduction = '<p>' . $this->t('<a href="https://Schema.org/">Schema.org</a> is a collaborative, community activity with a mission to create, maintain, and promote schemas for structured data on the Internet, on web pages, in email messages, and beyond.') . '</p>'
-      . '<p>' . $this->t('Schema.org vocabulary can be used with many different encodings, including RDFa, Microdata and JSON-LD. These vocabularies cover entities, relationships between entities and actions, and can easily be extended through a well-documented extension model. Over 10 million sites use Schema.org to markup their web pages and email messages. Many applications from Google, Microsoft, Pinterest, Yandex and others already use these vocabularies to power rich, extensible experiences.') . '</p>'
-      . '<p>' . $this->t('Founded by Google, Microsoft, Yahoo and Yandex, Schema.org vocabularies are developed by an open community process, using the public-schemaorg@w3.org mailing list and through GitHub.') . '</p>'
-      . '<p>' . $this->t('A shared vocabulary makes it easier for webmasters and developers to decide on a schema and get the maximum benefit for their efforts. It is in this spirit that the founders, together with the larger community have come together - to provide a shared collection of schemas.') . '</p>';
-    $build['introduction'] = ['#markup' => $introduction];
+    // Page introduction and filter form.
+    if (!$this->isAjax()) {
+      // Introduction.
+      $introduction = '<p>' . $this->t('<a href="https://Schema.org/">Schema.org</a> is a collaborative, community activity with a mission to create, maintain, and promote schemas for structured data on the Internet, on web pages, in email messages, and beyond.') . '</p>'
+        . '<p>' . $this->t('Schema.org vocabulary can be used with many different encodings, including RDFa, Microdata and JSON-LD. These vocabularies cover entities, relationships between entities and actions, and can easily be extended through a well-documented extension model. Over 10 million sites use Schema.org to markup their web pages and email messages. Many applications from Google, Microsoft, Pinterest, Yandex and others already use these vocabularies to power rich, extensible experiences.') . '</p>'
+        . '<p>' . $this->t('Founded by Google, Microsoft, Yahoo and Yandex, Schema.org vocabularies are developed by an open community process, using the public-schemaorg@w3.org mailing list and through GitHub.') . '</p>'
+        . '<p>' . $this->t('A shared vocabulary makes it easier for webmasters and developers to decide on a schema and get the maximum benefit for their efforts. It is in this spirit that the founders, together with the larger community have come together - to provide a shared collection of schemas.') . '</p>';
+      $build['introduction'] = ['#markup' => $introduction];
 
-    // Divider.
-    $build['divider'] = ['#markup' => '<hr/>'];
+      // Divider.
+      $build['divider'] = ['#markup' => '<hr/>'];
 
-    // Description top.
-    $t_args = [
-      ':types_href' => Url::fromRoute('schemadotorg_report.types')->toString(),
-      ':properties_href' => Url::fromRoute('schemadotorg_report.properties')->toString(),
-      ':things_href' => Url::fromRoute('schemadotorg_report.types.things')->toString(),
-    ];
-    $description_top = '<p>'
-      . $this->t('The schemas are a set of <a href=":types_href">types</a>, each associated with a set of <a href=":properties_href">properties</a>.', $t_args)
-      . ' ' . $this->t('The types are arranged in a <a href=":things_href">hierarchy</a>.', $t_args)
-      . '</p>';
-    $build['description_top'] = ['#markup' => $description_top];
+      // Description top.
+      $t_args = [
+        ':types_href' => Url::fromRoute('schemadotorg_report.types')->toString(),
+        ':properties_href' => Url::fromRoute('schemadotorg_report.properties')->toString(),
+        ':things_href' => Url::fromRoute('schemadotorg_report.types.things')->toString(),
+      ];
+      $description_top = '<p>'
+        . $this->t('The schemas are a set of <a href=":types_href">types</a>, each associated with a set of <a href=":properties_href">properties</a>.', $t_args)
+        . ' ' . $this->t('The types are arranged in a <a href=":things_href">hierarchy</a>.', $t_args)
+        . '</p>';
+      $build['description_top'] = ['#markup' => $description_top];
 
-    // Types.
-    $build['types'] = $this->getFilterForm('types');
+      // Types.
+      $build['types'] = $this->getFilterForm('types');
+    }
 
     // Description bottom.
     $description_bottom = '<p>' . $this->t('Or you can jump directly to a commonly used type:') . '</p>';
@@ -158,7 +161,14 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     $item = $this->schemaTypeManager->getItem($table, $id);
 
     // Item.
-    $build = parent::buildLocalTasksBlock();
+    $build = parent::buildHeader($table);
+    if ($this->isAjax()) {
+      $build['title'] = [
+        '#markup' => $id,
+        '#prefix' => '<h2>',
+        '#suffix' => '</h2>',
+      ];
+    }
 
     foreach ($fields as $name => $label) {
       $value = $item[$name] ?? NULL;

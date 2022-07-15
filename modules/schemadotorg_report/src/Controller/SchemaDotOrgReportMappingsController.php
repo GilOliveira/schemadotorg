@@ -28,7 +28,7 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
       ['data' => $this->t('Unsorted Properties'), 'width' => '20%'],
     ];
 
-    $build = parent::buildLocalTasksBlock();
+    $build = parent::buildHeader();
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface[] $mapping_types */
     $mapping_types = $mapping_type_storage->loadMultiple();
@@ -225,7 +225,7 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
       }
     }
 
-    $build = parent::buildLocalTasksBlock();
+    $build = [];
     $build['table'] = [
       '#type' => 'table',
       '#header' => $header,

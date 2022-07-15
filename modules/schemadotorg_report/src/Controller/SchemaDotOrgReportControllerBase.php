@@ -63,28 +63,39 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   }
 
   /**
-   * Build local tasks block when response is displayed in an Ajax modal dialog.
+   * Build Ajax dialog header with local tasks block and filter form.
    *
    * @return array
-   *   A render array containing the local tasks block.
+   *   A render array containing the Ajax dialog header with local tasks block
+   *   and filter form.
    */
-  protected function buildLocalTasksBlock() {
+  protected function buildHeader($table = 'types') {
     $build = [];
-    if ($this->isAjax()) {
-      // Build the local tasks block and make sure it is first.
-      $block = $this->blockManager->createInstance('local_tasks_block', ['secondary' => FALSE]);
-      $build['local_tasks_block'] = $block->build() + ['#weight' => -20];
-
-      // Limit the local tasks block to the 'About', 'Types',
-      // and 'Properties' tabs.
-      $dialog_routes = ['schemadotorg_report', 'schemadotorg_report.types', 'schemadotorg_report.properties'];
-      $build['local_tasks_block']['#primary'] = array_intersect_key(
-        $build['local_tasks_block']['#primary'],
-        array_combine($dialog_routes, $dialog_routes)
-      );
+    $build['#attached']['library'][] = 'schemadotorg_report/schemadotorg_report';
+    if (!$this->isAjax()) {
+      return $build;
     }
 
-    $build['#attached']['library'][] = 'schemadotorg_report/schemadotorg_report';
+    $build['header'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['schemadotorg-report-dialog-header', 'clearfix']],
+      '#weight' => -20,
+    ];
+
+    // Build the local tasks block and make sure it is first.
+    $block = $this->blockManager->createInstance('local_tasks_block', ['secondary' => FALSE]);
+    $local_tasks_block = $block->build();
+    // Limit the local tasks block to the 'About', 'Types',
+    // and 'Properties' tabs.
+    $dialog_routes = ['schemadotorg_report', 'schemadotorg_report.types', 'schemadotorg_report.properties'];
+    $local_tasks_block['#primary'] = array_intersect_key(
+      $local_tasks_block['#primary'],
+      array_combine($dialog_routes, $dialog_routes)
+    );
+    $build['header']['local_tasks_block'] = $local_tasks_block + ['#weight' => -20];
+
+
+    $build['header']['filter'] = $this->getFilterForm($table);
 
     return $build;
   }
