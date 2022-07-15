@@ -26,6 +26,9 @@
   margin: 0;
 }
 
+.schemadotorg-report-dialog-header .claro-autocomplete {
+  width: auto;
+}
 
 .schemadotorg-report-add-type {
   float: right;

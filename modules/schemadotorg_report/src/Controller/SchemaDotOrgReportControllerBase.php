@@ -85,15 +85,13 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
     // Build the local tasks block and make sure it is first.
     $block = $this->blockManager->createInstance('local_tasks_block', ['secondary' => FALSE]);
     $local_tasks_block = $block->build();
-    // Limit the local tasks block to the 'About', 'Types',
-    // and 'Properties' tabs.
-    $dialog_routes = ['schemadotorg_report', 'schemadotorg_report.types', 'schemadotorg_report.properties'];
+    // Limit the local tasks block to Schema.org types and properties.
+    $dialog_routes = ['schemadotorg_report.types', 'schemadotorg_report.properties'];
     $local_tasks_block['#primary'] = array_intersect_key(
       $local_tasks_block['#primary'],
       array_combine($dialog_routes, $dialog_routes)
     );
     $build['header']['local_tasks_block'] = $local_tasks_block + ['#weight' => -20];
-
 
     $build['header']['filter'] = $this->getFilterForm($table);
 
