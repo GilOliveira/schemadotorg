@@ -39,6 +39,7 @@ dependencies:
   - 'features:features'
   - 'field_group:field_group'
   - 'inline_entity_form:inline_entity_form'
+  - 'linkit:linkit'
   - 'jsonapi_extras:jsonapi_extras'
   - 'openapi_ui:openapi_ui'
   - 'openapi_ui_redoc:openapi_ui_redoc'

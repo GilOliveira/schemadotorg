@@ -35,6 +35,7 @@
 }
 
 @media (max-width: 768px) {
+  .schemadotorg-report-dialog-header .schemadotorg-report-filter-form,
   .schemadotorg-report-add-type {
     float: none;
     margin: 0 0 1em 0;
