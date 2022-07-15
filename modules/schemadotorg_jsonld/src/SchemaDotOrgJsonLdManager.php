@@ -9,8 +9,10 @@ use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldItemInterface;
+use Drupal\Core\Field\FieldTypePluginManagerInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Routing\RouteMatch;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -29,6 +31,13 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
+
+  /**
+   * The renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
 
   /**
    * The router.
@@ -50,6 +59,13 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
+
+  /**
+   * The field type plugin manager.
+   *
+   * @var \Drupal\Core\Field\FieldTypePluginManagerInterface
+   */
+  protected $fieldTypePluginManager;
 
   /**
    * The date formatter service.
@@ -77,12 +93,16 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   The renderer service.
    * @param \Symfony\Component\Routing\RouterInterface $router
    *   The router.
    * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
    *   The current route match.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\Core\Field\FieldTypePluginManagerInterface $field_type_plugin_manager
+   *   The field type plugin manager.
    * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
    *   The date formatter service.
    * @param \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator
@@ -92,17 +112,21 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
+    RendererInterface $renderer,
     RouterInterface $router,
     RouteMatchInterface $route_match,
     EntityTypeManagerInterface $entity_type_manager,
+    FieldTypePluginManagerInterface $field_type_plugin_manager,
     DateFormatterInterface $date_formatter,
     FileUrlGeneratorInterface $file_url_generator,
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
   ) {
     $this->configFactory = $config_factory;
+    $this->renderer = $renderer;
     $this->router = $router;
     $this->routeMatch = $route_match;
     $this->entityTypeManager = $entity_type_manager;
+    $this->fieldTypePluginManager = $field_type_plugin_manager;
     $this->dateFormatter = $date_formatter;
     $this->fileUrlGenerator = $file_url_generator;
     $this->schemaTypeManager = $schema_type_manager;
@@ -200,10 +224,11 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
       case 'decimal':
       case 'float':
       case 'integer':
-        $value = $item->value;
-        $prefix = $item->getFieldDefinition()->getSetting('prefix') ?? '';
-        $suffix = $item->getFieldDefinition()->getSetting('suffix') ?? '';
-        return $prefix . $value . $suffix;
+        // @todo Detemine if other field types should fully render each item.
+        $field_type_info = $this->fieldTypePluginManager->getDefinition($field_type);
+        $display_options = ['type' => $field_type_info['default_formatter']];
+        $build = $item->view($display_options);
+        return (string) $this->renderer->renderPlain($build);
     }
 
     // Main property data type.
@@ -226,7 +251,6 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
 
     return $value;
   }
-
 
   /**
    * {@inheritdoc}

@@ -756,9 +756,15 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       case 'integer':
       case 'float':
       case 'decimal':
-        $unit = $this->schemaTypeManager->getPropertyUnit($property);
-        if ($unit) {
-          $field_values['settings']['suffix'] = ' ' . $unit;
+        $unit_plural = $this->schemaTypeManager->getPropertyUnit($property, 0);
+        if ($unit_plural) {
+          $unit_singular = $this->schemaTypeManager->getPropertyUnit($property, 1);
+          if ((string) $unit_singular != (string) $unit_plural) {
+            $field_values['settings']['suffix'] = ' ' . $unit_singular . '| ' . $unit_plural;
+          }
+          else {
+            $field_values['settings']['suffix'] = ' ' . $unit_singular;
+          }
         }
         break;
 
