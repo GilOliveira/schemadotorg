@@ -2,8 +2,10 @@
 
 namespace Drupal\schemadotorg\Element;
 
+use Drupal\Core\Link;
 use Drupal\Core\Render\Element\Textarea;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 
 /**
  * Provides a form element for Schema.org Blueprints settings.
@@ -69,6 +71,7 @@ class SchemaDotOrgSettings extends Textarea {
       '#settings_description' => TRUE,
       '#settings_format' => '',
       '#description' => '',
+      '#description_link' => '',
       '#attributes' => [
         'wrap' => 'off',
       ],
@@ -88,6 +91,19 @@ class SchemaDotOrgSettings extends Textarea {
    * Processes a 'schemadotorg_settings' element.
    */
   public static function processSchemaDotOrgSettings(&$element, FormStateInterface $form_state, &$complete_form) {
+    // Append Schema.org browse types or properties link to the description.
+    $link_table = $element['#description_link'];
+    if (in_array($link_table, ['types', 'properties'])
+      && \Drupal::moduleHandler()->moduleExists('schemadotorg_report')) {
+      $link_text = ($link_table === 'types')
+        ? t('Browse Schema.org types.')
+        : t('Browse Schema.org properties.');
+      $link_url = Url::fromRoute("schemadotorg_report.$link_table");
+      $element['#description'] .= (!empty($element['#description'])) ? ' ' : '';
+      $element['#description'] .= Link::fromTextAndUrl($link_text, $link_url)->toString();
+      $element['#attached']['library'][] = 'schemadotorg/schemadotorg.dialog';
+    }
+
     // Append settings description with or without settings format.
     if ($element['#settings_description']) {
       $element['#description'] .= (!empty($element['#description'])) ? '<br/><br/>' : '';

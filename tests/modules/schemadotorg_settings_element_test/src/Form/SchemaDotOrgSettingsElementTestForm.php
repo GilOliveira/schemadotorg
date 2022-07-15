@@ -31,6 +31,7 @@ class SchemaDotOrgSettingsElementTestForm extends FormBase {
     $form['settings'][SchemaDotOrgSettings::INDEXED] = [
       '#type' => 'schemadotorg_settings',
       '#title' => SchemaDotOrgSettings::INDEXED,
+      '#description_link' => 'types',
       '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#default_value' => [
         'one',

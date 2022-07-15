@@ -59,6 +59,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#array_name' => 'types',
       '#title' => $this->t('Recommended Schema.org types'),
       '#description' => $this->t('Enter recommended Schema.org types to be displayed when creating a new Schema.org type. Recommended Schema.org types will only be displayed on entity types that support adding new Schema.org types.'),
+      '#description_link' => 'types',
       '#default_value' => $entity->get('recommended_schema_types'),
     ];
     $form['default_schema_types'] = [
@@ -67,6 +68,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#settings_format' => 'format entity_type|schema_type',
       '#title' => $this->t('Default Schema.org types'),
       '#description' => $this->t('Enter default Schema.org types that will automatically be assigned to an existing entity type/bundle.'),
+      '#description_link' => 'types',
       '#default_value' => $entity->get('default_schema_types'),
     ];
     $form['default_schema_type_properties'] = [
@@ -79,6 +81,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       . $this->t('Please note: Default properties are automatically inherited from their parent Schema.org type and <a href="https://schema.org/Intangible">Intangible</a> are automatically assigned all defined properties, expect for properties defined via <a href="https://schema.org/Thing">Thing</a>.')
       . ' '
       . $this->t('Prepend a minus to a property to explicitly remove the property from the specific type.'),
+      '#description_link' => 'types',
       '#default_value' => $entity->get('default_schema_type_properties'),
     ];
     $form['default_schema_type_subtypes'] = [
@@ -86,6 +89,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Default Schema.org type subtyping'),
       '#description' => $this->t('Enter default Schema.org type subtyping, which is used to enable subtyping when a Schema.org type is being created automatically.'),
+      '#description_link' => 'types',
       '#default_value' => $entity->get('default_schema_type_subtypes'),
     ];
     $form['default_base_fields'] = [
@@ -95,6 +99,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#title' => $this->t('Default base field mappings'),
       '#description' => $this->t('Enter default base field mappings from existing entity properties and fields to Schema.org properties.')
       . ' ' . $this->t('Leave the property_name value blank to allow the base field to be available but not mapped to a Schema.org property.'),
+      '#description_link' => 'properties',
       '#default_value' => $entity->get('default_base_fields'),
     ];
     $form['default_field_weights'] = [
@@ -111,6 +116,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#array_name' => 'properties',
       '#title' => $this->t('Default field groups'),
       '#description' => $this->t('Enter the default field groups and field order used to group Schema.org properties as they are added to entity types.'),
+      '#description_link' => 'properties',
       '#default_value' => $entity->get('default_field_groups'),
     ];
     $type_options = [

@@ -79,6 +79,7 @@ function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter(
     '#description' => t('Enter Schema.org properties that should be mapped to a vocabulary.')
     . '<br/>'
     . t('If the mapped vocabulary does exist it will be created when the Schema.org property mapping is created.'),
+    '#description_link' => 'properties',
     '#default_value' => $config->get('property_vocabularies'),
   ];
 

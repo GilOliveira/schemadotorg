@@ -41,6 +41,7 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
       '#settings_format' => 'SchemaType|propertyName',
       '#title' => $this->t('Schema.org type main properties'),
       '#description' => $this->t('Enter the main property for a Schema.org type. Defaults to <em>name</em> for unspecified Schema.org types. Leave blank when there is no applicable main property for the Schema.org type.'),
+      '#description_link' => 'types',
       '#default_value' => $config->get('schema_types.main_properties'),
     ];
     $form['schema_types']['default_properties'] = [
@@ -53,6 +54,7 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
       . $this->t('Please note: Default properties are automatically inherited from their parent Schema.org type and <a href="https://schema.org/Intangible">Intangible</a> are automatically assigned all defined properties, expect for properties defined via <a href="https://schema.org/Thing">Thing</a>.')
       . ' '
       . $this->t('Prepend a minus to a property to explicitly remove the property from the specific type.'),
+      '#description_link' => 'types',
       '#default_value' => $config->get('schema_types.default_properties'),
     ];
     $form['schema_types']['default_property_values'] = [
@@ -61,6 +63,7 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
       '#settings_format' => 'SchemaType|propertyName01:DefaultValue01,propertyName02:DefaultValue02',
       '#title' => $this->t('Default Schema.org type property values'),
       '#description' => $this->t('Enter default Schema.org type property value.'),
+      '#description_link' => 'types',
       '#default_value' => $config->get('schema_types.default_property_values'),
     ];
     $form['schema_types']['default_field_types'] = [
@@ -71,6 +74,7 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
       '#description' => $this->t('Enter the field types applied to a Schema.org type when a property is added to an entity type.')
       . ' '
       . $this->t('Field types are applied in the order that they are entered.'),
+      '#description_link' => 'types',
       '#default_value' => $config->get('schema_types.default_field_types'),
     ];
     return parent::buildForm($form, $form_state);

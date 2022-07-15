@@ -155,6 +155,7 @@ function schemadotorg_flexfield_form_schemadotorg_properties_settings_form_alter
     '#array_name' => 'properties',
     '#title' => t('Default flex field properties'),
     '#description' => t('Enter Schema.org properties that should be mapped to a Schema.org type using a Flex field.'),
+    '#description_link' => 'types',
     '#default_value' => $config->get('default_properties'),
   ];
 

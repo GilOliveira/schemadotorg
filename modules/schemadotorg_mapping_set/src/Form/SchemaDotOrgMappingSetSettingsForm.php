@@ -38,6 +38,7 @@ class SchemaDotOrgMappingSetSettingsForm extends ConfigFormBase {
       '#array_name' => 'types',
       '#title' => $this->t('Mapping sets'),
       '#description' => $this->t('Enter Schema.org mapping sets by name, label, and entity type to Schema.org type.'),
+      '#description_link' => 'types',
       '#default_value' => $config->get('sets'),
     ];
     return parent::buildForm($form, $form_state);

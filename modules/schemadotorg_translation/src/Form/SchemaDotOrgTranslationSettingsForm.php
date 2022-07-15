@@ -35,6 +35,7 @@ class SchemaDotOrgTranslationSettingsForm extends ConfigFormBase {
       '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Excluded Schema.org types'),
       '#description' => $this->t('Enter Schema.org types that should never be translated.'),
+      '#description_link' => 'types',
       '#default_value' => $config->get('excluded_schema_types'),
     ];
     $form['excluded_schema_properties'] = [
@@ -43,6 +44,7 @@ class SchemaDotOrgTranslationSettingsForm extends ConfigFormBase {
       '#title' => $this->t('Excluded Schema.org properties'),
       '#settings_format' => 'propertyName or SchemaType--propertyName',
       '#description' => $this->t('Enter Schema.org properties that should never be translated.'),
+      '#description_link' => 'properties',
       '#default_value' => $config->get('excluded_schema_properties'),
     ];
     $form['excluded_field_names'] = [

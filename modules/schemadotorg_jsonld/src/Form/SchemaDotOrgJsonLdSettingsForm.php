@@ -45,6 +45,7 @@ class SchemaDotOrgJsonLdSettingsForm extends ConfigFormBase {
       '#settings_format' => 'propertyName',
       '#title' => $this->t('Schema.org property order'),
       '#description' => $this->t('Enter the default Schema.org property order.'),
+      '#description_link' => 'properties',
       '#default_value' => $config->get('property_order'),
     ];
     $form['property_image_styles'] = [
@@ -53,6 +54,7 @@ class SchemaDotOrgJsonLdSettingsForm extends ConfigFormBase {
       '#settings_format' => 'propertyName|image_style',
       '#title' => $this->t('Schema.org property image styles'),
       '#description' => $this->t('Enter the Schema.org property and the desired image style.'),
+      '#description_link' => 'properties',
       '#default_value' => $config->get('property_image_styles'),
     ];
 

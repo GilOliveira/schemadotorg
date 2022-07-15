@@ -70,6 +70,7 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
       '#settings_format' => 'TypeName--propertyName|Type01,Type02,Type03',
       '#title' => $this->t('Schema.org type/property custom range includes'),
       '#description' => $this->t('Enter custom range includes for Schema.org types/properties.'),
+      '#description_link' => 'types',
       '#default_value' => $config->get('schema_properties.range_includes'),
     ];
     $form['schema_properties']['ignored_properties'] = [
@@ -77,6 +78,7 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
       '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Ignored Schema.org properties'),
       '#description' => $this->t('Enter Schema.org properties that should ignored and not displayed on the Schema.org mapping form and simplifies the user experience.'),
+      '#description_link' => 'properties',
       '#default_value' => $config->get('schema_properties.ignored_properties'),
     ];
     $form['schema_properties']['default_fields'] = [
@@ -85,6 +87,7 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
       '#settings_format' => 'SchemaType--propertyName|type:string,label:Property name,unlimited:1',
       '#title' => $this->t('Default Schema.org property fields'),
       '#description' => $this->t('Enter default Schema.org property field definition used when adding a Schema.org property to an entity type.'),
+      '#description_link' => 'properties',
       '#default_value' => $config->get('schema_properties.default_fields'),
     ];
     return parent::buildForm($form, $form_state);

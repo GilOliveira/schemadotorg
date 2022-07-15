@@ -109,9 +109,10 @@ function schemadotorg_paragraphs_form_schemadotorg_types_settings_form_alter(&$f
   $form['paragraphs_paragraphs_library'] = [
     '#type' => 'schemadotorg_settings',
     '#settings_type' => SchemaDotOrgSettings::INDEXED,
-    '#settings_format' => 'propertyName',
+    '#settings_format' => 'SchemaType',
     '#title' => t('Schema.org types that should allow adding to Paragraphs library'),
     '#description' => t('Enter Schema.org types that should allow adding to Paragraphs library.'),
+    '#description_link' => 'types',
     '#default_value' => $config->get('paragraphs_library'),
   ];
 

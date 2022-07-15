@@ -57,6 +57,7 @@ function schemadotorg_inline_entity_form_form_schemadotorg_properties_settings_f
     '#settings_format' => 'propertyName or SchemaType--propertyName',
     '#title' => t('Default inline entity form properties'),
     '#description' => t('Enter Schema.org properties that should use the inline entity form.'),
+    '#description_link' => 'properties',
     '#default_value' => $config->get('default_properties'),
   ];
 
