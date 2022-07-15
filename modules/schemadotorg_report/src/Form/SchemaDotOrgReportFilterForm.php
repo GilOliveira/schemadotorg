@@ -4,6 +4,7 @@ namespace Drupal\schemadotorg_report\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -64,7 +65,10 @@ class SchemaDotOrgReportFilterForm extends FormBase {
       '#tags' => TRUE,
       '#autocomplete_route_name' => 'schemadotorg.autocomplete',
       '#autocomplete_route_parameters' => ['table' => $table],
-      '#attributes' => ['class' => ['schemadotorg-autocomplete']],
+      '#attributes' => [
+        'class' => ['schemadotorg-autocomplete'],
+        'data-schemadotorg-autocomplete-action' => Url::fromRoute('schemadotorg_report')->toString(),
+      ],
       '#attached' => ['library' => ['schemadotorg/schemadotorg.autocomplete']],
     ];
     $form['filter']['submit'] = [

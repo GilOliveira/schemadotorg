@@ -2,6 +2,7 @@
 
 namespace Drupal\schemadotorg_report\Controller;
 
+use Drupal\Core\Ajax\AjaxHelperTrait;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
@@ -11,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Base controller for Schema.org report routes.
  */
 abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
+  use AjaxHelperTrait;
 
   /**
    * The database connection.
@@ -18,6 +20,13 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    * @var \Drupal\Core\Database\Connection
    */
   protected $database;
+
+  /**
+   * The block manager.
+   *
+   * @var \Drupal\Core\Block\BlockManagerInterface
+   */
+  protected $blockManager;
 
   /**
    * The form builder service.
@@ -46,10 +55,38 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
     $instance->database = $container->get('database');
+    $instance->blockManager = $container->get('plugin.manager.block');
     $instance->formBuilder = $container->get('form_builder');
     $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
     $instance->schemaTypeBuilder = $container->get('schemadotorg.schema_type_builder');
     return $instance;
+  }
+
+  /**
+   * Build local tasks block when response is displayed in an Ajax modal dialog.
+   *
+   * @return array
+   *   A render array containing the local tasks block.
+   */
+  protected function buildLocalTasksBlock() {
+    $build = [];
+    if ($this->isAjax()) {
+      // Build the local tasks block and make sure it is first.
+      $block = $this->blockManager->createInstance('local_tasks_block', ['secondary' => FALSE]);
+      $build['local_tasks_block'] = $block->build() + ['#weight' => -20];
+
+      // Limit the local tasks block to the 'About', 'Types',
+      // and 'Properties' tabs.
+      $dialog_routes = ['schemadotorg_report', 'schemadotorg_report.types', 'schemadotorg_report.properties'];
+      $build['local_tasks_block']['#primary'] = array_intersect_key(
+        $build['local_tasks_block']['#primary'],
+        array_combine($dialog_routes, $dialog_routes)
+      );
+    }
+
+    $build['#attached']['library'][] = 'schemadotorg_report/schemadotorg_report';
+
+    return $build;
   }
 
   /**

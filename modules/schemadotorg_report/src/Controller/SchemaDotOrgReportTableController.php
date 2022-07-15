@@ -64,7 +64,7 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
       '@type' => ($table === 'types') ? $this->t('types') : $this->t('properties'),
     ];
 
-    $build = [];
+    $build = parent::buildLocalTasksBlock();
     $build['filter'] = $this->getFilterForm($table, $id);
     $build['info'] = $this->buildInfo($table, $count);
     $build['table'] = [
@@ -74,7 +74,13 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
       '#sticky' => TRUE,
       '#empty' => $this->t('No @type found.', $t_args),
     ];
-    $build['pager'] = ['#type' => 'pager'];
+    $build['pager'] = [
+      '#type' => 'pager',
+      // Use the <current> route to make sure pager links works as expected
+      // in a modal.
+      // @see Drupal.behaviors.schemaDotOrgDialog
+      '#route_name' => '<current>',
+    ];
     return $build;
   }
 

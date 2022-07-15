@@ -18,7 +18,7 @@ class SchemaDotOrgReportReferencesController extends SchemaDotOrgReportControlle
   public function index() {
     $config = $this->config('schemadotorg_report.settings');
 
-    $build = [];
+    $build = parent::buildLocalTasksBlock();
 
     // About.
     $about = $config->get('about');

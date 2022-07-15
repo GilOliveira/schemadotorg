@@ -76,7 +76,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    *   A renderable array containing Schema.org about page.
    */
   protected function about() {
-    $build = [];
+    $build = parent::buildLocalTasksBlock();
 
     // Introduction.
     $introduction = '<p>' . $this->t('<a href="https://Schema.org/">Schema.org</a> is a collaborative, community activity with a mission to create, maintain, and promote schemas for structured data on the Internet, on web pages, in email messages, and beyond.') . '</p>'
@@ -158,7 +158,8 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     $item = $this->schemaTypeManager->getItem($table, $id);
 
     // Item.
-    $build = [];
+    $build = parent::buildLocalTasksBlock();
+
     foreach ($fields as $name => $label) {
       $value = $item[$name] ?? NULL;
       if (empty($value)) {
@@ -303,7 +304,6 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       $build['appears_in'] = $this->buildTypeAppearsIn($id);
     }
 
-    $build['#attached']['library'][] = 'schemadotorg_report/schemadotorg_report';
     return $build;
   }
 

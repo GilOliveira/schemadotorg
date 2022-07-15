@@ -28,7 +28,7 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
       ['data' => $this->t('Unsorted Properties'), 'width' => '20%'],
     ];
 
-    $build = [];
+    $build = parent::buildLocalTasksBlock();
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface[] $mapping_types */
     $mapping_types = $mapping_type_storage->loadMultiple();
@@ -225,13 +225,15 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
       }
     }
 
-    return [
+    $build = parent::buildLocalTasksBlock();
+    $build['table'] = [
       '#type' => 'table',
       '#header' => $header,
       '#rows' => $rows,
       '#empty' => $this->t('There are no Schema.org relationships yet.'),
       '#sticky' => TRUE,
     ];
+    return $build;
   }
 
   /**

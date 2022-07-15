@@ -3,6 +3,13 @@
  * Schema.org report styles.
  */
 
+/**
+ * Hide the filter submit button is dialog and use autocomplete to redirect.
+ */
+.ui-dialog .schemadotorg-report-filter-form .form-submit {
+  display: none;
+}
+
 .schemadotorg-report-add-type {
   float: right;
 }

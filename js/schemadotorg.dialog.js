@@ -14,7 +14,7 @@
    */
   Drupal.behaviors.schemaDotOrgDialog = {
     attach: function (context) {
-      $('a[href*="/admin/reports/schemadotorg/"]', context)
+      $('a[href*="/admin/reports/schemadotorg"]', context)
         .once('schemadotorg-dialog').each(function () {
           Drupal.ajax({
             progress: {type: 'fullscreen'},

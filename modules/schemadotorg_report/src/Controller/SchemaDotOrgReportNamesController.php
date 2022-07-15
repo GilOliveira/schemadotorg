@@ -114,7 +114,7 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
       }
     }
 
-    $build = [];
+    $build = parent::buildLocalTasksBlock();
 
     // General.
     $build['general'] = [
@@ -390,7 +390,7 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
     }
     ksort($rows);
 
-    $build = [];
+    $build = parent::buildLocalTasksBlock();
     $build['info'] = $this->buildInfo($display, count($rows));
     $build['table'] = [
       '#type' => 'table',

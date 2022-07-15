@@ -26,13 +26,24 @@
           // @see http://stackoverflow.com/questions/5366068/jquery-ui-autocomplete-submit-onclick-result
           $(this).bind('autocompleteselect', function (event, ui) {
             if (ui.item) {
-              $(this).val(ui.item.value);
-              $(this.form).trigger('submit');
+              var action = $(this).data('schemadotorg-autocomplete-action');
+              if (action) {
+                var url = action + '/' + ui.item.value;
+                if (Drupal.schemaDotOrgOpenDialog && $(this).closest('.ui-dialog').length) {
+                  Drupal.schemaDotOrgOpenDialog(url);
+                }
+                else {
+                  top.location = url;
+                }
+              }
+              else {
+                $(this).val(ui.item.value);
+                $(this.form).trigger('submit');
+              }
             }
           });
         });
     }
-
   };
 
 } (jQuery, Drupal));
