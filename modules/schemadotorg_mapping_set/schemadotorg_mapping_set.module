@@ -13,9 +13,9 @@ use Drupal\Core\Routing\RouteMatchInterface;
 function schemadotorg_mapping_set_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     case 'schemadotorg_mapping_set.settings':
-      return '<p>' . t('The <strong>Schema.org mapping sets settings</strong> page allows administrators to define a set of Schema.org mappings that can be setup and managed using the admin UI or <a href=":href">Drush<a/>.', [':href' => 'https://www.drush.org']) . '<p>';
+      return '<p>' . t('The <strong>Schema.org mapping sets settings</strong> page allows administrators to define a set of Schema.org mappings that can be setup and managed using the admin UI or <a href=":href">Drush</a>.', [':href' => 'https://www.drush.org']) . '<p>';
 
     case 'schemadotorg_mapping_set.overview':
-      return '<p>' . t('The <strong>Schema.org mapping sets</strong> page lists all available Schema.org mapping sets that can be setup and managed using the below admin UI or <a href=":href">Drush<a/>.', [':href' => 'https://www.drush.org']) . '<p>';
+      return '<p>' . t('The <strong>Schema.org mapping sets</strong> page lists all available Schema.org mapping sets that can be setup and managed using the below admin UI or <a href=":href">Drush</a>.', [':href' => 'https://www.drush.org']) . '<p>';
   }
 }

@@ -89,7 +89,7 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
     $form = parent::buildForm($form, $form_state);
 
     $form['description'] = [
-      'description' => $form['description'],
+      'description' => $form['description'] + ['#prefix' => '<p>', '#suffix' => '</p>'],
       'type' => [
         '#theme' => 'item_list',
         '#items' => $this->schemaMappingSetManager->getTypes($this->name),

@@ -146,7 +146,7 @@ default_field_groups:
   general:
     label: 'General information'
     properties:
-      - type
+      - subtype
       - title
       - name
       - headline

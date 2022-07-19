@@ -23,7 +23,7 @@ default_field_groups:
   biographical:
     label: 'Biographical information'
     properties:
-      - type
+      - subtype
       - givenName
       - additionalName
       - familyName
