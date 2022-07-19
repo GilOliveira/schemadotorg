@@ -5,6 +5,7 @@ namespace Drupal\Tests\schemadotorg\Kernel;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
+use Drupal\Tests\schemadotorg_subtype\Traits\SchemaDotOrgTestSubtypeTrait;
 
 /**
  * Tests the Schema.org mapping storage.
@@ -13,6 +14,7 @@ use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
  * @group schemadotorg
  */
 class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
+  use SchemaDotOrgTestSubtypeTrait;
 
   /**
    * Modules to enable.
@@ -26,6 +28,7 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
     'field',
     'text',
     'options',
+    'schemadotorg_subtype',
   ];
 
   /**
@@ -140,10 +143,6 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
     // Check loading by entity.
     $this->assertEquals('node.thing', $this->storage->loadByEntity($thing_node)->id());
     $this->assertNull($this->storage->loadByEntity($page_node));
-
-    // Check getting the Schema.org subtype for an entity.
-    $this->assertEquals(FALSE, $this->storage->getSubtype($thing_node));
-    $this->assertEquals('Barcode', $this->storage->getSubtype($image_node));
   }
 
 }

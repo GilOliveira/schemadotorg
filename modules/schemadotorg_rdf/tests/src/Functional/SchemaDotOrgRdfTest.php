@@ -2,10 +2,9 @@
 
 namespace Drupal\Tests\schemadotorg_rdf\Functional;
 
-use Drupal\field\Entity\FieldConfig;
-use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
+use Drupal\Tests\schemadotorg_subtype\Traits\SchemaDotOrgTestSubtypeTrait;
 
 /**
  * Tests for Schema.org RDF.
@@ -13,13 +12,18 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  * @group schemadotorg
  */
 class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
+  use SchemaDotOrgTestSubtypeTrait;
 
   /**
    * Modules to enable.
    *
    * @var array
    */
-  protected static $modules = ['node', 'schemadotorg_rdf'];
+  protected static $modules = [
+    'node',
+    'schemadotorg_subtype',
+    'schemadotorg_rdf',
+  ];
 
   /**
    * A test node.
@@ -52,7 +56,7 @@ class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
     $display_repository = \Drupal::service('entity_display.repository');
     $display_repository->getViewDisplay('node', 'event')
       ->setComponent('schema_alternate_name')
-      ->setComponent('schema_subtype')->save();
+      ->setComponent('schema_event_subtype')->save();
 
     // Create Event with mapping.
     $node_mapping = SchemaDotOrgMapping::create([
@@ -63,6 +67,7 @@ class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
       'properties' => [
         'title' => 'name',
         'schema_alternate_name' => 'alternateName',
+        'schema_event_subtype' => 'subtype',
       ],
     ]);
     $node_mapping->save();

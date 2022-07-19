@@ -47,7 +47,6 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *     "recommended_schema_types",
  *     "default_schema_types",
  *     "default_schema_type_properties",
- *     "default_schema_type_subtypes",
  *     "default_base_fields",
  *     "default_field_weights",
  *     "default_field_groups",
@@ -86,13 +85,6 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * @var array
    */
   protected $default_schema_type_properties = [];
-
-  /**
-   * An associative array of Schema.org types that support subtyping.
-   *
-   * @var array
-   */
-  protected $default_schema_type_subtypes = [];
 
   /**
    * An associative array of base field mappings.
@@ -248,13 +240,6 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
         $default_properties[$property] = $property;
       }
     }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getDefaultSchemaTypeSubtypes() {
-    return $this->get('default_schema_type_subtypes');
   }
 
   /**

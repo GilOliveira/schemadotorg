@@ -274,6 +274,10 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    */
   public function getPropertyDefaultType($property) {
     $property_definition = $this->getProperty($property);
+    if (!$property_definition) {
+      return NULL;
+    }
+
     $range_includes = $this->parseIds($property_definition['range_includes']);
     $type_definitions = $this->getTypes($range_includes);
 
@@ -662,6 +666,15 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   public function hasProperty($type, $property) {
     $type_definition = $this->getType($type);
     return (strpos($type_definition['properties'], '/' . $property) !== FALSE);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hasSubtypes($type) {
+    $type_definition = $this->getType($type);
+    return (boolean) $type_definition['sub_types'];
+
   }
 
   /**

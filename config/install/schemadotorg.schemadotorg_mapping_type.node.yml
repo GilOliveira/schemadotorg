@@ -96,16 +96,6 @@ default_schema_type_properties:
     - description
     - dateCreated
     - dateModified
-default_schema_type_subtypes:
-  - AdministrativeArea
-  - Article
-  - CivicStructure
-  - EducationalOrganization
-  - Event
-  - FoodEstablishment
-  - LocalBusiness
-  - MedicalBusiness
-  - WebPage
 default_base_fields:
   uuid: {  }
   revision_uid: {  }

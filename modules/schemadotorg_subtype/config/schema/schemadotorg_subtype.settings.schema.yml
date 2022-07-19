@@ -1,0 +1,10 @@
+schemadotorg_subtype.settings:
+  type: config_entity
+  label: Schema.org Subtype settings
+  mapping:
+    default_subtypes:
+      type: sequence
+      label: 'Schema.org default subtype types'
+      sequence:
+        type: string
+        label: 'Schema.org default subtype type'

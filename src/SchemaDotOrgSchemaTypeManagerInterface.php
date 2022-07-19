@@ -422,4 +422,15 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    */
   public function hasProperty($type, $property);
 
+  /**
+   * Determine if a Schema.org type has subtypes.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   *
+   * @return bool
+   *   TRUE if a Schema.org type has subtypes.
+   */
+  public function hasSubtypes($type);
+
 }

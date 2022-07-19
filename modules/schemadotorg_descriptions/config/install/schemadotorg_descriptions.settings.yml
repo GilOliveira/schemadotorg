@@ -2,4 +2,5 @@ trim_descriptions: true
 custom_descriptions:
   itemListElement: null
   mainEntity: null
+  subtype: 'A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.'
   MenuItem--offers: 'The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes.'

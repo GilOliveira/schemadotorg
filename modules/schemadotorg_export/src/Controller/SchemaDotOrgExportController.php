@@ -67,7 +67,7 @@ class SchemaDotOrgExportController extends ControllerBase {
           $mapping->getTargetEntityTypeId(),
           $mapping->getTargetBundle(),
           $mapping->getSchemaType(),
-          $mapping->supportsSubtyping() ? 'Yes' : 'No',
+          ($mapping->getSchemaPropertyFieldName('subtype')) ? $this->t('Yes') : $this->t('No'),
           implode('; ', $mapping->getSchemaProperties()),
         ]);
       }

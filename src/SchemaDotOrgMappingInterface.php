@@ -104,32 +104,6 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   public function setSchemaType($type);
 
   /**
-   * Gets the Schema.org subtype status.
-   *
-   * @return string
-   *   The Schema.org subtype status.
-   */
-  public function getSchemaSubtype();
-
-  /**
-   * Sets the Schema.org subtype status.
-   *
-   * @param bool $subtype
-   *   The Schema.org subtype status.
-   *
-   * @return $this
-   */
-  public function setSchemaSubtype($subtype);
-
-  /**
-   * Gets Schema.org mapping supports subtyping.
-   *
-   * @return bool
-   *   TRUE if the Schema.org mapping supports subtyping.
-   */
-  public function supportsSubtyping();
-
-  /**
    * Gets the mappings for Schema.org properties.
    *
    * @return array
@@ -138,16 +112,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   public function getSchemaProperties();
 
   /**
-   * Gets the mappings for all Schema.org properties including subtype.
-   *
-   * @return array
-   *   The array of Schema.org property mappings including subtype,
-   *   keyed by field name.
-   */
-  public function getAllSchemaProperties();
-
-  /**
-   * Gets the mapping set for a property.
+   * Gets the mapping set for a Schema.org property.
    *
    * @param string $name
    *   The name of the property.
@@ -180,4 +145,25 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
    */
   public function removeSchemaProperty($name);
 
+  /**
+   * Gets the field name for a Schema.org property.
+   *
+   * @param string $property
+   *   A Schema.org property.
+   *
+   * @return string|null
+   *   The field name for a Schema.org property.
+   */
+  public function getSchemaPropertyFieldName($property);
+
+  /**
+   * Determine if a Schema.org property is mapped to a Drupal field.
+   *
+   * @param string $property
+   *   A Schema.org property.
+   *
+   * @return bool
+   *   TRUE if a Schema.org property is mapped to a Drupal field.
+   */
+  public function hasSchemaPropertyMapping($property);
 }

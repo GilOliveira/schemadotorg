@@ -141,15 +141,4 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    */
   public function loadByEntity(EntityInterface $entity);
 
-  /**
-   * Get the Schema.org subtype for an entity.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity.
-   *
-   * @return string
-   *   The Schema.org subtype for an entity.
-   */
-  public function getSubtype(EntityInterface $entity);
-
 }

@@ -84,14 +84,6 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#description_link' => 'types',
       '#default_value' => $entity->get('default_schema_type_properties'),
     ];
-    $form['default_schema_type_subtypes'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::INDEXED,
-      '#title' => $this->t('Default Schema.org type subtyping'),
-      '#description' => $this->t('Enter default Schema.org type subtyping, which is used to enable subtyping when a Schema.org type is being created automatically.'),
-      '#description_link' => 'types',
-      '#default_value' => $entity->get('default_schema_type_subtypes'),
-    ];
     $form['default_base_fields'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,

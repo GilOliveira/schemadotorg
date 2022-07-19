@@ -152,18 +152,16 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
    *   The entity type.
    * @param string $schema_type
    *   The Schema.org type.
-   * @param array $options
-   *   (optional) An array of options.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null
    *   The entity type/bundle's Schema.org mapping.
    */
-  protected function createSchemaEntity($entity_type_id, $schema_type, array $options = []) {
+  protected function createSchemaEntity($entity_type_id, $schema_type) {
     // Install the entity type dependencies.
     $this->installEntityDependencies($entity_type_id);
 
     // Create the entity type and mappings.
-    $this->api->createType($entity_type_id, $schema_type, $options);
+    $this->api->createType($entity_type_id, $schema_type);
 
     // Load the newly created Schema.org mapping.
     $mappings = $this->mappingStorage->loadByProperties([

@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Schema.org Descriptions module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_descriptions_install() {
+  // Setting weight to 1 so that descriptions will be added or removed after
+  // form have been altered.
+  module_set_weight('schemadotorg_descriptions', 1);
+
+  // Make sure the weight is updated.
+  // Other modules are reporting this issue.
+  // @see https://www.drupal.org/project/drupal/issues/2886083
+  drupal_flush_all_caches();
+}

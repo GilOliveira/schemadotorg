@@ -207,7 +207,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
     $includes = [];
 
     $relationships = $resource_type->getRelatableResourceTypes();
-    $field_names = array_keys($mapping->getAllSchemaProperties());
+    $field_names = array_keys($mapping->getSchemaProperties());
     $field_definitions = $this->fieldManager->getFieldDefinitions($entity_type_id, $bundle);
     foreach ($field_names as $field_name) {
       $field = $resource_type->getFieldByInternalName($field_name);
@@ -258,7 +258,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
 
     $resource_fields = [];
 
-    $schema_properties = $mapping->getAllSchemaProperties();
+    $schema_properties = $mapping->getSchemaProperties();
 
     $field_names = $this->getAllFieldNamesForMapping($mapping);
     foreach ($field_names as $field_name) {
@@ -358,7 +358,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
 
     $resource_fields = $resource_config->get('resourceFields');
 
-    $properties = $mapping->getAllSchemaProperties();
+    $properties = $mapping->getSchemaProperties();
     foreach ($properties as $field_name => $property) {
       // Never update an existing resource field.
       // Ensures that an API field is never changed after it has been created.

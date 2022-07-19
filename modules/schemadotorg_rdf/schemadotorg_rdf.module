@@ -90,14 +90,18 @@ function _schemadotorg_rdf_preprocess_entity(array &$variables, EntityInterface 
   }
 
   // Get the Schema.org subtype.
-  $schema_subtype = $mapping_storage->getSubtype($entity);
-  if (!$schema_subtype) {
+  $subtype_field_name = $mapping->getSchemaPropertyFieldName('subtype');
+  if (!$subtype_field_name
+    || !$entity->hasField($subtype_field_name)
+    || empty($entity->get($subtype_field_name)->value)
+  ) {
     return;
   }
 
   // Replace the typeof attribute with the subtype
   // (i.e. schema:Event => schema:BusinessEvent).
   $schema_type = $mapping->getSchemaType();
+  $schema_subtype = $entity->get($subtype_field_name)->value;
   foreach ($variables['attributes']['typeof'] as $index => $typeof) {
     if ($typeof === "schema:$schema_type") {
       $variables['attributes']['typeof'][$index] = "schema:$schema_subtype";

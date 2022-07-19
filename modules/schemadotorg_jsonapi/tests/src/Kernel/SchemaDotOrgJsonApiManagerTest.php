@@ -7,6 +7,7 @@ use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\node\Entity\NodeType;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelTestBase;
+use Drupal\Tests\schemadotorg_subtype\Traits\SchemaDotOrgTestSubtypeTrait;
 
 /**
  * Tests the functionality of the Schema.org JSON:API manager.
@@ -15,6 +16,7 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelTestBase;
  * @group schemadotorg
  */
 class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
+  use SchemaDotOrgTestSubtypeTrait;
 
   /**
    * Modules to install.
@@ -32,6 +34,7 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     'serialization',
     'jsonapi',
     'jsonapi_extras',
+    'schemadotorg_subtype',
     'schemadotorg_jsonapi',
   ];
 
@@ -160,10 +163,10 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
       'target_entity_type_id' => 'node',
       'target_bundle' => 'thing',
       'type' => 'Thing',
-      'subtype' => TRUE,
       'properties' => [
         'title' => 'name',
         'schema_alternate_name' => 'alternateName',
+        'schema_thing_subtype' => 'subtype',
       ],
     ]);
     $thing_mapping->save();

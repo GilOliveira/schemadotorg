@@ -75,7 +75,6 @@ function hook_schemadotorg_jsonld_alter(array &$data, \Drupal\Core\Routing\Route
 
   $schema_type = $mapping->getSchemaType();
   $schema_properties = $mapping->getSchemaProperties();
-  $supports_subtyping = $mapping->supportsSubtyping();
 }
 
 /* ************************************************************************** */

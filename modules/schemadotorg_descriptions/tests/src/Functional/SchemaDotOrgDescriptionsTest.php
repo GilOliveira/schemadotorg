@@ -22,6 +22,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     'field',
     'field_ui',
     'schemadotorg_ui',
+    'schemadotorg_subtype',
   ];
 
   /**
@@ -41,7 +42,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     // Check add content type, subtype, and field descriptions.
     $this->drupalGet('/admin/structure/types/schemadotorg', ['query' => ['type' => 'Thing']]);
     $assert_session->fieldValueEquals('entity[description]', 'The most generic type of item.');
-    $assert_session->fieldValueEquals('subtyping[_add_][description]', 'A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.');
+    $assert_session->fieldValueEquals('properties[subtype][field][_add_][description]', 'A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.');
     $assert_session->fieldValueEquals('properties[description][field][_add_][description]', 'A description of the item.');
 
     /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
@@ -52,14 +53,14 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     // the element's #description is updated.
     $this->drupalGet('/admin/structure/types/schemadotorg', ['query' => ['type' => 'Thing']]);
     $assert_session->fieldValueEquals('entity[description]', '');
-    $assert_session->fieldValueEquals('subtyping[_add_][description]', '');
+    $assert_session->fieldValueEquals('properties[subtype][field][_add_][description]', '');
     $assert_session->fieldValueEquals('properties[description][field][_add_][description]', '');
     $assert_session->responseContains("<strong>If left blank, the description will be automatically set to the corresponding Schema.org type's comment.</strong>");
     $assert_session->responseContains("<strong>If left blank, the description will be automatically set.</strong>");
 
     // Create the 'Thing' content type with type and alternateName fields.
     $edit = [
-      'subtyping[enable]' => TRUE,
+      'properties[subtype][field][name]' => TRUE,
       'properties[alternateName][field][name]' => '_add_',
     ];
     $this->submitForm($edit, 'Save');

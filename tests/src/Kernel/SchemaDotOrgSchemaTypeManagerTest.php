@@ -108,8 +108,14 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $tests = [
       [' ', []],
       ['https://schema.org/Thing', ['Thing']],
-      ['https://schema.org/Thing, https://schema.org/Place', ['Thing', 'Place']],
-      ['https://not-schema.org/Thing, https://schema.org/Place', ['https://not-schema.org/Thing', 'Place']],
+      [
+        'https://schema.org/Thing, https://schema.org/Place',
+        ['Thing', 'Place']
+      ],
+      [
+        'https://not-schema.org/Thing, https://schema.org/Place',
+        ['https://not-schema.org/Thing', 'Place']
+      ],
     ];
     foreach ($tests as $test) {
       $expected = $test[0] ? array_combine($test[1], $test[1]) : [];
@@ -149,7 +155,10 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
 
     // Check getting a Schema.org property's range includes.
     $this->assertEquals(['Text' => 'Text'], $this->schemaTypeManager->getPropertRangeIncludes('name'));
-    $this->assertEquals(['ImageObject' => 'ImageObject', 'URL' => 'URL'], $this->schemaTypeManager->getPropertRangeIncludes('image'));
+    $this->assertEquals([
+      'ImageObject' => 'ImageObject',
+      'URL' => 'URL'
+    ], $this->schemaTypeManager->getPropertRangeIncludes('image'));
 
     // Check getting a Schema.org property's default Schema.org type.
     $this->assertEquals('Organization', $this->schemaTypeManager->getPropertyDefaultType('alumniOf'));
@@ -178,7 +187,10 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertEquals('Entities that have a somewhat fixed, physical extension.', $items['Place']['comment']);
 
     // Check getting Schema.org types.
-    $types = $this->schemaTypeManager->getTypes(['Thing', 'Place'], ['id', 'label']);
+    $types = $this->schemaTypeManager->getTypes(['Thing', 'Place'], [
+      'id',
+      'label'
+    ]);
     $this->assertEquals('https://schema.org/Thing', $types['Thing']['id']);
     $this->assertEquals('Thing', $types['Thing']['label']);
     $this->assertArrayNotHasKey('comment', $types['Thing']);
@@ -191,12 +203,24 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
       'alternateName' => ['label' => 'alternateName'],
       'name' => ['label' => 'name'],
     ];
-    $actual_properties = $this->schemaTypeManager->getProperties(['name', 'alternateName'], ['label']);
+    $actual_properties = $this->schemaTypeManager->getProperties([
+      'name',
+      'alternateName'
+    ], ['label']);
     $this->assertEquals($expected_properties, $actual_properties);
 
     // Check getting a Schema.org type's properties.
     $type_properties = $this->schemaTypeManager->getTypeProperties('Thing', ['label']);
-    $properties = ['additionalType', 'alternateName', 'description', 'disambiguatingDescription', 'identifier', 'image', 'name', 'url'];
+    $properties = [
+      'additionalType',
+      'alternateName',
+      'description',
+      'disambiguatingDescription',
+      'identifier',
+      'image',
+      'name',
+      'url'
+    ];
     foreach ($properties as $property) {
       $this->assertArrayHasKey($property, $type_properties);
     }
@@ -205,13 +229,19 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $type_children = $this->schemaTypeManager->getTypeChildren('Person');
     $this->assertEquals(['Patient' => 'Patient'], $type_children);
     $type_children = $this->schemaTypeManager->getTypeChildren('GenderType');
-    $this->assertEquals(['Male' => 'Male', 'Female' => 'Female'], $type_children);
+    $this->assertEquals([
+      'Male' => 'Male',
+      'Female' => 'Female'
+    ], $type_children);
 
     // Check getting all child Schema.org types below a specified type.e.
     $type_children = $this->schemaTypeManager->getAllTypeChildrenAsOptions('Person');
     $this->assertEquals(['Patient' => 'Patient'], $type_children);
     $type_children = $this->schemaTypeManager->getAllTypeChildrenAsOptions('GenderType');
-    $this->assertEquals(['Male' => 'Male', 'Female' => 'Female'], $type_children);
+    $this->assertEquals([
+      'Male' => 'Male',
+      'Female' => 'Female'
+    ], $type_children);
 
     // Check getting Schema.org subtypes.
     $subtypes = $this->schemaTypeManager->getSubtypes('Person');
@@ -225,7 +255,10 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertNotEquals(['Patient' => 'Patient'], $enumerations);
     $this->assertEquals([], $enumerations);
     $enumerations = $this->schemaTypeManager->getEnumerations('GenderType');
-    $this->assertEquals(['Male' => 'Male', 'Female' => 'Female'], $enumerations);
+    $this->assertEquals([
+      'Male' => 'Male',
+      'Female' => 'Female'
+    ], $enumerations);
 
     // Check getting Schema.org data types.
     $expected_data_types = [
@@ -263,7 +296,10 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
       'Motorcycle' => 'Motorcycle',
       'MotorizedBicycle' => 'MotorizedBicycle',
     ];
-    $actual_all_sub_types = $this->schemaTypeManager->getAllSubTypes(['Person', 'Product']);
+    $actual_all_sub_types = $this->schemaTypeManager->getAllSubTypes([
+      'Person',
+      'Product'
+    ]);
     $this->assertEquals($expected_all_sub_types, $actual_all_sub_types);
 
     // Check getting all Schema.org types below a specified type.
@@ -302,16 +338,53 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
 
     // Check getting Schema.org type hierarchical tree.
     $type_tree = $this->schemaTypeManager->getTypeTree('Product');
-    $this->assertIsNotArray(NestedArray::getValue($type_tree, ['Product', 'subtypes', 'NotAProduct']));
-    $this->assertNull(NestedArray::getValue($type_tree, ['Product', 'subtypes', 'NotAProduct']));
-    $this->assertIsArray(NestedArray::getValue($type_tree, ['Product', 'subtypes', 'IndividualProduct', 'subtypes']));
-    $this->assertIsArray(NestedArray::getValue($type_tree, ['Product', 'subtypes', 'IndividualProduct', 'enumerations']));
-    $this->assertIsArray(NestedArray::getValue($type_tree, ['Product', 'subtypes', 'Vehicle', 'subtypes', 'BusOrCoach', 'subtypes']));
-    $this->assertIsArray(NestedArray::getValue($type_tree, ['Product', 'subtypes', 'Vehicle', 'subtypes', 'BusOrCoach', 'enumerations']));
+    $this->assertIsNotArray(NestedArray::getValue($type_tree, [
+      'Product',
+      'subtypes',
+      'NotAProduct'
+    ]));
+    $this->assertNull(NestedArray::getValue($type_tree, [
+      'Product',
+      'subtypes',
+      'NotAProduct'
+    ]));
+    $this->assertIsArray(NestedArray::getValue($type_tree, [
+      'Product',
+      'subtypes',
+      'IndividualProduct',
+      'subtypes'
+    ]));
+    $this->assertIsArray(NestedArray::getValue($type_tree, [
+      'Product',
+      'subtypes',
+      'IndividualProduct',
+      'enumerations'
+    ]));
+    $this->assertIsArray(NestedArray::getValue($type_tree, [
+      'Product',
+      'subtypes',
+      'Vehicle',
+      'subtypes',
+      'BusOrCoach',
+      'subtypes'
+    ]));
+    $this->assertIsArray(NestedArray::getValue($type_tree, [
+      'Product',
+      'subtypes',
+      'Vehicle',
+      'subtypes',
+      'BusOrCoach',
+      'enumerations'
+    ]));
 
     // Check getting Schema.org type hierarchical tree with ignored types.
     $type_tree = $this->schemaTypeManager->getTypeTree('Product', ['IndividualProduct']);
-    $this->assertIsNotArray(NestedArray::getValue($type_tree, ['Product', 'subtypes', 'IndividualProduct', 'subtypes']));
+    $this->assertIsNotArray(NestedArray::getValue($type_tree, [
+      'Product',
+      'subtypes',
+      'IndividualProduct',
+      'subtypes'
+    ]));
 
     // Check getting Schema.org type breadcrumbs.
     $expected_breadcrumbs = [
@@ -328,6 +401,16 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     ];
     $actual_breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs('LocalBusiness');
     $this->assertEquals($expected_breadcrumbs, $actual_breadcrumbs);
+
+    // Check determining if a Schema.org type has a Schema.org property.
+    $this->assertTrue($this->schemaTypeManager->hasProperty('Thing', 'alternateName'));
+    $this->assertFalse($this->schemaTypeManager->hasProperty('Thing', 'headline'));
+    $this->assertTrue($this->schemaTypeManager->hasProperty('CreativeWork', 'headline'));
+
+    // Check determining if a Schema.org type has subtypes.
+    $this->assertTrue($this->schemaTypeManager->hasSubtypes('Thing'));
+    $this->assertTrue($this->schemaTypeManager->hasSubtypes('Person'));
+    $this->assertFalse($this->schemaTypeManager->hasSubtypes('Patient'));
   }
 
 }

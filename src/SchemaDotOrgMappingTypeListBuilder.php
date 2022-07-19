@@ -56,11 +56,6 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
         'class' => [RESPONSIVE_PRIORITY_LOW],
         'width' => '10%',
       ];
-      $header['default_schema_type_subtypes'] = [
-        'data' => $this->t('Schema.org subtypes'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-        'width' => '10%',
-      ];
       $header['default_base_fields'] = [
         'data' => $this->t('Base field mappings'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
@@ -110,9 +105,6 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
 
       // Default Schema.org type properties.
       $row['default_schema_type_properties'] = $this->buildAssociationItems($entity->get('default_schema_type_properties'));
-
-        // Default subtypes.
-      $row['default_schema_type_subtypes'] = $this->buildItems($entity->get('default_schema_type_subtypes'));
 
       // Default base fields mapping.
       $row['default_base_fields'] = $this->buildAssociationItems($entity->get('default_base_fields'));

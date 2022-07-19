@@ -10,6 +10,23 @@ namespace Drupal\Tests\schemadotorg\Kernel;
 class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
 
   /**
+   * Modules to install.
+   *
+   * @var string[]
+   */
+  protected static $modules = [
+    'schemadotorg_subtype',
+  ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp() {
+    parent::setUp();
+    $this->installConfig(['schemadotorg_subtype']);
+  }
+
+  /**
    * Tests creating common entity type/bundle Schema.org types.
    *
    * Schema.org types includes...
@@ -26,7 +43,6 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
     $this->assertEquals('paragraph', $mapping->getTargetEntityTypeId());
     $this->assertEquals('contact_point', $mapping->getTargetBundle());
     $this->assertEquals('ContactPoint', $mapping->getSchemaType());
-    $this->assertFalse($mapping->supportsSubtyping());
     $this->assertEquals($mapping->getSchemaProperties(), [
       'schema_contact_type' => 'contactType',
       'schema_email' => 'email',
@@ -39,7 +55,6 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
     $this->assertEquals('media', $mapping->getTargetEntityTypeId());
     $this->assertEquals('image', $mapping->getTargetBundle());
     $this->assertEquals('ImageObject', $mapping->getSchemaType());
-    $this->assertFalse($mapping->supportsSubtyping());
     $this->assertEquals($mapping->getSchemaProperties(), [
       'created' => 'dateCreated',
       'changed' => 'dateModified',
@@ -54,7 +69,6 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
     $this->assertEquals('user', $mapping->getTargetEntityTypeId());
     $this->assertEquals('user', $mapping->getTargetBundle());
     $this->assertEquals('Person', $mapping->getSchemaType());
-    $this->assertFalse($mapping->supportsSubtyping());
     $this->assertEquals($mapping->getSchemaProperties(), [
       'mail' => 'email',
       'name' => 'name',
@@ -85,7 +99,6 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
     $this->assertEquals('node', $mapping->getTargetEntityTypeId());
     $this->assertEquals('place', $mapping->getTargetBundle());
     $this->assertEquals('Place', $mapping->getSchemaType());
-    $this->assertFalse($mapping->supportsSubtyping());
     $this->assertEquals($mapping->getSchemaProperties(), [
       'body' => 'description',
       'schema_address' => 'address',
@@ -99,7 +112,6 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
     $this->assertEquals('node', $mapping->getTargetEntityTypeId());
     $this->assertEquals('organization', $mapping->getTargetBundle());
     $this->assertEquals('Organization', $mapping->getSchemaType());
-    $this->assertFalse($mapping->supportsSubtyping());
     $this->assertEquals($mapping->getSchemaProperties(), [
       'body' => 'description',
       'schema_address' => 'address',
@@ -117,7 +129,6 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
     $this->assertEquals('node', $mapping->getTargetEntityTypeId());
     $this->assertEquals('event', $mapping->getTargetBundle());
     $this->assertEquals('Event', $mapping->getSchemaType());
-    $this->assertTrue($mapping->supportsSubtyping());
     $this->assertEquals($mapping->getSchemaProperties(), [
       'body' => 'description',
       'langcode' => 'inLanguage',
@@ -132,6 +143,7 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
       'schema_performer' => 'performer',
       'schema_start_date' => 'startDate',
       'title' => 'name',
+      'schema_event_subtype' => 'subtype',
     ]);
   }
 

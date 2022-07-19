@@ -1,0 +1,214 @@
+<?php
+
+/**
+ * @file
+ * Subtypes allow more specificity without having to create dedicated entity types.
+ */
+
+use Drupal\Core\Field\FieldFilteredMarkup;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
+use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
+
+/**
+ * Implements hook_schemadotorg_mapping_defaults_alter().
+ */
+function schemadotorg_subtype_schemadotorg_mapping_defaults_alter($entity_type_id, $bundle, $schema_type, array &$defaults) {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+  $allowed_values = $schema_type_manager->getAllTypeChildrenAsOptions($schema_type);
+  if (empty($allowed_values)) {
+    return;
+  }
+
+  // Add subtype as a custom Schema.org property.
+  $defaults['properties']['subtype'] = [];
+
+  // Handle existing subtype property mapping.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
+  $mapping = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping')->load("$entity_type_id.$bundle");
+  if ($mapping && $mapping->hasSchemaPropertyMapping('subtype')) {
+    $defaults['properties']['subtype']['name'] = $mapping->getSchemaPropertyFieldName('subtype');
+    return;
+  }
+
+  // Set defaults for creating a subtype property mapping.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+  $schema_names = \Drupal::service('schemadotorg.names');
+  $machine_name = $bundle ?: $schema_names->toDrupalName('type', $schema_type);
+
+  $default_subtypes = \Drupal::configFactory()
+    ->get('schemadotorg_subtype.settings')
+    ->get('default_subtypes');
+  $name = (!$mapping && in_array($schema_type, $default_subtypes))
+    ? SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD
+    : '';
+
+  $defaults['properties']['subtype']['name'] = $name;
+  $defaults['properties']['subtype']['type'] = 'list_string';
+  $defaults['properties']['subtype']['label'] = (string) t('Subtype');
+  $defaults['properties']['subtype']['machine_name'] = $machine_name . '_subtype';
+  $defaults['properties']['subtype']['description'] = (string) t('A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.');
+  $defaults['properties']['subtype']['allowed_values'] = $allowed_values;
+}
+
+/* ************************************************************************** */
+// Schema.org mapping UI form alter.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form, FormStateInterface &$form_state) {
+  if (!\Drupal::moduleHandler()->moduleExists('schemadotorg_ui')) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\Form\SchemaDotOrgMappingForm $form_object */
+  $form_object = $form_state->getFormObject();
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
+  $mapping = $form_object->getEntity();
+
+  // Exit if no Schema.org type has been selected.
+  if (!$mapping->getSchemaType()) {
+    return;
+  }
+
+  // Set subtype defaults from mapping defaults in $form_state.
+  // @see \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildFieldTypeForm
+  $mapping_defaults = $form_state->get('mapping_defaults');
+  $subtype_defaults = $mapping_defaults['properties']['subtype'] ?? NULL;
+
+  // Make sure the current Schema.org type supports subtypeing.
+  if (empty($subtype_defaults)) {
+    return;
+  }
+
+  // Store reference to ADD_FIELD.
+  $add_field = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
+
+  // Determine if Schema.org type already has subtyping enabled.
+  if ($subtype_defaults['name'] && $subtype_defaults['name'] !== $add_field) {
+    $form['subtype'] = [
+      '#type' => 'item',
+      '#title' => t('Schema.org subtyping'),
+      '#markup' => t('Enabled'),
+      '#weight' => -5,
+    ];
+    $form['subtype']['name'] = [
+      '#type' => 'value',
+      '#parents' => ['properties', 'subtype', 'field', 'name'],
+      '#default_value' => $subtype_defaults['name'],
+    ];
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $scheme_names */
+  $scheme_names = \Drupal::service('schemadotorg.names');
+
+  // The subtype element name correspond the Schema.org Blueprints UI mapping
+  // form's properties.
+  // @see \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildSchemaPropertyFieldForm
+  $form['subtype'] = [
+    '#type' => 'details',
+    '#title' => t('Schema.org subtyping'),
+    '#open' => ($mapping->isNew() && $subtype_defaults['name']),
+    '#weight' => -5,
+  ];
+  $form['subtype']['name'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Enable Schema.org subtyping'),
+    '#description' => t("If checked, a 'Type' field is added to the entity which allows content authors to specify a more specific (sub)type for the entity."),
+    '#return_value' => $add_field,
+    '#parents' => ['properties', 'subtype', 'field', 'name'],
+    '#default_value' => $subtype_defaults['name'],
+  ];
+  $form['subtype'][$add_field] = [
+    '#type' => 'details',
+    '#title' => t('Add field'),
+    '#attributes' => ['data-schemadotorg-ui-summary' => t('List (text)')],
+    '#states' => [
+      'visible' => [
+        ':input[name="properties[subtype][enable]"]' => ['checked' => TRUE],
+      ],
+    ],
+  ];
+  $form['subtype'][$add_field]['type'] = [
+    '#type' => 'item',
+    '#title' => t('Type'),
+    '#markup' => t('List (text)'),
+    '#value' => $subtype_defaults['type'],
+  ];
+  $form['subtype'][$add_field]['label'] = [
+    '#type' => 'item',
+    '#title' => t('Label'),
+    '#markup' => t('Subtype'),
+    '#value' => $subtype_defaults['label'],
+  ];
+  $form['subtype'][$add_field]['machine_name'] = [
+    '#type' => 'textfield',
+    '#title' => t('Machine-readable name'),
+    '#field_prefix' => $scheme_names->getFieldPrefix(),
+    '#maxlength' => $scheme_names->getNameMaxLength('properties'),
+    '#default_value' =>$subtype_defaults['machine_name'],
+  ];
+  $form['subtype'][$add_field]['description'] = [
+    '#type' => 'textarea',
+    '#title' => t('Description'),
+    '#description' => t('Instructions to present to the user below this field on the editing form.'),
+    '#default_value' => $subtype_defaults['description'],
+  ];
+  $form['subtype'][$add_field]['allowed_values'] = [
+    '#type' => 'schemadotorg_settings',
+    '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+    '#settings_description' => FALSE,
+    '#title' => t('Allowed values'),
+    '#description' => '<p>'
+    . t('The possible values this field can contain. Enter one value per line, in the format key|label.') . '<br/>'
+    . t('The key is the stored value. The label will be used in displayed values and edit forms.') . '<br/>'
+    . t('The label is optional: if a line contains a single string, it will be used as key and label.')
+    . '</p>'
+    . '<p>' . t('Allowed HTML tags in labels: @tags', ['@tags' => FieldFilteredMarkup::displayAllowedTags()]) . '</p>',
+    '#default_value' => $subtype_defaults['allowed_values'],
+  ];
+
+  // Set parents for each element to align the Schema.org UI mapping form.
+  foreach ($form['subtype'][$add_field] as $key => &$element) {
+    $element['#parents'] = ['properties', 'subtype', 'field', $add_field, $key];
+  }
+}
+
+/* ************************************************************************** */
+// Schema.org settings configuration form alter.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function schemadotorg_subtype_form_schemadotorg_types_settings_form_alter(&$form, FormStateInterface $form_state) {
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_subtype.settings');
+
+  $form['subtype_default_subtypes'] = [
+    '#type' => 'schemadotorg_settings',
+    '#settings_type' => SchemaDotOrgSettings::INDEXED,
+    '#settings_format' => 'SchemaType',
+    '#title' => t('Default subtypes'),
+    '#description' => t('Enter Schema.org types that support subtyping by default.'),
+    '#description_link' => 'subtypes',
+    '#default_value' => $config->get('default_subtypes'),
+  ];
+
+  // Add submit callback.
+  $form['#submit'][] = 'schemadotorg_subtype_settings_form_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_subtypes_settings_form.
+ *
+ * @see schemadotorg_subtype_form_schemadotorg_subtypes_settings_form_alter()
+ */
+function schemadotorg_subtype_settings_form_submit(&$form, FormStateInterface $form_state) {
+  \Drupal::configFactory()->getEditable('schemadotorg_subtype.settings')
+    ->set('default_subtypes', $form_state->getValue('subtype_default_subtypes'))
+    ->save();
+}

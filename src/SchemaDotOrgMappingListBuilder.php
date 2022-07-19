@@ -45,18 +45,12 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
       'class' => [RESPONSIVE_PRIORITY_LOW],
       'width' => '40%',
     ];
-    $header['schema_subtype'] = [
-      'data' => $this->t('Schema.org subtyping'),
-      'class' => [RESPONSIVE_PRIORITY_LOW],
-      'width' => '10%',
-    ];
 
     $details_toggle = $this->getDetailsToggle();
     if ($details_toggle) {
       $header['entity_type']['width'] = '10%';
       $header['bundle_label']['width'] = '15%';
       $header['schema_type']['width'] = '15%';
-      $header['schema_subtype']['width'] = '10%';
       $header['schema_properties'] = [
         'data' => $this->t('Scheme.org properties'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
@@ -90,8 +84,6 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
       : '';
 
     $row['schema_type'] = $entity->getSchemaType();
-
-    $row['schema_subtype'] = $entity->supportsSubtyping() ? $this->t('Yes') : $this->t('No');
 
     $details_toggle = $this->getDetailsToggle();
     if ($details_toggle) {
@@ -137,7 +129,7 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
 
       $target_type = $field_config->getSetting('target_type');
       $handler_settings = $field_config->getSetting('handler_settings');
-      $target_bundles = $handler_settings['target_bundles'];
+      $target_bundles = $handler_settings['target_bundles'] ?? NULL;
       if (!$target_bundles) {
         continue;
       }

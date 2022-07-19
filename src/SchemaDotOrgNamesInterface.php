@@ -15,30 +15,12 @@ interface SchemaDotOrgNamesInterface {
   const DEFAULT_PREFIX = 'schema_';
 
   /**
-   * Schema.org subtype ID.
-   *
-   * @var string
-   */
-  const SUBTYPE_ID = 'subtype';
-
-  /**
    * Gets the field suffix for Schema.org properties.
    *
    * @return string
    *   The field suffix for Schema.org properties.
    */
   public function getFieldPrefix();
-
-  /**
-   * Gets the field name for Schema.org type subtyping.
-   *
-   * @param string $bundle
-   *   The name of the bundle.
-   *
-   * @return string
-   *   The field name for Schema.org type subtyping.
-   */
-  public function getSubtypeFieldName($bundle);
 
   /**
    * Gets the max length for Schema.org type or property.

@@ -157,29 +157,6 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
 }
 
 /**
- * Implements hook_ENTITY_TYPE_delete().
- *
- * @todo Move this to SchemaDotOrgMapping::onDependencyRemoval.
- * @see \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::onDependencyRemoval
- */
-function schemadotorg_field_config_delete(EntityInterface $entity) {
-  $bundle = $entity->getTargetBundle();
-  $entity_type = $entity->getTargetEntityTypeId();
-
-  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
-  $schema_names = \Drupal::service('schemadotorg.names');
-
-  /** @var \Drupal\field\FieldConfigInterface $entity */
-  if ($entity->getName() === $schema_names->getSubtypeFieldName($bundle)) {
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
-    $mapping = SchemaDotOrgMapping::load("$entity_type.$bundle");
-    if ($mapping) {
-      $mapping->setSchemaSubtype(FALSE)->save();
-    }
-  }
-}
-
-/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Display a warning on the entity revision configuration page when the
@@ -247,5 +224,24 @@ function schemadotorg_form_field_config_edit_form_alter(&$form, FormStateInterfa
     ];
     $message = t('The expected @type should include %bundles.', $t_args);
     \Drupal::messenger()->addWarning($message);
+  }
+}
+
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ *
+ * @todo Move this to SchemaDotOrgMapping::onDependencyRemoval.
+ * @see \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::onDependencyRemoval
+ */
+function schemadotorg_field_config_delete(EntityInterface $entity) {
+  $bundle = $entity->getTargetBundle();
+  $entity_type = $entity->getTargetEntityTypeId();
+
+  // Make sure a property is removed.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
+  $mapping = SchemaDotOrgMapping::load("$entity_type.$bundle");
+  if ($mapping) {
+    $mapping->removeSchemaProperty($entity->getName());
   }
 }

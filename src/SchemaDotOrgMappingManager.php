@@ -140,8 +140,16 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   public function getMappingDefaults($entity_type_id, $bundle, $schema_type) {
     $defaults = [];
     $defaults['entity'] = $this->getMappingEntityDefaults($entity_type_id, $bundle, $schema_type);
-    $defaults['subtype'] = $this->getMappingSubtypeFieldDefaults($entity_type_id, $bundle, $schema_type);
     $defaults['properties'] = $this->getMappingPropertiesFieldDefaults($entity_type_id, $bundle, $schema_type);
+
+    // Allow modules to alter the mapping defaults via a hook.
+    $hook = 'schemadotorg_mapping_defaults_alter';
+    $implementations = $this->moduleHandler->getImplementations($hook);
+    foreach ($implementations as $module) {
+      $function = $module . '_' . $hook;
+      $function($entity_type_id, $bundle, $schema_type, $defaults);
+    }
+
     return $defaults;
   }
 
@@ -176,39 +184,6 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       $defaults['description'] = $this->schemaTypeBuilder->formatComment($type_definition['comment'], ['base_path' => 'https://schema.org/']);
       return $defaults;
     }
-  }
-
-  /**
-   * Get Schema.org mapping subtype field default values.
-   *
-   * @param string $entity_type_id
-   *   The Schema.org type.
-   * @param string $bundle
-   *   The entity type.
-   * @param string $schema_type
-   *   The bundle.
-   *
-   * @return array
-   *   Schema.org mapping subtype field default values.
-   */
-  protected function getMappingSubtypeFieldDefaults($entity_type_id, $bundle, $schema_type) {
-    $allowed_values = $this->schemaTypeManager->getAllTypeChildrenAsOptions($schema_type);
-    if (empty($allowed_values)) {
-      return [];
-    }
-
-    $mapping_type = $this->loadMappingType($entity_type_id);
-    $subtypes = $mapping_type->getDefaultSchemaTypeSubtypes();
-
-    $defaults = [];
-    $defaults['enable'] = in_array($schema_type, $subtypes);
-    $defaults['type'] = 'list_string';
-    $defaults['label'] = (string) $this->t('Subtype');
-    $defaults['machine_name'] = $bundle ?: '{machine-name}';
-    $defaults['field_name'] = $this->schemaNames->getSubtypeFieldName($bundle ?: '{machine-name}');
-    $defaults['description'] = $this->t('A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.');
-    $defaults['allowed_values'] = $allowed_values;
-    return $defaults;
   }
 
   /**
@@ -345,15 +320,6 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       $mapping->setTargetBundle($bundle_entity->id());
     }
 
-    // Create subtype.
-    if (!empty($values['subtype']) && !empty($values['subtype']['enable'])) {
-      $values['subtype']['schema_type'] = $schema_type;
-      $values['subtype']['machine_name'] = $this->schemaNames->getSubtypeFieldName($bundle);
-      $this->schemaEntityTypeBuilder->addFieldToEntity($entity_type_id, $bundle, $values['subtype']);
-      $this->schemaEntityTypeBuilder->setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, [$values['subtype']['machine_name'] => 'type']);
-      $mapping->setSchemaSubtype(TRUE);
-    }
-
     // Reset Schema.org properties.
     $original_properties = $mapping->get('properties');
     $mapping->set('properties', []);
@@ -396,6 +362,14 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
 
     // Always set field groups when field groups are supported and available.
     $this->schemaEntityTypeBuilder->setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, $new_properties);
+
+    // Allow modules to save the mapping via a hook.
+    $hook = 'schemadotorg_mapping_save';
+    $implementations = $this->moduleHandler->getImplementations($hook);
+    foreach ($implementations as $module) {
+      $function = $module . '_' . $hook;
+      $function($mapping, $values);
+    }
 
     // Save the mapping entity.
     $mapping->save();
@@ -509,7 +483,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     $base_field_names = $mapping_type->getBaseFieldNames();
 
     $deleted_fields = [];
-    $field_names = array_keys($mapping->getAllSchemaProperties());
+    $field_names = array_keys($mapping->getSchemaProperties());
     foreach ($field_names as $field_name) {
       // Never delete a base field and default fields
       // (i.e. user_picture, field_media_image).

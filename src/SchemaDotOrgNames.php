@@ -38,13 +38,6 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
   /**
    * {@inheritdoc}
    */
-  public function getSubtypeFieldName($bundle) {
-    return $this->getFieldPrefix() . $bundle . '_' . static::SUBTYPE_ID;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getNameMaxLength($table) {
     return ($table === 'properties')
       ? 32 - strlen($this->getFieldPrefix())

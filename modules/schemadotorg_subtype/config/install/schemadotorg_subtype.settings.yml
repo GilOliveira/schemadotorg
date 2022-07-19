@@ -1,0 +1,10 @@
+default_subtypes:
+  - AdministrativeArea
+  - Article
+  - CivicStructure
+  - EducationalOrganization
+  - Event
+  - FoodEstablishment
+  - LocalBusiness
+  - MedicalBusiness
+  - WebPage

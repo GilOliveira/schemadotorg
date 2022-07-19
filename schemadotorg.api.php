@@ -88,5 +88,33 @@ function hook_schemadotorg_property_field_alter(
 }
 
 /**
+ * Alter Schema.org mapping entity default values.
+ *
+ * @param string $entity_type_id
+ *   The Schema.org type.
+ * @param string $bundle
+ *   The entity type.
+ * @param string $schema_type
+ *   The bundle.
+ * @param array $defaults
+ *   Schema.org mapping entity default values.
+ */
+function hook_schemadotorg_mapping_defaults($entity_type_id, $bundle, $schema_type, array &$defaults) {
+
+}
+
+/**
+ * Save a Schema.org mapping entity values.
+ *
+ * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
+ *   The Schema.org mapping.
+ * @param array $values
+ *   The Schema.org mapping entity values.
+ */
+function hook_schemadotorg_mapping_save(\Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping, array &$values) {
+
+}
+
+/**
  * @} End of "addtogroup hooks".
  */

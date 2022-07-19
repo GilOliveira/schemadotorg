@@ -48,7 +48,6 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
  *     "target_entity_type_id",
  *     "target_bundle",
  *     "type",
- *     "subtype",
  *     "properties",
  *   }
  * )
@@ -84,13 +83,6 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    * @var string
    */
   protected $type;
-
-  /**
-   * Supports subtyping.
-   *
-   * @var bool
-   */
-  protected $subtype;
 
   /**
    * List of property mapping, keyed by field name.
@@ -207,44 +199,8 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function getSchemaSubtype() {
-    return $this->subtype;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setSchemaSubtype($subtype) {
-    $this->subtype = $subtype;
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function supportsSubtyping() {
-    return (boolean) $this->subtype;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getSchemaProperties() {
     return $this->properties;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getAllSchemaProperties() {
-    $properties = $this->getSchemaProperties();
-    if ($this->supportsSubtyping()) {
-      $bundle = $this->getTargetBundle();
-      /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
-      $schema_names = \Drupal::service('schemadotorg.names');
-      $properties[$schema_names->getSubtypeFieldName($bundle)] = 'subtype';
-    }
-    return $properties;
   }
 
   /**
@@ -268,6 +224,21 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   public function removeSchemaProperty($name) {
     unset($this->properties[$name]);
     return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSchemaPropertyFieldName($property) {
+    $properties = array_flip($this->properties);
+    return $properties[$property] ?? NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hasSchemaPropertyMapping($property) {
+    return in_array($property, $this->properties);
   }
 
   /**

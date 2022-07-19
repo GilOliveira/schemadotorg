@@ -22,6 +22,7 @@ class SchemaDotOrgExportTest extends SchemaDotOrgBrowserTestBase {
     'field',
     'field_ui',
     'schemadotorg_ui',
+    'schemadotorg_subtype',
     'schemadotorg_export',
   ];
 
@@ -41,7 +42,7 @@ class SchemaDotOrgExportTest extends SchemaDotOrgBrowserTestBase {
     // Create the 'Thing' content type with type and alternateName fields.
     $this->drupalGet('/admin/structure/types/schemadotorg', ['query' => ['type' => 'Thing']]);
     $edit = [
-      'subtyping[enable]' => TRUE,
+      'properties[subtype][field][name]' => TRUE,
       'properties[alternateName][field][name]' => '_add_',
       'properties[name][field][name]' => '_add_',
     ];
@@ -54,7 +55,7 @@ class SchemaDotOrgExportTest extends SchemaDotOrgBrowserTestBase {
     // Check Schema.org mapping CSV.
     $this->drupalGet('/admin/config/search/schemadotorg.csv');
     $assert_session->responseContains('entity_type,bundle,schema_type,schema_subtyping,schema_properties');
-    $assert_session->responseContains('node,thing,Thing,Yes,"alternateName; name"');
+    $assert_session->responseContains('node,thing,Thing,Yes,"subtype; alternateName; name"');
   }
 
 }

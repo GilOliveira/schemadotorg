@@ -220,9 +220,6 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
       // Set entity type override.
       $type_overrides["$entity_type_id.type.$bundle"] = $type;
 
-      // Set subtype overrides.
-      $this->setSubTypeDescriptionOverride($overrides, $entity_type_id, $bundle);
-
       // Set entity field instance override.
       $type_property_overrides = [];
       $properties = $config->get('properties') ?: [];
@@ -271,7 +268,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
       elseif (array_key_exists($id, $custom_descriptions)) {
         $description = $custom_descriptions[$id];
       }
-      else {
+      elseif (isset($items[$id])) {
         $comment = $items[$id]['comment'];
         // Tidy <br/> tags.
         $comment = preg_replace('#<br[^>]*]>#', '<br/>', $comment);
@@ -282,11 +279,13 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
         }
         $description = $this->schemaTypeBuilder->formatComment($comment, $options);
       }
+      else {
+        $description = '';
+      }
 
       $data = $this->configFactory->getEditable($config_name)->getRawData();
 
-      if (!isset($items[$id])
-        || empty($data)
+      if (empty($data)
         || !empty($data['description'])
         || empty($description)) {
         // Having empty overrides allows use to easily purge them as needed.
@@ -301,51 +300,6 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
     }
 
     return $overrides;
-  }
-
-  /**
-   * Set subtype description override.
-   *
-   * @param array $overrides
-   *   An array of override.
-   * @param string $entity_type_id
-   *   The entity type id.
-   * @param string $bundle
-   *   The entity bundle.
-   */
-  protected function setSubTypeDescriptionOverride(array &$overrides, $entity_type_id, $bundle) {
-    $subtype_field_name = $this->getSubtypeFieldName($bundle);
-    $config_name = "field.field.$entity_type_id.$bundle.$subtype_field_name";
-    $data = $this->configFactory->getEditable($config_name)->getRawData();
-    if ($data && empty($data['description'])) {
-      $overrides["field.field.$entity_type_id.$bundle.$subtype_field_name"] = [
-        'description' => 'A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.',
-      ];
-    }
-    else {
-      $overrides["field.field.$entity_type_id.$bundle.$subtype_field_name"] = [];
-    }
-  }
-
-  /**
-   * Gets the field name for Schema.org type subtyping.
-   *
-   * Can't call \Drupal\schemadotorg\SchemaDotOrgNames::getSubtypeFieldName
-   * because it triggers a recursive loading of configuration settings.
-   *
-   * @param string $bundle
-   *   The name of the bundle.
-   *
-   * @return string
-   *   The field name for Schema.org type subtyping.
-   *
-   * @see \Drupal\schemadotorg\SchemaDotOrgNames::getSubtypeFieldName
-   */
-  protected function getSubtypeFieldName($bundle) {
-    $field_prefix = $this->configFactory
-      ->getEditable('schemadotorg.settings')
-      ->get('field_prefix');
-    return $field_prefix . $bundle . '_' . SchemaDotOrgNamesInterface::SUBTYPE_ID;
   }
 
 }

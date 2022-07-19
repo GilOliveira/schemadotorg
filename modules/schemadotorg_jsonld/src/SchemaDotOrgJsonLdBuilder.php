@@ -244,10 +244,17 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       return [];
     }
 
-    // Prepend the @type and @url to the returned data.
-    $schema_type = $mapping->getSchemaType();
-    $schema_subtype = $mapping_storage->getSubtype($entity);
-    $default_data = ['@type' => $schema_subtype ?: $schema_type];
+    // Prepend the @type to the returned data.
+    $default_data = [];
+    $default_data['@type'] = $mapping->getSchemaType();
+    // Allow subtype field to override the mapping Schema.org type.
+    // @see schemadotorg_subtype.module
+    $subtype_field_name = $mapping->getSchemaPropertyFieldName('subtype');
+    if ($subtype_field_name && $entity->hasField($subtype_field_name) && $entity->get($subtype_field_name)->value) {
+      $default_data['@type'] = $entity->get($subtype_field_name)->value;
+    }
+
+    // Prepend the @url to the returned data.
     if ($entity->hasLinkTemplate('canonical') && $entity->access('view')) {
       $default_data['@url'] = $entity->toUrl('canonical')->setAbsolute()->toString();
     }
