@@ -46,6 +46,9 @@ UI/UX
 - **Schema.org Blueprints Mapping Set**  
   Provides the ability to create a set of related Schema.org types via Drush.
 
+- **Schema.org Blueprints Subtype**  
+  Subtypes allow more specificity without having to create dedicated entity types for every appropriate Schema.type.
+
 - **Schema.org Blueprints Translation**  
   Manages translations for Schema.org types and properties as they are created.
 
