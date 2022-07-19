@@ -50,7 +50,7 @@ trait SchemaDotOrgTestTrait {
     $schema_names = $this->container->get('schemadotorg.names');
 
     $bundle = $schema_names->camelCaseToSnakeCase($schema_type);
-    $field_name = $schema_names->getFieldPrefix() . $schema_names->toDrupalName('properties', $schema_property);
+    $field_name = $schema_names->getFieldPrefix() . $schema_names->schemaIdToDrupalName('properties', $schema_property);
     $label = $schema_names->camelCaseToSentenceCase($schema_property);
 
     $field_storage_config = FieldStorageConfig::create([

@@ -149,24 +149,37 @@ class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
   }
 
   /**
-   * Tests SchemaDotOrgReportBreadcrumbBuilder::toDrupalLabel().
+   * Tests SchemaDotOrgReportBreadcrumbBuilder::camelCaseToDrupalName().
    *
-   * @covers ::toDrupalLabel
+   * @covers ::camelCaseToDrupalName
    */
-  public function testCamelCaseToDrupalLabel() {
-    // Check that types use title case.
-    $this->assertEquals('One Two', $this->names->toDrupalLabel('types', 'OneTwo'));
-
-    // Check that properties use sentence case.
-    $this->assertEquals('One two', $this->names->toDrupalLabel('properties', 'OneTwo'));
+  public function testCamelCaseToDrupalName() {
+    $this->assertEquals('one_two', $this->names->camelCaseToDrupalName('OneTwo'));
+    $this->assertEquals('action_test', $this->names->camelCaseToDrupalName('actionableTest'));
+    $this->assertEquals('action_test', $this->names->camelCaseToDrupalName('actionableTest', ['maxlength' => 5]));
+    $this->assertEquals('action', $this->names->camelCaseToDrupalName('actionableTest', ['maxlength' => 6, 'truncate' => TRUE]));
+    $this->assertEquals('action', $this->names->camelCaseToDrupalName('actionableTest', ['maxlength' => 7, 'truncate' => TRUE]));
   }
 
   /**
-   * Tests SchemaDotOrgReportBreadcrumbBuilder::toDrupalName().
+   * Tests SchemaDotOrgReportBreadcrumbBuilder::schemeIdToDrupalLabel().
    *
-   * @covers ::toDrupalName
+   * @covers ::schemaIdToDrupalLabel
    */
-  public function testToDrupalName() {
+  public function testSchemaLabelToDrupalLabel() {
+    // Check that types use title case.
+    $this->assertEquals('One Two', $this->names->schemaIdToDrupalLabel('types', 'OneTwo'));
+
+    // Check that properties use sentence case.
+    $this->assertEquals('One two', $this->names->schemaIdToDrupalLabel('properties', 'OneTwo'));
+  }
+
+  /**
+   * Tests SchemaDotOrgReportBreadcrumbBuilder::schemaIdToDrupalName().
+   *
+   * @covers ::schemaIdToDrupalName
+   */
+  public function testSchemaIdToDrupalName() {
     $tests = [
       // Schema.org types.
       ['types', 'ActionAccessSpecification', 'action_access_specification'],
@@ -183,7 +196,7 @@ class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
       ['properties', 'verificationFactCheckingPolicy', 'ver_fact_checking_policy'],
     ];
     foreach ($tests as $test) {
-      $this->assertEquals($test[2], $this->names->toDrupalName($test[0], $test[1]));
+      $this->assertEquals($test[2], $this->names->schemaIdToDrupalName($test[0], $test[1]));
     }
   }
 

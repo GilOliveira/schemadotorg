@@ -94,20 +94,20 @@ interface SchemaDotOrgNamesInterface {
   public function camelCaseToSentenceCase($string);
 
   /**
-   * Convert Schema.org type or property to Drupal label.
+   * Convert camel case to a Drupal machine name.
    *
-   * @param string $table
-   *   A Schema.org table.
    * @param string $string
    *   A Schema.org type or property.
+   * @param array $options
+   *   An optional array of options including maxlength and truncate.
    *
    * @return string
-   *   Schema.org type or property converted to a Drupal label.
+   *   Camel case converted to a Drupal machine name.
    */
-  public function toDrupalLabel($table, $string);
+  public function camelCaseToDrupalName($string, array $options = []);
 
   /**
-   * Convert Schema.org type or property to Drupal machine name.
+   * Convert Schema.org type or property ID to a Drupal label.
    *
    * @param string $table
    *   A Schema.org table.
@@ -115,8 +115,21 @@ interface SchemaDotOrgNamesInterface {
    *   A Schema.org type or property.
    *
    * @return string
-   *   Schema.org type or property converted to Drupal machine name.
+   *   Schema.org type or property ID converted to a Drupal label.
    */
-  public function toDrupalName($table, $string);
+  public function schemaIdToDrupalLabel($table, $string);
+
+  /**
+   * Convert Schema.org type or property ID to a Drupal machine name.
+   *
+   * @param string $table
+   *   A Schema.org table.
+   * @param string $string
+   *   A Schema.org type or property.
+   *
+   * @return string
+   *   Schema.org type or property ID converted to a Drupal machine name.
+   */
+  public function schemaIdToDrupalName($table, $string);
 
 }

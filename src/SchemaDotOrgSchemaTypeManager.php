@@ -731,8 +731,8 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
       return $item;
     }
 
-    $item['drupal_name'] = $this->schemaNames->toDrupalName($table, $item['label']);
-    $item['drupal_label'] = $this->schemaNames->toDrupalLabel($table, $item['label']);
+    $item['drupal_name'] = $this->schemaNames->schemaIdToDrupalName($table, $item['label']);
+    $item['drupal_label'] = $this->schemaNames->schemaIdToDrupalLabel($table, $item['label']);
     return $item;
   }
 

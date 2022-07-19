@@ -65,6 +65,7 @@ dependencies:
   - 'schemadotorg:schemadotorg_paragraphs'
   - 'schemadotorg:schemadotorg_rdf'
   - 'schemadotorg:schemadotorg_report'
+  - 'schemadotorg:schemadotorg_subtype'
   - 'schemadotorg:schemadotorg_taxonomy'
   - 'schemadotorg:schemadotorg_ui'
   - 'schemadotorg:schemadotorg_demo_standard_admin'

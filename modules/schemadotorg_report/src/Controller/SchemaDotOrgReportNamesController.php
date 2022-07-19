@@ -76,7 +76,7 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
         $name = $this->schemaDotOrgNames->camelCaseToSnakeCase($label);
         $names[$name] = $label;
 
-        $drupal_name = $this->schemaDotOrgNames->toDrupalName($table, $label);
+        $drupal_name = $this->schemaDotOrgNames->schemaIdToDrupalName($table, $label);
         $drupal_name_length = strlen($drupal_name);
         if ($drupal_name_length > $max_length) {
           $truncated[$name] = [
@@ -350,10 +350,10 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
         }
 
         $schema_item = ($table === 'types') ? $this->t('Type') : $this->t('Properties');
-        $schema_label = $this->schemaDotOrgNames->toDrupalLabel($table, $schema_id);
+        $schema_label = $this->schemaDotOrgNames->schemaIdToDrupalLabel($table, $schema_id);
         $original_name = $this->schemaDotOrgNames->camelCaseToSnakeCase($schema_id);
         $original_name_length = strlen($original_name);
-        $drupal_name = $this->schemaDotOrgNames->toDrupalName($table, $schema_id);
+        $drupal_name = $this->schemaDotOrgNames->schemaIdToDrupalName($table, $schema_id);
         $drupal_name_length = strlen($drupal_name);
 
         $row = [];

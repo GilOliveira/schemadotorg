@@ -7,6 +7,7 @@
 
 use Drupal\Core\Field\FieldFilteredMarkup;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 
@@ -35,7 +36,12 @@ function schemadotorg_subtype_schemadotorg_mapping_defaults_alter($entity_type_i
   // Set defaults for creating a subtype property mapping.
   /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
   $schema_names = \Drupal::service('schemadotorg.names');
-  $machine_name = $bundle ?: $schema_names->toDrupalName('type', $schema_type);
+  $machine_name_max_length = 32 - (strlen($schema_names->getFieldPrefix()) + strlen('_subtype'));
+  $options = [
+    'maxlength' => $machine_name_max_length,
+    'truncate' => TRUE,
+  ];
+  $machine_name = $bundle ?: $schema_names->camelCaseToDrupalName($schema_type, $options);
 
   $default_subtypes = \Drupal::configFactory()
     ->get('schemadotorg_subtype.settings')
@@ -106,6 +112,10 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
   /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $scheme_names */
   $scheme_names = \Drupal::service('schemadotorg.names');
 
+  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+  $schema_names = \Drupal::service('schemadotorg.names');
+  $machine_name_max_length = 32 - (strlen($schema_names->getFieldPrefix()) + strlen('_subtype'));
+
   // The subtype element name correspond the Schema.org Blueprints UI mapping
   // form's properties.
   // @see \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildSchemaPropertyFieldForm
@@ -149,7 +159,7 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
     '#type' => 'textfield',
     '#title' => t('Machine-readable name'),
     '#field_prefix' => $scheme_names->getFieldPrefix(),
-    '#maxlength' => $scheme_names->getNameMaxLength('properties'),
+    '#maxlength' => $machine_name_max_length,
     '#default_value' =>$subtype_defaults['machine_name'],
   ];
   $form['subtype'][$add_field]['description'] = [
@@ -173,8 +183,8 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
   ];
 
   // Set parents for each element to align the Schema.org UI mapping form.
-  foreach ($form['subtype'][$add_field] as $key => &$element) {
-    $element['#parents'] = ['properties', 'subtype', 'field', $add_field, $key];
+  foreach (Element::children($form['subtype'][$add_field]) as $key) {
+    $form['subtype'][$add_field][$key]['#parents'] = ['properties', 'subtype', 'field', $add_field, $key];
   }
 }
 

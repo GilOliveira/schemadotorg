@@ -108,20 +108,14 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
     return ucfirst($sentence);
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function toDrupalLabel($table, $string) {
-    return ($table === 'types')
-      ? $this->camelCaseToTitleCase($string)
-      : $this->camelCaseToSentenceCase($string);
-  }
 
   /**
    * {@inheritdoc}
    */
-  public function toDrupalName($table, $string) {
-    $max_length = $this->getNameMaxLength($table);
+  public function camelCaseToDrupalName($string, array $options = []) {
+    $max_length = $options['maxlength'] ?? NULL;
+    $truncate = $options['truncate'] ?? FALSE;
+
     $drupal_name = $this->camelCaseToSnakeCase($string);
 
     // Custom names.
@@ -137,7 +131,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
     foreach ($prefixes as $search => $replace) {
       $drupal_name = preg_replace('/^' . $search . '_/', $replace . '_', $drupal_name);
     }
-    if (strlen($drupal_name) <= $max_length) {
+    if (!$max_length || strlen($drupal_name) <= $max_length) {
       return $drupal_name;
     }
 
@@ -156,7 +150,30 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
       $drupal_name = preg_replace('/_' . $search . '$/', '_' . $replace, $drupal_name);
     }
 
+    // Truncate.
+    if ($truncate && strlen($drupal_name) > $max_length) {
+      $drupal_name = substr($drupal_name, 0, $max_length);
+      $drupal_name = rtrim($drupal_name, '_');
+    }
+
     return $drupal_name;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function schemaIdToDrupalLabel($table, $string) {
+    return ($table === 'types')
+      ? $this->camelCaseToTitleCase($string)
+      : $this->camelCaseToSentenceCase($string);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function schemaIdToDrupalName($table, $string) {
+    $max_length = $this->getNameMaxLength($table);
+    return $this->camelCaseToDrupalName($string, ['maxlength' => $max_length]);
   }
 
   /**
