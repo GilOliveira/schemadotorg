@@ -103,6 +103,53 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
   /**
    * {@inheritdoc}
    */
+  public function isSetup($name) {
+    $setup = $this->state->get('schemadotorg_mapping_set_setup') ?? [];
+    return isset($setup[$name]);
+  }
+
+  /**
+   * Determine if a mapping set type is valid.
+   *
+   * @param string $type
+   *   A mapping set type (i.e. entity_type_id:SchemaType).
+   *
+   * @return bool
+   *   TRUE if a mapping set type is valid.
+   */
+  public function isValidType($type) {
+    if (strpos($type, ':') === FALSE) {
+      return FALSE;
+    }
+    [$entity_type_id, $schema_type] = explode(':', $type);
+    return $this->entityTypeManager->hasDefinition($entity_type_id)
+      && $this->schemaTypeManager->isType($schema_type);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTypes($name, $required = FALSE) {
+    $mapping_set = $this->configFactory
+      ->get('schemadotorg_mapping_set.settings')
+      ->get("sets.$name");
+    if (empty($mapping_set)) {
+      return [];
+    }
+
+    $types = array_combine($mapping_set['types'], $mapping_set['types']);
+
+    // Prepend required types.
+    if ($required) {
+      $types = $this->getTypes('required') + $types;
+    }
+
+    return $types;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function setup($name) {
     if ($this->isSetup($name)) {
       return [$this->t('Schema.org mapping set @name is already setup.', ['@name' => $name])];
@@ -226,53 +273,6 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
   public function kill($name) {
     $types = $this->getTypes($name, TRUE);
     $this->develGenerate($types, 0);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function isSetup($name) {
-    $setup = $this->state->get('schemadotorg_mapping_set_setup') ?? [];
-    return isset($setup[$name]);
-  }
-
-  /**
-   * Determine if a mapping set type is valid.
-   *
-   * @param string $type
-   *   A mapping set type (i.e. entity_type_id:SchemaType).
-   *
-   * @return bool
-   *   TRUE if a mapping set type is valid.
-   */
-  public function isValidType($type) {
-    if (strpos($type, ':') === FALSE) {
-      return FALSE;
-    }
-    [$entity_type_id, $schema_type] = explode(':', $type);
-    return $this->entityTypeManager->hasDefinition($entity_type_id)
-      && $this->schemaTypeManager->isType($schema_type);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getTypes($name, $required = FALSE) {
-    $mapping_set = $this->configFactory
-      ->get('schemadotorg_mapping_set.settings')
-      ->get("sets.$name");
-    if (empty($mapping_set)) {
-      return [];
-    }
-
-    $types = array_combine($mapping_set['types'], $mapping_set['types']);
-
-    // Prepend required types.
-    if ($required) {
-      $types = $this->getTypes('required') + $types;
-    }
-
-    return $types;
   }
 
   /**

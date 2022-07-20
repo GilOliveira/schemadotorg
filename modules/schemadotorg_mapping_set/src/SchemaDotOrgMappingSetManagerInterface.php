@@ -8,6 +8,41 @@ namespace Drupal\schemadotorg_mapping_set;
 interface SchemaDotOrgMappingSetManagerInterface {
 
   /**
+   * Determine if a Schema.org mapping set is already setup.
+   *
+   * @param string $name
+   *   A Schema.org mapping set name.
+   *
+   * @return bool
+   *   If a Schema.org mapping set is already setup.
+   */
+  public function isSetup($name);
+
+  /**
+   * Determine if a mapping set type is valid.
+   *
+   * @param string $type
+   *   A mapping set type (i.e. entity_type_id:SchemaType).
+   *
+   * @return bool
+   *   TRUE if a mapping set type is valid.
+   */
+  public function isValidType($type);
+
+  /**
+   * Get Schema.org types from mapping set name.
+   *
+   * @param string $name
+   *   Schema.org mapping set name.
+   * @param bool $required
+   *   Include required types.
+   *
+   * @return array
+   *   Schema.org types.
+   */
+  public function getTypes($name, $required = FALSE);
+
+  /**
    * Setup the Schema.org mapping set.
    *
    * @param string $name
@@ -44,40 +79,5 @@ interface SchemaDotOrgMappingSetManagerInterface {
    *   The name of mapping set.
    */
   public function kill($name);
-
-  /**
-   * Get Schema.org types from mapping set name.
-   *
-   * @param string $name
-   *   Schema.org mapping set name.
-   * @param bool $required
-   *   Include required types.
-   *
-   * @return array
-   *   Schema.org types.
-   */
-  public function getTypes($name, $required = FALSE);
-
-  /**
-   * Determine if a Schema.org mapping set is already setup.
-   *
-   * @param string $name
-   *   A Schema.org mapping set name.
-   *
-   * @return bool
-   *   If a Schema.org mapping set is already setup.
-   */
-  public function isSetup($name);
-
-  /**
-   * Determine if a mapping set type is valid.
-   *
-   * @param string $type
-   *   A mapping set type (i.e. entity_type_id:SchemaType).
-   *
-   * @return bool
-   *   TRUE if a mapping set type is valid.
-   */
-  public function isValidType($type);
 
 }
