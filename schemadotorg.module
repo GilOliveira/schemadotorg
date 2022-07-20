@@ -227,7 +227,6 @@ function schemadotorg_form_field_config_edit_form_alter(&$form, FormStateInterfa
   }
 }
 
-
 /**
  * Implements hook_ENTITY_TYPE_delete().
  *

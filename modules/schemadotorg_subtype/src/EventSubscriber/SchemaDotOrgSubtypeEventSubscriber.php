@@ -34,7 +34,6 @@ class SchemaDotOrgSubtypeEventSubscriber extends ServiceProviderBase implements 
    */
   protected $entityTypeManager;
 
-
   /**
    * Constructs a SchemaDotOrgSubtypeEventSubscriber object.
    *

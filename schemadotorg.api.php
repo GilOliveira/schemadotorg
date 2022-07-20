@@ -50,7 +50,7 @@ function hook_schemadotorg_property_field_prepare($type, $property, array &$defa
  * @param array &$values
  *   The bundle entity type values.
  */
-function hook_schemadotorg_bundle_entity_alter($schema_type, $entity_type_id, &$values) {
+function hook_schemadotorg_bundle_entity_alter($schema_type, $entity_type_id, array &$values) {
   // @todo Provide an example.
 }
 

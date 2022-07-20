@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\Core\DependencyInjection\ServiceProviderBase;
 
 /**
-.* Alters JSON:API resource meta data to include JSON-LD URI.
+ * Alters JSON:API resource meta data to include JSON-LD URI.
  */
 class SchemaDotOrgJsonLdEndpointEventSubscriber extends ServiceProviderBase implements EventSubscriberInterface {
 

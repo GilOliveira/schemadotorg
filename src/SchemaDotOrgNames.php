@@ -108,7 +108,6 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
     return ucfirst($sentence);
   }
 
-
   /**
    * {@inheritdoc}
    */

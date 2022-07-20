@@ -166,4 +166,5 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
    *   TRUE if a Schema.org property is mapped to a Drupal field.
    */
   public function hasSchemaPropertyMapping($property);
+
 }

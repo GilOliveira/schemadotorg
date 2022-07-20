@@ -622,7 +622,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#sticky' => TRUE,
       '#attributes' => ['class' => ['schemadotorg-ui-properties']],
       '#weight' => 0,
-      ] + $rows;
+    ] + $rows;
 
     // Ignored properties.
     if ($ignored_properties) {
