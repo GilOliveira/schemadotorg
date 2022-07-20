@@ -540,7 +540,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
   protected function getPropertyFields() {
     return [
       'id' => $this->t('ID'),
-      'label' => $this->t('label'),
+      'label' => $this->t('Label'),
       'comment' => $this->t('Comment'),
       'domain_includes' => $this->t('Domain includes'),
       'range_includes' => $this->t('Range includes'),

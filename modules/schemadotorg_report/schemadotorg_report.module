@@ -28,7 +28,7 @@ function schemadotorg_report_help($route_name, RouteMatchInterface $route_match)
       }
 
     case 'schemadotorg_report.types':
-      return '<p>' . t('The <strong>Schema.org: Types</strong> report lists all available Schema.org types.') . '</p>';
+      return '<p>' . t('The <strong>Schema.org: Types</strong> report lists all available Schema.org types, enumerations, and data types.') . '</p>';
 
     case 'schemadotorg_report.types.things':
       return '<p>' . t('The <strong>Schema.org: Things</strong> page displays a hierarchical tree of Schema.org Things.') . '</p>';

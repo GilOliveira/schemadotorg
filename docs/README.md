@@ -15,7 +15,7 @@ _The use-case for different entity and field types._
 
 - **User:** Used for when a dedicated Person type is needed for online community management.
 
-- **Flexfield:** User for simple Intangibles and StructuredData.
+- **Flexfield:** User for simple Intangibles and StructuredData. \[DEPRECATED\]
 
 # Tips
 
@@ -35,22 +35,22 @@ _The use-case for different entity and field types._
 
 The Schema.org Blueprints Demo module and the Schema.org Blueprints Demo Standard Profile Setup module can be installed on a plain standard Drupal instance to provide an opinionated demonstration of the Schema.org Blueprints modules with an advanced Schema.org types and content authoring user experience.
 
-## Demo Schema.org types
+## Mapping Sets
 
-The Schema.org Blueprints Demo module provides a Drush command with configurable settings to set up and test common sets of Schema.org types for different use case and industries.
+The Schema.org Blueprints Mapping Sets module provides a UI and Drush command to set up and test common sets of Schema.org types for different use case and industries.
 
 Use cases include...
 
-- Common (People, events, places, and organizations)
-- Blocks (Teasers, quotes, and components)
-- How to (Step-by-step guides)
-- Food (Restaurants and menus)
-- Entertainment	(Movies, TV, and podcasts)
-- Web	(Webpage, FAQ, and slideshows)
-- Education	(Schools and course)
-- Organization	(Hours, ratings, services, job posting and businesses)
-- Medical organization	(Physician, clinics, labs, hospitals, tests, and audience)
-- Medical information (Conditions, symptoms, risks, causes, tests, procedures, and trials)
+- **Common** (People, events, places, and organizations)
+- **Blocks** (Teasers, quotes, and components)
+- **How to** (Step-by-step guides)
+- **Food** (Restaurants and menus)
+- **Entertainment**	(Movies, TV, and podcasts)
+- **Web**	(Webpage, FAQ, and slideshows)
+- **Education**	(Schools and course)
+- **Organization**	(Hours, ratings, services, job posting and businesses)
+- **Medical organization**	(Physician, clinics, labs, hospitals, tests, and audience)
+- **Medical information** (Conditions, symptoms, risks, causes, tests, procedures, and trials)
 
 ## Content authoring user experience
 
@@ -75,16 +75,16 @@ Entity references patterns includes...
 
 **Libraries/browse** The ability to create and browse a library of reusable media and entities.  
  
-- Entity reference with browse
-- Paragraphs library with browse
-- Media library with browse
+- Entity reference with content browsing
+- Paragraphs library with content browsing
+- Media library with content browsing
 
 # Documentation
 
 The Schema.org Reports module provides a browsable instance of [Schema.org](https://Schema.org).
 @see /admin/reports/schemadotorg 
 
-JSON:API documentation is provides by [ReDoc](https://redocly.github.io/redoc/) 
+JSON:API documentation is provided by [ReDoc](https://redocly.github.io/redoc/) 
 @see /api/documentation
 
 # Schema.org JSON-LD Examples

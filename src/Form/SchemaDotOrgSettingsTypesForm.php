@@ -40,7 +40,7 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
       '#settings_format' => 'SchemaType|propertyName',
       '#title' => $this->t('Schema.org type main properties'),
-      '#description' => $this->t('Enter the main property for a Schema.org type. Defaults to <em>name</em> for unspecified Schema.org types. Leave blank when there is no applicable main property for the Schema.org type.'),
+      '#description' => $this->t('Enter the main property for a Schema.org type. Defaults to <em>name</em> for unspecified Schema.org types. Leave the main property blank when there is no applicable main property for the Schema.org type.'),
       '#description_link' => 'types',
       '#default_value' => $config->get('schema_types.main_properties'),
     ];

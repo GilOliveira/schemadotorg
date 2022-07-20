@@ -16,9 +16,16 @@
     attach: function (context) {
       $('a[href*="/admin/reports/schemadotorg"]', context)
         .once('schemadotorg-dialog').each(function () {
+          var $a = $(this);
+
+          // Skip links in any <nav> bar.
+          if ($(this).closest('nav[role="navigation"]').length) {
+            return;
+          }
+
           Drupal.ajax({
             progress: {type: 'fullscreen'},
-            url: $(this).attr('href'),
+            url: $a.attr('href'),
             event: 'click',
             dialogType: 'modal',
             dialog: {width: '90%'},
