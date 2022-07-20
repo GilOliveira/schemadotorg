@@ -2,6 +2,15 @@ schemadotorg_subtype.settings:
   type: config_entity
   label: Schema.org Subtype settings
   mapping:
+    default_field_suffix:
+      type: string
+      label: 'Default subtype field suffix'
+    default_field_label:
+      type: label
+      label: 'Default subtype field label'
+    default_field_description:
+      type: label
+      label: 'Default subtype field description'
     default_subtypes:
       type: sequence
       label: 'Schema.org default subtype types'

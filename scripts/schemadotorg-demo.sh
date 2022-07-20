@@ -54,6 +54,7 @@ function translate() {
 
 function import() {
   drush features:import -y schemadotorg
+  drush features:import -y schemadotorg_demo_standard
   drush features:import -y schemadotorg_descriptions
   drush features:import -y schemadotorg_inline_entity_form
   drush features:import -y schemadotorg_jsonapi
@@ -64,7 +65,7 @@ function import() {
   drush features:import -y schemadotorg_mapping_set
   drush features:import -y schemadotorg_paragraphs
   drush features:import -y schemadotorg_report
-  drush features:import -y schemadotorg_demo_standard
+  drush features:import -y schemadotorg_subtype
   drush features:import -y schemadotorg_translate
   drush features:import -y schemadotorg_taxonomy
   # drush features:import -y schemadotorg_flexfield
@@ -72,6 +73,7 @@ function import() {
 
 function export() {
   drush features:export -y schemadotorg
+  drush features:export -y schemadotorg_demo_standard
   drush features:export -y schemadotorg_descriptions
   drush features:export -y schemadotorg_inline_entity_form
   drush features:export -y schemadotorg_jsonapi
@@ -82,7 +84,7 @@ function export() {
   drush features:export -y schemadotorg_mapping_set
   drush features:export -y schemadotorg_paragraphs
   drush features:export -y schemadotorg_report
-  drush features:export -y schemadotorg_demo_standard
+  drush features:import -y schemadotorg_subtype
   drush features:export -y schemadotorg_translate
   drush features:export -y schemadotorg_taxonomy
   # drush features:export -y schemadotorg_flexfield

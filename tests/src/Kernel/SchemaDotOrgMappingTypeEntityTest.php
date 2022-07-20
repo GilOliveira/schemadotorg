@@ -118,7 +118,7 @@ class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
     $expected_default_field_group = [
       'label' => 'General information',
       'properties' => [
-        'type',
+        'subtype',
         'title',
         'name',
         'headline',

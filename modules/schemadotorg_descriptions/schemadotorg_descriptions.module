@@ -138,16 +138,11 @@ function schemadotorg_descriptions_entity_prepare_form(EntityInterface $entity, 
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
     $mapping = SchemaDotOrgMapping::load("$target_entity_type_id.$target_bundle");
-    if (!$mapping) {
+    if (!$mapping || !$mapping->getSchemaPropertyMapping($field_name)) {
       return;
     }
 
-    $subtype_field_name = $mapping->getSchemaPropertyFieldName('subtype');
-    $is_property_mapped = $mapping && $mapping->getSchemaPropertyMapping($field_name);
-    $is_subtype = ($subtype_field_name === $field_name);
-    if ($is_property_mapped || $is_subtype) {
-      $form_state->set('schemadotorg_descriptions', TRUE);
-    }
+    $form_state->set('schemadotorg_descriptions', TRUE);
   }
 }
 
@@ -196,22 +191,22 @@ function schemadotorg_descriptions_schemadotorg_property_field_alter(
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface $schema_type_builder */
   $schema_type_builder = \Drupal::service('schemadotorg.schema_type_builder');
 
-  // Check Schema.org property description.
+  // Check Schema.org property and subtype for description.
   $property_definition = $schema_type_manager->getProperty($property);
   if ($property_definition) {
     $description = $schema_type_builder->formatComment($property_definition['comment'], ['base_path' => 'https://schema.org/']);
-    if ($field_values['description'] === $description) {
-      $field_values['description'] = '';
-    }
+  }
+  elseif ($property === 'subtype') {
+    $description = \Drupal::configFactory()
+      ->get('schemadotorg_subtype.settings')
+      ->get('default_field_description');
+  }
+  else {
+    $description = NULL;
   }
 
-  // Check custom description.
-  $custom_descriptions = \Drupal::config('schemadotorg_descriptions.settings')
-    ->get('custom_descriptions');
-  $custom_description = $custom_descriptions["$type--$property"]
-    ?? $custom_descriptions[$property]
-    ?? NULL;
-  if ($field_values['description'] === $custom_description) {
+  // Unset the field's description if it has not been altered.
+  if ($field_values['description'] === $description) {
     $field_values['description'] = '';
   }
 }
