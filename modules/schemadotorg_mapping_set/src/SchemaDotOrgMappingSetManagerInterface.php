@@ -59,7 +59,7 @@ interface SchemaDotOrgMappingSetManagerInterface {
   public function getTypes($name, $required = FALSE);
 
   /**
-   * Detemine if a Schema.org mapping set is already setup.
+   * Determine if a Schema.org mapping set is already setup.
    *
    * @param string $name
    *   A Schema.org mapping set name.
