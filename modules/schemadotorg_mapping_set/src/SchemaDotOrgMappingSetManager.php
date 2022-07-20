@@ -9,6 +9,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\devel_generate\DevelGeneratePluginManager;
 use Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
+use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 
 /**
  * Schema.org mapping set manager.
@@ -37,6 +38,12 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
    */
   protected $entityTypeManager;
 
+  /**
+   * The Schema.org schema type manager.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
+   */
+  protected $schemaTypeManager;
 
   /**
    * The Schema.org entity relationship manager service.
@@ -79,6 +86,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
     StateInterface $state,
     ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
+    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
     SchemaDotOrgEntityRelationshipManagerInterface $schema_entity_relationship_manager,
     SchemaDotOrgMappingManagerInterface $schema_mapping_manager,
     DevelGeneratePluginManager $devel_generate_manager = NULL
@@ -86,6 +94,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
     $this->state = $state;
     $this->configFactory = $config_factory;
     $this->entityTypeManager = $entity_type_manager;
+    $this->schemaTypeManager = $schema_type_manager;
     $this->schemaEntityRelationshipManager = $schema_entity_relationship_manager;
     $this->schemaMappingManager = $schema_mapping_manager;
     $this->develGenerateManager = $devel_generate_manager;
@@ -225,6 +234,24 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
   public function isSetup($name) {
     $setup = $this->state->get('schemadotorg_mapping_set_setup') ?? [];
     return isset($setup[$name]);
+  }
+
+  /**
+   * Determine if a mapping set type is valid.
+   *
+   * @param string $type
+   *   A mapping set type (i.e. entity_type_id:SchemaType).
+   *
+   * @return bool
+   *   TRUE if a mapping set type is valid.
+   */
+  public function isValidType($type) {
+    if (strpos($type, ':') === FALSE) {
+      return FALSE;
+    }
+    [$entity_type_id, $schema_type] = explode(':', $type);
+    return $this->entityTypeManager->hasDefinition($entity_type_id)
+      && $this->schemaTypeManager->isType($schema_type);
   }
 
   /**

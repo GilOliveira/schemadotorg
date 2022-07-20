@@ -69,4 +69,15 @@ interface SchemaDotOrgMappingSetManagerInterface {
    */
   public function isSetup($name);
 
+  /**
+   * Determine if a mapping set type is valid.
+   *
+   * @param string $type
+   *   A mapping set type (i.e. entity_type_id:SchemaType).
+   *
+   * @return bool
+   *   TRUE if a mapping set type is valid.
+   */
+  public function isValidType($type);
+
 }

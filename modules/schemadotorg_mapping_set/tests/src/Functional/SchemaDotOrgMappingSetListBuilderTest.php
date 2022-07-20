@@ -22,6 +22,9 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     'user',
     'node',
     'media',
+    'paragraphs',
+    'taxonomy',
+    'block_content',
     'schemadotorg_mapping_set',
   ];
 
@@ -169,6 +172,22 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
 
     // Check media.image and node.contact_point were removed.
     $this->assertEmpty($mapping_storage->getQuery()->execute());
+
+    // Update mapping set to use invalid type.
+    $config = \Drupal::configFactory()->getEditable('schemadotorg_mapping_set.settings');
+    $config->set('sets', [
+      'required' => [
+        'label' => 'Required',
+        'types' => ['not:Valid'],
+      ],
+    ])->save();
+
+    // Check invalid type handling.
+    $this->drupalGet('/admin/config/search/schemadotorg/sets');
+    $assert_session->responseContains('Required');
+    $assert_session->responseContains('<td><strong>not:Valid</strong></td>');
+    $assert_session->responseContains('<em class="placeholder">not:Valid</em> in <em class="placeholder">Required</em> are not valid. <a href="' . $base_path . 'admin/config/search/schemadotorg/sets/settings">Please update this information.</a>');
+    $assert_session->linkByHrefNotExists($base_path . 'admin/config/search/schemadotorg/sets/required/setup');
   }
 
 }

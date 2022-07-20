@@ -6,9 +6,4 @@ package: Schema.org Blueprints
 core_version_requirement: ^9
 lifecycle: experimental
 dependencies:
-  - 'drupal:media'
-  - 'field_group:field_group'
-  - 'paragraphs:paragraphs'
   - 'schemadotorg:schemadotorg'
-  - 'schemadotorg:schemadotorg_paragraphs'
-  - 'schemadotorg:schemadotorg_ui'

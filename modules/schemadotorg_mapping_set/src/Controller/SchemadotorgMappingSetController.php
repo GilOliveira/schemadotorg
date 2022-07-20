@@ -80,13 +80,20 @@ class SchemadotorgMappingSetController extends ControllerBase {
       }
 
       // Types.
+      $invalid_types = [];
       $types = $mapping_set['types'];
       foreach ($types as $index => $type) {
-        [$entity_type_id, $schema_type] = explode(':', $type);
-        $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
-        if ($mapping) {
-          $entity_type_bundle = $mapping->getTargetEntityBundleEntity();
-          $types[$index] = $entity_type_bundle->toLink($type, 'edit-form')->toString();
+        if ($this->schemaMappingSetManager->isValidType($type)) {
+          [$entity_type_id, $schema_type] = explode(':', $type);
+          $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
+          if ($mapping) {
+            $entity_type_bundle = $mapping->getTargetEntityBundleEntity();
+            $types[$index] = $entity_type_bundle->toLink($type, 'edit-form')->toString();
+          }
+        }
+        else {
+          $invalid_types[] = $type;
+          $types[$index] = '<strong>' . $type . '</strong>';
         }
       }
 
@@ -95,17 +102,38 @@ class SchemadotorgMappingSetController extends ControllerBase {
       $row['name'] = $name;
       $row['setup'] = $is_setup ? $this->t('Yes') : $this->t('No');
       $row['types'] = ['data' => ['#markup' => implode(', ', $types)]];
-      $row['operations'] = [
-        'data' => [
-          '#type' => 'operations',
-          '#links' => $operations,
-        ],
-      ];
-      if ($is_setup) {
+      // Only show operation when there are no invalid types.
+      if (!$invalid_types) {
+        $row['operations'] = [
+          'data' => [
+            '#type' => 'operations',
+            '#links' => $operations,
+          ],
+        ];
+      }
+      else {
+        $row['operations'] = '';
+      }
+
+      if ($invalid_types) {
+        $rows[] = ['data' => $row, 'class' => ['color-error']];
+      }
+      elseif ($is_setup) {
         $rows[] = ['data' => $row, 'class' => ['color-success']];
       }
       else {
         $rows[] = $row;
+      }
+
+      // Display error message able invalid types.
+      if ($invalid_types) {
+        $t_args = [
+          '%set' => $mapping_set['label'],
+          '%types' => implode(', ', $invalid_types),
+          ':href' => Url::fromRoute('schemadotorg_mapping_set.settings')->toString(),
+        ];
+        $message = $this->t('%types in %set are not valid. <a href=":href">Please update this information.</a>', $t_args);
+        $this->messenger()->addError($message);
       }
     }
 
