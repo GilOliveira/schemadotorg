@@ -56,7 +56,7 @@ function schemadotorg_subtype_schemadotorg_mapping_defaults_alter($entity_type_i
   $machine_name = $bundle ?: $schema_names->camelCaseToDrupalName($schema_type, $options);
   $machine_name .= $machine_name_suffix;
 
-  // Set defaults for creating a subtype property mapping.
+  // Sets the Schema.org mapping defaults for creating a subtype property.
   $defaults['properties']['subtype']['name'] = $name;
   $defaults['properties']['subtype']['type'] = 'list_string';
   $defaults['properties']['subtype']['label'] = $label;
@@ -100,7 +100,8 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
   // Store reference to ADD_FIELD.
   $add_field = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
 
-  // Determine if Schema.org type already has subtyping enabled.
+  // Determine if Schema.org type already has subtyping enabled and
+  // display subtyping information
   if ($subtype_defaults['name'] && $subtype_defaults['name'] !== $add_field) {
     $form['subtype'] = [
       '#type' => 'item',
@@ -123,6 +124,8 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
   $schema_names = \Drupal::service('schemadotorg.names');
   $machine_name_max_length = 32 - (strlen($schema_names->getFieldPrefix()) + strlen('_subtype'));
 
+  // Add create and map a subtype field to a custom Schema.org property form.
+  //
   // The subtype element name correspond the Schema.org Blueprints UI mapping
   // form's properties.
   // @see \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildSchemaPropertyFieldForm

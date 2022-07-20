@@ -14,6 +14,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
 
   /**
+   * The module handler to invoke the alter hook.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
    * The Schema.org mapping set manager service.
    *
    * @var \Drupal\schemadotorg_mapping_set\SchemaDotOrgMappingSetManagerInterface
@@ -25,6 +32,7 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
    */
   public static function create(ContainerInterface $container) {
     $instance = new static();
+    $instance->moduleHandler = $container->get('module_handler');
     $instance->schemaMappingSetManager = $container->get('schemadotorg_mapping_set.manager');
     return $instance;
   }
@@ -169,8 +177,10 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
       $operations['setup'] = $this->t('setup');
     }
     else {
-      $operations['generate'] = $this->t('generate');
-      $operations['kill'] = $this->t('kill');
+      if ($this->moduleHandler->moduleExists('devel_generate')) {
+        $operations['generate'] = $this->t('generate');
+        $operations['kill'] = $this->t('kill');
+      }
       $operations['teardown'] = $this->t('teardown');
     }
     if (!isset($operations[$this->operation])) {

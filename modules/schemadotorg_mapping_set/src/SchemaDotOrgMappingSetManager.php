@@ -148,7 +148,9 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
       return [$this->t('Schema.org mapping set $name is not setup.')];
     }
 
-    $this->kill($name);
+    if ($this->develGenerateManager) {
+      $this->kill($name);
+    }
 
     $messages = [];
 

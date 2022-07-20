@@ -63,8 +63,10 @@ class SchemadotorgMappingSetController extends ControllerBase {
         $operations['setup'] = $this->t('Setup types');
       }
       else {
-        $operations['generate'] = $this->t('Generate content');
-        $operations['kill'] = $this->t('Kill content');
+        if ($this->moduleHandler()->moduleExists('devel_generate')) {
+          $operations['generate'] = $this->t('Generate content');
+          $operations['kill'] = $this->t('Kill content');
+        }
         $operations['teardown'] = $this->t('Teardown types');
       }
       foreach ($operations as $operation => $title) {
