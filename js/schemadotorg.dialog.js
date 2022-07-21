@@ -18,8 +18,8 @@
         .once('schemadotorg-dialog').each(function () {
           var $a = $(this);
 
-          // Skip links in any <nav> bar.
-          if ($(this).closest('nav[role="navigation"]').length) {
+          // Skip links in the toolbar-bar.
+          if ($(this).closest('nav.toolbar-bar').length) {
             return;
           }
 
