@@ -36,8 +36,8 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
       $header['entity_type'] = [
         'data' => $this->t('Type'),
       ];
-      $header['multiple'] = [
-        'data' => $this->t('Multiple'),
+      $header['default_schema_types'] = [
+        'data' => $this->t('Default Schema.org types'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
         'width' => '10%',
       ];
@@ -46,8 +46,8 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
         'class' => [RESPONSIVE_PRIORITY_LOW],
         'width' => '10%',
       ];
-      $header['default_schema_types'] = [
-        'data' => $this->t('Default Schema.org types'),
+      $header['multiple'] = [
+        'data' => $this->t('Multiple'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
         'width' => '10%',
       ];
@@ -75,7 +75,22 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
     else {
       $header['entity_type'] = [
         'data' => $this->t('Type'),
-        'width' => '100%',
+        'width' => '30%',
+      ];
+      $header['default_schema_types'] = [
+        'data' => $this->t('Default Schema.org types'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+        'width' => '30%',
+      ];
+      $header['recommended_schema_types'] = [
+        'data' => $this->t('Recommended Schema.org types'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+        'width' => '30%',
+      ];
+      $header['multiple'] = [
+        'data' => $this->t('Multiple'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+        'width' => '10%',
       ];
     }
     return $header + parent::buildHeader();
@@ -87,21 +102,23 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
   public function buildRow(EntityInterface $entity) {
     // Type.
     $row['entity_type'] = $entity->label();
+
+    // Default schema types.
+    $row['default_schema_types'] = $this->buildAssociationItems($entity->get('default_schema_types'));
+
+    // Recommended Schema.org types.
+    $recommended_schema_types = $entity->get('recommended_schema_types');
+    $recommended_schema_type_labels = [];
+    foreach ($recommended_schema_types as $recommended_schema_type) {
+      $recommended_schema_type_labels[$recommended_schema_type['label']] = $recommended_schema_type['label'];
+    }
+    $row['recommended_schema_types'] = $this->buildItems($recommended_schema_type_labels);
+
+    // Multiple.
+    $row['multiple'] = $entity->get('multiple') ? $this->t('Yes') : $this->t('No');
+
     $details_toggle = $this->getDetailsToggle();
     if ($details_toggle) {
-      // Multiple.
-      $row['multiple'] = $entity->get('multiple') ? $this->t('Yes') : $this->t('No');
-
-      // Recommended Schema.org types.
-      $recommended_schema_types = $entity->get('recommended_schema_types');
-      $recommended_schema_type_labels = [];
-      foreach ($recommended_schema_types as $recommended_schema_type) {
-        $recommended_schema_type_labels[$recommended_schema_type['label']] = $recommended_schema_type['label'];
-      }
-      $row['recommended_schema_types'] = $this->buildItems($recommended_schema_type_labels);
-
-      // Default schema types.
-      $row['default_schema_types'] = $this->buildAssociationItems($entity->get('default_schema_types'));
 
       // Default Schema.org type properties.
       $row['default_schema_type_properties'] = $this->buildAssociationItems($entity->get('default_schema_type_properties'));
