@@ -569,7 +569,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     // Header.
     $header = [];
-    $header['property'] = ['data' => $this->t('Property'), 'width' => '50%'];
+    $header['property'] = ['data' => $this->t('Schema.org property'), 'width' => '50%'];
     $header['field'] = ['data' => $this->t('Field'), 'width' => '50%'];
 
     // Rows.
@@ -604,7 +604,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#title' => $this->t('Filter'),
       '#title_display' => 'invisible',
       '#size' => 30,
-      '#placeholder' => $this->t('Filter by property'),
+      '#placeholder' => $this->t('Filter by Schema.org property'),
       '#attributes' => [
         'class' => ['schemadotorg-ui-properties-filter-text'],
         'title' => $this->t('Enter a keyword to filter properties by.'),
