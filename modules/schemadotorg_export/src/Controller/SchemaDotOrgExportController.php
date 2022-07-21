@@ -48,28 +48,34 @@ class SchemaDotOrgExportController extends ControllerBase {
    */
   public function index() {
     $response = new StreamedResponse(function () {
+      $subtype_installed = $this->moduleHandler()->moduleExists('schemadotorg_subtype');
+
       $handle = fopen('php://output', 'r+');
 
       // Header.
-      fputcsv($handle, [
-        'entity_type',
-        'bundle',
-        'schema_type',
-        'schema_subtyping',
-        'schema_properties',
-      ]);
+      $header = [];
+      $header[] = 'entity_type';
+      $header[] = 'bundle';
+      $header[] = 'schema_type';
+      if ($subtype_installed) {
+        $header[] = 'schema_subtyping';
+      }
+      $header[] = 'schema_properties';
+      fputcsv($handle, $header);
 
       // Rows.
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
       $mappings = $this->entityTypeManager->getStorage('schemadotorg_mapping')->loadMultiple();
       foreach ($mappings as $mapping) {
-        fputcsv($handle, [
-          $mapping->getTargetEntityTypeId(),
-          $mapping->getTargetBundle(),
-          $mapping->getSchemaType(),
-          ($mapping->getSchemaPropertyFieldName('subtype')) ? $this->t('Yes') : $this->t('No'),
-          implode('; ', $mapping->getSchemaProperties()),
-        ]);
+        $row = [];
+        $row[] = $mapping->getTargetEntityTypeId();
+        $row[] = $mapping->getTargetBundle();
+        $row[] = $mapping->getSchemaType();
+        if ($subtype_installed) {
+          $row[] = ($mapping->getSchemaPropertyFieldName('subtype')) ? $this->t('Yes') : $this->t('No');
+        }
+        $row[] = implode('; ', $mapping->getSchemaProperties());
+        fputcsv($handle, $row);
       }
       fclose($handle);
     });

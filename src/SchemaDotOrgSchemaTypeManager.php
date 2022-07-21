@@ -80,11 +80,14 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    * {@inheritdoc}
    */
   public function isId($table, $id) {
-    return (boolean) $this->database->select('schemadotorg_' . $table, 't')
-      ->fields('t', ['id'])
+    $label = $this->database->select('schemadotorg_' . $table, 't')
+      ->fields('t', ['label'])
       ->condition('label', $id)
       ->execute()
       ->fetchField();
+    // Making sure the 'label' (aka type or property id) is exact match because
+    // SQL queries are case-insensitive.
+    return ($label === $id);
   }
 
   /**
@@ -124,6 +127,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   public function isThing($id) {
     $type_definition = $this->getType($id);
     return (!empty($type_definition)
+      && $type_definition['label'] === $id
       && !empty($type_definition['properties'])
       && !in_array($id, ['Enumeration', 'Intangible'])
     );

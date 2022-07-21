@@ -45,8 +45,10 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
 
     // Check determining if ID is in a valid Schema.org table.
     $this->assertTrue($this->schemaTypeManager->isId('types', 'Thing'));
+    $this->assertFalse($this->schemaTypeManager->isId('types', 'thing'));
     $this->assertFalse($this->schemaTypeManager->isId('properties', 'Thing'));
     $this->assertTrue($this->schemaTypeManager->isId('properties', 'name'));
+    $this->assertFalse($this->schemaTypeManager->isId('properties', 'Name'));
     $this->assertFalse($this->schemaTypeManager->isId('types', 'name'));
 
     // Check determining ID is a Schema.org type or property.

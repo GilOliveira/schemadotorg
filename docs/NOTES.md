@@ -5,10 +5,8 @@ Schema.org Blueprints
 
 Test coverage
 
-- Improve \Drupal\Tests\schemadotorg_ui\Kernel\SchemaDotOrgApiTest
 - Improve \Drupal\Tests\schemadotorg\Functional\SchemaDotOrgSettingsElementTest
 - JavaScript test coverage for UI and Report.
-- Write tests schemadotorg_mapping_set.module
 - Write tests schemadotorg_flexfield.module
 
 ## Ongoing
