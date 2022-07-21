@@ -48,7 +48,7 @@ function schemadotorg_subtype_schemadotorg_mapping_defaults_alter($entity_type_i
   /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
   $schema_names = \Drupal::service('schemadotorg.names');
   $machine_name_suffix = $config->get('default_field_suffix');
-  $machine_name_max_length = 32 - (strlen($schema_names->getFieldPrefix()) + strlen($machine_name_suffix));
+  $machine_name_max_length = $schema_names->getNameMaxLength('properties') - strlen($machine_name_suffix);
   $options = [
     'maxlength' => $machine_name_max_length,
     'truncate' => TRUE,
@@ -122,7 +122,7 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
 
   /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
   $schema_names = \Drupal::service('schemadotorg.names');
-  $machine_name_max_length = 32 - (strlen($schema_names->getFieldPrefix()) + strlen('_subtype'));
+  $machine_name_max_length = $schema_names->getNameMaxLength('properties');
 
   // Add create and map a subtype field to a custom Schema.org property form.
   //
