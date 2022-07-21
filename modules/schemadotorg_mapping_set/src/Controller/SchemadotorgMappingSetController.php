@@ -12,13 +12,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SchemadotorgMappingSetController extends ControllerBase {
 
   /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
    * The Schema.org mapping set manager service.
    *
    * @var \Drupal\schemadotorg_mapping_set\SchemaDotOrgMappingSetManagerInterface
@@ -30,7 +23,6 @@ class SchemadotorgMappingSetController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     $instance = new static();
-    $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->schemaMappingSetManager = $container->get('schemadotorg_mapping_set.manager');
     return $instance;
   }
@@ -49,7 +41,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
     ];
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-    $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+    $mapping_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping');
 
     // Rows.
     $rows = [];

@@ -13,32 +13,6 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class SchemaDotOrgExportController extends ControllerBase {
 
   /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The controller constructor.
-   *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager.
-   */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
-    $this->entityTypeManager = $entity_type_manager;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('entity_type.manager')
-    );
-  }
-
-  /**
    * Returns response for Schema.org mapping export request.
    *
    * @return \Symfony\Component\HttpFoundation\StreamedResponse
@@ -65,7 +39,7 @@ class SchemaDotOrgExportController extends ControllerBase {
 
       // Rows.
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
-      $mappings = $this->entityTypeManager->getStorage('schemadotorg_mapping')->loadMultiple();
+      $mappings = $this->entityTypeManager()->getStorage('schemadotorg_mapping')->loadMultiple();
       foreach ($mappings as $mapping) {
         $row = [];
         $row[] = $mapping->getTargetEntityTypeId();

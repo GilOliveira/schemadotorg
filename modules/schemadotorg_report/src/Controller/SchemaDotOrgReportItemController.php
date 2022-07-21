@@ -479,7 +479,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       $bundle_entity_type_id = $entity_type_definition->id();
       $bundle_entity_type_label = ($entity_type_id === 'paragraph')
         ? 'paragraph type'
-        : $this->entityTypeManager->getDefinition($bundle_entity_type_id)->getSingularLabel();
+        : $this->entityTypeManager()->getDefinition($bundle_entity_type_id)->getSingularLabel();
       $t_args = ['@type' => $bundle_entity_type_label];
       $operations[$entity_type_id] = [
         'title' => $this->t('Add Schema.org @type', $t_args),
