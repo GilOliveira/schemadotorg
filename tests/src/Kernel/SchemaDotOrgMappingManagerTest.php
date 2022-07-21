@@ -25,6 +25,7 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
     'file',
     'datetime',
     'image',
+    'system',
     'telephone',
     'text',
     'link',
@@ -32,11 +33,18 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
   ];
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * The Schema.org mapping manager.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface
    */
-  protected $api;
+  protected $mappingManager;
 
   /**
    * {@inheritdoc}
@@ -56,18 +64,48 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
     $installer = $this->container->get('schemadotorg.installer');
     $installer->importTables();
 
-    $this->api = $this->container->get('schemadotorg.mapping_manager');
+    $this->entityTypeManager = $this->container->get('entity_type.manager');
+
+    // Get the Schema.org mapping manager.
+    $this->mappingManager = $this->container->get('schemadotorg.mapping_manager');
   }
 
   /**
-   * Tests SchemaDotOrgUi::createTypeValidate().
-   *
-   * @covers ::createTypeValidate
+   * Tests SchemaDotOrgMappingManager.
    */
-  public function testValidate() {
+  public function testMappingManager() {
+    // Checking getting ignored Schema.org properties.
+    $this->assertArrayHasKey('accessMode', $this->mappingManager->getIgnoredProperties());
+
+    // Check getting Schema.org mapping default values.
+    $defaults = $this->mappingManager->getMappingDefaults('node', NULL, 'Event');
+    $this->assertEquals('Event', $defaults['entity']['label']);
+    $this->assertEquals('event', $defaults['entity']['id']);
+    $this->assertStringStartsWith('An event', $defaults['entity']['description']);
+    $expected = [
+      'name' => 'title',
+      'type' => 'string',
+      'label' => 'Name',
+      'machine_name' => 'name',
+      'unlimited' => FALSE,
+      'description' => 'The name of the item.',
+    ];
+    $this->assertEquals($expected, $defaults['properties']['name']);
+
+    // Check getting Schema.org mapping default values with custom bundle.
+    $defaults = $this->mappingManager->getMappingDefaults('node', 'custom', 'Event');
+    $this->assertEquals('custom', $defaults['entity']['id']);
+
+    // Check saving a Schema.org mapping.
+    $defaults = $this->mappingManager->getMappingDefaults('node', NULL, 'Event');
+    $mapping = $this->mappingManager->saveMapping('node', 'Event', $defaults);
+    $this->assertEquals('node', $mapping->getTargetEntityTypeId());
+    $this->assertEquals('event', $mapping->getTargetBundle());
+    $this->assertEquals('Event', $mapping->getSchemaType());
+
     // Check create entity type validation.
     try {
-      $this->api->createTypeValidate('not_entity', 'not_schema');
+      $this->mappingManager->createTypeValidate('not_entity', 'not_schema');
     }
     catch (\Exception $exception) {
       $this->assertEquals($exception->getMessage(), "The entity type 'not_entity' is not valid. Please select a entity type (node, user).");
@@ -75,14 +113,14 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
 
     // Check create schema type validation.
     try {
-      $this->api->createTypeValidate('node', 'not_schema');
+      $this->mappingManager->createTypeValidate('node', 'not_schema');
     }
     catch (\Exception $exception) {
       $this->assertEquals($exception->getMessage(), "The Schema.org type 'not_schema' is not valid.");
     }
 
     // Check creating user:Person type.
-    $this->api->createType('user', 'Person');
+    $this->mappingManager->createType('user', 'Person');
     $mapping = SchemaDotOrgMapping::load('user.user');
     $this->assertEquals('user', $mapping->getTargetEntityTypeId());
     $this->assertEquals('user', $mapping->getTargetBundle());
@@ -93,14 +131,14 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
 
     // Check delete schema mapping validation.
     try {
-      $this->api->deleteTypeValidate('node', 'not_schema');
+      $this->mappingManager->deleteTypeValidate('node', 'not_schema');
     }
     catch (\Exception $exception) {
       $this->assertEquals($exception->getMessage(), "No Schema.org mapping exists for not_schema (node).");
     }
 
     // Check deleting user:Person type.
-    $this->api->deleteType('user', 'Person');
+    $this->mappingManager->deleteType('user', 'Person');
     \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping')->resetCache();
     $this->assertNull(SchemaDotOrgMapping::load('user.user'));
   }

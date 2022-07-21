@@ -122,10 +122,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   }
 
   /**
-   * Gets ignored Schema.org properties.
-   *
-   * @return array
-   *   Ignored Schema.org properties.
+   * {@inheritdoc}
    */
   public function getIgnoredProperties() {
     $ignored_properties = $this->configFactory
