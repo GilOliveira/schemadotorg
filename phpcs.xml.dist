@@ -35,6 +35,10 @@
     <exclude name="Drupal.Strings.UnnecessaryStringConcat.Found"/>
   </rule>
 
+  <rule ref="DrupalPractice">
+    <exclude name="DrupalPractice.General.ExceptionT.ExceptionT"/>
+  </rule>
+
   <rule ref="Generic.CodeAnalysis.UselessOverridingMethod">
     <exclude name="Generic.CodeAnalysis.UselessOverridingMethod.Found"/>
   </rule>
