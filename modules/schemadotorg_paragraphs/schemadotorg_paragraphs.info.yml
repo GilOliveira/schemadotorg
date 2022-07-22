@@ -4,6 +4,7 @@ description: 'Integrates the Paragraphs and Paragraphs Library module with the S
 package: Schema.org Blueprints
 core_version_requirement: ^9
 lifecycle: experimental
+configure: schemadotorg.settings
 dependencies:
   - 'paragraphs:paragraphs'
   - 'schemadotorg:schemadotorg'

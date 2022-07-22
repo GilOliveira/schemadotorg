@@ -4,5 +4,6 @@ description: 'Sets entity type and field descriptions to their corresponding Sch
 package: Schema.org Blueprints
 core_version_requirement: ^9
 lifecycle: experimental
+configure: schemadotorg_descriptions.settings
 dependencies:
   - 'schemadotorg:schemadotorg'

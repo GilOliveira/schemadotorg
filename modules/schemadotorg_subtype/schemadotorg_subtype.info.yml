@@ -4,5 +4,6 @@ description: 'Subtypes allow more specificity without having to create dedicated
 package: Schema.org Blueprints
 core_version_requirement: ^9
 lifecycle: experimental
+configure: schemadotorg.settings
 dependencies:
   - 'schemadotorg:schemadotorg'

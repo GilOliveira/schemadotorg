@@ -4,6 +4,7 @@ description: 'Provides mappings from taxonomy vocabularies and terms to https://
 package: Schema.org Blueprints
 core_version_requirement: ^9
 lifecycle: experimental
+configure: schemadotorg.settings.properties
 dependencies:
   - 'drupal:taxonomy'
   - 'schemadotorg:schemadotorg'

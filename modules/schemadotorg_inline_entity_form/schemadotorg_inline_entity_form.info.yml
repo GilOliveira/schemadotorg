@@ -4,6 +4,7 @@ description: 'Allows an inline entity form to be automatically added to Schema.o
 package: Schema.org Blueprints
 core_version_requirement: ^9
 lifecycle: experimental
+configure: schemadotorg.settings.properties
 dependencies:
   - 'inline_entity_form:inline_entity_form'
   - 'schemadotorg:schemadotorg'

@@ -4,6 +4,7 @@ description: Manages translations for Schema.org types and properties as they ar
 package: Schema.org Blueprints
 core_version_requirement: ^9
 lifecycle: experimental
+configure: schemadotorg_translation.settings
 dependencies:
   - 'drupal:config_translation'
   - 'drupal:content_translation'

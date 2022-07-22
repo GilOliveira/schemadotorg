@@ -5,5 +5,6 @@ description: |
 package: Schema.org Blueprints
 core_version_requirement: ^9
 lifecycle: experimental
+configure: schemadotorg_mapping_set.overview
 dependencies:
   - 'schemadotorg:schemadotorg'

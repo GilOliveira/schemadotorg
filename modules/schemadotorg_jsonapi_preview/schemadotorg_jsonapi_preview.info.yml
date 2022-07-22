@@ -4,5 +4,6 @@ description: Allows users to preview a web page's Schema.org JSON:API.
 package: Schema.org Blueprints
 core_version_requirement: ^9
 lifecycle: experimental
+configure: schemadotorg_jsonapi.settings
 dependencies:
   - 'schemadotorg:schemadotorg_jsonapi'

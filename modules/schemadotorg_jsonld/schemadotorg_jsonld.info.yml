@@ -4,5 +4,6 @@ description: 'Adds Schema.org structured data as JSON-LD in the head of web page
 package: Schema.org Blueprints
 core_version_requirement: ^9
 lifecycle: experimental
+configure: schemadotorg_jsonld.settings
 dependencies:
   - 'schemadotorg:schemadotorg'
