@@ -3,7 +3,6 @@
 namespace Drupal\Tests\schemadotorg_subtype\Functional;
 
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
-use Drupal\Tests\schemadotorg_subtype\Traits\SchemaDotOrgTestSubtypeTrait;
 
 /**
  * Tests the functionality of the Schema.org subtype module.

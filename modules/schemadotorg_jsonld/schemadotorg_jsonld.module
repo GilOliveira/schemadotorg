@@ -51,7 +51,7 @@ function schemadotorg_jsonld_page_attachments_alter(array &$attachments) {
 }
 
 /**
- * Implements hook_schemadotorg_jsonld_schema_property_alter() on behalf of the address.module.
+ * Implements hook_schemadotorg_jsonld_schema_property_alter() for the address.module.
  */
 function address_schemadotorg_jsonld_schema_property_alter(&$value, FieldItemInterface $item) {
   $field_type = $item->getFieldDefinition()->getType();

@@ -101,7 +101,7 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
   $add_field = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
 
   // Determine if Schema.org type already has subtyping enabled and
-  // display subtyping information
+  // display subtyping information.
   if ($subtype_defaults['name'] && $subtype_defaults['name'] !== $add_field) {
     $form['subtype'] = [
       '#type' => 'item',

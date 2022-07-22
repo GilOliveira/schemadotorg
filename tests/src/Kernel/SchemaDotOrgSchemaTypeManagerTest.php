@@ -112,11 +112,11 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
       ['https://schema.org/Thing', ['Thing']],
       [
         'https://schema.org/Thing, https://schema.org/Place',
-        ['Thing', 'Place']
+        ['Thing', 'Place'],
       ],
       [
         'https://not-schema.org/Thing, https://schema.org/Place',
-        ['https://not-schema.org/Thing', 'Place']
+        ['https://not-schema.org/Thing', 'Place'],
       ],
     ];
     foreach ($tests as $test) {
@@ -159,7 +159,7 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertEquals(['Text' => 'Text'], $this->schemaTypeManager->getPropertRangeIncludes('name'));
     $this->assertEquals([
       'ImageObject' => 'ImageObject',
-      'URL' => 'URL'
+      'URL' => 'URL',
     ], $this->schemaTypeManager->getPropertRangeIncludes('image'));
 
     // Check getting a Schema.org property's default Schema.org type.
@@ -191,7 +191,7 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     // Check getting Schema.org types.
     $types = $this->schemaTypeManager->getTypes(['Thing', 'Place'], [
       'id',
-      'label'
+      'label',
     ]);
     $this->assertEquals('https://schema.org/Thing', $types['Thing']['id']);
     $this->assertEquals('Thing', $types['Thing']['label']);
@@ -207,7 +207,7 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     ];
     $actual_properties = $this->schemaTypeManager->getProperties([
       'name',
-      'alternateName'
+      'alternateName',
     ], ['label']);
     $this->assertEquals($expected_properties, $actual_properties);
 
@@ -221,7 +221,7 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
       'identifier',
       'image',
       'name',
-      'url'
+      'url',
     ];
     foreach ($properties as $property) {
       $this->assertArrayHasKey($property, $type_properties);
@@ -233,7 +233,7 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $type_children = $this->schemaTypeManager->getTypeChildren('GenderType');
     $this->assertEquals([
       'Male' => 'Male',
-      'Female' => 'Female'
+      'Female' => 'Female',
     ], $type_children);
 
     // Check getting all child Schema.org types below a specified type.e.
@@ -242,7 +242,7 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $type_children = $this->schemaTypeManager->getAllTypeChildrenAsOptions('GenderType');
     $this->assertEquals([
       'Male' => 'Male',
-      'Female' => 'Female'
+      'Female' => 'Female',
     ], $type_children);
 
     // Check getting Schema.org subtypes.
@@ -259,7 +259,7 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $enumerations = $this->schemaTypeManager->getEnumerations('GenderType');
     $this->assertEquals([
       'Male' => 'Male',
-      'Female' => 'Female'
+      'Female' => 'Female',
     ], $enumerations);
 
     // Check getting Schema.org data types.
@@ -300,7 +300,7 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     ];
     $actual_all_sub_types = $this->schemaTypeManager->getAllSubTypes([
       'Person',
-      'Product'
+      'Product',
     ]);
     $this->assertEquals($expected_all_sub_types, $actual_all_sub_types);
 
@@ -343,24 +343,24 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertIsNotArray(NestedArray::getValue($type_tree, [
       'Product',
       'subtypes',
-      'NotAProduct'
+      'NotAProduct',
     ]));
     $this->assertNull(NestedArray::getValue($type_tree, [
       'Product',
       'subtypes',
-      'NotAProduct'
+      'NotAProduct',
     ]));
     $this->assertIsArray(NestedArray::getValue($type_tree, [
       'Product',
       'subtypes',
       'IndividualProduct',
-      'subtypes'
+      'subtypes',
     ]));
     $this->assertIsArray(NestedArray::getValue($type_tree, [
       'Product',
       'subtypes',
       'IndividualProduct',
-      'enumerations'
+      'enumerations',
     ]));
     $this->assertIsArray(NestedArray::getValue($type_tree, [
       'Product',
@@ -368,7 +368,7 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
       'Vehicle',
       'subtypes',
       'BusOrCoach',
-      'subtypes'
+      'subtypes',
     ]));
     $this->assertIsArray(NestedArray::getValue($type_tree, [
       'Product',
@@ -376,7 +376,7 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
       'Vehicle',
       'subtypes',
       'BusOrCoach',
-      'enumerations'
+      'enumerations',
     ]));
 
     // Check getting Schema.org type hierarchical tree with ignored types.
@@ -385,7 +385,7 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
       'Product',
       'subtypes',
       'IndividualProduct',
-      'subtypes'
+      'subtypes',
     ]));
 
     // Check getting Schema.org type breadcrumbs.

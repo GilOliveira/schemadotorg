@@ -28,7 +28,6 @@ class SchemaDotOrgSubtypeListBuilderTest extends SchemaDotOrgBrowserTestBase {
   public function testSchemaDotOrgListBuilder() {
     $assert_session = $this->assertSession();
 
-
     // Create Thing content type with a Schema.org mapping.
     $this->drupalCreateContentType(['type' => 'thing']);
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */

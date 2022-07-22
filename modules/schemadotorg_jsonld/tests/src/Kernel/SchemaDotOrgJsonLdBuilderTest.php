@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\schemadotorg_jsonld\Kernel;
 
-use Drupal\Core\Routing\RouteMatch;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\node\Entity\Node;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;

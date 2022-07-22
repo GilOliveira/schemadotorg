@@ -4,11 +4,9 @@ namespace Drupal\schemadotorg_ui\Form;
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityForm;
-use Drupal\Core\Field\FieldFilteredMarkup;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
-use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

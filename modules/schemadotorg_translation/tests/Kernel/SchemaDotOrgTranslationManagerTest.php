@@ -4,7 +4,6 @@ namespace Drupal\Tests\schemadotorg_translation\Kernel;
 
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\language\Entity\ContentLanguageSettings;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 use Drupal\Tests\schemadotorg\Traits\SchemaDotOrgTestTrait;

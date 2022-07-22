@@ -66,7 +66,7 @@ function schemadotorg_flexfield_schemadotorg_property_field_alter(
 
     $field_storage_columns[$name] = [
       'name' => $name,
-      'max_length' => '255'
+      'max_length' => '255',
     ];
 
     $field_settings[$name] = [

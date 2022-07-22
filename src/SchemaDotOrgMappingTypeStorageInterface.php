@@ -4,7 +4,6 @@ namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
 use Drupal\Core\Config\Entity\ImportableEntityStorageInterface;
-use Drupal\Core\Entity\Display\EntityDisplayInterface;
 
 /**
  * Provides an interface for 'schemadotorg_mapping_type' storage.

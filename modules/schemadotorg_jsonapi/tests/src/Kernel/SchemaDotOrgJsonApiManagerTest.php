@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\schemadotorg_jsonapi\Kernel;
 
-use Drupal\Core\Url;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\node\Entity\NodeType;

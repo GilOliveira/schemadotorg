@@ -5,7 +5,6 @@ namespace Drupal\schemadotorg\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Configure Schema.org types settings for types.

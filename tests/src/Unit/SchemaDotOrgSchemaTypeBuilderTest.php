@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\schemadotorg\Unit\SchemaDotOrgSchemaTypeBuilderTest;
 
-use Drupal\Core\Url;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilder;
 use Drupal\Tests\UnitTestCase;
 

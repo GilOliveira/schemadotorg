@@ -2,9 +2,7 @@
 
 namespace Drupal\Tests\schemadotorg_jsonld\Kernel;
 
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Language\LanguageInterface;
-use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\media\Entity\Media;
 use Drupal\node\Entity\Node;
@@ -162,7 +160,6 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
     /** @var \Drupal\image\Plugin\Field\FieldType\ImageItem $item */
     // $actual_value = $this->manager->getSchemaPropertyValue($media->field_media_image->get(0));
     // $this->assertEquals('Some image', $actual_value);
-
     // Created.
     $actual_value = $this->manager->getSchemaPropertyValue($node->created->get(0));
     $this->assertEquals(1, preg_match('/^\d\d\d\d-\d\d-\d\d/', $actual_value));

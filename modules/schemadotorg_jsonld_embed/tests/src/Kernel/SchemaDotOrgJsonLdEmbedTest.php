@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\schemadotorg_jsonld_embed\Kernel;
 
-use Drupal\Core\Serialization\Yaml;
-use Drupal\Core\Url;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\media\Entity\Media;
 use Drupal\node\Entity\Node;

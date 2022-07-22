@@ -220,7 +220,7 @@ function schemadotorg_form_field_config_edit_form_alter(&$form, FormStateInterfa
 
     $t_args = [
       '@type' => $target_label,
-      '%bundles' => implode('; ', $bundles)
+      '%bundles' => implode('; ', $bundles),
     ];
     $message = t('The expected @type should include %bundles.', $t_args);
     \Drupal::messenger()->addWarning($message);
