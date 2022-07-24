@@ -22,6 +22,7 @@ content architecture and structured data in a Drupal website.
 
 * Read more documentation and note about the Schema.org Blueprint module. 
 
+  * doc/DEMO.md
   * doc/README.md
   * doc/MODULES.md
   * doc/NOTES.md
