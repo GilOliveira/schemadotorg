@@ -13,7 +13,7 @@ use Drupal\Core\DependencyInjection\ServiceProviderBase;
 /**
  * Alters Schema.org mapping list builder and adds a 'Download CSV' link.
  *
- * @see \Drupal\schemadotorg_export\Controller\SchemaDotOrgExportController
+ * @see \Drupal\schemadotorg_export\Controller\SchemaDotOrgExportMappingController
  */
 class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements EventSubscriberInterface {
   use StringTranslationTrait;
@@ -42,20 +42,23 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
    *   The event to process.
    */
   public function onView(ViewEvent $event) {
-    if ($this->routeMatch->getRouteName() !== 'entity.schemadotorg_mapping.collection') {
-      return;
-    }
-
-    $result = $event->getControllerResult();
-    $result['export'] = [
-      '#type' => 'link',
-      '#title' => $this->t('<u>⇩</u> Download CSV'),
-      '#url' => Url::fromRoute('entity.schemadotorg_mapping.export'),
-      '#attributes' => ['class' => ['button', 'button--small', 'button--extrasmall']],
-      '#prefix' => '<p>',
-      '#suffix' => '</p>',
+    $route = [
+      'entity.schemadotorg_mapping.collection' => 'entity.schemadotorg_mapping.export',
+      'schemadotorg_mapping_set.overview' => 'schemadotorg_mapping_set.export',
     ];
-    $event->setControllerResult($result);
+    $route_name = $this->routeMatch->getRouteName();
+    if (isset($route[$route_name])) {
+      $result = $event->getControllerResult();
+      $result['export'] = [
+        '#type' => 'link',
+        '#title' => $this->t('<u>⇩</u> Download CSV'),
+        '#url' => Url::fromRoute($route[$route_name]),
+        '#attributes' => ['class' => ['button', 'button--small', 'button--extrasmall']],
+        '#prefix' => '<p>',
+        '#suffix' => '</p>',
+      ];
+      $event->setControllerResult($result);
+    }
   }
 
   /**

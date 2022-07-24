@@ -130,9 +130,11 @@ class SchemadotorgMappingSetController extends ControllerBase {
     }
 
     return [
-      '#type' => 'table',
-      '#header' => $header,
-      '#rows' => $rows,
+      'table' => [
+        '#type' => 'table',
+        '#header' => $header,
+        '#rows' => $rows,
+      ],
     ];
   }
 

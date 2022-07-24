@@ -6,17 +6,15 @@ use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * Returns responses for Schema.org export routes.
+ * Returns responses for Schema.org mapping export.
  */
-class SchemaDotOrgExportController extends ControllerBase {
+class SchemaDotOrgExportMappingController extends ControllerBase {
 
   /**
    * Returns response for Schema.org mapping export request.
    *
    * @return \Symfony\Component\HttpFoundation\StreamedResponse
    *   A streamed HTTP response containing a Schema.org mapping CSV export.
-   *
-   * @see http://obtao.com/blog/2013/12/export-data-to-a-csv-file-with-symfony/
    */
   public function index() {
     $response = new StreamedResponse(function () {
@@ -53,7 +51,7 @@ class SchemaDotOrgExportController extends ControllerBase {
     });
 
     $response->headers->set('Content-Type', 'application/force-download');
-    $response->headers->set('Content-Disposition', 'attachment; filename="schemadotorg.csv"');
+    $response->headers->set('Content-Disposition', 'attachment; filename="schemadotorg_mapping.csv"');
     return $response;
   }
 

@@ -22,6 +22,7 @@ class SchemaDotOrgExportTest extends SchemaDotOrgBrowserTestBase {
     'field',
     'field_ui',
     'schemadotorg_ui',
+    'schemadotorg_mapping_set',
     'schemadotorg_subtype',
     'schemadotorg_export',
   ];
@@ -53,9 +54,14 @@ class SchemaDotOrgExportTest extends SchemaDotOrgBrowserTestBase {
     $assert_session->responseContains('<u>⇩</u> Download CSV');
 
     // Check Schema.org mapping CSV.
-    $this->drupalGet('/admin/config/search/schemadotorg.csv');
+    $this->drupalGet('/admin/config/search/schemadotorg_mapping.csv');
     $assert_session->responseContains('entity_type,bundle,schema_type,schema_subtyping,schema_properties');
     $assert_session->responseContains('node,thing,Thing,Yes,"subtype; alternateName; name"');
+
+    // Check Schema.org mapping set CSV.
+    $this->drupalGet('/admin/config/search/schemadotorg_mapping_set.csv');
+    $assert_session->responseContains('title,name,types');
+    $assert_session->responseContains('Required,required,"media:ImageObject; media:VideoObject; taxonomy_term:DefinedTerm; paragraph:ContactPoint; node:Person"');
   }
 
 }

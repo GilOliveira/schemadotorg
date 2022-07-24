@@ -1,6 +1,12 @@
 entity.schemadotorg_mapping.export:
-  path: '/admin/config/search/schemadotorg.csv'
+  path: '/admin/config/search/schemadotorg_mapping.csv'
   defaults:
-    _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportController::index'
+    _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportMappingController::index'
+  requirements:
+    _permission: 'administer schemadotorg'
+schemadotorg_mapping_set.export:
+  path: '/admin/config/search/schemadotorg_mapping_set.csv'
+  defaults:
+    _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportMappingSetController::index'
   requirements:
     _permission: 'administer schemadotorg'
