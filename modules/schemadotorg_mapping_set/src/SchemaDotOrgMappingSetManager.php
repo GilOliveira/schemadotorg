@@ -106,8 +106,16 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
    * {@inheritdoc}
    */
   public function isSetup($name) {
-    $setup = $this->state->get('schemadotorg_mapping_set_setup') ?? [];
-    return isset($setup[$name]);
+    $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+    $types = $this->getTypes($name);
+    foreach ($types as $type) {
+      [$entity_type_id, $schema_type] = explode(':', $type);
+      $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
+      if (!$mapping) {
+        return FALSE;
+      }
+    }
+    return TRUE;
   }
 
   /**
@@ -190,11 +198,6 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
       $this->schemaEntityRelationshipManager->repair();
     }
 
-    // Set that the mapping set was set up.
-    $setup = $this->state->get('schemadotorg_mapping_set_setup') ?? [];
-    $setup[$name] = $name;
-    $this->state->set('schemadotorg_mapping_set_setup', $setup);
-
     return $messages;
   }
 
@@ -252,11 +255,6 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
       $t_args = ['@type' => implode(', ', $types)];
       $messages[] = $this->t('Schema.org types (@types) deleted.', $t_args);
     }
-
-    // Unset that the mapping set was set up.
-    $setup = $this->state->get('schemadotorg_mapping_set_setup') ?? [];
-    unset($setup[$name]);
-    $this->state->set('schemadotorg_mapping_set_setup', $setup);
 
     return $messages;
   }
