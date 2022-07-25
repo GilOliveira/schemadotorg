@@ -1,0 +1,5 @@
+schemadotorg_subtype.settings:
+  title: Subtype
+  route_name: schemadotorg_subtype.settings
+  parent_id: schemadotorg.settings
+  weight: 30

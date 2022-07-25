@@ -27,4 +27,4 @@ schemadotorg.settings.names:
   title: Names
   route_name: schemadotorg.settings.names
   parent_id: schemadotorg.settings
-  weight: 30
+  weight: 40

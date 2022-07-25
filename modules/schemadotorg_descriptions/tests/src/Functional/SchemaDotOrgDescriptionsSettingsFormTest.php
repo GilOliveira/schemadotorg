@@ -7,7 +7,7 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 /**
  * Tests the functionality of the Schema.org Descriptions settings form.
  *
- * @covers \Drupal\schemadotorg_descriptions\Form\SchemaDotOrgDescriptionsSettingsForm
+ * @covers \Drupal\schemadotorg_descriptions\Form\SchemaDotOrgSubtypeSettingsForm
  * @group schemadotorg
  */
 class SchemaDotOrgDescriptionsSettingsFormTest extends SchemaDotOrgBrowserTestBase {
