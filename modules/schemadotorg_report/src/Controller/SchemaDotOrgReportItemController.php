@@ -226,6 +226,29 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
             'items' => $this->buildTypeProperties($properties),
           ];
 
+          // Get default properties from type breadcrumb.
+          $schema_types_default_properties = $this->config('schemadotorg.settings')
+            ->get('schema_types.default_properties');
+          $breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs($id);
+          $default_properties = [];
+          foreach ($breadcrumbs as $breadcrumb) {
+            foreach ($breadcrumb as $breadcrumb_type) {
+              if (isset($schema_types_default_properties[$breadcrumb_type])) {
+                $default_properties[$breadcrumb_type] = $this->schemaTypeBuilder->buildItemsLinks($schema_types_default_properties[$breadcrumb_type]) + [
+                  '#prefix' => $breadcrumb_type . ' | ',
+                  '#suffix' => '<br/>',
+                ];
+              }
+            }
+          }
+          if ($default_properties) {
+            $build[$name]['default_properties'] = [
+              '#type' => 'item',
+              '#title' => $this->t('Default properties'),
+              'links' => $default_properties,
+            ];
+          }
+
           // Get all properties, excluding superseded properties.
           $all_properties = $this->database->select('schemadotorg_properties', 'properties')
             ->fields('properties', ['label'])
