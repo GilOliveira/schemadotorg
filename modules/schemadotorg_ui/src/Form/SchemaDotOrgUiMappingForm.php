@@ -720,13 +720,19 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $form = [];
 
     // Field name.
+    if ($defaults['name'] && $defaults['name'] !== static::ADD_FIELD) {
+      $field_empty_options = $this->t('- Remove field mapping -');
+    }
+    else {
+      $field_empty_options = $this->t('- Select or add field -');
+    }
     $form['name'] = [
       '#type' => 'select',
       '#title' => $this->t('Field'),
       '#title_display' => 'invisible',
       '#options' => $this->fieldOptions,
       '#default_value' => $defaults['name'],
-      '#empty_option' => $this->t('- Select or add field -'),
+      '#empty_option' => $field_empty_options,
     ];
 
     // Add new field.
