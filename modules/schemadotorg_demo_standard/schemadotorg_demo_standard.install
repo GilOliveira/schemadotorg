@@ -77,7 +77,6 @@ function schemadotorg_demo_standard_install() {
     '/admin/config/search/schemadotorg' => 'Configure Schema.org Blueprints',
     '/admin/help/schemadotorg'  => 'Learn more about Schema.org Blueprints',
     '/api/documentation' => 'Explore JSON:API OpenAPI Documentation',
-    '/api/openapi?_format=json' => 'Download JSON:API OpenAPI',
   ];
   $weight = -18;
   $shortcut_storage = \Drupal::entityTypeManager()->getStorage('shortcut');
