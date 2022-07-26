@@ -15,7 +15,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
    * Gets the entity type for which this mapping is used. (i.e. node)
    *
    * @return string
-   *   The entity type id.
+   *   The entity type ID.
    */
   public function getTargetEntityTypeId();
 

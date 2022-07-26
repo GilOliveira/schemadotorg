@@ -19,11 +19,11 @@ interface SchemaDotOrgMappingManagerInterface {
    * Get Schema.org mapping default values.
    *
    * @param string $entity_type_id
-   *   The Schema.org type.
+   *   The entity type ID.
    * @param string $bundle
-   *   The entity type id.
-   * @param string $schema_type
    *   The bundle.
+   * @param string $schema_type
+   *   The Schema.org type.
    *
    * @return array
    *   Schema.org mapping default values.
@@ -34,9 +34,9 @@ interface SchemaDotOrgMappingManagerInterface {
    * Save a Schema.org mapping and create associate entity type and fields.
    *
    * @param string $entity_type_id
-   *   The Schema.org type.
-   * @param string $schema_type
    *   The entity type ID.
+   * @param string $schema_type
+   *   The Schema.org type.
    * @param array $values
    *   The entity, subtype, and property values.
    *
@@ -49,7 +49,7 @@ interface SchemaDotOrgMappingManagerInterface {
    * Validate create Schema.org type.
    *
    * @param string $entity_type_id
-   *   The entity type id.
+   *   The entity type ID.
    * @param string $schema_type
    *   The Schema.org type.
    */
@@ -59,7 +59,7 @@ interface SchemaDotOrgMappingManagerInterface {
    * Create Schema.org type.
    *
    * @param string $entity_type_id
-   *   The entity type id.
+   *   The entity type ID.
    * @param string $schema_type
    *   The Schema.org type.
    *
@@ -72,7 +72,7 @@ interface SchemaDotOrgMappingManagerInterface {
    * Validate delete Schema.org type.
    *
    * @param string $entity_type_id
-   *   The entity type id.
+   *   The entity type ID.
    * @param string $schema_type
    *   The Schema.org type.
    */
@@ -82,7 +82,7 @@ interface SchemaDotOrgMappingManagerInterface {
    * Delete Schema.org type.
    *
    * @param string $entity_type_id
-   *   The entity type id.
+   *   The entity type ID.
    * @param string $schema_type
    *   The Schema.org type.
    * @param array $options

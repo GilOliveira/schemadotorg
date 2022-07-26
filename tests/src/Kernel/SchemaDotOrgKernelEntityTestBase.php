@@ -118,7 +118,7 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
    * Install entity dependencies.
    *
    * @param string $entity_type_id
-   *   The entity type id.
+   *   The entity type ID.
    */
   protected function installEntityDependencies($entity_type_id) {
     // Install the target entity type schema.
@@ -149,7 +149,7 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
    * Create an entity type/bundle that is mapping to a Schema.org type.
    *
    * @param string $entity_type_id
-   *   The entity type.
+   *   The entity type ID.
    * @param string $schema_type
    *   The Schema.org type.
    *

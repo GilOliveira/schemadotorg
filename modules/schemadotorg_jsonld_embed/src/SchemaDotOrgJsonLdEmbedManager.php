@@ -114,7 +114,7 @@ class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface
    * Get embedded media and content JSON-LD data.
    *
    * @param string $entity_type_id
-   *   The entity type.
+   *   The entity type ID.
    * @param string $uuid
    *   The entity uuid.
    *

@@ -303,7 +303,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
    * Load Schema.org mapping by entity and Schema.org type.
    *
    * @param string $entity_type
-   *   The entity type id.
+   *   The entity type ID.
    * @param string $schema_type
    *   The Schema.org type.
    *

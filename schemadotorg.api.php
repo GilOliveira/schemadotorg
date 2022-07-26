@@ -46,7 +46,7 @@ function hook_schemadotorg_property_field_prepare($type, $property, array &$defa
  * @param string $schema_type
  *   The Schema.org type.
  * @param string $entity_type_id
- *   The entity type id.
+ *   The entity type ID.
  * @param array &$values
  *   The bundle entity type values.
  */
@@ -91,11 +91,11 @@ function hook_schemadotorg_property_field_alter(
  * Alter Schema.org mapping entity default values.
  *
  * @param string $entity_type_id
- *   The Schema.org type.
+ *   The entity type ID.
  * @param string $bundle
- *   The entity type.
- * @param string $schema_type
  *   The bundle.
+ * @param string $schema_type
+ *   The Schema.org type.
  * @param array $defaults
  *   Schema.org mapping entity default values.
  */

@@ -154,11 +154,11 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    * Get Schema.org mapping entity default values.
    *
    * @param string $entity_type_id
-   *   The Schema.org type.
+   *   The entity type ID.
    * @param string $bundle
-   *   The entity type.
-   * @param string $schema_type
    *   The bundle.
+   * @param string $schema_type
+   *   The Schema.org type.
    *
    * @return array
    *   Schema.org mapping entity default values.
@@ -187,11 +187,11 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    * Get Schema.org mapping properties field default values.
    *
    * @param string $entity_type_id
-   *   The Schema.org type.
+   *   The entity type ID.
    * @param string $bundle
-   *   The entity type.
-   * @param string $schema_type
    *   The bundle.
+   * @param string $schema_type
+   *   The Schema.org type.
    *
    * @return array
    *   Schema.org mapping properties field default values.
@@ -222,11 +222,11 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    * Get Schema.org mapping property default values.
    *
    * @param string $entity_type_id
-   *   The Schema.org type.
+   *   The entity type ID.
    * @param string $bundle
-   *   The entity type.
-   * @param string $schema_type
    *   The bundle.
+   * @param string $schema_type
+   *   The Schema.org type.
    * @param array $property_definition
    *   The property definition.
    *
@@ -522,7 +522,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    * Load a Schema.org mapping type.
    *
    * @param string $entity_type_id
-   *   The entity type id.
+   *   The entity type ID.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface|null
    *   A Schema.org mapping tyup.
@@ -537,7 +537,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    * Load a Schema.org mapping.
    *
    * @param string $entity_type_id
-   *   The entity type id.
+   *   The entity type ID.
    * @param string $bundle
    *   The bundle.
    *

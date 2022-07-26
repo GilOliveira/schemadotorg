@@ -140,7 +140,7 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    * Enable translation for an entity type.
    *
    * @param string $entity_type_id
-   *   The entity type id.
+   *   The entity type ID.
    * @param string $bundle
    *   The entity bundle.
    */
@@ -152,7 +152,7 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    * Enable translation for an entity field.
    *
    * @param string $entity_type_id
-   *   The entity type id.
+   *   The entity type ID.
    * @param string $bundle
    *   The entity bundle.
    */
@@ -168,7 +168,7 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    * Load Schema.org mapping.
    *
    * @param string $entity_type_id
-   *   The entity type id.
+   *   The entity type ID.
    * @param string $bundle
    *   The entity bundle.
    *
