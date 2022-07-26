@@ -35,7 +35,7 @@ class SchemaDotOrgUiMappingController extends ControllerBase {
       $build['update'] = [
         '#theme' => 'admin_block',
         '#block' => [
-          'title' => $this->t('Update existing Schema.org mapping'),
+          'title' => $this->t('Add Schema.org mapping to entity types'),
           'content' => [
             '#theme' => 'admin_block_content',
             '#content' => $update_mapping_links,
