@@ -141,6 +141,10 @@ _The below modules provide different ways to create and manage a collection of f
   (Applies to: [Intangible](https://schema.org/Intangible))  
   Enables the creation of paragraphs (i.e. component) entities.
 
+- **[Entity Construction Kit (ECK)](https://www.drupal.org/project/eck)**
+  (Applies to: [Intangible](https://schema.org/Intangible))  
+  ECK (Entity Construction Kit) allows users to create and administer entity types, bundles and entities from UI.
+
 - **[Micro-content](https://www.drupal.org/project/microcontent)**
   (Applies to: [Intangible](https://schema.org/Intangible))  
   Provides a lightweight reusable content-entity and type that supports fields, revisions and translation.
