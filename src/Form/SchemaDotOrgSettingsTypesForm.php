@@ -34,25 +34,17 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
     $form['schema_types'] = [
       '#tree' => TRUE,
     ];
-    $form['schema_types']['main_properties'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#settings_format' => 'SchemaType|propertyName',
-      '#title' => $this->t('Schema.org type main properties'),
-      '#description' => $this->t('Enter the main property for a Schema.org type. Defaults to <em>name</em> for unspecified Schema.org types. Leave the main property blank when there is no applicable main property for the Schema.org type.'),
-      '#description_link' => 'types',
-      '#default_value' => $config->get('schema_types.main_properties'),
-    ];
     $form['schema_types']['default_properties'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
       '#settings_format' => 'SchemaType|propertyName01,propertyName02,propertyName02',
       '#title' => $this->t('Default Schema.org type properties'),
-      '#description' => $this->t('Enter default Schema.org type properties.')
+      '#rows' => 10,
+      '#description' => $this->t('Enter default properties for Schema.org types.')
       . '<br/><br/>'
-      . $this->t('Please note: Default properties are automatically inherited from their parent Schema.org type and <a href="https://schema.org/Intangible">Intangible</a> are automatically assigned all defined properties, expect for properties defined via <a href="https://schema.org/Thing">Thing</a>.')
+      . $this->t('Please note: Default properties are automatically inherited from their parent Schema.org type and <a href="https://schema.org/Intangible">Intangible</a> are automatically assigned all defined properties, except for properties defined via <a href="https://schema.org/Thing">Thing</a>.')
       . ' '
-      . $this->t('Prepend a minus to a property to explicitly remove the property from the specific type.'),
+      . $this->t('Prepend a minus to a property to explicitly remove the property from the specific Schema.org type.'),
       '#description_link' => 'types',
       '#default_value' => $config->get('schema_types.default_properties'),
     ];
@@ -75,6 +67,15 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
       . $this->t('Field types are applied in the order that they are entered.'),
       '#description_link' => 'types',
       '#default_value' => $config->get('schema_types.default_field_types'),
+    ];
+    $form['schema_types']['main_properties'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'SchemaType|propertyName',
+      '#title' => $this->t('Schema.org type main properties'),
+      '#description' => $this->t('Enter the main property for a Schema.org type. Defaults to <em>name</em> for unspecified Schema.org types. Leave the main property blank when there is no applicable main property for the Schema.org type.'),
+      '#description_link' => 'types',
+      '#default_value' => $config->get('schema_types.main_properties'),
     ];
     return parent::buildForm($form, $form_state);
   }

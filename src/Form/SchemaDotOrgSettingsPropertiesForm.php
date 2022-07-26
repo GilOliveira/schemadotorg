@@ -64,6 +64,16 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
       $form['schema_properties']['field_prefix']['#disabled'] = TRUE;
       $form['schema_properties']['field_prefix']['#value'] = $config->get('field_prefix');
     }
+    $form['schema_properties']['default_fields'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
+      '#settings_format' => 'SchemaType--propertyName|type:string,label:Property name,unlimited:1',
+      '#title' => $this->t('Default Schema.org property fields'),
+      '#rows' => 20,
+      '#description' => $this->t('Enter default Schema.org property field definition used when adding a Schema.org property to an entity type.'),
+      '#description_link' => 'properties',
+      '#default_value' => $config->get('schema_properties.default_fields'),
+    ];
     $form['schema_properties']['range_includes'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
@@ -80,15 +90,6 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
       '#description' => $this->t('Enter Schema.org properties that should ignored and not displayed on the Schema.org mapping form and simplifies the user experience.'),
       '#description_link' => 'properties',
       '#default_value' => $config->get('schema_properties.ignored_properties'),
-    ];
-    $form['schema_properties']['default_fields'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
-      '#settings_format' => 'SchemaType--propertyName|type:string,label:Property name,unlimited:1',
-      '#title' => $this->t('Default Schema.org property fields'),
-      '#description' => $this->t('Enter default Schema.org property field definition used when adding a Schema.org property to an entity type.'),
-      '#description_link' => 'properties',
-      '#default_value' => $config->get('schema_properties.default_fields'),
     ];
     return parent::buildForm($form, $form_state);
   }
