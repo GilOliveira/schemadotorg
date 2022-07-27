@@ -1,7 +1,7 @@
 name: Schema.org Blueprints JSON-LD Embed
 type: module
 description: Extracts embedded media and content from an entity and includes the associated Schema.org type in JSON-LD.
-package: Schema.org Blueprints
+package: Schema.org Blueprints Extras
 core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental
 dependencies:
