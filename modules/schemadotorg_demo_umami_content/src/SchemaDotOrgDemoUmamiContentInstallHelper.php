@@ -86,9 +86,11 @@ class SchemaDotOrgDemoUmamiContentInstallHelper extends InstallHelper {
    */
   protected function applyMapping(array $values, array $mapping) {
     foreach ($mapping as $source => $destination) {
-      $value = $values[$source];
-      unset($values[$source]);
-      $values[$destination] = $value;
+      if (isset($values[$source])) {
+        $value = $values[$source];
+        unset($values[$source]);
+        $values[$destination] = $value;
+      }
     }
     return $values;
   }
