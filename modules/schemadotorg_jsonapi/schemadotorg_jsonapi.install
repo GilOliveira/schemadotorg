@@ -9,6 +9,10 @@
  * Implements hook_requirements().
  */
 function schemadotorg_jsonapi_requirements($phase) {
+  if ($phase !== 'runtime') {
+    return;
+  }
+
   /** @var \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface $manager */
   $manager = \Drupal::service('schemadotorg_jsonapi.manager');
   return $manager->requirements($phase);

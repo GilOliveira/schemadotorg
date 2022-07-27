@@ -9,6 +9,10 @@
  * Implements hook_requirements().
  */
 function schemadotorg_requirements($phase) {
+  if ($phase !== 'runtime') {
+    return;
+  }
+
   /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
   $installer = \Drupal::service('schemadotorg.installer');
   return $installer->requirements($phase);
