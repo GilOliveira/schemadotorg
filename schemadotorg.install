@@ -6,6 +6,15 @@
  */
 
 /**
+ * Implements hook_requirements().
+ */
+function schemadotorg_requirements($phase) {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
+  $installer = \Drupal::service('schemadotorg.installer');
+  return $installer->requirements($phase);
+}
+
+/**
  * Implements hook_install().
  */
 function schemadotorg_install() {

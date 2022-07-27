@@ -4,11 +4,15 @@ namespace Drupal\schemadotorg;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\Url;
 
 /**
  * Schema.org installer service.
  */
 class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
+  use StringTranslationTrait;
 
   /**
    * Schema.org version.
@@ -21,6 +25,13 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    * @var \Drupal\Core\Database\Connection
    */
   protected $database;
+
+  /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
 
   /**
    * The entity type manager.
@@ -48,6 +59,8 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    *
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
@@ -57,14 +70,105 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    */
   public function __construct(
     Connection $database,
+    ModuleHandlerInterface $module_handler,
     EntityTypeManagerInterface $entity_type_manager,
     SchemaDotOrgNamesInterface $schema_names,
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
   ) {
     $this->database = $database;
+    $this->moduleHandler = $module_handler;
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaNames = $schema_names;
     $this->schemaTypeManager = $schema_type_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function requirements($phase) {
+    if ($phase !== 'runtime') {
+      return [];
+    }
+
+    $recommended_modules = [
+      'datetime' => [
+        'title' => $this->t('Datetime'),
+        'description' => $this->t('Defines datetime form elements and a datetime field type.'),
+        'uri' => 'https://www.drupal.org/docs/8/core/modules/datetime',
+      ],
+      'link' => [
+        'title' => $this->t('Link'),
+        'description' => $this->t('Provides a simple link field type.'),
+        'uri' => 'https://www.drupal.org/docs/8/core/modules/link',
+      ],
+      'media' => [
+        'title' => $this->t('Media'),
+        'description' => $this->t('Manages the creation, configuration, and display of media items.'),
+        'uri' => 'https://www.drupal.org/docs/8/core/modules/media',
+      ],
+      'media_library' => [
+        'title' => $this->t('Media Library'),
+        'description' => $this->t('Enhances the media list with additional features to more easily find and use existing media items.'),
+        'uri' => 'https://www.drupal.org/docs/8/core/modules/media_library',
+      ],
+      'telephone' => [
+        'title' => $this->t('Telephone'),
+        'description' => $this->t('Defines a field type for telephone numbers.'),
+        'uri' => 'https://www.drupal.org/docs/8/core/modules/telephone',
+      ],
+      'field_group' => [
+        'title' => $this->t('Field Group'),
+        'description' => $this->t('Provides the ability to group your fields on both form and display.'),
+        'uri' => 'https://www.drupal.org/project/field_group',
+      ],
+      'address' => [
+        'title' => $this->t('Address'),
+        'description' => $this->t('Provides functionality for storing, validating and displaying international postal addresses.'),
+        'uri' => 'https://www.drupal.org/project/address',
+      ],
+    ];
+
+    $installed_modules = $this->moduleHandler->getModuleList();
+    $missing_modules = array_diff_key($recommended_modules, $installed_modules);
+    if (empty($missing_modules)) {
+      return [];
+    }
+
+    $module_names = [];
+    $module_items = [];
+    foreach ($missing_modules as $missing_module) {
+      $module_names[] = $missing_module['title'];
+      $module_items[] = [
+        'title' => [
+          '#type' => 'link',
+          '#title' => $missing_module['title'],
+          '#url' => Url::fromUri($missing_module['uri']),
+          '#suffix' => '</br>',
+        ],
+        'description' => [
+          '#markup' => $missing_module['description'],
+        ],
+      ];
+    }
+
+    $requirements = [];
+
+    $requirements['schemadotorg_modules'] = [
+      'title' => $this->t('Schema.org Blueprints: Recommended modules missing'),
+      'value' => $this->t('Recommended modules missing: %module_list.', ['%module_list' => implode(', ', $module_names)]),
+      'description' => [
+        'content' => [
+          '#markup' => $this->t('The below recommend help intergrate and support Schema.org mappings, entities, and fields.'),
+        ],
+        'items' => [
+          '#theme' => 'item_list',
+          '#items' => $module_items,
+        ],
+      ],
+      'severity' => REQUIREMENT_WARNING,
+    ];
+
+    return $requirements;
   }
 
   /**
