@@ -1,11 +1,11 @@
-Schema.org Blueprints
----------------------
+Schema.org Blueprints: Recommended core and contributed modules
+---------------------------------------------------------------
 
-Below are recommended core and contribute modules that can be used with the Schema.org Blueprints module.
+Below are recommended core and contributed modules that can be used with the Schema.org Blueprints module.
 
 ## Sub-modules
 
-_The below modules are included with the Schema.org Blueprints module/package._
+_Below modules are included with the Schema.org Blueprints module/package._
 
 Core
 
@@ -95,6 +95,8 @@ API
 
 ## Core Modules
 
+_Below are recommended Drupal core modules._
+
 - **[Datetime](https://www.drupal.org/docs/8/core/modules/datetime)**
   (Applies to: [Date](https://schema.org/Date), [DateTime](https://schema.org/DateTime))  
   Defines datetime form elements and a datetime field type.
@@ -116,6 +118,8 @@ API
   Defines a field type for telephone numbers.
 
 ## Contribute Modules
+
+_Below are recommended contributed modules._
 
 ### UI/UX
 

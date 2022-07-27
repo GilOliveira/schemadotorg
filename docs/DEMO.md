@@ -1,5 +1,5 @@
-Schema.org Blueprints Demo
---------------------------
+Schema.org Blueprints: Demo
+---------------------------
 
 * Introduction
 * Installation
