@@ -698,6 +698,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $property = $definition['label'];
     $property_maxlength = $this->schemaNames->getNameMaxLength('properties');
 
+    $mapping_entity = $this->getEntity();
+    $is_new_mapping = $mapping_entity->isNew();
+
     // Initialize field options.
     if (!isset($this->fieldOptions)) {
       $this->fieldOptions = $this->schemaEntityFieldManager->getFieldOptions(
@@ -722,7 +725,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     // Field name.
     if ($defaults['name']
       && $defaults['name'] !== static::ADD_FIELD
-      && !$this->getEntity()->isNew()) {
+      && !$is_new_mapping) {
       $field_empty_options = $this->t('- Remove field mapping -');
     }
     else {
