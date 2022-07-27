@@ -92,15 +92,15 @@ function schemadotorg_descriptions_form_schemadotorg_mapping_form_alter(&$form, 
   $add_field = SchemaDotOrgUiMappingForm::ADD_FIELD;
 
   // Unset the entity's default value and append a note to the description.
-  if (isset($form['entity']['description'])) {
-    $form['entity']['description']['#default_value'] = '';
-    $form['entity']['description']['#description'] .= '<br/>'
+  if (isset($form['mapping']['entity']['description'])) {
+    $form['mapping']['entity']['description']['#default_value'] = '';
+    $form['mapping']['entity']['description']['#description'] .= '<br/>'
      . '<strong>' . t("If left blank, the description will be automatically set to the corresponding Schema.org type's comment.") . '</strong>';
   }
 
   // Unset each field's default value and append a note to the description.
-  if (isset($form['properties'])) {
-    foreach ($form['properties'] as &$element) {
+  if (isset($form['mapping']['properties'])) {
+    foreach ($form['mapping']['properties'] as &$element) {
       if (isset($element['field'][$add_field]['description'])) {
         $element['field'][$add_field]['description']['#default_value'] = '';
         $element['field'][$add_field]['description']['#description'] .= '<br/>'

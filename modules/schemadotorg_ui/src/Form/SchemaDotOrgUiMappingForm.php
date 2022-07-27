@@ -213,13 +213,15 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $mapping_entity = $this->getEntity();
 
+    $mapping_values = $form_state->getValue('mapping');
+
     // Validate the bundle entity before it is created.
     if ($mapping_entity->isNewTargetEntityTypeBundle()) {
-      $values = $form_state->getValue('entity');
+      $entity_values = $mapping_values['entity'];
       $bundle_entity_type_id = $mapping_entity->getTargetEntityTypeBundleId();
       /** @var \Drupal\Core\Entity\Sql\SqlContentEntityStorage $bundle_entity_storage */
       $bundle_entity_storage = $this->entityTypeManager->getStorage($bundle_entity_type_id);
-      $bundle_entity = $bundle_entity_storage->load($values['id']);
+      $bundle_entity = $bundle_entity_storage->load($entity_values['id']);
       if ($bundle_entity) {
         $target_entity_type_bundle_definition = $this->getEntity()->getTargetEntityTypeBundleDefinition();
         $t_args = [
@@ -227,7 +229,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
           '@type' => $target_entity_type_bundle_definition->getSingularLabel(),
         ];
         $message = $this->t('A %id @type already exists. Please enter a different name.', $t_args);
-        $element = NestedArray::getValue($form, ['entity', 'id']);
+        $element = NestedArray::getValue($form, ['mapping', 'entity', 'id']);
         $form_state->setError($element, $message);
       }
     }
@@ -236,14 +238,14 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $entity_type_id = $mapping_entity->getTargetEntityTypeId();
     /** @var \Drupal\field\FieldStorageConfigStorage $field_storage_config_storage */
     $field_storage_config_storage = $this->entityTypeManager->getStorage('field_storage_config');
-    $properties = $form_state->getValue('properties');
+    $properties = $mapping_values['properties'];
     foreach ($properties as $property_name => $property_values) {
       if ($property_values['field']['name'] === static::ADD_FIELD) {
         // Validate required field properties.
         $required_element_names = ['type', 'label', 'machine_name'];
         foreach ($required_element_names as $required_element_name) {
           if (empty($property_values['field'][static::ADD_FIELD][$required_element_name])) {
-            $element = NestedArray::getValue($form, ['properties', $property_name, 'field', static::ADD_FIELD, $required_element_name]);
+            $element = NestedArray::getValue($form, ['mapping', 'properties', $property_name, 'field', static::ADD_FIELD, $required_element_name]);
             $form_state->setError($element, $this->t('@name field is required for the @property property mapping.', ['@name' => $element['#title'], '@property' => $property_name]));
           }
         }
@@ -252,7 +254,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         if (!empty($property_values['field'][static::ADD_FIELD]['machine_name'])) {
           $field_name = $this->schemaNames->getFieldPrefix() . $property_values['field'][static::ADD_FIELD]['machine_name'];
           if ($field_storage_config_storage->load($entity_type_id . '.' . $field_name)) {
-            $element = NestedArray::getValue($form, ['properties', $property_name, 'field', static::ADD_FIELD, 'machine_name']);
+            $element = NestedArray::getValue($form, ['mapping', 'properties', $property_name, 'field', static::ADD_FIELD, 'machine_name']);
             $t_args = ['%name' => $field_name];
             $message = $this->t('A %name field already exists. Please enter a different name or select the existing field.', $t_args);
             $form_state->setError($element, $message);
@@ -278,7 +280,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       $form_state->setRedirect('<current>');
     }
 
-    $values = $this->getMappingValuesFromFormState($form_state);
+    $mapping_values = $this->getMappingValuesFromFormState($form_state);
 
     // Track if new entity is being created.
     $is_new_mapping = $mapping_entity->isNew();
@@ -286,14 +288,14 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     // Track new property fields being created.
     $new_field_names = [];
-    foreach ($values['properties'] as $field) {
+    foreach ($mapping_values['properties'] as $field) {
       if ($field['name'] == static::ADD_FIELD) {
         $new_field_names[] = $field['label'];
       }
     }
 
     // Set the mapping which will create or update it.
-    $mapping_entity = $this->schemaMappingManager->saveMapping($entity_type_id, $schema_type, $values);
+    $mapping_entity = $this->schemaMappingManager->saveMapping($entity_type_id, $schema_type, $mapping_values);
     $this->setEntity($mapping_entity);
 
     // Display message and log new bundle entity.
@@ -352,26 +354,22 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    *   Schema.org mapping values.
    */
   protected function getMappingValuesFromFormState(FormStateInterface $form_state) {
-    $form_values = $form_state->getValues();
-
-    $values = [];
+    $mapping_values = $form_state->getValue('mapping');
 
     // Entity.
-    $values['entity'] = $form_values['entity'] ?? [];
+    $mapping_values['entity'] = $mapping_values['entity'] ?? [];
 
     // Properties.
-    $properties = [];
-    foreach ($form_values['properties'] as $property => $property_values) {
-      $properties[$property] = [
+    foreach ($mapping_values['properties'] as $property => $property_values) {
+      $mapping_values['properties'][$property] = [
         'name' => $property_values['field']['name'],
       ];
       if (isset($property_values['field'][static::ADD_FIELD])) {
-        $properties[$property] += $property_values['field'][static::ADD_FIELD];
+        $mapping_values['properties'][$property] += $property_values['field'][static::ADD_FIELD];
       }
     }
-    $values['properties'] = $properties;
 
-    return $values;
+    return $mapping_values;
   }
 
   /* ************************************************************************ */
@@ -403,11 +401,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     // Build the Schema.org type summary form.
     $this->buildSchemaTypeForm($form);
 
-    // Build add Schema.org  entity type/bundle form.
-    $this->buildAddEntityForm($form, $defaults['entity']);
-
-    // Build Schema.org type properties table.
-    $this->buildSchemaPropertiesForm($form, $defaults['properties']);
+    // Schema.org entity type/bundle and properties mapping form.
+    $form['mapping'] = ['#tree' => TRUE];
+    $this->buildAddEntityForm($form['mapping'], $defaults['entity']);
+    $this->buildSchemaPropertiesForm($form['mapping'], $defaults['properties']);
 
     // Load the jsTree before the Schema.org UI library to ensure that
     // jsTree loads and works inside modal dialogs.
@@ -521,7 +518,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#type' => 'details',
       '#title' => $this->t('Add @name', $t_args),
       '#open' => TRUE,
-      '#tree' => TRUE,
       '#weight' => -10,
     ];
     $form['entity']['label'] = [
@@ -610,6 +606,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#wrapper_attributes' => [
         'class' => ['schemadotorg-ui-properties-filter'],
       ],
+      '#parents' => ['filter'],
       '#weight' => 0,
     ];
 

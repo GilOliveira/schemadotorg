@@ -68,7 +68,7 @@ class SchemaDotOrgSubtypeTest extends SchemaDotOrgBrowserTestBase {
     // Check that subtype field appears but is not checked by default.
     $this->drupalGet('/admin/structure/types/schemadotorg', ['query' => ['type' => 'Person']]);
     $assert_session->responseContains('Enable Schema.org subtyping');
-    $assert_session->checkboxNotChecked('properties[subtype][field][name]');
+    $assert_session->checkboxNotChecked('mapping[properties][subtype][field][name]');
 
     // Check that subtype field does appear when not supported.
     $this->drupalGet('/admin/structure/types/schemadotorg', ['query' => ['type' => 'Patient']]);
@@ -77,7 +77,7 @@ class SchemaDotOrgSubtypeTest extends SchemaDotOrgBrowserTestBase {
     // Check that subtype field is checked by default.
     $this->drupalGet('/admin/structure/types/schemadotorg', ['query' => ['type' => 'Event']]);
     $assert_session->responseContains('Enable Schema.org subtyping');
-    $assert_session->checkboxChecked('properties[subtype][field][name]');
+    $assert_session->checkboxChecked('mapping[properties][subtype][field][name]');
 
     // Create the Event Schema.org type mapping.
     $this->submitForm([], 'Save');

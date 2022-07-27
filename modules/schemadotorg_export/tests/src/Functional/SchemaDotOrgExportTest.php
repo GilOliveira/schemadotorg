@@ -43,9 +43,9 @@ class SchemaDotOrgExportTest extends SchemaDotOrgBrowserTestBase {
     // Create the 'Thing' content type with type and alternateName fields.
     $this->drupalGet('/admin/structure/types/schemadotorg', ['query' => ['type' => 'Thing']]);
     $edit = [
-      'properties[subtype][field][name]' => TRUE,
-      'properties[alternateName][field][name]' => '_add_',
-      'properties[name][field][name]' => '_add_',
+      'mapping[properties][subtype][field][name]' => TRUE,
+      'mapping[properties][alternateName][field][name]' => '_add_',
+      'mapping[properties][name][field][name]' => '_add_',
     ];
     $this->submitForm($edit, 'Save');
 

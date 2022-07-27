@@ -135,10 +135,10 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
 
     // Check validating the new field names before they are created.
     $edit = [
-      'properties[alternateName][field][name]' => '_add_',
-      'properties[alternateName][field][_add_][machine_name]' => '',
-      'properties[contactType][field][name]' => '_add_',
-      'properties[contactType][field][_add_][machine_name]' => 'contact_type',
+      'mapping[properties][alternateName][field][name]' => '_add_',
+      'mapping[properties][alternateName][field][_add_][machine_name]' => '',
+      'mapping[properties][contactType][field][name]' => '_add_',
+      'mapping[properties][contactType][field][_add_][machine_name]' => 'contact_type',
     ];
     $this->submitForm($edit, 'Save');
     $assert_session->responseContains('Machine-readable name field is required for the alternateName property mapping.');
@@ -181,7 +181,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     // Create 'Person' user mapping with gender enumeration for
     // testing purposes.
     $this->drupalGet('/admin/config/people/accounts/schemadotorg');
-    $this->submitForm(['properties[gender][field][name]' => '_add_'], 'Save');
+    $this->submitForm(['mapping[properties][gender][field][name]' => '_add_'], 'Save');
     $assert_session->responseContains('Added <em class="placeholder">Middle name; Address; Affiliations; Alumni of; Awards; Birth date; Contact points; Description; Last name; Gender; First name; Honorific prefix; Honorific suffix; Image; Job title; Knows languages; Nationality; Same as; Telephone; Works for</em> fields.</li>');
 
     $assert_session->responseContains('Created <em class="placeholder">User</em> mapping.');
