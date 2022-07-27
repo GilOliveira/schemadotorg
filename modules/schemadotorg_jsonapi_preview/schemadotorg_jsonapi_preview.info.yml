@@ -2,7 +2,7 @@ name: Schema.org Blueprints JSON:API Preview
 type: module
 description: Allows users to preview a web page's Schema.org JSON:API.
 package: Schema.org Blueprints
-core_version_requirement: ^9
+core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental
 configure: schemadotorg_jsonapi.settings
 dependencies:
