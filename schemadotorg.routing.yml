@@ -1,5 +1,5 @@
-schemadotorg.settings:
-  path: '/admin/config/search/schemadotorg/settings'
+schemadotorg.settings.types:
+  path: '/admin/config/search/schemadotorg/settings/types'
   defaults:
     _title: 'Schema.org settings'
     _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsTypesForm'
@@ -21,13 +21,6 @@ schemadotorg.settings.names:
     _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsNamesForm'
   requirements:
     _permission: 'administer schemadotorg'
-
-schemadotorg.autocomplete:
-  path: '/schemadotorg/autocomplete/{table}'
-  defaults:
-    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgAutocompleteController::autocomplete'
-  requirements:
-    _permission: 'access content'
 
 entity.schemadotorg_mapping.collection:
   path: '/admin/config/search/schemadotorg'
@@ -89,3 +82,9 @@ entity.schemadotorg_mapping_type.delete_form:
   requirements:
     _permission: 'administer schemadotorg'
 
+schemadotorg.autocomplete:
+  path: '/schemadotorg/autocomplete/{table}'
+  defaults:
+    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgAutocompleteController::autocomplete'
+  requirements:
+    _permission: 'access content'

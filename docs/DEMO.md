@@ -27,12 +27,12 @@ INSTALLATION
   - Update the root `composer.json` file to include `schemadotorg_demo/composer.libraries.json`
   - See example below.
 - Install the Schema.org Blueprints Demo
-  - OPTION 1
+  - **OPTION 1**
     - Install plain vanilla standard instance of Drupal
       - Run `drush site-install`
     - Install the Schema.org Blueprints Demo
       - Run `drush en schemadotorg_demo`
-  - OPTIONS 2
+  - **OPTIONS 2**
     - From the root run the below scripts.
       - Run `web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh demo`
       - Run `web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh translate`

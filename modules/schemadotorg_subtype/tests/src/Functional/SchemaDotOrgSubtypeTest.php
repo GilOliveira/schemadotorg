@@ -93,12 +93,12 @@ class SchemaDotOrgSubtypeTest extends SchemaDotOrgBrowserTestBase {
     /* ********************************************************************** */
 
     // Update subtype configuration settings.
-    $this->drupalGet('/admin/config/search/schemadotorg/settings');
+    $this->drupalGet('/admin/config/search/schemadotorg/settings/subtype');
     $edit = [
-      'subtype_default_field_label' => 'Type',
-      'subtype_default_field_suffix' => '_type',
-      'subtype_default_field_description' => 'Custom subtype description',
-      'subtype_default_subtypes' => 'Person',
+      'default_field_label' => 'Type',
+      'default_field_suffix' => '_type',
+      'default_field_description' => 'Custom subtype description',
+      'default_subtypes' => 'Person',
     ];
     $this->submitForm($edit, 'Save configuration');
 

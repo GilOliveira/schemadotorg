@@ -20,7 +20,7 @@ schemadotorg:
 
 # Usage
 
-## Setup individual Schema.org types with example content.
+## Setup and generate individual Schema.org types with example content.
 
 ```
 # Generate Schema.org types.
@@ -37,7 +37,7 @@ drush devel-generate:content --kill --skip-fields=menu_link\
  --bundles=person,organization,place,event 50
 ```
 
-## Teardown individual Schema.org types with example content.
+## Kill and teardown individual Schema.org types with example content.
 
 ```
 # Delete content.

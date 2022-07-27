@@ -22,13 +22,14 @@ content architecture and structured data in a Drupal website.
 
 * Read more documentation and note about the Schema.org Blueprint module. 
 
-  * doc/DEMO.md
-  * doc/README.md
-  * doc/MODULES.md
-  * doc/NOTES.md
-  * doc/DRUSH.md
-  * doc/ROADMAP.md
-  * doc/RELEASE-NOTES.md
+  * docs/DEMO.md
+  * docs/README.md
+  * docs/MODULES.md
+  * docs/NOTES.md
+  * docs/DRUSH.md
+  * docs/ROADMAP.md
+  * docs/REFERENCES.md
+  * docs/RELEASE-NOTES.md
 
 
 REQUIREMENTS
