@@ -24,7 +24,7 @@ Drupal Content Architecture
 - [How Do You Structure a Complex Content Architecture in Drupal 8?](https://medium.com/@OPTASY.com/how-do-you-structure-a-complex-content-architecture-in-drupal-8-4f8a1362a357)
 - [Content Modelling Approach With Drupal](https://www.srijan.net/resources/blog/content-modelling-approach-with-drupal)
 
-# Schema.org JSON-LD Examples
+Schema.org JSON-LD Examples
 
 - [NY Times](https://validator.schema.org/#url=nytimes.com)
 - [Stack overflow](https://validator.schema.org/#url=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F28687653%2Fschema-org-json-ld-where-to-place)

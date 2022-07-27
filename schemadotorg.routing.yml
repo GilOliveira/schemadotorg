@@ -1,7 +1,7 @@
 schemadotorg.settings.types:
   path: '/admin/config/search/schemadotorg/settings/types'
   defaults:
-    _title: 'Schema.org settings'
+    _title: 'Schema.org types settings'
     _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsTypesForm'
   requirements:
     _permission: 'administer schemadotorg'
@@ -9,7 +9,7 @@ schemadotorg.settings.types:
 schemadotorg.settings.properties:
   path: '/admin/config/search/schemadotorg/settings/properties'
   defaults:
-    _title: 'Schema.org settings'
+    _title: 'Schema.org properties settings'
     _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsPropertiesForm'
   requirements:
     _permission: 'administer schemadotorg'
@@ -17,7 +17,7 @@ schemadotorg.settings.properties:
 schemadotorg.settings.names:
   path: '/admin/config/search/schemadotorg/settings/names'
   defaults:
-    _title: 'Schema.org settings'
+    _title: 'Schema.org names settings'
     _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsNamesForm'
   requirements:
     _permission: 'administer schemadotorg'
