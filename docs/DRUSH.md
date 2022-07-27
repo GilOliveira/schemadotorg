@@ -6,16 +6,21 @@ Schema.org Blueprints: Drush commands
 ```
 drush list --filter=schemadotorg
 
-Available commands:
-schemadotorg:
-schemadotorg:create-type (socr)   Create Schema.org types.
-schemadotorg:delete-type (sode)   Delete Schema.org type.
-schemadotorg:update-schema (soup) Update Schema.org data.
+Available commands:                                                      
+schemadotorg:                                                            
+  schemadotorg:create-type (socr)   Create Schema.org types.             
+  schemadotorg:delete-type (sode)   Delete Schema.org type.              
+  schemadotorg:repair (sorp)        Update Schema.org repair.            
+  schemadotorg:set-generate (sosg)  Generate the Schema.org mapping set. 
+  schemadotorg:set-kill (sosk)      Kill the Schema.org mapping set.     
+  schemadotorg:set-setup (soss)     Setup the Schema.org mapping set.    
+  schemadotorg:set-teardown (sost)  Teardown the Schema.org mapping set. 
+  schemadotorg:update-schema (soup) Update Schema.org data. 
 ```
 
 # Usage
 
-## Setup Schema.org types with example content.
+## Setup individual Schema.org types with example content.
 
 ```
 # Generate Schema.org types.
@@ -32,7 +37,7 @@ drush devel-generate:content --kill --skip-fields=menu_link\
  --bundles=person,organization,place,event 50
 ```
 
-## Teardown Schema.org types with example content.
+## Teardown individual Schema.org types with example content.
 
 ```
 # Delete content.
@@ -45,4 +50,14 @@ drush schemadotorg:delete-type -y --delete-fields user:Person
 drush schemadotorg:delete-type -y --delete-fields media:AudioObject media:DataDownload media:ImageObject media:VideoObject
 drush schemadotorg:delete-type -y --delete-entity paragraph:ContactPoint paragraph:PostalAddress
 drush schemadotorg:delete-type -y --delete-entity node:Person node:Organization node:Place node:Event
+```
+
+## Setup, generate, kill and teardown a set Schema.org types.
+
+```
+# Generate Schema.org mapping set.
+drush schemadotorg:set-create common
+drush schemadotorg:set-generate common
+drush schemadotorg:set-kill common
+drush schemadotorg:set-teardown common
 ```

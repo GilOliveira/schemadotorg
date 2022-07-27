@@ -9,8 +9,8 @@ INTRODUCTION
 ------------
 
 The Schema.org Blueprints Demo module provides an opinionated demo of the
-Schema.org Blueprints built on top of Drupal's standard profile with default 
-content and translations.
+Schema.org Blueprints module built on top of Drupal's standard profile with
+default content from the Umami demo installation profile.
 
 **THIS DEMO MODULE SHOULD ONLY BE INSTALLED ON A PLAIN VANILLA STANDARD INSTANCE OF DRUPAL**
 
