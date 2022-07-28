@@ -225,7 +225,7 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * @param array $properties
    *   An associative array of properties keyed by Schema.org type.
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    */
   protected function setSchemaTypeDefaultProperties(array &$default_properties, array $properties, $type) {
     if (!isset($properties[$type])) {

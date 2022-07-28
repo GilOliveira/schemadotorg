@@ -51,9 +51,9 @@ interface SchemaDotOrgSchemaTypeBuilderInterface {
    * Format Schema.org type or property comment.
    *
    * @param string $comment
-   *   A comment.
+   *   The Schema.org type or property comment.
    * @param array $options
-   *   Link options which include:
+   *   The comment's link options which include:
    *   - base_path.
    *   - attributes.
    *

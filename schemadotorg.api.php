@@ -97,7 +97,7 @@ function hook_schemadotorg_property_field_alter(
  * @param string $schema_type
  *   The Schema.org type.
  * @param array $defaults
- *   Schema.org mapping entity default values.
+ *   The Schema.org mapping entity default values.
  */
 function hook_schemadotorg_mapping_defaults($entity_type_id, $bundle, $schema_type, array &$defaults) {
   // @todo Provide an example.

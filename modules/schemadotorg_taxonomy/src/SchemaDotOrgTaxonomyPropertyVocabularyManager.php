@@ -178,7 +178,7 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
    * Get a taxonomy Schema.org default property.
    *
    * @param string $property
-   *   A Schema.org property.
+   *   The Schema.org property.
    *
    * @return array|null
    *   A Schema.org default property vocabulary definition.

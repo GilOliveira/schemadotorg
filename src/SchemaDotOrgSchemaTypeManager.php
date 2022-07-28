@@ -67,10 +67,10 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    * Gets Schema.org type or property URI.
    *
    * @param string $id
-   *   A Schema.org type or property.
+   *   The Schema.org type or property.
    *
    * @return string
-   *   Schema.org type or property URI.
+   *   The Schema.org type or property URI.
    */
   public function getUri($id) {
     return static::URI . $id;
@@ -271,10 +271,10 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    * Get a Schema.org property's default Schema.org type from range_includes.
    *
    * @param string $property
-   *   A Schema.org property.
+   *   The Schema.org property.
    *
    * @return string|null
-   *   A Schema.org property's default Schema.org type from range_includes.
+   *   The Schema.org property's default Schema.org type from range_includes.
    */
   public function getPropertyDefaultType($property) {
     $property_definition = $this->getProperty($property);
@@ -507,7 +507,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    * Build Schema.org type hierarchical tree.
    *
    * @param string|array $type
-   *   A Schema.org type or an array of types.
+   *   The Schema.org type or an array of types.
    * @param array $ignored_types
    *   An array of ignored Schema.org types.
    *
@@ -722,7 +722,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    * Set Schema.org item Drupal fields including name and label.
    *
    * @param string $table
-   *   A Schema.org table.
+   *   The Schema.org table.
    * @param array|false|null $item
    *   An associative array containing Schema.org type or property item.
    *

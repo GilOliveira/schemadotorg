@@ -461,7 +461,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    * Delete fields and field groups associated with Schema.org mapping.
    *
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
-   *   A Schema.org mapping.
+   *   The Schema.org mapping.
    */
   protected function deleteFields(SchemaDotOrgMappingInterface $mapping) {
     $entity_type_id = $mapping->getTargetEntityTypeId();

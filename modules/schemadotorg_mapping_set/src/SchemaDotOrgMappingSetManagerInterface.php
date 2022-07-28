@@ -11,7 +11,7 @@ interface SchemaDotOrgMappingSetManagerInterface {
    * Determine if a Schema.org mapping set is already setup.
    *
    * @param string $name
-   *   A Schema.org mapping set name.
+   *   The Schema.org mapping set name.
    *
    * @return bool
    *   If a Schema.org mapping set is already setup.

@@ -42,7 +42,7 @@ interface SchemaDotOrgNamesInterface {
    * Convert snake case (snake_case) to upper camel case (CamelCase).
    *
    * @param string $string
-   *   A snake case string.
+   *   The snake case string.
    *
    * @return string
    *   The snake case (snake_case) to upper camel case (CamelCase).
@@ -53,7 +53,7 @@ interface SchemaDotOrgNamesInterface {
    * Convert snake case (snake_case) to camel case (CamelCase).
    *
    * @param string $string
-   *   A snake case string.
+   *  The snake case string.
    *
    * @return string
    *   The snake case (snake_case) to camel case (CamelCase).
@@ -64,7 +64,7 @@ interface SchemaDotOrgNamesInterface {
    * Convert camel case (camelCase) to snake case (snake_case).
    *
    * @param string $string
-   *   A camel case string.
+   *   The camel case string.
    *
    * @return string
    *   The camel case string converted to snake case.
@@ -75,7 +75,7 @@ interface SchemaDotOrgNamesInterface {
    * Convert camel case (camelCase) to title case (Title Case).
    *
    * @param string $string
-   *   A camel case string.
+   *   The camel case string.
    *
    * @return string
    *   The camel case string converted to title case.
@@ -86,7 +86,7 @@ interface SchemaDotOrgNamesInterface {
    * Convert camel case (camelCase) to sentence case (Sentence ase).
    *
    * @param string $string
-   *   A camel case string.
+   *   Thecamel case string.
    *
    * @return string
    *   The camel case string converted to sentence case.
@@ -97,7 +97,7 @@ interface SchemaDotOrgNamesInterface {
    * Convert camel case to a Drupal machine name.
    *
    * @param string $string
-   *   A Schema.org type or property.
+   *   The Schema.org type or property.
    * @param array $options
    *   An optional array of options including maxlength and truncate.
    *
@@ -110,9 +110,9 @@ interface SchemaDotOrgNamesInterface {
    * Convert Schema.org type or property ID to a Drupal label.
    *
    * @param string $table
-   *   A Schema.org table.
+   *   The Schema.org table.
    * @param string $string
-   *   A Schema.org type or property.
+   *   The Schema.org type or property.
    *
    * @return string
    *   Schema.org type or property ID converted to a Drupal label.
@@ -123,12 +123,12 @@ interface SchemaDotOrgNamesInterface {
    * Convert Schema.org type or property ID to a Drupal machine name.
    *
    * @param string $table
-   *   A Schema.org table.
+   *   The Schema.org table.
    * @param string $string
-   *   A Schema.org type or property.
+   *   The Schema.org type or property.
    *
    * @return string
-   *   Schema.org type or property ID converted to a Drupal machine name.
+   *   The Schema.org type or property ID converted to a Drupal machine name.
    */
   public function schemaIdToDrupalName($table, $string);
 

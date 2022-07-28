@@ -37,7 +37,7 @@ interface SchemaDotOrgJsonApiManagerInterface {
    * Insert Schema.org mapping JSON:API resource config.
    *
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
-   *   A Schema.org mapping.
+   *   The Schema.org mapping.
    */
   public function insertMappingResourceConfig(SchemaDotOrgMappingInterface $mapping);
 
@@ -45,7 +45,7 @@ interface SchemaDotOrgJsonApiManagerInterface {
    * Update Schema.org mapping JSON:API resource config.
    *
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
-   *   A Schema.org mapping.
+   *   The Schema.org mapping.
    */
   public function updateMappingResourceConfig(SchemaDotOrgMappingInterface $mapping);
 

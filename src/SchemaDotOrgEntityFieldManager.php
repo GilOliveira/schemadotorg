@@ -135,9 +135,9 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
    * Get a Schema.org property's default field settings.
    *
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    * @param string $property
-   *   A Schema.org property.
+   *   The Schema.org property.
    *
    * @return array
    *   A Schema.org property's default field settings.

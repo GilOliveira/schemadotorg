@@ -20,7 +20,7 @@ interface SchemaDotOrgEntityFieldManagerInterface {
    * @param string $bundle
    *   The name of the bundle.
    * @param string $field_name
-   *   A field name.
+   *   The field name.
    *
    * @return bool
    *   TRUE if a field exists.
@@ -33,7 +33,7 @@ interface SchemaDotOrgEntityFieldManagerInterface {
    * @param string $entity_type_id
    *   The entity type ID.
    * @param string $field_name
-   *   A field name.
+   *   THe field name.
    *
    * @return bool
    *   TRUE if a field storage exists\.
@@ -46,7 +46,7 @@ interface SchemaDotOrgEntityFieldManagerInterface {
    * @param string $entity_type_id
    *   The entity type ID.
    * @param string $field_name
-   *   A field name.
+   *   The field name.
    *
    * @return \Drupal\Core\Entity\EntityInterface|null
    *   An existing field instance.
@@ -57,9 +57,9 @@ interface SchemaDotOrgEntityFieldManagerInterface {
    * Get a Schema.org property's default field settings.
    *
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    * @param string $property
-   *   A Schema.org property.
+   *   The Schema.org property.
    *
    * @return array
    *   A Schema.org property's default field settings.

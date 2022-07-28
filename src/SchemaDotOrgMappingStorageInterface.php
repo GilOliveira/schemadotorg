@@ -72,7 +72,7 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    *   The Schema.org property.
    *
    * @return array
-   *   A Schema.org property's range includes.
+   *   The Schema.org property's range includes.
    */
   public function getSchemaPropertyRangeIncludes($schema_type, $schema_property);
 
@@ -87,7 +87,7 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    *   The Schema.org property.
    *
    * @return array
-   *   A Schema.org property's target bundles.
+   *   The Schema.org property's target bundles.
    */
   public function getSchemaPropertyTargetBundles($target_type, $schema_type, $schema_property);
 
@@ -126,7 +126,7 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    *   The Schema.org type.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null
-   *   A Schema.org mapping entity.
+   *   The Schema.org mapping entity.
    */
   public function loadBySchemaType($entity_type_id, $type);
 
@@ -137,7 +137,7 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    *   The entity.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null
-   *   A Schema.org mapping entity.
+   *   The Schema.org mapping entity.
    */
   public function loadByEntity(EntityInterface $entity);
 

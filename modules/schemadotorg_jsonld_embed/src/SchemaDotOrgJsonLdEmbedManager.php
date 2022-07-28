@@ -89,7 +89,7 @@ class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface
    * Get embedded media and content JSON-LD data from a text value.
    *
    * @param string $value
-   *   A text/HTML value.
+   *   The text/HTML value.
    *
    * @return array
    *   Embedded media and content JSON-LD data from a text value.

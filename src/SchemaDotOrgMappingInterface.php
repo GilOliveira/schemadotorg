@@ -149,7 +149,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
    * Gets the field name for a Schema.org property.
    *
    * @param string $property
-   *   A Schema.org property.
+   *   The Schema.org property.
    *
    * @return string|null
    *   The field name for a Schema.org property.
@@ -160,7 +160,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
    * Determine if a Schema.org property is mapped to a Drupal field.
    *
    * @param string $property
-   *   A Schema.org property.
+   *   The Schema.org property.
    *
    * @return bool
    *   TRUE if a Schema.org property is mapped to a Drupal field.

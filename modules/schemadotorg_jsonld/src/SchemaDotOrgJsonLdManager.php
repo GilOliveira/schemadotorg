@@ -296,7 +296,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * Get Schema.org type's main property.
    *
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    *
    * @return string
    *   A Schema.org type's main property. (Defaults to 'name')

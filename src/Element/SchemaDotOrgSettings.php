@@ -139,10 +139,10 @@ class SchemaDotOrgSettings extends Textarea {
    * Get the array item format for Schema.org settings form element.
    *
    * @param array $element
-   *   A Schema.org settings form element.
+   *   The Schema.org settings form element.
    *
    * @return string
-   *   The array item format for Schema.org settings form element.
+   *   The array item format for the Schema.org settings form element.
    */
   protected static function getSettingsFormat(array $element) {
     $formats = [
@@ -162,7 +162,7 @@ class SchemaDotOrgSettings extends Textarea {
    * Converted Schema.org settings to an element's default value string.
    *
    * @param array $element
-   *   A Schema.org settings form element.
+   *   The Schema.org settings form element.
    *
    * @return array|mixed|string
    *   An element's default value string.
@@ -243,7 +243,7 @@ class SchemaDotOrgSettings extends Textarea {
    * Convert a Schema.org settings form element's value to an array of settings.
    *
    * @param array $element
-   *   A Schema.org settings form element.
+   *   The Schema.org settings form element.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    *
@@ -449,10 +449,10 @@ class SchemaDotOrgSettings extends Textarea {
    * Get a remote URI's page title.
    *
    * @param string $uri
-   *   A remote URI.
+   *   The remote URI.
    *
    * @return string
-   *   A remote URI's page title.
+   *   The remote URI's page title.
    */
   protected static function getLinkTitle($uri) {
     $contents = file_get_contents($uri);

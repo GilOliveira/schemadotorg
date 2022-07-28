@@ -38,10 +38,10 @@ interface SchemaDotOrgMappingTypeInterface extends ConfigEntityInterface {
    * Gets default Schema.org type's default properties.
    *
    * @param string $schema_type
-   *   A Schema.org type.
+   *   The Schema.org type.
    *
    * @return array
-   *   A Schema.org type's default properties.
+   *   The Schema.org type's default properties.
    */
   public function getDefaultSchemaTypeProperties($schema_type);
 

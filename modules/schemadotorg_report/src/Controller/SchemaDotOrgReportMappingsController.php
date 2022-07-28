@@ -240,10 +240,10 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
    * Get sorted properties for a mapping type.
    *
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type
-   *   A Schema.org mapping type.
+   *   The Schema.org mapping type.
    *
    * @return array|false
-   *   Sorted properties for a mapping type.
+   *   The sorted properties for a mapping type.
    */
   protected function getSortedProperties(SchemaDotOrgMappingTypeInterface $mapping_type) {
     $sorted_properties = [];

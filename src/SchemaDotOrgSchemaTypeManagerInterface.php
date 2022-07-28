@@ -8,7 +8,7 @@ namespace Drupal\schemadotorg;
 interface SchemaDotOrgSchemaTypeManagerInterface {
 
   /**
-   * Schema.org URI.
+   * The Schema.org base URI.
    *
    * @var string
    */
@@ -18,45 +18,45 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Gets Schema.org type or property URI.
    *
    * @param string $id
-   *   A Schema.org type or property.
+   *   The Schema.org type or property.
    *
    * @return string
-   *   Schema.org type or property URI.
+   *   The Schema.org type or property URI.
    */
   public function getUri($id);
 
   /**
-   * Determine if ID is in a valid Schema.org table.
+   * Determine if an ID is in a valid Schema.org table.
    *
    * @param string $table
-   *   A Schema.org table.
+   *   The Schema.org table.
    * @param string $id
-   *   A Schema.org ID.
+   *   The Schema.org ID.
    *
    * @return bool
-   *   TRUE if ID is a Schema.org type.
+   *   TRUE if the ID is a Schema.org type.
    */
   public function isId($table, $id);
 
   /**
-   * Determine if ID is a Schema.org type or property.
+   * Determine if an ID is a Schema.org type or property.
    *
    * @param string $id
-   *   A Schema.org ID.
+   *   The Schema.org ID.
    *
    * @return bool
-   *   TRUE if ID is a Schema.org type or property.
+   *   TRUE if the ID is a Schema.org type or property.
    */
   public function isItem($id);
 
   /**
-   * Determine if ID is a Schema.org type.
+   * Determine if an ID is a Schema.org type.
    *
    * @param string $id
-   *   A Schema.org ID.
+   *   The Schema.org ID.
    *
    * @return bool
-   *   TRUE if ID is a Schema.org type.
+   *   TRUE if the ID is a Schema.org type.
    */
   public function isType($id);
 
@@ -64,79 +64,79 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Determine if a Schema.org type is a subtype of another Schema.org type.
    *
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    * @param string|array $subtype_of
-   *   A Schema.org subtype of.
+   *   The Schema.org subtype of.
    *
    * @return bool
-   *   TRUE if a Schema.org type is a subtype of another Schema.org type.
+   *   TRUE if the Schema.org type is a subtype of another Schema.org type.
    */
   public function isSubTypeOf($type, $subtype_of);
 
   /**
-   * Determine if ID is a Schema.org Thing type.
+   * Determine if an ID is a Schema.org Thing type.
    *
    * @param string $id
-   *   A Schema.org ID.
+   *   The Schema.org ID.
    *
    * @return bool
-   *   TRUE if ID is a Schema.org Thing type, excludes data types
+   *   TRUE if the ID is a Schema.org Thing type, excludes data types
    *   and enumerations.
    */
   public function isThing($id);
 
   /**
-   * Determine if ID is a Schema.org data type.
+   * Determine if an ID is a Schema.org data type.
    *
    * @param string $id
-   *   A Schema.org ID.
+   *   The Schema.org ID.
    *
    * @return bool
-   *   TRUE if ID is a Schema.org data type.
+   *   TRUE if the ID is a Schema.org data type.
    */
   public function isDataType($id);
 
   /**
-   * Determine if ID is a Schema.org Intangible.
+   * Determine if an ID is a Schema.org Intangible.
    *
    * @param string $id
-   *   A Schema.org ID.
+   *   The Schema.org ID.
    *
    * @return bool
-   *   TRUE if ID is a Schema.org Intangible.
+   *   TRUE if the ID is a Schema.org Intangible.
    */
   public function isIntangible($id);
 
   /**
-   * Determine if ID is a Schema.org enumeration type.
+   * Determine if an ID is a Schema.org enumeration type.
    *
    * @param string $id
-   *   A Schema.org ID.
+   *   The Schema.org ID.
    *
    * @return bool
-   *   TRUE if ID is a Schema.org enumeration type.
+   *   TRUE if the ID is a Schema.org enumeration type.
    */
   public function isEnumerationType($id);
 
   /**
-   * Determine if ID is a Schema.org enumeration value.
+   * Determine if an ID is a Schema.org enumeration value.
    *
    * @param string $id
-   *   A Schema.org ID.
+   *   The Schema.org ID.
    *
    * @return bool
-   *   TRUE if ID is a Schema.org enumeration value.
+   *   TRUE if the ID is the Schema.org enumeration value.
    */
   public function isEnumerationValue($id);
 
   /**
-   * Determine if ID is a Schema.org property.
+   * Determine if an ID is a Schema.org property.
    *
    * @param string $id
-   *   A Schema.org ID.
+   *   The Schema.org ID.
    *
    * @return bool
-   *   TRUE if ID is a Schema.org property.
+   *   TRUE if the ID is a Schema.org property.
    */
   public function isProperty($id);
 
@@ -144,10 +144,10 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Determine if Schema.org ID is superseded.
    *
    * @param string $id
-   *   A Schema.org ID.
+   *   The Schema.org ID.
    *
    * @return bool
-   *   TRUE if Schema.org ID is superseded
+   *   TRUE if the Schema.org ID is superseded
    */
   public function isSuperseded($id);
 
@@ -166,11 +166,11 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Gets Schema.org type or property item.
    *
    * @param string $table
-   *   A Schema.org table.
+   *   The Schema.org table.
    * @param string $id
-   *   A Schema.org type or property ID.
+   *   The Schema.org type or property ID.
    * @param array $fields
-   *   Optional. Fields to be returned.
+   *   Optional. The fields to be returned.
    *
    * @return array
    *   An associative array containing Schema.org type or property item.
@@ -210,10 +210,10 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Get a Schema.org property's range includes.
    *
    * @param string $property
-   *   A Schema.org property.
+   *   The Schema.org property.
    *
    * @return array|false
-   *   A Schema.org property's range includes.
+   *   The Schema.org property's range includes.
    */
   public function getPropertRangeIncludes($property);
 
@@ -221,10 +221,10 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Get a Schema.org property's default Schema.org type from range_includes.
    *
    * @param string $property
-   *   A Schema.org property.
+   *   The Schema.org property.
    *
    * @return string|null
-   *   A Schema.org property's default Schema.org type from range_includes.
+   *   The Schema.org property's default Schema.org type from range_includes.
    */
   public function getPropertyDefaultType($property);
 
@@ -232,12 +232,12 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Gets Schema.org property's unit.
    *
    * @param string $property
-   *   A Schema.org property.
+   *   The Schema.org property.
    * @param int $value
    *   A numeric value.
    *
    * @return string|null
-   *   A Schema.org property's unit.
+   *   The Schema.org property's unit.
    */
   public function getPropertyUnit($property, $value = 0);
 
@@ -245,11 +245,11 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Gets Schema.org type or property items.
    *
    * @param string $table
-   *   A Schema.org table.
+   *   The Schema.org table.
    * @param array $ids
    *   An array of Schema.org type or property IDs.
    * @param array $fields
-   *   Optional. Fields to be returned.
+   *   Optional. The fields to be returned.
    *
    * @return array
    *   An array containing Schema.org type or property items.
@@ -332,10 +332,10 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Gets Schema.org subtypes.
    *
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    *
    * @return array
-   *   Array containing Schema.org subtypes.
+   *   An array containing Schema.org subtypes.
    */
   public function getSubtypes($type);
 
@@ -343,10 +343,10 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Gets Schema.org enumerations.
    *
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    *
    * @return array
-   *   Array containing Schema.org enumerations.
+   *   An array containing Schema.org enumerations.
    */
   public function getEnumerations($type);
 
@@ -374,7 +374,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Gets all Schema.org types below a specified type.
    *
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    * @param array $fields
    *   An array of Schema.org type fields.
    * @param array $ignored_types
@@ -389,7 +389,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Gets Schema.org type hierarchical tree.
    *
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    * @param array $ignored_types
    *   An array of ignored Schema.org types.
    *
@@ -402,7 +402,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Gets Schema.org type breadcrumbs.
    *
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    *
    * @return array
    *   An associative nested array containing Schema.org type breadcrumbs.
@@ -413,12 +413,12 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Determine if a Schema.org type has a Schema.org property.
    *
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    * @param string $property
-   *   A Schema.org property.
+   *   The Schema.org property.
    *
    * @return bool
-   *   TRUE if a Schema.org type has a Schema.org property.
+   *   TRUE if the Schema.org type has a Schema.org property.
    */
   public function hasProperty($type, $property);
 
@@ -426,10 +426,10 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * Determine if a Schema.org type has subtypes.
    *
    * @param string $type
-   *   A Schema.org type.
+   *   The Schema.org type.
    *
    * @return bool
-   *   TRUE if a Schema.org type has subtypes.
+   *   TRUE if the Schema.org type has subtypes.
    */
   public function hasSubtypes($type);
 

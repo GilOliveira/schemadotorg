@@ -100,7 +100,7 @@ class SchemaDotOrgSubtypeEventSubscriber extends ServiceProviderBase implements 
    * @param string $new_key
    *   The key to insert.
    * @param mixed $new_value
-   *   A value to insert.
+   *   The value to insert.
    */
   protected function insertAfter(array &$array, $target_key, $new_key, $new_value) {
     $new = [];

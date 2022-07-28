@@ -295,7 +295,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * Get JSON:API resource config path.
    *
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
-   *   A Schema.org mapping.
+   *   The Schema.org mapping.
    *
    * @return string
    *   JSON:API resource config path.
@@ -338,7 +338,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * Determine if a JSON:API resource config path exists.
    *
    * @param string $path
-   *   A JSON:API resource config path.
+   *   The JSON:API resource config path.
    *
    * @return bool
    *   TRUE if a JSON:API resource config path exists.
@@ -460,7 +460,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * Load JSON:API resource config id for a Schema.org mapping.
    *
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
-   *   A Schema.org mapping.
+   *   The Schema.org mapping.
    *
    * @return \Drupal\jsonapi_extras\Entity\JsonapiResourceConfig|null
    *   A JSON:API resource config id.
@@ -476,7 +476,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * Get JSON:API resource config id for a Schema.org mapping.
    *
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
-   *   A Schema.org mapping.
+   *   The Schema.org mapping.
    *
    * @return string
    *   A JSON:API resource config id for a Schema.org mapping.
@@ -491,7 +491,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * Determine is a field enabled.
    *
    * @param string $field_name
-   *   A field name.
+   *   The field name.
    *
    * @return bool
    *   TRUE if a field enabled.
@@ -507,7 +507,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * Gets all field names for a Schemam.org mapping entity type and bundle.
    *
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
-   *   A Schema.org mapping.
+   *   The Schema.org mapping.
    *
    * @return string[]
    *   All field names.
