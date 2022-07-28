@@ -13,7 +13,6 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
  */
 class SchemaDotOrgInlineEntityFormTest extends SchemaDotOrgKernelEntityTestBase {
 
-
   /**
    * Modules to enable.
    *

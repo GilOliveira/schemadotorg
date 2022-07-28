@@ -87,7 +87,7 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface
    */
-  protected $api;
+  protected $mappingManager;
 
   /**
    * {@inheritdoc}
@@ -111,7 +111,7 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
     $installer->importTables();
 
     $this->mappingStorage = $this->container->get('entity_type.manager')->getStorage('schemadotorg_mapping');
-    $this->api = $this->container->get('schemadotorg.mapping_manager');
+    $this->mappingManager = $this->container->get('schemadotorg.mapping_manager');
   }
 
   /**
@@ -161,7 +161,7 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
     $this->installEntityDependencies($entity_type_id);
 
     // Create the entity type and mappings.
-    $this->api->createType($entity_type_id, $schema_type);
+    $this->mappingManager->createType($entity_type_id, $schema_type);
 
     // Load the newly created Schema.org mapping.
     $mappings = $this->mappingStorage->loadByProperties([
