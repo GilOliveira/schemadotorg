@@ -100,7 +100,7 @@ function hook_schemadotorg_property_field_alter(
  *   Schema.org mapping entity default values.
  */
 function hook_schemadotorg_mapping_defaults($entity_type_id, $bundle, $schema_type, array &$defaults) {
-
+  // @todo Provide an example.
 }
 
 /**
@@ -112,7 +112,7 @@ function hook_schemadotorg_mapping_defaults($entity_type_id, $bundle, $schema_ty
  *   The Schema.org mapping entity values.
  */
 function hook_schemadotorg_mapping_save(\Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping, array &$values) {
-
+  // @todo Provide an example.
 }
 
 /**

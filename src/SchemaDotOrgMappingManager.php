@@ -253,11 +253,11 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       // Try getting the base field mapping.
       if (isset($base_field_mappings[$schema_property])) {
         foreach ($base_field_mappings[$schema_property] as $base_field_name) {
-          $field_exists = $this->schemaEntityFieldManager->fieldStorageExists(
+          $field_storage_exists = $this->schemaEntityFieldManager->fieldStorageExists(
             $entity_type_id,
             $base_field_name
           );
-          if ($field_exists) {
+          if ($field_storage_exists) {
             $field_name = $base_field_name;
             break;
           }
