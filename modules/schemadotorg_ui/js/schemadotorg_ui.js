@@ -96,9 +96,10 @@
 
           var toggleKey = 'schemadotorg-ui-properties-toggle';
 
-          // If toggle key does not exist, set its default state.
+          // If toggle key does not exist, set its default state
+          // to hide unmapped.
           if (localStorage.getItem(toggleKey) === null) {
-            localStorage.setItem(toggleKey, '0');
+            localStorage.setItem(toggleKey, '1');
           }
 
           // Create toggle button.
