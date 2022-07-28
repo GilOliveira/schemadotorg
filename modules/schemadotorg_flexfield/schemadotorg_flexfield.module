@@ -13,8 +13,8 @@ use Drupal\Core\Render\Element;
 /**
  * Implements hook_schemadotorg_property_field_type_alter().
  */
-function schemadotorg_flexfield_schemadotorg_property_field_type_alter(array &$field_types, $type, $property) {
-  $default_properties = _schemadotorg_flexfield_get_default_properties($type, $property);
+function schemadotorg_flexfield_schemadotorg_property_field_type_alter(array &$field_types, $schema_type, $schema_property) {
+  $default_properties = _schemadotorg_flexfield_get_default_properties($schema_type, $schema_property);
   if ($default_properties) {
     $field_types = ['flex' => 'flex'] + $field_types;
   }
@@ -24,8 +24,8 @@ function schemadotorg_flexfield_schemadotorg_property_field_type_alter(array &$f
  * Implements hook_schemadotorg_property_field_alter().
  */
 function schemadotorg_flexfield_schemadotorg_property_field_alter(
-  $type,
-  $property,
+  $schema_type,
+  $schema_property,
   array &$field_storage_values,
   array &$field_values,
   &$widget_id,
@@ -39,7 +39,7 @@ function schemadotorg_flexfield_schemadotorg_property_field_alter(
   }
 
   // Check to see if the property has flex field settings.
-  $default_properties = _schemadotorg_flexfield_get_default_properties($type, $property);
+  $default_properties = _schemadotorg_flexfield_get_default_properties($schema_type, $schema_property);
   if (!$default_properties) {
     return;
   }
@@ -53,8 +53,8 @@ function schemadotorg_flexfield_schemadotorg_property_field_alter(
   $weight = 0;
   $field_storage_columns = [];
   $field_settings = [];
-  foreach ($flexfield_schema_properties as $property => $data_type) {
-    $default_field = $schema_field_manager->getPropertyDefaultField($flexfield_schema_type, $property);
+  foreach ($flexfield_schema_properties as $schema_property => $data_type) {
+    $default_field = $schema_field_manager->getPropertyDefaultField($flexfield_schema_type, $schema_property);
     $name = $default_field['name'];
     $label = $default_field['label'];
     $description = $default_field['description'];
@@ -233,20 +233,20 @@ function schemadotorg_flexfield_preprocess_flexfield(&$variables) {
 /**
  * Get a flex field's Schema.org default properties.
  *
- * @param string $type
- *   A Schema.org type.
- * @param string $property
- *   A Schema.org property.
+ * @param string $schema_type
+ *   The Schema.org type.
+ * @param string $schema_property
+ *   The Schema.org property.
  *
  * @return array|null
  *   A flex field's Schema.org default properties.
  *
  * @internal
  */
-function _schemadotorg_flexfield_get_default_properties($type, $property) {
+function _schemadotorg_flexfield_get_default_properties($schema_type, $schema_property) {
   $config = \Drupal::config('schemadotorg_flexfield.settings');
-  return $config->get("default_properties.$type--$property")
-    ?? $config->get("default_properties.$property")
+  return $config->get("default_properties.$schema_type--$schema_property")
+    ?? $config->get("default_properties.$schema_property")
     ?? NULL;
 }
 

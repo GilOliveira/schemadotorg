@@ -104,9 +104,9 @@ interface SchemaDotOrgEntityFieldManagerInterface {
    * - String or entity reference.
    * - Alter field types.
    *
-   * @param string $type
+   * @param string $schema_type
    *   The Schema.org type.
-   * @param string $property
+   * @param string $schema_property
    *   The Schema.org property.
    *
    * @return array
@@ -114,6 +114,6 @@ interface SchemaDotOrgEntityFieldManagerInterface {
    *
    * @see hook_schemadotorg_property_field_type_alter()
    */
-  public function getSchemaPropertyFieldTypes($type, $property);
+  public function getSchemaPropertyFieldTypes($schema_type, $schema_property);
 
 }

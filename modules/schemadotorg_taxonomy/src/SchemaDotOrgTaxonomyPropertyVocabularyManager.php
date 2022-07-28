@@ -93,8 +93,8 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
   /**
    * {@inheritdoc}
    */
-  public function propertyFieldTypeAlter(array &$field_types, $type, $property) {
-    $property_vocabulary_settings = $this->getPropertyVocabularySettings($property);
+  public function propertyFieldTypeAlter(array &$field_types, $schema_type, $schema_property) {
+    $property_vocabulary_settings = $this->getPropertyVocabularySettings($schema_property);
     if ($property_vocabulary_settings) {
       $field_types = ['field_ui:entity_reference:taxonomy_term' => 'field_ui:entity_reference:taxonomy_term'] + $field_types;
     }
@@ -104,8 +104,8 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
    * {@inheritdoc}
    */
   public function propertyFieldAlter(
-    $type,
-    $property,
+    $schema_type,
+    $schema_property,
     array &$field_storage_values,
     array &$field_values,
     &$widget_id,
@@ -121,13 +121,13 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
     }
 
     // Check to see if the Schema.org property has vocabulary settings.
-    $property_vocabulary_settings = $this->getPropertyVocabularySettings($property);
+    $property_vocabulary_settings = $this->getPropertyVocabularySettings($schema_property);
     if (!$property_vocabulary_settings) {
       return;
     }
 
     // Set default vocabulary id and label from field name and field label.
-    $property_definition = $this->schemaTypeManager->getProperty($property);
+    $property_definition = $this->schemaTypeManager->getProperty($schema_property);
     $property_vocabulary_settings += [
       'id ' => $field_storage_values['field_name'],
       'label' => $field_values['label'],

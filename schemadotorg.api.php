@@ -17,26 +17,26 @@
  *
  * @param array $field_types
  *   An array of field types.
- * @param string $type
+ * @param string $schema_type
  *   The Schema.org type.
- * @param string $property
+ * @param string $schema_property
  *   The Schema.org property.
  */
-function hook_schemadotorg_property_field_type_alter(array &$field_types, $type, $property) {
+function hook_schemadotorg_property_field_type_alter(array &$field_types, $schema_type, $schema_property) {
   // @todo Provide an example.
 }
 
 /**
  * Prepare a property's field data before the Schema.org mapping form.
  *
- * @param string $type
+ * @param string $schema_type
  *   The Schema.org type.
- * @param string $property
+ * @param string $schema_property
  *   The Schema.org property.
  * @param array $default_field
  *   The default values used in the Schema.org mapping form.
  */
-function hook_schemadotorg_property_field_prepare($type, $property, array &$default_field) {
+function hook_schemadotorg_property_field_prepare($schema_type, $schema_property, array &$default_field) {
   // @todo Provide an example.
 }
 
@@ -57,9 +57,9 @@ function hook_schemadotorg_bundle_entity_alter($schema_type, $entity_type_id, ar
 /**
  * Alter field storage and field values before they are created.
  *
- * @param string $type
+ * @param string $schema_type
  *   The Schema.org type.
- * @param string $property
+ * @param string $schema_property
  *   The Schema.org property.
  * @param array $field_storage_values
  *   Field storage config values.
@@ -75,8 +75,8 @@ function hook_schemadotorg_bundle_entity_alter($schema_type, $entity_type_id, ar
  *   An array of formatter settings.
  */
 function hook_schemadotorg_property_field_alter(
-  $type,
-  $property,
+  $schema_type,
+  $schema_property,
   array &$field_storage_values,
   array &$field_values,
   &$widget_id,

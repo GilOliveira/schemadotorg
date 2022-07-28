@@ -341,10 +341,10 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyFieldTypes($type, $property) {
+  public function getSchemaPropertyFieldTypes($schema_type, $schema_property) {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
-    $range_includes = $mapping_storage->getSchemaPropertyRangeIncludes($type, $property);
+    $range_includes = $mapping_storage->getSchemaPropertyRangeIncludes($schema_type, $schema_property);
 
     // Remove generic Schema.org types from range includes.
     $specific_range_includes = $range_includes;
@@ -369,7 +369,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
     $field_types = [];
 
     // Set Schema.org property specific field types.
-    $default_field = $this->getPropertyDefaultField($type, $property);
+    $default_field = $this->getPropertyDefaultField($schema_type, $schema_property);
     if (isset($default_field['type'])) {
       $field_types[$default_field['type']] = $default_field['type'];
     }
@@ -426,7 +426,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
     }
 
     // Allow modules to alter property field types.
-    $this->moduleHandler->alter('schemadotorg_property_field_type', $field_types, $type, $property);
+    $this->moduleHandler->alter('schemadotorg_property_field_type', $field_types, $schema_type, $schema_property);
 
     return $field_types;
   }

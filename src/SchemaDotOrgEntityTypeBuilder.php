@@ -539,9 +539,9 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * Alter field storage and field values before they are created.
    *
-   * @param string $type
+   * @param string $schema_type
    *   The Schema.org type.
-   * @param string $property
+   * @param string $schema_property
    *   The Schema.org property.
    * @param array $field_storage_values
    *   Field storage config values.
@@ -557,8 +557,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *   An array of formatter settings.
    */
   protected function alterFieldValues(
-    $type,
-    $property,
+    $schema_type,
+    $schema_property,
     array &$field_storage_values,
     array &$field_values,
     &$widget_id,
@@ -575,8 +575,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     );
 
     $this->setDefaultFieldValues(
-      $type,
-      $property,
+      $schema_type,
+      $schema_property,
       $field_storage_values,
       $field_values,
       $widget_id,
@@ -586,8 +586,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     );
 
     $this->moduleHandler->invokeAll('schemadotorg_property_field_alter', [
-      $type,
-      $property,
+      $schema_type,
+      $schema_property,
       &$field_storage_values,
       &$field_values,
       &$widget_id,
@@ -676,9 +676,9 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * Default default field, form, and view settings.
    *
-   * @param string $type
+   * @param string $schema_type
    *   The Schema.org type.
-   * @param string $property
+   * @param string $schema_property
    *   The Schema.org property.
    * @param array $field_storage_values
    *   Field storage config values.
@@ -694,8 +694,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *   An array of formatter settings.
    */
   protected function setDefaultFieldValues(
-    $type,
-    $property,
+    $schema_type,
+    $schema_property,
     array &$field_storage_values,
     array &$field_values,
     &$widget_id,
@@ -711,7 +711,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
           ->getStorage('schemadotorg_mapping');
 
         $target_type = $field_storage_values['settings']['target_type'] ?? 'node';
-        $target_bundles = $mapping_storage->getSchemaPropertyTargetBundles($target_type, $type, $property);
+        $target_bundles = $mapping_storage->getSchemaPropertyTargetBundles($target_type, $schema_type, $schema_property);
         if (!$target_bundles) {
           return;
         }
@@ -756,9 +756,9 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       case 'integer':
       case 'float':
       case 'decimal':
-        $unit_plural = $this->schemaTypeManager->getPropertyUnit($property, 0);
+        $unit_plural = $this->schemaTypeManager->getPropertyUnit($schema_property, 0);
         if ($unit_plural) {
-          $unit_singular = $this->schemaTypeManager->getPropertyUnit($property, 1);
+          $unit_singular = $this->schemaTypeManager->getPropertyUnit($schema_property, 1);
           if ((string) $unit_singular != (string) $unit_plural) {
             $field_values['settings']['suffix'] = ' ' . $unit_singular . '| ' . $unit_plural;
           }
@@ -778,7 +778,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         }
         else {
           // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager::getSchemaPropertyFieldTypes
-          $property_definition = $this->schemaTypeManager->getProperty($property);
+          $property_definition = $this->schemaTypeManager->getProperty($schema_property);
           $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
           foreach ($range_includes as $range_include) {
             // Set allowed values function if it exists.
