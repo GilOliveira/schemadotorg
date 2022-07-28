@@ -101,6 +101,6 @@ details.schemadotorg-ui--add-field {
  * @todo Determine a more accessible was to hide the table only when JS is enabled.
  */
 table.schemadotorg-ui-properties,
-#edit-ignored-properties {
+#edit-mapping-ignored-properties {
   display: none;
 }
