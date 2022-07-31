@@ -327,7 +327,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    * Set entity display component.
    *
    * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
-   *   An entity display.
+   *   The entity display.
    * @param string $field_name
    *   The field name to be set.
    * @param string $type
@@ -385,7 +385,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    * Set entity display field weight for a Schema.org property.
    *
    * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
-   *   An entity display.
+   *   The entity display.
    * @param string $field_name
    *   The field name to be set.
    * @param string $schema_property
@@ -438,7 +438,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    * Set entity display field groups for a Schema.org property.
    *
    * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
-   *   An entity display.
+   *   The entity display.
    * @param string $field_name
    *   The field name to be set.
    * @param string $schema_type

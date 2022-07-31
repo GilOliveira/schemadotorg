@@ -168,9 +168,9 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    * Build JSON-LD for an entity that is mapped to a Schema.org type.
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   An entity.
+   *   The entity.
    * @param bool $map_entity
-   *   TRUE if entity should be mapped.
+   *   TRUE if the entity should be mapped.
    *   This helps prevent a mapping recursion.
    *
    * @return array|bool

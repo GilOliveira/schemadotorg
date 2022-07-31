@@ -203,28 +203,28 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
    *
    * @param string $entity_type_id
    *   The entity type ID.
-   * @param string $type
+   * @param string $schema_type
    *   The Schema.org type.
    *
    * @return array
    *   A renderable array containing the Schema.org type item.
    */
-  protected function buildSchemaTypeItem($entity_type_id, $type) {
+  protected function buildSchemaTypeItem($entity_type_id, $schema_type) {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
     $mapping_type = $mapping_type_storage->load($entity_type_id);
-    if ($mapping_storage->isSchemaTypeMapped($entity_type_id, $type)
+    if ($mapping_storage->isSchemaTypeMapped($entity_type_id, $schema_type)
       && !$mapping_type->supportsMultiple()) {
-      return ['#markup' => $type];
+      return ['#markup' => $schema_type];
     }
     else {
       return [
         '#type' => 'link',
-        '#title' => $type,
-        '#url' => Url::fromRoute('<current>', [], ['query' => ['type' => $type]]),
+        '#title' => $schema_type,
+        '#url' => Url::fromRoute('<current>', [], ['query' => ['type' => $schema_type]]),
       ];
     }
   }

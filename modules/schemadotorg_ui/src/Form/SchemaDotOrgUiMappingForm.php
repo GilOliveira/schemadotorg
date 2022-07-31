@@ -744,7 +744,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#attributes' => ['class' => ['schemadotorg-ui--add-field']],
       '#states' => [
         'visible' => [
-          ':input[name="properties[' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD],
+          ':input[name="mapping[properties][' . $property . '][field][name]"]' => ['value' => static::ADD_FIELD],
         ],
       ],
     ];

@@ -109,26 +109,26 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    *
    * @param string $entity_type_id
    *   The entity type ID.
-   * @param string $type
+   * @param string $schema_type
    *   The Schema.org type.
    *
    * @return bool
    *   TRUE if Schema.org type is mapped to an entity.
    */
-  public function isSchemaTypeMapped($entity_type_id, $type);
+  public function isSchemaTypeMapped($entity_type_id, $schema_type);
 
   /**
    * Load by target entity id and Schema.org type.
    *
    * @param string $entity_type_id
    *   The entity type ID.
-   * @param string $type
+   * @param string $schema_type
    *   The Schema.org type.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null
    *   The Schema.org mapping entity.
    */
-  public function loadBySchemaType($entity_type_id, $type);
+  public function loadBySchemaType($entity_type_id, $schema_type);
 
   /**
    * Load by entity.

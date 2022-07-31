@@ -25,7 +25,7 @@ interface SchemaDotOrgJsonLdBuilderInterface {
    * Build JSON-LD for an entity that is mapped to a Schema.org type.
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   An entity.
+   *   The entity.
    *
    * @return array|bool
    *   The JSON-LD for an entity that is mapped to a Schema.org type
