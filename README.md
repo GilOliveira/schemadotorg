@@ -1,5 +1,5 @@
-CONTENTS OF THIS FILE
----------------------
+Table of contents
+-----------------
 
 * Introduction
 * Requirements
@@ -8,7 +8,7 @@ CONTENTS OF THIS FILE
 * Maintainers
 
 
-INTRODUCTION
+Introduction
 ------------
 
 The Schema.org Blueprints module uses Schema.org as the blueprint for the 
@@ -32,14 +32,14 @@ content architecture and structured data in a Drupal website.
   * docs/RELEASE-NOTES.md
 
 
-REQUIREMENTS
+Requirements
 ------------
 
 This module requires the Field, Text, and Options modules included with 
 Drupal core.
 
 
-INSTALLATION
+Installation
 ------------
 
 Install the Schema.org Blueprints module as you would normally install a 
@@ -48,7 +48,7 @@ contributed Drupal module.
 Visit https://www.drupal.org/node/1897420 for further information.
 
 
-CONFIGURATION
+Configuration
 -------------
 
     1. Navigate to Administration > Extend and enable the module.
@@ -56,7 +56,7 @@ CONFIGURATION
        > Schema.org for configurations.
 
 
-MAINTAINERS
+Maintainers
 -----------
 
 * Jacob Rockowitz - https://www.drupal.org/u/jrockowitz
