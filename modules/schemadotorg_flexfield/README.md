@@ -25,6 +25,14 @@ Features
   flexfield view displays. 
 
 
+Requirements
+------------
+
+**Schema.org Blueprints Flex Field**  
+Allows a Flex field to be used to create Schema.org relationships within an 
+entity type/bundle Schema.org mapping.
+
+
 Configuration
 -------------
 
