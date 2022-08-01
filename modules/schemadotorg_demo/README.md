@@ -48,7 +48,7 @@ Multilingual support
 
 Default content
 
-- Example recipes in English and Spanish from Umami demo install profile.
+- Example recipes in English and Spanish copied from Umami demo install profile.
 
 
 Installation

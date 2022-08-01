@@ -1,6 +1,6 @@
 /**
  * @file
- * Schema.org standard behaviors.
+ * Schema.org demo standard behaviors.
  */
 
 (function (drupalSettings) {

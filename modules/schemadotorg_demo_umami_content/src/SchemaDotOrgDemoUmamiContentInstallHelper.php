@@ -74,7 +74,7 @@ class SchemaDotOrgDemoUmamiContentInstallHelper extends InstallHelper {
   }
 
   /**
-   * Apply mapping to associative array of values.
+   * Apply mapping from Umami fields to Schema.org fields.
    *
    * @param array $values
    *   An associative array of values.

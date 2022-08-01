@@ -1,10 +1,10 @@
 /**
  * @file
- * Schema.org standard styles.
+ * Schema.org standard admin styles.
  */
 
 /**
- * Toolbar.
+ * Toolbar icons.
  */
 .toolbar .toolbar-bar .toolbar-icon.toolbar-icon-language:before {
   -webkit-mask-image: url(../images/tmgmt.svg);
@@ -17,7 +17,7 @@
 }
 
 /**
- * Dashboards.
+ * Dashboards spacing.
  */
 .dashboards-container .block-search .panel__content,
 .dashboards-container .block-dashboards-blockdashboardnode-statistics .panel__content,
@@ -35,6 +35,9 @@
   display: none;
 }
 
+/**
+ * Flexfield labels.
+ */
 .flexfield__label {
   font-weight: bold;
 }

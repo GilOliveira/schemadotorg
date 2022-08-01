@@ -5,10 +5,23 @@
  * Provides an opinionated demo of the Schema.org Blueprints.
  */
 
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_demo_standard_admin_help($route_name, RouteMatchInterface $route_match) {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
+  $help_manager = \Drupal::service('schemadotorg.help_manager');
+  return $help_manager->build($route_name, $route_match);
+}
+
 /**
  * Implements hook_page_attachments().
  */
 function schemadotorg_demo_standard_admin_page_attachments(array &$page) {
+  // Attach CSS and JavaScript, that fixes minor UI issues with
+  // minor UX enhancements.
   $page['#attached']['library'][] = 'schemadotorg_demo_standard_admin/schemadotorg_demo_standard_admin';
 }
 
@@ -16,6 +29,7 @@ function schemadotorg_demo_standard_admin_page_attachments(array &$page) {
  * Implements hook_toolbar_alter().
  */
 function schemadotorg_demo_standard_admin_toolbar_alter(&$items) {
+  // Tweak the Coffee and Environment Indicator module's toolbar weights.
   $weights = [
     'coffee' => -20,
     'environment_indicator' => 999,

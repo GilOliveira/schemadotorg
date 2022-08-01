@@ -70,7 +70,7 @@ function schemadotorg_demo_standard_install() {
     $consumer->save();
   }
 
-  // Add shortcuts to key Schema.org Blueprints URLs.
+  // Add shortcuts linking to key Schema.org Blueprints URLs.
   $shortcuts = [
     '/admin/reports/schemadotorg' => 'Browse Schema.org specification',
     '/admin/config/search/schemadotorg/sets' => 'Create Schema.org content models',

@@ -42,6 +42,10 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
     }
 
     $contents = file_get_contents($module_readme);
+
+    // Remove the table of contents.
+    $contents = preg_replace('/^.*?(Introduction\s+------------)/s', '$1', $contents);
+
     if (class_exists('\Michelf\Markdown')) {
       return [
         '#markup' => \Michelf\Markdown::defaultTransform($contents),
