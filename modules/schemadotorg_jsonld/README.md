@@ -1,0 +1,35 @@
+Table of contents
+-----------------
+
+* Introduction
+* Features
+* Configuration
+
+
+Introduction
+------------
+
+The Schema.org Blueprints JSON-LD module builds and adds Schema.org structured 
+data as JSON-LD in the head of web pages.
+
+
+Features
+--------
+
+- Adds 'application/ld+json' to the <head> section of HTML pages.
+- Converts the Address field values to https://schema.org/PostalAddress
+- Define https://schema.org/identifier for Schema.org types.
+- Apply images styles to image files shared via JSON-LD.
+- Converts Drupal entities to Schema.org types for JSON-LD.
+- Provide hooks for modules to defined and alter JSON-LD for a routes,
+  types, and properties.
+
+
+Configuration
+-------------
+
+- Go to Schema.org JSON:LD configuration page.
+  (@see /admin/config/search/schemadotorg/settings/jsonld)
+- Enter \field names to be used to https://schema.org/identifier
+- Enter the default Schema.org property order.
+- Enter the Schema.org property image styles.

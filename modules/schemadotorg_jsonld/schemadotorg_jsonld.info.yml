@@ -1,6 +1,6 @@
 name: 'Schema.org Blueprints JSON-LD'
 type: module
-description: 'Adds Schema.org structured data as JSON-LD in the head of web pages.'
+description: 'Builds and adds Schema.org structured data as JSON-LD in the head of web pages.'
 package: Schema.org Blueprints Extras
 core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental

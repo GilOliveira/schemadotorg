@@ -128,7 +128,12 @@ class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface
       return NULL;
     }
 
+    /** @var \Drupal\Core\Entity\EntityInterface $embed_entity */
     $embed_entity = reset($embed_entities);
+    if (!$embed_entity->accesss()) {
+      return NULL;
+    }
+
     return $this->schemaJsonLdBuilder->buildEntity($embed_entity);
   }
 
