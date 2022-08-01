@@ -1,6 +1,6 @@
 name: Schema.org Blueprints Export
 type: module
-description: Provides a CSV export of Schema.org type mappings.
+description: Provides a CSV export of Schema.org type mappings and mapping sets.
 package: Schema.org Blueprints Extras
 core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental

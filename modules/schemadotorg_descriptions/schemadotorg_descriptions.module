@@ -20,6 +20,10 @@ function schemadotorg_descriptions_help($route_name, RouteMatchInterface $route_
   if ($route_name === 'schemadotorg_descriptions.settings') {
     return '<p>' . t('The <strong>Schema.org descriptions settings</strong> page allows administrators to configure the descriptions for Schema.org types and properties.') . '<p>';
   }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
+  $help_manager = \Drupal::service('schemadotorg.help_manager');
+  return $help_manager->build($route_name, $route_match);
 }
 
 /**

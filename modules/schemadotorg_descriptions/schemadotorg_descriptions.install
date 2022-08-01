@@ -10,7 +10,7 @@
  */
 function schemadotorg_descriptions_install() {
   // Setting weight to 1 so that descriptions will be added or removed after
-  // form have been altered.
+  // entity and field forms have been altered.
   module_set_weight('schemadotorg_descriptions', 1);
 
   // Make sure the weight is updated.
