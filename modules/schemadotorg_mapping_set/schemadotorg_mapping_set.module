@@ -18,4 +18,8 @@ function schemadotorg_mapping_set_help($route_name, RouteMatchInterface $route_m
     case 'schemadotorg_mapping_set.overview':
       return '<p>' . t('The <strong>Schema.org mapping sets</strong> page lists all available Schema.org mapping sets that can be setup and managed using the below admin UI or <a href=":href">Drush</a>.', [':href' => 'https://www.drush.org']) . '<p>';
   }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
+  $help_manager = \Drupal::service('schemadotorg.help_manager');
+  return $help_manager->build($route_name, $route_match);
 }

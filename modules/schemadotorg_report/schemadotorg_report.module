@@ -27,6 +27,9 @@ function schemadotorg_report_help($route_name, RouteMatchInterface $route_match)
         return '<p>' . t('The <strong>Schema.org: About</strong> report allows users to browse all available Schema.org types and properties within the Drupal admin UI.') . '</p>';
       }
 
+    case 'schemadotorg_report.settings':
+      return '<p>' . t('The <strong>Schema.org references settings</strong> page allows administrators to configure links to general and specific information about Schema.org types.') . '<p>';
+
     case 'schemadotorg_report.types':
       return '<p>' . t('The <strong>Schema.org: Types</strong> report lists all available Schema.org types, enumerations, and data types.') . '</p>';
 
