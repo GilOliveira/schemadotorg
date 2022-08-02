@@ -46,7 +46,7 @@ class SchemaDotOrgSubtypeSettingsForm extends ConfigFormBase {
     $form['default_field_description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Default subtype field description'),
-      '#description' => $this->t('Enter default description used for subtype fields.'),
+      '#description' => $this->t('Enter the default description used for subtype fields.'),
       '#default_value' => $config->get('default_field_description'),
     ];
     $form['default_subtypes'] = [

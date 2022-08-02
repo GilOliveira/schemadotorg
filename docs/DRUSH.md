@@ -8,14 +8,14 @@ drush list --filter=schemadotorg
 
 Available commands:                                                      
 schemadotorg:                                                            
-  schemadotorg:create-type (socr)   Create Schema.org types.             
-  schemadotorg:delete-type (sode)   Delete Schema.org type.              
-  schemadotorg:repair (sorp)        Update Schema.org repair.            
-  schemadotorg:set-generate (sosg)  Generate the Schema.org mapping set. 
-  schemadotorg:set-kill (sosk)      Kill the Schema.org mapping set.     
-  schemadotorg:set-setup (soss)     Setup the Schema.org mapping set.    
-  schemadotorg:set-teardown (sost)  Teardown the Schema.org mapping set. 
-  schemadotorg:update-schema (soup) Update Schema.org data. 
+  schemadotorg:create-type (socr)   Create Schema.org types.           
+  schemadotorg:delete-type (sode)   Delete Schema.org type.             
+  schemadotorg:repair (sorp)        Update Schema.org repair.
+  schemadotorg:set-generate (sosg)  Generate the Schema.org mapping set.
+  schemadotorg:set-kill (sosk)      Kill the Schema.org mapping set. 
+  schemadotorg:set-setup (soss)     Setup the Schema.org mapping set.
+  schemadotorg:set-teardown (sost)  Teardown the Schema.org mapping set.
+  schemadotorg:update-schema (soup) Update Schema.org data.
 ```
 
 # Usage

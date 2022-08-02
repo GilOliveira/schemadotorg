@@ -16,6 +16,10 @@ function schemadotorg_translation_help($route_name, RouteMatchInterface $route_m
   if ($route_name === 'schemadotorg_translation.settings') {
     return '<p>' . t('The <strong>Schema.org translations settings</strong> page allows administrators to configure which field names and types are excluded or included for allowing translations.') . '<p>';
   }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
+  $help_manager = \Drupal::service('schemadotorg.help_manager');
+  return $help_manager->build($route_name, $route_match);
 }
 
 /**

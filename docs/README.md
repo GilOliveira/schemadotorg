@@ -73,7 +73,7 @@ Entity references patterns includes...
 - Inline entity form
 - Paragraphs
 
-**Libraries/browse** The ability to create and browse a library of reusable media and entities.  
+**Libraries/browse** The ability to create and browse a library of reusable media and entities.
  
 - Entity reference with content browsing
 - Paragraphs library with content browsing

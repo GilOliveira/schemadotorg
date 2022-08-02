@@ -126,7 +126,7 @@ _Below are recommended contributed modules._
 _The below modules improve the Schema.org Blueprints module's user experience._
 
 - **[Field Group](https://www.drupal.org/project/field_group)**  
-  Provides the ability to group your fields on both form and display.  
+  Provides the ability to group your fields on both form and display.
 
 - **[Entity Browser](https://www.drupal.org/project/entity_browser)**
   Provide a generic entity browser/picker/selector.

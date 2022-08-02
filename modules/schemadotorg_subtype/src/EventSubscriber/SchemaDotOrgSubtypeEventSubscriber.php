@@ -11,7 +11,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\DependencyInjection\ServiceProviderBase;
 
 /**
- * Alters Schema.org mapping list builder and adds a 'Subtype' column.
+ * Alters the Schema.org mapping list builder and adds a 'Subtype' column.
  *
  * @see \Drupal\schemadotorg\SchemaDotOrgMappingListBuilder
  */

@@ -18,7 +18,7 @@ content and translations.
 This module provides a composer.libraries.json file that allows sites to 
 download and install contributed modules which are used to set up a full demo 
 of the Schema.org Blueprints module within a progressively decoupled 
-Drupal instance.  
+Drupal instance.
 
 **THIS MODULE SHOULD ONLY BE INSTALLED ON A PLAIN VANILLA STANDARD
 INSTANCE OF DRUPAL**

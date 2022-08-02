@@ -75,6 +75,10 @@ function schemadotorg_report_help($route_name, RouteMatchInterface $route_match)
     case 'schemadotorg_report.references':
       return '<p>' . t('The <strong>Schema.org: References</strong> page lists Schema.org references and issues.') . '</p>';
   }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
+  $help_manager = \Drupal::service('schemadotorg.help_manager');
+  return $help_manager->build($route_name, $route_match);
 }
 
 /**

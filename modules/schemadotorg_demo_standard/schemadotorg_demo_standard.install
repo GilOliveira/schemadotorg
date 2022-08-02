@@ -36,6 +36,7 @@ function schemadotorg_demo_standard_install() {
   \Drupal::configFactory()->getEditable('gin.settings')
     ->set('classic_toolbar', 'horizontal')
     ->set('show_description_toggle', TRUE)
+    ->set('show_user_theme_settings', TRUE)
     ->save();
 
   // Uninstall unused themes.

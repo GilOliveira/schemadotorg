@@ -53,6 +53,6 @@ FAQ
   matching enabled resource config and Schema.org type to be disabled?**
 
 By default, every entity and field in Drupal is exposed via JSON:API with 
-access controls.  Generally, it is best to only expose the data that  
-consumers actually need.  Conceptually, only Schema.org type and properties
+access controls. Generally, it is best to only expose the data that  
+consumers actually need. Conceptually, only Schema.org type and properties
 should be exposed via JSON:API with a few exceptions.

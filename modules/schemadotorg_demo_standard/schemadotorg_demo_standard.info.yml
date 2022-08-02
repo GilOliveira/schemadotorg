@@ -48,6 +48,7 @@ dependencies:
   - 'openapi_jsonapi:openapi_jsonapi'
   - 'paragraphs:paragraphs'
   - 'paragraphs:paragraphs_library'
+  - 'pathauto:pathauto'
   - 'time_field:time_field'
   - 'schemata:schemata'
   - 'schemata:schemata_json_schema'
