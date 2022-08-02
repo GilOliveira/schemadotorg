@@ -125,10 +125,15 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   /**
    * {@inheritdoc}
    */
-  public function buildEntity(EntityInterface $entity = NULL) {
+  public function buildEntity(EntityInterface $entity = NULL, array $options = []) {
     if (!$entity) {
       return [];
     }
+
+    // Set default options.
+    $options += [
+      'identifier' => TRUE,
+    ];
 
     $data = $this->buildMappedEntity($entity);
 
@@ -137,18 +142,20 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $this->invokeEntityHook('schemadotorg_jsonld_entity_load', $data, $entity);
 
     // Add Schema.org identifiers. (Defaults to UUID)
-    $identifiers = $this->schemaJsonLdManager->getSchemaIdentifiers($entity);
-    if ($identifiers) {
-      // Make sure existing identifier data is an indexed array.
-      if (isset($data['identifier']) && is_array($data['identifier'])) {
-        if (!isset($data['identifier'][0])) {
-          $data['identifier'] = [$data['identifier']];
+    if ($options['identifier']) {
+      $identifiers = $this->schemaJsonLdManager->getSchemaIdentifiers($entity);
+      if ($identifiers) {
+        // Make sure existing identifier data is an indexed array.
+        if (isset($data['identifier']) && is_array($data['identifier'])) {
+          if (!isset($data['identifier'][0])) {
+            $data['identifier'] = [$data['identifier']];
+          }
         }
+        else {
+          $data['identifier'] = [];
+        }
+        $data['identifier'] = array_merge($data['identifier'], $identifiers);
       }
-      else {
-        $data['identifier'] = [];
-      }
-      $data['identifier'] = array_merge($data['identifier'], $identifiers);
     }
 
     // Alter Schema.org JSON-LD entity data.

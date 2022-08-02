@@ -93,6 +93,11 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
       ],
     ];
     $this->assertEquals($expected_result, $this->builder->buildEntity($node));
+
+    // Check building JSON-LD for an entity without an identifier property.
+    $json_ld = $this->builder->buildEntity($node, ['identifier' => FALSE]);
+    $this->assertArrayHasKey('@type', $json_ld);
+    $this->assertArrayNotHasKey('identifier', $json_ld);
   }
 
 }

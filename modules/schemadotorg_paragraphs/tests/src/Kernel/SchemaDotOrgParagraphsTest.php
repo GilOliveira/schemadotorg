@@ -3,7 +3,10 @@
 namespace Drupal\Tests\schemadotorg_paragraphs\Kernel;
 
 use Drupal\field\Entity\FieldConfig;
+use Drupal\node\Entity\Node;
+use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\paragraphs\Entity\ParagraphsType;
+use Drupal\paragraphs_library\Entity\LibraryItem;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 
 /**
@@ -16,14 +19,21 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
 
   /**
+   * Schema.org JSON-LD builder.
+   *
+   * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface
+   */
+  protected $builder;
+
+  /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = [
-    'paragraphs',
+    'views',
     'paragraphs_library',
-    'schemadotorg_paragraphs',
+    'schemadotorg_jsonld',
   ];
 
   /**
@@ -32,7 +42,11 @@ class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
   protected function setUp() {
     parent::setUp();
 
-    $this->installConfig(['schemadotorg_paragraphs']);
+    $this->installEntitySchema('view');
+    $this->installEntitySchema('paragraphs_library_item');
+    $this->installConfig(['schemadotorg_paragraphs', 'schemadotorg_jsonld', 'paragraphs_library']);
+
+    $this->builder = $this->container->get('schemadotorg_jsonld.builder');
   }
 
   /**
@@ -56,6 +70,58 @@ class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
     // @see schemadotorg_paragraphs_schemadotorg_mapping_presave()
     $paragraph_type = ParagraphsType::load('contact_point');
     $this->assertTrue($paragraph_type->getThirdPartySetting('paragraphs_library', 'allow_library_conversion'));
+
+    // Create a Person with ContactPoint.
+    $library_contact_point_item = LibraryItem::create([
+      'paragraphs' => Paragraph::create([
+        'type' => 'contact_point',
+        'schema_contact_type' => ['value' => 'Contact Point from library'],
+      ]),
+    ]);
+    $library_contact_point_item->save();
+    $person_node = Node::create([
+      'type' => 'person',
+      'title' => 'Person',
+      'schema_contact_point' => [
+        Paragraph::create([
+          'type' => 'contact_point',
+          'schema_contact_type' => ['value' => 'Contact Point'],
+        ]),
+        Paragraph::create([
+          'type' => 'from_library',
+          'field_reusable_paragraph' => [
+            'target_id' => $library_contact_point_item->id(),
+          ],
+        ]),
+      ],
+    ]);
+    $person_node->save();
+
+    // Check that the Person Schema.org JSON-LD includes
+    // the ContactPoint paragraph and paragraph library item..
+    $expected = [
+      '@type' => 'Person',
+      'identifier' => [
+        [
+          '@type' => 'PropertyValue',
+          'propertyID' => 'uuid',
+          'value' => $person_node->uuid(),
+        ],
+      ],
+      'name' => 'Person',
+      'contactPoint' => [
+        [
+          '@type' => 'ContactPoint',
+          'contactType' => 'Contact Point',
+        ],
+        [
+          '@type' => 'ContactPoint',
+          'contactType' => 'Contact Point from library',
+        ],
+      ],
+    ];
+    $result = $this->builder->buildEntity($person_node);
+    $this->assertEquals($expected, $result);
   }
 
 }
