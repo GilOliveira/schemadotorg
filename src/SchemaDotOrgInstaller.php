@@ -90,6 +90,8 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       return [];
     }
 
+    // NOTE: Suggestions are also included the Schema.org Blueprints
+    // composer.json file.
     $recommended_modules = [
       'datetime' => [
         'title' => $this->t('Datetime'),

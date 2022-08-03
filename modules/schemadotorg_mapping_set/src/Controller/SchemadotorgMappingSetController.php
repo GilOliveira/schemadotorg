@@ -40,6 +40,9 @@ class SchemadotorgMappingSetController extends ControllerBase {
       'operations' => ['data' => $this->t('Operations'), 'width' => '10%'],
     ];
 
+    // Track if the devel_generate.module is enabled.
+    $devel_generate_exists = $this->moduleHandler()->moduleExists('devel_generate');
+
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping');
 
@@ -55,7 +58,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
         $operations['setup'] = $this->t('Setup types');
       }
       else {
-        if ($this->moduleHandler()->moduleExists('devel_generate')) {
+        if ($devel_generate_exists) {
           $operations['generate'] = $this->t('Generate content');
           $operations['kill'] = $this->t('Kill content');
         }

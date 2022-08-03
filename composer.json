@@ -32,6 +32,13 @@
         "drupal/paragraphs": "~1.0",
         "drupal/inline_entity_form": "~1.0",
         "drupal/jsonapi_extras": "~3.0"
+    },
+    "suggest": {
+        "drupal/field_group": "Provides the ability to group your fields on both form and display.",
+        "drupal/address": "Provides functionality for storing, validating and displaying international postal addresses.",
+        "drupal/paragraphs": "Enables the creation of paragraphs (i.e. component) entities.",
+        "drupal/inline_entity_form": "Provides a widget for inline management (creation, modification, removal) of referenced entities.",
+        "drupal/jsonapi_extras": "Builds on top of JSON:API to deliver extra functionality."
     }
 }
 
