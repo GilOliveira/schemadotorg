@@ -1,6 +1,15 @@
 default_enabled_fields:
+  - id
+  - nid
   - langcode
+  - mid
+  - uid
+  - uuid
+  - path
+  - promote
   - status
+  - sticky
+  - type
 path_prefixes:
   node: Content
   paragraph: Paragraph
