@@ -44,6 +44,7 @@ Configuration
 - Enter fields that should default to enabled.
 - Enter path prefixes to prepended to a Schema.org JSON:API resource.
 - Disable/enable Schema.org JSON:API requirements checking.
+- Displays message that corresponding JSON:API resource overwrite was created.
 
 
 FAQ

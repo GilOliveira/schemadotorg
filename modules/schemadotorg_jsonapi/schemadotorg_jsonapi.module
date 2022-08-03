@@ -8,6 +8,8 @@
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\field\FieldConfigInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\jsonapi_extras\Entity\JsonapiResourceConfig;
 
 /**
  * Implements hook_help().
@@ -47,4 +49,27 @@ function schemadotorg_jsonapi_field_config_insert(FieldConfigInterface $field_co
   /** @var \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface $manager */
   $manager = \Drupal::service('schemadotorg_jsonapi.manager');
   $manager->insertFieldConfigResource($field_config);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function schemadotorg_jsonapi_form_schemadotorg_mapping_add_form_alter(&$form, FormStateInterface $form_state) {
+  // Display message that corresponding JSON:API resource overwrite was created.
+  $form['actions']['submit']['#submit'][] = '_schemadotorg_jsonapi_form_schemadotorg_mapping_add_form_submit';
+}
+
+function _schemadotorg_jsonapi_form_schemadotorg_mapping_add_form_submit(&$form, FormStateInterface $form_state) {
+  /** @var \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm $form_object */
+  $form_object = $form_state->getFormObject();
+  $mapping = $form_object->getEntity();
+  $resource_config = JsonapiResourceConfig::load($mapping->getTargetEntityTypeId() . '--' . $mapping->getTargetBundle());
+  if ($resource_config) {
+    $t_args = [
+      '%title' => $resource_config->id(),
+      ':href' => $resource_config->toUrl()->toString(),
+    ];
+    $message = t('Created JSON:API %title resource overwrite. <a href=":href">Please review the resource overwrite\'s configuration</a>.', $t_args);
+    \Drupal::messenger()->addStatus($message);
+  }
 }

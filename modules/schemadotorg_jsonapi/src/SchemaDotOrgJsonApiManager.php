@@ -9,7 +9,6 @@ use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
-use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Routing\RedirectDestinationInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
@@ -31,13 +30,6 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
-
-  /**
-   * The messenger service.
-   *
-   * @var \Drupal\Core\Messenger\MessengerInterface
-   */
-  protected $messenger;
 
   /**
    * The redirect destination service.
@@ -79,8 +71,6 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.
-   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
-   *   The messenger service.
    * @param \Drupal\Core\Routing\RedirectDestinationInterface $redirect_destination
    *   The redirect destination service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -94,7 +84,6 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
-    MessengerInterface $messenger,
     RedirectDestinationInterface $redirect_destination,
     EntityTypeManagerInterface $entity_type_manager,
     EntityFieldManagerInterface $field_manager,
@@ -102,7 +91,6 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
     SchemaDotOrgNamesInterface $schema_names
   ) {
     $this->configFactory = $config_factory;
-    $this->messenger = $messenger;
     $this->redirectDestination = $redirect_destination;
     $this->entityTypeManager = $entity_type_manager;
     $this->fieldManager = $field_manager;
@@ -294,25 +282,13 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
 
     $name = $this->getResourceConfigPath($mapping);
     ksort($resource_fields);
-    /** @var \Drupal\jsonapi_extras\Entity\JsonapiResourceConfig $resource_config */
-    $resource_config = $this->getResourceConfigStorage()->create([
+    $this->getResourceConfigStorage()->create([
       'id' => $this->getResourceId($mapping),
       'disabled' => FALSE,
       'path' => $name,
       'resourceType' => $name,
       'resourceFields' => $resource_fields,
-    ]);
-    $resource_config->save();
-
-    // Display message to the end-user within the UI only.
-    if (PHP_SAPI !== 'cli') {
-      $t_args = [
-        '%title' => $resource_config->id(),
-        ':href' => $resource_config->toUrl()->toString(),
-      ];
-      $message = $this->t('Created JSON:API %title resource overwrite. <a href=":href">Please review the resource overwrite\'s configuration</a>.', $t_args);
-      $this->messenger->addStatus($message);
-    }
+    ])->save();
   }
 
   /**
