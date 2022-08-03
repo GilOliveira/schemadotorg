@@ -310,7 +310,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
         '%title' => $resource_config->id(),
         ':href' => $resource_config->toUrl()->toString(),
       ];
-      $message = $this->t('JSON:API %title resource type created. <a href=":href">Please review the resource type\'s configuration</a>.', $t_args);
+      $message = $this->t('Created JSON:API %title resource overwrite. <a href=":href">Please review the resource overwrite\'s configuration</a>.', $t_args);
       $this->messenger->addStatus($message);
     }
   }
