@@ -9,8 +9,8 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints JSON-LD Preview module allows users to preview a 
-web page's Schema.org JSON-LD.
+The Schema.org Blueprints JSON-LD Preview module lets users preview a web page's
+Schema.org JSON-LD.
 
 
 Features
@@ -28,6 +28,6 @@ Configuration
 
 - Configure 'Schema.org Blueprints JSON-LD Preview' permission.
   (@see /admin/people/permissions/module/schemadotorg_jsonapi_preview)
-- Go to Schema.org JSON-LD configuration page.
+- Go to the Schema.org JSON-LD configuration page.
   (@see /admin/config/search/schemadotorg/settings/jsonapi)
 - Enter JSON-LD preview visibility settings.

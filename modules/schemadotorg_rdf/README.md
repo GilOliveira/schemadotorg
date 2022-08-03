@@ -25,5 +25,5 @@ Generates correspond RDF mappings from Schema.org mappings.
 Notes
 -----
 
-The Schema.org Blueprints RDF module will be moved to dedicated sandbox module 
+The Schema.org Blueprints RDF module will be moved to a dedicated sandbox module 
 before the first beta release of the Schema.org Blueprints module.

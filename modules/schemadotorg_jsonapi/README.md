@@ -39,7 +39,7 @@ zero-configuration implementation provided by the JSON:API in Core.
 Configuration
 -------------
 
-- Go to Schema.org JSON:API configuration page.
+- Go to the Schema.org JSON:API configuration page.
   (@see /admin/config/search/schemadotorg/settings/jsonapi)
 - Enter fields that should default to enabled.
 - Enter path prefixes to prepended to a Schema.org JSON:API resource.
@@ -50,10 +50,10 @@ Configuration
 FAQ
 ---
 
-**Why does this module strongly recommend all resource that don't have a 
-  matching enabled resource config and Schema.org type to be disabled?**
+**Why does this module strongly recommend all resources that don't have a 
+matching enabled resource config and Schema.org type to be disabled?**
 
-By default, every entity and field in Drupal is exposed via JSON:API with 
-access controls. Generally, it is best to only expose the data that  
-consumers actually need. Conceptually, only Schema.org types and properties
-should be exposed via JSON:API with a few exceptions.
+Every entity and field in Drupal is exposed via JSON:API with access controls. 
+Generally, it is best only to expose the data that consumers need. 
+Conceptually, only Schema.org types and properties should be exposed via 
+JSON:API with a few exceptions.

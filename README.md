@@ -11,14 +11,14 @@ Introduction
 ------------
 
 The [Schema.org Blueprints](https://www.drupal.org/project/schemadotorg) module 
-uses [Schema.org](https://schema.org) as the blueprint for the content 
-architecture and structured data in a Drupal website.
+uses [Schema.org](https://schema.org) as the blueprint for a Drupal website's 
+content architecture and structured data.
 
-The best way to get started with using the Schema.org Blueprints module is to 
-read about [Schema.org](https://schema.org) and browse the available 
+The best way to get started using the Schema.org Blueprints module is to read 
+about [Schema.org](https://schema.org) and browse the available 
 [schemas](https://schema.org/docs/schemas.html).
 
-Once you have a fundamental understanding of Schema.org, please watch a 
+Once you understand Schema.org, please watch a 
 [short overview](https://youtu.be/XkZP6QjJkWs) or 
 [full demo](https://youtu.be/_kk97O1SEw0) of the Schema.org Blueprints module.
 

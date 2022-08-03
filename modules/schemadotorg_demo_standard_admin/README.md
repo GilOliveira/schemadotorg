@@ -19,7 +19,7 @@ Features
 
 - Attaches CSS and JavaScript, that fixes minor UI issues with minor 
   UX enhancements.
-- Tweaks the Coffee and Environment Indicator module's toolbar weights.
+- Tweak the Coffee and Environment Indicator module's toolbar weights.
 - Redirects anonymous users to /user/login.
 - Displays a welcome message via JavaScript.
 - Sets user name and password to demo/demo.
@@ -29,5 +29,5 @@ Notes
 -----
 
 The Schema.org Blueprint Demo Standard Admin module isolates 
-admin theme related tweak to make it easier for developers and site builders
+admin theme-related tweaks to make it easier for developers and site builders
 to disable or copy tweaks into their projects. 

@@ -34,7 +34,7 @@ properties within an entity type/bundle Schema.org mapping.
 Configuration
 -------------
 
-- Go to Schema.org property configuration page. 
+- Go to the Schema.org property configuration page. 
   (@see /admin/config/search/schemadotorg/settings/properties) 
 - Enter Schema.org properties that should use the inline entity form.
 

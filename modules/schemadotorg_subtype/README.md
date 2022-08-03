@@ -9,8 +9,8 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Subtype module allows more specificity without 
-having to create dedicated entity types for every appropriate Schema.type.
+The Schema.org Blueprints Subtype module allows defining more specificity 
+without creating dedicated entity types for every appropriate Schema.type.
 
 For example, the subtypes for <http://schema.org/Event> are mainly for adding a 
 little extra specificity about an Event. Most event subtypes do not need to 
@@ -21,8 +21,8 @@ Features
 --------
 
 - Adds Enable Schema.org subtyping to Schema.org mapping UI.
-- Allows site builders to alter subtype field name, label, description, and 
-  allowed values.
+- Site builders can alter subtype field names, labels, descriptions, 
+  and allowed values.
 - Adds custom 'subtype' mapping to Schema.org mapping properties.
 - Alters the Schema.org mapping list builder and adds a 'Subtype' column.
 

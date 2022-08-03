@@ -27,6 +27,6 @@ Features
 Configuration
 -------------
 
-- Go to Schema.org properties configuration page.
+- Go to the Schema.org properties configuration page.
   (@see /admin/config/search/schemadotorg/settings/properties)
 - Enter Schema.org properties that should be mapped to a vocabulary.

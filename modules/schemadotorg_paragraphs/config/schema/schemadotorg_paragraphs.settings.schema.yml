@@ -4,7 +4,7 @@ schemadotorg_paragraphs.settings:
   mapping:
     paragraphs_library:
       type: sequence
-      label: 'Schema.org types that can use the Paragraphs library'
+      label: 'Schema.org types that default to using the Paragraphs library'
       sequence:
         type: string
         label: Schema.org property

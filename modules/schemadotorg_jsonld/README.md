@@ -19,16 +19,16 @@ Features
 - Adds 'application/ld+json' to the <head> section of HTML pages.
 - Converts the Address field values to https://schema.org/PostalAddress
 - Define https://schema.org/identifier for Schema.org types.
-- Apply images styles to image files shared via JSON-LD.
+- Apply image styles to image files shared via JSON-LD.
 - Converts Drupal entities to Schema.org types for JSON-LD.
-- Provide hooks for modules to defined and alter JSON-LD for a routes,
+- Provide hooks for modules to define and alter JSON-LD for routes, 
   types, and properties.
 
 
 Configuration
 -------------
 
-- Go to Schema.org JSON:LD configuration page.
+- Go to the Schema.org JSON:LD configuration page.
   (@see /admin/config/search/schemadotorg/settings/jsonld)
 - Enter \field names to be used to https://schema.org/identifier
 - Enter the default Schema.org property order.

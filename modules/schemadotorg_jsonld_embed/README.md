@@ -25,8 +25,8 @@ Notes
 -----
 
 This module extracts embedded entities by looking for the `data-entity-type` and 
-`data-entity-uuid` attributes in any 'text_long' and  'text_with_summary' 
+`data-entity-uuid` attributes in any `text_long` and  `text_with_summary` 
 field values. 
 
-The current user must have access to embedded entity to have the enbedded entity 
+The current user must have access to embedded entity to have the embedded entity 
 included in the page's JSON-LD.

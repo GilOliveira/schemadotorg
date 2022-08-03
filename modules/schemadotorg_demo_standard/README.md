@@ -34,6 +34,6 @@ Notes
 -----
 
 The Schema.org Blueprint Demo Standard module deliberately tries not to contain
-a lot of exported configuration files. This make it easier to maintain this 
+a lot of exported configuration files. This makes it easier to maintain this 
 module's configuration by allowing the dependencies to make configuration 
-changes and improvements as needed without impacting this demo.
+changes and improvements without impacting this demo.

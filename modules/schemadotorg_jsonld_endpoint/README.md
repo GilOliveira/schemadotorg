@@ -17,14 +17,14 @@ Features
 --------
 
 - Provide dedicated Schema.org JSON-LD endpoints.
-- Adds Schema.org JSON-LD endpoints URIs to JSON:API resource meta data.
+- Adds Schema.org JSON-LD endpoints URIs to JSON:API resource metadata.
 - Allows Schema.org JSON-LD endpoint base paths to be customized.
 
   
 Configuration
 -------------
 
-- Go to Schema.org JSON-LD configuration page.
+- Go to the Schema.org JSON-LD configuration page.
   (@see /admin/config/search/schemadotorg/settings/jsonld)
 - Enter the entity types JSON-LD endpoint paths.
 
@@ -32,6 +32,5 @@ Configuration
 Notes
 -----
 
-The Schema.org Blueprints JSON-LD Endpoint module is mainly application to 
-decoupled applications that want to include JSON-LD with in the front-end 
-application.
+The Schema.org Blueprints JSON-LD Endpoint module mainly applies to decoupled 
+applications that want to include JSON-LD in the front-end application.

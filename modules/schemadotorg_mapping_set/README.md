@@ -25,7 +25,7 @@ Features
 Configuration
 -------------
 
-- Go to Schema.org Mapping Sets configuration page.
+- Go to the Schema.org Mapping Sets configuration page.
   (@see /admin/config/search/schemadotorg/sets/settings)
 - Enter Schema.org mapping sets.
 
@@ -33,9 +33,9 @@ Configuration
 Notes
 -----
 
-Schema.org mapping set provide a quick way to set up and test different
-related Schema.org types while adjust and refining your Schema.org types 
-and property defaults. 
+Schema.org mapping set provides a quick way to set up and test different 
+related Schema.org types while adjusting and refining your Schema.org types 
+and property defaults.
 
 Custom modules can also use the 'schemadotorg_mapping_set.manager' service 
 to set up Schema.org types via code.
