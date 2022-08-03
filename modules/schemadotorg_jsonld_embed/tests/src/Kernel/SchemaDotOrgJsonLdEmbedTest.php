@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\schemadotorg_jsonld_embed\Kernel;
 
+use Drupal\Core\Session\UserSession;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\media\Entity\Media;
 use Drupal\node\Entity\Node;
@@ -54,7 +55,14 @@ class SchemaDotOrgJsonLdEmbedTest extends SchemaDotOrgKernelEntityTestBase {
     $this->installConfig(['schemadotorg_jsonld']);
     $this->manager = $this->container->get('schemadotorg_jsonld.manager');
     $this->builder = $this->container->get('schemadotorg_jsonld.builder');
+
     $this->dataFormatter = $this->container->get('date.formatter');
+
+    // Set current user to admin.
+    $account = new UserSession([
+      'uid' => 1,
+    ]);
+    $this->container->get('current_user')->setAccount($account);
   }
 
   /**
@@ -110,6 +118,7 @@ class SchemaDotOrgJsonLdEmbedTest extends SchemaDotOrgKernelEntityTestBase {
       0 => [
         '@context' => 'https://schema.org',
         '@type' => 'ImageObject',
+        '@url' => $media->toUrl()->setAbsolute()->toString(),
         'identifier' => [
           [
             '@type' => 'PropertyValue',
@@ -125,6 +134,7 @@ class SchemaDotOrgJsonLdEmbedTest extends SchemaDotOrgKernelEntityTestBase {
       [
         '@context' => 'https://schema.org',
         '@type' => 'Thing',
+        '@url' => $node->toUrl()->setAbsolute()->toString(),
         'identifier' => [
           [
             '@type' => 'PropertyValue',

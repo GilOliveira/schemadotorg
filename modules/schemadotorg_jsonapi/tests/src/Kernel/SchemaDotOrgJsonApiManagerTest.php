@@ -183,10 +183,9 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertFalse($resource_fields['schema_alternate_name']['disabled']);
 
     // Check disabling internal fields.
-    $this->assertTrue($resource_fields['nid']['disabled']);
-    $this->assertTrue($resource_fields['type']['disabled']);
-    $this->assertTrue($resource_fields['changed']['disabled']);
-    $this->assertTrue($resource_fields['created']['disabled']);
+    $this->assertTrue($resource_fields['revision_timestamp']['disabled']);
+    $this->assertTrue($resource_fields['revision_uid']['disabled']);
+    $this->assertTrue($resource_fields['revision_log']['disabled']);
 
     // Check field public names.
     $this->assertEquals('name', $resource_fields['title']['publicName']);

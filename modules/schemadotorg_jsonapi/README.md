@@ -54,5 +54,5 @@ FAQ
 
 By default, every entity and field in Drupal is exposed via JSON:API with 
 access controls. Generally, it is best to only expose the data that  
-consumers actually need. Conceptually, only Schema.org type and properties
+consumers actually need. Conceptually, only Schema.org types and properties
 should be exposed via JSON:API with a few exceptions.

@@ -130,7 +130,7 @@ class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface
 
     /** @var \Drupal\Core\Entity\EntityInterface $embed_entity */
     $embed_entity = reset($embed_entities);
-    if (!$embed_entity->accesss()) {
+    if (!$embed_entity->access('view')) {
       return NULL;
     }
 
