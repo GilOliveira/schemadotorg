@@ -500,7 +500,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
     $default_enabled_fields = $this->configFactory
       ->get('schemadotorg_jsonapi.settings')
       ->get('default_enabled_fields');
-    return in_array($field_name, $default_enabled_fields);
+    return $default_enabled_fields ? in_array($field_name, $default_enabled_fields) : TRUE;
   }
 
   /**

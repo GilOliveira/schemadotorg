@@ -34,7 +34,9 @@ class SchemaDotOrgJsonApiSettingsForm extends ConfigFormBase {
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Default enabled fields'),
-      '#description' => $this->t('Enter fields that should default to enabled when they are added to a Schema.org JSON:API resource.'),
+      '#description' => $this->t('Enter fields that should default to enabled when they are added to a Schema.org JSON:API resource.')
+      . ' '
+      . $this->t('Leave blank to enable all fields by default.'),
       '#default_value' => $config->get('default_enabled_fields'),
     ];
     $form['path_prefixes'] = [

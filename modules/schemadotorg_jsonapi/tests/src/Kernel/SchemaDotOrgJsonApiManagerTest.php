@@ -148,11 +148,11 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     /* ********************************************************************** */
 
     // Create Thing node with field.
-    $node_type = NodeType::create([
+    $thing_node = NodeType::create([
       'type' => 'thing',
       'name' => 'Thing',
     ]);
-    $node_type->save();
+    $thing_node->save();
     $this->createSchemaDotOrgField('node', 'Thing');
     $this->createSchemaDotOrgSubTypeField('node', 'Thing');
 
@@ -281,6 +281,41 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     $user_resource = $this->loadResource('user--user');
     $this->assertEquals('UserPerson', $user_resource->get('path'));
     $this->assertEquals('UserPerson', $user_resource->get('resourceType'));
+
+    /* ********************************************************************** */
+    // Enabling all fields.
+    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManager::isFieldEnabled
+    /* ********************************************************************** */
+
+    // Enable all fields by leaving it blank.
+    \Drupal::configFactory()
+      ->getEditable('schemadotorg_jsonapi.settings')
+      ->set('default_enabled_fields', [])
+      ->save();
+
+    // Create Event with mapping.
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $event_mapping */
+    $event_node = NodeType::create([
+      'type' => 'event',
+      'name' => 'Event',
+    ]);
+    $event_node->save();
+    $event_mapping = $this->mappingStorage->create([
+      'target_entity_type_id' => 'node',
+      'target_bundle' => 'event',
+      'type' => 'Event',
+    ]);
+    $event_mapping->save();
+
+    // Check that JSON:API resource was created for Event.
+    /** @var \Drupal\jsonapi_extras\Entity\JsonapiResourceConfig $resource */
+    $resource = $this->resourceStorage->load('node--event');
+    $resource_fields = $resource->get('resourceFields');
+
+    // Check enabled internal fields.
+    $this->assertFalse($resource_fields['revision_timestamp']['disabled']);
+    $this->assertFalse($resource_fields['revision_uid']['disabled']);
+    $this->assertFalse($resource_fields['revision_log']['disabled']);
   }
 
   /**
