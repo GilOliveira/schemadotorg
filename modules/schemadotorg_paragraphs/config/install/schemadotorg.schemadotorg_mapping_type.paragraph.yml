@@ -8,7 +8,6 @@ recommended_schema_types:
   quick_start:
     label: 'Quick Start'
     types:
-      - ContactPoint
       - NutritionInformation
       - Offer
       - Question

@@ -276,8 +276,6 @@ schema_types:
     WebSite:
       - name
     Event:
-      - attendee
-      - audience
       - description
       - duration
       - endDate
@@ -290,8 +288,6 @@ schema_types:
       - performer
       - startDate
     CourseInstance:
-      - '-attendee'
-      - '-audience'
       - '-organizer'
       - '-performer'
       - courseMode
@@ -518,7 +514,6 @@ schema_types:
       - relatedDrug
     Organization:
       - address
-      - contactPoint
       - description
       - email
       - image
@@ -581,12 +576,6 @@ schema_types:
       - sport
     Person:
       - additionalName
-      - address
-      - affiliation
-      - alumniOf
-      - award
-      - birthDate
-      - contactPoint
       - description
       - email
       - familyName
@@ -595,13 +584,10 @@ schema_types:
       - honorificPrefix
       - honorificSuffix
       - image
-      - jobTitle
       - knowsLanguage
       - name
-      - nationality
       - sameAs
       - telephone
-      - worksFor
     Place:
       - address
       - description

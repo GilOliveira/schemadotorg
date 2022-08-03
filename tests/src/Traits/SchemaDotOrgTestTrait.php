@@ -73,4 +73,22 @@ trait SchemaDotOrgTestTrait {
     $field_config->save();
   }
 
+  /**
+   * Append properties to a Schema.org type's default properties.
+   *
+   * @param string $type
+   *   The Schema.org type.
+   * @param array|string $property
+   *   The Schema.org property or an array of Schema.org properties.
+   */
+  protected function appendSchemaTypeDefaultProperties($type, $property) {
+    $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
+    $default_properties = $config->get('schema_types.default_properties');
+    $default_properties[$type] = array_merge($default_properties[$type], (array) $property);
+    $default_properties[$type] = array_unique($default_properties[$type]);
+    asort($default_properties[$type]);
+    $config->set('schema_types.default_properties', $default_properties);
+    $config->save();
+  }
+
 }

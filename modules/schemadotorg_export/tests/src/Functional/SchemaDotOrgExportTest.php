@@ -61,7 +61,7 @@ class SchemaDotOrgExportTest extends SchemaDotOrgBrowserTestBase {
     // Check Schema.org mapping set CSV.
     $this->drupalGet('/admin/config/search/schemadotorg_mapping_set.csv');
     $assert_session->responseContains('title,name,types');
-    $assert_session->responseContains('Required,required,"media:ImageObject; media:VideoObject; taxonomy_term:DefinedTerm; paragraph:ContactPoint; node:Person"');
+    $assert_session->responseContains('Required,required,"media:ImageObject; media:VideoObject; taxonomy_term:DefinedTerm; node:Person"');
   }
 
 }

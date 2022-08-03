@@ -47,6 +47,8 @@ class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
     $this->installConfig(['schemadotorg_paragraphs', 'schemadotorg_jsonld', 'paragraphs_library']);
 
     $this->builder = $this->container->get('schemadotorg_jsonld.builder');
+
+    $this->appendSchemaTypeDefaultProperties('Person', 'contactPoint');
   }
 
   /**

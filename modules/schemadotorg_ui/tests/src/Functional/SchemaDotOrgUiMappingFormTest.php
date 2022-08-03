@@ -45,6 +45,18 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
   protected function setUp(): void {
     parent::setUp();
 
+    $this->appendSchemaTypeDefaultProperties('Person', [
+      'address',
+      'affiliation',
+      'alumniOf',
+      'award',
+      'birthDate',
+      'contactPoint',
+      'jobTitle',
+      'nationality',
+      'worksFor',
+    ]);
+
     $account = $this->drupalCreateUser([
       'administer user fields',
       'administer content types',
