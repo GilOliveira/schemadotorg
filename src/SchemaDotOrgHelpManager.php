@@ -125,6 +125,11 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
         'youtube_id' => '_kk97O1SEw0',
       ],
       [
+        'title' => $this->t('Defining the goals of the Schema.org Blueprints module for Drupal'),
+        'content' => $this->t('This presentation explores implementing a next-generation Content Management System (CMS) that supports progressive decoupling, structured data, advanced content authoring, and omnichannel publishing using the Schema.org Blueprints module for Drupal.'),
+        'youtube_id' => '5RgPhNvEC4U',
+      ],
+      [
         'title' => $this->t('Baking a Recipe using the Schema.org Blueprints module for Drupal'),
         'content' => $this->t("This presentation shows how to create a 'recipe' content type in Drupal based entirely on https://Schema.org/Recipe using two possible approaches via the Paragraphs module or Flex Field module to build out the nutrition information."),
         'youtube_id' => 'F31avX4gRm0',

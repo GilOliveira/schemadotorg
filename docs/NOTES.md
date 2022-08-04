@@ -1,43 +1,32 @@
 Schema.org Blueprints
 ---------------------
 
-# Todo
+# Tips
 
-Test coverage
+- Schema.org Blueprints module should provide 80% of a site's base content architecture and the remaining 20% is custom configuration and code.
 
-- Improve \Drupal\Tests\schemadotorg\Functional\SchemaDotOrgSettingsElementTest
-- JavaScript test coverage for UI and Report.
-- Write tests schemadotorg_flexfield.module
+- The structured data examples from Schema.org should be considered the canonical reference for implementation guidelines.
 
-## Ongoing
+- For SEO friendly structured data examples, Google should be a close second.
 
-- Research and document recommended modules.
-- Determine the recommended types per entity type.
-  - Document tested and supported default Schema.org types.
-  - Always review default Schema.org type properties.
-- Build out the default schema types properties.
-- Review patterns and tests.
+- Relationships should be a top down (a.k.a. parent to child) and not a child to parent relationships.
+  - Use episodes instead of partOfSeason
+  - Use 'has' instead of 'partOf'
+  - Top down makes it easier to build JSON-LD which recurse downward.
+  - Top down supports inline entity references with weighting.
 
-Code
-- Improve \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::calculateDependencies
-  to support subtype.
+# Supported/recommended entity and field types
 
-# Backlog
+_The use-case for different entity and field types._
 
-Ajax
-- Add Ajax to mapping form add field UI/UX
-  - @see \Drupal\jsonapi_extras\Form\JsonapiResourceConfigForm
+- **Content:** Used for any Schema.org types that should have a dedicated URL.
 
-# TBD
+- **Paragraphs:** Used for complex Intangibles and StructuredData.
 
-What field types won't easily work or map to Schema.org?
-- text with summary and formatting
-- Date range
-- Repeating events (SmartDates)
+- **Block:** Used for Intangibles and Schema.org types that are embedded in node and layouts.
 
-- How do we handle sub-values (i.e. body.summary)?
-  - Token field?
+- **Taxonomy:** Used for vocabularies of DefinedTerm and CategoryCode sets.
 
-- How to handle translations for imported data?
-  - Include descriptions added via the schemadotorg_descriptions.module
-  
+- **User:** Used for when a dedicated Person type is needed for online community management.
+
+- **Flexfield:** User for simple Intangibles and StructuredData. \[DEPRECATED\]

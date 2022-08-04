@@ -18,23 +18,6 @@ Core
 - **Schema.org Blueprints Report**  
   Provides a report for browsing Schema.org types, properties, and naming conventions.
 
-Demo
-
-- **Schema.org Blueprints Demo Standard Profile Setup**  
-  Provides an opinionated demo of the Schema.org Blueprints built on top of Drupal's standard profile.
-
-- **Schema.org Blueprints Demo Standard Profile Translation**  
-  Provides an opinionated translation of the Schema.org Blueprints built on top of Drupal's standard profile.
-
-- **Schema.org Blueprints Demo Standard Profile Admin**  
-  Provides admin UI enhancements for the Schema.org Blueprints demo built on top of Drupal's standard profile.
-
-- **Schema.org Blueprints Default Content**  
-  Provides default Schema.org types and mappings with default content.
-
-- **Schema.org Blueprints Umami Demo Content**  
-  Imports the content for the Umami demo with Schema.org Blueprints.
- 
 UI/UX
 
 - **Schema.org Blueprints Descriptions**  

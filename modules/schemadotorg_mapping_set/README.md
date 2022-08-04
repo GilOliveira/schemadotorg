@@ -13,6 +13,18 @@ Introduction
 The Schema.org Blueprints Mapping Sets module provides the ability to create 
 a set of related Schema.org types via Drush.
 
+Use cases include...
+
+- **Common** (People, events, places, and organizations)
+- **Blocks** (Teasers, quotes, and components)
+- **How to** (Step-by-step guides)
+- **Food** (Restaurants and menus)
+- **Entertainment**	(Movies, TV, and podcasts)
+- **Web**	(Webpage, FAQ, and slideshows)
+- **Education**	(Schools and course)
+- **Organization**	(Hours, ratings, services, job posting and businesses)
+- **Medical organization**	(Physician, clinics, labs, hospitals, tests, and audience)
+- **Medical information** (Conditions, symptoms, risks, causes, tests, procedures, and trials)
 
 Features
 --------

@@ -27,14 +27,20 @@ INSTANCE OF DRUPAL**
 Features
 --------
 
+**Administration**  
+
 A radically new administration interface using the Gin admin theme
 
 - Dedicated and branded login page 
 - Customizable administrative dashboards
 
+**Content authoring**  
+
 Examples of Drupal's content authoring best practices and patterns
 
 - Media support
+- Media library
+- Paragraph library
 - Embedded content
 - Content browsing
 - Inline entity editing
@@ -42,13 +48,33 @@ Examples of Drupal's content authoring best practices and patterns
 - Drag-n-drop file uploads
 - Link management
 
-Multilingual support
+**Multilingual support**  
 
 - Language switching
 
-Default content
+**Default content**  
 
-- Example recipes in English and Spanish copied from Umami demo install profile.
+- Example recipes in English and Spanish copied from the 
+  [Umami demo install profile](https://www.drupal.org/docs/umami-drupal-demonstration-installation-profile).
+
+
+Sub-modules
+-----------
+
+- **Schema.org Blueprints Demo Standard Profile Setup**  
+  Provides an opinionated demo of the Schema.org Blueprints built on top of Drupal's standard profile.
+
+- **Schema.org Blueprints Demo Standard Profile Translation**  
+  Provides an opinionated translation of the Schema.org Blueprints built on top of Drupal's standard profile.
+
+- **Schema.org Blueprints Demo Standard Profile Admin**  
+  Provides admin UI enhancements for the Schema.org Blueprints demo built on top of Drupal's standard profile.
+
+- **Schema.org Blueprints Default Content**  
+  Provides default Schema.org types and mappings with default content.
+
+- **Schema.org Blueprints Umami Demo Content**  
+  Imports the content for the Umami demo with Schema.org Blueprints.
 
 
 Installation
@@ -70,8 +96,8 @@ Installation
       - Run `drush en schemadotorg_demo`
   - **OPTIONS 2**
     - From the root run the below scripts.
-      - Run `web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh demo`
-      - Run `web/modules/contrib/schemadotorg/scripts/schemadotorg-demo.sh translate`
+      - Run `web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh demo`
+      - Run `web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh translate`
 
 Example of the Schema.org Blueprints Demo's composer.libraries.json added to composer.json
 

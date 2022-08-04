@@ -7,6 +7,14 @@ Schema.org Blueprints: Roadmap
 - Plan for hooks.
 - Define core dependencies.
 - Implement core submodules.
+--------------------------------------------------------------------------------
+- Research and document recommended modules.
+- Determine the recommended types per entity type.
+  - Document tested and supported default Schema.org types.
+  - Always review default Schema.org type properties.
+- Build out the default schema types properties.
+- Review patterns and tests.
+
 
 # Alpha
 
@@ -19,6 +27,7 @@ Schema.org Blueprints: Roadmap
 - Research and support contrib modules
 - Remove deprecated modules
 
+
 # Beta
 
 - Find co-maintainers and sponsoring organizations
@@ -28,6 +37,7 @@ Schema.org Blueprints: Roadmap
 - Finalize and document hooks and APIs
 - Ensure regression test coverage
 - Establish supported contrib modules
+
 
 # Stable 
  
