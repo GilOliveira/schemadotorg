@@ -38,7 +38,7 @@ Configuration
 -------------
 
 - Go to the Schema.org Mapping Sets configuration page.
-  (@see /admin/config/search/schemadotorg/sets/settings)
+  (/admin/config/search/schemadotorg/sets/settings)
 - Enter Schema.org mapping sets.
 
 

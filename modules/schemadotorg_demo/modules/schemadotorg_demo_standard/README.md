@@ -19,8 +19,8 @@ INSTANCE OF DRUPAL**
 Features
 --------
 
-- Installs contributed module settings. (@see /config/install)
-- Rewrites contributed module settings. (@see /config/rewrite)
+- Installs contributed module settings. (/config/install)
+- Rewrites contributed module settings. (/config/rewrite)
 - Enables the Gin admin theme.
 - Enables the Gin related modules.
 - Configures the Gin admin theme.

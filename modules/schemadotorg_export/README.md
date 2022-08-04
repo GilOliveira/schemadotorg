@@ -17,9 +17,9 @@ Features
 --------
 
 - Adds '⇩ Download CSV' button to Schema.org mapping overview.
-  (@see /admin/config/search/schemadotorg)
+  (/admin/config/search/schemadotorg)
 - Adds '⇩ Download CSV' button to Schema.org mapping sets overview.
-  (@see /admin/config/search/schemadotorg/sets)
+  (/admin/config/search/schemadotorg/sets)
 
 
 Notes

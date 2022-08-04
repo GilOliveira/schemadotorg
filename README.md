@@ -10,6 +10,9 @@ Table of contents
 Introduction
 ------------
 
+> The Schema.org Blueprints module provides perfect data structures (Schema.org), 
+> pristine APIs (JSON:API), and great SEO (JSON-LD).
+
 The [Schema.org Blueprints](https://www.drupal.org/project/schemadotorg) module 
 uses [Schema.org](https://schema.org) as the blueprint for a Drupal website's 
 content architecture and structured data.
@@ -32,6 +35,19 @@ Additional documentation
 - [docs/DEVELOPMENT.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/DEVELOPMENT.md)
 
 
+Features
+--------
+
+- Installs Schema.org CSV into Drupal
+- Exposes Schema.org types and properties to Drupal modules
+- Defines Schema.org mapping and mapping type entities
+- Allow Schema.org types, properties, and names to be configured
+- Build entity types and fields from Schema.org types and properties
+- Ensure that Schema.org naming conventions work with Drupal's internal 
+  naming conventions
+- Provides Drush commands to create and delete Schema.org mappings
+
+
 Requirements
 ------------
 
@@ -49,6 +65,21 @@ Install the Schema.org Blueprints module as you would normally
 Configuration
 -------------
 
-1. Navigate to Administration > Extend and enable the module.
-2. Navigate to Administration > Configuration > Search and metadata
-   > Schema.org for configurations.
+- Configure 'Schema.org Blueprints JSON-LD Preview' permission.
+  (/admin/people/permissions/module/schemadotorg_jsonapi_preview)
+
+- Review Schema.org types configuration. 
+  (/admin/config/search/schemadotorg/settings/types)
+
+- Review Schema.org properties configuration.
+  (/admin/config/search/schemadotorg/settings/properties)
+
+- Review Schema.org naming conventions configuration.
+  (/admin/config/search/schemadotorg/settings/names)
+
+- Review Schema.org mappings. 
+  (/admin/config/search/schemadotorg)
+
+- Review Schema.org mapping types. 
+  (/admin/config/search/schemadotorg/types)
+

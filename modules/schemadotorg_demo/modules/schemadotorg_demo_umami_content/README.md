@@ -19,7 +19,7 @@ Features
 - Create Schema.org type mappings for Umami article, page, and recipe 
   content types.
 - Imports Umami content. 
-  (@see /core/profiles/demo_umami/modules/demo_umami_content)
+  (/core/profiles/demo_umami/modules/demo_umami_content)
 - Applies mapping from Umami fields to Schema.org fields.
 
 
