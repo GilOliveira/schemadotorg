@@ -1,5 +1,5 @@
-Schema.org Blueprints Integrations
-----------------------------------
+Schema.org Blueprints Development
+---------------------------------
 
 **TLDR;** The Schema.org Blueprints modules provides hooks and example module 
 for integrating contributed modules into the Schema.org mapping UI and JSON-LD 

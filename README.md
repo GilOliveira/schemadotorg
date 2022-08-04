@@ -22,6 +22,15 @@ Once you understand Schema.org, please watch a
 [short overview](https://youtu.be/XkZP6QjJkWs) or 
 [full demo](https://youtu.be/_kk97O1SEw0) of the Schema.org Blueprints module.
 
+Additional documentation
+
+- [docs/NOTES.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/NOTES.md)
+- [docs/ROADMAP.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/ROADMAP.md)
+- [docs/MODULES.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/MODULES.md)
+- [docs/REFERENCES.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/REFERENCES.md)
+- [docs/DRUSH.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/DRUSH.md)
+- [docs/DEVELOPMENT.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/DEVELOPMENT.md)
+
 
 Requirements
 ------------
