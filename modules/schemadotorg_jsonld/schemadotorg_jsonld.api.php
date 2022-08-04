@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Hooks related to Schema.org Blueprints JSON-LD module.
+ * Hooks to define and alter Schema.org JSON-LD.
  */
 
 // phpcs:disable DrupalPractice.CodeAnalysis.VariableAnalysis.UnusedVariable

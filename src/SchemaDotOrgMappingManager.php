@@ -360,14 +360,6 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     // Always set field groups when field groups are supported and available.
     $this->schemaEntityTypeBuilder->setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, $new_properties);
 
-    // Allow modules to save the mapping via a hook.
-    $hook = 'schemadotorg_mapping_save';
-    $implementations = $this->moduleHandler->getImplementations($hook);
-    foreach ($implementations as $module) {
-      $function = $module . '_' . $hook;
-      $function($mapping, $values);
-    }
-
     // Save the mapping entity.
     $mapping->save();
 

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Hooks related to Schema.org Blueprints module.
+ * Hooks to define and alter mappings, entity types and fields.
  */
 
 // phpcs:disable DrupalPractice.CodeAnalysis.VariableAnalysis.UnusedVariable
@@ -23,7 +23,11 @@
  *   The Schema.org property.
  */
 function hook_schemadotorg_property_field_type_alter(array &$field_types, $schema_type, $schema_property) {
-  // @todo Provide an example.
+  // Use SmartDate for startDate and endDate.
+  if (in_array($schema_property, ['startDate', 'endData'])
+    || \Drupal::moduleHandler()->moduleExists('smartdate')) {
+    $field_types = ['smartdate' => 'smartdate'] + $field_types;
+  }
 }
 
 /**
@@ -37,7 +41,10 @@ function hook_schemadotorg_property_field_type_alter(array &$field_types, $schem
  *   The default values used in the Schema.org mapping form.
  */
 function hook_schemadotorg_property_field_prepare($schema_type, $schema_property, array &$default_field) {
-  // @todo Provide an example.
+  // Programmatically update the name field for an Event Schema.org type.
+  if ($schema_type === 'Event' && $schema_property === 'name') {
+    $default_field['name']['label'] = t('Event title');
+  }
 }
 
 /**
@@ -51,7 +58,18 @@ function hook_schemadotorg_property_field_prepare($schema_type, $schema_property
  *   The bundle entity type values.
  */
 function hook_schemadotorg_bundle_entity_alter($schema_type, $entity_type_id, array &$values) {
-  // @todo Provide an example.
+  // Remove the description from the bundle entity before it is created.
+  // @see schemadotorg_descriptions_schemadotorg_bundle_entity_alter()
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface $schema_type_builder */
+  $schema_type_builder = \Drupal::service('schemadotorg.schema_type_builder');
+
+  $definition = $schema_type_manager->getType($schema_type);
+  $description = $schema_type_builder->formatComment($definition['comment'], ['base_path' => 'https://schema.org/']);
+  if ($values['description'] === $description) {
+    $values['description'] = '';
+  }
 }
 
 /**
@@ -84,7 +102,31 @@ function hook_schemadotorg_property_field_alter(
   &$formatter_id,
   array &$formatter_settings
 ) {
-  // @todo Provide an example.
+  // Remove the description from the field before it is created.
+  // @see schemadotorg_descriptions_schemadotorg_property_field_alte()
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface $schema_type_builder */
+  $schema_type_builder = \Drupal::service('schemadotorg.schema_type_builder');
+
+  // Check Schema.org property and subtype for description.
+  $property_definition = $schema_type_manager->getProperty($schema_property);
+  if ($property_definition) {
+    $description = $schema_type_builder->formatComment($property_definition['comment'], ['base_path' => 'https://schema.org/']);
+  }
+  elseif ($schema_property === 'subtype') {
+    $description = \Drupal::configFactory()
+      ->get('schemadotorg_subtype.settings')
+      ->get('default_field_description');
+  }
+  else {
+    $description = NULL;
+  }
+
+  // Unset the field's description if it has not been altered.
+  if ($field_values['description'] === $description) {
+    $field_values['description'] = '';
+  }
 }
 
 /**
@@ -100,19 +142,56 @@ function hook_schemadotorg_property_field_alter(
  *   The Schema.org mapping entity default values.
  */
 function hook_schemadotorg_mapping_defaults($entity_type_id, $bundle, $schema_type, array &$defaults) {
-  // @todo Provide an example.
-}
+  // Add custom subtype property to a Schema.org mapping defaults.
+  // @see schemadotorg_subtype_schemadotorg_mapping_defaults_alter()
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+  $allowed_values = $schema_type_manager->getAllTypeChildrenAsOptions($schema_type);
+  if (empty($allowed_values)) {
+    return;
+  }
 
-/**
- * Save a Schema.org mapping entity values.
- *
- * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
- *   The Schema.org mapping.
- * @param array $values
- *   The Schema.org mapping entity values.
- */
-function hook_schemadotorg_mapping_save(\Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping, array &$values) {
-  // @todo Provide an example.
+  // Add subtype as a custom Schema.org property.
+  $defaults['properties']['subtype'] = [];
+
+  // Handle existing subtype property mapping.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
+  $mapping = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping')->load("$entity_type_id.$bundle");
+  if ($mapping && $mapping->hasSchemaPropertyMapping('subtype')) {
+    $defaults['properties']['subtype']['name'] = $mapping->getSchemaPropertyFieldName('subtype');
+    return;
+  }
+
+  $config = \Drupal::configFactory()->get('schemadotorg_subtype.settings');
+  $label = $config->get('default_field_label');
+  $description = $config->get('default_field_description');
+  $default_subtypes = $config->get('default_subtypes');
+
+  // Get the field name which can either be _add_ or empty.
+  // This value is displayed via a checkbox.
+  $name = (!$mapping && in_array($schema_type, $default_subtypes))
+    ? \Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD
+    : '';
+
+  // Get machine name with subtype suffix.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+  $schema_names = \Drupal::service('schemadotorg.names');
+  $machine_name_suffix = $config->get('default_field_suffix');
+  $machine_name_max_length = $schema_names->getNameMaxLength('properties') - strlen($machine_name_suffix);
+  $options = [
+    'maxlength' => $machine_name_max_length,
+    'truncate' => TRUE,
+  ];
+  $machine_name = $bundle ?: $schema_names->camelCaseToDrupalName($schema_type, $options);
+  $machine_name .= $machine_name_suffix;
+
+  // Sets the Schema.org mapping defaults for creating a subtype property.
+  $defaults['properties']['subtype']['name'] = $name;
+  $defaults['properties']['subtype']['type'] = 'list_string';
+  $defaults['properties']['subtype']['label'] = $label;
+  $defaults['properties']['subtype']['machine_name'] = $machine_name;
+  $defaults['properties']['subtype']['description'] = $description;
+  $defaults['properties']['subtype']['allowed_values'] = $allowed_values;
 }
 
 /**
