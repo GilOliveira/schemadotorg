@@ -78,6 +78,13 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   protected $schemaEntityTypeBuilder;
 
   /**
+   * The Schema.org entity display builder.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface
+   */
+  protected $schemaEntityDisplayBuilder;
+
+  /**
    * Constructs a SchemaDotOrgBuilder object.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
@@ -98,6 +105,8 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    *   The Schema.org entity field manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilderInterface $schema_entity_type_builder
    *   The Schema.org entity type builder.
+   * @param \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface $schema_entity_display_builder
+   *   The Schema.org entity display builder.
    */
   public function __construct(
     ModuleHandlerInterface $module_handler,
@@ -108,7 +117,8 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
     SchemaDotOrgSchemaTypeBuilderInterface $schema_type_builder,
     SchemaDotOrgEntityFieldManagerInterface $schema_field_manager,
-    SchemaDotOrgEntityTypeBuilderInterface $schema_entity_type_builder
+    SchemaDotOrgEntityTypeBuilderInterface $schema_entity_type_builder,
+    SchemaDotOrgEntityDisplayBuilderInterface $schema_entity_display_builder
   ) {
     $this->moduleHandler = $module_handler;
     $this->configFactory = $config_factory;
@@ -119,6 +129,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     $this->schemaTypeBuilder = $schema_type_builder;
     $this->schemaEntityFieldManager = $schema_field_manager;
     $this->schemaEntityTypeBuilder = $schema_entity_type_builder;
+    $this->schemaEntityDisplayBuilder = $schema_entity_display_builder;
   }
 
   /**
@@ -313,7 +324,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     // Create target bundle entity.
     if ($mapping->isNewTargetEntityTypeBundle()) {
       $bundle_entity_type_id = $mapping->getTargetEntityTypeBundleId();
-      $bundle_entity = $this->schemaEntityTypeBuilder->addBundleEntity($schema_type, $bundle_entity_type_id, $values['entity']);
+      $bundle_entity = $this->schemaEntityTypeBuilder->addEntityBundle($schema_type, $bundle_entity_type_id, $values['entity']);
       $mapping->setTargetBundle($bundle_entity->id());
     }
 
@@ -354,11 +365,11 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
 
     // Set field weights for new mappings.
     if ($mapping->isNew()) {
-      $this->schemaEntityTypeBuilder->setEntityDisplayFieldWeights($entity_type_id, $bundle, $new_properties);
+      $this->schemaEntityDisplayBuilder->setFieldWeights($entity_type_id, $bundle, $new_properties);
     }
 
     // Always set field groups when field groups are supported and available.
-    $this->schemaEntityTypeBuilder->setEntityDisplayFieldGroups($entity_type_id, $bundle, $schema_type, $new_properties);
+    $this->schemaEntityDisplayBuilder->setFieldGroups($entity_type_id, $bundle, $schema_type, $new_properties);
 
     // Save the mapping entity.
     $mapping->save();
