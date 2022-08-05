@@ -23,8 +23,14 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $entity */
     $entity = $this->getEntity();
 
+    // Type settings.
+    $form['types'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Type settings'),
+      '#open' => TRUE,
+    ];
     if ($entity->isNew()) {
-      $form['target_entity_type_id'] = [
+      $form['types']['target_entity_type_id'] = [
         '#type' => 'select',
         '#title' => $this->t('Target entity type'),
         '#options' => $this->getTargetEntityTypeOptions(),
@@ -32,7 +38,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       ];
     }
     else {
-      $form['target_entity_type'] = [
+      $form['types']['target_entity_type'] = [
         '#type' => 'item',
         '#title' => $this->t('Target entity type'),
         '#value' => $entity->id(),
@@ -45,14 +51,14 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
         $this->messenger()->addWarning($message);
       }
     }
-    $form['multiple'] = [
+    $form['types']['multiple'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Allow multiple mappings to point to the same Schema.org type'),
       '#description' => $this->t('If unchecked, new mappings to an existing Schema.org type will display a warning'),
       '#return_value' => TRUE,
       '#default_value' => $entity->get('multiple'),
     ];
-    $form['recommended_schema_types'] = [
+    $form['types']['recommended_schema_types'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED_NAMED,
       '#settings_format' => 'group_name|group_label|SchemaType01,SchemaType01,SchemaType01',
@@ -62,7 +68,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#description_link' => 'types',
       '#default_value' => $entity->get('recommended_schema_types'),
     ];
-    $form['default_schema_types'] = [
+    $form['types']['default_schema_types'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
       '#settings_format' => 'format entity_type|schema_type',
@@ -71,7 +77,14 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#description_link' => 'types',
       '#default_value' => $entity->get('default_schema_types'),
     ];
-    $form['default_schema_type_properties'] = [
+
+    // Property settings.
+    $form['properties'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Property settings'),
+      '#open' => TRUE,
+    ];
+    $form['properties']['default_schema_type_properties'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
       '#settings_format' => 'SchemaType|propertyName01,propertyName02,propertyName02',
@@ -84,24 +97,32 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#description_link' => 'types',
       '#default_value' => $entity->get('default_schema_type_properties'),
     ];
-    $form['default_base_fields'] = [
+    $form['properties']['default_base_fields'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
       '#settings_format' => 'base_field_name|property_name_01,property_name_02',
-      '#title' => $this->t('Default base field mappings'),
+      '#title' => $this->t('Default base field to Schema.org property mappings'),
       '#description' => $this->t('Enter default base field mappings from existing entity properties and fields to Schema.org properties.')
       . ' ' . $this->t('Leave the property_name value blank to allow the base field to be available but not mapped to a Schema.org property.'),
       '#description_link' => 'properties',
       '#default_value' => $entity->get('default_base_fields'),
     ];
-    $form['default_field_weights'] = [
+    $form['properties']['default_field_weights'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED,
-      '#title' => $this->t('Default field weights'),
-      '#description' => $this->t('Enter Schema.org property default field weights to help org Schema.org as they are added to entity types.'),
+      '#title' => $this->t('Default Schema.org property field weights'),
+      '#description' => $this->t('Enter Schema.org property default field weights to help organize fields as they are added to entity types.'),
       '#default_value' => $entity->get('default_field_weights'),
     ];
-    $form['default_field_groups'] = [
+
+    // Field group settings.
+    $form['field_group'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Field group settings'),
+      '#open' => TRUE,
+      '#access' => $this->moduleHandler->moduleExists('field_group'),
+    ];
+    $form['field_group']['default_field_groups'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED_NAMED,
       '#settings_format' => 'group_name|group_label|property01,property02,property03',
@@ -116,13 +137,13 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       'html_element' => $this->t('HTML element'),
       'fieldset' => $this->t('Fieldset'),
     ];
-    $form['default_field_group_label_suffix'] = [
+    $form['field_group']['default_field_group_label_suffix'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Default field group label suffix'),
       '#description' => $this->t('Enter the field group label suffix used when creating new field groups.'),
       '#default_value' => $entity->get('default_field_group_label_suffix'),
     ];
-    $form['default_field_group_form_type'] = [
+    $form['field_group']['default_field_group_form_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Default field group form type'),
       '#description' => $this->t("Select the default field group type used when adding a field group to a entity type's default form."),
@@ -131,7 +152,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#empty_value' => '',
       '#empty_option' => $this->t('- None -'),
     ];
-    $form['default_field_group_view_type'] = [
+    $form['field_group']['default_field_group_view_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Default field group view type'),
       '#description' => $this->t("Select the default field group type used when adding a field group to a entity type's default view display."),
