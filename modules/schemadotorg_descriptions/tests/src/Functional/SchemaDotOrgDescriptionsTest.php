@@ -21,9 +21,19 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     'node',
     'field',
     'field_ui',
+    'block',
+    'help',
     'schemadotorg_ui',
     'schemadotorg_subtype',
   ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp() {
+    parent::setUp();
+    $this->placeBlock('help_block');
+  }
 
   /**
    * Test Schema.org descriptions.
@@ -81,6 +91,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
 
     // Check that the descriptions are automatically added to the node edit form.
     $this->drupalGet('/node/add/thing');
+    $assert_session->responseContains('The most generic type of item.');
     $assert_session->responseContains('A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.');
     $assert_session->responseContains('An alias for the item.');
 
@@ -108,6 +119,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     // node edit form.
     $this->drupalGet('/node/add/thing');
     $assert_session->responseNotContains('An alias for the item.');
+    $assert_session->responseContains('This is a custom description for a Thing.');
     $assert_session->responseContains('This is a custom description for an alternateName');
 
     // Add custom descriptions for Thing and alternateName.
@@ -121,6 +133,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
 
     // Check that the Thing--alternateName custom description is uses.
     $this->drupalGet('/node/add/thing');
+    $assert_session->responseContains('This is a custom description for a Thing.');
     $assert_session->responseNotContains('This is a custom description for an alternateName');
     $assert_session->responseContains('This is a custom description for an Thing--alternateName');
 
@@ -144,6 +157,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     // Check that NOT custom descriptions are added to the node edit form.
     $this->drupalGet('/node/add/thing');
     $assert_session->responseNotContains('An alias for the item.');
+    $assert_session->responseNotContains('This is a custom description for a Thing.');
     $assert_session->responseNotContains('This is a custom description for an alternateName');
 
     // Create 'Offer' with 'price' which has a long description.

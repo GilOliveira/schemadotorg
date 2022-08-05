@@ -45,6 +45,13 @@ class SchemaDotOrgDescriptionsSettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('trim_descriptions'),
       '#return_value' => TRUE,
     ];
+    $form['schemadotorg_descriptions']['help_descriptions'] = [
+      '#title' => $this->t('Set explanation or submission guidelines to the Schema.org type descriptions'),
+      '#type' => 'checkbox',
+      '#description' => $this->t("If checked, Schema.org type descriptions will also be displayed as the explanation/submission guidelines. Explanation/submission guidelines are only applicable to content types."),
+      '#default_value' => $config->get('help_descriptions'),
+      '#return_value' => TRUE,
+    ];
     $form['schemadotorg_descriptions']['custom_descriptions'] = [
       '#title' => $this->t('Custom Schema.org type and property descriptions'),
       '#type' => 'schemadotorg_settings',
@@ -72,7 +79,6 @@ class SchemaDotOrgDescriptionsSettingsForm extends ConfigFormBase {
 
     $config = $this->config('schemadotorg_descriptions.settings');
     $values = $form_state->getValue('schemadotorg_descriptions');
-    $values['trim_descriptions'] = (boolean) $values['trim_descriptions'];
     foreach ($values as $key => $value) {
       $config->set($key, $value);
     }

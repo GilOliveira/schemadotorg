@@ -1,4 +1,5 @@
 trim_descriptions: true
+help_descriptions: true
 custom_descriptions:
   itemListElement: null
   mainEntity: null

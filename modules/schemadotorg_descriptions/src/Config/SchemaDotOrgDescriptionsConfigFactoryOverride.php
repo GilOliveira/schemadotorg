@@ -257,20 +257,29 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
     $trim_descriptions = $this->configFactory
       ->getEditable('schemadotorg_descriptions.settings')
       ->get('trim_descriptions');
+    $help_descriptions = $this->configFactory
+      ->getEditable('schemadotorg_descriptions.settings')
+      ->get('help_descriptions');
     $custom_descriptions = $this->configFactory
       ->getEditable('schemadotorg_descriptions.settings')
       ->get('custom_descriptions');
     foreach ($overrides as $config_name => $id) {
       if ($type && array_key_exists("$type--$id", $custom_descriptions)) {
         $description = $custom_descriptions["$type--$id"];
+        $help = $custom_descriptions["$type--$id"];
       }
       elseif (array_key_exists($id, $custom_descriptions)) {
         $description = $custom_descriptions[$id];
+        $help = $custom_descriptions[$id];
       }
       elseif (isset($items[$id])) {
         $comment = $items[$id]['comment'];
         // Tidy <br/> tags.
         $comment = preg_replace('#<br[^>]*]>#', '<br/>', $comment);
+
+        // Set help.
+        $help = $this->schemaTypeBuilder->formatComment($comment, $options);
+
         // Trim description.
         if ($trim_descriptions && $comment && strpos($comment, '<br/><br/>') !== FALSE) {
           [$comment] = explode('<br/><br/>', $comment);
@@ -280,6 +289,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
       }
       else {
         $description = '';
+        $help = '';
       }
 
       $data = $this->configFactory->getEditable($config_name)->getRawData();
@@ -295,6 +305,9 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
         $overrides[$config_name] = [
           'description' => $description,
         ];
+        if ($help_descriptions) {
+          $overrides[$config_name]['help'] = $help;
+        }
       }
     }
 
