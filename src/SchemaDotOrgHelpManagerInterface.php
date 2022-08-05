@@ -20,7 +20,7 @@ interface SchemaDotOrgHelpManagerInterface {
    *   The current route match. This can be used to generate different help
    *   output for different pages that share the same route.
    *
-   * @return NULL|array
+   * @return null|array
    *   A render array containing the Schema.org module's README.md contents.
    */
   public function build($route_name, RouteMatchInterface $route_match);

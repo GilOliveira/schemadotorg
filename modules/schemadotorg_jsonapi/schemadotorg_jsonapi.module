@@ -59,6 +59,11 @@ function schemadotorg_jsonapi_form_schemadotorg_mapping_add_form_alter(&$form, F
   $form['actions']['submit']['#submit'][] = '_schemadotorg_jsonapi_form_schemadotorg_mapping_add_form_submit';
 }
 
+/**
+ * Form submission handler for schemadotorg mapping add form.
+ *
+ * @see schemadotorg_jsonapi_form_schemadotorg_mapping_add_form_alter()
+ */
 function _schemadotorg_jsonapi_form_schemadotorg_mapping_add_form_submit(&$form, FormStateInterface $form_state) {
   /** @var \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm $form_object */
   $form_object = $form_state->getFormObject();

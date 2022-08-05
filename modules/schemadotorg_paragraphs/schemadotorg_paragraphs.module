@@ -5,6 +5,7 @@
  * Integrates the Paragraphs with the Schema.org Blueprints module.
  */
 
+use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\paragraphs\ParagraphInterface;
@@ -110,7 +111,7 @@ function schemadotorg_paragraphs_schemadotorg_property_field_alter(
 /**
  * Implements hook_schemadotorg_jsonld_schema_property_alter().
  */
-function schemadotorg_paragraphs_schemadotorg_jsonld_schema_property_alter(&$value, \Drupal\Core\Field\FieldItemInterface $item) {
+function schemadotorg_paragraphs_schemadotorg_jsonld_schema_property_alter(&$value, FieldItemInterface $item) {
   // Make sure the Paragraphs Library module is enabled.
   if (!\Drupal::moduleHandler()->moduleExists('paragraphs_library')) {
     return;

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Provides an opinionated translation of the Schema.org Blueprints
+ * Provides an opinionated translation of the Schema.org Blueprints.
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;

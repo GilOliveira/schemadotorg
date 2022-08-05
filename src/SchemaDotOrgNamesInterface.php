@@ -53,7 +53,7 @@ interface SchemaDotOrgNamesInterface {
    * Convert snake case (snake_case) to camel case (CamelCase).
    *
    * @param string $string
-   *  The snake case string.
+   *   The snake case string.
    *
    * @return string
    *   The snake case (snake_case) to camel case (CamelCase).

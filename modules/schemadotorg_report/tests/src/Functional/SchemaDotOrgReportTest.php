@@ -168,7 +168,6 @@ class SchemaDotOrgReportTest extends SchemaDotOrgBrowserTestBase {
     // @see \Drupal\schemadotorg_report\Controller\SchemaDotOrgReferencesController::index
     $this->drupalGet('/admin/reports/schemadotorg/docs/references');
     $assert_session->responseContains('<h1>Schema.org: References</h1>');
-
   }
 
 }

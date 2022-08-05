@@ -33,6 +33,6 @@ interface SchemaDotOrgJsonLdBuilderInterface {
    *   The JSON-LD for an entity that is mapped to a Schema.org type
    *   or FALSE if the entity is not mapped to a Schema.org type.
    */
-  public function buildEntity(EntityInterface $entity);
+  public function buildEntity(EntityInterface $entity, array $options = []);
 
 }

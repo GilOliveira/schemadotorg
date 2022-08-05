@@ -23,6 +23,9 @@ Steps for creating a new release
     # Show sniff codes in all reports.
     phpcs -s .
 
+    # Fix coding standards.
+    phpcbf .
+
     # Install PHP version compatibility (One-time)
     cd ~/Sites/drupal_schema
     composer require --dev phpcompatibility/php-compatibility

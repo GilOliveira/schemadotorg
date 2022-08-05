@@ -21,7 +21,6 @@ function schemadotorg_taxonomy_help($route_name, RouteMatchInterface $route_matc
   return $help_manager->build($route_name, $route_match);
 }
 
-
 /* ************************************************************************** */
 // JSON-LD.
 /* ************************************************************************** */

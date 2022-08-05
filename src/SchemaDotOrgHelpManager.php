@@ -86,6 +86,7 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
 
     if (class_exists('\Michelf\Markdown')) {
       return [
+        // phpcs:ignore Drupal.Classes.FullyQualifiedNamespace.UseStatementMissing
         '#markup' => \Michelf\Markdown::defaultTransform($contents),
       ];
     }
