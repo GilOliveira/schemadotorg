@@ -20,7 +20,9 @@ Features
 - Alters entity type and field edit forms to remove the default description and 
   update the help text to notify site builders that the entity type and field
   descriptions are automatically set.
-- Set entity type and field via configuration overrides.
+- Sets Schema.org type descriptions as the explanation/submission guidelines.
+  (For content types only)
+- Sets entity type and field descriptions and help via configuration overrides.
 
 
 Configuration
@@ -30,7 +32,8 @@ Configuration
 - Enter custom descriptions or suppress the default Schema.org type 
   and property descriptions.
 - Enable/disable the trimming of Schema.org type and property descriptions.
-
+- Enable/disable setting explanation or submission guidelines to the Schema.org 
+  type descriptions.
 
 Todo
 ----

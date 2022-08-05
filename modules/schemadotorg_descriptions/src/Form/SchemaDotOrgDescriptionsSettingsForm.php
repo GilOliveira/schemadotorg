@@ -38,6 +38,15 @@ class SchemaDotOrgDescriptionsSettingsForm extends ConfigFormBase {
       '#open' => TRUE,
       '#tree' => TRUE,
     ];
+    $form['schemadotorg_descriptions']['custom_descriptions'] = [
+      '#title' => $this->t('Custom Schema.org type and property descriptions'),
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'type|description or property|description',
+      '#description' => $this->t('Enter custom Schema.org type and property descriptions. Leave the description blank to remove the default description provided by Schema.org.'),
+      '#description_link' => 'types',
+      '#default_value' => $config->get('custom_descriptions'),
+    ];
     $form['schemadotorg_descriptions']['trim_descriptions'] = [
       '#title' => $this->t('Trim long Schema.org type and property descriptions'),
       '#type' => 'checkbox',
@@ -51,15 +60,6 @@ class SchemaDotOrgDescriptionsSettingsForm extends ConfigFormBase {
       '#description' => $this->t("If checked, Schema.org type descriptions will also be displayed as the explanation/submission guidelines. Explanation/submission guidelines are only applicable to content types."),
       '#default_value' => $config->get('help_descriptions'),
       '#return_value' => TRUE,
-    ];
-    $form['schemadotorg_descriptions']['custom_descriptions'] = [
-      '#title' => $this->t('Custom Schema.org type and property descriptions'),
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#settings_format' => 'type|description or property|description',
-      '#description' => $this->t('Enter custom Schema.org type and property descriptions. Leave the description blank to remove the default description provided by Schema.org.'),
-      '#description_link' => 'types',
-      '#default_value' => $config->get('custom_descriptions'),
     ];
     return parent::buildForm($form, $form_state);
   }
