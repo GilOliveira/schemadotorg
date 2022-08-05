@@ -150,7 +150,13 @@ function schemadotorg_flexfield_schemadotorg_jsonld_schema_property_alter(&$valu
 function schemadotorg_flexfield_form_schemadotorg_properties_settings_form_alter(&$form, FormStateInterface $form_state) {
   $config = \Drupal::configFactory()->getEditable('schemadotorg_flexfield.settings');
 
-  $form['flexfield_default_properties'] = [
+  $form['schemadotorg_flexfield'] = [
+    '#type' => 'details',
+    '#title' => t('Flexfield settings'),
+    '#open' => TRUE,
+    '#tree' => TRUE,
+  ];
+  $form['schemadotorg_flexfield']['default_properties'] = [
     '#type' => 'schemadotorg_settings',
     '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED_NAMED,
     '#settings_format' => 'propertyName|SchemaType|propertyName01:data_type,propertyName02:data_type,propertyName03:data_type',
@@ -172,9 +178,12 @@ function schemadotorg_flexfield_form_schemadotorg_properties_settings_form_alter
  * @see schemadotorg_flexfield_form_schemadotorg_properties_settings_form_alter()
  */
 function schemadotorg_flexfield_settings_form_submit(&$form, FormStateInterface $form_state) {
-  \Drupal::configFactory()->getEditable('schemadotorg_flexfield.settings')
-    ->set('default_properties', $form_state->getValue('flexfield_default_properties'))
-    ->save();
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_flexfield.settings');
+  $values = $form_state->getValue('schemadotorg_flexfield');
+  foreach ($values as $key => $value) {
+    $config->set($key, $value);
+  }
+  $config->save();
 }
 
 /**

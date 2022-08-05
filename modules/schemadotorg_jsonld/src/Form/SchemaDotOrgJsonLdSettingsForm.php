@@ -31,7 +31,13 @@ class SchemaDotOrgJsonLdSettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('schemadotorg_jsonld.settings');
 
-    $form['identifiers'] = [
+    $form['schemadotorg_jsonld'] = [
+      '#type' => 'details',
+      '#title' => $this->t('JSON-LD settings'),
+      '#open' => TRUE,
+      '#tree' => TRUE,
+    ];
+    $form['schemadotorg_jsonld']['identifiers'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
       '#settings_format' => 'field_name|identifier',
@@ -39,7 +45,7 @@ class SchemaDotOrgJsonLdSettingsForm extends ConfigFormBase {
       '#description' => $this->t('Enter the field names to be used to <a href=":href">Schema.org identifier</a>.', [':href' => 'https://schema.org/docs/datamodel.html#identifierBg']),
       '#default_value' => $config->get('identifiers'),
     ];
-    $form['property_order'] = [
+    $form['schemadotorg_jsonld']['property_order'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#settings_format' => 'propertyName',
@@ -48,7 +54,7 @@ class SchemaDotOrgJsonLdSettingsForm extends ConfigFormBase {
       '#description_link' => 'properties',
       '#default_value' => $config->get('property_order'),
     ];
-    $form['property_image_styles'] = [
+    $form['schemadotorg_jsonld']['property_image_styles'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
       '#settings_format' => 'propertyName|image_style',
@@ -65,11 +71,12 @@ class SchemaDotOrgJsonLdSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->config('schemadotorg_jsonld.settings')
-      ->set('identifiers', $form_state->getValue('identifiers'))
-      ->set('property_order', $form_state->getValue('property_order'))
-      ->set('property_image_styles', $form_state->getValue('property_image_styles'))
-      ->save();
+    $config = $this->config('schemadotorg_jsonld.settings');
+    $values = $form_state->getValue('schemadotorg_jsonld');
+    foreach ($values as $key => $value) {
+      $config->set($key, $value);
+    }
+    $config->save();
     parent::submitForm($form, $form_state);
   }
 

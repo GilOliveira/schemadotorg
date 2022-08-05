@@ -87,7 +87,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     // Add custom descriptions for Thing and alternateName.
     $this->drupalGet('/admin/config/search/schemadotorg/settings/descriptions');
     $edit = [
-      'custom_descriptions' => 'Thing|This is a custom description for a Thing.'
+      'schemadotorg_descriptions[custom_descriptions]' => 'Thing|This is a custom description for a Thing.'
       . PHP_EOL . 'alternateName|This is a custom description for an alternateName',
     ];
     $this->submitForm($edit, 'Save configuration');
@@ -113,7 +113,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     // Add custom descriptions for Thing and alternateName.
     $this->drupalGet('/admin/config/search/schemadotorg/settings/descriptions');
     $edit = [
-      'custom_descriptions' => 'Thing|This is a custom description for a Thing.'
+      'schemadotorg_descriptions[custom_descriptions]' => 'Thing|This is a custom description for a Thing.'
       . PHP_EOL . 'alternateName|This is a custom description for an alternateName'
       . PHP_EOL . 'Thing--alternateName|This is a custom description for an Thing--alternateName',
     ];
@@ -127,7 +127,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     // Remove custom descriptions for Thing and alternateName.
     $this->drupalGet('/admin/config/search/schemadotorg/settings/descriptions');
     $edit = [
-      'custom_descriptions' => 'Thing' . PHP_EOL . 'alternateName',
+      'schemadotorg_descriptions[custom_descriptions]' => 'Thing' . PHP_EOL . 'alternateName',
     ];
     $this->submitForm($edit, 'Save configuration');
 
@@ -157,7 +157,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
 
     // Disable trim descriptions.
     $this->drupalGet('/admin/config/search/schemadotorg/settings/descriptions');
-    $edit = ['trim_descriptions' => FALSE];
+    $edit = ['schemadotorg_descriptions[trim_descriptions]' => FALSE];
     $this->submitForm($edit, 'Save configuration');
 
     // Check that the price and priceCurrency descriptions are NOT trimmed.

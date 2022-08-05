@@ -70,10 +70,12 @@ function schemadotorg_jsonapi_preview_settings_form_submit(&$form, FormStateInte
     $cache_backends['dynamic_page_cache']->deleteAll();
   }
 
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonapi_preview.settings');
   $values = $form_state->getValue('schemadotorg_jsonapi_preview');
-  \Drupal::configFactory()->getEditable('schemadotorg_jsonapi_preview.settings')
-    ->set('visibility', $values['visibility'])
-    ->save();
+  foreach ($values as $key => $value) {
+    $config->set($key, $value);
+  }
+  $config->save();
 }
 
 /**

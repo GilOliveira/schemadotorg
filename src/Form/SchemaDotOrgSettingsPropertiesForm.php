@@ -49,6 +49,9 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
     $config = $this->config('schemadotorg.settings');
 
     $form['schema_properties'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Property settings'),
+      '#open' => TRUE,
       '#tree' => TRUE,
     ];
     $form['schema_properties']['field_prefix'] = [

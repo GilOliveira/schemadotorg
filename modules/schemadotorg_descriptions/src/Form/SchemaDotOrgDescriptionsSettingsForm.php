@@ -32,14 +32,20 @@ class SchemaDotOrgDescriptionsSettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('schemadotorg_descriptions.settings');
 
-    $form['trim_descriptions'] = [
+    $form['schemadotorg_descriptions'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Description settings'),
+      '#open' => TRUE,
+      '#tree' => TRUE,
+    ];
+    $form['schemadotorg_descriptions']['trim_descriptions'] = [
       '#title' => $this->t('Trim long Schema.org type and property descriptions'),
       '#type' => 'checkbox',
       '#description' => $this->t("If checked, long Schema.org type and property descriptions will be truncated to the first paragraphs and a 'learn more' link will be appended to the description."),
       '#default_value' => $config->get('trim_descriptions'),
       '#return_value' => TRUE,
     ];
-    $form['custom_descriptions'] = [
+    $form['schemadotorg_descriptions']['custom_descriptions'] = [
       '#title' => $this->t('Custom Schema.org type and property descriptions'),
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
@@ -55,6 +61,7 @@ class SchemaDotOrgDescriptionsSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    // Clear cache bins to make sure descriptions are updated.
     $cache_backends = Cache::getBins();
     $service_ids = ['data', 'discovery', 'dynamic_page_cache'];
     foreach ($service_ids as $service_id) {
@@ -63,10 +70,14 @@ class SchemaDotOrgDescriptionsSettingsForm extends ConfigFormBase {
       }
     }
 
-    $this->config('schemadotorg_descriptions.settings')
-      ->set('trim_descriptions', (boolean) $form_state->getValue('trim_descriptions'))
-      ->set('custom_descriptions', $form_state->getValue('custom_descriptions'))
-      ->save();
+    $config = $this->config('schemadotorg_descriptions.settings');
+    $values = $form_state->getValue('schemadotorg_descriptions');
+    $values['trim_descriptions'] = (boolean) $values['trim_descriptions'];
+    foreach ($values as $key => $value) {
+      $config->set($key, $value);
+    }
+    $config->save();
+
     parent::submitForm($form, $form_state);
   }
 

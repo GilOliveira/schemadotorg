@@ -82,7 +82,13 @@ function schemadotorg_taxonomy_preprocess_html(array &$variables) {
 function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter(&$form, FormStateInterface $form_state) {
   $config = \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings');
 
-  $form['taxonomy_property_vocabularies'] = [
+  $form['schemadotorg_taxonomy'] = [
+    '#type' => 'details',
+    '#title' => t('Taxonomy settings'),
+    '#open' => TRUE,
+    '#tree' => TRUE,
+  ];
+  $form['schemadotorg_taxonomy']['property_vocabularies'] = [
     '#type' => 'schemadotorg_settings',
     '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
     '#settings_format' => 'propertyName|id:vocabulary_id,label:Vocabulary name,description: Vocabulary description goes here',
@@ -104,9 +110,12 @@ function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter(
  * @see schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter()
  */
 function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_submit(&$form, FormStateInterface $form_state) {
-  \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings')
-    ->set('property_vocabularies', $form_state->getValue('taxonomy_property_vocabularies'))
-    ->save();
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings');
+  $values = $form_state->getValue('schemadotorg_taxonomy');
+  foreach ($values as $key => $value) {
+    $config->set($key, $value);
+  }
+  $config->save();
 }
 
 /**

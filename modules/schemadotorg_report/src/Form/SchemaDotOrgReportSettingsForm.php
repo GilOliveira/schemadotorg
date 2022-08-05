@@ -30,21 +30,27 @@ class SchemaDotOrgReportSettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('schemadotorg_report.settings');
-    $form['about'] = [
+    $form['schemadotorg_report'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Reference settings'),
+      '#open' => TRUE,
+      '#tree' => TRUE,
+    ];
+    $form['schemadotorg_report']['about'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::LINKS,
       '#title' => $this->t('Schema.org about links'),
       '#description' => $this->t('Enter links to general information about Schema.org.'),
       '#default_value' => $config->get('about'),
     ];
-    $form['types'] = [
+    $form['schemadotorg_report']['types'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::LINKS_GROUPED,
       '#title' => $this->t('Schema.org type specific links'),
       '#description' => $this->t('Enter links to specific information about Schema.org types.'),
       '#default_value' => $config->get('types'),
     ];
-    $form['issues'] = [
+    $form['schemadotorg_report']['issues'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::LINKS_GROUPED,
       '#title' => $this->t('Schema.org type issue/discussion links'),
@@ -58,12 +64,11 @@ class SchemaDotOrgReportSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->config('schemadotorg_report.settings')
-      ->set('about', $form_state->getValue('about'))
-      ->set('types', $form_state->getValue('types'))
-      ->set('issues', $form_state->getValue('issues'))
-      ->save();
-
+    $config = $this->config('schemadotorg_report.settings');
+    $values = $form_state->getValue('schemadotorg_report');
+    foreach ($values as $key => $value) {
+      $config->set($key, $value);
+    }
     parent::submitForm($form, $form_state);
   }
 

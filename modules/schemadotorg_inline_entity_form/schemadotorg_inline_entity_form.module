@@ -61,7 +61,13 @@ function schemadotorg_inline_entity_form_schemadotorg_property_field_alter(
 function schemadotorg_inline_entity_form_form_schemadotorg_properties_settings_form_alter(&$form, FormStateInterface $form_state) {
   $config = \Drupal::configFactory()->getEditable('schemadotorg_inline_entity_form.settings');
 
-  $form['inline_entity_form_default_properties'] = [
+  $form['schemadotorg_inline_entity_form'] = [
+    '#type' => 'details',
+    '#title' => t('Inline entity form settings'),
+    '#open' => TRUE,
+    '#tree' => TRUE,
+  ];
+  $form['schemadotorg_inline_entity_form']['default_properties'] = [
     '#type' => 'schemadotorg_settings',
     '#settings_type' => SchemaDotOrgSettings::INDEXED,
     '#settings_format' => 'propertyName or SchemaType--propertyName',
@@ -81,9 +87,12 @@ function schemadotorg_inline_entity_form_form_schemadotorg_properties_settings_f
  * @see schemadotorg_inline_entity_form_form_schemadotorg_properties_settings_form_alter()
  */
 function schemadotorg_inline_entity_form_settings_form_submit(&$form, FormStateInterface $form_state) {
-  \Drupal::configFactory()->getEditable('schemadotorg_inline_entity_form.settings')
-    ->set('default_properties', $form_state->getValue('inline_entity_form_default_properties'))
-    ->save();
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_inline_entity_form.settings');
+  $values = $form_state->getValue('schemadotorg_inline_entity_form');
+  foreach ($values as $key => $value) {
+    $config->set($key, $value);
+  }
+  $config->save();
 }
 
 /**

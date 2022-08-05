@@ -32,6 +32,9 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
     $config = $this->config('schemadotorg.settings');
 
     $form['schema_types'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Type settings'),
+      '#open' => TRUE,
       '#tree' => TRUE,
     ];
     $form['schema_types']['default_properties'] = [

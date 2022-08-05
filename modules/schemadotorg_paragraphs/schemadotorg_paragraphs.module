@@ -170,7 +170,13 @@ function schemadotorg_paragraphs_form_schemadotorg_types_settings_form_alter(&$f
 
   $config = \Drupal::configFactory()->getEditable('schemadotorg_paragraphs.settings');
 
-  $form['paragraphs_paragraphs_library'] = [
+  $form['schemadotorg_paragraphs'] = [
+    '#type' => 'details',
+    '#title' => t('Paragraphs settings'),
+    '#open' => TRUE,
+    '#tree' => TRUE,
+  ];
+  $form['schemadotorg_paragraphs']['paragraphs_library'] = [
     '#type' => 'schemadotorg_settings',
     '#settings_type' => SchemaDotOrgSettings::INDEXED,
     '#settings_format' => 'SchemaType',
@@ -190,9 +196,12 @@ function schemadotorg_paragraphs_form_schemadotorg_types_settings_form_alter(&$f
  * @see schemadotorg_paragraphs_form_schemadotorg_properties_settings_form_alter()
  */
 function schemadotorg_paragraphs_settings_form_submit(&$form, FormStateInterface $form_state) {
-  \Drupal::configFactory()->getEditable('schemadotorg_paragraphs.settings')
-    ->set('paragraphs_library', $form_state->getValue('paragraphs_paragraphs_library'))
-    ->save();
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_paragraphs.settings');
+  $values = $form_state->getValue('schemadotorg_paragraphs');
+  foreach ($values as $key => $value) {
+    $config->set($key, $value);
+  }
+  $config->save();
 }
 
 /**

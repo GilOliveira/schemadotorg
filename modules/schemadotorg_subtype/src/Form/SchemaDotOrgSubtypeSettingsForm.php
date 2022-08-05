@@ -30,26 +30,32 @@ class SchemaDotOrgSubtypeSettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('schemadotorg_subtype.settings');
-    $form['default_field_suffix'] = [
+    $form['schemadotorg_subtype'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Subtype settings'),
+      '#open' => TRUE,
+      '#tree' => TRUE,
+    ];
+    $form['schemadotorg_subtype']['default_field_suffix'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Default subtype field suffix'),
       '#description' => $this->t('Enter default field suffix used for subtype field machine names.'),
       '#default_value' => $config->get('default_field_suffix'),
     ];
-    $form['default_field_label'] = [
+    $form['schemadotorg_subtype']['default_field_label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Default subtype field label'),
       '#description' => $this->t('Enter default label used for subtype fields.'),
       '#required' => TRUE,
       '#default_value' => $config->get('default_field_label'),
     ];
-    $form['default_field_description'] = [
+    $form['schemadotorg_subtype']['default_field_description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Default subtype field description'),
       '#description' => $this->t('Enter the default description used for subtype fields.'),
       '#default_value' => $config->get('default_field_description'),
     ];
-    $form['default_subtypes'] = [
+    $form['schemadotorg_subtype']['default_subtypes'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#settings_format' => 'SchemaType',
@@ -66,12 +72,12 @@ class SchemaDotOrgSubtypeSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->config('schemadotorg_subtype.settings')
-      ->set('default_field_suffix', $form_state->getValue('default_field_suffix'))
-      ->set('default_field_label', $form_state->getValue('default_field_label'))
-      ->set('default_field_description', $form_state->getValue('default_field_description'))
-      ->set('default_subtypes', $form_state->getValue('default_subtypes'))
-      ->save();
+    $config = $this->config('schemadotorg_subtype.settings');
+    $values = $form_state->getValue('schemadotorg_subtype');
+    foreach ($values as $key => $value) {
+      $config->set($key, $value);
+    }
+    $config->save();
     parent::submitForm($form, $form_state);
   }
 

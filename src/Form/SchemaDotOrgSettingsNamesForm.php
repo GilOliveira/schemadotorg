@@ -52,9 +52,11 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
     $message = $this->t('Adjusting prefixes, suffixes, and abbreviations can impact existing Schema.org mappings because the expected Drupal field names can change.');
     $this->messenger()->addWarning($message);
 
-    $form['#tree'] = TRUE;
     $form['names'] = [
-      '#type' => 'container',
+      '#type' => 'details',
+      '#title' => $this->t('Name settings'),
+      '#open' => TRUE,
+      '#tree' => TRUE,
     ];
     $form['names']['custom_words'] = [
       '#type' => 'schemadotorg_settings',
@@ -123,13 +125,12 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $names = $form_state->getValue('names');
     $config = $this->config('schemadotorg.names');
-    foreach ($names as $key => $value) {
+    $values = $form_state->getValue('names');
+    foreach ($values as $key => $value) {
       $config->set($key, $value);
     }
     $config->save();
-
     parent::submitForm($form, $form_state);
   }
 
