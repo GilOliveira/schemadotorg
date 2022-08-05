@@ -738,8 +738,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
                 'field_widget_display' => 'label',
                 'field_widget_edit' => TRUE,
                 'field_widget_remove' => TRUE,
-                'field_widget_replace' => FALSE,
-                'open' => TRUE,
+                'field_widget_replace' => TRUE,
+                'open' => FALSE,
                 'field_widget_display_settings' => [],
                 'selection_mode' => 'selection_append',
               ];
