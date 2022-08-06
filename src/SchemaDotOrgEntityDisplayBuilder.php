@@ -68,18 +68,18 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
   /**
    * {@inheritdoc}
    */
-  public function setDisplays(array $field_values, $widget_id, array $widget_settings, $formatter_id, array $formatter_settings) {
+  public function setFieldDisplays(array $field_values, $widget_id, array $widget_settings, $formatter_id, array $formatter_settings) {
     $entity_type_id = $field_values['entity_type'];
     $bundle = $field_values['bundle'];
     $field_name = $field_values['field_name'];
 
     // Form display.
-    $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, 'default');
+    $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, EntityDisplayRepositoryInterface::DEFAULT_DISPLAY_MODE);
     $this->setComponent($form_display, $field_name, $widget_id, $widget_settings);
     $form_display->save();
 
     // View display.
-    $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle);
+    $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle, EntityDisplayRepositoryInterface::DEFAULT_DISPLAY_MODE);
     $this->setComponent($view_display, $field_name, $formatter_id, $formatter_settings);
     $view_display->save();
   }
@@ -270,7 +270,17 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
     // Prefix group name.
     $group_name = FieldGroupAddForm::GROUP_PREFIX . $group_name;
 
-    // Get existing groups.
+    // Remove field name from an existing groups, so that it can be reset.
+    $existing_groups = $display->getThirdPartySettings('field_group');
+    foreach ($existing_groups as $existing_group_name => $existing_group) {
+      $index = array_search($field_name, $existing_group['children']);
+      if ($index !== FALSE) {
+        array_splice($existing_group['children'], $index, 1);
+        $display->setThirdPartySetting('field_group', $existing_group_name, $existing_group);
+      }
+    }
+
+    // Get existing group.
     $group = $display->getThirdPartySetting('field_group', $group_name);
     if (!$group) {
       $group = [

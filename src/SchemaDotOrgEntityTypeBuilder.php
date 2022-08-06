@@ -245,7 +245,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         $field->schemaDotOrgProperty = $schema_property;
         $field->save();
 
-        $this->schemaEntityDisplayBuilder->setDisplays(
+        $this->schemaEntityDisplayBuilder->setFieldDisplays(
           $field_values,
           $widget_id,
           $widget_settings,
@@ -277,7 +277,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         $field->schemaDotOrgProperty = $schema_property;
         $field->save();
 
-        $this->schemaEntityDisplayBuilder->setDisplays(
+        $this->schemaEntityDisplayBuilder->setFieldDisplays(
           $field_values,
           $widget_id,
           $widget_settings,

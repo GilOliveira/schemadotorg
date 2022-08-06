@@ -21,7 +21,7 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
    * @param array $formatter_settings
    *   An array of formatter settings.
    */
-  public function setDisplays(array $field_values, $widget_id, array $widget_settings, $formatter_id, array $formatter_settings);
+  public function setFieldDisplays(array $field_values, $widget_id, array $widget_settings, $formatter_id, array $formatter_settings);
 
   /**
    * Set entity display field weights for Schema.org properties.
