@@ -45,8 +45,7 @@ function schemadotorg_inline_entity_form_schemadotorg_property_field_alter(
   ];
 
   // Use content browser if it is available.
-  if (\Drupal::moduleHandler()->moduleExists('entity_browser_entity_form')
-    && \Drupal::moduleHandler()->moduleExists('content_browser')) {
+  if (\Drupal::moduleHandler()->moduleExists('content_browser')) {
     $widget_settings['third_party_settings'] = [
       'entity_browser_entity_form' => [
         'entity_browser_id' => 'browse_content',

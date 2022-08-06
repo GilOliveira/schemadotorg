@@ -485,8 +485,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
 
           case 'node':
             // Widget.
-            if ($this->moduleHandler->moduleExists('entity_browser')
-              && $this->moduleHandler->moduleExists('content_browser')) {
+            if ($this->moduleHandler->moduleExists('content_browser')) {
               $widget_id = 'entity_browser_entity_reference';
               $widget_settings = [
                 'entity_browser' => 'browse_content',
