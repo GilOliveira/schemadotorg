@@ -3,6 +3,7 @@
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Entity\Display\EntityDisplayInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -74,14 +75,94 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
     $field_name = $field_values['field_name'];
 
     // Form display.
-    $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, EntityDisplayRepositoryInterface::DEFAULT_DISPLAY_MODE);
-    $this->setComponent($form_display, $field_name, $widget_id, $widget_settings);
-    $form_display->save();
+    $form_modes = $this->getFormModes($entity_type_id, $bundle);
+    foreach ($form_modes as $form_mode) {
+      $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, $form_mode);
+      $this->setComponent($form_display, $field_name, $widget_id, $widget_settings);
+      $form_display->save();
+    }
 
     // View display.
-    $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle, EntityDisplayRepositoryInterface::DEFAULT_DISPLAY_MODE);
-    $this->setComponent($view_display, $field_name, $formatter_id, $formatter_settings);
-    $view_display->save();
+    $view_modes = $this->getViewModes($entity_type_id, $bundle);
+    foreach ($view_modes as $view_mode) {
+      $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle, $view_mode);
+      $this->setComponent($view_display, $field_name, $formatter_id, $formatter_settings);
+      $view_display->save();
+    }
+  }
+
+  /**
+   * Get display form modes for a specific entity type.
+   *
+   * @param string $entity_type_id
+   *   The entity type id.
+   * @param string $bundle
+   *   The bundle.
+   *
+   * @return array
+   *   An array of display form modes.
+   */
+  protected function getFormModes($entity_type_id, string $bundle) {
+    return $this->getModes(
+      $entity_type_id,
+      $bundle,
+      'Form',
+      []
+    );
+  }
+
+  /**
+   * Get display view modes for a specific entity type.
+   *
+   * @param string $entity_type_id
+   *   The entity type id.
+   * @param string $bundle
+   *   The bundle.
+   *
+   * @return array
+   *   An array of display view modes.
+   */
+  protected function getViewModes($entity_type_id, string $bundle) {
+    $default_view_modes = ['teaser', 'content_browser'];
+    return $this->getModes(
+      $entity_type_id,
+      $bundle,
+      'View',
+      $default_view_modes
+    );
+  }
+
+  /**
+   * Get display modes for a specific entity type.
+   *
+   * @param string $entity_type_id
+   *   The entity type id.
+   * @param string $bundle
+   *   The bundle.
+   * @param string $type
+   *   The display modes.
+   * @param array $default_modes
+   *   An array of default display modes.
+   *
+   * @return array
+   *   An array of display modes.
+   */
+  protected function getModes($entity_type_id, $bundle, $type = 'View', $default_modes = []) {
+    $mode_method = "get{$type}ModeOptionsByBundle";
+    $mode_options = $this->entityDisplayRepository->$mode_method($entity_type_id, $bundle);
+
+    if ($default_modes) {
+      $modes = array_intersect_key(
+        array_combine($default_modes, $default_modes),
+        $mode_options
+      );
+    }
+    else {
+      $mode_keys = array_keys($mode_options);
+      $modes = array_combine($mode_keys, $mode_keys);
+    }
+
+    return ['default' => 'default'] + $modes;
   }
 
   /**
@@ -97,6 +178,20 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    *   The component's plugin settings.
    */
   protected function setComponent(EntityDisplayInterface $display, $field_name, $type, array $settings) {
+    // Only add the 'body' to 'teaser' and 'content_browser' view modes
+    // for node types.
+    // @see node_add_body_field()
+    if ($this->isNodeTeaserDisplay($display)) {
+      if ($field_name !== 'body') {
+        $display->removeComponent($field_name);
+        return;
+      }
+      $settings = [
+        'label' => 'hidden',
+        'type' => 'text_summary_or_trimmed',
+      ];
+    }
+
     $options = [];
     if ($type) {
       $options['type'] = $type;
@@ -132,14 +227,25 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    *   The Schema.org properties to be weighted.
    */
   public function setFieldWeights($entity_type_id, $bundle, array $properties) {
-    $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle);
-    $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle);
-    foreach ($properties as $field_name => $property) {
-      $this->setFieldWeight($form_display, $field_name, $property);
-      $this->setFieldWeight($view_display, $field_name, $property);
+    // Form display.
+    $form_modes = $this->getFormModes($entity_type_id, $bundle);
+    foreach ($form_modes as $form_mode) {
+      $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, $form_mode);
+      foreach ($properties as $field_name => $property) {
+        $this->setFieldWeight($form_display, $field_name, $property);
+      }
+      $form_display->save();
     }
-    $form_display->save();
-    $view_display->save();
+
+    // View display.
+    $view_modes = $this->getViewModes($entity_type_id, $bundle);
+    foreach ($view_modes as $view_mode) {
+      $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle, $view_mode);
+      foreach ($properties as $field_name => $property) {
+        $this->setFieldWeight($view_display, $field_name, $property);
+      }
+      $view_display->save();
+    }
   }
 
   /**
@@ -185,14 +291,27 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
       return;
     }
 
-    $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle);
-    $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle);
-    foreach ($properties as $field_name => $property) {
-      $this->setFieldGroup($form_display, $field_name, $schema_type, $property);
-      $this->setFieldGroup($view_display, $field_name, $schema_type, $property);
+    // Form display.
+    $form_modes = $this->getFormModes($entity_type_id, $bundle);
+    foreach ($form_modes as $form_mode) {
+      $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, $form_mode);
+      foreach ($properties as $field_name => $property) {
+        $this->setFieldGroup($form_display, $field_name, $schema_type, $property);
+      }
+      $form_display->save();
     }
-    $form_display->save();
-    $view_display->save();
+
+    // View display.
+    $view_modes = $this->getViewModes($entity_type_id, $bundle);
+    // Only support field groups in the default and full view modes.
+    $view_modes = array_intersect_key($view_modes, ['default' => 'default', 'full' => 'full']);
+    foreach ($view_modes as $view_mode) {
+      $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle, $view_mode);
+      foreach ($properties as $field_name => $property) {
+        $this->setFieldGroup($view_display, $field_name, $schema_type, $property);
+      }
+      $view_display->save();
+    }
   }
 
   /**
@@ -214,6 +333,11 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
   protected function setFieldGroup(EntityDisplayInterface $display, $field_name, $schema_type, $schema_property) {
     // Make sure the field component exists.
     if (!$display->getComponent($field_name)) {
+      return;
+    }
+
+    // Do not use field groups via node teaser display.
+    if ($this->isNodeTeaserDisplay($display)) {
       return;
     }
 
@@ -305,6 +429,33 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
     $component = $display->getComponent($field_name);
     $component['weight'] = $field_weight;
     $display->setComponent($field_name, $component);
+  }
+
+  /**
+   * Determine if a display is node teaser view display.
+   *
+   * @todo Determine if should be a configurable behavior.
+   *
+   * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
+   *   The entity display.
+   *
+   * @return bool
+   *   TRUE if the display is node teaser view display.
+   *
+   * @see node_add_body_field()
+   */
+  protected function isNodeTeaserDisplay(EntityDisplayInterface $display) {
+    $entity_type_id = $display->getTargetEntityTypeId();
+    $mode = $display->getMode();
+    if ($mode !== EntityDisplayRepositoryInterface::DEFAULT_DISPLAY_MODE
+      && $display instanceof EntityViewDisplayInterface
+      && $entity_type_id === 'node'
+      && in_array($mode, ['teaser', 'content_browser'])) {
+      return TRUE;
+    }
+    else {
+      return FALSE;
+    }
   }
 
 }

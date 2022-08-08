@@ -29,7 +29,7 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
   protected $entityDisplayRepository;
 
   /**
-   * The Schema.org schema type manager.
+   * The Schema.org entity display builder.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface
    */

@@ -91,7 +91,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * {@inheritdoc}
    */
-  public function addEntityBundle($schema_type, $entity_type_id, array $values) {
+  public function addEntityBundle($entity_type_id, $schema_type, array $values) {
     $entity_type_definition = $this->entityTypeManager->getDefinition($entity_type_id);
 
     // Get bundle entity values and map id and label keys.
@@ -113,6 +113,25 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $bundle_entity = $bundle_entity_storage->create($values);
     $bundle_entity->schemaDotOrgType = $schema_type;
     $bundle_entity->save();
+
+    $bundle_of = $bundle_entity->getEntityType()->getBundleOf();
+    $bundle = $bundle_entity->id();
+
+    // Add default 'teaser' and 'content_browser' view modes to node types.
+    // @see node_add_body_field()
+    // @todo Determine if default view modes should be a 'mapping type' setting.
+    if ($bundle_of === 'node') {
+      $default_view_modes = ['teaser', 'content_browser'];
+      $view_modes = $this->entityDisplayRepository->getViewModes($bundle_of);
+      foreach ($default_view_modes as $default_view_mode) {
+        if (isset($view_modes[$default_view_mode])) {
+          $this->entityDisplayRepository
+            ->getViewDisplay($bundle_of, $bundle, $default_view_mode)
+            ->save();
+        }
+      }
+    }
+
     return $bundle_entity;
   }
 

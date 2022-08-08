@@ -324,7 +324,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     // Create target bundle entity.
     if ($mapping->isNewTargetEntityTypeBundle()) {
       $bundle_entity_type_id = $mapping->getTargetEntityTypeBundleId();
-      $bundle_entity = $this->schemaEntityTypeBuilder->addEntityBundle($schema_type, $bundle_entity_type_id, $values['entity']);
+      $bundle_entity = $this->schemaEntityTypeBuilder->addEntityBundle($bundle_entity_type_id, $schema_type, $values['entity']);
       $mapping->setTargetBundle($bundle_entity->id());
     }
 
