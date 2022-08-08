@@ -24,12 +24,23 @@ class SchemaDotOrgInlineEntityFormTest extends SchemaDotOrgKernelEntityTestBase 
   ];
 
   /**
+   * The entity display repository.
+   *
+   * @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface
+   */
+  protected $entityDisplayRepository;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
     parent::setUp();
 
+    $this->installConfig(['schemadotorg_inline_entity_form']);
+
     $this->appendSchemaTypeDefaultProperties('Person', 'alumniOf');
+
+    $this->entityDisplayRepository = $this->container->get('entity_display.repository');
   }
 
   /**
@@ -63,6 +74,26 @@ class SchemaDotOrgInlineEntityFormTest extends SchemaDotOrgKernelEntityTestBase 
     $this->assertTrue($component['settings']['allow_duplicate']);
     $this->assertTrue($component['settings']['collapsible']);
     $this->assertTrue($component['settings']['revision']);
+
+    // Check that Organization does not have an inline entity form display.
+    // @see schemadotorg_inline_entity_form_node_type_insert()
+    $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'organization', 'inline_entity_form');
+    $this->assertTrue($form_display->isNew());
+
+    // Check that Patient has an inline entity form display.
+    // @see schemadotorg_inline_entity_form_node_type_insert()
+    $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'patient', 'inline_entity_form');
+    $this->assertFalse($form_display->isNew());
+
+    // Check that Patient only has 'status' base field.
+    // @see schemadotorg_inline_entity_form_node_type_insert()
+    // @see \Drupal\node\Entity\Node::baseFieldDefinitions
+    $this->assertNotNull($form_display->getComponent('title'));
+    $this->assertNotNull($form_display->getComponent('status'));
+    $this->assertNull($form_display->getComponent('uid'));
+    $this->assertNull($form_display->getComponent('created'));
+    $this->assertNull($form_display->getComponent('promote'));
+    $this->assertNull($form_display->getComponent('sticky'));
   }
 
 }

@@ -2,3 +2,10 @@ default_properties:
   - episode
   - hasCourseInstance
   - MedicalBusiness--founder
+default_form_displays:
+  - Episode
+  - Course
+  - Person
+default_form_display_components:
+  - title
+  - status
