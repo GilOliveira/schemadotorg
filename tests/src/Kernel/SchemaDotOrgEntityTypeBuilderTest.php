@@ -158,6 +158,11 @@ class SchemaDotOrgEntityTypeBuilderTest extends SchemaDotOrgKernelEntityTestBase
     $this->assertArrayHasKey('body', $view_components);
     $view_components = $this->entityDisplayRepository->getViewDisplay('node', 'thing', 'custom')->getComponents();
     $this->assertArrayNotHasKey('body', $view_components);
+
+    // Check that the body displays the summary with the title hidden.
+    $body_component = $this->entityDisplayRepository->getViewDisplay('node', 'thing', 'teaser')->getComponent('body');
+    $this->assertEquals('text_summary_or_trimmed', $body_component['type']);
+    $this->assertEquals('hidden', $body_component['label']);
   }
 
 }

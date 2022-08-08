@@ -186,20 +186,21 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
         $display->removeComponent($field_name);
         return;
       }
-      $settings = [
-        'label' => 'hidden',
-        'type' => 'text_summary_or_trimmed',
-      ];
+      $type = 'text_summary_or_trimmed';
+      $settings = ['label' => 'hidden'];
     }
 
     $options = [];
     if ($type) {
       $options['type'] = $type;
       if (!empty($settings)) {
-
-        if (isset($settings['third_party_settings'])) {
-          $options['third_party_settings'] = $settings['third_party_settings'];
-          unset($settings['third_party_settings']);
+        // Coverted some $settings to $options.
+        $option_names = ['label', 'third_party_settings'];
+        foreach ($option_names as $option_name) {
+          if (isset($settings[$option_name])) {
+            $options[$option_name] = $settings[$option_name];
+            unset($settings[$option_name]);
+          }
         }
         $options['settings'] = $settings;
       }
