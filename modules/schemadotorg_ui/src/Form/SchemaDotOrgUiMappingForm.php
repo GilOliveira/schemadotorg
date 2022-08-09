@@ -720,21 +720,39 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $form = [];
 
     // Field name.
-    if ($defaults['name']
-      && $defaults['name'] !== static::ADD_FIELD
-      && !$is_new_mapping) {
+    $field_default_value = $defaults['name'];
+    $has_field_default_value = $field_default_value && $field_default_value !== static::ADD_FIELD;
+
+    $field_options = $this->fieldOptions;
+    // If no default value and the 'Recommended field' exists,
+    // set it immediately after ADD_FIELD.
+    if (!$has_field_default_value) {
+      $existing_field_name = $this->schemaNames->getFieldPrefix() . $defaults['machine_name'];
+      $existing_field_options =& $field_options[(string) $this->t('Existing fields')];
+      if (isset($existing_field_options[$existing_field_name])) {
+        $field_optgroup = (string) $this->t('Recommended field');
+        $field_options = [
+          self::ADD_FIELD => $field_options[self::ADD_FIELD],
+          $field_optgroup => [$existing_field_name => $existing_field_options[$existing_field_name]],
+        ] + $field_options;
+        unset($existing_field_options[$existing_field_name]);
+      }
+    }
+
+    if ($has_field_default_value && !$is_new_mapping) {
       $field_empty_options = $this->t('- Remove field mapping -');
     }
     else {
       $field_empty_options = $this->t('- Select or add field -');
     }
+
     $form['name'] = [
       '#type' => 'select',
       '#title' => $this->t('Field'),
       '#title_display' => 'invisible',
-      '#options' => $this->fieldOptions,
-      '#default_value' => $defaults['name'],
+      '#options' => $field_options,
       '#empty_option' => $field_empty_options,
+      '#default_value' => $field_default_value,
     ];
 
     // Add new field.

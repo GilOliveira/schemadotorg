@@ -84,8 +84,13 @@
         .each(function () {
           var $table = $(this);
 
+          // Flag form validation errors.
+          $table.find('tbody .form-item--error')
+            .parents('tr')
+            .addClass('color-error')
+
           // Make sure the table has mapping properties before proceeding.
-          if ($table.find('tbody tr.color-warning, tbody tr.color-success').length === 0) {
+          if ($table.find('tbody tr.color-warning, tbody tr.color-success, tbody tr.color-error').length === 0) {
             $table.show();
             $('#edit-ignored-properties').show();
             return;
@@ -138,7 +143,7 @@
                 .removeClass('action-link--icon-hide')
                 .addClass('action-link--icon-show');
               $table.find('tbody tr').hide();
-              $table.find('tbody tr.color-warning, tbody tr.color-success').show();
+              $table.find('tbody tr.color-warning, tbody tr.color-success, tbody tr.color-error').show();
             }
           }
         });

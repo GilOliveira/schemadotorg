@@ -179,7 +179,9 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    */
   protected function setComponent(EntityDisplayInterface $display, $field_name, $type, array $settings) {
     // Only add the 'body' to 'teaser' and 'content_browser' view modes
-    // for node types.
+    // for node types. This mirrors the default behavior for
+    // adding new node types.
+    // @see \Drupal\node\NodeTypeForm::save
     // @see node_add_body_field()
     if ($this->isNodeTeaserDisplay($display)) {
       if ($field_name !== 'body') {
@@ -434,8 +436,6 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
 
   /**
    * Determine if a display is node teaser view display.
-   *
-   * @todo Determine if should be a configurable behavior.
    *
    * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
    *   The entity display.
