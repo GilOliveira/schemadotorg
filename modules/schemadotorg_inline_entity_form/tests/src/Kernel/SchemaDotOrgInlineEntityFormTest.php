@@ -47,7 +47,6 @@ class SchemaDotOrgInlineEntityFormTest extends SchemaDotOrgKernelEntityTestBase 
    * Test Schema.org inline entity form.
    */
   public function testInlineEntityForm() {
-
     // Use an inline entity form for Person:alumniOf.
     \Drupal::configFactory()->getEditable('schemadotorg_inline_entity_form.settings')
       ->set('default_properties', ['Person--alumniOf'])
