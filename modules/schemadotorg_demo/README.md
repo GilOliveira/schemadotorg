@@ -31,7 +31,9 @@ Features
 
 A radically new administration interface using the Gin admin theme
 
+- Modern administrative theme
 - Dedicated and branded login page 
+- Customizable administrative toolbar
 - Customizable administrative dashboards
 
 **Content authoring**  
@@ -43,10 +45,11 @@ Examples of Drupal's content authoring best practices and patterns
 - Paragraph library
 - Embedded content
 - Content browsing
-- Inline entity editing
+- Inline entity forms
 - Content cloning
 - Drag-n-drop file uploads
 - Link management
+- URL generation
 
 **Multilingual support**  
 
