@@ -54,7 +54,6 @@ function schemadotorg_auto_entitylabel_schemadotorg_mapping_insert(SchemaDotOrgM
     'pattern' => '',
     'escape' => FALSE,
     'preserve_titles' => FALSE,
-    'save' => FALSE,
   ];
 
   // Replace pattern Schema.org properties with tokens.
@@ -104,11 +103,55 @@ function schemadotorg_auto_entitylabel_form_schemadotorg_types_settings_form_alt
     '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
     '#settings_format' => 'SchemaType|status:1,pattern:[propertyName01] [propertyName02]',
     '#title' => t('Default Schema.org type auto entity labels'),
-    '#description' => t('Enter default Schema.org type auto entity label settings.')
-      . ' '
-      . t('Status values: 1 = enabled, 2 = optional, 3 = prefilled.'),
+    '#description' => t('Enter default Schema.org type auto entity label settings.'),
     '#description_link' => 'types',
     '#default_value' => $config->get('default_types'),
+  ];
+
+  // Automatic label generation statuses.
+  // The below options are copied from the 'Automatic entity label' form.
+  // @see \Drupal\auto_entitylabel\Form\AutoEntityLabelForm::buildForm
+  $options = [
+    AutoEntityLabelManager::DISABLED => t('Disabled'),
+    AutoEntityLabelManager::ENABLED => t('Automatically generate the label and hide the label field'),
+    AutoEntityLabelManager::OPTIONAL => t('Automatically generate the label if the label field is left empty'),
+    AutoEntityLabelManager::PREFILLED => t('Automatically prefill the label'),
+  ];
+  $options_description = [
+    AutoEntityLabelManager::DISABLED => [
+      '#description' => t('Selecting this option will disable the auto labels for the entity.'),
+    ],
+    AutoEntityLabelManager::ENABLED => [
+      '#description' => t('Selecting this option will hide the title field and will generate a new option based on the pattern provided below.'),
+    ],
+    AutoEntityLabelManager::OPTIONAL => [
+      '#description' => t('Selecting this option will make the label field optional and will generate a label if the label field is left empty.'),
+    ],
+    AutoEntityLabelManager::PREFILLED => [
+      '#description' => t('Selecting this option will prefills the label field with the generated pattern provided below. This option provides limited token support because it only prefills the label and it will not be able to replace all the tokens like current node based tokens for ex: [node:nid] because that token has not been generated yet.'),
+    ],
+  ];
+  $options[AutoEntityLabelManager::ENABLED] .= ' [' . t('DEFAULT') . ']';
+
+  $items = [];
+  foreach ($options as $value => $text) {
+    $items[] = [
+      '#prefix' => '<p>',
+      '#suffix' => '<p>',
+      'text' => [
+        '#markup' => $text,
+        '#prefix' => '<strong>status:' . $value . ' = ',
+        '#suffix' => '</strong></br>',
+      ],
+      'value' => [
+        '#markup' => $options_description[$value]['#description'],
+      ],
+    ];
+  }
+  $form['schemadotorg_auto_entitylabel']['status_options'] = [
+    '#type' => 'details',
+    '#title' => t('Automatic label generation statuses'),
+    'items' => $items,
   ];
 
   // Add submit callback.
