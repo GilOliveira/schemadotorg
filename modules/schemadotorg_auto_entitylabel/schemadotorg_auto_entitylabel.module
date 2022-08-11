@@ -1,0 +1,130 @@
+<?php
+
+/**
+ * @file
+ * Allows Inline Entity Forms to be used to create Schema.org relationships.
+ */
+
+use Drupal\auto_entitylabel\AutoEntityLabelManager;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_auto_entitylabel_help($route_name, RouteMatchInterface $route_match) {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
+  $help_manager = \Drupal::service('schemadotorg.help_manager');
+  return $help_manager->build($route_name, $route_match);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ *
+ * Creates automatic entity label settings for a Schema.org mapping.
+ *
+ * @see \Drupal\auto_entitylabel\Form\AutoEntityLabelForm::submitForm
+ */
+function schemadotorg_auto_entitylabel_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping) {
+  // Get the Schema.or type's auto entity label settings.
+  $schema_type = $mapping->getSchemaType();
+  $settings = \Drupal::config('schemadotorg_auto_entitylabel.settings')
+    ->get('default_types.' . $schema_type);
+  if (!$settings) {
+    return;
+  }
+
+  // Get entity type and bundle.
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  $bundle = $mapping->getTargetBundle();
+
+  // Make sure the target entity type support bundling.
+  // Comparing the entity type id and bundle is the easiest way to make this
+  // determination. For example, for users the entity type and bundle are
+  // the same.
+  if ($entity_type_id === $bundle) {
+    return;
+  }
+
+  // Get settings with default values.
+  $values = $settings + [
+    'status' => AutoEntityLabelManager::ENABLED,
+    'pattern' => '',
+    'escape' => FALSE,
+    'preserve_titles' => FALSE,
+    'save' => FALSE,
+  ];
+
+  // Replace pattern Schema.org properties with tokens.
+  $pattern = $values['pattern'];
+  $schema_properties = $mapping->getSchemaProperties();
+  foreach ($schema_properties as $field_name => $schema_property) {
+    $pattern = str_replace("[$schema_property]", "[$entity_type_id:$field_name]", $pattern);
+  }
+  $values['pattern'] = $pattern;
+
+  // Set values in configuration.
+  $config_name = 'auto_entitylabel.settings.' . $entity_type_id . '.' . $bundle;
+  $config = \Drupal::configFactory()->getEditable($config_name);
+  foreach ($values as $name => $value) {
+    $config->set($name, $value);
+  }
+
+  // Set dependencies.
+  // Look up the content entity's bundle entity's config prefix.
+  $bundle_entity_type = \Drupal::entityTypeManager()->getStorage($entity_type_id)
+    ->getEntityType()
+    ->getBundleEntityType();
+  $config_prefix = \Drupal::entityTypeManager()->getStorage($bundle_entity_type)
+    ->getEntityType()
+    ->getConfigPrefix();
+  $config->set('dependencies', ['config' => [$config_prefix . '.' . $bundle]]);
+
+  // Save configuration.
+  $config->save();
+}
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function schemadotorg_auto_entitylabel_form_schemadotorg_types_settings_form_alter(&$form, FormStateInterface $form_state) {
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_auto_entitylabel.settings');
+
+  $form['schemadotorg_auto_entitylabel'] = [
+    '#type' => 'details',
+    '#title' => t('Automatic entity labels settings'),
+    '#open' => TRUE,
+    '#tree' => TRUE,
+  ];
+  $form['schemadotorg_auto_entitylabel']['default_types'] = [
+    '#type' => 'schemadotorg_settings',
+    '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
+    '#settings_format' => 'SchemaType|status:1,pattern:[propertyName01] [propertyName02]',
+    '#title' => t('Default Schema.org type auto entity labels'),
+    '#description' => t('Enter default Schema.org type auto entity label settings.')
+      . ' '
+      . t('Status values: 1 = enabled, 2 = optional, 3 = prefilled.'),
+    '#description_link' => 'types',
+    '#default_value' => $config->get('default_types'),
+  ];
+
+  // Add submit callback.
+  $form['#submit'][] = 'schemadotorg_auto_entitylabel_settings_form_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_properties_settings_form.
+ *
+ * @see schemadotorg_auto_entitylabel_form_schemadotorg_properties_settings_form_alter()
+ */
+function schemadotorg_auto_entitylabel_settings_form_submit(&$form, FormStateInterface $form_state) {
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_auto_entitylabel.settings');
+  $values = $form_state->getValue('schemadotorg_auto_entitylabel');
+  foreach ($values as $key => $value) {
+    $config->set($key, $value);
+  }
+  $config->save();
+}

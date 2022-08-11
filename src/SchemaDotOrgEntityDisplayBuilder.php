@@ -390,8 +390,15 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
       if ($default_label_suffix) {
         $group_label .= ' ' . $default_label_suffix;
       }
-      $field_weight = $default_field_weights[$schema_property]
-        ?? max($default_field_weights);
+      if (isset($default_field_weights[$schema_property])) {
+        $field_weight = $default_field_weights[$schema_property];
+      }
+      elseif (!empty($default_field_weights)) {
+        $field_weight = max($default_field_weights);
+      }
+      else {
+        $field_weight = 0;
+      }
     }
 
     // Prefix group name.

@@ -1,0 +1,98 @@
+<?php
+
+namespace Drupal\Tests\schemadotorg_auto_entitylabel\Kernel;
+
+use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
+
+/**
+ * Tests the functionality of the Schema.org inline entity form.
+ *
+ * @covers _schemadotorg_auto_entitylabel_enabled()
+ * @covers schemadotorg_auto_entitylabel_schemadotorg_property_field_alter()
+ * @group schemadotorg
+ */
+class SchemaDotOrgAutoEntityLabelTest extends SchemaDotOrgKernelEntityTestBase {
+
+  /**
+   * Modules to enable.
+   *
+   * @var array
+   */
+  protected static $modules = [
+    'auto_entitylabel',
+    'schemadotorg_auto_entitylabel',
+  ];
+
+  /**
+   * The entity display repository.
+   *
+   * @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface
+   */
+  protected $entityDisplayRepository;
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp() {
+    parent::setUp();
+
+    $this->installConfig(['schemadotorg_auto_entitylabel']);
+
+    $this->appendSchemaTypeDefaultProperties('Person', 'alumniOf');
+
+    $this->entityDisplayRepository = $this->container->get('entity_display.repository');
+  }
+
+  /**
+   * Test Schema.org inline entity form.
+   */
+  public function testAutoEntityLabel() {
+    // Use an inline entity form for Person:alumniOf.
+    \Drupal::configFactory()->getEditable('schemadotorg_auto_entitylabel.settings')
+      ->set('default_properties', ['Person--alumniOf'])
+      ->save();
+
+    // Create organization to be used as the entity reference target for
+    // Patient:alumniOf.
+    $this->createSchemaEntity('node', 'Organization');
+
+    // Create a patient instead of a person to test inheritance.
+    // @see _schemadotorg_auto_entitylabel_enabled()
+    $this->createSchemaEntity('node', 'Patient');
+
+    /* ********************************************************************** */
+
+    // Check that the alumniOf property/field use an inline entity form.
+    // @see schemadotorg_auto_entitylabel_schemadotorg_property_field_alter()
+    /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */
+    $entity_display_repository = \Drupal::service('entity_display.repository');
+    $form_display = $entity_display_repository->getFormDisplay('node', 'patient', 'default');
+    $component = $form_display->getComponent('schema_alumni_of');
+    $this->assertEquals('auto_entitylabel_complex', $component['type']);
+    $this->assertTrue($component['settings']['allow_existing']);
+    $this->assertTrue($component['settings']['allow_duplicate']);
+    $this->assertTrue($component['settings']['collapsible']);
+    $this->assertTrue($component['settings']['revision']);
+
+    // Check that Organization does not have an inline entity form display.
+    // @see schemadotorg_auto_entitylabel_node_type_insert()
+    $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'organization', 'auto_entitylabel');
+    $this->assertTrue($form_display->isNew());
+
+    // Check that Patient has an inline entity form display.
+    // @see schemadotorg_auto_entitylabel_node_type_insert()
+    $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'patient', 'auto_entitylabel');
+    $this->assertFalse($form_display->isNew());
+
+    // Check that Patient only has 'status' base field.
+    // @see schemadotorg_auto_entitylabel_node_type_insert()
+    // @see \Drupal\node\Entity\Node::baseFieldDefinitions
+    $this->assertNotNull($form_display->getComponent('title'));
+    $this->assertNotNull($form_display->getComponent('status'));
+    $this->assertNull($form_display->getComponent('uid'));
+    $this->assertNull($form_display->getComponent('created'));
+    $this->assertNull($form_display->getComponent('promote'));
+    $this->assertNull($form_display->getComponent('sticky'));
+  }
+
+}

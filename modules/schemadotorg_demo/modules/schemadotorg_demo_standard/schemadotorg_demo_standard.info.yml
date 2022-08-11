@@ -53,6 +53,7 @@ dependencies:
   - 'schemata:schemata'
   - 'schemata:schemata_json_schema'
   - 'schemadotorg:schemadotorg'
+  - 'schemadotorg:schemadotorg_auto_entitylabel'
   - 'schemadotorg:schemadotorg_descriptions'
   - 'schemadotorg:schemadotorg_devel'
   - 'schemadotorg:schemadotorg_export'
