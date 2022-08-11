@@ -54,6 +54,7 @@ dependencies:
   - 'schemata:schemata_json_schema'
   - 'schemadotorg:schemadotorg'
   - 'schemadotorg:schemadotorg_descriptions'
+  - 'schemadotorg:schemadotorg_devel'
   - 'schemadotorg:schemadotorg_export'
   - 'schemadotorg:schemadotorg_inline_entity_form'
   - 'schemadotorg:schemadotorg_jsonapi'

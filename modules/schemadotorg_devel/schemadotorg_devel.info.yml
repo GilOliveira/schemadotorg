@@ -1,0 +1,10 @@
+name: 'Schema.org Blueprints Devel'
+type: module
+description: 'Provides development tools for the Schema.org Blueprints module.'
+package: Schema.org Blueprints Extras
+core_version_requirement: '^8.9 || ^9'
+lifecycle: experimental
+configure: schemadotorg_devel.settings
+dependencies:
+  - 'schemadotorg:schemadotorg'
+  - 'devel:devel'

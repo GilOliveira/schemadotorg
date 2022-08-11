@@ -1,0 +1,62 @@
+<?php
+
+/**
+ * @file
+ * Provides development tools for the Schema.org Blueprints module.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
+
+/**
+ * Implements hook_entity_presave().
+ */
+function schemadotorg_devel_entity_presave(EntityInterface $entity) {
+  // Check that the devel_generate property is defined and we are save a
+  // content entity.
+  // @see https://www.drupal.org/project/devel/issues/2582845
+  if (empty($entity->devel_generate)
+    || !$entity instanceof ContentEntityInterface) {
+    return;
+  }
+
+  // Check that the entity has a Schema.org mapping.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+  $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
+  if (!$mapping_storage->isEntityMapped($entity)) {
+    return;
+  }
+
+  // Get the mapping's properties keyed by property name.
+  $mapping = $mapping_storage->loadByEntity($entity);
+  $properties = array_flip($mapping->getSchemaProperties());
+
+  // Get devel generate property values.
+  $property_values = \Drupal::config('schemadotorg_devel.settings')
+    ->get('generate_property_values');
+  $property_values = array_intersect_key($property_values, $properties);
+
+  // Populate the fields.
+  foreach ($property_values as $property => $values) {
+    $field_name = $properties[$property];
+    if (!$entity->hasField($field_name)) {
+      continue;
+    }
+
+    /** @var \Drupal\Core\Field\FieldItemListInterface $field_item_list */
+    $field_item_list = $entity->$field_name;
+
+    if (empty($values)) {
+      $field_item_list->setValue([]);
+    }
+    else {
+      $main_property = $field_item_list
+        ->getFieldDefinition()
+        ->getFieldStorageDefinition()
+        ->getMainPropertyName();
+      foreach ($field_item_list as $item) {
+        $item->set($main_property, $values[array_rand($values)]);
+      }
+    }
+  }
+}
