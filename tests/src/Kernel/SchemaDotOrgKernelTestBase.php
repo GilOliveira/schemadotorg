@@ -3,13 +3,13 @@
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\Component\Render\MarkupInterface;
-use Drupal\KernelTests\KernelTestBase;
+use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
 use Drupal\Tests\schemadotorg\Traits\SchemaDotOrgTestTrait;
 
 /**
  * Defines an abstract test base for Schema.org kernel tests.
  */
-abstract class SchemaDotOrgKernelTestBase extends KernelTestBase {
+abstract class SchemaDotOrgKernelTestBase extends EntityKernelTestBase {
   use SchemaDotOrgTestTrait;
 
   /**

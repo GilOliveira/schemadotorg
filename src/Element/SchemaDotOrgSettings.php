@@ -99,7 +99,7 @@ class SchemaDotOrgSettings extends Textarea {
         ? t('Browse Schema.org types.')
         : t('Browse Schema.org properties.');
       $link_url = Url::fromRoute("schemadotorg_report.$link_table");
-      $element['#description'] .= (!empty($element['#description'])) ? ' ' : '';
+      $element['#description'] .= (!empty($element['#description'])) ? '<br/>' : '';
       $element['#description'] .= Link::fromTextAndUrl($link_text, $link_url)->toString();
       $element['#attached']['library'][] = 'schemadotorg/schemadotorg.dialog';
     }

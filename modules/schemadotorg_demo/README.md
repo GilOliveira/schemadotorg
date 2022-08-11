@@ -46,6 +46,7 @@ Examples of Drupal's content authoring best practices and patterns
 - Embedded content
 - Content browsing
 - Inline entity forms
+- Automatic entity labels
 - Content cloning
 - Drag-n-drop file uploads
 - Link management

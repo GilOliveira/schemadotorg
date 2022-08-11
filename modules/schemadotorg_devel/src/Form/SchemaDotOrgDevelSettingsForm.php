@@ -34,7 +34,7 @@ class SchemaDotOrgDevelSettingsForm extends ConfigFormBase {
 
     $form['schemadotorg_devel'] = [
       '#type' => 'details',
-      '#title' => $this->t('Devel settings'),
+      '#title' => $this->t('Development settings'),
       '#open' => TRUE,
       '#tree' => TRUE,
     ];
@@ -43,7 +43,9 @@ class SchemaDotOrgDevelSettingsForm extends ConfigFormBase {
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
       '#settings_format' => 'property|value01,value02',
-      '#description' => $this->t('Enter Schema.org property values to be used when generating content using the Devel generate module.'),
+      '#description' => $this->t('Enter Schema.org property values to be used when generating content using the Devel generate module.')
+      . ' '
+      . $this->t('Leave blank to disable the generation of property values.'),
       '#description_link' => 'types',
       '#default_value' => $config->get('generate_property_values'),
     ];

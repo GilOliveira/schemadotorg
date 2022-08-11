@@ -7,13 +7,28 @@
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_devel_help($route_name, RouteMatchInterface $route_match) {
+  if ($route_name === 'schemadotorg_devel.settings') {
+    return '<p>' . t('The <strong>Schema.org development settings</strong> page allows administrators to configure content generation settings.') . '<p>';
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
+  $help_manager = \Drupal::service('schemadotorg.help_manager');
+  return $help_manager->build($route_name, $route_match);
+}
 
 /**
  * Implements hook_entity_presave().
  */
 function schemadotorg_devel_entity_presave(EntityInterface $entity) {
-  // Check that the devel_generate property is defined and we are save a
-  // content entity.
+  // Check that the devel_generate object property is defined and we are saving
+  // a content entity.
   // @see https://www.drupal.org/project/devel/issues/2582845
   if (empty($entity->devel_generate)
     || !$entity instanceof ContentEntityInterface) {

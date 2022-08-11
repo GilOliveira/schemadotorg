@@ -43,6 +43,9 @@ Fields
 - **Schema.org Blueprints Inline Entity Form**  
   Allows an inline entity form to be automatically added to Schema.org properties within an entity type/bundle Schema.org mapping.
 
+- **Schema.org Blueprints Automatic Entity Labels**  
+  Creates automatic entity label settings for Schema.org types.
+
 Entities
 
 - **Schema.org Blueprints Paragraphs**  
@@ -75,6 +78,12 @@ API
 
 - **Schema.org Blueprints JSON:API Preview**  
   Allows users to preview a web page's Schema.org JSON:API.
+
+Development
+
+- **Schema.org Blueprints Devel**  
+  Provides development tools for the Schema.org Blueprints module.
+
 
 ## Core Modules
 
