@@ -20,11 +20,8 @@ Features
 --------
 
 - Installs contributed module settings. (/config/install)
+- Uninstalls the Comment module and its associated fields.
 - Rewrites contributed module settings. (/config/rewrite)
-- Enables the Gin admin theme.
-- Enables the Gin related modules.
-- Configures the Gin admin theme.
-- Uninstalls unused themes.
 - Adds consumer image styles to the 'Default Consumer'.
 - Adds shortcuts lining to key Schema.org Blueprints URLs.
 - Creates path aliases for /api/*.

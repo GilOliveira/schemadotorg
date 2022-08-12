@@ -50,6 +50,7 @@ Examples of Drupal's content authoring best practices and patterns
 - Content cloning
 - Drag-n-drop file uploads
 - Link management
+- PDF generation
 - URL generation
 
 **Multilingual support**  

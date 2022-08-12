@@ -17,6 +17,10 @@ standard profile.
 Features
 --------
 
+- Enables the Gin admin theme.
+- Enables the Gin related modules.
+- Configures the Gin admin theme.
+- Uninstalls unused themes.
 - Attaches CSS and JavaScript, that fixes minor UI issues with minor 
   UX enhancements.
 - Tweak the Coffee and Environment Indicator module's toolbar weights.
