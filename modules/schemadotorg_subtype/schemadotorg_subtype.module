@@ -51,6 +51,7 @@ function schemadotorg_subtype_schemadotorg_mapping_defaults_alter($entity_type_i
   $label = $config->get('default_field_label');
   $description = $config->get('default_field_description');
   $default_subtypes = $config->get('default_subtypes');
+  $allowed_values = $config->get("default_allowed_values.$schema_type") ?: $allowed_values;
 
   // Get the field name which can either be _add_ or empty.
   // This value is displayed via a checkbox.

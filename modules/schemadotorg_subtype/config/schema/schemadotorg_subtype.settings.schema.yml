@@ -17,3 +17,12 @@ schemadotorg_subtype.settings:
       sequence:
         type: string
         label: 'Schema.org default subtype type'
+    default_allowed_values:
+      type: sequence
+      label: 'Schema.org default subtypes allowed values'
+      sequence:
+        type: sequence
+        label: 'Schema.org default subtype allowed values'
+        sequence:
+          type: string
+          label: 'Schema.org default subtype allowed value'

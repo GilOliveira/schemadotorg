@@ -36,7 +36,7 @@ class SchemaDotOrgSubtypeTest extends SchemaDotOrgBrowserTestBase {
     // @see schemadotorg_subtype_schemadotorg_mapping_defaults_alter()
     /* ********************************************************************** */
 
-    // Check mapping default for Schema.type that supports subtyping.
+    // Check mapping defaults for Schema.type that supports subtyping.
     $defaults = $this->getMappingDefaults('node', NULL, 'Person');
     $this->assertArrayHasKey('subtype', $defaults['properties']);
     $this->assertEquals('', $defaults['properties']['subtype']['name']);
@@ -46,13 +46,28 @@ class SchemaDotOrgSubtypeTest extends SchemaDotOrgBrowserTestBase {
     $this->assertEquals($config->get('default_field_description'), $defaults['properties']['subtype']['description']);
     $this->assertEquals(['Patient' => 'Patient'], $defaults['properties']['subtype']['allowed_values']);
 
-    // Check mapping default for Schema.type that does not support subtyping.
+    // Check mapping default sfor Schema.type that does not support subtyping.
     $defaults = $this->getMappingDefaults('node', NULL, 'Patient');
     $this->assertArrayNotHasKey('properties', $defaults);
 
     // Check mapping default for Schema.type that has subtype enabled.
     $defaults = $this->getMappingDefaults('node', NULL, 'Event');
     $this->assertEquals('_add_', $defaults['properties']['subtype']['name']);
+
+    // Check mapping defaults for Schema.type that has customized allowed_values.
+    $defaults = $this->getMappingDefaults('node', NULL, 'WebPage');
+    $expected_allowed_values = [
+      'AboutPage' => 'About Page',
+      'CheckoutPage' => 'Checkout Page',
+      'ContactPage' => 'Contact Page',
+      'FAQPage' => 'FAQ Page',
+      'MedicalWebPage' => 'Medical Web Page',
+      'ProfilePage' => 'Profile Page',
+      'QAPage' => 'QA Page',
+      'RealEstateListing' => 'Real Estate Listing',
+      'SearchResultsPage' => 'Search Results Page',
+    ];
+    $this->assertEquals($expected_allowed_values, $defaults['properties']['subtype']['allowed_values']);
 
     /* ********************************************************************** */
     // Schema.org mapping UI form alter.

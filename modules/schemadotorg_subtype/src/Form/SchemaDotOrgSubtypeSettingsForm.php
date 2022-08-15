@@ -64,7 +64,15 @@ class SchemaDotOrgSubtypeSettingsForm extends ConfigFormBase {
       '#description_link' => 'subtypes',
       '#default_value' => $config->get('default_subtypes'),
     ];
-
+    $form['schemadotorg_subtype']['default_allowed_values'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
+      '#settings_format' => 'SchemaType|prSchemaSubtype01:Subtype 01,SchemaSubtype02:Subtype 02,SchemaSubtype03:Subtype 03',
+      '#title' => $this->t('Schema.org default subtypes allowed values'),
+      '#description' => $this->t('Enter default subtype allowed values for Schema.org types.'),
+      '#description_link' => 'types',
+      '#default_value' => $config->get('default_allowed_values'),
+    ];
     return parent::buildForm($form, $form_state);
   }
 

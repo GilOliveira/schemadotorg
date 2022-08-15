@@ -40,7 +40,7 @@ class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
     $form['schema_types']['default_properties'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
-      '#settings_format' => 'SchemaType|propertyName01,propertyName02,propertyName02',
+      '#settings_format' => 'SchemaType|propertyName01,propertyName02,propertyName03',
       '#title' => $this->t('Default Schema.org type properties'),
       '#rows' => 10,
       '#description' => $this->t('Enter default properties for Schema.org types.')
