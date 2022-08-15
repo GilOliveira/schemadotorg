@@ -49,10 +49,25 @@ function schemadotorg_devel_entity_presave(EntityInterface $entity) {
   // Get devel generate property values.
   $property_values = \Drupal::config('schemadotorg_devel.settings')
     ->get('generate_property_values');
-  $property_values = array_intersect_key($property_values, $properties);
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+  $schema_type = $mapping->getSchemaType();
 
   // Populate the fields.
   foreach ($property_values as $property => $values) {
+    // Check Type--property.
+    if (strpos($property, '--') !== FALSE) {
+      [$property_schema_type, $property] = explode('--', $property);
+      if (!isset($properties[$property])
+        || !$schema_type_manager->isSubTypeOf($property_schema_type, $schema_type)) {
+        continue;
+      }
+    }
+    elseif (!isset($properties[$property])) {
+      continue;
+    }
+
     $field_name = $properties[$property];
     if (!$entity->hasField($field_name)) {
       continue;
