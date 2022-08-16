@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Schema.org Demo Next.js module.
+ */
+
+use Drupal\user\Entity\User;
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_demo_next_install() {
+  // Create next account used for basic authentication preview.
+  User::create([
+    'name' => 'next',
+    'pass' => 'next',
+    'mail' => 'next@example.com',
+    'roles' => ['next_js_site'],
+    'status' => TRUE,
+  ])->save();
+}

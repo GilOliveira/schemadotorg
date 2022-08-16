@@ -65,6 +65,7 @@
     "drupal/inline_entity_form": "~1.0",
     "drupal/jsonapi_extras": "~3.0",
     "drupal/linkit": "~6.0",
+    "drupal/next": "~1.0",
     "drupal/openapi_jsonapi": "~3.0",
     "drupal/openapi_ui": "~1.0",
     "drupal/openapi_ui_redoc": "~1.0",
@@ -84,11 +85,16 @@
       "drupal/core": {
         "Issue #2582295: Confirmation cancel links are incorrect if installed in a subdirectory": "https://www.drupal.org/files/issues/2021-08-23/2582295-52.patch",
         "Issue #2764829: EditorConfig file lack settings for markdown files": "https://www.drupal.org/files/issues/2022-06-14/drupal-2764829-21.patch",
-        "Issue #3087632: menu_name max length is too long":  "https://git.drupalcode.org/project/drupal/-/merge_requests/1459.diff",
-        "Issue #3100732: Allow specifying `meta` data on JSON:API objects": "https://www.drupal.org/files/issues/2022-05-15/3100732-33.patch"
+        "Issue #3087632: menu_name max length is too long":  "https://git.drupalcode.org/project/drupal/-/merge_requests/1459.diff"
       },
       "drupal/address": {
         "Issue #2819251: generateSampleValue": "https://www.drupal.org/files/issues/2022-05-16/address-2819251-6.patch"
+      },
+      "drupal/subrequests": {
+        "Get same results on different request": "https://www.drupal.org/files/issues/2019-07-18/change_request_type-63049395-09.patch"
+      },
+      "drupal/decoupled_router": {
+        "Unable to resolve path on node in other language than default": "https://www.drupal.org/files/issues/2021-05-05/3111456-34.patch"
       }
     }
   }

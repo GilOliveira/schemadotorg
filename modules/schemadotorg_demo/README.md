@@ -134,3 +134,11 @@ Notes
 
 The Schema.org Blueprints Demo module and sub-modules may be moved to a 
 dedicated project on Drupal.org.
+
+The below patch breaks the Next.js module's JSON:AP support.
+
+    "patches": {
+      "drupal/core": {
+        "Issue #3100732: Allow specifying `meta` data on JSON:API objects": "https://www.drupal.org/files/issues/2022-05-15/3100732-33.patch"
+      },
+    }

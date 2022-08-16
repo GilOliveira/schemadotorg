@@ -37,19 +37,25 @@ function install() {
 
   drush -y config-set system.site slogan 'A demo of the Schema.org Blueprints module for Drupal.'
 
-  drush -y pm-enable schemadotorg_demo_standard;
+  drush -y pm:enable schemadotorg_demo_standard;
 }
 
 function demo() {
   install
-  drush -y pm-enable schemadotorg_demo;
+  drush -y pm:enable schemadotorg_demo;
 }
 
 function translate() {
-  drush -y pm-enable schemadotorg_demo_standard_translation;
+  drush -y pm:enable schemadotorg_demo_standard_translation;
   drush locale:check
   drush locale:update
-  drush -y pm-enable schemadotorg_demo_umami_content;
+  drush -y pm:enable schemadotorg_demo_umami_content;
+}
+
+function next() {
+  # TEMP: Uninstall Schema.org Blueprint JSON:API module.
+  drush -y pm:uninstall schemadotorg_jsonapi jsonapi_extras
+  drush -y pm:enable schemadotorg_demo_next;
 }
 
 ################################################################################
