@@ -11,6 +11,6 @@ dependencies:
   - 'drupal:content_translation'
   - 'drupal:language'
   - 'drupal:locale'
+  - 'config_rewrite:config_rewrite'
   - 'toolbar_language_switcher:toolbar_language_switcher'
   - 'schemadotorg:schemadotorg_translation'
-  - 'schemadotorg:schemadotorg_demo_standard'

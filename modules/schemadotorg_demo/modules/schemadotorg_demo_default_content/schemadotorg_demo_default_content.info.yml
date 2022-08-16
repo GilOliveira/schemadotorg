@@ -7,5 +7,3 @@ lifecycle: experimental
 dependencies:
   - 'default_content:default_content'
   - 'schemadotorg:schemadotorg'
-  - 'schemadotorg:schemadotorg_mapping_set'
-  - 'schemadotorg:schemadotorg_ui'

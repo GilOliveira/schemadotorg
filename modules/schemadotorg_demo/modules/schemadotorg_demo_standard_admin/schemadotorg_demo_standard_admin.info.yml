@@ -4,4 +4,3 @@ description: Provides admin UI enhancements for the Schema.org Blueprints demo b
 package: Schema.org Blueprints Demo
 core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental
-dependencies: {  }

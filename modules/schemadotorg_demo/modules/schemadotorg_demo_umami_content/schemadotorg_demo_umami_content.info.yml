@@ -9,4 +9,3 @@ dependencies:
   - 'drupal:taxonomy'
   - 'paragraphs:paragraphs'
   - 'schemadotorg:schemadotorg'
-  - 'schemadotorg:schemadotorg_ui'
