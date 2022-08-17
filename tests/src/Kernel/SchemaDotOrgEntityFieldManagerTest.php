@@ -162,11 +162,18 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
         'address_country' => 'Country',
         'address_zone' => 'Zone',
       ],
+      'Field' => [
+        'field_test' => 'Test field item',
+        'serialized_item_test' => 'Test serialized field item',
+        'serialized_property_item_test' => 'Test serialized property field item',
+      ],
       'General' => [
         'boolean' => 'Boolean',
         'email' => 'Email',
-        'timestamp' => 'Timestamp',
         'link' => 'Link',
+        'shape' => 'Shape',
+        'shape_required' => 'Shape (required)',
+        'timestamp' => 'Timestamp',
       ],
       'Number' => [
         'decimal' => 'Number (decimal)',
@@ -175,10 +182,14 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
       ],
       'Reference' => [
         'field_ui:entity_reference:node' => 'Content',
-        'file' => 'File',
         'entity_reference' => 'Entity reference',
-        'field_ui:entity_reference:user' => 'User',
         'field_ui:entity_reference:media' => 'Media',
+        'file' => 'File',
+        'field_ui:entity_reference:user' => 'User',
+      ],
+      'Test' => [
+        'internal_property_test' => 'Internal Property (test)',
+        'single_internal_property_test' => 'Single Internal Property (test)',
       ],
     ];
     $actual_field_type_options = $this->fieldManager->getPropertyFieldTypeOptions('Thing', 'alternateName');
