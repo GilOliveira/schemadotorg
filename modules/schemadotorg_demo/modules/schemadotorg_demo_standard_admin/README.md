@@ -27,6 +27,7 @@ Features
 - Redirects anonymous users to /user/login.
 - Displays a welcome message via JavaScript.
 - Sets user name and password to demo/demo.
+- Closes the 'URL alias' details widget in the node edit form  sidebar.
 
 
 Notes

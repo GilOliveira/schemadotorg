@@ -5,6 +5,8 @@
  * Provides an opinionated demo of the Schema.org Blueprints.
  */
 
+use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
@@ -39,4 +41,13 @@ function schemadotorg_demo_standard_admin_toolbar_alter(&$items) {
       $items[$name]['#weight'] = $weight;
     }
   }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function schemadotorg_demo_standard_admin_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Close the 'URL alias' details widget in the sidebar.
+  $path_widget =& NestedArray::getValue($form, ['path', 'widget', '0']);
+  $path_widget['#open'] = FALSE;
 }
