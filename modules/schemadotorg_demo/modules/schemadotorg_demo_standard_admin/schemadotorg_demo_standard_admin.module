@@ -51,3 +51,22 @@ function schemadotorg_demo_standard_admin_form_node_form_alter(&$form, FormState
   $path_widget =& NestedArray::getValue($form, ['path', 'widget', '0']);
   $path_widget['#open'] = FALSE;
 }
+
+/**
+ * Implements hook_link_alter().
+ */
+function schemadotorg_demo_standard_admin_link_alter(&$variables) {
+  if (!isset($variables['url'])) {
+    return;
+  }
+
+  /** @var \Drupal\Core\Url $url */
+  $url = $variables['url'];
+  if ($url->isRouted() && $url->getRouteName() === 'entity_print.view') {
+    // Style entity print links as buttons.
+    $variables['options']['attributes']['class'] = array_merge(
+      $variables['options']['attributes']['class'],
+      ['button', 'button--small']
+    );
+  }
+}

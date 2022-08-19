@@ -53,8 +53,6 @@ function translate() {
 }
 
 function next() {
-  # TEMP: Uninstall Schema.org Blueprint JSON:API module.
-  drush -y pm:uninstall schemadotorg_jsonapi jsonapi_extras
   drush -y pm:enable schemadotorg_demo_next;
 }
 
