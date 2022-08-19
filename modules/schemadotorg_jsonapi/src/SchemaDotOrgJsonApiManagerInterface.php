@@ -12,17 +12,6 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 interface SchemaDotOrgJsonApiManagerInterface {
 
   /**
-   * Check installation requirements.
-   *
-   * @param string $phase
-   *   The phase in which requirements are checked.
-   *
-   * @return array
-   *   An associative array containing installation requirements.
-   */
-  public function requirements($phase);
-
-  /**
    * Get resource type's entity reference fields as an array of includes.
    *
    * @param \Drupal\jsonapi\ResourceType\ResourceType $resource_type

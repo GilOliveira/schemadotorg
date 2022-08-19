@@ -36,31 +36,24 @@ class SchemaDotOrgJsonApiSettingsForm extends ConfigFormBase {
       '#open' => TRUE,
       '#tree' => TRUE,
     ];
-    $form['schemadotorg_jsonapi']['default_enabled_fields'] = [
+    $form['schemadotorg_jsonapi']['default_base_fields'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED,
-      '#title' => $this->t('Default enabled fields'),
-      '#description' => $this->t('Enter fields that should default to enabled when they are added to a Schema.org JSON:API resource.')
+      '#title' => $this->t('Default base fields'),
+      '#description' => $this->t('Enter base fields that should by enabled when they are added to a Schema.org JSON:API resource.')
       . ' '
       . $this->t('Leave blank to enable all fields by default.'),
-      '#default_value' => $config->get('default_enabled_fields'),
+      '#default_value' => $config->get('default_base_fields'),
     ];
-    $form['schemadotorg_jsonapi']['path_prefixes'] = [
+    $form['schemadotorg_jsonapi']['entity_type_path_prefixes'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
       '#settings_format' => 'entity_type|prefix',
-      '#title' => $this->t('Resource path prefixes'),
+      '#title' => $this->t('Entity type path prefixes'),
       '#description' => $this->t('Enter path prefixes to prepended to a Schema.org JSON:API resource when there is a conflicting resource path.')
       . ' '
       . $this->t('For example, adding Person Schema.org type a node and user would create a conflict, that will be resolved by prepending Person with a path prefix (i.e. ContentPerson or UserPerson).'),
-      '#default_value' => $config->get('path_prefixes'),
-    ];
-    $form['schemadotorg_jsonapi']['disable_requirements'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Disable Schema.org JSON:API requirements checking'),
-      '#description' => $this->t("If unchecked, the recommended Schema.org JSON:API requirements will not be checked via Drupal's status report."),
-      '#return_value' => TRUE,
-      '#default_value' => $config->get('disable_requirements'),
+      '#default_value' => $config->get('entity_type_path_prefixes'),
     ];
     return parent::buildForm($form, $form_state);
   }

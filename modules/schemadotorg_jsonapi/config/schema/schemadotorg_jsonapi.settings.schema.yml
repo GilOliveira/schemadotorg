@@ -2,18 +2,15 @@ schemadotorg_jsonapi.settings:
   type: config_entity
   label: Schema.org JSON:API settings
   mapping:
-    default_enabled_fields:
+    default_base_fields:
       type: sequence
-      label: 'Default enabled fields'
+      label: 'Default base fields'
       sequence:
         type: string
-        label: 'Default enabled field'
-    path_prefixes:
+        label: 'Default base field'
+    entity_type_path_prefixes:
       type: sequence
-      label: 'Path prefixes'
+      label: 'Entity type path prefixes'
       sequence:
         type: string
-        label: 'Path prefix'
-    disable_requirements:
-      type: boolean
-      label: 'Disable Schema.org JSON:API requirements checking'
+        label: 'Entity type Path prefix'

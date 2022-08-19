@@ -22,7 +22,6 @@ use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
  * Schema.org JSON:API manager.
  */
 class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface {
-  use StringTranslationTrait;
 
   /**
    * The configuration factory.
@@ -98,81 +97,9 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
     $this->schemaNames = $schema_names;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function requirements($phase) {
-    if ($phase !== 'runtime') {
-      return [];
-    }
-
-    $schemadotorg_config = $this->configFactory->get('schemadotorg_jsonapi.settings');
-    if ($schemadotorg_config->get('disable_requirements')) {
-      return [];
-    }
-
-    $requirements = [];
-
-    // Resources disabled by default.
-    $default_disabled = $this->configFactory
-      ->get('jsonapi_extras.settings')
-      ->get('default_disabled');
-    if ($default_disabled) {
-      $requirements['schemadotorg_jsonapi_default_disabled'] = [
-        'title' => $this->t('Schema.org Blueprints JSON:API'),
-        'value' => $this->t('Resources disabled by default'),
-        'severity' => REQUIREMENT_OK,
-      ];
-    }
-    else {
-      $options = ['query' => $this->redirectDestination->getAsArray()];
-      $jsonapi_href = Url::fromRoute('jsonapi_extras.settings', [], $options)->toString();
-      $schemadotorg_href = Url::fromRoute('schemadotorg_jsonapi.settings', [], $options)->toString();
-
-      $requirements['schemadotorg_jsonapi_default_disabled'] = [
-        'title' => $this->t('Schema.org Blueprints JSON:API'),
-        'value' => $this->t('Resources enabled by default'),
-        'description' => [
-          '#markup' => $this->t('It is recommended that JSON:API resources are <a href=":href">disabled by default</a>.', [':href' => $jsonapi_href])
-          . '<br/>'
-          . $this->t('<a href=":href">Disable this warning</a>', [':href' => $schemadotorg_href]),
-        ],
-        'severity' => REQUIREMENT_WARNING,
-      ];
-    }
-
-    // Required resources disabled.
-    $resources = [
-      'file--file' => $this->entityTypeManager->getStorage('file')->getEntityType()->getLabel(),
-    ];
-    $missing = [];
-    foreach ($resources as $resource_id => $label) {
-      $resource = $this->getResourceConfigStorage()->load($resource_id);
-      if (!$resource || $resource->get('disabled')) {
-        $t_args = ['@label' => $label, '@id' => $resource_id];
-        $missing[] = $this->t('@label (@id)', $t_args);
-      }
-    }
-    if ($missing) {
-      $t_args = [
-        ':href' => Url::fromRoute('entity.jsonapi_resource_config.collection')->toString(),
-      ];
-      $requirements['schemadotorg_jsonapi_resource_disabled'] = [
-        'title' => $this->t('Schema.org Blueprints JSON:API'),
-        'value' => $this->t('Required resources disabled'),
-        'description' => [
-          '#markup' => $this->t('It is recommended that the below <a href=":href">JSON:API resources</a> be enabled', $t_args),
-          'resources' => [
-            '#theme' => 'item_list',
-            '#items' => $missing,
-          ],
-        ],
-        'severity' => REQUIREMENT_WARNING,
-      ];
-    }
-
-    return $requirements;
-  }
+  /* ************************************************************************ */
+  // Resource includes methods.
+  /* ************************************************************************ */
 
   /**
    * {@inheritdoc}
@@ -247,6 +174,10 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
     return $includes;
   }
 
+  /* ************************************************************************ */
+  // Schema.org mapping insert and update resource methods.
+  /* ************************************************************************ */
+
   /**
    * {@inheritdoc}
    */
@@ -280,71 +211,14 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
       }
     }
 
-    $name = $this->getResourceConfigPath($mapping);
     ksort($resource_fields);
     $this->getResourceConfigStorage()->create([
       'id' => $this->getResourceId($mapping),
-      'disabled' => FALSE,
-      'path' => $name,
-      'resourceType' => $name,
+      'path' => $this->getResourceType($mapping),
+      'resourceType' => $this->getResourcePath($mapping),
       'resourceFields' => $resource_fields,
+      'disabled' => FALSE,
     ])->save();
-  }
-
-  /**
-   * Get JSON:API resource config path.
-   *
-   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
-   *   The Schema.org mapping.
-   *
-   * @return string
-   *   JSON:API resource config path.
-   */
-  protected function getResourceConfigPath(SchemaDotOrgMappingInterface $mapping) {
-    $entity_type_id = $mapping->getTargetEntityTypeId();
-    $bundle = $mapping->getTargetBundle();
-
-    // Get the entity type's resource path prefix used to prevent conflicts.
-    // (i.e. ContentPerson, BlockContactPoint, UserPerson, etc...).
-    $path_prefixes = $this->configFactory
-      ->get('schemadotorg_jsonapi.settings')
-      ->get('path_prefixes');
-    $path_prefix = (isset($path_prefixes[$entity_type_id]))
-      ? $path_prefixes[$entity_type_id]
-      : $this->schemaNames->snakeCaseToUpperCamelCase($entity_type_id);
-    $schema_type = $mapping->getSchemaType();
-    $bundle_schema_type = $this->schemaNames->snakeCaseToUpperCamelCase($bundle);
-
-    $names = [
-      $schema_type,
-      $path_prefix . $schema_type,
-      // Use the bundle machine name which could be more specific
-      // (i.e. contact_point_phone => ContactPointPhone).
-      $bundle_schema_type,
-      $path_prefix . $bundle_schema_type,
-    ];
-
-    foreach ($names as $path) {
-      if (!$this->isExistingResourceConfigPath($path)) {
-        return $path;
-      }
-    }
-
-    // Resort the default path naming convention.
-    return $entity_type_id . '/' . $bundle;
-  }
-
-  /**
-   * Determine if a JSON:API resource config path exists.
-   *
-   * @param string $path
-   *   The JSON:API resource config path.
-   *
-   * @return bool
-   *   TRUE if a JSON:API resource config path exists.
-   */
-  protected function isExistingResourceConfigPath($path) {
-    return (boolean) $this->getResourceConfigStorage()->loadByProperties(['path' => $path]);
   }
 
   /**
@@ -382,16 +256,6 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * {@inheritdoc}
    */
   public function insertFieldConfigResource(FieldConfigInterface $field) {
-    $this->insertMappingFieldConfigResource($field);
-  }
-
-  /**
-   * Insert Schema.org property/field into JSON:API resource config.
-   *
-   * @param \Drupal\field\FieldConfigInterface $field
-   *   The field.
-   */
-  protected function insertMappingFieldConfigResource(FieldConfigInterface $field) {
     // Do not insert field into JSON:API resource config if the
     // Scheme.org entity type builder is adding it.
     // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::addFieldToEntity
@@ -446,6 +310,10 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
       ->save();
   }
 
+  /* ************************************************************************ */
+  // Schema.org resource storage methods.
+  /* ************************************************************************ */
+
   /**
    * Get JSON:API resource config storage.
    *
@@ -472,20 +340,97 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
     return $this->getResourceConfigStorage()->load($resource_id);
   }
 
+  /* ************************************************************************ */
+  // Schema.org resource property methods.
+  /* ************************************************************************ */
+
   /**
-   * Get JSON:API resource config id for a Schema.org mapping.
+   * Get JSON:API resource id.
    *
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
    *   The Schema.org mapping.
    *
    * @return string
-   *   A JSON:API resource config id for a Schema.org mapping.
+   *   A JSON:API resource id.
    */
   protected function getResourceId(SchemaDotOrgMappingInterface $mapping) {
     $target_entity_type_id = $mapping->getTargetEntityTypeId();
     $target_bundle = $mapping->getTargetBundle();
     return $target_entity_type_id . '--' . $target_bundle;
   }
+
+  /**
+   * Get JSON:API resource type.
+   *
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
+   *   The Schema.org mapping.
+   *
+   * @return string
+   *   JSON:API resource type.
+   */
+  protected function getResourceType(SchemaDotOrgMappingInterface $mapping) {
+    return $this->getResourcePath($mapping);
+  }
+
+  /**
+   * Get JSON:API resource path.
+   *
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
+   *   The Schema.org mapping.
+   *
+   * @return string
+   *   JSON:API resource path.
+   */
+  protected function getResourcePath(SchemaDotOrgMappingInterface $mapping) {
+    $entity_type_id = $mapping->getTargetEntityTypeId();
+    $bundle = $mapping->getTargetBundle();
+
+    // Get the entity type's resource path prefix used to prevent conflicts.
+    // (i.e. ContentPerson, BlockContactPoint, UserPerson, etc...).
+    $entity_type_path_prefixes = $this->configFactory
+      ->get('schemadotorg_jsonapi.settings')
+      ->get('entity_type_path_prefixes');
+    $path_prefix = (isset($entity_type_path_prefixes[$entity_type_id]))
+      ? $entity_type_path_prefixes[$entity_type_id]
+      : $this->schemaNames->snakeCaseToUpperCamelCase($entity_type_id);
+    $schema_type = $mapping->getSchemaType();
+    $bundle_schema_type = $this->schemaNames->snakeCaseToUpperCamelCase($bundle);
+
+    $names = [
+      $schema_type,
+      $path_prefix . $schema_type,
+      // Use the bundle machine name which could be more specific
+      // (i.e. contact_point_phone => ContactPointPhone).
+      $bundle_schema_type,
+      $path_prefix . $bundle_schema_type,
+    ];
+
+    foreach ($names as $path) {
+      if (!$this->isExistingResourcePath($path)) {
+        return $path;
+      }
+    }
+
+    // Resort the default path naming convention.
+    return $entity_type_id . '/' . $bundle;
+  }
+
+  /**
+   * Determine if a JSON:API resource config path exists.
+   *
+   * @param string $path
+   *   The JSON:API resource config path.
+   *
+   * @return bool
+   *   TRUE if a JSON:API resource config path exists.
+   */
+  protected function isExistingResourcePath($path) {
+    return (boolean) $this->getResourceConfigStorage()->loadByProperties(['path' => $path]);
+  }
+
+  /* ************************************************************************ */
+  // Field helper methods
+  /* ************************************************************************ */
 
   /**
    * Determine is a field enabled.
@@ -497,10 +442,10 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    *   TRUE if a field enabled.
    */
   protected function isFieldEnabled($field_name) {
-    $default_enabled_fields = $this->configFactory
+    $default_base_fields = $this->configFactory
       ->get('schemadotorg_jsonapi.settings')
-      ->get('default_enabled_fields');
-    return $default_enabled_fields ? in_array($field_name, $default_enabled_fields) : TRUE;
+      ->get('default_base_fields');
+    return $default_base_fields ? in_array($field_name, $default_base_fields) : TRUE;
   }
 
   /**
