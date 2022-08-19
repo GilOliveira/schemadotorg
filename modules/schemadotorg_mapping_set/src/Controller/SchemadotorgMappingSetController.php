@@ -4,12 +4,21 @@ namespace Drupal\schemadotorg_mapping_set\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
+use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Returns responses for Schema.org Blueprints Mapping Sets routes.
  */
 class SchemadotorgMappingSetController extends ControllerBase {
+
+  /**
+   * The Schema.org mapping manager service.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface
+   */
+  protected $schemaMappingManager;
 
   /**
    * The Schema.org mapping set manager service.
@@ -23,14 +32,15 @@ class SchemadotorgMappingSetController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     $instance = new static();
+    $instance->schemaMappingManager = $container->get('schemadotorg.mapping_manager');
     $instance->schemaMappingSetManager = $container->get('schemadotorg_mapping_set.manager');
     return $instance;
   }
 
   /**
-   * Builds the response.
+   * Builds the response for the mapping sets overview page.
    */
-  public function build() {
+  public function overview() {
     // Header.
     $header = [
       'title' => ['data' => $this->t('Title'), 'width' => '15%'],
@@ -73,6 +83,13 @@ class SchemadotorgMappingSetController extends ControllerBase {
           ),
         ];
       }
+      $operations['view'] = [
+        'title' => $this->t('View details'),
+        'url' => Url::fromRoute(
+          'schemadotorg_mapping_set.details',
+          ['name' => $name],
+        ),
+      ];
 
       // Types.
       $invalid_types = [];
@@ -93,7 +110,13 @@ class SchemadotorgMappingSetController extends ControllerBase {
       }
 
       $row = [];
-      $row['title'] = $mapping_set['label'];
+      $row['title'] = [
+        'data' => [
+          '#type' => 'link',
+          '#title' => $mapping_set['label'],
+          '#url' => Url::fromRoute('schemadotorg_mapping_set.details', ['name' => $name]),
+        ],
+      ];
       $row['name'] = $name;
       $row['setup'] = $is_setup ? $this->t('Yes') : $this->t('No');
       $row['types'] = ['data' => ['#markup' => implode(', ', $types)]];
@@ -139,6 +162,109 @@ class SchemadotorgMappingSetController extends ControllerBase {
         '#rows' => $rows,
       ],
     ];
+  }
+
+  /**
+   * Builds the response for the mapping set detail page.
+   */
+  public function details($name) {
+    $mapping_set = $this->config('schemadotorg_mapping_set.settings')->get("sets.$name");
+    if (empty($mapping_set)) {
+      throw new NotFoundHttpException();
+    }
+
+    $build = [];
+    $build['#title'] = $this->t('@label Schema.org mapping set', ['@label' => $mapping_set['label']]);
+
+    $types = $mapping_set['types'];
+    foreach ($types as $type) {
+      if (!$this->schemaMappingSetManager->isValidType($type)) {
+        continue;
+      }
+      [$entity_type_id, $schema_type] = explode(':', $type);
+
+      $mapping_defaults = $this->schemaMappingManager->getMappingDefaults($entity_type_id, NULL, $schema_type);
+
+      $t_args = [
+        '@label' => $mapping_defaults['entity']['label'],
+        '@type' => $type,
+      ];
+      $build[$type] = [
+        '#type' => 'details',
+        '#title' => $this->t('@label (@type)', $t_args),
+        '#open' => TRUE,
+      ];
+
+      // Entity.
+      $build[$type]['schema_type'] = [
+        '#type' => 'item',
+        '#title' => $this->t('Schema.org type'),
+        '#markup' => $schema_type,
+      ];
+      $build[$type]['entity_type'] = [
+        '#type' => 'item',
+        '#title' => $this->t('Entity type and bundle'),
+        '#markup' => $entity_type_id . ':' . $mapping_defaults['entity']['id'],
+      ];
+      $build[$type]['label'] = [
+        '#type' => 'item',
+        '#title' => $this->t('Entity label'),
+        '#markup' => $mapping_defaults['entity']['label'],
+      ];
+
+      $build[$type]['entity_description'] = [
+        '#type' => 'item',
+        '#title' => $this->t('Entity description'),
+        '#markup' => $mapping_defaults['entity']['description'],
+      ];
+
+      // Properties.
+      $rows = [];
+      $field_prefix = $this->config('schemadotorg.settings')->get('field_prefix');
+      foreach ($mapping_defaults['properties'] as $property_name => $property_definition) {
+        if (empty($property_definition['name'])) {
+          continue;
+        }
+        $row = [];
+        $row['label'] = [
+          'data' => [
+            'name' => [
+              '#markup' => $property_definition['label'],
+              '#prefix' => '<strong>',
+              '#suffix' => '</strong></br>',
+            ],
+            'description' => ['#markup' => $property_definition['description']],
+          ],
+        ];
+        $row['property'] = $property_name;
+        if ($property_definition['name'] === SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD) {
+          $row['name'] = $field_prefix . '_' . $property_definition['machine_name'];
+          $row['existing'] = $this->t('No');
+        }
+        else {
+          $row['name'] = $property_definition['name'];
+          $row['existing'] = $this->t('Yes');
+        }
+        $row['type'] = $property_definition['type'];
+        $row['unlimited'] = !empty($property_definition['unlimited']) ? $this->t('Yes') : $this->t('No');
+        unset($row['description']);
+        $rows[] = $row;
+      }
+      $build[$type]['properties'] = [
+        '#type' => 'table',
+        '#header' => [
+          'label' => ['data' => $this->t('Label / Description'), 'width' => '35%'],
+          'property' => ['data' => $this->t('Schema.org property'), 'width' => '15%'],
+          'name' => ['data' => $this->t('Field name'), 'width' => '15%'],
+          'existing' => ['data' => $this->t('Existing field'), 'width' => '10%'],
+          'type' => ['data' => $this->t('Field type'), 'width' => '15%'],
+          'unlimited' => ['data' => $this->t('Unlimited values'), 'width' => '10%'],
+        ],
+        '#rows' => $rows,
+      ];
+    }
+
+    return $build;
   }
 
 }

@@ -32,7 +32,7 @@ class SchemaDotOrgMappingSetBreadcrumbBuilder implements BreadcrumbBuilderInterf
     $breadcrumb->addLink(Link::createFromRoute($this->t('Configuration'), 'system.admin_config'));
     $breadcrumb->addLink(Link::createFromRoute($this->t('Search and metadata'), 'system.admin_config_search'));
     $breadcrumb->addLink(Link::createFromRoute($this->t('Schema.org'), 'entity.schemadotorg_mapping.collection'));
-    if ($route_match->getRouteName() === 'schemadotorg_mapping_set.confirm_form') {
+    if (in_array($route_match->getRouteName(), ['schemadotorg_mapping_set.confirm_form', 'schemadotorg_mapping_set.details'])) {
       $breadcrumb->addLink(Link::createFromRoute($this->t('Mapping sets'), 'schemadotorg_mapping_set.overview'));
     }
 
