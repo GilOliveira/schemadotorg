@@ -87,17 +87,6 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
   public function testSchemaDotOrgJsonApiManager() {
 
     /* ********************************************************************** */
-    // Test installing Schema.org mapping JSON:API resource config.
-    /* ********************************************************************** */
-
-    // Check JSON:API resources are imported and created on installation.
-    // @see jsonapi_extras.jsonapi_resource_config.file--file.yml
-    $resources = $this->resourceStorage->loadMultiple([
-      'file--file',
-    ]);
-    $this->assertEquals(1, count($resources));
-
-    /* ********************************************************************** */
     // Insert Schema.org mapping JSON:API resource config.
     // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApi::insertMappingResourceConfig
     /* ********************************************************************** */
@@ -142,10 +131,12 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertTrue($resource_fields['revision_uid']['disabled']);
     $this->assertTrue($resource_fields['revision_log']['disabled']);
 
-    // Check field public names.
-    $this->assertEquals('name', $resource_fields['title']['publicName']);
+    // Check that Schema.org property base field public names are not aliased.
+    $this->assertEquals('title', $resource_fields['title']['publicName']);
+
+    // Check that Schema.org property field public names are aliased.
     $this->assertEquals('subtype', $resource_fields['schema_thing_subtype']['publicName']);
-    $this->assertEquals('alternateName', $resource_fields['schema_alternate_name']['publicName']);
+    $this->assertEquals('alternate_name', $resource_fields['schema_alternate_name']['publicName']);
 
     /* ********************************************************************** */
     // Update Schema.org mapping JSON:API resource config.
@@ -160,7 +151,7 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     // Check that existing resource field is unchanged.
     $resource = $this->loadResource('node--thing');
     $resource_fields = $resource->get('resourceFields');
-    $this->assertEquals('alternateName', $resource_fields['schema_alternate_name']['publicName']);
+    $this->assertEquals('alternate_name', $resource_fields['schema_alternate_name']['publicName']);
 
     /* ********************************************************************** */
     // Insert field into JSON:API resource config.
@@ -205,37 +196,37 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertArrayHasKey('schema_description', $resource_fields);
 
     /* ********************************************************************** */
-    // Handling conflicting JSON:API resource paths.
-    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApi::getResourceConfigPath
+    // Enabling all fields.
+    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManager::isFieldEnabled
     /* ********************************************************************** */
 
-    // Create node:person.
-    NodeType::create([
-      'type' => 'person',
-      'name' => 'Person',
-    ])->save();
-    $this->mappingStorage->create([
+    // Use Schema.org types as the JSON:API resource's type and path names.
+    \Drupal::configFactory()
+      ->getEditable('schemadotorg_jsonapi.settings')
+      ->set('resource_type_schemadotorg', TRUE)
+      ->save();
+
+    // Create Place (Location) with mapping.
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $event_mapping */
+    $location_node = NodeType::create([
+      'type' => 'location',
+      'name' => 'Location',
+    ]);
+    $location_node->save();
+    $location_mapping = $this->mappingStorage->create([
       'target_entity_type_id' => 'node',
-      'target_bundle' => 'person',
-      'type' => 'Person',
-    ])->save();
+      'target_bundle' => 'location',
+      'type' => 'place',
+    ]);
+    $location_mapping->save();
 
-    // Create user:person.
-    $this->mappingStorage->create([
-      'target_entity_type_id' => 'user',
-      'target_bundle' => 'user',
-      'type' => 'Person',
-    ])->save();
-
-    // Check that node:person use 'Person' as the path and name.
-    $node_resource = $this->loadResource('node--person');
-    $this->assertEquals('Person', $node_resource->get('path'));
-    $this->assertEquals('Person', $node_resource->get('resourceType'));
-
-    // Check that user:person use 'UserPerson' as the path and name.
-    $user_resource = $this->loadResource('user--user');
-    $this->assertEquals('UserPerson', $user_resource->get('path'));
-    $this->assertEquals('UserPerson', $user_resource->get('resourceType'));
+    // Check that Schema.org types are used as the JSON:API resource's
+    // type and path names.
+    $resource = $this->loadResource('node--location');
+    $this->assertNotEquals('node--location', $resource->get('resourceType'));
+    $this->assertEquals('node--place', $resource->get('resourceType'));
+    $this->assertNotEquals('node/location', $resource->get('path'));
+    $this->assertEquals('node/place', $resource->get('path'));
 
     /* ********************************************************************** */
     // Enabling all fields.

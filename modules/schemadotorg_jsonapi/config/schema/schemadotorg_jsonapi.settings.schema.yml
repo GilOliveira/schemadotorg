@@ -8,9 +8,9 @@ schemadotorg_jsonapi.settings:
       sequence:
         type: string
         label: 'Default base field'
-    entity_type_path_prefixes:
-      type: sequence
-      label: 'Entity type path prefixes'
-      sequence:
-        type: string
-        label: 'Entity type Path prefix'
+    resource_type_schemadotorg:
+      type: boolean
+      label: 'Use Schema.org type as the resource type and path name'
+    resource_field_schemadotorg:
+      type: boolean
+      label: 'Use Schema.org property as the resource field name/alias'

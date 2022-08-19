@@ -5,11 +5,11 @@ dependencies:
     - file
 id: file--file
 disabled: false
-path: File
-resourceType: File
+path: file/file
+resourceType: file--file
 resourceFields:
   fid:
-    disabled: true
+    disabled: false
     fieldName: fid
     publicName: fid
     enhancer:
@@ -21,19 +21,19 @@ resourceFields:
     enhancer:
       id: ''
   langcode:
-    disabled: true
+    disabled: false
     fieldName: langcode
     publicName: langcode
     enhancer:
       id: ''
   uid:
-    disabled: true
+    disabled: false
     fieldName: uid
     publicName: uid
     enhancer:
       id: ''
   filename:
-    disabled: true
+    disabled: false
     fieldName: filename
     publicName: filename
     enhancer:
@@ -45,31 +45,31 @@ resourceFields:
     enhancer:
       id: ''
   filemime:
-    disabled: true
+    disabled: false
     fieldName: filemime
     publicName: filemime
     enhancer:
       id: ''
   filesize:
-    disabled: true
+    disabled: false
     fieldName: filesize
     publicName: filesize
     enhancer:
       id: ''
   status:
-    disabled: true
+    disabled: false
     fieldName: status
     publicName: status
     enhancer:
       id: ''
   created:
-    disabled: true
+    disabled: false
     fieldName: created
     publicName: created
     enhancer:
       id: ''
   changed:
-    disabled: true
+    disabled: false
     fieldName: changed
     publicName: changed
     enhancer:

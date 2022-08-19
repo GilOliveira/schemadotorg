@@ -189,33 +189,27 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
 
     $resource_fields = [];
 
-    $schema_properties = $mapping->getSchemaProperties();
-
-    $field_names = $this->getAllFieldNamesForMapping($mapping);
+    $entity_type_id = $mapping->getTargetEntityTypeId();
+    $bundle = $mapping->getTargetBundle();
+    $field_definitions = $this->fieldManager->getFieldDefinitions(
+      $entity_type_id,
+      $bundle
+    );
+    $field_names = array_keys($field_definitions);
     foreach ($field_names as $field_name) {
-      if (isset($schema_properties[$field_name])) {
-        $resource_fields[$field_name] = [
-          'disabled' => FALSE,
-          'fieldName' => $field_name,
-          'publicName' => $schema_properties[$field_name],
-          'enhancer' => ['id' => ''],
-        ];
-      }
-      else {
-        $resource_fields[$field_name] = [
-          'disabled' => !$this->isFieldEnabled($field_name),
-          'fieldName' => $field_name,
-          'publicName' => $field_name,
-          'enhancer' => ['id' => ''],
-        ];
-      }
+      $resource_fields[$field_name] = [
+        'fieldName' => $field_name,
+        'publicName' => $this->getResourceFieldPublicName($mapping, $field_name),
+        'disabled' => $this->isResourceFieldDisabled($mapping, $field_name),
+        'enhancer' => ['id' => ''],
+      ];
     }
 
     ksort($resource_fields);
     $this->getResourceConfigStorage()->create([
       'id' => $this->getResourceId($mapping),
-      'path' => $this->getResourceType($mapping),
-      'resourceType' => $this->getResourcePath($mapping),
+      'path' => $this->getResourcePath($mapping),
+      'resourceType' => $this->getResourceType($mapping),
       'resourceFields' => $resource_fields,
       'disabled' => FALSE,
     ])->save();
@@ -236,14 +230,16 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
     foreach ($properties as $field_name => $property) {
       // Never update an existing resource field.
       // Ensures that an API field is never changed after it has been created.
-      if (!isset($resource_fields[$field_name])) {
-        $resource_fields[$field_name] = [
-          'disabled' => FALSE,
-          'fieldName' => $field_name,
-          'publicName' => $property,
-          'enhancer' => ['id' => ''],
-        ];
+      if (isset($resource_fields[$field_name])) {
+        continue;
       }
+
+      $resource_fields[$field_name] = [
+        'disabled' => $this->isResourceFieldDisabled($mapping, $field_name),
+        'fieldName' => $field_name,
+        'publicName' => $this->getResourceFieldPublicName($mapping, $field_name),
+        'enhancer' => ['id' => ''],
+      ];
     }
 
     ksort($resource_fields);
@@ -286,23 +282,12 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
       return;
     }
 
-    $property = $mapping->getSchemaPropertyMapping($field_name);
-    if ($property) {
-      $resource_fields[$field_name] = [
-        'disabled' => FALSE,
-        'fieldName' => $field_name,
-        'publicName' => $property,
-        'enhancer' => ['id' => ''],
-      ];
-    }
-    else {
-      $resource_fields[$field_name] = [
-        'disabled' => !$this->isFieldEnabled($field_name),
-        'fieldName' => $field_name,
-        'publicName' => $field_name,
-        'enhancer' => ['id' => ''],
-      ];
-    }
+    $resource_fields[$field_name] = [
+      'disabled' => $this->isResourceFieldDisabled($mapping, $field_name),
+      'fieldName' => $field_name,
+      'publicName' => $this->getResourceFieldPublicName($mapping, $field_name),
+      'enhancer' => ['id' => ''],
+    ];
 
     ksort($resource_fields);
     $resource_config
@@ -364,12 +349,26 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    *
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
    *   The Schema.org mapping.
+   * @param string $delimiter
+   *   The delimiter used to separate the entity type from the bundle.
    *
    * @return string
    *   JSON:API resource type.
    */
-  protected function getResourceType(SchemaDotOrgMappingInterface $mapping) {
-    return $this->getResourcePath($mapping);
+  protected function getResourceType(SchemaDotOrgMappingInterface $mapping, $delimiter = '--') {
+    $resource_type_schemadotorg = $this->configFactory
+      ->get('schemadotorg_jsonapi.settings')
+      ->get('resource_type_schemadotorg');
+
+    $target_entity_type_id = $mapping->getTargetEntityTypeId();
+    if ($resource_type_schemadotorg) {
+      $schema_type = $mapping->getSchemaType();
+      return $target_entity_type_id . $delimiter . $this->schemaNames->camelCaseToSnakeCase($schema_type);
+    }
+    else {
+      $target_bundle = $mapping->getTargetBundle();
+      return $target_entity_type_id . $delimiter . $target_bundle;
+    }
   }
 
   /**
@@ -382,122 +381,83 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    *   JSON:API resource path.
    */
   protected function getResourcePath(SchemaDotOrgMappingInterface $mapping) {
-    $entity_type_id = $mapping->getTargetEntityTypeId();
-    $bundle = $mapping->getTargetBundle();
+    return $this->getResourceType($mapping, '/');
+  }
 
-    // Get the entity type's resource path prefix used to prevent conflicts.
-    // (i.e. ContentPerson, BlockContactPoint, UserPerson, etc...).
-    $entity_type_path_prefixes = $this->configFactory
+  /**
+   * Get a resource field's public name.
+   *
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
+   *   The Schema.org mapping.
+   * @param string $field_name
+   *   The field name.
+   *
+   * @return string
+   *   The resource field's public name,
+   */
+  protected function getResourceFieldPublicName(SchemaDotOrgMappingInterface $mapping, $field_name) {
+    // Make sure use Schema.org property as the resource's field name is enabled.
+    $resource_field_schemadotorg = $this->configFactory
       ->get('schemadotorg_jsonapi.settings')
-      ->get('entity_type_path_prefixes');
-    $path_prefix = (isset($entity_type_path_prefixes[$entity_type_id]))
-      ? $entity_type_path_prefixes[$entity_type_id]
-      : $this->schemaNames->snakeCaseToUpperCamelCase($entity_type_id);
-    $schema_type = $mapping->getSchemaType();
-    $bundle_schema_type = $this->schemaNames->snakeCaseToUpperCamelCase($bundle);
-
-    $names = [
-      $schema_type,
-      $path_prefix . $schema_type,
-      // Use the bundle machine name which could be more specific
-      // (i.e. contact_point_phone => ContactPointPhone).
-      $bundle_schema_type,
-      $path_prefix . $bundle_schema_type,
-    ];
-
-    foreach ($names as $path) {
-      if (!$this->isExistingResourcePath($path)) {
-        return $path;
-      }
+      ->get('resource_field_schemadotorg');
+    if (!$resource_field_schemadotorg) {
+      return $field_name;
     }
 
-    // Resort the default path naming convention.
-    return $entity_type_id . '/' . $bundle;
+    // Never alter base field name, even if they are mapped to a
+    // Schema.org properties because the can break front-end expectation.
+    // (i.e. langcode => inLanguage)
+    $entity_type_id = $mapping->getTargetEntityTypeId();
+    if ($this->isBaseField($entity_type_id, $field_name)) {
+      return $field_name;
+    }
+
+    $property = $mapping->getSchemaPropertyMapping($field_name);
+    return ($property) ? $this->schemaNames->camelCaseToSnakeCase($property) : $field_name;
   }
 
   /**
-   * Determine if a JSON:API resource config path exists.
-   *
-   * @param string $path
-   *   The JSON:API resource config path.
-   *
-   * @return bool
-   *   TRUE if a JSON:API resource config path exists.
-   */
-  protected function isExistingResourcePath($path) {
-    return (boolean) $this->getResourceConfigStorage()->loadByProperties(['path' => $path]);
-  }
-
-  /* ************************************************************************ */
-  // Field helper methods
-  /* ************************************************************************ */
-
-  /**
-   * Determine is a field enabled.
+   * Determine if a resource field is disabled.
    *
    * @param string $field_name
    *   The field name.
    *
    * @return bool
-   *   TRUE if a field enabled.
+   *   TRUE if a resource field is disabled.
    */
-  protected function isFieldEnabled($field_name) {
+  protected function isResourceFieldDisabled(SchemaDotOrgMappingInterface $mapping, $field_name) {
+    if ($mapping->getSchemaPropertyMapping($field_name)) {
+      return FALSE;
+    }
+
     $default_base_fields = $this->configFactory
       ->get('schemadotorg_jsonapi.settings')
       ->get('default_base_fields');
-    return $default_base_fields ? in_array($field_name, $default_base_fields) : TRUE;
-  }
-
-  /**
-   * Gets all field names for a Schemam.org mapping entity type and bundle.
-   *
-   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
-   *   The Schema.org mapping.
-   *
-   * @return string[]
-   *   All field names.
-   */
-  protected function getAllFieldNamesForMapping(SchemaDotOrgMappingInterface $mapping) {
-    $entity_type = $mapping->getTargetEntityTypeDefinition();
-    $bundle = $mapping->getTargetBundle();
-    return $this->getAllFieldNames($entity_type, $bundle);
-  }
-
-  /**
-   * Gets all field names for a given entity type and bundle.
-   *
-   * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
-   *   The entity type for which to get all field names.
-   * @param string $bundle
-   *   The bundle for which to get all field names.
-   *
-   * @todo This is a copy of ResourceTypeRepository::getAllFieldNames. We can't
-   * reuse that code because it's protected.
-   *
-   * @return string[]
-   *   All field names.
-   */
-  protected function getAllFieldNames(EntityTypeInterface $entity_type, $bundle) {
-    if (is_a($entity_type->getClass(), FieldableEntityInterface::class, TRUE)) {
-      $field_definitions = $this->fieldManager->getFieldDefinitions(
-        $entity_type->id(),
-        $bundle
-      );
-      return array_keys($field_definitions);
-    }
-    elseif (is_a($entity_type->getClass(), ConfigEntityInterface::class, TRUE)) {
-      // @todo Uncomment the first line, remove everything else once https://www.drupal.org/project/drupal/issues/2483407 lands.
-      // return array_keys($entity_type->getPropertiesToExport());
-      $export_properties = $entity_type->getPropertiesToExport();
-      if ($export_properties !== NULL) {
-        return array_keys($export_properties);
-      }
-      else {
-        return ['id', 'type', 'uuid', '_core'];
-      }
+    if (empty($default_base_fields)) {
+      return FALSE;
     }
 
-    return [];
+    return !in_array($field_name, $default_base_fields);
+  }
+
+  /* ************************************************************************ */
+  // Field helper methods.
+  /* ************************************************************************ */
+
+  /**
+   * Determine if a field is a base field.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string $field_name
+   *   The field name.
+   *
+   * @return bool
+   *   TRUE if the field is a base field.
+   */
+  protected function isBaseField($entity_type_id, $field_name) {
+    $field_base_definitions = $this->fieldManager->getBaseFieldDefinitions($entity_type_id);
+    return isset($field_base_definitions[$field_name]);
   }
 
 }

@@ -42,18 +42,22 @@ class SchemaDotOrgJsonApiSettingsForm extends ConfigFormBase {
       '#title' => $this->t('Default base fields'),
       '#description' => $this->t('Enter base fields that should by enabled when they are added to a Schema.org JSON:API resource.')
       . ' '
-      . $this->t('Leave blank to enable all fields by default.'),
+      . $this->t('Leave blank to enable all base fields by default.'),
       '#default_value' => $config->get('default_base_fields'),
     ];
-    $form['schemadotorg_jsonapi']['entity_type_path_prefixes'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#settings_format' => 'entity_type|prefix',
-      '#title' => $this->t('Entity type path prefixes'),
-      '#description' => $this->t('Enter path prefixes to prepended to a Schema.org JSON:API resource when there is a conflicting resource path.')
-      . ' '
-      . $this->t('For example, adding Person Schema.org type a node and user would create a conflict, that will be resolved by prepending Person with a path prefix (i.e. ContentPerson or UserPerson).'),
-      '#default_value' => $config->get('entity_type_path_prefixes'),
+    $form['schemadotorg_jsonapi']['resource_type_schemadotorg'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t("Use Schema.org types as the JSON:API resource's type and path names."),
+      '#description' => $this->t("If checked, the Schema.org mapping's type will be used as the JSON:API resource's type and path name."),
+      '#return_value' => TRUE,
+      '#default_value' => $config->get('resource_type_schemadotorg'),
+    ];
+    $form['schemadotorg_jsonapi']['resource_field_schemadotorg'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t("Use Schema.org properties as the JSON:API resource's field names/aliases."),
+      '#description' => $this->t("If checked, the Schema.org mapping's property will be used as the JSON:API resource's field name/alias."),
+      '#return_value' => TRUE,
+      '#default_value' => $config->get('resource_field_schemadotorg'),
     ];
     return parent::buildForm($form, $form_state);
   }

@@ -25,7 +25,6 @@ Features
   Schema.org types and properties.
 - Add JSON:API column with links to the Schema.org mappings admin page. 
   (/admin/config/search/schemadotorg)
-- Enable to JSON:API file endpoint.
 
 
 Requirements
@@ -41,19 +40,9 @@ Configuration
 
 - Go to the Schema.org JSON:API configuration page.
   (/admin/config/search/schemadotorg/settings/jsonapi)
-- Enter fields that should default to enabled.
-- Enter path prefixes to prepended to a Schema.org JSON:API resource.
-- Disable/enable Schema.org JSON:API requirements checking.
-- Displays message that corresponding JSON:API resource overwrite was created.
+- Enter base fields that should default to enabled.
+- Check/uncheck use Schema.org types as the JSON:API resource's type
+  and path names.
+- Check/uncheck use Schema.org properties as the JSON:API resource's field
+  names/aliases.
 
-
-FAQ
----
-
-**Why does this module strongly recommend all resources that don't have a 
-matching enabled resource config and Schema.org type to be disabled?**
-
-Every entity and field in Drupal is exposed via JSON:API with access controls. 
-Generally, it is best only to expose the data that consumers need. 
-Conceptually, only Schema.org types and properties should be exposed via 
-JSON:API with a few exceptions.

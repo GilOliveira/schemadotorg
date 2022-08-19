@@ -25,17 +25,6 @@ function schemadotorg_taxonomy_modules_installed($modules) {
     $rebuild_router = TRUE;
   }
 
-  // Add the term path prefix to JSON:API settings.
-  if (in_array('schemadotorg_jsonapi', $modules)
-    && \Drupal::moduleHandler()->moduleExists('schemadotorg_jsonapi')) {
-    $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonapi.settings');
-    $path_prefixes = $config->get('path_prefixes');
-    $path_prefixes += ['taxonomy_term' => 'Term'];
-    $config->set('path_prefixes', $path_prefixes);
-    $config->save();
-    $rebuild_router = TRUE;
-  }
-
   if ($rebuild_router) {
     \Drupal::service('router.builder')->rebuild();
   }
@@ -55,16 +44,6 @@ function schemadotorg_taxonomy_modules_uninstalled($modules) {
       $endpoints['taxonomy_vocabulary']
     );
     $config->set('entity_type_endpoints', $endpoints);
-    $config->save();
-  }
-
-  // Remove the term path prefix from JSON:API settings.
-  if (in_array('schemadotorg_jsonapi', $modules)
-    && \Drupal::moduleHandler()->moduleExists('schemadotorg_jsonapi')) {
-    $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonapi.settings');
-    $path_prefixes = $config->get('path_prefixes');
-    unset($path_prefixes['taxonomy_term']);
-    $config->set('path_prefixes', $path_prefixes);
     $config->save();
   }
 }
