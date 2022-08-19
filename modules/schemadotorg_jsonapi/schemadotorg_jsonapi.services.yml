@@ -8,6 +8,6 @@ services:
       - { name: breadcrumb_builder, priority: 1000 }
   schemadotorg_jsonapi.event_subscriber:
     class: Drupal\schemadotorg_jsonapi\EventSubscriber\SchemaDotOrgJsonApiEventSubscriber
-    arguments: ['@config.factory', '@current_route_match', '@jsonapi.resource_type.repository', '@schemadotorg_jsonapi.manager']
+    arguments: ['@config.factory', '@current_route_match', '@entity_type.manager', '@jsonapi.resource_type.repository', '@schemadotorg_jsonapi.manager']
     tags:
       - { name: event_subscriber }
