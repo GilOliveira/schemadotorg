@@ -329,7 +329,6 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     }
 
     // Reset Schema.org properties.
-    $original_properties = $mapping->get('schema_properties');
     $mapping->set('schema_properties', []);
 
     foreach ($values['properties'] as $property_name => $field) {
@@ -361,7 +360,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     }
 
     // Get new properties and set entity display field weights and groups.
-    $new_properties = array_diff_key($mapping->get('schema_properties'), $original_properties);
+    $new_properties = $mapping->getNewSchemaProperties();
 
     // Set field weights for new mappings.
     if ($mapping->isNew()) {
@@ -369,7 +368,12 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     }
 
     // Always set field groups when field groups are supported and available.
-    $this->schemaEntityDisplayBuilder->setFieldGroups($entity_type_id, $bundle, $schema_type, $new_properties);
+    $this->schemaEntityDisplayBuilder->setFieldGroups(
+      $entity_type_id,
+      $bundle,
+      $schema_type,
+      $new_properties
+    );
 
     // Save the mapping entity.
     $mapping->save();

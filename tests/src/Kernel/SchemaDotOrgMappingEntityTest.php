@@ -185,6 +185,19 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     ];
     $this->assertEquals($expected_schema_properties, $node_mapping->getSchemaProperties());
 
+    // Check getting the original mappings for Schema.org properties.
+    $this->assertEquals($node_mapping->getOriginalSchemaProperties(), $node_mapping->getSchemaProperties());
+
+    // Check setting the original mappings for Schema.org properties.
+    $node_mapping->setOriginalSchemaProperties([]);
+    $this->assertEquals([], $node_mapping->getOriginalSchemaProperties());
+
+    // Check getting the new mappings for Schema.org properties.
+    $this->assertEquals($node_mapping->getSchemaProperties(), $node_mapping->getNewSchemaProperties());
+    $node_mapping->save();
+    $node_mapping->setSchemaPropertyMapping('body', 'description');
+    $this->assertEquals(['body' => 'description'], $node_mapping->getNewSchemaProperties());
+
     // Check getting the mapping set for a property.
     $this->assertEquals('name', $node_mapping->getSchemaPropertyMapping('title'));
 

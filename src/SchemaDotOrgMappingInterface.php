@@ -112,6 +112,30 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   public function getSchemaProperties();
 
   /**
+   * Gets the original mappings for Schema.org properties.
+   *
+   * @return array
+   *   The array of original Schema.org property mappings, keyed by field name.
+   */
+  public function getOriginalSchemaProperties();
+
+  /**
+   * Sets the original mappings for Schema.org properties.
+   *
+   * @param array $properties
+   *   The array of original Schema.org property mappings, keyed by field name.
+   */
+  public function setOriginalSchemaProperties(array $properties);
+
+  /**
+   * Gets the new mappings for Schema.org properties.
+   *
+   * @return array
+   *   The array of new Schema.org property mappings, keyed by field name.
+   */
+  public function getNewSchemaProperties();
+
+  /**
    * Gets the mapping set for a Schema.org property.
    *
    * @param string $name

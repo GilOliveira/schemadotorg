@@ -4,6 +4,7 @@ namespace Drupal\schemadotorg\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
@@ -81,11 +82,43 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   protected $schema_type;
 
   /**
-   * List of Schema.org property mapping, keyed by field name.
+   * List of Schema.org property mappings, keyed by field name.
    *
    * @var array
    */
   protected $schema_properties = [];
+
+  /**
+   * List of original Schema.org property mappings.
+   *
+   * @var array
+   */
+  protected $original_schema_properties = [];
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(array $values, $entity_type) {
+    parent::__construct($values, $entity_type);
+    $this->setOriginalSchemaProperties($this->getSchemaProperties());
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function postSave(EntityStorageInterface $storage, $update = TRUE) {
+    parent::postSave($storage, $update);
+    $this->setOriginalSchemaProperties($this->getSchemaProperties());
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function createDuplicate() {
+    $duplicate = parent::createDuplicate();
+    $duplicate->setOriginalSchemaProperties($this->getSchemaProperties());
+    return $duplicate;
+  }
 
   /**
    * {@inheritdoc}
@@ -197,6 +230,27 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    */
   public function getSchemaProperties() {
     return $this->schema_properties;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOriginalSchemaProperties() {
+    return $this->original_schema_properties;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setOriginalSchemaProperties(array $properties) {
+    $this->original_schema_properties = $properties;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getNewSchemaProperties() {
+    return array_diff_key($this->schema_properties, $this->original_schema_properties);
   }
 
   /**

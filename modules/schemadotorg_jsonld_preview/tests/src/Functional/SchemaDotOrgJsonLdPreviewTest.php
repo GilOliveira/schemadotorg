@@ -59,7 +59,7 @@ class SchemaDotOrgJsonLdPreviewTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet($node->toUrl());
     $assert_session->responseNotContains('Schema.org JSON-LD');
 
-    // Check that JSON-LD preview is not displayed.
+    // Check that JSON-LD preview is now displayed.
     $this->drupalLogin($account);
     $this->drupalGet($node->toUrl());
     $assert_session->responseContains('Schema.org JSON-LD');
