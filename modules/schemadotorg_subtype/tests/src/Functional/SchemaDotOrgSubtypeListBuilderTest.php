@@ -34,7 +34,7 @@ class SchemaDotOrgSubtypeListBuilderTest extends SchemaDotOrgBrowserTestBase {
     $mapping = SchemaDotOrgMapping::create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'thing',
-      'type' => 'Thing',
+      'schema_type' => 'Thing',
     ]);
     $mapping->save();
 

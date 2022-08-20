@@ -11,10 +11,10 @@ schemadotorg.schemadotorg_mapping.*.*:
     target_bundle:
       type: string
       label: 'Target bundle'
-    type:
+    schema_type:
       type: string
       label: 'Schema.org type'
-    properties:
+    schema_properties:
       type: sequence
       label: 'Schema.org properties'
       sequence:

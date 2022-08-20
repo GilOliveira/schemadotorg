@@ -185,7 +185,7 @@ class SchemaDotOrgCommands extends DrushCommands {
       [$entity_type, $schema_type] = explode(':', $type);
       $existing_mapping = $mapping_storage->loadByProperties([
         'target_entity_type_id' => $entity_type,
-        'type' => $schema_type,
+        'schema_type' => $schema_type,
       ]);
       if ($existing_mapping) {
         $t_args = ['@type' => $type];

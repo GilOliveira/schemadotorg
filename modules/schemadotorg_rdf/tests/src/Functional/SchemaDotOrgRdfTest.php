@@ -62,9 +62,8 @@ class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
     $node_mapping = SchemaDotOrgMapping::create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'event',
-      'type' => 'Event',
-      'subtype' => TRUE,
-      'properties' => [
+      'schema_type' => 'Event',
+      'schema_properties' => [
         'title' => 'name',
         'schema_alternate_name' => 'alternateName',
         'schema_event_subtype' => 'subtype',

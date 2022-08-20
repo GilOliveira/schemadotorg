@@ -106,7 +106,7 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
     SchemaDotOrgMapping::create([
       'target_entity_type_id' => 'paragraph',
       'target_bundle' => 'contact_point',
-      'type' => 'ContactPoint',
+      'schema_type' => 'ContactPoint',
     ])->save();
 
     // Set Schema.org field manager.

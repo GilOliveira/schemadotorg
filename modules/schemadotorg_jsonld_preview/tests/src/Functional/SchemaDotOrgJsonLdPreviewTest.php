@@ -48,8 +48,8 @@ class SchemaDotOrgJsonLdPreviewTest extends SchemaDotOrgBrowserTestBase {
     SchemaDotOrgMapping::create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'thing',
-      'type' => 'Thing',
-      'properties' => [
+      'schema_type' => 'Thing',
+      'schema_properties' => [
         'title' => 'name',
       ],
     ])->save();

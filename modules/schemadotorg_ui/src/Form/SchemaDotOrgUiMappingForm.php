@@ -155,7 +155,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       ?: $mapping_storage->create([
         'target_entity_type_id' => $target_entity_type_id,
         'target_bundle' => $target_bundle,
-        'type' => $schema_type,
+        'schema_type' => $schema_type,
       ]);
 
     // Make sure the Schema.org mapping entity's Schema.org type is set.
@@ -478,6 +478,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $form['schema_type'] = [
       '#type' => 'item',
       '#title' => $this->t('Schema.org type'),
+      // Make sure this item does not set a $form_state value.
+      '#input' => FALSE,
       '#weight' => -20,
     ];
     $form['schema_type']['label'] = [

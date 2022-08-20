@@ -318,7 +318,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       ?: $mapping_storage->create([
         'target_entity_type_id' => $entity_type_id,
         'target_bundle' => $bundle,
-        'type' => $schema_type,
+        'schema_type' => $schema_type,
       ]);
 
     // Create target bundle entity.
@@ -329,8 +329,8 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     }
 
     // Reset Schema.org properties.
-    $original_properties = $mapping->get('properties');
-    $mapping->set('properties', []);
+    $original_properties = $mapping->get('schema_properties');
+    $mapping->set('schema_properties', []);
 
     foreach ($values['properties'] as $property_name => $field) {
       $field_name = $field['name'];
@@ -361,7 +361,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     }
 
     // Get new properties and set entity display field weights and groups.
-    $new_properties = array_diff_key($mapping->get('properties'), $original_properties);
+    $new_properties = array_diff_key($mapping->get('schema_properties'), $original_properties);
 
     // Set field weights for new mappings.
     if ($mapping->isNew()) {
@@ -423,7 +423,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       ->getStorage('schemadotorg_mapping')
       ->loadByProperties([
         'target_entity_type_id' => $entity_type_id,
-        'type' => $schema_type,
+        'schema_type' => $schema_type,
       ]);
     if (empty($mappings)) {
       $t_args = ['@entity_type' => $entity_type_id, '@schema_type' => $schema_type];
@@ -444,7 +444,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       ->getStorage('schemadotorg_mapping')
       ->loadByProperties([
         'target_entity_type_id' => $entity_type_id,
-        'type' => $schema_type,
+        'schema_type' => $schema_type,
       ]);
     foreach ($mappings as $mapping) {
       $target_entity_bundle = $mapping->getTargetEntityBundleEntity();

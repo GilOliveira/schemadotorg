@@ -494,7 +494,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
       }
 
       $entity_ids = $schemadotorg_mapping_storage->getQuery()
-        ->condition('type', $sub_types, 'IN')
+        ->condition('schema_type', $sub_types, 'IN')
         ->execute();
       if (empty($entity_ids)) {
         continue;

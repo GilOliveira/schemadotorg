@@ -313,7 +313,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
   protected function loadMappingByType($entity_type, $schema_type) {
     $mappings = $this->entityTypeManager->getStorage('schemadotorg_mapping')->loadByProperties([
       'target_entity_type_id' => $entity_type,
-      'type' => $schema_type,
+      'schema_type' => $schema_type,
     ]);
     return $mappings ? reset($mappings) : NULL;
   }

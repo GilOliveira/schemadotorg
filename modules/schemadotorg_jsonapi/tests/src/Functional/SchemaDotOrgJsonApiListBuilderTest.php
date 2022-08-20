@@ -31,7 +31,7 @@ class SchemaDotOrgJsonApiListBuilderTest extends SchemaDotOrgBrowserTestBase {
     SchemaDotOrgMapping::create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'thing',
-      'type' => 'Thing',
+      'schema_type' => 'Thing',
     ])->save();
 
     // Create Person content type with a Schema.org mapping.
@@ -39,7 +39,7 @@ class SchemaDotOrgJsonApiListBuilderTest extends SchemaDotOrgBrowserTestBase {
     SchemaDotOrgMapping::create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'person',
-      'type' => 'Person',
+      'schema_type' => 'Person',
     ])->save();
 
     $account = $this->drupalCreateUser(['administer schemadotorg']);
@@ -57,11 +57,11 @@ class SchemaDotOrgJsonApiListBuilderTest extends SchemaDotOrgBrowserTestBase {
     // Check JSON:API header.
     $assert_session->responseContains('<th class="priority-low" width="27%">JSON:API</th>');
 
-    // Check link to /jsonapi/Content JSON:API endpoint exists.
-    $assert_session->linkExists('/jsonapi/node--thing');
+    // Check link to Thing JSON:API endpoint exists.
+    $assert_session->linkExists('/jsonapi/node/thing');
 
-    // Check link to /jsonapi/Person JSON:API endpoint exists.
-    $assert_session->linkExists('/jsonapi/node--person');
+    // Check link to Person JSON:API endpoint exists.
+    $assert_session->linkExists('/jsonapi/node/person');
 
   }
 

@@ -212,20 +212,20 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
     foreach ($config_names as $config_name) {
       $config = $this->configFactory->getEditable($config_name);
 
-      $type = $config->get('type');
+      $schema_type = $config->get('schema_type');
       $entity_type_id = $config->get('target_entity_type_id');
       $bundle = $config->get('target_bundle');
 
       // Set entity type override.
-      $type_overrides["$entity_type_id.type.$bundle"] = $type;
+      $type_overrides["$entity_type_id.type.$bundle"] = $schema_type;
 
       // Set entity field instance override.
       $type_property_overrides = [];
-      $properties = $config->get('properties') ?: [];
-      foreach ($properties as $field_name => $property) {
-        $type_property_overrides["field.field.$entity_type_id.$bundle.$field_name"] = $property;
+      $schema_properties = $config->get('schema_properties') ?: [];
+      foreach ($schema_properties as $field_name => $schema_property) {
+        $type_property_overrides["field.field.$entity_type_id.$bundle.$field_name"] = $schema_property;
       }
-      $this->setItemDescriptionOverrides('properties', $type_property_overrides, $type);
+      $this->setItemDescriptionOverrides('properties', $type_property_overrides, $schema_type);
       $property_overrides += $type_property_overrides;
     }
 

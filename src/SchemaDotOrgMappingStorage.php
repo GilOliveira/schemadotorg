@@ -108,7 +108,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
     $subtypes = $this->schemaTypeManager->getAllSubTypes($range_includes);
     $entity_ids = $this->getQuery()
       ->condition('target_entity_type_id', $target_type)
-      ->condition('type', $subtypes, 'IN')
+      ->condition('schema_type', $subtypes, 'IN')
       ->execute();
     if (!$entity_ids) {
       return [];
@@ -130,7 +130,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   public function isSchemaTypeMapped($entity_type_id, $schema_type) {
     return (boolean) $this->getQuery()
       ->condition('target_entity_type_id', $entity_type_id)
-      ->condition('type', $schema_type)
+      ->condition('schema_type', $schema_type)
       ->execute();
   }
 
@@ -140,7 +140,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   public function loadBySchemaType($entity_type_id, $schema_type) {
     $entities = $this->loadByProperties([
       'target_entity_type_id' => $entity_type_id,
-      'type' => $schema_type,
+      'schema_type' => $schema_type,
     ]);
     return ($entities) ? reset($entities) : NULL;
   }

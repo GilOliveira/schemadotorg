@@ -170,7 +170,6 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $field_allowed_values = $field['allowed_values'];
     $schema_type = $field['schema_type'];
     $schema_property = $field['schema_property'];
-
     $new_storage_type = !$field_storage_config;
     $existing_storage = !!$field_storage_config;
 

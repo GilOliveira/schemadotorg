@@ -88,9 +88,9 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     $node_mapping = SchemaDotOrgMapping::create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'thing',
-      'type' => 'Thing',
+      'schema_type' => 'Thing',
       'subtype' => TRUE,
-      'properties' => [
+      'schema_properties' => [
         'title' => 'name',
         'schema_alternate_name' => 'alternateName',
         'schema_thing_subtype' => 'subtype',
@@ -103,9 +103,9 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     $user_mapping = SchemaDotOrgMapping::create([
       'target_entity_type_id' => 'user',
       'target_bundle' => 'user',
-      'type' => 'Person',
+      'schema_type' => 'Person',
       'subtype' => FALSE,
-      'properties' => [
+      'schema_properties' => [
         'name' => 'name',
       ],
     ]);
@@ -165,7 +165,7 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     $new_bundle_mapping = SchemaDotOrgMapping::create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'place',
-      'type' => 'Place',
+      'schema_type' => 'Place',
     ]);
     $this->assertTrue($new_bundle_mapping->isNewTargetEntityTypeBundle());
 

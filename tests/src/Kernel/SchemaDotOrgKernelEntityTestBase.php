@@ -166,7 +166,7 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
     // Load the newly created Schema.org mapping.
     $mappings = $this->mappingStorage->loadByProperties([
       'target_entity_type_id' => $entity_type_id,
-      'type' => $schema_type,
+      'schema_type' => $schema_type,
     ]);
     return ($mappings) ? reset($mappings) : NULL;
   }

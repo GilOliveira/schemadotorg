@@ -33,7 +33,7 @@ function schemadotorg_demo_umami_content_install($is_syncing) {
     [$entity_type, $schema_type] = explode(':', $type);
     $mapping = $mapping_storage->loadByProperties([
       'target_entity_type_id' => $entity_type,
-      'type' => $schema_type,
+      'schema_type' => $schema_type,
     ]);
     if ($mapping) {
       continue;
@@ -70,7 +70,7 @@ function schemadotorg_demo_umami_content_uninstall($is_syncing) {
     [$entity_type, $schema_type] = explode(':', $type);
     $mapping = $mapping_storage->loadByProperties([
       'target_entity_type_id' => $entity_type,
-      'type' => $schema_type,
+      'schema_type' => $schema_type,
     ]);
     if ($mapping) {
       continue;

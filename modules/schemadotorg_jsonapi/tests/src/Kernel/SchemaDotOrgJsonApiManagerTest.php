@@ -105,8 +105,8 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     $thing_mapping = $this->mappingStorage->create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'thing',
-      'type' => 'Thing',
-      'properties' => [
+      'schema_type' => 'Thing',
+      'schema_properties' => [
         'title' => 'name',
         'schema_alternate_name' => 'alternateName',
         'schema_thing_subtype' => 'subtype',
@@ -216,7 +216,7 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     $location_mapping = $this->mappingStorage->create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'location',
-      'type' => 'place',
+      'schema_type' => 'place',
     ]);
     $location_mapping->save();
 
@@ -249,7 +249,7 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     $event_mapping = $this->mappingStorage->create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'event',
-      'type' => 'Event',
+      'schema_type' => 'Event',
     ]);
     $event_mapping->save();
 

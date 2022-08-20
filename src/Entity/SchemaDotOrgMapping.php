@@ -43,8 +43,8 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
  *     "id",
  *     "target_entity_type_id",
  *     "target_bundle",
- *     "type",
- *     "properties",
+ *     "schema_type",
+ *     "schema_properties",
  *   }
  * )
  *
@@ -78,14 +78,14 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    *
    * @var string
    */
-  protected $type;
+  protected $schema_type;
 
   /**
-   * List of property mapping, keyed by field name.
+   * List of Schema.org property mapping, keyed by field name.
    *
    * @var array
    */
-  protected $properties = [];
+  protected $schema_properties = [];
 
   /**
    * {@inheritdoc}
@@ -181,14 +181,14 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    * {@inheritdoc}
    */
   public function getSchemaType() {
-    return $this->type;
+    return $this->schema_type;
   }
 
   /**
    * {@inheritdoc}
    */
   public function setSchemaType($type) {
-    $this->type = $type;
+    $this->schema_type = $type;
     return $this;
   }
 
@@ -196,21 +196,21 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    * {@inheritdoc}
    */
   public function getSchemaProperties() {
-    return $this->properties;
+    return $this->schema_properties;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getSchemaPropertyMapping($name) {
-    return $this->properties[$name] ?? NULL;
+    return $this->schema_properties[$name] ?? NULL;
   }
 
   /**
    * {@inheritdoc}
    */
   public function setSchemaPropertyMapping($name, $property) {
-    $this->properties[$name] = $property;
+    $this->schema_properties[$name] = $property;
     return $this;
   }
 
@@ -218,7 +218,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    * {@inheritdoc}
    */
   public function removeSchemaProperty($name) {
-    unset($this->properties[$name]);
+    unset($this->schema_properties[$name]);
     return $this;
   }
 
@@ -226,15 +226,15 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    * {@inheritdoc}
    */
   public function getSchemaPropertyFieldName($property) {
-    $properties = array_flip($this->properties);
-    return $properties[$property] ?? NULL;
+    $schema_properties = array_flip($this->schema_properties);
+    return $schema_properties[$property] ?? NULL;
   }
 
   /**
    * {@inheritdoc}
    */
   public function hasSchemaPropertyMapping($property) {
-    return in_array($property, $this->properties);
+    return in_array($property, $this->schema_properties);
   }
 
   /**
@@ -252,7 +252,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
     // for both displayed and hidden fields. We intentionally leave out base
     // field overrides, since the field still exists without them.
     if (\Drupal::moduleHandler()->moduleExists('field')) {
-      $properties = $this->properties;
+      $properties = $this->schema_properties;
       $field_definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions($this->getTargetEntityTypeId(), $this->getTargetBundle());
       foreach (array_intersect_key($field_definitions, $properties) as $field_definition) {
         if ($field_definition instanceof ConfigEntityInterface && $field_definition->getEntityTypeId() === 'field_config') {

@@ -57,8 +57,8 @@ class SchemaDotOrgTaxonomyJsonLdTest extends SchemaDotOrgBrowserTestBase {
     SchemaDotOrgMapping::create([
       'target_entity_type_id' => 'taxonomy_term',
       'target_bundle' => 'tags',
-      'type' => 'DefinedTerm',
-      'properties' => [
+      'schema_type' => 'DefinedTerm',
+      'schema_properties' => [
         'name' => 'name',
       ],
     ])->save();
