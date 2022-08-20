@@ -226,8 +226,8 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
 
     $resource_fields = $resource_config->get('resourceFields');
 
-    $properties = $mapping->getSchemaProperties();
-    foreach ($properties as $field_name => $property) {
+    $schema_properties = $mapping->getSchemaProperties();
+    foreach ($schema_properties as $field_name => $schema_property) {
       // Never update an existing resource field.
       // Ensures that an API field is never changed after it has been created.
       if (isset($resource_fields[$field_name])) {

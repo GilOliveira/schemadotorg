@@ -44,7 +44,7 @@ function schemadotorg_devel_entity_presave(EntityInterface $entity) {
 
   // Get the mapping's properties keyed by property name.
   $mapping = $mapping_storage->loadByEntity($entity);
-  $properties = array_flip($mapping->getSchemaProperties());
+  $schema_properties = array_flip($mapping->getSchemaProperties());
 
   // Get devel generate property values.
   $property_values = \Drupal::config('schemadotorg_devel.settings')
@@ -59,16 +59,16 @@ function schemadotorg_devel_entity_presave(EntityInterface $entity) {
     // Check Type--property.
     if (strpos($property, '--') !== FALSE) {
       [$property_schema_type, $property] = explode('--', $property);
-      if (!isset($properties[$property])
+      if (!isset($schema_properties[$property])
         || !$schema_type_manager->isSubTypeOf($property_schema_type, $schema_type)) {
         continue;
       }
     }
-    elseif (!isset($properties[$property])) {
+    elseif (!isset($schema_properties[$property])) {
       continue;
     }
 
-    $field_name = $properties[$property];
+    $field_name = $schema_properties[$property];
     if (!$entity->hasField($field_name)) {
       continue;
     }

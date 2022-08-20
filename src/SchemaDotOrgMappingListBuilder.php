@@ -109,12 +109,12 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
     /** @var \Drupal\field\FieldConfigStorage $field_config_storage */
     $field_config_storage = $this->entityTypeManager->getStorage('field_config');
 
-    $properties = $entity->getSchemaProperties();
+    $schema_properties = $entity->getSchemaProperties();
     $target_entity_type_id = $entity->getTargetEntityTypeId();
     $target_bundle = $entity->getTargetBundle();
 
     $relationships = [];
-    foreach ($properties as $field_name => $property) {
+    foreach ($schema_properties as $field_name => $schema_property) {
       $field_config_id = $target_entity_type_id . '.' . $target_bundle . '.' . $field_name;
       /** @var \Drupal\field\FieldConfigInterface $field_config */
       $field_config = $field_config_storage->load($field_config_id);
@@ -148,7 +148,7 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
       foreach ($mappings as $mapping) {
         $schema_types[] = $mapping->getSchemaType();
       }
-      $relationships[$property] = $schema_types;
+      $relationships[$schema_property] = $schema_types;
     }
 
     return $this->buildAssociationItems($relationships);
