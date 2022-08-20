@@ -53,15 +53,20 @@ class SchemaDotOrgExportTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet('/admin/config/search/schemadotorg');
     $assert_session->responseContains('<u>⇩</u> Download CSV');
 
-    // Check Schema.org mapping CSV.
-    $this->drupalGet('/admin/config/search/schemadotorg_mapping.csv');
+    // Check Schema.org mapping CSV export.
+    $this->drupalGet('/admin/config/search/schemadotorg/export');
     $assert_session->responseContains('entity_type,bundle,schema_type,schema_subtyping,schema_properties');
     $assert_session->responseContains('node,thing,Thing,Yes,"subtype; alternateName; name"');
 
-    // Check Schema.org mapping set CSV.
-    $this->drupalGet('/admin/config/search/schemadotorg_mapping_set.csv');
+    // Check Schema.org mapping set overview CSV export.
+    $this->drupalGet('/admin/config/search/schemadotorg/sets/export');
     $assert_session->responseContains('title,name,types');
     $assert_session->responseContains('Required,required,"media:ImageObject; media:VideoObject; taxonomy_term:DefinedTerm; node:Person"');
+
+    // Check Schema.org mapping set details CSV export.
+    $this->drupalGet('/admin/config/search/schemadotorg/sets/required/export');
+    $assert_session->responseContains('schema_type,entity_type,entity_bundle,field_label,field_description,schema_property,field_name,existing_field,field_type,unlimited_field');
+    $assert_session->responseContains('Person,node,person,"Middle name","An additional name for a Person, can be used for a middle name.",additionalName,schema__additional_name,No,string,No');
   }
 
 }

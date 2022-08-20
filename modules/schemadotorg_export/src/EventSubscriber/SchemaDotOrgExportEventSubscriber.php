@@ -44,15 +44,17 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
   public function onView(ViewEvent $event) {
     $route = [
       'entity.schemadotorg_mapping.collection' => 'entity.schemadotorg_mapping.export',
-      'schemadotorg_mapping_set.overview' => 'schemadotorg_mapping_set.export',
+      'schemadotorg_mapping_set.overview' => 'schemadotorg_mapping_set.overview.export',
+      'schemadotorg_mapping_set.details' => 'schemadotorg_mapping_set.details.export',
     ];
     $route_name = $this->routeMatch->getRouteName();
     if (isset($route[$route_name])) {
+      $route_parameters = $this->routeMatch->getRawParameters()->all();
       $result = $event->getControllerResult();
       $result['export'] = [
         '#type' => 'link',
         '#title' => $this->t('<u>⇩</u> Download CSV'),
-        '#url' => Url::fromRoute($route[$route_name]),
+        '#url' => Url::fromRoute($route[$route_name], $route_parameters),
         '#attributes' => ['class' => ['button', 'button--small', 'button--extrasmall']],
         '#prefix' => '<p>',
         '#suffix' => '</p>',
