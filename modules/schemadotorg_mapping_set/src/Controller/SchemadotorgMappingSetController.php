@@ -173,6 +173,9 @@ class SchemadotorgMappingSetController extends ControllerBase {
       throw new NotFoundHttpException();
     }
 
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+    $mapping_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping');
+
     $build = [];
     $build['#title'] = $this->t('@label Schema.org mapping set', ['@label' => $mapping_set['label']]);
 
@@ -183,6 +186,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
       }
       [$entity_type_id, $schema_type] = explode(':', $type);
 
+      $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
       $mapping_defaults = $this->schemaMappingManager->getMappingDefaults($entity_type_id, NULL, $schema_type);
 
       $t_args = [
@@ -201,10 +205,18 @@ class SchemadotorgMappingSetController extends ControllerBase {
         '#title' => $this->t('Schema.org type'),
         '#markup' => $schema_type,
       ];
+      if ($mapping) {
+        $entity_type = $mapping->getTargetEntityBundleEntity()
+          ->toLink($type, 'edit-form')
+          ->toRenderable();
+      }
+      else {
+        $entity_type = ['#markup' => $entity_type_id . ':' . $mapping_defaults['entity']['id']];
+      }
       $build[$type]['entity_type'] = [
         '#type' => 'item',
         '#title' => $this->t('Entity type and bundle'),
-        '#markup' => $entity_type_id . ':' . $mapping_defaults['entity']['id'],
+        'item' => $entity_type,
       ];
       $build[$type]['label'] = [
         '#type' => 'item',
@@ -237,6 +249,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
           ],
         ];
         $row['property'] = $property_name;
+        $row['arrow'] = '→';
         if ($property_definition['name'] === SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD) {
           $row['name'] = $field_prefix . '_' . $property_definition['machine_name'];
           $row['existing'] = $this->t('No');
@@ -255,6 +268,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
         '#header' => [
           'label' => ['data' => $this->t('Label / Description'), 'width' => '35%'],
           'property' => ['data' => $this->t('Schema.org property'), 'width' => '15%'],
+          'arrow' => ['data' => '', 'width' => '1%'],
           'name' => ['data' => $this->t('Field name'), 'width' => '15%'],
           'existing' => ['data' => $this->t('Existing field'), 'width' => '10%'],
           'type' => ['data' => $this->t('Field type'), 'width' => '15%'],
