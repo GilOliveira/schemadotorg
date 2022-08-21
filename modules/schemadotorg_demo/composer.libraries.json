@@ -65,6 +65,7 @@
     "drupal/inline_entity_form": "~1.0",
     "drupal/jsonapi_extras": "~3.0",
     "drupal/linkit": "~6.0",
+    "drupal/metatag": "~1.0",
     "drupal/next": "~1.0",
     "drupal/openapi_jsonapi": "~3.0",
     "drupal/openapi_ui": "~1.0",

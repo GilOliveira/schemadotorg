@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * Automatically adds a metatag field to Schema.org types.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+use Drupal\field\Entity\FieldConfig;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_metatag_help($route_name, RouteMatchInterface $route_match) {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
+  $help_manager = \Drupal::service('schemadotorg.help_manager');
+  return $help_manager->build($route_name, $route_match);
+}
+
+/**
+ * Implements hook_schemadotorg_mapping_insert().
+ */
+function schemadotorg_metatag_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping) {
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  $bundle = $mapping->getTargetBundle();
+  $field_name = 'meta_tags';
+
+  // Only add the meta tags field to node types.
+  if ($entity_type_id !== 'node') {
+    return;
+  }
+
+  // Create meta tag field storage.
+  if (!FieldStorageConfig::loadByName($entity_type_id, $field_name)) {
+    FieldStorageConfig::create([
+      'field_name' => $field_name,
+      'entity_type' => $entity_type_id,
+      'type' => 'metatag',
+    ])->save();
+  }
+
+  // Create meta tag field instance.
+  if (!FieldConfig::loadByName($entity_type_id, $bundle, $field_name)) {
+    FieldConfig::create([
+      'label' => t('Meta tags'),
+      'field_name' => $field_name,
+      'entity_type' => $entity_type_id,
+      'bundle' => $bundle,
+      'type' => 'metatag',
+    ])->save();
+  }
+
+  // Set meta tag component in the default form display.
+  /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */
+  $entity_display_repository = \Drupal::service('entity_display.repository');
+  $form_display = $entity_display_repository->getFormDisplay($entity_type_id, $bundle, 'default');
+  $form_display->setComponent($field_name, [
+    'type' => 'metatag_firehose',
+    'settings' => [
+      'sidebar' => TRUE,
+      'use_details' => TRUE,
+    ],
+    'weight' => 120,
+  ]);
+  $form_display->save();
+}

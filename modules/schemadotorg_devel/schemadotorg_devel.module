@@ -14,7 +14,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
  */
 function schemadotorg_devel_help($route_name, RouteMatchInterface $route_match) {
   if ($route_name === 'schemadotorg_devel.settings') {
-    return '<p>' . t('The <strong>Schema.org development settings</strong> page allows administrators to configure content generation settings.') . '<p>';
+    return '<p>' . t('The <em>Schema.org development settings</em> page allows administrators to configure content generation settings.') . '<p>';
   }
 
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */

@@ -17,7 +17,7 @@ use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
  */
 function schemadotorg_subtype_help($route_name, RouteMatchInterface $route_match) {
   if ($route_name === 'schemadotorg_subtype.settings') {
-    return '<p>' . t('The <strong>Schema.org subtype settings</strong> page allows administrators to configure default setting for subtype field and Schema.org type that have subtyping enabled by default.') . '<p>';
+    return '<p>' . t('The <em>Schema.org subtype settings</em> page allows administrators to configure default setting for subtype field and Schema.org type that have subtyping enabled by default.') . '<p>';
   }
 
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */

@@ -57,6 +57,9 @@ Entities
 - **Schema.org Blueprints Taxonomy**  
   Provides mappings from taxonomy vocabularies and terms to https://schema.org/DefinedTermSet and https://schema.org/DefinedTerm.
 
+- **Schema.org Blueprints Metatag**  
+  Automatically adds a metatag field to Schema.org types.
+
 JSON-LD 
 
 - **Schema.org Blueprints JSON-LD**  
@@ -155,6 +158,13 @@ _The below modules provide different ways to create and manage a collection of f
 - **[FlexField](https://www.drupal.org/project/flexfield)**
   (Applies to: [Intangible](https://schema.org/Intangible))  
   Defines a new "FlexField" field type that lets you create simple inline multiple-value fields without having to use entity references.
+
+### Entity
+
+_The below modules provide additional features to entity types._
+
+- **[Metatag](https://www.drupal.org/project/metatag)**  
+  Manages meta tags for all entities.
 
 ### Field Types
 

@@ -10,5 +10,6 @@ default_base_fields:
   - status
   - sticky
   - type
+  - meta_tags
 resource_type_schemadotorg: false
 resource_field_schemadotorg: true

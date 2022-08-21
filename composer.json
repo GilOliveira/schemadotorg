@@ -31,7 +31,8 @@
         "drupal/address": "~1.0",
         "drupal/paragraphs": "~1.0",
         "drupal/inline_entity_form": "~1.0",
-        "drupal/jsonapi_extras": "~3.0"
+        "drupal/jsonapi_extras": "~3.0",
+        "drupal/metatag": "~1.0"
     },
     "suggest": {
         "drupal/field_group": "Provides the ability to group your fields on both form and display.",
