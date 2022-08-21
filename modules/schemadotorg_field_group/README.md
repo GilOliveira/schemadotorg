@@ -1,0 +1,44 @@
+Table of contents
+-----------------
+
+* Introduction
+* Features
+* Requirements
+* Configuration
+
+
+Introduction
+------------
+
+The Schema.org Blueprints Field Group module creates field groups in entity view
+and form displays when Schema.org properties are mapping to a field.
+
+
+Features
+--------
+
+- Adds field groups to node and user Schema.org mapping.
+- Generates a generic field group based on a Schema.org mapping's type.
+- Appends a suffix to field group labels.
+- Deletes empty field groups created when a field is deleted.
+- Adds a field group around all displayed paragraphs.
+
+Requirements
+------------
+
+**[Field Group](https://www.drupal.org/project/field_group)**  
+Provides the ability to group your fields on both form and display.
+
+
+Configuration
+-------------
+
+- Go to the Schema.org property configuration page. 
+  (/admin/config/search/schemadotorg/settings/properties)
+- Enter the default field groups and field order used to group Schema.org 
+  properties as they are added to entity types.
+- Enter the field group label suffix used when creating new field groups.
+- Select the default field group type used when adding a field group to 
+  an entity type's default form.
+- Select the default field group type used when adding a field group to 
+  an entity type's default view display.

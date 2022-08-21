@@ -114,53 +114,6 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#description' => $this->t('Enter Schema.org property default field weights to help organize fields as they are added to entity types.'),
       '#default_value' => $entity->get('default_field_weights'),
     ];
-
-    // Field group settings.
-    $form['field_group'] = [
-      '#type' => 'details',
-      '#title' => $this->t('Field group settings'),
-      '#open' => TRUE,
-      '#access' => $this->moduleHandler->moduleExists('field_group'),
-    ];
-    $form['field_group']['default_field_groups'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED_NAMED,
-      '#settings_format' => 'group_name|group_label|property01,property02,property03',
-      '#array_name' => 'properties',
-      '#title' => $this->t('Default field groups'),
-      '#description' => $this->t('Enter the default field groups and field order used to group Schema.org properties as they are added to entity types.'),
-      '#description_link' => 'properties',
-      '#default_value' => $entity->get('default_field_groups'),
-    ];
-    $type_options = [
-      'details' => $this->t('Details'),
-      'html_element' => $this->t('HTML element'),
-      'fieldset' => $this->t('Fieldset'),
-    ];
-    $form['field_group']['default_field_group_label_suffix'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Default field group label suffix'),
-      '#description' => $this->t('Enter the field group label suffix used when creating new field groups.'),
-      '#default_value' => $entity->get('default_field_group_label_suffix'),
-    ];
-    $form['field_group']['default_field_group_form_type'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Default field group form type'),
-      '#description' => $this->t("Select the default field group type used when adding a field group to a entity type's default form."),
-      '#options' => $type_options,
-      '#default_value' => $entity->get('default_field_group_form_type'),
-      '#empty_value' => '',
-      '#empty_option' => $this->t('- None -'),
-    ];
-    $form['field_group']['default_field_group_view_type'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Default field group view type'),
-      '#description' => $this->t("Select the default field group type used when adding a field group to a entity type's default view display."),
-      '#options' => $type_options,
-      '#default_value' => $entity->get('default_field_group_view_type'),
-      '#empty_value' => '',
-      '#empty_option' => $this->t('- None -'),
-    ];
     return $form;
   }
 

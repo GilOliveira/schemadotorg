@@ -3,7 +3,6 @@
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
-use Drupal\Core\Entity\Display\EntityDisplayInterface;
 
 /**
  * Provides an interface defining a Schema.org mapping type entity.
@@ -60,44 +59,6 @@ interface SchemaDotOrgMappingTypeInterface extends ConfigEntityInterface {
    *   An array containing default field weights.
    */
   public function getDefaultFieldWeights();
-
-  /**
-   * Gets default field groups.
-   *
-   * @return array
-   *   An associative array containing default field groups.
-   */
-  public function getDefaultFieldGroups();
-
-  /**
-   * Gets default field group label suffix.
-   *
-   * @return string
-   *   The default field group label suffix.
-   */
-  public function getDefaultFieldGroupLabelSuffix();
-
-  /**
-   * Gets default field group format type.
-   *
-   * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
-   *   The entity display.
-   *
-   * @return string
-   *   The default field group format type.
-   */
-  public function getDefaultFieldGroupFormatType(EntityDisplayInterface $display);
-
-  /**
-   * Gets default field group format settings.
-   *
-   * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
-   *   The entity display.
-   *
-   * @return array
-   *   The default field group format settings.
-   */
-  public function getDefaultFieldGroupFormatSettings(EntityDisplayInterface $display);
 
   /**
    * Gets common Schema.org types.

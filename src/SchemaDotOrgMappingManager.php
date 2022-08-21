@@ -359,21 +359,14 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       $mapping->setSchemaPropertyMapping($field_name, $property_name);
     }
 
-    // Get new properties and set entity display field weights and groups.
-    $new_properties = $mapping->getNewSchemaProperties();
-
     // Set field weights for new mappings.
     if ($mapping->isNew()) {
-      $this->schemaEntityDisplayBuilder->setFieldWeights($entity_type_id, $bundle, $new_properties);
+      $this->schemaEntityDisplayBuilder->setFieldWeights(
+        $entity_type_id,
+        $bundle,
+        $mapping->getNewSchemaProperties()
+      );
     }
-
-    // Always set field groups when field groups are supported and available.
-    $this->schemaEntityDisplayBuilder->setFieldGroups(
-      $entity_type_id,
-      $bundle,
-      $schema_type,
-      $new_properties
-    );
 
     // Save the mapping entity.
     $mapping->save();
@@ -465,7 +458,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   }
 
   /**
-   * Delete fields and field groups associated with Schema.org mapping.
+   * Delete fields associated with Schema.org mapping.
    *
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
    *   The Schema.org mapping.
@@ -505,22 +498,6 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       elseif ($field_config) {
         $field_config->delete();
         $deleted_fields[] = $field_name;
-      }
-    }
-
-    if ($this->moduleHandler->moduleExists('field_group')) {
-      $contexts = ['form', 'view'];
-      foreach ($contexts as $context) {
-        $groups = field_group_info_groups($entity_type_id, $bundle, $context, 'default');
-        foreach ($groups as $group) {
-          $group->children = array_diff($group->children, $deleted_fields);
-          if (empty($group->children)) {
-            field_group_delete_field_group($group);
-          }
-          else {
-            field_group_group_save($group);
-          }
-        }
       }
     }
   }

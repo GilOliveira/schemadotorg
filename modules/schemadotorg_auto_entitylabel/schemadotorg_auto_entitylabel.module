@@ -95,7 +95,6 @@ function schemadotorg_auto_entitylabel_schemadotorg_mapping_insert(SchemaDotOrgM
   $config->save();
 }
 
-
 /**
  * Implements hook_form_FORM_ID_alter().
  */

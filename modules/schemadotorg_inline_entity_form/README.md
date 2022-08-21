@@ -26,9 +26,8 @@ Features
 Requirements
 ------------
 
-**Schema.org Blueprints Inline Entity Form**  
-Allows an inline entity form to be automatically added to Schema.org 
-properties within an entity type/bundle Schema.org mapping.
+**[Inline Entity Form](https://www.drupal.org/project/inline_entity_form)**
+Provides a widget for inline management (creation, modification, removal) of referenced entities.
 
 
 Configuration

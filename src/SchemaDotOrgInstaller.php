@@ -118,11 +118,6 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
         'description' => $this->t('Defines a field type for telephone numbers.'),
         'uri' => 'https://www.drupal.org/docs/8/core/modules/telephone',
       ],
-      'field_group' => [
-        'title' => $this->t('Field Group'),
-        'description' => $this->t('Provides the ability to group your fields on both form and display.'),
-        'uri' => 'https://www.drupal.org/project/field_group',
-      ],
       'address' => [
         'title' => $this->t('Address'),
         'description' => $this->t('Provides functionality for storing, validating and displaying international postal addresses.'),

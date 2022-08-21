@@ -3,8 +3,6 @@
 namespace Drupal\schemadotorg\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
-use Drupal\Core\Entity\Display\EntityDisplayInterface;
-use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
 
 /**
@@ -49,10 +47,6 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *     "default_schema_type_properties",
  *     "default_base_fields",
  *     "default_field_weights",
- *     "default_field_groups",
- *     "default_field_group_label_suffix",
- *     "default_field_group_form_type",
- *     "default_field_group_view_type",
  *   }
  * )
  */
@@ -99,34 +93,6 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * @var array
    */
   protected $default_field_weights = [];
-
-  /**
-   * An associative array of default field groups for Schema.org properties.
-   *
-   * @var array
-   */
-  protected $default_field_groups = [];
-
-  /**
-   * Default field group label suffix.
-   *
-   * @var string
-   */
-  protected $default_field_group_label_suffix = '';
-
-  /**
-   * Default field group form type.
-   *
-   * @var string
-   */
-  protected $default_field_group_form_type = '';
-
-  /**
-   * Default field group view type.
-   *
-   * @var string
-   */
-  protected $default_field_group_view_type = '';
 
   /**
    * An associative array of grouped recommended Schema.org types.
@@ -253,44 +219,6 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
       $weight += 1;
     });
     return $weights;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getDefaultFieldGroups() {
-    return $this->get('default_field_groups');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getDefaultFieldGroupLabelSuffix() {
-    return $this->get('default_field_group_label_suffix');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getDefaultFieldGroupFormatType(EntityDisplayInterface $display) {
-    $display_type = ($display instanceof EntityFormDisplayInterface) ? 'form' : 'view';
-    return $this->get('default_field_group_' . $display_type . '_type') ?: '';
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getDefaultFieldGroupFormatSettings(EntityDisplayInterface $display) {
-    $type = $this->getDefaultFieldGroupFormatType($display);
-    switch ($type) {
-      case 'details':
-        return ['open' => TRUE];
-
-      case 'fieldset':
-      case 'html_element':
-      default:
-        return [];
-    }
   }
 
   /**

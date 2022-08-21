@@ -248,8 +248,11 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
   protected function getSortedProperties(SchemaDotOrgMappingTypeInterface $mapping_type) {
     $sorted_properties = [];
 
-    // Get properties from default field groups.
-    $groups = $mapping_type->getDefaultFieldGroups();
+    // Get properties from default field groups from
+    // the schemadotorg_field_group.module.
+    $entity_type_id = $mapping_type->get('target_entity_type_id');
+    $groups = $this->config('schemadotorg_field_group.settings')
+      ->get('default_field_groups.' . $entity_type_id) ?? [];
     foreach ($groups as $group) {
       $group_properties = array_combine($group['properties'], $group['properties']);
       $duplicate_properties = array_intersect_key($sorted_properties, $group_properties);

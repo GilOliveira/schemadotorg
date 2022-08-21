@@ -6,8 +6,8 @@ generate_property_values:
     - George
   familyName:
     - Lennon
-    - Mcartny
-    - Starrr
+    - McCartney
+    - Starr
     - Harrison
   additionalName: {  }
   honorificPrefix: {  }

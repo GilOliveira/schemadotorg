@@ -66,13 +66,6 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
         'class' => [RESPONSIVE_PRIORITY_LOW],
         'width' => '10%',
       ];
-      if ($this->moduleHandler()->moduleExists('field_group')) {
-        $header['default_field_groups'] = [
-          'data' => $this->t('Field groups'),
-          'class' => [RESPONSIVE_PRIORITY_LOW],
-          'width' => '10s%',
-        ];
-      }
     }
     else {
       $header['entity_type'] = [
@@ -130,16 +123,6 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
 
       // Default field weights.
       $row['default_field_weights'] = $this->buildItems($entity->get('default_field_weights'));
-
-      // Default field groups.
-      if ($this->moduleHandler()->moduleExists('field_group')) {
-        $default_field_groups = $entity->get('default_field_groups');
-        $group_labels = [];
-        foreach ($default_field_groups as $default_field_group) {
-          $group_labels[] = $default_field_group['label'];
-        }
-        $row['default_field_groups'] = $this->buildItems($group_labels);
-      }
     }
 
     $row = $row + parent::buildRow($entity);

@@ -2,9 +2,6 @@
 
 namespace Drupal\Tests\schemadotorg\Kernel;
 
-use Drupal\Core\Entity\Entity\EntityFormDisplay;
-use Drupal\Core\Entity\Entity\EntityViewDisplay;
-
 /**
  * Tests the Schema.org mapping entity.
  *
@@ -113,42 +110,6 @@ class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
     $this->assertEquals(2, $default_field_weights['title']);
     $this->assertEquals(3, $default_field_weights['alternateName']);
     $this->assertEquals(4, $default_field_weights['description']);
-
-    // Check getting default field groups.
-    $expected_default_field_group = [
-      'label' => 'General information',
-      'properties' => [
-        'subtype',
-        'title',
-        'name',
-        'headline',
-        'alternativeHeadline',
-        'description',
-        'about',
-        'articleBody',
-        'text',
-        'author',
-      ],
-    ];
-    $actual_default_field_groups = $node_mapping_type->getDefaultFieldGroups();
-    $this->assertEquals($expected_default_field_group, $actual_default_field_groups['general']);
-
-    // Check getting default field group label suffix.
-    $this->assertEquals('information', $node_mapping_type->getDefaultFieldGroupLabelSuffix());
-
-    // Check getting default field group format type.
-    $values = [
-      'targetEntityType' => 'paragraph',
-      'bundle' => 'some_bundle',
-      'mode' => 'default',
-    ];
-    $this->assertEquals('details', $node_mapping_type->getDefaultFieldGroupFormatType(EntityFormDisplay::create($values)));
-    $this->assertEquals('fieldset', $node_mapping_type->getDefaultFieldGroupFormatType(EntityViewDisplay::create($values)));
-
-    // Check getting default field group format settings.
-    $this->assertEquals(['open' => TRUE], $node_mapping_type->getDefaultFieldGroupFormatSettings(EntityFormDisplay::create($values)));
-    $this->assertEquals([], $node_mapping_type->getDefaultFieldGroupFormatSettings(EntityViewDisplay::create($values)));
-
     // Check getting common Schema.org types.
     $recommended_schema_types = $node_mapping_type->getRecommendedSchemaTypes();
     $this->assertEquals('Common', $recommended_schema_types['common']['label']);

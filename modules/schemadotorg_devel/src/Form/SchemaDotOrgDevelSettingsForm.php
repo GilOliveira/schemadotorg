@@ -2,7 +2,6 @@
 
 namespace Drupal\schemadotorg_devel\Form;
 
-use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;

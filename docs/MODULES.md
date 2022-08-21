@@ -37,6 +37,9 @@ UI/UX
 
 Fields
 
+- **Schema.org Blueprints Field Group**  
+  Creates field groups in entity view and form displays when Schema.org properties are mapping to a field.
+
 - **Schema.org Blueprints Flex Field**  
   Allows a Flex field to be used to create Schema.org relationships within an entity type/bundle Schema.org mapping.
 

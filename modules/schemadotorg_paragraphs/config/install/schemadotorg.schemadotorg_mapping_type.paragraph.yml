@@ -167,7 +167,3 @@ default_field_weights:
   - increasesRiskOf
   - usedToDiagnose
   - usesDevice
-default_field_groups: {  }
-default_field_group_label_suffix: ''
-default_field_group_form_type: ''
-default_field_group_view_type: fieldset

@@ -4,14 +4,9 @@ namespace Drupal\schemadotorg_jsonapi;
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Config\Entity\ConfigEntityInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
-use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Routing\RedirectDestinationInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Core\Url;
 use Drupal\field\FieldConfigInterface;
 use Drupal\jsonapi\ResourceType\ResourceType;
 use Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository;
@@ -419,6 +414,8 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
   /**
    * Determine if a resource field is disabled.
    *
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
+   *   The Schema.org mapping.
    * @param string $field_name
    *   The field name.
    *

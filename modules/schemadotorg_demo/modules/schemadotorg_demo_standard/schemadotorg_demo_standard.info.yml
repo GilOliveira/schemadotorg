@@ -58,6 +58,7 @@ dependencies:
   - 'schemadotorg:schemadotorg_descriptions'
   - 'schemadotorg:schemadotorg_devel'
   - 'schemadotorg:schemadotorg_export'
+  - 'schemadotorg:schemadotorg_field_group'
   - 'schemadotorg:schemadotorg_inline_entity_form'
   - 'schemadotorg:schemadotorg_jsonapi'
   - 'schemadotorg:schemadotorg_jsonapi_preview'

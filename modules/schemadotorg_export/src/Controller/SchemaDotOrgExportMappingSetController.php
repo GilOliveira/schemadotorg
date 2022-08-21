@@ -75,6 +75,9 @@ class SchemaDotOrgExportMappingSetController extends ControllerBase {
   /**
    * Returns response for Schema.org mapping set CSV export request.
    *
+   * @param string $name
+   *   The name of the Schema.org mapping set.
+   *
    * @return \Symfony\Component\HttpFoundation\StreamedResponse
    *   A streamed HTTP response containing a Schema.org mapping set CSV export.
    */
@@ -84,7 +87,7 @@ class SchemaDotOrgExportMappingSetController extends ControllerBase {
       throw new NotFoundHttpException();
     }
 
-    $response = new StreamedResponse(function () use ($name, $mapping_set) {
+    $response = new StreamedResponse(function () use ($mapping_set) {
       $handle = fopen('php://output', 'r+');
 
       // Header.

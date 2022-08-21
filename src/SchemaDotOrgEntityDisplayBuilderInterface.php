@@ -2,6 +2,8 @@
 
 namespace Drupal\schemadotorg;
 
+use Drupal\Core\Entity\Display\EntityDisplayInterface;
+
 /**
  * Schema.org entity display builder interface.
  */
@@ -36,17 +38,42 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
   public function setFieldWeights($entity_type_id, $bundle, array $properties);
 
   /**
-   * Set entity display field groups for Schema.org properties.
+   * Determine if a display is node teaser view display.
+   *
+   * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
+   *   The entity display.
+   *
+   * @return bool
+   *   TRUE if the display is node teaser view display.
+   *
+   * @see node_add_body_field()
+   */
+  public function isNodeTeaserDisplay(EntityDisplayInterface $display);
+
+  /**
+   * Get display form modes for a specific entity type.
    *
    * @param string $entity_type_id
-   *   The entity type ID.
+   *   The entity type id.
    * @param string $bundle
-   *   The name of the bundle.
-   * @param string $schema_type
-   *   The Schema.org type.
-   * @param array $properties
-   *   The Schema.org properties to be added to field groups.
+   *   The bundle.
+   *
+   * @return array
+   *   An array of display form modes.
    */
-  public function setFieldGroups($entity_type_id, $bundle, $schema_type, array $properties);
+  public function getFormModes($entity_type_id, string $bundle);
+
+  /**
+   * Get display view modes for a specific entity type.
+   *
+   * @param string $entity_type_id
+   *   The entity type id.
+   * @param string $bundle
+   *   The bundle.
+   *
+   * @return array
+   *   An array of display view modes.
+   */
+  public function getViewModes($entity_type_id, string $bundle);
 
 }

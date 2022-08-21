@@ -1,10 +1,11 @@
 <?php
 
-namespace Drupal\Tests\schemadotorg\Kernel;
+namespace Drupal\Tests\schemadotorg_field_grup\Kernel;
 
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMappingType;
+use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 
 /**
  * Tests the Schema.org entity display builder service.
@@ -12,14 +13,17 @@ use Drupal\schemadotorg\Entity\SchemaDotOrgMappingType;
  * @coversClass \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilder
  * @group schemadotorg
  */
-class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestBase {
+class SchemaDotOrgFieldGroupEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestBase {
 
   /**
    * Modules to install.
    *
    * @var string[]
    */
-  protected static $modules = ['field_group'];
+  protected static $modules = [
+    'field_group',
+    'schemadotorg_field_group',
+  ];
 
   /**
    * The entity display repository.
@@ -35,14 +39,25 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
    */
   protected $schemaEntityDisplayBuilder;
 
+
+  /**
+   * The Schema.org field group entity display builder.
+   *
+   * @var \Drupal\schemadotorg_field_group\SchemaDotOrgFieldGroupEntityDisplayBuilderInterface
+   */
+  protected $schemaFieldGroupEntityDisplayBuilder;
+
   /**
    * {@inheritdoc}
    */
   protected function setUp() {
     parent::setUp();
 
+    $this->installConfig(['schemadotorg_field_group']);
+
     $this->entityDisplayRepository = $this->container->get('entity_display.repository');
     $this->schemaEntityDisplayBuilder = $this->container->get('schemadotorg.entity_display_builder');
+    $this->schemaFieldGroupEntityDisplayBuilder = $this->container->get('schemadotorg_field_group.entity_display_builder');
   }
 
   /**
@@ -57,7 +72,6 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
     // Update field weights.
     $mapping_type = SchemaDotOrgMappingType::load('node');
     $mapping_type->set('default_field_weights', ['name', 'alternateName', 'description']);
-    $mapping_type->set('default_field_groups', []);
     $mapping_type->save();
 
     // Create node.thing.
@@ -156,15 +170,16 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
     $this->assertEquals(3, $form_display->getComponent('body')['weight']);
 
     // Check settings entity display field groups for Schema.org properties.
-    $mapping_type->set('default_field_groups', [
-      'general' => [
-        'label' => 'General information',
-        // Note: Switching the order of alterateName and description.
-        'properties' => ['title', 'description', 'alternateName'],
-      ],
-    ]);
-    $mapping_type->save();
-    $this->schemaEntityDisplayBuilder->setFieldGroups(
+    \Drupal::configFactory()->getEditable('schemadotorg_field_group.settings')
+      ->set('default_field_groups.node', [
+        'general' => [
+          'label' => 'General information',
+          // Note: Switching the order of alterateName and description.
+          'properties' => ['title', 'description', 'alternateName'],
+        ],
+      ])->save();
+
+    $this->schemaFieldGroupEntityDisplayBuilder->setFieldGroups(
       'node',
       'thing',
       'Thing',
@@ -181,7 +196,7 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
 
     $field_group = $view_display->getThirdPartySettings('field_group');
     $this->assertEquals([], $field_group['group_thing']['children']);
-    $this->assertEquals(['schema_alternate_name', 'body'], $field_group['group_general']['children']);
+    $this->assertEquals(['title', 'schema_alternate_name', 'body'], $field_group['group_general']['children']);
     $this->assertEquals('General information', $field_group['group_general']['label']);
     $this->assertEquals('fieldset', $field_group['group_general']['format_type']);
   }
