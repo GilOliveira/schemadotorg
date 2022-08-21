@@ -33,6 +33,9 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
     case 'schemadotorg.settings.types':
       return '<p>' . t('The <strong>Schema.org types settings</strong> page allows administrators to configure the default settings for Schema.org types.') . '<p>';
 
+    case 'schemadotorg.settings':
+      return '<p>' . t('The <strong>Schema.org settings</strong> page allows administrators to configure the default settings for the Schema.org Blueprints module.') . '<p>';
+
     case 'schemadotorg.settings.properties':
       return '<p>' . t('The <strong>Schema.org properties settings</strong> page allows administrators to configure the default settings for Schema.org properties.') . '<p>';
 

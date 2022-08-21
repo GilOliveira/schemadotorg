@@ -55,9 +55,15 @@ drush schemadotorg:delete-type -y --delete-entity node:Person node:Organization 
 ## Setup, generate, kill and teardown a set Schema.org types.
 
 ```
-# Generate Schema.org mapping set.
-drush schemadotorg:set-create common
+# Setup Schema.org mapping set.
+drush schemadotorg:set-setup common
+
+# Generate Schema.org mapping set content.
 drush schemadotorg:set-generate common
+
+# Kill (delete) Schema.org mapping set content.
 drush schemadotorg:set-kill common
+
+# Teardown (delete) Schema.org mapping set content.
 drush schemadotorg:set-teardown common
 ```

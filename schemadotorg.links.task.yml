@@ -12,7 +12,7 @@ entity.schemadotorg_mapping_type.collection:
 
 schemadotorg.settings:
   title: Settings
-  route_name: schemadotorg.settings.types
+  route_name: schemadotorg.settings
   base_route: entity.schemadotorg_mapping.collection
   weight: 30
 schemadotorg.settings.types:

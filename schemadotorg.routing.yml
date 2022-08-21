@@ -1,3 +1,11 @@
+schemadotorg.settings:
+  path: '/admin/config/search/schemadotorg/settings'
+  defaults:
+    _title: 'Schema.org settings'
+    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgSettingsController::index'
+  requirements:
+    _permission: 'administer schemadotorg'
+
 schemadotorg.settings.types:
   path: '/admin/config/search/schemadotorg/settings/types'
   defaults:

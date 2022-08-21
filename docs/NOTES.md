@@ -3,13 +3,16 @@ Schema.org Blueprints
 
 # Tips
 
-- Schema.org Blueprints module should provide 80% of a site's base content architecture and the remaining 20% is custom configuration and code.
+- Schema.org Blueprints module should provide 80% of a site's base content 
+  architecture and the remaining 20% is custom configuration and code.
 
-- The structured data examples from Schema.org should be considered the canonical reference for implementation guidelines.
+- The structured data examples from Schema.org should be considered the 
+  canonical reference for implementation guidelines.
 
 - For SEO friendly structured data examples, Google should be a close second.
 
-- Relationships should be a top down (a.k.a. parent to child) and not a child to parent relationships.
+- Relationships should be a top down (a.k.a. parent to child) and not a child
+  to parent relationships.
   - Use episodes instead of partOfSeason
   - Use 'has' instead of 'partOf'
   - Top down makes it easier to build JSON-LD which recurse downward.
