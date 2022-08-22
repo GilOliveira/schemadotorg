@@ -85,7 +85,12 @@ API
 - **Schema.org Blueprints JSON:API Preview**  
   Allows users to preview a web page's Schema.org JSON:API.
 
-Development
+Integrations
+
+- **[Next.js](https://www.drupal.org/project/next)**  
+  Next.js + Drupal for Incremental Static Regeneration and Preview mode.
+
+- Development
 
 - **Schema.org Blueprints Devel**  
   Provides development tools for the Schema.org Blueprints module.
