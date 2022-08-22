@@ -75,21 +75,27 @@ function schemadotorg_next_node_type_delete(NodeTypeInterface $node_type) {
  * Implements hook_next_site_preview_alter().
  */
 function schemadotorg_next_next_site_preview_alter(array &$preview, array $context) {
-  // Display the original content, which is replaced by the Next.js preview,
-  // inside a details (preview) widget.
+  // Move Next.js preview to details details (preview) widget.
   // @see \Drupal\next\Render\MainContent\HtmlRenderer
-  $content = NestedArray::getValue($context, ['original_build', 0, 'content']);
-  if ($content) {
+  $original_content = NestedArray::getValue($context, ['original_build', 0, 'content']);
+  if ($original_content) {
+    // Clone the preview.
+    $next_preview = array_merge([], $preview);
+
+    // Replace the preview with the original content.
+    $preview = $original_content;
+
+    // Append the Schema.org Next.js preview
     $preview['schemadotorg_next_preview'] = [
       '#type' => 'details',
-      '#title' => t('Schema.org content'),
+      '#title' => t('Next.js preview'),
       '#weight' => 1000,
       '#attributes' => [
         'data-schemadotorg-details-key' => 'schemadotorg-next-preview',
         'class' => ['schemadotorg-next-preview'],
       ],
-      '#attached' => ['library' => ['schemadotorg_jsonapi_preview/schemadotorg_jsonapi_preview']],
-      'content' => $content,
+      '#attached' => ['library' => ['schemadotorg/schemadotorg.details']],
+      'content' => $next_preview,
     ];
   }
 }

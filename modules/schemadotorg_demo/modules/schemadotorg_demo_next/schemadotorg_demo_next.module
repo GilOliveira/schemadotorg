@@ -6,7 +6,6 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Url;
 
 /**
  * Implements hook_help().
@@ -15,35 +14,4 @@ function schemadotorg_demo_next_help($route_name, RouteMatchInterface $route_mat
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->build($route_name, $route_match);
-}
-
-/**
- * Implements hook_next_site_preview_alter().
- */
-function schemadotorg_demo_next_next_site_preview_alter(array &$preview, array $context) {
-
-  // Restore entity print links.
-  // @see schemadotorg_demo_standard/config/install/block.block.gin_printlinks.yml
-  // @see \Drupal\entity_print\Plugin\Block\PrintLinks
-  if (\Drupal::moduleHandler()->moduleExists('entity_print')) {
-    /** @var \Drupal\Core\Entity\EntityInterface $entity */
-    $entity = $context['entity'];
-
-    $route_params = [
-      'export_type' => 'pdf',
-      'entity_type' => $entity->getEntityTypeId(),
-      'entity_id' => $entity->id(),
-    ];
-
-    $preview['printlinks'] = [
-      '#type' => 'container',
-      'pdf' => [
-        '#type' => 'print_link',
-        '#export_type' => 'pdf',
-        '#title' => t('View PDF'),
-        '#url' => Url::fromRoute('entity_print.view', $route_params),
-      ],
-    ];
-  };
-
 }
