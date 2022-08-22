@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * @file
+ * Assists with the integration of Schema.org Blueprints with Next.js.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\next\Entity\NextEntityTypeConfig;
+use Drupal\next\Entity\NextSite;
+use Drupal\node\NodeTypeInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_next_help($route_name, RouteMatchInterface $route_match) {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
+  $help_manager = \Drupal::service('schemadotorg.help_manager');
+  return $help_manager->build($route_name, $route_match);
+}
+
+/**
+ * Implements hook_schemadotorg_mapping_insert().
+ */
+function schemadotorg_next_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping) {
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  $bundle = $mapping->getTargetBundle();
+
+  // Only add the Next.js entity type config for node types.
+  // @todo Determine if this needs to be configurable setting.
+  if ($entity_type_id !== 'node') {
+    return;
+  }
+
+  // Make sure that the Next.js entity type does not exist.
+  $next_entity_type_config_id = "$entity_type_id.$bundle";
+  if (NextEntityTypeConfig::load($next_entity_type_config_id)) {
+    return;
+  }
+
+  // Get all Next.js sites, and exit if there are no Next.js sites.
+  $next_sites = NextSite::loadMultiple();
+  if (!$next_sites) {
+    return;
+  }
+
+  // Create entity type config for all existing Next.js sites.
+  $next_site_id = array_keys($next_sites);
+  NextEntityTypeConfig::create([
+    'id' => $next_entity_type_config_id,
+    'site_resolver' => 'site_selector',
+    'configuration' => [
+      'sites' => array_combine($next_site_id, $next_site_id),
+    ],
+  ])->save();
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete()
+ */
+function schemadotorg_next_node_type_delete(NodeTypeInterface $node_type) {
+  // Make sure that the Next.js entity type is deleted when its node type
+  // dependency is deleted.
+  // @see https://github.com/chapter-three/next-drupal/issues/282
+  $next_entity_type_config_id = 'node.' . $node_type->id();
+  $next_entity_type_config = NextEntityTypeConfig::load($next_entity_type_config_id);
+  if ($next_entity_type_config) {
+    $next_entity_type_config->delete();
+  }
+}

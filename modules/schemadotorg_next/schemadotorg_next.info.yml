@@ -1,9 +1,9 @@
-name: 'Schema.org Blueprints Metatag'
+name: 'Schema.org Blueprints Next.js'
 type: module
-description: 'Automatically adds a metatag field to Schema.org types.'
+description: 'Assists with the integration of Schema.org Blueprints with Next.js.'
 package: Schema.org Blueprints Extras
 core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental
 dependencies:
-  - 'metatag:metatag'
+  - 'next:next'
   - 'schemadotorg:schemadotorg'
