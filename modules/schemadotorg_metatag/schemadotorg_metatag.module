@@ -25,7 +25,8 @@ function schemadotorg_metatag_help($route_name, RouteMatchInterface $route_match
 function schemadotorg_metatag_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping) {
   $entity_type_id = $mapping->getTargetEntityTypeId();
   $bundle = $mapping->getTargetBundle();
-  $field_name = 'meta_tags';
+  $field_prefix = \Drupal::config('schemadotorg.settings')->get('field_prefix') ?: 'field_';
+  $field_name = $field_prefix . 'metatag';
 
   // Only add the meta tags field to node types.
   if ($entity_type_id !== 'node') {
