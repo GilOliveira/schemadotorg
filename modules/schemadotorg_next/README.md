@@ -19,7 +19,8 @@ Features
 - Automatically creates a corresponding Next.js entity type for 
   Schema.org types.
 - Next.js entity type is deleted when its note type dependency is deleted.
-
+- Displays the original content, which is replaced by the Next.js preview, 
+  inside a details (preview) widget.
 
 Requirements
 ------------

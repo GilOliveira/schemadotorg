@@ -5,6 +5,7 @@
  * Assists with the integration of Schema.org Blueprints with Next.js.
  */
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\next\Entity\NextEntityTypeConfig;
 use Drupal\next\Entity\NextSite;
@@ -67,5 +68,28 @@ function schemadotorg_next_node_type_delete(NodeTypeInterface $node_type) {
   $next_entity_type_config = NextEntityTypeConfig::load($next_entity_type_config_id);
   if ($next_entity_type_config) {
     $next_entity_type_config->delete();
+  }
+}
+
+/**
+ * Implements hook_next_site_preview_alter().
+ */
+function schemadotorg_next_next_site_preview_alter(array &$preview, array $context) {
+  // Display the original content, which is replaced by the Next.js preview,
+  // inside a details (preview) widget.
+  // @see \Drupal\next\Render\MainContent\HtmlRenderer
+  $content = NestedArray::getValue($context, ['original_build', 0, 'content']);
+  if ($content) {
+    $preview['schemadotorg_next_preview'] = [
+      '#type' => 'details',
+      '#title' => t('Schema.org content'),
+      '#weight' => 1000,
+      '#attributes' => [
+        'data-schemadotorg-details-key' => 'schemadotorg-next-preview',
+        'class' => ['schemadotorg-next-preview'],
+      ],
+      '#attached' => ['library' => ['schemadotorg_jsonapi_preview/schemadotorg_jsonapi_preview']],
+      'content' => $content,
+    ];
   }
 }
