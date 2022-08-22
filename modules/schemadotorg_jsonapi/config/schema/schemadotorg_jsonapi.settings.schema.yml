@@ -11,6 +11,9 @@ schemadotorg_jsonapi.settings:
     resource_type_schemadotorg:
       type: boolean
       label: 'Use Schema.org type as the resource type and path name'
+    resource_base_field_schemadotorg:
+      type: boolean
+      label: 'Use Schema.org property as the resource base field name/alias'
     resource_field_schemadotorg:
       type: boolean
       label: 'Use Schema.org property as the resource field name/alias'

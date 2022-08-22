@@ -12,6 +12,7 @@ use Drupal\jsonapi\ResourceType\ResourceType;
 use Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
+use PHP_CodeSniffer\Tokenizers\PHP;
 
 /**
  * Schema.org JSON:API manager.
@@ -391,24 +392,23 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    *   The resource field's public name,
    */
   protected function getResourceFieldPublicName(SchemaDotOrgMappingInterface $mapping, $field_name) {
-    // Make sure use Schema.org property as the resource's field name is enabled.
-    $resource_field_schemadotorg = $this->configFactory
-      ->get('schemadotorg_jsonapi.settings')
-      ->get('resource_field_schemadotorg');
-    if (!$resource_field_schemadotorg) {
-      return $field_name;
-    }
+    $config = $this->configFactory
+      ->get('schemadotorg_jsonapi.settings');
 
-    // Never alter base field name, even if they are mapped to a
-    // Schema.org properties because the can break front-end expectation.
-    // (i.e. langcode => inLanguage)
     $entity_type_id = $mapping->getTargetEntityTypeId();
-    if ($this->isBaseField($entity_type_id, $field_name)) {
+
+    $is_base_field = $this->isBaseField($entity_type_id, $field_name);
+    $resource_base_field_schemadotorg = $config->get('resource_base_field_schemadotorg');
+    $resource_field_schemadotorg = $config->get('resource_field_schemadotorg');
+
+    if (($is_base_field && $resource_base_field_schemadotorg)
+      || (!$is_base_field && $resource_field_schemadotorg)) {
+      $property = $mapping->getSchemaPropertyMapping($field_name);
+      return ($property) ? $this->schemaNames->camelCaseToSnakeCase($property) : $field_name;
+    }
+    else {
       return $field_name;
     }
-
-    $property = $mapping->getSchemaPropertyMapping($field_name);
-    return ($property) ? $this->schemaNames->camelCaseToSnakeCase($property) : $field_name;
   }
 
   /**

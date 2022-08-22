@@ -52,6 +52,13 @@ class SchemaDotOrgJsonApiSettingsForm extends ConfigFormBase {
       '#return_value' => TRUE,
       '#default_value' => $config->get('resource_type_schemadotorg'),
     ];
+    $form['schemadotorg_jsonapi']['resource_base_field_schemadotorg'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t("Use Schema.org properties as the JSON:API resource's base field names/aliases."),
+      '#description' => $this->t("If checked, the Schema.org mapping's property will be used as the JSON:API resource's base field name/alias."),
+      '#return_value' => TRUE,
+      '#default_value' => $config->get('resource_base_field_schemadotorg'),
+    ];
     $form['schemadotorg_jsonapi']['resource_field_schemadotorg'] = [
       '#type' => 'checkbox',
       '#title' => $this->t("Use Schema.org properties as the JSON:API resource's field names/aliases."),

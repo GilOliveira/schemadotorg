@@ -12,4 +12,5 @@ default_base_fields:
   - type
   - metatag
 resource_type_schemadotorg: false
+resource_base_field_schemadotorg: false
 resource_field_schemadotorg: true

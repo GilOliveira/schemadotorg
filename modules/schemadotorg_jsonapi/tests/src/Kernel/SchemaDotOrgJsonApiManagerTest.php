@@ -119,10 +119,12 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     $resource = $this->resourceStorage->load('node--thing');
     $resource_fields = $resource->get('resourceFields');
 
-    // Check enabling selected Schema.org fields.
+    // Check enabling selected base fields.
     $this->assertFalse($resource_fields['status']['disabled']);
     $this->assertFalse($resource_fields['langcode']['disabled']);
     $this->assertFalse($resource_fields['title']['disabled']);
+
+    // Check enabling selected Schema.org fields.
     $this->assertFalse($resource_fields['schema_thing_subtype']['disabled']);
     $this->assertFalse($resource_fields['schema_alternate_name']['disabled']);
 
@@ -132,6 +134,8 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertTrue($resource_fields['revision_log']['disabled']);
 
     // Check that Schema.org property base field public names are not aliased.
+    $this->assertEquals('status', $resource_fields['status']['publicName']);
+    $this->assertEquals('langcode', $resource_fields['langcode']['publicName']);
     $this->assertEquals('title', $resource_fields['title']['publicName']);
 
     // Check that Schema.org property field public names are aliased.
@@ -196,8 +200,7 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertArrayHasKey('schema_description', $resource_fields);
 
     /* ********************************************************************** */
-    // Enabling all fields.
-    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManager::isFieldEnabled
+    // Enable type aliases.
     /* ********************************************************************** */
 
     // Use Schema.org types as the JSON:API resource's type and path names.
@@ -229,14 +232,14 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertEquals('node/place', $resource->get('path'));
 
     /* ********************************************************************** */
-    // Enabling all fields.
-    // @see \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManager::isFieldEnabled
+    // Enabling all base fields.
     /* ********************************************************************** */
 
-    // Enable all fields by leaving it blank.
+    // Enable all base fields by leaving it blank and enable base field aliases.
     \Drupal::configFactory()
       ->getEditable('schemadotorg_jsonapi.settings')
       ->set('default_base_fields', [])
+      ->set('resource_base_field_schemadotorg', TRUE)
       ->save();
 
     // Create Event with mapping.
@@ -250,6 +253,10 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
       'target_entity_type_id' => 'node',
       'target_bundle' => 'event',
       'schema_type' => 'Event',
+      'schema_properties' => [
+        'langcode' => 'inLanguage',
+        'title' => 'name',
+      ],
     ]);
     $event_mapping->save();
 
@@ -262,6 +269,11 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertFalse($resource_fields['revision_timestamp']['disabled']);
     $this->assertFalse($resource_fields['revision_uid']['disabled']);
     $this->assertFalse($resource_fields['revision_log']['disabled']);
+
+    // Check that Schema.org property base field public names are aliased.
+    $this->assertEquals('status', $resource_fields['status']['publicName']);
+    $this->assertEquals('in_language', $resource_fields['langcode']['publicName']);
+    $this->assertEquals('name', $resource_fields['title']['publicName']);
   }
 
   /**
