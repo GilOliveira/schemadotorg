@@ -15,10 +15,11 @@ Blueprints using Next.js for Drupal.
 Features
 --------
 
-- Adds a 'next_js_site' role.
-- Adds 'next_js_site' Next.js site.
+- Adds a 'schemadotorg_demo_next' role.
+- Adds 'schemadotorg_demo_next_site' Next.js site.
 - Adds 'article' entity type to Next.js site.
-- Creates 'next' user account.
+- Adds 'page' entity type to Next.js site.
+- Creates 'next' user account assigned to 'schemadotorg_demo_next' role.
 
 
 References

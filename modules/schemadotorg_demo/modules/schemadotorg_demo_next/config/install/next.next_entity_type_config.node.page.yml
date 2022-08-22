@@ -5,4 +5,4 @@ id: node.page
 site_resolver: site_selector
 configuration:
   sites:
-    next_js_site: next_js_site
+    schemadotorg_demo_next_site: schemadotorg_demo_next_site

@@ -16,7 +16,7 @@ function schemadotorg_demo_next_install() {
     'name' => 'next',
     'pass' => 'next',
     'mail' => 'next@example.com',
-    'roles' => ['next_js_site'],
+    'roles' => ['schemadotorg_demo_next'],
     'status' => TRUE,
   ])->save();
 }

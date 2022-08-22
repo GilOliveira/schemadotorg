@@ -1,16 +1,22 @@
 default_base_fields:
+  - created
+  - changed
+  - default_langcode
+  - field_image
+  - field_tags
   - id
   - nid
   - langcode
+  - metatag
   - mid
-  - uid
-  - uuid
   - path
   - promote
   - status
   - sticky
   - type
-  - metatag
+  - title
+  - uid
+  - uuid
 resource_type_schemadotorg: false
 resource_base_field_schemadotorg: false
 resource_field_schemadotorg: true

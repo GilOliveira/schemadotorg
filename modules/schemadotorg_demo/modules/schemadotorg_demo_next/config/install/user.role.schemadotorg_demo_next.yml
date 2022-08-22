@@ -4,7 +4,7 @@ dependencies:
   module:
     - node
     - subrequests
-id: next_js_site
+id: schemadotorg_demo_next
 label: 'Next.js Site'
 weight: 4
 is_admin: null
