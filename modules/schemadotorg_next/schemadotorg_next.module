@@ -16,6 +16,10 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
  * Implements hook_help().
  */
 function schemadotorg_next_help($route_name, RouteMatchInterface $route_match) {
+  if ($route_name === 'schemadotorg_next.settings') {
+    return '<p>' . t('The <em>Schema.org Next.js settings</em> page allows administrators to configure how Next.js previews Schema.org entity types and content.') . '<p>';
+  }
+
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->build($route_name, $route_match);
@@ -58,7 +62,7 @@ function schemadotorg_next_schemadotorg_mapping_insert(SchemaDotOrgMappingInterf
 }
 
 /**
- * Implements hook_ENTITY_TYPE_delete()
+ * Implements hook_ENTITY_TYPE_delete().
  */
 function schemadotorg_next_node_type_delete(NodeTypeInterface $node_type) {
   // Make sure that the Next.js entity type is deleted when its node type
@@ -73,29 +77,40 @@ function schemadotorg_next_node_type_delete(NodeTypeInterface $node_type) {
 
 /**
  * Implements hook_next_site_preview_alter().
+ *
+ * Moves Next.js preview to dedicated details widget and the original
+ * Drupal content will be displayed.
+ *
+ * @see \Drupal\next\Render\MainContent\HtmlRenderer
  */
 function schemadotorg_next_next_site_preview_alter(array &$preview, array $context) {
-  // Move Next.js preview to details details (preview) widget.
-  // @see \Drupal\next\Render\MainContent\HtmlRenderer
-  $original_content = NestedArray::getValue($context, ['original_build', 0, 'content']);
-  if ($original_content) {
-    // Clone the preview.
-    $next_preview = array_merge([], $preview);
-
-    // Replace the preview with the original content.
-    $preview = $original_content;
-
-    // Append the Schema.org Next.js preview
-    $preview['schemadotorg_next_preview'] = [
-      '#type' => 'details',
-      '#title' => t('Next.js preview'),
-      '#weight' => 1000,
-      '#attributes' => [
-        'data-schemadotorg-details-key' => 'schemadotorg-next-preview',
-        'class' => ['schemadotorg-next-preview'],
-      ],
-      '#attached' => ['library' => ['schemadotorg/schemadotorg.details']],
-      'content' => $next_preview,
-    ];
+  // Check the 'Enhance the default Next.js preview' is checked.
+  if (!\Drupal::config('schemadotorg_next.settings')->get('preview')) {
+    return;
   }
+
+  // Get the original content and make sure it exists.
+  $original_content = NestedArray::getValue($context, ['original_build', 0, 'content']);
+  if (!$original_content) {
+    return;
+  }
+
+  // Clone the preview.
+  $next_preview = array_merge([], $preview);
+
+  // Replace the preview with the original content.
+  $preview = $original_content;
+
+  // Append the Schema.org Next.js preview.
+  $preview['schemadotorg_next_preview'] = [
+    '#type' => 'details',
+    '#title' => t('Next.js preview'),
+    '#weight' => 1000,
+    '#attributes' => [
+      'data-schemadotorg-details-key' => 'schemadotorg-next-preview',
+      'class' => ['schemadotorg-next-preview'],
+    ],
+    '#attached' => ['library' => ['schemadotorg/schemadotorg.details']],
+    'content' => $next_preview,
+  ];
 }

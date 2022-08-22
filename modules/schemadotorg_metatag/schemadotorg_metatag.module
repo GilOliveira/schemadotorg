@@ -32,7 +32,6 @@ function schemadotorg_metatag_schemadotorg_mapping_insert(SchemaDotOrgMappingInt
     return;
   }
 
-
   // Create meta tag field storage.
   if (!FieldStorageConfig::loadByName($entity_type_id, $field_name)) {
     FieldStorageConfig::create([

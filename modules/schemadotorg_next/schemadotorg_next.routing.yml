@@ -1,0 +1,7 @@
+schemadotorg_next.settings:
+  path: '/admin/config/search/schemadotorg/settings/next'
+  defaults:
+    _title: 'Schema.org Next.js settings'
+    _form: 'Drupal\schemadotorg_next\Form\SchemaDotOrgNextSettingsForm'
+  requirements:
+    _permission: 'administer schemadotorg'

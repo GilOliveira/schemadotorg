@@ -30,6 +30,6 @@ Configuration
 
 - Go to the Schema.org JSON:LD configuration page.
   (/admin/config/search/schemadotorg/settings/jsonld)
-- Enter \field names to be used to https://schema.org/identifier
+- Enter the field names to be used to https://schema.org/identifier
 - Enter the default Schema.org property order.
 - Enter the Schema.org property image styles.

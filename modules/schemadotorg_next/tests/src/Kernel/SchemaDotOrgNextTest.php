@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\schemadotorg_next\Kernel;
 
-use Drupal\field\Entity\FieldConfig;
-use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\next\Entity\NextEntityTypeConfig;
 use Drupal\next\Entity\NextSite;
 use Drupal\node\Entity\NodeType;
@@ -42,7 +40,7 @@ class SchemaDotOrgNextTest extends SchemaDotOrgKernelEntityTestBase {
     ]);
     $next_site->save();
 
-    // Create node:place.
+    // Create Schema.org node:place.
     $this->createSchemaEntity('node', 'Place');
 
     // Check that Next.js entity type config was created.
@@ -57,7 +55,6 @@ class SchemaDotOrgNextTest extends SchemaDotOrgKernelEntityTestBase {
     // dependency is deleted.
     NodeType::load('place')->delete();
     $this->assertNull(NextEntityTypeConfig::load('node.place'));
-
   }
 
 }

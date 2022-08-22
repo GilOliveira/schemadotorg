@@ -12,7 +12,6 @@ use Drupal\jsonapi\ResourceType\ResourceType;
 use Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
-use PHP_CodeSniffer\Tokenizers\PHP;
 
 /**
  * Schema.org JSON:API manager.
