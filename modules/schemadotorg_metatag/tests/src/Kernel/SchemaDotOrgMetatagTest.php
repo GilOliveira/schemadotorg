@@ -50,10 +50,10 @@ class SchemaDotOrgMetatagTest extends SchemaDotOrgKernelEntityTestBase {
     $this->createSchemaEntity('node', 'Place');
 
     // Check creating meta tag field storage.
-    $this->assertNotNull(FieldStorageConfig::loadByName('node', 'schema_metatag'));
+    $this->assertNotNull(FieldStorageConfig::loadByName('node', 'field_metatag'));
 
     // Check creating meta tag field instance.
-    $this->assertNotNull(FieldConfig::loadByName('node', 'place', 'schema_metatag'));
+    $this->assertNotNull(FieldConfig::loadByName('node', 'place', 'field_metatag'));
 
     // Check setting meta tag component in the default form display.
     $expected_component = [
@@ -67,7 +67,7 @@ class SchemaDotOrgMetatagTest extends SchemaDotOrgKernelEntityTestBase {
       'third_party_settings' => [],
     ];
     $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'place', 'default');
-    $this->assertEquals($expected_component, $form_display->getComponent('schema_metatag'));
+    $this->assertEquals($expected_component, $form_display->getComponent('field_metatag'));
   }
 
 }
