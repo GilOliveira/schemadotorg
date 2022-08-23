@@ -94,7 +94,7 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
     $build = [
       '#type' => 'details',
       '#title' => $this->t('Schema.org JSON-LD'),
-      '#weight' => 1000,
+      '#weight' => 1020,
       '#attributes' => [
         'data-schemadotorg-details-key' => 'schemadotorg-jsonld-preview',
         'class' => ['schemadotorg-jsonld-preview', 'js-schemadotorg-jsonld-preview'],

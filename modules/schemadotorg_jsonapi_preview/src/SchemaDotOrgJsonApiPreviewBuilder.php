@@ -117,7 +117,7 @@ class SchemaDotOrgJsonApiPreviewBuilder implements SchemaDotOrgJsonApiPreviewBui
     $build = [
       '#type' => 'details',
       '#title' => $this->t('Schema.org JSON:API'),
-      '#weight' => 1000,
+      '#weight' => 1010,
       '#attributes' => [
         'data-schemadotorg-details-key' => 'schemadotorg-jsonapi-preview',
         'class' => ['schemadotorg-jsonapi-preview'],
