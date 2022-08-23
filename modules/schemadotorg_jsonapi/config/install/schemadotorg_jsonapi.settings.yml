@@ -22,6 +22,5 @@ default_base_fields:
   - term--parent
   - user--user_picture
 resource_type_schemadotorg: false
-resource_base_field_schemadotorg: : true
-  false
-  resource_field_schemadotorg
+resource_base_field_schemadotorg: false
+resource_field_schemadotorg: true
