@@ -433,7 +433,15 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
       return FALSE;
     }
 
-    return !in_array($field_name, $default_base_fields);
+    $entity_type_id = $mapping->getTargetEntityTypeId();
+    $bundle = $mapping->getTargetBundle();
+
+    $base_field_names = [
+      "$entity_type_id--$bundle--$field_name",
+      "$entity_type_id--$field_name",
+      $field_name,
+    ];
+    return empty(array_intersect($base_field_names, $default_base_fields));
   }
 
   /* ************************************************************************ */
