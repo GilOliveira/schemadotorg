@@ -17,7 +17,7 @@ The [Schema.org Blueprints](https://www.drupal.org/project/schemadotorg) module
 uses [Schema.org](https://schema.org) as the blueprint for a Drupal website's 
 content architecture and structured data.
 
-The **best way to get started using the Schema.org Blueprints module** is to read 
+The best way to get started using the Schema.org Blueprints module is to read 
 about [Schema.org](https://schema.org) and browse the available 
 [schemas](https://schema.org/docs/schemas.html).
 
@@ -82,4 +82,3 @@ Configuration
 
 - Review Schema.org mapping types. 
   (/admin/config/search/schemadotorg/types)
-
