@@ -9,98 +9,99 @@ _Below modules are included with the Schema.org Blueprints module/package._
 
 Core
 
-- **Schema.org Blueprints**  
+- **[Schema.org Blueprints](https://git.drupalcode.org/project/schemadotorg)**  
   Uses Schema.org as the blueprint for the content architecture and structured data in a Drupal website.
 
-- **Schema.org Blueprints UI**  
+- **[Schema.org Blueprints UI](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_ui)**  
   Allows administrators to attach custom Schema.org properties to fieldable types.
 
-- **Schema.org Blueprints Report**  
+- **[Schema.org Blueprints Report](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_report)**  
   Provides a report for browsing Schema.org types, properties, and naming conventions.
 
 UI/UX
 
-- **Schema.org Blueprints Descriptions**  
+- **[Schema.org Blueprints Descriptions](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_descriptions)**  
   Sets entity type and field descriptions to their corresponding Schema.org type and property comments.
 
-- **Schema.org Blueprints Export**  
+- **[Schema.org Blueprints Export](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_export)**  
   Provides a CSV export of Schema.org type mappings.
 
-- **Schema.org Blueprints Mapping Set**  
+- **[Schema.org Blueprints Mapping Set](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_mapping_set)**  
   Provides the ability to create a set of related Schema.org types via Drush.
 
-- **Schema.org Blueprints Subtype**  
+- **[Schema.org Blueprints Subtype](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_subtype)**  
   Subtypes allow more specificity without having to create dedicated entity types for every appropriate Schema.type.
 
-- **Schema.org Blueprints Translation**  
+- **[Schema.org Blueprints Translation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_translation)**  
   Manages translations for Schema.org types and properties as they are created.
 
 Fields
 
-- **Schema.org Blueprints Field Group**  
+- **[Schema.org Blueprints Field Group](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_field_group)**  
   Creates field groups in entity view and form displays when Schema.org properties are mapping to a field.
 
-- **Schema.org Blueprints Flex Field**  
+- **[Schema.org Blueprints Flex Field](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_flexfield)**  
   Allows a Flex field to be used to create Schema.org relationships within an entity type/bundle Schema.org mapping.
 
-- **Schema.org Blueprints Inline Entity Form**  
+- **[Schema.org Blueprints Inline Entity Form](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_inline_entity_form)**  
   Allows an inline entity form to be automatically added to Schema.org properties within an entity type/bundle Schema.org mapping.
 
-- **Schema.org Blueprints Automatic Entity Labels**  
+- **[Schema.org Blueprints Automatic Entity Labels](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_auto_entitylabel)**  
   Creates automatic entity label settings for Schema.org types.
 
 Entities
 
-- **Schema.org Blueprints Paragraphs**  
+- **[Schema.org Blueprints Paragraphs](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_paragraphs)**  
   Integrates the Paragraphs and Paragraphs Library module with the Schema.org Blueprints module.
 
-- **Schema.org Blueprints Taxonomy**  
+- **[Schema.org Blueprints Taxonomy](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_taxonomy)**  
   Provides mappings from taxonomy vocabularies and terms to https://schema.org/DefinedTermSet and https://schema.org/DefinedTerm.
 
-- **Schema.org Blueprints Metatag**  
+- **[Schema.org Blueprints Metatag](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_metatag)**  
   Automatically adds a metatag field to Schema.org types.
 
 JSON-LD 
 
-- **Schema.org Blueprints JSON-LD**  
+- **[Schema.org Blueprints JSON-LD](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld)**  
   Adds Schema.org structured data as JSON-LD in the head of web pages.
 
-- **Schema.org Blueprints JSON-LD Breadcrumb**  
+- **[Schema.org Blueprints JSON-LD Breadcrumb](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_breadcrumb)**  
   Add Drupal's breadcrumb to Schema.org JSON-LD for the current route.
 
-- **Schema.org Blueprints JSON-LD Embed**  
+- **[Schema.org Blueprints JSON-LD Embed](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_embed)**  
   Extracts embedded media and content from an entity and includes the associated Schema.org type in JSON-LD.
 
-- **Schema.org Blueprints JSON-LD Endpoint**  
+- **[Schema.org Blueprints JSON-LD Endpoint](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_endpoint)**  
   Provides an endpoint to get an entity's Schema.org JSON-LD.
 
-- **Schema.org Blueprints JSON-LD Preview**  
+- **[Schema.org Blueprints JSON-LD Preview](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_preview)**  
   Allows users to preview a web page's Schema.org JSON-LD.
 
 API
 
-- **Schema.org Blueprints JSON:API**  
+- **[Schema.org Blueprints JSON:API](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonapi)**  
   Builds on top of the JSON:API and JSON:API extras modules to apply Schema.org type and property mappings to JSON:API resources.
 
-- **Schema.org Blueprints JSON:API Preview**  
+- **[Schema.org Blueprints JSON:API Preview](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonapi_preivew)**  
   Allows users to preview a web page's Schema.org JSON:API.
 
 Next.js
 
-- **Schema.org Blueprints Next.js**
+- **[Schema.org Blueprints Next.js](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_next)**
   Assists with the integration of Schema.org Blueprints with Next.js.
 
-- **Schema.org Blueprints Next.js Components Preview**
-  Provides a preview of React components to assist with the integration of Schema.org Blueprints with Next.js.
+- **[Schema.org Blueprints Next.js Components](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_next_components)**
+  Generates and previews Next.js React components to assist with the integration of Schema.org Blueprints with Next.js
 
-- **Schema.org Blueprints Next.js Components (THEME)**
-  A theme used to generate React components to assist with the integration of Schema.org Blueprints with Next.js.
+Development
 
-- Development
-
-- **Schema.org Blueprints Devel**  
+- **[Schema.org Blueprints Devel](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_devel)**  
   Provides development tools for the Schema.org Blueprints module.
 
+Demo
+
+- **[Schema.org Blueprints Demo](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_demo)**  
+  Provides an opinionated demo of the Schema.org Blueprints built on top of Drupal's standard profile with default content and translations.
 
 ## Core Modules
 
