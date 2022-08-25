@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Metatag module automatically adds a metatag field 
+The **Schema.org Blueprints Metatag module** automatically adds a metatag field 
 to Schema.org types.
 
 

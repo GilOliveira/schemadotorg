@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Taxonomy module provides mappings from 
+The **Schema.org Blueprints Taxonomy module** provides mappings from 
 taxonomy vocabularies and terms to <https://schema.org/DefinedTermSet> 
 and <https://schema.org/DefinedTerm>.
 

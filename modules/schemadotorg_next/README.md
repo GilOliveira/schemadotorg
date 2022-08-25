@@ -10,7 +10,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Next.js module assists with the integration of 
+The **Schema.org Blueprints Next.js module** assists with the integration of 
 Schema.org Blueprints with Next.js.
 
 

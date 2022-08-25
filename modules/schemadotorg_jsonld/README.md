@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints JSON-LD module builds and adds Schema.org structured 
+The **Schema.org Blueprints JSON-LD module** builds and adds Schema.org structured 
 data as JSON-LD in the head of web pages.
 
 

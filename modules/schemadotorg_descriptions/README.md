@@ -10,7 +10,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Descriptions module sets entity type and field 
+The **Schema.org Blueprints Descriptions module** sets entity type and field 
 descriptions to their corresponding Schema.org type and property comments.
 
 

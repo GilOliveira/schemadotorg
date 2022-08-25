@@ -8,7 +8,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Next.js Demo module provides a demo Schema.org 
+The **Schema.org Blueprints Next.js Demo module** provides a demo Schema.org 
 Blueprints using Next.js for Drupal.
 
 

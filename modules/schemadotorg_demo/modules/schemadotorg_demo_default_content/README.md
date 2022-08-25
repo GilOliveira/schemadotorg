@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprint Demo Default Content module provides default 
+The **Schema.org Blueprint Demo Default Content module** provides default 
 Schema.org types and mappings with default content.
 
 
@@ -23,5 +23,5 @@ Features
 Notes
 -----
 
-The Schema.org Blueprint Demo Default Content module will include more default
+The **Schema.org Blueprint Demo Default Content module** will include more default
 content once the common/default Schema.org types and properties are finalized.

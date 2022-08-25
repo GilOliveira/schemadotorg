@@ -10,7 +10,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Inline Entity Form module allows an inline entity 
+The **Schema.org Blueprints Inline Entity Form module** allows an inline entity 
 form to be automatically added to Schema.org properties within an 
 entity type/bundle Schema.org mapping.
 

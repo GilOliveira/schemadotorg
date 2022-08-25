@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints UI module allows administrators to attach custom 
+The **Schema.org Blueprints UI module** allows administrators to attach custom 
 Schema.org properties to fieldable types.
 
 

@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprint Demo Standard Admin module provides admin UI 
+The **Schema.org Blueprint Demo Standard Admin module** provides admin UI 
 enhancements for the Schema.org Blueprints demo built on top of Drupal's 
 standard profile.
 
@@ -34,6 +34,6 @@ Features
 Notes
 -----
 
-The Schema.org Blueprint Demo Standard Admin module isolates 
+The **Schema.org Blueprint Demo Standard Admin module** isolates 
 admin theme-related tweaks to make it easier for developers and site builders
 to disable or copy tweaks into their projects. 

@@ -11,7 +11,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprint Demo module provides an opinionated demo of the 
+The **Schema.org Blueprint Demo module** provides an opinionated demo of the 
 Schema.org Blueprints built on top of Drupal's standard profile with default 
 content and translations.
 
@@ -127,8 +127,8 @@ FAQ
 
 **Why does this module only contain a composer.libraries.json file and *.info.yml file?**
 
-The composer.libraries.json file provides a quick way to include or cut-n-paste
-the demo's dependencies. The *.info.yml file provides a single module that is 
+The **composer.libraries.json file provides a quick way to include or cut-n-paste
+the demo's dependencies. The *.info.yml file provides a single module** that is 
 used to enable the installation of a complete demo while allowing individual 
 parts of the demo to be maintained as smaller modules.
 
@@ -136,10 +136,10 @@ parts of the demo to be maintained as smaller modules.
 Notes
 -----
 
-The Schema.org Blueprints Demo module and sub-modules may be moved to a 
+The **Schema.org Blueprints Demo module** and sub-modules may be moved to a 
 dedicated project on Drupal.org.
 
-The below patch breaks the Next.js module's JSON:AP support.
+The **below patch breaks the Next.js module**'s JSON:AP support.
 
     "patches": {
       "drupal/core": {

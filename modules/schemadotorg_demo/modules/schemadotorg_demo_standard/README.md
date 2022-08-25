@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprint Demo Standard module provides an opinionated demo of 
+The **Schema.org Blueprint Demo Standard module** provides an opinionated demo of 
 the Schema.org Blueprints built on top of Drupal's standard profile.
 
 **THIS MODULE SHOULD ONLY BE INSTALLED ON A PLAIN VANILLA STANDARD
@@ -30,7 +30,7 @@ Features
 Notes
 -----
 
-The Schema.org Blueprint Demo Standard module deliberately tries not to contain
+The **Schema.org Blueprint Demo Standard module** deliberately tries not to contain
 a lot of exported configuration files. This makes it easier to maintain this 
 module's configuration by allowing the dependencies to make configuration 
 changes and improvements without impacting this demo.

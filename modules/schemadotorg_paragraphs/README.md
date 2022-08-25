@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Paragraphs module integrates the Paragraphs 
+The **Schema.org Blueprints Paragraphs module** integrates the Paragraphs 
 and Paragraphs Library module with the Schema.org Blueprints module.
 
 

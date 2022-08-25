@@ -10,7 +10,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Field Group module creates field groups in entity view
+The **Schema.org Blueprints Field Group module** creates field groups in entity view
 and form displays when Schema.org properties are mapping to a field.
 
 

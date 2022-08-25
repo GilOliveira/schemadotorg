@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints JSON-LD Embed module extracts embedded media 
+The **Schema.org Blueprints JSON-LD Embed module** extracts embedded media 
 and content from an entity and includes the associated Schema.org type 
 in JSON-LD.
 

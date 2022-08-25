@@ -10,7 +10,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Translation module manages translations for 
+The **Schema.org Blueprints Translation module** manages translations for 
 Schema.org types and properties as they are created.
 
 The module removes the manual task of enabling/disabling for entities 

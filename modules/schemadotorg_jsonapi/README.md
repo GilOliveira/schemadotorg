@@ -11,7 +11,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints JSON:API module builds on top of the JSON:API 
+The **Schema.org Blueprints JSON:API module** builds on top of the JSON:API 
 and JSON:API extras modules to apply Schema.org type and property mappings 
 to JSON:API resources.
 

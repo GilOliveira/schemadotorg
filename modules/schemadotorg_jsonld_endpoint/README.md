@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints JSON-LD Endpoint module provides an endpoint to get an 
+The **Schema.org Blueprints JSON-LD Endpoint module** provides an endpoint to get an 
 entity's Schema.org JSON-LD.
 
 
@@ -32,5 +32,5 @@ Configuration
 Notes
 -----
 
-The Schema.org Blueprints JSON-LD Endpoint module mainly applies to decoupled 
+The **Schema.org Blueprints JSON-LD Endpoint module** mainly applies to decoupled 
 applications that want to include JSON-LD in the front-end application.

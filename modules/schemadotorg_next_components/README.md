@@ -8,7 +8,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Next.js Components module generates and previews 
+The **Schema.org Blueprints Next.js Components module** generates and previews 
 Next.js React components to assist with the integration of 
 Schema.org Blueprints with Next.js
 

@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Report module provides a report for browsing 
+The **Schema.org Blueprints Report module** provides a report for browsing 
 Schema.org types, properties, and naming conventions.
 
 This module allows site builders to browse Schema.org in a modal dialog within 

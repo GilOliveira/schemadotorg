@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Subtype module allows defining more specificity 
+The **Schema.org Blueprints Subtype module** allows defining more specificity 
 without creating dedicated entity types for every appropriate Schema.type.
 
 For example, the subtypes for <http://schema.org/Event> are mainly for adding a 

@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints JSON:API Preview module allows users to preview 
+The **Schema.org Blueprints JSON:API Preview module** allows users to preview 
 a web page's Schema.org JSON:API.
 
 

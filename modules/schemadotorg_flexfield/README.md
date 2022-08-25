@@ -11,7 +11,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Flexfield module allows a Flex field to be used to 
+The **Schema.org Blueprints Flexfield module** allows a Flex field to be used to 
 create Schema.org relationships within an entity type/bundle Schema.org mapping.
 
 
@@ -45,7 +45,7 @@ Configuration
 Notes
 -----
 
-The Schema.org Blueprints Flexfield module is intended as proof of concept of 
+The **Schema.org Blueprints Flexfield module** is intended as proof of concept of 
 alternate way to manage relationships between Schema.org types.
 
 This module may be removed before the first beta release and moved to 

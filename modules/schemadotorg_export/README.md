@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Export module provides a CSV export of 
+The **Schema.org Blueprints Export module** provides a CSV export of 
 Schema.org type mappings and mapping sets.
 
 
@@ -25,7 +25,7 @@ Features
 Notes
 -----
 
-The Schema.org Blueprint Export module allows non-technical/site builders,
+The **Schema.org Blueprint Export module** allows non-technical/site builders,
 including information architects, to understand how Drupal content types and 
 fields are mapped to Schema.org types and properties.
 

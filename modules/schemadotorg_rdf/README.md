@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints RDF module integrates Schema.org mappings with 
+The **Schema.org Blueprints RDF module** integrates Schema.org mappings with 
 Drupal core's RDF(a) mappings. 
 
 [RDF is deprecated](https://www.drupal.org/project/ideas/issues/2152459) 
@@ -25,5 +25,5 @@ Generates correspond RDF mappings from Schema.org mappings.
 Notes
 -----
 
-The Schema.org Blueprints RDF module will be moved to a dedicated sandbox module 
+The **Schema.org Blueprints RDF module** will be moved to a dedicated sandbox module 
 before the first beta release of the Schema.org Blueprints module.

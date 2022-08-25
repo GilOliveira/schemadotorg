@@ -8,7 +8,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprint Demo Standard Translation module provides 
+The **Schema.org Blueprint Demo Standard Translation module** provides 
 an opinionated translation of the Schema.org Blueprints built on 
 top of Drupal's standard profile.
 

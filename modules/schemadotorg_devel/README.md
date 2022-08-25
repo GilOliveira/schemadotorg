@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Devel module provides development tools for the 
+The **Schema.org Blueprints Devel module** provides development tools for the 
 Schema.org Blueprints module.
 
 

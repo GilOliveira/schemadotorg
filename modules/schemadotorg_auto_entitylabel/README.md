@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints Automatic Entity Labels module creates automatic 
+The **Schema.org Blueprints Automatic Entity Labels module** creates automatic 
 entity label settings for Schema.org types.
 
 

@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints JSON-LD Breadcrumb module adds Drupal's breadcrumb 
+The **Schema.org Blueprints JSON-LD Breadcrumb module** adds Drupal's breadcrumb 
 to the Schema.org JSON-LD for the current route.
 
 

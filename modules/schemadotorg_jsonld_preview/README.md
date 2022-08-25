@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The Schema.org Blueprints JSON-LD Preview module lets users preview a web page's
+The **Schema.org Blueprints JSON-LD Preview module** lets users preview a web page's
 Schema.org JSON-LD.
 
 
