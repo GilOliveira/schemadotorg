@@ -5,6 +5,7 @@ namespace Drupal\schemadotorg_mapping_set\Form;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
+use Drupal\schemadotorg_mapping_set\Controller\SchemadotorgMappingSetController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -104,8 +105,13 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
       ],
     ];
 
-    // Add note after the actions element which has a weight of 100.
     if ($this->operation === 'setup') {
+      // During setup replace mapping set types with the mapping set's details.
+      /** @var \Drupal\schemadotorg_mapping_set\Controller\SchemadotorgMappingSetController $controller */
+      $controller = SchemadotorgMappingSetController::create(\Drupal::getContainer());
+      $form['description']['type'] = $controller->details($this->name, FALSE);
+
+      // Add note after the actions element which has a weight of 100.
       $form['note'] = [
         '#weight' => 101,
         '#markup' => $this->t('Please note that setting up multiple entity types and fields may take a minute or two to complete.'),

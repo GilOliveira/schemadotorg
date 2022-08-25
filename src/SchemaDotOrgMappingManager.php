@@ -248,6 +248,12 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     $schema_property = $property_definition['label'];
 
     $mapping_type = $this->loadMappingType($entity_type_id);
+
+    // Exit if no mapping type is defined for the entity type.
+    if (!$mapping_type) {
+      return [];
+    }
+
     $mapping = $this->loadMapping($entity_type_id, $bundle);
 
     $is_new_mapping = empty($mapping);

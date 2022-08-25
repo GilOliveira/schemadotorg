@@ -167,7 +167,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
   /**
    * Builds the response for the mapping set detail page.
    */
-  public function details($name) {
+  public function details($name, $open = TRUE) {
     $mapping_set = $this->config('schemadotorg_mapping_set.settings')->get("sets.$name");
     if (empty($mapping_set)) {
       throw new NotFoundHttpException();
@@ -196,7 +196,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
       $build[$type] = [
         '#type' => 'details',
         '#title' => $this->t('@label (@type)', $t_args),
-        '#open' => TRUE,
+        '#open' => $open,
       ];
 
       // Entity.
