@@ -28,9 +28,8 @@ Features
 Requirements
 ------------
 
-**Schema.org Blueprints Flex Field**  
-Allows a Flex field to be used to create Schema.org relationships within an 
-entity type/bundle Schema.org mapping.
+**[FlexField](https://www.drupal.org/project/flexfield)**  
+Defines a new "FlexField" field type that lets you create simple inline multiple-value fields without having to use entity references.
 
 
 Configuration
