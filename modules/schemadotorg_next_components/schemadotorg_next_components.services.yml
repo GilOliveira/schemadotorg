@@ -1,0 +1,4 @@
+services:
+  schemadotorg_next_components.builder:
+    class: Drupal\schemadotorg_next_components\SchemaDotOrgNextComponentsBuilder
+    arguments: ['@entity_field.manager', '@entity_display.repository', '@jsonapi.resource_type.repository']

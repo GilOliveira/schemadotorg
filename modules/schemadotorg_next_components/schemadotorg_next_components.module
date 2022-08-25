@@ -1,0 +1,88 @@
+<?php
+
+/**
+ * @file
+ * Provides a preview of React components for Next.js.
+ */
+
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_next_site_preview_alter().
+ */
+function schemadotorg_next_components_next_site_preview_alter(array &$preview, array $context) {
+  // Check tha the current user can the access the preview.
+  if (!\Drupal::currentUser()->hasPermission('view schemadotorg next components')) {
+    return;
+  }
+
+  // Get the entity's information.
+  /** @var \Drupal\Core\Entity\EntityInterface $entity */
+  $entity = $context['entity'];
+  $entity_type_id = $entity->getEntityTypeId();
+  $bundle = $entity->bundle();
+
+  // Build output.
+  /** @var \Drupal\schemadotorg_next_components\SchemaDotOrgNextComponentsBuilder $builder */
+  $builder = \Drupal::service('schemadotorg_next_components.builder');
+  $output = $builder->build($entity_type_id, $bundle);
+
+  // Get file name.
+  $file_name = "$entity_type_id--$bundle.tsx";
+
+  // Build Next.js component preview.
+  $build = [
+    '#type' => 'details',
+    '#title' => t('Next.js components'),
+    '#attributes' => [
+      'data-schemadotorg-details-key' => 'schemadotorg-next-components-preview',
+      'class' => ['schemadotorg-next-components-preview', 'js-schemadotorg-next-components-preview'],
+    ],
+    '#attached' => ['library' => ['schemadotorg_next_components/schemadotorg_next_components']],
+  ];
+
+  // Make it easy for someone to download or copy the component.
+  $description = t('Please download or copy-n-paste the below component.');
+  $build['actions'] = [
+    '#type' => 'container',
+    '#attributes' => ['class' => ['schemadotorg-next-components-preview-actions']],
+    'description' => [
+      '#type' => 'container',
+      '#markup' => $description,
+    ],
+    'download' => [
+      '#type' => 'link',
+      '#title' => t('<u>⇩</u> Download component'),
+      '#attributes' => ['class' => ['schemadotorg-next-components-preview-download-button', 'button', 'button-small', 'button--extrasmall']],
+      '#url' => Url::fromRoute('<none>', [], ['fragment' => $file_name]),
+    ],
+    'copy' => [
+      '#type' => 'button',
+      '#value' => t('Copy component'),
+      '#button_type' => 'small',
+      '#attributes' => ['class' => ['schemadotorg-next-components-preview-copy-button', 'button--extrasmall']],
+    ],
+    'copy_message' => [
+      '#type' => 'html_tag',
+      '#tag' => 'span',
+      '#attributes' => ['class' => ['schemadotorg-next-components-preview-copy-message']],
+      '#plain_text' => t('Component copied to clipboard…'),
+    ],
+  ];
+
+  $build['component'] = [
+    'code' => [
+      '#type' => 'html_tag',
+      '#tag' => 'pre',
+      '#attributes' => ['class' => ['schemadotorg-next-components-preview-code']],
+      '#plain_text' => $output,
+    ],
+    'name' => [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['description', 'form-item__description']],
+      '#markup' => t('Filename: %name', ['%name' => $file_name]),
+    ],
+  ];
+
+  $preview['schemadotorg_next_components'] = $build;
+}

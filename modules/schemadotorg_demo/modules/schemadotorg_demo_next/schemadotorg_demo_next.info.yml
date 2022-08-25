@@ -9,3 +9,4 @@ dependencies:
   - 'next:next'
   - 'next:next_jsonapi'
   - 'schemadotorg_next:schemadotorg_next'
+  - 'schemadotorg_next:schemadotorg_next_components'

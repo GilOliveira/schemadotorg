@@ -85,10 +85,16 @@ API
 - **Schema.org Blueprints JSON:API Preview**  
   Allows users to preview a web page's Schema.org JSON:API.
 
-Integrations
+Next.js
 
-- **[Next.js](https://www.drupal.org/project/next)**  
-  Next.js + Drupal for Incremental Static Regeneration and Preview mode.
+- **Schema.org Blueprints Next.js**
+  Assists with the integration of Schema.org Blueprints with Next.js.
+
+- **Schema.org Blueprints Next.js Components Preview**
+  Provides a preview of React components to assist with the integration of Schema.org Blueprints with Next.js.
+
+- **Schema.org Blueprints Next.js Components (THEME)**
+  A theme used to generate React components to assist with the integration of Schema.org Blueprints with Next.js.
 
 - Development
 
@@ -236,3 +242,9 @@ Calculation
 
 - **[Field Token Value](https://www.drupal.org/project/field_token_value)**  
   Provides a field allowing the value to be set using a string containing tokens.
+
+Integrations
+
+- **[Next.js](https://www.drupal.org/project/next)**  
+  Next.js + Drupal for Incremental Static Regeneration and Preview mode.
+

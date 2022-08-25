@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Install, update and uninstall functions for the Schema.org Default Content module.
+ * Installation hooks for the Schema.org BlueprintsDemo Default Content module.
  */
 
 /**

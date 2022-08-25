@@ -105,7 +105,6 @@ function schemadotorg_next_next_site_preview_alter(array &$preview, array $conte
   $preview['schemadotorg_next_preview'] = [
     '#type' => 'details',
     '#title' => t('Next.js preview'),
-    '#weight' => 1000,
     '#attributes' => [
       'data-schemadotorg-details-key' => 'schemadotorg-next-preview',
       'class' => ['schemadotorg-next-preview'],

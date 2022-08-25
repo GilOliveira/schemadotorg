@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Install, update and uninstall functions for the Schema.org Standard module.
+ * Installation hooks for the Schema.org Blueprints Demo Standard Admin module.
  */
 
 /**

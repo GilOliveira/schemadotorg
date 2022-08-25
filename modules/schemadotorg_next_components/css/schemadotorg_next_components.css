@@ -1,0 +1,27 @@
+/**
+ * @file
+ * Schema.org JSON-LD preview styles.
+ */
+
+.schemadotorg-next-components-preview-copy {
+  display: none;
+}
+
+html.js .schemadotorg-next-components-preview-copy {
+  display: block;
+}
+
+.schemadotorg-next-components-preview-copy-message {
+  display: none;
+  font-weight: bold;
+}
+
+.schemadotorg-next-components-preview-copy-message:before {
+  content: '✓';
+}
+
+pre.schemadotorg-next-components-preview-code {
+  border: 1px solid #999;
+  background-color: #efefef;
+  padding: 1em;
+}
