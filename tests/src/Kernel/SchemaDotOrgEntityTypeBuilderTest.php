@@ -98,6 +98,7 @@ class SchemaDotOrgEntityTypeBuilderTest extends SchemaDotOrgKernelEntityTestBase
       'machine_name' => 'schema_alternate_name',
       'description' => '',
       'unlimited' => '1',
+      'required' => '1',
       'schema_type' => 'Thing',
       'schema_property' => 'alternateName',
     ];
@@ -140,6 +141,7 @@ class SchemaDotOrgEntityTypeBuilderTest extends SchemaDotOrgKernelEntityTestBase
       'machine_name' => 'body',
       'description' => '',
       'unlimited' => '0',
+      'required' => '0',
       'schema_type' => 'Thing',
       'schema_property' => 'description',
     ];

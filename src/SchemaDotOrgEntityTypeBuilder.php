@@ -152,6 +152,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       'label' => NULL,
       'description' => '',
       'unlimited' => NULL,
+      'required' => NULL,
       'allowed_values' => [],
       'schema_type' => NULL,
       'schema_property' => NULL,
@@ -167,6 +168,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $field_label = $field['label'];
     $field_description = $field['description'];
     $field_unlimited = $field['unlimited'];
+    $field_required = $field['required'];
     $field_allowed_values = $field['allowed_values'];
     $schema_type = $field['schema_type'];
     $schema_property = $field['schema_property'];
@@ -200,6 +202,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       'bundle' => $bundle,
       'label' => $field_label,
       'description' => $field_description,
+      'required' => $field_required,
     ];
 
     $widget_id = $formatter_id = NULL;

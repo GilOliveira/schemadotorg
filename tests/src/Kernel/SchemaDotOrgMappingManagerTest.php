@@ -3,6 +3,7 @@
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
+use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 
 /**
  * Tests the Schema.org mapping manager service.
@@ -88,9 +89,22 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
       'label' => 'Name',
       'machine_name' => 'name',
       'unlimited' => FALSE,
+      'required' => FALSE,
       'description' => 'The name of the item.',
     ];
     $this->assertEquals($expected, $defaults['properties']['name']);
+
+    $defaults = $this->mappingManager->getMappingDefaults('node', NULL, 'Person');
+    $expected = [
+      'name' => SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD,
+      'type' => 'string',
+      'label' => 'First name',
+      'machine_name' => 'given_name',
+      'unlimited' => FALSE,
+      'required' => TRUE,
+      'description' => 'Given name. In the U.S., the first name of a Person.',
+    ];
+    $this->assertEquals($expected, $defaults['properties']['givenName']);
 
     // Check getting Schema.org mapping default values with custom bundle.
     $defaults = $this->mappingManager->getMappingDefaults('node', 'custom', 'Event');

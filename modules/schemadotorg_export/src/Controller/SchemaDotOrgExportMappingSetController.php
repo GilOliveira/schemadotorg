@@ -102,6 +102,7 @@ class SchemaDotOrgExportMappingSetController extends ControllerBase {
         'existing_field',
         'field_type',
         'unlimited_field',
+        'required_field',
       ]);
 
       // Rows.
@@ -144,6 +145,7 @@ class SchemaDotOrgExportMappingSetController extends ControllerBase {
           }
           $record['type'] = $property_definition['type'];
           $record['unlimited'] = !empty($property_definition['unlimited']) ? $this->t('Yes') : $this->t('No');
+          $record['required'] = !empty($property_definition['required']) ? $this->t('Yes') : $this->t('No');
 
           fputcsv($handle, $record);
         }

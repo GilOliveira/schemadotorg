@@ -143,6 +143,7 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
     $expected_field = [
       'label' => 'Affiliations',
       'unlimited' => TRUE,
+      'required' => FALSE,
       'name' => 'affiliation',
       'description' => 'An organization that this person is affiliated with. For example, a school/university, a club, or a team.',
     ];

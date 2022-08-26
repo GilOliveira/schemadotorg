@@ -260,6 +260,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
         }
         $row['type'] = $property_definition['type'];
         $row['unlimited'] = !empty($property_definition['unlimited']) ? $this->t('Yes') : $this->t('No');
+        $row['required'] = !empty($property_definition['required']) ? $this->t('Yes') : $this->t('No');
         unset($row['description']);
         $rows[] = $row;
       }
@@ -272,7 +273,8 @@ class SchemadotorgMappingSetController extends ControllerBase {
           'name' => ['data' => $this->t('Field name'), 'width' => '15%'],
           'existing' => ['data' => $this->t('Existing field'), 'width' => '10%'],
           'type' => ['data' => $this->t('Field type'), 'width' => '15%'],
-          'unlimited' => ['data' => $this->t('Unlimited values'), 'width' => '10%'],
+          'unlimited' => ['data' => $this->t('Unlimited values'), 'width' => '5%'],
+          'required' => ['data' => $this->t('Required field'), 'width' => '5%'],
         ],
         '#rows' => $rows,
       ];

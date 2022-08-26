@@ -810,6 +810,12 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       '#default_value' => $defaults['unlimited'],
     ];
 
+    $form[static::ADD_FIELD]['required'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Required field'),
+      '#default_value' => $defaults['required'],
+    ];
+
     // Display property status, which can be new (warning) or mapped (success).
     if ($defaults['name']) {
       $form['#row_class'] = ($defaults['name'] === static::ADD_FIELD)

@@ -70,7 +70,7 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
     $form['schema_properties']['default_fields'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
-      '#settings_format' => 'SchemaType--propertyName|type:string,label:Property name,unlimited:1',
+      '#settings_format' => 'SchemaType--propertyName|type:string,label:Property name,unlimited:1,required:1',
       '#title' => $this->t('Default Schema.org property fields'),
       '#rows' => 20,
       '#description' => $this->t('Enter default Schema.org property field definition used when adding a Schema.org property to an entity type.'),

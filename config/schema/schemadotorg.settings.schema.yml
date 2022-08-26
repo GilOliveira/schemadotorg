@@ -82,4 +82,7 @@ schemadotorg.settings:
                 label: Description
               unlimited:
                 type: boolean
-                label: Boolean
+                label: 'Unlimited values'
+              required:
+                type: boolean
+                label: 'Required field'

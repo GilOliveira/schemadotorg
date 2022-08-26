@@ -832,8 +832,10 @@ schema_properties:
       label: 'Middle name'
     Person--familyName:
       label: 'Last name'
+      required: true
     Person--givenName:
       label: 'First name'
+      required: true
     Physician--founder:
       label: 'Physician biography'
     QAPage--mainEntity:
@@ -983,6 +985,8 @@ schema_properties:
       type: telephone
     foodWarning:
       type: text_long
+    founder:
+      unlimited: true
     gamePlatform:
       label: 'Game platforms'
       unlimited: true

@@ -306,6 +306,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     $defaults['label'] = $default_field['label'];
     $defaults['machine_name'] = $default_field['name'];
     $defaults['unlimited'] = $default_field['unlimited'];
+    $defaults['required'] = $default_field['required'];
     $defaults['description'] = $this->schemaTypeBuilder->formatComment($default_field['description'], ['base_path' => 'https://schema.org/']);
     return $defaults;
   }

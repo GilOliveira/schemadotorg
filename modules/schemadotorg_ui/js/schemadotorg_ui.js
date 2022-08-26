@@ -213,8 +213,11 @@
 
   function setPropertyAddFieldSummary($details) {
     var text = $details.find('select option:selected').text();
-    if ($details.find('input[type="checkbox"]').prop("checked")) {
+    if ($details.find('input[name$="[unlimited]"]').prop("checked")) {
       text += ' - ' + Drupal.t('unlimited');
+    }
+    if ($details.find('input[name$="[required]"]').prop("checked")) {
+      text += ' - ' + Drupal.t('required');
     }
     $details.drupalSetSummary(text).trigger('summaryUpdated');
   }

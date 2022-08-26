@@ -157,6 +157,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
       'label' => $property_definition['drupal_label'],
       'description' => $property_definition['comment'],
       'unlimited' => $this->unlimitedProperties[$property] ?? FALSE,
+      'required' => FALSE,
     ];
 
     // Allow modules to alter the default field via a hook.

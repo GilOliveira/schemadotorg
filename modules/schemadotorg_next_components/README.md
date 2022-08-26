@@ -46,17 +46,17 @@ General
   - /admin/config/search/schemadotorg/media.audio/next
   - Details view should include summary and component.
 - Export other entity types included media and paragraphs
-- Improve import handling for components.
+- Improve import handling for components. Maybe pass $context array. 
 - Apply Prettier to generated files.
 
 Components/features
 
-- Meta tags
-- JSON-LD
 - Date formatting
 - Text formatting
-- Media images
-- Entity reference links
 - \<Image\> support
 - \<Link\> support
+- Meta tags
+- JSON-LD
+- Media images
+- Entity reference links
 - \<DynamicEntity entity={entity} /\> - <https://nextjs.org/docs/advanced-features/dynamic-import> 
