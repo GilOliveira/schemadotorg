@@ -8,5 +8,5 @@ dependencies:
   - 'drupal:basic_auth'
   - 'next:next'
   - 'next:next_jsonapi'
-  - 'schemadotorg_next:schemadotorg_next'
-  - 'schemadotorg_next:schemadotorg_next_components'
+  - 'schemadotorg:schemadotorg_next'
+  - 'schemadotorg:schemadotorg_next_components'
