@@ -2,14 +2,23 @@
 
 namespace Drupal\schemadotorg_next_components;
 
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface;
 
 /**
  * Schema.org Next.js components builder.
  */
 class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBuilderInterface {
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
 
   /**
    * The entity field manager.
@@ -35,6 +44,8 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
   /**
    * Constructs a SchemaDotOrgNextComponentBuilder object.
    *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
    *   The entity field manager.
    * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository
@@ -43,10 +54,12 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
    *   The resource type repository.
    */
   public function __construct(
+    EntityTypeManagerInterface $entity_type_manager,
     EntityFieldManagerInterface $entity_field_manager,
     EntityDisplayRepositoryInterface $display_repository,
     ResourceTypeRepositoryInterface $resource_type_repository
   ) {
+    $this->entityTypeManager = $entity_type_manager;
     $this->entityFieldManager = $entity_field_manager;
     $this->entityDisplayRepository = $display_repository;
     $this->resourceTypeRepository = $resource_type_repository;
@@ -55,7 +68,55 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
   /**
    * {@inheritdoc}
    */
-  public function build($entity_type_id, $bundle) {
+  public function buildEntity($entity_type_id) {
+    $bundle_entity_type = $this->entityTypeManager->getDefinition($entity_type_id)->getBundleEntityType();
+    $bundle_entity_storage = $this->entityTypeManager->getStorage($bundle_entity_type);
+
+    $bundles = $bundle_entity_storage->loadMultiple();
+
+    $resource_types = [];
+    foreach ($bundles as $bundle) {
+      $resource_type = 'node--' . $bundle->id();
+      $component_name = ucfirst($entity_type_id) . ucfirst($bundle->id());
+      $resource_types[$resource_type] = $component_name;
+    }
+
+    $next_imports = [];
+    $next_switch_cases = [];
+    foreach ($resource_types as $resource_type => $component_name) {
+      $next_imports[] = "import { $component_name } from 'components/$resource_type';";
+      $next_switch_cases[] = "case '$resource_type': return <$component_name node={resource} />;";
+    }
+    $next_imports[] = "import { DrupalEntity } from 'components/entity';";
+    $next_switch_cases[] = " default: return  <DrupalEntity entity={resource} />;";
+
+    $imports = implode(PHP_EOL, $next_imports);
+    $switch_cases = implode(PHP_EOL . PHP_EOL, $next_switch_cases);
+    $resource_types = Json::encode(array_keys($resource_types));
+    return <<<EOT
+        import * as React from "react";
+        import { DrupalNode } from "next-drupal";
+
+        $imports
+
+        export const RESOURCE_TYPES = $resource_types;
+
+        interface NodePageProps {
+          resource: DrupalNode;
+        }
+
+        export function Node({ resource }: NodePageProps) {
+          switch (resource.type) {
+            $switch_cases
+          }
+        }
+      EOT;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildEntityBundle($entity_type_id, $bundle) {
     $base_name = 'Drupal' . ucfirst($entity_type_id);
     $component_name = ucfirst($entity_type_id) . ucfirst($bundle);
     $props_name = ucfirst($entity_type_id) . ucfirst($bundle) . 'Props';

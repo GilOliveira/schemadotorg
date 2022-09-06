@@ -92,11 +92,16 @@ class SchemaDotOrgNextComponentsCommands extends DrushCommands {
       $bundle = $node_type->id();
 
       $file_name = "$entity_type_id--$bundle.tsx";
-      $output = $this->componentsBuilder->build($entity_type_id, $bundle);
+      $output = $this->componentsBuilder->buildEntityBundle($entity_type_id, $bundle);
       file_put_contents("$destination/$file_name", $output);
 
       $this->io()->writeln(dt('Created @name', ['@name' => $file_name]));
     }
+
+    $file_name = "$entity_type_id.tsx";
+    $output = $this->componentsBuilder->buildEntity($entity_type_id);
+    file_put_contents("$destination/$file_name", $output);
+    $this->io()->writeln(dt('Created @name', ['@name' => $file_name]));
   }
 
 }
