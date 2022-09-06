@@ -27,8 +27,6 @@ function schemadotorg_next_components_next_site_preview_alter(array &$preview, a
   $builder = \Drupal::service('schemadotorg_next_components.builder');
   $output = $builder->buildEntityBundle($entity_type_id, $bundle);
 
-  dsm($builder->buildEntity($entity_type_id));
-
   // Get file name.
   $file_name = "$entity_type_id--$bundle.tsx";
 
