@@ -101,8 +101,13 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
       $next_imports[] = "import { $component_name } from 'components/$resource_type_id';";
       $next_switch_cases[] = "case '$resource_type_id': return <$component_name node={resource} />;";
       $next_resource_types[] = $resource_type_id;
+
       $includes = $this->schemaJsonApiManager->getResourceIncludes($resource_type);
       $includes['uid'] = 'uid';
+      // @todo Remove code once we workout supporting node--article field_image.
+      if ($resource_type->getTypeName() === 'node--article') {
+        $includes['field_image'] = 'field_image';
+      }
       $next_resource_includes[$resource_type_id] = implode(',', $includes);
     }
     $next_imports[] = "import { DrupalEntity } from 'components/entity';";

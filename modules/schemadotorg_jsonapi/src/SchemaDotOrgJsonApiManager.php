@@ -130,13 +130,6 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
 
     $relationships = $resource_type->getRelatableResourceTypes();
     $field_names = array_keys($mapping->getSchemaProperties());
-
-    // @todo Remove code once we workout supporting node--article field_image.
-    if ($resource_type->getTypeName() === 'node--article') {
-      $field_names[] = 'field_image';
-      $field_names[] = 'uid';
-    }
-
     $field_definitions = $this->fieldManager->getFieldDefinitions($entity_type_id, $bundle);
     foreach ($field_names as $field_name) {
       $field = $resource_type->getFieldByInternalName($field_name);
