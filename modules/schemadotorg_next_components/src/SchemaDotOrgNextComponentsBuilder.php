@@ -272,10 +272,12 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
     $component_type = $this->getComponentType($field_type);
     switch ($component_type) {
       case 'text':
+        $next_imports[] = "import { FormattedText } from 'components/formatted-text';";
+
         $component_field = "$entity_type_id.$public_name?.processed";
         $component_value = $is_multiple
-          ? "<div>{ $entity_type_id.$public_name.map((item, i) => <div key={i} dangerouslySetInnerHTML={{ __html: item.processed }} />) }</div>"
-          : "<div dangerouslySetInnerHTML={{ __html: $entity_type_id.$public_name.processed }} />";
+          ? "<div>{ $entity_type_id.$public_name.map((item, i) => <FormattedText key={i} processed={item.processed} />) }</div>"
+          : "<FormattedText processed={ $entity_type_id.$public_name.processed } />";
         break;
 
       case 'value';
