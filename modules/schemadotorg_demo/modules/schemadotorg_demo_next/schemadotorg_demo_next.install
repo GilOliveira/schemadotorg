@@ -11,12 +11,17 @@ use Drupal\user\Entity\User;
  * Implements hook_install().
  */
 function schemadotorg_demo_next_install() {
+  /** @var \Drupal\user\UserStorageInterface $user_storage */
+  $user_storage = \Drupal::entityTypeManager()->getStorage('user');
+
   // Create next account used for basic authentication preview.
-  User::create([
-    'name' => 'next',
-    'pass' => 'next',
-    'mail' => 'next@example.com',
-    'roles' => ['schemadotorg_demo_next'],
-    'status' => TRUE,
-  ])->save();
+  if (!$user_storage->loadByProperties(['name' => 'next'])) {
+    $user_storage->create([
+      'name' => 'next',
+      'pass' => 'next',
+      'mail' => 'next@example.com',
+      'roles' => ['schemadotorg_demo_next'],
+      'status' => TRUE,
+    ])->save();
+  }
 }

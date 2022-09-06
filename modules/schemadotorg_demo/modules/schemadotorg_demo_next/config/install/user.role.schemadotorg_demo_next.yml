@@ -3,6 +3,7 @@ status: true
 dependencies:
   module:
     - node
+    - schemadotorg_demo_next
     - subrequests
 id: schemadotorg_demo_next
 label: 'Next.js Site'

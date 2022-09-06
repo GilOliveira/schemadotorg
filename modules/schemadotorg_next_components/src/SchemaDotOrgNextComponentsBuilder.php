@@ -62,11 +62,16 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
 
     $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle);
 
+    $next_imports = [
+      "import {" . $base_name . "} from 'next-drupal'",
+      "import { DrupalEntity } from 'components/entity'",
+    ];
+
     // Components.
     $display_components = $view_display->getComponents();
     unset($display_components['title']);
     foreach ($display_components as $field_name => $display_component) {
-      $field_component = $this->buildNextFieldComponent($entity_type_id, $bundle, $field_name, $display_component);
+      $field_component = $this->buildNextFieldComponent($entity_type_id, $bundle, $field_name, $display_component, $next_imports);
       if ($field_component) {
         $display_components[$field_name]['next'] = $field_component;
       }
@@ -102,11 +107,11 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
       return $component['next'];
     }, $all_components);
 
+    $imports = implode(PHP_EOL, array_unique($next_imports));
     $components = implode(PHP_EOL . PHP_EOL, $next_components);
 
     return <<<EOT
-      import { $base_name } from "next-drupal"
-      import { DrupalEntity } from "components/entity";
+      $imports
 
       interface $props_name {
         node: $base_name
@@ -166,12 +171,14 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
    * @param string $field_name
    *   The field name.
    * @param array $field_component
-   *   The field display setings.
+   *   The field display settings.
+   * @param array $next_imports
+   *   The Next.js import directives.
    *
    * @return string|null
    *   A Next.js field component.
    */
-  protected function buildNextFieldComponent($entity_type_id, $bundle, $field_name, array $field_component) {
+  protected function buildNextFieldComponent($entity_type_id, $bundle, $field_name, array $field_component, array &$next_imports) {
     $field_definitions = $this->entityFieldManager->getFieldDefinitions($entity_type_id, $bundle);
     $field_definition = $field_definitions[$field_name] ?? NULL;
     if (!$field_definition) {
@@ -197,6 +204,18 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
         $component_value = $is_multiple
          ? "<div>{ $entity_type_id.$public_name.map((value, i) => <div key={i}>{value}</div>) }</div>"
          : "<div>{ $entity_type_id.$public_name }</div>";
+        break;
+
+      case 'time':
+      case 'datetime':
+        $format_function = ($component_type === 'time') ? 'formatTime' : 'formatDateTime';
+
+        $next_imports = array_merge(["import { $format_function } from 'lib/format-date';"], $next_imports);
+
+        $component_field = "$entity_type_id.$public_name";
+        $component_value = $is_multiple
+          ? "<div>{ $entity_type_id.$public_name.map((value, i) => <div key={i}>{ $format_function(value) }</div>) }</div>"
+          : "<div>{ $format_function($entity_type_id.$public_name) }</div>";
         break;
 
       case 'email';
@@ -324,18 +343,18 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
       case 'string':
       case 'string_long':
       case 'boolean':
-      case 'datetime':
-      case 'time':
       case 'timestamp':
         return 'value';
 
       case 'address':
+      case 'datetime':
       case 'file':
       case 'email':
       case 'entity_reference':
       case 'image':
       case 'link':
       case 'telephone':
+      case 'time':
       case 'time_range':
       default:
         return $field_type;
