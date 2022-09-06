@@ -64,7 +64,6 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
 
     $next_imports = [
       "import {" . $base_name . "} from 'next-drupal'",
-      "import { DrupalEntity } from 'components/entity'",
     ];
 
     // Components.
@@ -264,20 +263,31 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
         }
         break;
 
+      case 'image':
       case 'entity_reference':
+        if ($component_type === 'image') {
+          $next_imports[] = "import { DrupalImage } from 'components/image'";
+          $tag_name = 'DrupalImage';
+          $attribute_name = 'image';
+        }
+        else {
+          $tag_name = 'DrupalEntity';
+          $attribute_name = 'entity';
+          $next_imports[] = "import { DrupalEntity } from 'components/entity'";
+        }
         $component_field = "$entity_type_id.$public_name";
         if ($is_multiple) {
           $component_value = <<<EOT
             <div>
               { $entity_type_id.$public_name.map((item, i) => (
-                <DrupalEntity key={i} entity={ item } />
+                <$tag_name key={i} $attribute_name={ item } />
               ))}
             </div>
             EOT;
         }
         else {
           $component_value = <<<EOT
-            <DrupalEntity entity={ $entity_type_id.$public_name } />
+            <$tag_name $attribute_name={ $entity_type_id.$public_name } />
             EOT;
         }
         break;
