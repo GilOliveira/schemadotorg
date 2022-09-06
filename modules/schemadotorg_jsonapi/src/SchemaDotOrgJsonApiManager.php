@@ -128,10 +128,9 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
 
     $includes = [];
 
-    $relationships = $resource_type->getRelatableResourceTypes();
-    $field_names = array_keys($mapping->getSchemaProperties());
+    $relationships = $this->getResourceTypeRelationships($resource_type);
     $field_definitions = $this->fieldManager->getFieldDefinitions($entity_type_id, $bundle);
-    foreach ($field_names as $field_name) {
+    foreach ($field_definitions as $field_name => $field_definition) {
       $field = $resource_type->getFieldByInternalName($field_name);
       if (!$field) {
         continue;
@@ -148,9 +147,9 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
       // Get nested includes for entity references.
       // @todo Determine how many include levels should be returned.
       if ($level < 1) {
-        $field_type = $field_definitions[$field_name]->getType();
+        $field_type = $field_definition->getType();
         if (in_array($field_type, ['entity_reference', 'entity_reference_revisions'])) {
-          $settings = $field_definitions[$field_name]->getSettings();
+          $settings = $field_definition->getSettings();
           $target_type = $settings['target_type'];
           $target_bundles = NestedArray::getValue($settings, ['handler_settings', 'target_bundles']) ?? [];
           foreach ($target_bundles as $target_bundle) {
@@ -318,6 +317,40 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
     $target_bundle = $mapping->getTargetBundle();
     $resource_id = $target_entity_type_id . '--' . $target_bundle;
     return $this->getResourceConfigStorage()->load($resource_id);
+  }
+
+  /* ************************************************************************ */
+  // Schema.org resource type methods.
+  /* ************************************************************************ */
+
+  /**
+   * Get a resource type's relationships without internal resources.
+   *
+   * @param \Drupal\jsonapi\ResourceType\ResourceType $resource_type
+   *   The resource type.
+   *
+   * @return array
+   *   An array containing a resource type's relationships without
+   *   internal resources.
+   */
+  protected function getResourceTypeRelationships(ResourceType $resource_type) {
+    $relationships = $resource_type->getRelatableResourceTypes();
+
+    // Remove internal relationships.
+    foreach ($relationships as $relationship => $relationship_resources) {
+      /** @var \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceType[] $relationship_resources */
+      foreach ($relationship_resources as $index => $relationship_resource) {
+        if ($relationship_resource->isInternal()) {
+          unset($relationship_resources[$index]);
+        }
+      }
+
+      if (empty($relationship_resources)) {
+        unset($relationships[$relationship]);
+      }
+    }
+
+    return $relationships;
   }
 
   /* ************************************************************************ */
