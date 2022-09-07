@@ -184,8 +184,8 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
       'Reference' => [
         'field_ui:entity_reference:node' => 'Content',
         'entity_reference' => 'Entity reference',
-        'field_ui:entity_reference:media' => 'Media',
         'file' => 'File',
+        'field_ui:entity_reference:media' => 'Media',
         'field_ui:entity_reference:user' => 'User',
       ],
       'Test' => [
@@ -201,21 +201,21 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
     $expected_field_options = [
       '_add_' => 'Add a new field…',
       'Fields' => [
-        'schema_alternate_name' => 'Alternate name (Text (plain))',
+        'schema_alternate_name' => 'Alternate name [Text (plain)]',
       ],
       'Base fields' => [
-        'uuid' => 'UUID (UUID)',
-        'revision_uid' => 'Revision user (Entity reference)',
-        'uid' => 'Authored by (Entity reference)',
-        'title' => 'Title (Text (plain))',
-        'created' => 'Authored on (Created)',
-        'changed' => 'Changed (Last changed)',
-        'promote' => 'Promoted to front page (Boolean)',
-        'sticky' => 'Sticky at top of lists (Boolean)',
-        'langcode' => 'Language (Language)',
+        'uuid' => 'uuid [UUID]',
+        'revision_uid' => 'revision_uid [Entity reference]',
+        'uid' => 'uid [Entity reference]',
+        'promote' => 'promote [Boolean]',
+        'sticky' => 'sticky [Boolean]',
+        'langcode' => 'langcode [Language]',
+        'title' => 'title [Text (plain)]',
+        'created' => 'created [Created]',
+        'changed' => 'changed [Last changed]',
       ],
       'Existing fields' => [
-        'schema_identifier' => 'schema_identifier (Text (plain))',
+        'schema_identifier' => 'schema_identifier [Text (plain)]',
       ],
     ];
     $actual_field_options = $this->fieldManager->getFieldOptions('node', 'thing');

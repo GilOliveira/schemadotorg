@@ -224,7 +224,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
 
     $options = [];
     foreach ($field_definitions as $field_definition) {
-      $options[$field_definition->getName()] = $this->t('@field (@type)', [
+      $options[$field_definition->getName()] = $this->t('@field [@type]', [
         '@type' => $field_types[$field_definition->getType()]['label'],
         '@field' => $field_definition->getLabel(),
       ]);
@@ -280,18 +280,18 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
       foreach ($base_field_names as $field_name) {
         if (isset($field_definitions[$field_name])) {
           $field_definition = $field_definitions[$field_name];
-          $options[$field_definition->getName()] = $this->t('@field (@type)', [
+          $options[$field_definition->getName()] = $this->t('@field [@type]', [
             '@type' => $field_types[$field_definition->getType()]['label'],
-            '@field' => $field_definition->getLabel(),
+            '@field' => $field_name,
           ]);
         }
       }
     }
     else {
-      foreach ($field_definitions as $field_definition) {
-        $options[$field_definition->getName()] = $this->t('@field (@type)', [
+      foreach ($field_definitions as $field_name => $field_definition) {
+        $options[$field_definition->getName()] = $this->t('@field [@type]', [
           '@type' => $field_types[$field_definition->getType()]['label'],
-          '@field' => $field_definition->getLabel(),
+          '@field' => $field_name,
         ]);
       }
     }
@@ -328,7 +328,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
         && !$field_storage->isLocked()
         && empty($field_types[$field_type]['no_ui'])
         && !in_array($bundle, $field_storage->getBundles(), TRUE)) {
-        $options[$field_name] = $this->t('@field (@type)', [
+        $options[$field_name] = $this->t('@field [@type]', [
           '@type' => $field_types[$field_type]['label'],
           '@field' => $field_name,
         ]);
