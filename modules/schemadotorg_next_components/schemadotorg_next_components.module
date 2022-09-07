@@ -33,7 +33,7 @@ function schemadotorg_next_components_next_site_preview_alter(array &$preview, a
   // Build Next.js component preview.
   $build = [
     '#type' => 'details',
-    '#title' => t('Next.js components'),
+    '#title' => t('Next.js component'),
     '#attributes' => [
       'data-schemadotorg-details-key' => 'schemadotorg-next-components-preview',
       'class' => ['schemadotorg-next-components-preview', 'js-schemadotorg-next-components-preview'],

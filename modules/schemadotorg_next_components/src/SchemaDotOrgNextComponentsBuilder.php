@@ -281,8 +281,11 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
 
     return <<<EOT
       <section>
+
         <h2 className="mb-2 text-4xl">$group_label</h2>
+
         $components
+
       </section>
       EOT;
   }
