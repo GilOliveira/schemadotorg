@@ -94,11 +94,12 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
         $entity_type_id,
         $bundle
       );
-      $resource_type_id = 'node--' . $bundle;
-      $component_name = ucfirst($entity_type_id) . ucfirst($bundle);
+      $resource_type_id = $entity_type_id . '--' . $bundle;
+      $entity_name = $this->snakeCaseToUpperCamelCase($entity_type_id);
+      $component_name = $this->snakeCaseToUpperCamelCase($entity_type_id . '_' . $bundle);
 
       $next_imports[] = "import { $component_name } from 'components/$resource_type_id';";
-      $next_switch_cases[] = "case '$resource_type_id': return <$component_name node={resource} />;";
+      $next_switch_cases[] = "case '$resource_type_id': return <$component_name $entity_type_id={resource} />;";
       $next_resource_types[] = $resource_type_id;
       $next_resource_includes[$resource_type_id] = implode(',', $this->schemaJsonApiManager->getResourceIncludes($resource_type));
     }
@@ -107,12 +108,14 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
 
     $imports = implode(PHP_EOL, $next_imports);
     $switch_cases = implode(PHP_EOL . PHP_EOL, $next_switch_cases);
-    $resource_types = Json::encode($next_resource_types);
-    $resource_includes = Json::encode($next_resource_includes);
 
-    return <<<EOT
+    if ($entity_type_id === 'node') {
+      $resource_types = Json::encode($next_resource_types);
+      $resource_includes = Json::encode($next_resource_includes);
+
+      return <<<EOT
         import * as React from "react";
-        import { DrupalNode } from "next-drupal";
+        import { Drupal{$entity_name} } from "next-drupal";
 
         $imports
 
@@ -120,25 +123,46 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
 
         export const RESOURCE_INCLUDES = $resource_includes;
 
-        interface NodePageProps {
-          resource: DrupalNode;
+        interface {$entity_name}PageProps {
+          resource: Drupal{$entity_name};
         }
 
-        export function Node({ resource }: NodePageProps) {
+        export function $entity_name({ resource }: {$entity_name}PageProps) {
           switch (resource.type) {
             $switch_cases
           }
         }
-      EOT;
+        EOT;
+    }
+    else {
+      return <<<EOT
+        import * as React from "react";
+        import { Drupal{$entity_name} } from "next-drupal";
+
+        $imports
+
+        interface {$entity_name}PageProps {
+          resource: Drupal{$entity_name};
+        }
+
+        export function $entity_name({ resource }: {$entity_name}PageProps) {
+          switch (resource.type) {
+            $switch_cases
+          }
+        }
+        EOT;
+    }
   }
+
 
   /**
    * {@inheritdoc}
    */
   public function buildEntityBundle($entity_type_id, $bundle) {
-    $base_name = 'Drupal' . ucfirst($entity_type_id);
-    $component_name = ucfirst($entity_type_id) . ucfirst($bundle);
-    $props_name = ucfirst($entity_type_id) . ucfirst($bundle) . 'Props';
+    $base_name = $this->snakeCaseToUpperCamelCase('drupal_' . $entity_type_id);
+    $attribute_name = $entity_type_id;
+    $component_name = $this->snakeCaseToUpperCamelCase($entity_type_id . '_' . $bundle);
+    $props_name = $component_name . 'Props';
 
     $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle);
 
@@ -189,25 +213,44 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
     $imports = implode(PHP_EOL, array_unique($next_imports));
     $components = implode(PHP_EOL . PHP_EOL, $next_components);
 
-    return <<<EOT
-      $imports
+    if ($entity_type_id === 'node') {
+      return <<<EOT
+        $imports
 
-      interface $props_name {
-        node: $base_name
-      }
+        interface $props_name {
+         $attribute_name: $base_name
+        }
 
-      export function $component_name({ node, ...props }: $props_name) {
-        return (
-          <article {...props}>
+        export function $component_name({ $attribute_name, ...props }: $props_name) {
+          return (
+            <article {...props}>
 
-            <h1 className="mb-4 text-6xl">{node.title}</h1>
+              <h1 className="mb-4 text-6xl">{ $attribute_name.title }</h1>
 
-            $components
+              $components
 
-          </article>
-        )
-      }
-      EOT;
+            </article>
+          )
+        }
+        EOT;
+    }
+    else {
+      return <<<EOT
+        $imports
+
+        interface $props_name {
+         $attribute_name: $base_name
+        }
+
+        export function $component_name({ $attribute_name, ...props }: $props_name) {
+          return (
+            <div {...props}>
+              $components
+            </div>
+          )
+        }
+        EOT;
+    }
   }
 
   /**
@@ -451,6 +494,10 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
       default:
         return $field_type;
     }
+  }
+
+  protected function snakeCaseToUpperCamelCase($string) {
+    return str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
   }
 
 }

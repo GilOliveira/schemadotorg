@@ -83,25 +83,31 @@ class SchemaDotOrgNextComponentsCommands extends DrushCommands {
       throw new UserAbortException();
     }
 
-    /** @var \Drupal\node\NodeTypeInterface[] $node_types */
-    $node_types = $this->entityTypeManager
-      ->getStorage('node_type')
-      ->loadMultiple();
-    $entity_type_id = 'node';
-    foreach ($node_types as $node_type) {
-      $bundle = $node_type->id();
+    $entity_type_ids = ['node', 'media'];
+    foreach ($entity_type_ids as $entity_type_id) {
+      $bundle_entity_type_id = $this->entityTypeManager
+        ->getDefinition($entity_type_id)
+        ->getBundleEntityType();
 
-      $file_name = "$entity_type_id--$bundle.tsx";
-      $output = $this->componentsBuilder->buildEntityBundle($entity_type_id, $bundle);
+      $bundle_entity_types = $this->entityTypeManager
+        ->getStorage($bundle_entity_type_id)
+        ->loadMultiple();
+      foreach ($bundle_entity_types as $bundle_entity_type) {
+        $bundle = $bundle_entity_type->id();
+
+        $file_name = "$entity_type_id--$bundle.tsx";
+        $output = $this->componentsBuilder->buildEntityBundle($entity_type_id, $bundle);
+        file_put_contents("$destination/$file_name", $output);
+
+        $this->io()->writeln(dt('Created @name', ['@name' => $file_name]));
+      }
+
+      $file_name = "$entity_type_id.tsx";
+      $output = $this->componentsBuilder->buildEntity($entity_type_id);
       file_put_contents("$destination/$file_name", $output);
-
       $this->io()->writeln(dt('Created @name', ['@name' => $file_name]));
-    }
 
-    $file_name = "$entity_type_id.tsx";
-    $output = $this->componentsBuilder->buildEntity($entity_type_id);
-    file_put_contents("$destination/$file_name", $output);
-    $this->io()->writeln(dt('Created @name', ['@name' => $file_name]));
+    }
   }
 
 }
