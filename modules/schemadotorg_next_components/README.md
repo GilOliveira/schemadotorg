@@ -29,12 +29,20 @@ Configuration
 References
 ----------
 
+TypeScript
+
+- https://github.com/typescript-cheatsheets/react
+- https://www.typescriptlang.org/cheatsheets
+
 Tailwind
 
 - https://flowbite.com/tools/tailwind-cheat-sheet/
 - https://flowbite.com/docs/getting-started/introduction/
 - https://tailwind-elements.com/docs/standard/components/alerts/
 
+PHPStorm
+
+- https://www.jetbrains.com/help/phpstorm/tailwind-css.html
 
 Todo
 ----
