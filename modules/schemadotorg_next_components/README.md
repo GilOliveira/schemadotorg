@@ -45,18 +45,16 @@ General
   - Create 'schemadotorg_next_components.entity'
   - /admin/config/search/schemadotorg/media.audio/next
   - Details view should include summary and component.
-- Export other entity types included media and paragraphs
-- Improve import handling for components. Maybe pass $context array. 
-- Apply Prettier to generated files.
+- Export other entity types included paragraphs
+
+Schema.org types
+
+- HowTo - has nested paragraphs
 
 Components/features
 
-- Date formatting
-- Text formatting
-- \<Image\> support
-- \<Link\> support
-- Meta tags
 - JSON-LD
-- Media images
-- Entity reference links
+- Address 
+- Time range
+- Date range
 - \<DynamicEntity entity={entity} /\> - <https://nextjs.org/docs/advanced-features/dynamic-import> 

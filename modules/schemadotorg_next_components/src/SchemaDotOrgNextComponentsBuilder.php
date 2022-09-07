@@ -85,6 +85,8 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
     $bundle_entity_storage = $this->entityTypeManager->getStorage($bundle_entity_type);
     $bundles = array_keys($bundle_entity_storage->loadMultiple());
 
+    $entity_name = $this->snakeCaseToUpperCamelCase($entity_type_id);
+
     $next_imports = [];
     $next_switch_cases = [];
     $next_resource_types = [];
@@ -95,7 +97,6 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
         $bundle
       );
       $resource_type_id = $entity_type_id . '--' . $bundle;
-      $entity_name = $this->snakeCaseToUpperCamelCase($entity_type_id);
       $component_name = $this->snakeCaseToUpperCamelCase($entity_type_id . '_' . $bundle);
 
       $next_imports[] = "import { $component_name } from 'components/$resource_type_id';";
@@ -154,7 +155,6 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
     }
   }
 
-
   /**
    * {@inheritdoc}
    */
@@ -172,7 +172,14 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
 
     // Components.
     $display_components = $view_display->getComponents();
-    unset($display_components['title']);
+
+    // Unset base field components.
+    unset(
+      $display_components['title'],
+      $display_components['uid'],
+      $display_components['created']
+    );
+
     foreach ($display_components as $field_name => $display_component) {
       $field_component = $this->buildNextFieldComponent($entity_type_id, $bundle, $field_name, $display_component, $next_imports);
       if ($field_component) {
@@ -265,22 +272,19 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
    *   A Next.js field group component.
    */
   protected function buildNextGroupComponent(array $field_group, array $children) {
-    $label = $field_group['label'];
+    $group_label = $field_group['label'];
 
     $next_components = array_map(function ($child) {
       return $child['next'];
     }, $children);
-    $components = implode(PHP_EOL, $next_components);
+    $components = implode(PHP_EOL . PHP_EOL, $next_components);
 
     return <<<EOT
-    <section>
-
-      <h2 className="mb-2 text-4xl">$label</h2>
-
-      $components
-
-    </section>
-    EOT;
+      <section>
+        <h2 className="mb-2 text-4xl">$group_label</h2>
+        $components
+      </section>
+      EOT;
   }
 
   /**
@@ -355,7 +359,7 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
             <div>
               { $entity_type_id.$public_name.map((value, i) => (
                 <div key={i}>
-                  <a className="hover:text-blue-600" href={'$protocol' + value}>{ value }</a>
+                  <a className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href={'$protocol' + value}>{ value }</a>
                 </div>
               ))}
             </div>
@@ -363,7 +367,7 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
         }
         else {
           $component_value = <<<EOT
-            <a className="hover:text-blue-600" href={'$protocol' + $entity_type_id.$public_name}>{ $entity_type_id.$public_name }</a>
+            <a className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href={'$protocol' + $entity_type_id.$public_name}>{ $entity_type_id.$public_name }</a>
             EOT;
         }
         break;
@@ -375,7 +379,7 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
             <div>
               { $entity_type_id.$public_name.map((item, i) => (
                 <div key={i}>
-                  <a className="hover:text-blue-600" href={item.uri}>{ item.title || item.uri }</a>
+                  <a className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href={item.uri}>{ item.title || item.uri }</a>
                 </div>
               ))}
             </div>
@@ -383,7 +387,7 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
         }
         else {
           $component_value = <<<EOT
-            <a className="hover:text-blue-600" href={ $entity_type_id.$public_name.uri}>{ $entity_type_id.$public_name.title || $entity_type_id.$public_name.uri }</a>
+            <a className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href={ $entity_type_id.$public_name.uri}>{ $entity_type_id.$public_name.title || $entity_type_id.$public_name.uri }</a>
             EOT;
         }
         break;
@@ -418,11 +422,30 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
         break;
 
       default:
-        return NULL;
+        $component_field = "$entity_type_id.$public_name";
+        $component_value = <<<EOT
+          {/* $component_type */}
+          <pre>{JSON.stringify($entity_type_id.$public_name, null, 2)}</pre>
+          EOT;
+        break;
     }
 
     $field_label = $field_definition->getLabel();
-    $component_label = '<h3 className="mb-1 text-2xl">' . $field_label . '</h3>';
+    $label_display = $field_component['label'] ?? 'above';
+    switch ($label_display) {
+      case 'hidden':
+        $component_label = '';
+        break;
+
+      case 'visually_hidden':
+        $component_label = '<h3 className="sr-only">' . $field_label . '</h3>';
+        break;
+
+      case 'above':
+      default:
+        $component_label = '<h3 className="mb-1 text-2xl">' . $field_label . '</h3>';
+        break;
+    }
 
     return <<<EOT
       { $component_field && (
@@ -481,6 +504,9 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
       case 'timestamp':
         return 'value';
 
+      case 'created':
+        return 'datetime';
+
       case 'address':
       case 'datetime':
       case 'file':
@@ -496,6 +522,15 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
     }
   }
 
+  /**
+   * Convert snake case (snake_case) to upper camel case (CamelCase).
+   *
+   * @param string $string
+   *   The snake case string.
+   *
+   * @return string
+   *   The snake case (snake_case) to upper camel case (CamelCase).
+   */
   protected function snakeCaseToUpperCamelCase($string) {
     return str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
   }
