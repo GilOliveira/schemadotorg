@@ -46,7 +46,7 @@ class SchemaDotOrgSubtypeEventSubscriber extends ServiceProviderBase implements 
   }
 
   /**
-   * Alters Schema.org mapping list builder and adds a 'JSON:API' column.
+   * Alters Schema.org mapping list builder and adds a 'Subtyping' column.
    *
    * @param \Symfony\Component\HttpKernel\Event\ViewEvent $event
    *   The event to process.
