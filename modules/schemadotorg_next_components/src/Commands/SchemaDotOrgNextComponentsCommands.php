@@ -72,9 +72,9 @@ class SchemaDotOrgNextComponentsCommands extends DrushCommands {
    * @param string $destination
    *   The destination.
    *
-   * @command schemadotorg_next_components:create
+   * @command schemadotorg:next-components-create
    *
-   * @usage schemadotorg_next_components:create next-app/components
+   * @usage schemadotorg:next-components-create next-app/components
    *
    * @aliases sonc
    */
