@@ -26,8 +26,7 @@ function schemadotorg_devel_help($route_name, RouteMatchInterface $route_match) 
  * Implements hook_entity_presave().
  */
 function schemadotorg_devel_entity_presave(EntityInterface $entity) {
-  // Check that the devel_generate object property is defined and we are saving
-  // a content entity.
+  // Check that devel is generating a content entity.
   // @see https://www.drupal.org/project/devel/issues/2582845
   if (empty($entity->devel_generate)
     || !$entity instanceof ContentEntityInterface) {

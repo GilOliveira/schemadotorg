@@ -5,6 +5,7 @@ Table of contents
 * Features
 * Configuration
 
+
 Introduction
 ------------
 
@@ -43,6 +44,7 @@ Tailwind
 PHPStorm
 
 - https://www.jetbrains.com/help/phpstorm/tailwind-css.html
+
 
 Todo
 ----

@@ -5,7 +5,10 @@
  * Provides an opinionated demo built on top of Drupal's standard profile.
  */
 
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\filter\Entity\FilterFormat;
 
 /**
  * Implements hook_help().
@@ -14,4 +17,26 @@ function schemadotorg_demo_standard_help($route_name, RouteMatchInterface $route
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->build($route_name, $route_match);
+}
+
+/**
+ * Implements hook_entity_presave().
+ */
+function schemadotorg_demo_standard_entity_presave(EntityInterface $entity) {
+  // Check that devel is generating a content entity.
+  // @see https://www.drupal.org/project/devel/issues/2582845
+  if (empty($entity->devel_generate)
+    || !$entity instanceof ContentEntityInterface) {
+    return;
+  }
+
+  // Default generated formatted text fields to use the 'full_html' text format.
+  if (FilterFormat::load('full_html')) {
+    $field_definitions = $entity->getFieldDefinitions();
+    foreach ($field_definitions as $field_name => $field_definition) {
+      if (in_array($field_definition->getType(), ['text', 'text_with_summary'])) {
+        $entity->{$field_name}->format = 'full_html';
+      }
+    }
+  }
 }
