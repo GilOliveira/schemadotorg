@@ -15,9 +15,15 @@ Schema.org Examples
 - [JSON-LD - Structured Data. Made Simple.](https://jsonld.com/)
 - [Featured Guides | Google Search Central](https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data)
 
-Drupal RDF/Schema.org
+Drupal Structure Data/RDF/Schema.org
 
 - [RDF in Drupal: What is it and Why Should We Care? Drupal Easy](https://www.drupaleasy.com/blogs/ultimike/2009/06/rdf-drupal-what-it-and-why-should-we-care)
+- [RDFa and Drupal](https://dri.es/rdfa-and-drupal)
+- [Schema.org And Metadata in Drupal](https://www.droptica.com/blog/schemaorg-and-metadata-drupal/)
+- [DrupalEasy Podcast 143: Scheming](https://www.drupaleasy.com/podcast/2015/01/drupaleasy-podcast-143-scheming-schemaorg-integration-d8-stéphane-corlosquet)
+- [Structured SEO Data: An overview and how to for Drupal](https://www.videodrupal.org/video/20190714/structured-seo-data-overview-and-how-drupal)  
+- [The SEO Magic of Structured Data](https://drupal.tv/external-video/2017-10-23/seo-magic-structured-data)
+- [How to Optimize Your Drupal Site with Structured Content](https://drupal.tv/external-video/2017-02-06/how-optimize-your-drupal-site-structured-content)
 
 Drupal Content Architecture
 
