@@ -15,13 +15,42 @@ function schemadotorg_demo_next_install() {
   $user_storage = \Drupal::entityTypeManager()->getStorage('user');
 
   // Create next account used for basic authentication preview.
-  if (!$user_storage->loadByProperties(['name' => 'next'])) {
-    $user_storage->create([
+  $accounts = $user_storage->loadByProperties(['name' => 'next']);
+  if ($accounts) {
+    $account = reset($accounts);
+  }
+  else {
+    $account = $user_storage->create([
       'name' => 'next',
       'pass' => 'next',
       'mail' => 'next@example.com',
       'roles' => ['schemadotorg_demo_next'],
       'status' => TRUE,
-    ])->save();
+    ]);
+    $account->save();
+  }
+
+  /** @var \Drupal\consumers\ConsumerStorage $consumer_storage */
+  $consumer_storage = \Drupal::entityTypeManager()->getStorage('consumer');
+  $consumers = $consumer_storage->loadByProperties(['uuid' => '00000000-0000-0000-0000-000000000000']);
+  if (!$consumers) {
+    $consumer = $consumer_storage->create([
+      'label' => 'Schema.org Blueprints Next.js Demo',
+      'description' => 'This is demo account intended to be used with the schemadotorg_demo_app. @see https://www.drupal.org/sandbox/jrockowitz/3305940',
+      'uuid' => '00000000-0000-0000-0000-000000000000',
+      'secret' => 'secret',
+      'roles' => [
+        ['target_id' => 'schemadotorg_demo_next'],
+      ],
+      'user_id' => [
+        ['target_id' => $account->id()],
+      ],
+      'image_styles' => [
+        ['target_id' => 'large'],
+        ['target_id' => 'medium'],
+        ['target_id' => 'thumbnail'],
+      ],
+    ]);
+    $consumer->save();
   }
 }

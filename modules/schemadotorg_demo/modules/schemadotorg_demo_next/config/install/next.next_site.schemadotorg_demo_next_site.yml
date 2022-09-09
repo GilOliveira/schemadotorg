@@ -3,6 +3,9 @@ status: true
 dependencies:
   module:
     - schemadotorg_demo_next
+  enforced:
+    module:
+      - schemadotorg_demo_next
 id: schemadotorg_demo_next_site
 label: 'Next.js site'
 base_url: 'http://localhost:3000'
