@@ -103,7 +103,7 @@ function schemadotorg_next_next_site_preview_alter(array &$preview, array $conte
 
   // TEMP: Force the preview iframe to work by bypassing the preview.
   // @todo Determine why preview is returns "Invalid preview secret." error.
-  $next_preview['iframe']['#attributes']['src'] = preg_replace('#/api/preview\?slug=([^&]+)&.*#', '$1', $next_preview['iframe']['#attributes']['src']);
+  // $next_preview['iframe']['#attributes']['src'] = preg_replace('#/api/preview\?slug=([^&]+)&.*#', '$1', $next_preview['iframe']['#attributes']['src']);
 
   // Append the Schema.org Next.js preview.
   $preview['schemadotorg_next_preview'] = [
