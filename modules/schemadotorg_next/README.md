@@ -6,6 +6,7 @@ Table of contents
 * Requirements
 * Configuration
 * References
+* Issues
 
 Introduction
 ------------
@@ -60,3 +61,10 @@ Pantheon decoupled architecture
 - [Pantheon Front-End Sites](https://pantheon.io/docs/guides/decoupled-sites/)
 - [Pantheon Decoupled Kit Next Drupal Starter](https://github.com/pantheon-systems/next-drupal-starter )   
 - [Decoupled Architectures on Pantheon with Front-End Sites](https://pantheon.io/features/decoupled-cms)
+
+
+Issues
+------
+
+- Preview is returns "Invalid preview secret." error.
+  @see schemadotorg_next_next_site_preview_alter() 
