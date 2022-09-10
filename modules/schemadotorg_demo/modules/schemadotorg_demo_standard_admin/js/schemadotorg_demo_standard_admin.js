@@ -7,6 +7,10 @@
 
   'use strict';
 
+  // Clear local storage to reset the state of all details widget for demos.
+  // @see schemadotorg/js/schemadotorg.details.js
+  localStorage.clear();
+
   // Redirect anonymous users to /user/login.
   // Using JavaScript so that Acquia's Cloud IDE's 'share' query parameter
   // generates the 'share' cookie as expected.
