@@ -75,7 +75,8 @@
     "drupal/time_field": "~2.0",
     "drupal/token": "~1.0",
     "drupal/toolbar_language_switcher": "~2.0",
-    "masonry/masonry": "*"
+    "masonry/masonry": "*",
+    "michelf/php-markdown": "~1.0"
   },
   "extra": {
     "composer-exit-on-patch-failure": true,

@@ -35,7 +35,7 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
    */
   public function build($route_name, RouteMatchInterface $route_match) {
     if (strpos($route_name, 'help.page.schemadotorg') !== 0) {
-      return;
+      return NULL;
     }
 
     $module_name = str_replace('help.page.', '', $route_name);
@@ -115,6 +115,11 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
 
     // Videos.
     $videos = [
+      [
+        'title' => $this->t('Schema.org Blueprints module in 7 minutes'),
+        'content' => $this->t('A presentation and demo of the Schema.org Blueprints for Drupal in 7 minutes.'),
+        'youtube_id' => 'KzNFAEfbFNw',
+      ],
       [
         'title' => $this->t('Schema.org Blueprints - Short Overview'),
         'content' => $this->t('This short presentation explains the what and why behind the Schema.org Blueprints module and shows how to use it to build a Schema.org Event content type in Drupal.'),

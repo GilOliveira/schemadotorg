@@ -19,6 +19,7 @@ function help() {
   echo "./web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh install";
   echo "./web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh demo";
   echo "./web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh translate";
+  echo "./web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh next";
 }
 
 function status() {
