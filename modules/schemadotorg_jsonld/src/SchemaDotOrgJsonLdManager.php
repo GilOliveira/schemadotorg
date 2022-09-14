@@ -221,10 +221,17 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
       case 'file':
         return $this->getImageDeriativeUrl($item) ?: $this->getFileUrl($item);
 
+      case 'daterange':
+        return [
+          '@type' => 'Schedule',
+          'startDate' => $item->value,
+          'endDate' => $item->end_value,
+        ];
+
       case 'decimal':
       case 'float':
       case 'integer':
-        // @todo Detemine if other field types should fully render each item.
+        // @todo Determine if other field types should fully render each item.
         $field_type_info = $this->fieldTypePluginManager->getDefinition($field_type);
         $display_options = ['type' => $field_type_info['default_formatter']];
         $build = $item->view($display_options);

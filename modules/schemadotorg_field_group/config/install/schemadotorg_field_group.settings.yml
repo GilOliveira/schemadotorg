@@ -170,6 +170,7 @@ default_field_groups:
       properties:
         - startDate
         - endDate
+        - eventSchedule
         - eventStatus
         - duration
         - performer
