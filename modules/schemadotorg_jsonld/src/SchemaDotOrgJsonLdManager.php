@@ -222,11 +222,29 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
         return $this->getImageDeriativeUrl($item) ?: $this->getFileUrl($item);
 
       case 'daterange':
-        return [
-          '@type' => 'Schedule',
-          'startDate' => $item->value,
-          'endDate' => $item->end_value,
-        ];
+        $entity_type_id = $item->getFieldDefinition()->getTargetEntityTypeId();
+        $bundle = $item->getFieldDefinition()->getTargetBundle();
+        $field_name = $item->getFieldDefinition()->getName();
+
+        /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
+        $mapping = $this->entityTypeManager
+          ->getStorage('schemadotorg_mapping')
+          ->load("$entity_type_id.$bundle");
+        if (!$mapping) {
+          return $item->value;
+        }
+
+        $schema_property = $mapping->getSchemaPropertyMapping($field_name);
+        if ($schema_property === 'eventSchedule') {
+          return [
+            '@type' => 'Schedule',
+            'startDate' => $item->value,
+            'endDate' => $item->end_value,
+          ];
+        }
+        else {
+          return $item->value;
+        }
 
       case 'decimal':
       case 'float':

@@ -22,6 +22,7 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
    * @var string[]
    */
   protected static $modules = [
+    'datetime_range',
     'filter',
     'schemadotorg_jsonld',
   ];
@@ -46,9 +47,18 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
    * Test Schema.org JSON-LD manager.
    */
   public function testManager() {
+    // Allow https://schema.org/Event to support https://schema.org/eventSchedule property.
+    $config = $this->config('schemadotorg.settings');
+    $event_default_properties = $config->get('schema_types.default_properties.Event');
+    $config
+      ->set('schema_types.default_properties.Event', array_merge($event_default_properties, ['eventSchedule']))
+      ->save();
+
+
     $this->createMediaImage();
     $this->createSchemaEntity('media', 'ImageObject');
     $this->createSchemaEntity('node', 'Place');
+    $this->createSchemaEntity('node', 'Event');
 
     // Filter format.
     FilterFormat::create([
@@ -72,7 +82,7 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
     $media->save();
 
     // Node.
-    $node = Node::create([
+    $place_node = Node::create([
       'type' => 'place',
       'title' => 'Somewhere',
       'langcode' => 'es',
@@ -101,19 +111,64 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
         'value' => '123456789',
       ],
     ]);
-    $node->save();
+    $place_node->save();
+
+    // Place node.
+    $place_node = Node::create([
+      'type' => 'place',
+      'title' => 'Somewhere',
+      'langcode' => 'es',
+      'body' => [
+        'value' => 'Some description',
+        'format' => 'empty_format',
+      ],
+      'schema_image' => [
+        'target_id' => $media->id(),
+      ],
+      'schema_address' => [
+        'country_code' => 'CC',
+        'administrative_area' => '{area}',
+        'locality' => '{locality}',
+        'dependent_locality' => '{dependent_locality}',
+        'postal_code' => '{postal_code}',
+        'sorting_code' => '{sorting_code}',
+        'address_line1' => '{address_line1}',
+        'address_line2' => '{address_line2}',
+        'organization' => '{organization}',
+        'given_name' => '{given_name}',
+        'additional_name' => '{additional_name}',
+        'family_name' => '{family_name}',
+      ],
+      'schema_telephone' => [
+        'value' => '123456789',
+      ],
+    ]);
+    $place_node->save();
+
+    // Event node.
+    $event_node = Node::create([
+      'type' => 'event',
+      'title' => 'Sometime',
+      'schema_event_schedule' => [
+        [
+          'value' => '2001-01-01T11:00:00',
+          'end_value' => '2001-01-01T12:00:00',
+        ],
+      ],
+    ]);
+    $event_node->save();
 
     /* ********************************************************************** */
 
     // Check getting an entity's canonical route match.
-    $node_route_match = $this->manager->getEntityRouteMatch($node);
+    $node_route_match = $this->manager->getEntityRouteMatch($place_node);
     $this->assertEquals('entity.node.canonical', $node_route_match->getRouteName());
-    $this->assertEquals($node, $node_route_match->getParameter('node'));
-    $this->assertEquals($node->id(), $node_route_match->getRawParameter('node'));
+    $this->assertEquals($place_node, $node_route_match->getParameter('node'));
+    $this->assertEquals($place_node->id(), $node_route_match->getRawParameter('node'));
 
     // Check returning the entity of the current route.
     $route_entity = $this->manager->getRouteMatchEntity($node_route_match);
-    $this->assertEquals($node, $route_entity);
+    $this->assertEquals($place_node, $route_entity);
 
     // Check sorting Schema.org properties in specified order and
     // then alphabetically.
@@ -137,22 +192,31 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
       'streetAddress' => '{address_line1}, {address_line2}',
     ];
     $actual_value = NULL;
-    address_schemadotorg_jsonld_schema_property_alter($actual_value, $node->schema_address->get(0));
+    address_schemadotorg_jsonld_schema_property_alter($actual_value, $place_node->schema_address->get(0));
+    $this->assertEquals($expected_value, $actual_value);
+
+    // Event schedule.
+    $expected_value = [
+      '@type' => 'Schedule',
+      'startDate' => '2001-01-01T11:00:00',
+      'endDate' => '2001-01-01T12:00:00',
+    ];
+    $actual_value = $this->manager->getSchemaPropertyValue($event_node->schema_event_schedule->get(0));
     $this->assertEquals($expected_value, $actual_value);
 
     // Language.
-    $actual_value = $this->manager->getSchemaPropertyValue($node->langcode->get(0));
+    $actual_value = $this->manager->getSchemaPropertyValue($place_node->langcode->get(0));
     $this->assertEquals('es', $actual_value);
-    $node->langcode->value = LanguageInterface::LANGCODE_NOT_SPECIFIED;
-    $actual_value = $this->manager->getSchemaPropertyValue($node->langcode->get(0));
+    $place_node->langcode->value = LanguageInterface::LANGCODE_NOT_SPECIFIED;
+    $actual_value = $this->manager->getSchemaPropertyValue($place_node->langcode->get(0));
     $this->assertNull($actual_value);
 
     // Body.
-    $actual_value = $this->manager->getSchemaPropertyValue($node->body->get(0));
+    $actual_value = $this->manager->getSchemaPropertyValue($place_node->body->get(0));
     $this->assertEquals('Some description', $actual_value);
 
     // Entity reference.
-    $actual_value = $this->manager->getSchemaPropertyValue($node->schema_image->get(0));
+    $actual_value = $this->manager->getSchemaPropertyValue($place_node->schema_image->get(0));
     $this->assertEquals('Some image', $actual_value);
 
     // @todo Detemine why we can't generate the media's image derivative.
@@ -161,7 +225,7 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
     // $actual_value = $this->manager->getSchemaPropertyValue($media->field_media_image->get(0));
     // $this->assertEquals('Some image', $actual_value);
     // Created.
-    $actual_value = $this->manager->getSchemaPropertyValue($node->created->get(0));
+    $actual_value = $this->manager->getSchemaPropertyValue($place_node->created->get(0));
     $this->assertEquals(1, preg_match('/^\d\d\d\d-\d\d-\d\d/', $actual_value));
 
     // Check getting a Schema.org property's value converted to
@@ -196,12 +260,12 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
     );
 
     // Check getting a Schema.org identifiers for an entity.
-    $actual_value = $this->manager->getSchemaIdentifiers($node);
+    $actual_value = $this->manager->getSchemaIdentifiers($place_node);
     $expected_value = [
         [
           '@type' => 'PropertyValue',
           'propertyID' => 'uuid',
-          'value' => $node->uuid(),
+          'value' => $place_node->uuid(),
         ],
     ];
     $this->assertEquals($expected_value, $actual_value);
