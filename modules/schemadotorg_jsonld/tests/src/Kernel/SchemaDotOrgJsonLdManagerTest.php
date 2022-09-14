@@ -47,13 +47,13 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
    * Test Schema.org JSON-LD manager.
    */
   public function testManager() {
-    // Allow https://schema.org/Event to support https://schema.org/eventSchedule property.
+    // Allow https://schema.org/Event to default to supporting
+    // https://schema.org/eventSchedule property.
     $config = $this->config('schemadotorg.settings');
     $event_default_properties = $config->get('schema_types.default_properties.Event');
     $config
       ->set('schema_types.default_properties.Event', array_merge($event_default_properties, ['eventSchedule']))
       ->save();
-
 
     $this->createMediaImage();
     $this->createSchemaEntity('media', 'ImageObject');
