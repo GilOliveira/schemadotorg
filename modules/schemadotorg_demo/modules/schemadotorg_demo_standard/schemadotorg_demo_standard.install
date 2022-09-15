@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Installation hooks for the Schema.org BlueprintsDemo Standard module.
+ * Installation hooks for the Schema.org Blueprints Demo Standard module.
  */
 
 use Drupal\field\Entity\FieldConfig;
