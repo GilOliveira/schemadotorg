@@ -10,6 +10,14 @@ use Drupal\Core\Entity\Display\EntityDisplayInterface;
 interface SchemaDotOrgEntityDisplayBuilderInterface {
 
   /**
+   * Gets default field weights.
+   *
+   * @return array
+   *   An array containing default field weights.
+   */
+  public function getDefaultFieldWeights();
+
+  /**
    * Set entity displays for a field.
    *
    * @param array $field_values

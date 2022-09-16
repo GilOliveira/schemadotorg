@@ -104,12 +104,6 @@ class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
     $this->assertArrayHasKey('step', $media_mapping_type->getDefaultSchemaTypeProperties('HowTo'));
     $this->assertArrayNotHasKey('step', $media_mapping_type->getDefaultSchemaTypeProperties('Recipe'));
 
-    // Check getting default field weights.
-    $default_field_weights = $paragaph_mapping_type->getDefaultFieldWeights();
-    $this->assertEquals(1, $default_field_weights['name']);
-    $this->assertEquals(2, $default_field_weights['title']);
-    $this->assertEquals(3, $default_field_weights['alternateName']);
-    $this->assertEquals(4, $default_field_weights['description']);
     // Check getting common Schema.org types.
     $recommended_schema_types = $node_mapping_type->getRecommendedSchemaTypes();
     $this->assertEquals('Common', $recommended_schema_types['common']['label']);

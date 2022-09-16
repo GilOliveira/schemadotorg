@@ -269,8 +269,8 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
     }
 
     // Get properties from default field weights.
-    $default_field_weights = $mapping_type->getDefaultFieldWeights();
-    $default_field_weights = array_keys($default_field_weights);
+    $default_field_weights = \Drupal::config('schemadotorg.settings')
+      ->get('schema_properties.default_field_weights');
     $sorted_properties += array_combine($default_field_weights, $default_field_weights);
 
     return $sorted_properties;

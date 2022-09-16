@@ -31,13 +31,3 @@ default_base_fields:
     - name
   description:
     - description
-default_field_weights:
-  - name
-  - description
-  - image
-  - offers
-  - suitableForDiet
-  - nutrition
-  - menuAddOn
-  - hasMenuItem
-  - hasMenuSection

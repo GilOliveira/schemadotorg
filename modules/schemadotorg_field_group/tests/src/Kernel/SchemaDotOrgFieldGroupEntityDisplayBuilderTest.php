@@ -8,9 +8,9 @@ use Drupal\schemadotorg\Entity\SchemaDotOrgMappingType;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 
 /**
- * Tests the Schema.org entity display builder service.
+ * Tests the Schema.org entity display field group builder service.
  *
- * @coversClass \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilder
+ * @coversClass \Drupal\schemadotorg_field_group\SchemaDotOrgFieldGroupEntityDisplayBuilder
  * @group schemadotorg
  */
 class SchemaDotOrgFieldGroupEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestBase {
@@ -88,7 +88,7 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilderTest extends SchemaDotOrgKernelE
     $component = $view_display->getComponent('schema_alternate_name');
     $this->assertEquals('string', $component['type']);
     $this->assertEquals('above', $component['label']);
-    $this->assertEquals(2, $component['weight']);
+    $this->assertEquals(3, $component['weight']);
 
     $component = $view_display->getComponent('links');
     $this->assertEquals(100, $component['weight']);
@@ -103,7 +103,7 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilderTest extends SchemaDotOrgKernelE
 
     $component = $form_display->getComponent('schema_alternate_name');
     $this->assertEquals('string_textfield', $component['type']);
-    $this->assertEquals(2, $component['weight']);
+    $this->assertEquals(3, $component['weight']);
 
     $component = $form_display->getComponent('status');
     $this->assertEquals(120, $component['weight']);
@@ -163,11 +163,11 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilderTest extends SchemaDotOrgKernelE
       $mapping->getSchemaProperties()
     );
     $view_display = $this->entityDisplayRepository->getViewDisplay('node', 'thing', 'default');
-    $this->assertEquals(2, $view_display->getComponent('schema_alternate_name')['weight']);
-    $this->assertEquals(3, $view_display->getComponent('body')['weight']);
+    $this->assertEquals(3, $view_display->getComponent('schema_alternate_name')['weight']);
+    $this->assertEquals(4, $view_display->getComponent('body')['weight']);
     $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'thing', 'default');
-    $this->assertEquals(2, $form_display->getComponent('schema_alternate_name')['weight']);
-    $this->assertEquals(3, $form_display->getComponent('body')['weight']);
+    $this->assertEquals(3, $form_display->getComponent('schema_alternate_name')['weight']);
+    $this->assertEquals(4, $form_display->getComponent('body')['weight']);
 
     // Check settings entity display field groups for Schema.org properties.
     \Drupal::configFactory()->getEditable('schemadotorg_field_group.settings')

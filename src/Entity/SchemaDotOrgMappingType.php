@@ -46,7 +46,6 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *     "default_schema_types",
  *     "default_schema_type_properties",
  *     "default_base_fields",
- *     "default_field_weights",
  *   }
  * )
  */
@@ -86,13 +85,6 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * @var array
    */
   protected $default_base_fields = [];
-
-  /**
-   * An array of default field weights for Schema.org properties.
-   *
-   * @var array
-   */
-  protected $default_field_weights = [];
 
   /**
    * An associative array of grouped recommended Schema.org types.
@@ -206,19 +198,6 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
         $default_properties[$property] = $property;
       }
     }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getDefaultFieldWeights() {
-    $weights = $this->get('default_field_weights');
-    $weights = array_flip($weights);
-    // Start field weights at 1 since most default fields are set to 0.
-    array_walk($weights, function (&$weight) {
-      $weight += 1;
-    });
-    return $weights;
   }
 
   /**

@@ -18,4 +18,3 @@ default_base_fields:
     - email
   user_picture:
     - image
-default_field_weights: {  }

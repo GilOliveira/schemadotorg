@@ -153,7 +153,8 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
     $mapping_type = $mapping_type_storage->load($entity_type_id);
-    $default_field_weights = $mapping_type->getDefaultFieldWeights();
+
+    $default_field_weights = $this->schemaEntityDisplayBuilder->getDefaultFieldWeights();
 
     $group_weight = 0;
     $group_name = NULL;

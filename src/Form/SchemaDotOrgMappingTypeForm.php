@@ -107,13 +107,6 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#description_link' => 'properties',
       '#default_value' => $entity->get('default_base_fields'),
     ];
-    $form['properties']['default_field_weights'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::INDEXED,
-      '#title' => $this->t('Default Schema.org property field weights'),
-      '#description' => $this->t('Enter Schema.org property default field weights to help organize fields as they are added to entity types.'),
-      '#default_value' => $entity->get('default_field_weights'),
-    ];
     return $form;
   }
 

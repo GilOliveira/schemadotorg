@@ -53,14 +53,6 @@ interface SchemaDotOrgMappingTypeInterface extends ConfigEntityInterface {
   public function supportsMultiple();
 
   /**
-   * Gets default field weights.
-   *
-   * @return array
-   *   An array containing default field weights.
-   */
-  public function getDefaultFieldWeights();
-
-  /**
    * Gets common Schema.org types.
    *
    * @return array

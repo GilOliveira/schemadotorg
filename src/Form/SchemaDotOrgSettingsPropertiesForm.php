@@ -77,6 +77,13 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
       '#description_link' => 'properties',
       '#default_value' => $config->get('schema_properties.default_fields'),
     ];
+    $form['schema_properties']['default_field_weights'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::INDEXED,
+      '#title' => $this->t('Default Schema.org property field weights'),
+      '#description' => $this->t('Enter Schema.org property default field weights to help organize fields as they are added to entity types.'),
+      '#default_value' => $config->get('schema_properties.default_field_weights'),
+    ];
     $form['schema_properties']['range_includes'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,

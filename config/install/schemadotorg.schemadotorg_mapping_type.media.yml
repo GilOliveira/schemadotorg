@@ -51,4 +51,3 @@ default_base_fields:
   field_media_video_file:
     - video
     - contentUrl
-default_field_weights: {  }

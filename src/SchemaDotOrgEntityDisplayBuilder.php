@@ -68,6 +68,20 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
   /**
    * {@inheritdoc}
    */
+  public function getDefaultFieldWeights() {
+    $weights = \Drupal::config('schemadotorg.settings')
+      ->get('schema_properties.default_field_weights');
+    $weights = array_flip($weights);
+    // Start field weights at 1 since most default fields are set to 0.
+    array_walk($weights, function (&$weight) {
+      $weight += 1;
+    });
+    return $weights;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function setFieldDisplays(array $field_values, $widget_id, array $widget_settings, $formatter_id, array $formatter_settings) {
     $entity_type_id = $field_values['entity_type'];
     $bundle = $field_values['bundle'];
@@ -121,7 +135,7 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
     if ($type) {
       $options['type'] = $type;
       if (!empty($settings)) {
-        // Coverted some $settings to $options.
+        // Converted some $settings to $options.
         $option_names = ['label', 'third_party_settings'];
         foreach ($option_names as $option_name) {
           if (isset($settings[$option_name])) {
@@ -192,12 +206,7 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
       return;
     }
 
-    $entity_type_id = $display->getTargetEntityTypeId();
-
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
-    $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
-    $mapping_type = $mapping_type_storage->load($entity_type_id);
-    $default_field_weights = $mapping_type->getDefaultFieldWeights();
+    $default_field_weights = $this->getDefaultFieldWeights();
     if (empty($default_field_weights)) {
       return;
     }
