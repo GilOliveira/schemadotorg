@@ -5,6 +5,7 @@
  * Provides an opinionated demo built on top of Drupal's standard profile.
  */
 
+use Drupal\Component\Utility\Random;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -30,11 +31,23 @@ function schemadotorg_demo_standard_entity_presave(EntityInterface $entity) {
     return;
   }
 
-  // Default generated formatted text fields to use the 'full_html' text format.
-  if (FilterFormat::load('full_html')) {
-    $field_definitions = $entity->getFieldDefinitions();
-    foreach ($field_definitions as $field_name => $field_definition) {
-      if (in_array($field_definition->getType(), ['text', 'text_with_summary'])) {
+  $random = new Random();
+
+  $has_full_html = (boolean) FilterFormat::load('full_html');
+  $field_definitions = $entity->getFieldDefinitions();
+  foreach ($field_definitions as $field_name => $field_definition) {
+    if (in_array($field_definition->getType(), ['text', 'text_with_summary'])) {
+      // Improve generated text value and summary to make it easier demo a lot of data.
+      $paragraphs = trim($random->paragraphs(4));
+      $returns = PHP_EOL . PHP_EOL;
+      $paragraphs = '<p>' . str_replace($returns, "</p>$returns<p>", $paragraphs) . '</p>';
+      $entity->{$field_name}->value = $paragraphs;
+      if (isset($entity->{$field_name}->summary)) {
+        $entity->{$field_name}->summary = trim($random->paragraphs(1));
+      }
+
+      // Default generated formatted text fields to use the 'full_html' text format.
+      if ($has_full_html) {
         $entity->{$field_name}->format = 'full_html';
       }
     }
