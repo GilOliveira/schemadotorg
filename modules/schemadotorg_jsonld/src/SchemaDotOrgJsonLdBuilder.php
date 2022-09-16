@@ -211,7 +211,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       // Get the Schema.org properties.
       $total_items = $items->count();
       $position = 1;
-      $property_data = [];
+      $property_values = [];
       foreach ($items as $item) {
         $property_value = $this->getFieldItem($schema_type, $schema_property, $item, $map_entity);
         // Alter the Schema.org property's individual value.
@@ -234,16 +234,23 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
         }
 
         if ($property_value !== NULL) {
-          $property_data[] = $property_value;
+          $property_values[] = $property_value;
         }
       }
+
+      // Alter the Schema.org property's values.
+      $this->moduleHandler->alter(
+        'schemadotorg_jsonld_schema_properties',
+        $property_values,
+        $items
+      );
 
       // If the cardinality is 1, return the first property data item.
       $cardinality = $items->getFieldDefinition()
         ->getFieldStorageDefinition()
         ->getCardinality();
-      if ($property_data) {
-        $type_data[$schema_property] = ($cardinality === 1) ? reset($property_data) : $property_data;
+      if ($property_values) {
+        $type_data[$schema_property] = ($cardinality === 1) ? reset($property_values) : $property_values;
       }
     }
 

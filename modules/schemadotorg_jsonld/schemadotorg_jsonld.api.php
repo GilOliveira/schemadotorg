@@ -157,7 +157,7 @@ function hook_schemadotorg_jsonld_entity_alter(array &$data, \Drupal\Core\Entity
 }
 
 /* ************************************************************************** */
-// Field item value.
+// Field items/item value.
 /* ************************************************************************** */
 
 /**
@@ -166,7 +166,7 @@ function hook_schemadotorg_jsonld_entity_alter(array &$data, \Drupal\Core\Entity
  * @param mixed $value
  *   Alter the Schema.org property JSON-LD value.
  * @param \Drupal\Core\Field\FieldItemInterface $item
- *   Tn entity's field item.
+ *   The entity's field item.
  */
 function hook_schemadotorg_jsonld_schema_property_alter(&$value, \Drupal\Core\Field\FieldItemInterface $item) {
   // Get entity information.
@@ -194,6 +194,21 @@ function hook_schemadotorg_jsonld_schema_property_alter(&$value, \Drupal\Core\Fi
 
   // Massage the data.
   // ...
+}
+
+/**
+ * Alter the Schema.org property JSON-LD values for an entity's field items.
+ *
+ * This hook is triggered after
+ * hook_schemadotorg_jsonld_schema_property_alter().
+ *
+ * @param array $values
+ *   Alter the Schema.org property JSON-LD values.
+ * @param \Drupal\Core\Field\FieldItemListInterface $items
+ *   The entity's field items.
+ */
+function hook_schemadotorg_jsonld_schema_properties_alter(array &$values, \Drupal\Core\Field\FieldItemListInterface $items) {
+  // @todo Provide some example code.
 }
 
 /**
