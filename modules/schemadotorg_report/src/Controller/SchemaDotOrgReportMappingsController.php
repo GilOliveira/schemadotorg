@@ -191,7 +191,7 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
 
       // Get actual target bundles.
       $handler_settings = $field->getSetting('handler_settings');
-      $actual_target_bundles = $handler_settings['target_bundles'];
+      $actual_target_bundles = $handler_settings['target_bundles'] ?? [];
 
       // Manually sync paragraph:from_library.
       if ($target_type === 'paragraph' && isset($actual_target_bundles['from_library'])) {
