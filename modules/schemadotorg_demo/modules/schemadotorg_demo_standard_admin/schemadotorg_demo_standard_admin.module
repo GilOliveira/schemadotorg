@@ -31,9 +31,8 @@ function schemadotorg_demo_standard_admin_page_attachments(array &$page) {
  * Implements hook_toolbar_alter().
  */
 function schemadotorg_demo_standard_admin_toolbar_alter(&$items) {
-  // Tweak the Coffee and Environment Indicator module's toolbar weights.
+  // Tweak the Environment Indicator module's toolbar weights.
   $weights = [
-    'coffee' => -20,
     'environment_indicator' => 999,
   ];
   foreach ($weights as $name => $weight) {

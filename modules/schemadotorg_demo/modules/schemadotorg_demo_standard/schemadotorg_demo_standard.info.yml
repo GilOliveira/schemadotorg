@@ -18,7 +18,7 @@ dependencies:
   - 'address:address'
   - 'admin_toolbar:admin_toolbar'
   - 'admin_toolbar:admin_toolbar_tools'
-  - 'coffee:coffee'
+  - 'admin_toolbar:admin_toolbar_search'
   - 'chosen:chosen'
   - 'chosen:chosen_lib'
   - 'config_rewrite:config_rewrite'
