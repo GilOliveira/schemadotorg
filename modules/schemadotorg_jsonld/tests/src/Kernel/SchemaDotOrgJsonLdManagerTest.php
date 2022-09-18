@@ -221,7 +221,6 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
 
     // @todo Detemine why we can't generate the media's image derivative.
     // Image.
-    /** @var \Drupal\image\Plugin\Field\FieldType\ImageItem $item */
     // $actual_value = $this->manager->getSchemaPropertyValue($media->field_media_image->get(0));
     // $this->assertEquals('Some image', $actual_value);
     // Created.

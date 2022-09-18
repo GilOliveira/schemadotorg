@@ -288,7 +288,7 @@ class SchemaDotOrgSettings extends Textarea {
 
           $name = trim($name);
           $settings[$name] = [
-            $group_name => $label ?? $name,
+            $group_name => $label ?: $name,
             $array_name => static::convertStringToIndexedArray($items, ','),
           ];
         }
@@ -327,7 +327,7 @@ class SchemaDotOrgSettings extends Textarea {
 
           $name = trim($name);
           $settings[$name] = [
-            $group_name => $label ?? $name,
+            $group_name => $label ?: $name,
             $array_name => static::convertStringToAssociativeArray($items, ':', ','),
           ];
         }

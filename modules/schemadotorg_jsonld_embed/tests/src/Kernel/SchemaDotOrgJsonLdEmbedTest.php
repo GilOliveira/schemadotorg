@@ -56,7 +56,7 @@ class SchemaDotOrgJsonLdEmbedTest extends SchemaDotOrgKernelEntityTestBase {
     $this->manager = $this->container->get('schemadotorg_jsonld.manager');
     $this->builder = $this->container->get('schemadotorg_jsonld.builder');
 
-    $this->dataFormatter = $this->container->get('date.formatter');
+    $this->dateFormatter = $this->container->get('date.formatter');
 
     // Set current user to admin.
     $account = new UserSession([
@@ -128,8 +128,8 @@ class SchemaDotOrgJsonLdEmbedTest extends SchemaDotOrgKernelEntityTestBase {
         ],
         'inLanguage' => 'en',
         'name' => 'Some image',
-        'dateCreated' => $this->dataFormatter->format($media->getCreatedTime(), 'custom', 'Y-m-d H:i:s P'),
-        'dateModified' => $this->dataFormatter->format($media->getChangedTime(), 'custom', 'Y-m-d H:i:s P'),
+        'dateCreated' => $this->dateFormatter->format($media->getCreatedTime(), 'custom', 'Y-m-d H:i:s P'),
+        'dateModified' => $this->dateFormatter->format($media->getChangedTime(), 'custom', 'Y-m-d H:i:s P'),
       ],
       [
         '@context' => 'https://schema.org',

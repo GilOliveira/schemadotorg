@@ -210,12 +210,12 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
       ->save();
 
     // Create Place (Location) with mapping.
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $event_mapping */
     $location_node = NodeType::create([
       'type' => 'location',
       'name' => 'Location',
     ]);
     $location_node->save();
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $location_mapping */
     $location_mapping = $this->mappingStorage->create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'location',
@@ -243,12 +243,12 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
       ->save();
 
     // Create Event with mapping.
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $event_mapping */
     $event_node = NodeType::create([
       'type' => 'event',
       'name' => 'Event',
     ]);
     $event_node->save();
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $event_mapping */
     $event_mapping = $this->mappingStorage->create([
       'target_entity_type_id' => 'node',
       'target_bundle' => 'event',

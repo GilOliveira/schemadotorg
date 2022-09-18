@@ -25,14 +25,14 @@ Architect
 - Review Schema.org Blueprints defaults
 - Download spreadsheets
 - Write change request
-  
+
 Developer
 
 - Read the README.md file and project page.
 - Note module dependencies
 - Review default configuration
 - Examine module's APIs and hooks
-- Expore example modules and code
+- Explore example modules and code
 - Consider possible contributions
 
 Site builder
@@ -46,7 +46,7 @@ Content editor
 - Review content types
 - Review edit forms
 - Review relationships
-- Review workflow and moderation 
+- Review workflow and moderation
 
 Frontend
 

@@ -494,7 +494,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
 
     // Get operations.
     $operations = [];
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $schemadotorg_mapping_type_storage */
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping_type');
     /** @var \Drupal\Core\Config\Entity\ConfigEntityType[] $entity_type_definitions */
     $entity_type_definitions = $mapping_type_storage->getEntityTypeBundleDefinitions();

@@ -34,6 +34,15 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   protected $schemaNames;
 
   /**
+   * Cache of Schema.org tree data.
+   *
+   * @var array
+   *
+   * @see \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager::getAllSubTypes
+   */
+  protected $tree;
+
+  /**
    * Schema.org items cache.
    *
    * @var array
@@ -261,7 +270,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getPropertRangeIncludes($property) {
+  public function getPropertyRangeIncludes($property) {
     $property_definition = $this->getProperty($property);
     $range_includes = $property_definition['range_includes'] ?? '';
     return $this->parseIds($range_includes);

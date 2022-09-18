@@ -18,7 +18,7 @@ class SchemaDotOrgBreadcrumbBuilder implements BreadcrumbBuilderInterface {
    * {@inheritdoc}
    */
   public function applies(RouteMatchInterface $route_match) {
-    $route_name = $route_match->getRouteName();
+    $route_name = $route_match->getRouteName() ?? '';
     return (preg_match('/^(entity\.schemadotorg_mapping|schemadotorg\.settings)/', $route_name));
   }
 

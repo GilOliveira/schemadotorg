@@ -32,7 +32,7 @@ class SchemaDotOrgExportMappingSetController extends ControllerBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    $instance = new static();
+    $instance = parent::create($container);
     $instance->schemaMappingManager = $container->get('schemadotorg.mapping_manager');
     $instance->schemaMappingSetManager = $container->get('schemadotorg_mapping_set.manager');
     return $instance;

@@ -162,6 +162,7 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
     $entity_ids = $field_storage->getQuery()
       ->condition('field_type', ['entity_reference', 'entity_reference_revisions'], 'IN')
       ->sort('id')
+      ->accessCheck(FALSE)
       ->execute();
     /** @var \Drupal\Core\Field\FieldConfigInterface[] $fields */
     $fields = $field_storage->loadMultiple($entity_ids);

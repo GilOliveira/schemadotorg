@@ -18,7 +18,7 @@ class SchemaDotOrgMappingSetBreadcrumbBuilder implements BreadcrumbBuilderInterf
    * {@inheritdoc}
    */
   public function applies(RouteMatchInterface $route_match) {
-    $route_name = $route_match->getRouteName();
+    $route_name = $route_match->getRouteName() ?? '';
     return (preg_match('/^schemadotorg_mapping_set\./', $route_name));
   }
 

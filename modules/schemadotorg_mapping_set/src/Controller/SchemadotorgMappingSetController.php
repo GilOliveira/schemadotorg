@@ -261,7 +261,6 @@ class SchemadotorgMappingSetController extends ControllerBase {
         $row['type'] = $property_definition['type'];
         $row['unlimited'] = !empty($property_definition['unlimited']) ? $this->t('Yes') : $this->t('No');
         $row['required'] = !empty($property_definition['required']) ? $this->t('Yes') : $this->t('No');
-        unset($row['description']);
         $rows[] = $row;
       }
       $build[$type]['properties'] = [

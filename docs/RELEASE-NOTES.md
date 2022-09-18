@@ -87,7 +87,7 @@ Steps for creating a new release
 Install PHPStan
 
     cd ~/Sites/drupal_schema
-    composer require composer require \
+    composer require \
       phpstan/phpstan \
       phpstan/extension-installer \
       phpstan/phpstan-deprecation-rules \

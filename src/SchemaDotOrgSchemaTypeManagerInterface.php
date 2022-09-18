@@ -215,7 +215,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * @return array|false
    *   The Schema.org property's range includes.
    */
-  public function getPropertRangeIncludes($property);
+  public function getPropertyRangeIncludes($property);
 
   /**
    * Get a Schema.org property's default Schema.org type from range_includes.

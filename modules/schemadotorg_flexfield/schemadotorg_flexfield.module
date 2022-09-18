@@ -208,7 +208,7 @@ function schemadotorg_flexfield_field_widget_form_alter(&$element, FormStateInte
 
   /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
   $schema_names = Drupal::service('schemadotorg.names');
-  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_jsonld_manager */
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
   $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
 
   $children = Element::children($element);
@@ -227,7 +227,7 @@ function schemadotorg_flexfield_field_widget_form_alter(&$element, FormStateInte
 function schemadotorg_flexfield_preprocess_flexfield(&$variables) {
   /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
   $schema_names = Drupal::service('schemadotorg.names');
-  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_jsonld_manager */
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
   $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
 
   foreach ($variables['items'] as $index => &$item) {

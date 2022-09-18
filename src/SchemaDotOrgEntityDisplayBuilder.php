@@ -2,6 +2,7 @@
 
 namespace Drupal\schemadotorg;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\Display\EntityDisplayInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -19,6 +20,13 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    * @var \Drupal\Core\Extension\ModuleHandlerInterface
    */
   protected $moduleHandler;
+
+  /**
+   * The Schema.org config.
+   *
+   * @var \Drupal\Core\Config\Config
+   */
+  protected $config;
 
   /**
    * The entity type manager.
@@ -46,6 +54,8 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config
+   *   The config factory.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository
@@ -55,11 +65,13 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    */
   public function __construct(
     ModuleHandlerInterface $module_handler,
+    ConfigFactoryInterface $config,
     EntityTypeManagerInterface $entity_type_manager,
     EntityDisplayRepositoryInterface $display_repository,
     SchemaDotOrgNamesInterface $schema_names
   ) {
     $this->moduleHandler = $module_handler;
+    $this->config = $config->get('schemadotorg.settings');
     $this->entityTypeManager = $entity_type_manager;
     $this->entityDisplayRepository = $display_repository;
     $this->schemaNames = $schema_names;
@@ -69,8 +81,7 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    * {@inheritdoc}
    */
   public function getDefaultFieldWeights() {
-    $weights = \Drupal::config('schemadotorg.settings')
-      ->get('schema_properties.default_field_weights');
+    $weights = $this->config->get('schema_properties.default_field_weights');
     $weights = array_flip($weights);
     // Start field weights at 1 since most default fields are set to 0.
     array_walk($weights, function (&$weight) {

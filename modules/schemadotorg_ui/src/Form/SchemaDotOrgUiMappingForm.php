@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -128,6 +129,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $target_entity_type_id = $target_entity_type_id ?? 'node';
 
     // Load mapping type since the target entity type id was just set.
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
     $mapping_type = $mapping_type_storage->load($target_entity_type_id);
     $supports_multiple = $mapping_type->supportsMultiple();
     $default_schema_type = $mapping_type->getDefaultSchemaType($target_bundle);

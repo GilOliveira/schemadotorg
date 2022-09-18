@@ -431,7 +431,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       ]);
     if (empty($mappings)) {
       $t_args = ['@entity_type' => $entity_type_id, '@schema_type' => $schema_type];
-      throw new \Exception($this->t("No Schema.org mapping exists for @schema_type (@entity_type).", $t_args));
+      throw new \Exception($this->t('No Schema.org mapping exists for @schema_type (@entity_type).', $t_args));
     }
   }
 

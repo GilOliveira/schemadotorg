@@ -2,6 +2,7 @@
 
 namespace Drupal\schemadotorg_report\Controller;
 
+use _PHPStan_52b7bec27\Nette\Neon\Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -209,6 +210,9 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
         $label = $this->t('Suffix');
         $pattern = '/_%s$/';
         break;
+
+      default:
+        throw new Exception("Word usage $type not supported");
     }
 
     // Remove words that are less than 5 characters.

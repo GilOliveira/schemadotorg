@@ -18,7 +18,8 @@ class SchemaDotOrgReportBreadcrumbBuilder implements BreadcrumbBuilderInterface 
    * {@inheritdoc}
    */
   public function applies(RouteMatchInterface $route_match) {
-    return (strpos($route_match->getRouteName(), 'schemadotorg_report.') === 0);
+    $route_name = $route_match->getRouteName() ?? '';
+    return (strpos($route_name, 'schemadotorg_report.') === 0);
   }
 
   /**

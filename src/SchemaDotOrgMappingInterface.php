@@ -141,7 +141,7 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
    * @param string $name
    *   The name of the property.
    *
-   * @return array|null
+   * @return string|null
    *   The mapping for the Schema.org property, or NULL if the
    *   Schema.org property is not mapped.
    */
