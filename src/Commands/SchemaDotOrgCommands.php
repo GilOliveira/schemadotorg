@@ -82,6 +82,26 @@ class SchemaDotOrgCommands extends DrushCommands {
   }
 
   /**
+   * Download Schema.org CSV data.
+   *
+   * IMPORTANT: This command is used by maintainers to download the latest
+   * CSV data from Schema.org.
+   *
+   * @command schemadotorg:download-schema
+   *
+   * @usage schemadotorg:download-schema
+   */
+  public function download() {
+    if (!$this->io()->confirm(dt('Are you sure you want to download Schema.org CSV data?'))) {
+      throw new UserAbortException();
+    }
+
+    $this->schemaInstaller->downloadCsvData();
+
+    $this->output()->writeln(dt('Downloaded Schema.org CSV data.'));
+  }
+
+  /**
    * Update Schema.org data.
    *
    * @command schemadotorg:update-schema
@@ -96,7 +116,8 @@ class SchemaDotOrgCommands extends DrushCommands {
     }
 
     $this->schemaInstaller->install();
-    $this->output()->writeln(dt('Schema.org data.'));
+
+    $this->output()->writeln(dt('Updated Schema.org data.'));
   }
 
   /**

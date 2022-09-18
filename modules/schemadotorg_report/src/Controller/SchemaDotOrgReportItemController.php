@@ -170,6 +170,16 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       unset($fields['label']);
     }
 
+    // Pending warning.
+    if ($item['is_part_of'] === 'https://pending.schema.org') {
+      $t_args = [':href' => 'https://schema.org/docs/pending.home.html'];
+      $build['pending'] = [
+        '#markup' => $this->t('This term is proposed for full integration into Schema.org, <a href=":href">pending</a> implementation feedback and adoption from applications and websites.', $t_args),
+        '#prefix' => '<p><em>',
+        '#suffix' => '</em></p>',
+      ];
+    }
+
     foreach ($fields as $name => $label) {
       $value = $item[$name] ?? NULL;
       if (empty($value)) {
@@ -544,12 +554,12 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       'label' => $this->t('Label'),
       'comment' => $this->t('Comment'),
       'sub_type_of' => $this->t('Sub type of'),
+      'is_part_of' => $this->t('Is part of'),
       'enumerationtype' => $this->t('Enumeration type'),
       'equivalent_class' => $this->t('Equivalent class'),
       'sub_types' => $this->t('Sub types'),
       'supersedes' => $this->t('supersedes'),
       'superseded_by' => $this->t('Superseded by'),
-      'is_part_of =>' => $this->t('Is part of'),
       'properties' => $this->t('Properties'),
     ];
   }

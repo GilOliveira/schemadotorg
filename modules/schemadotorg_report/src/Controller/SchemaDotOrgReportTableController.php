@@ -121,6 +121,10 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
         'data' => $this->t('Superseded by'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
+      'is_part_of' => [
+        'data' => $this->t('Is part of'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+      ],
     ];
   }
 
@@ -148,6 +152,10 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
       ],
       'inverse_of' => [
         'data' => $this->t('Inverse of'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+      ],
+      'is_part_of' => [
+        'data' => $this->t('Is part of'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
     ];

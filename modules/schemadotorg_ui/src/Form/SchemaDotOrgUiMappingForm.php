@@ -477,6 +477,19 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    */
   protected function buildSchemaTypeForm(array &$form) {
     $type_definition = $this->getSchemaTypeDefinition();
+
+    // Pending warning.
+    if ($type_definition['is_part_of'] === 'https://pending.schema.org') {
+      $t_args = [':href' => 'https://schema.org/docs/pending.home.html'];
+      $form['schema_pending'] = [
+        '#markup' => $this->t('This term is proposed for full integration into Schema.org, <a href=":href">pending</a> implementation feedback and adoption from applications and websites.', $t_args),
+        '#prefix' => '<p><em>',
+        '#suffix' => '</em></p>',
+        '#weight' => -100,
+      ];
+    }
+
+    // Schema.type.
     $form['schema_type'] = [
       '#type' => 'item',
       '#title' => $this->t('Schema.org type'),

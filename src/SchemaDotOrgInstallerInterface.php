@@ -32,6 +32,11 @@ interface SchemaDotOrgInstallerInterface {
   public function schema();
 
   /**
+   * Download and cleanup Schema.org CSV data.
+   */
+  public function downloadCsvData();
+
+  /**
    * Import Schema.org types and properties tables.
    */
   public function importTables();
