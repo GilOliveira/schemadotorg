@@ -378,6 +378,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
 
         // The isPartOf column is empty in CSV downloads.
         // @see https://github.com/schemaorg/schemaorg/issues/3180
+        // @todo Remove the below work-around once Schema.org 15.0 is released.
         $label = $values['label'];
         if (isset($values['isPartOf'])
           && empty($values['isPartOf'])

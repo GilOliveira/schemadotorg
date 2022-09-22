@@ -17,6 +17,15 @@ Steps for creating a new release
 
 [PHP](https://www.drupal.org/node/1587138)
 
+    # Install drupal/coder (One time).
+    composer global require drupal/coder
+
+    # Update drupal/coder.
+    composer global update drupal/coder
+
+    # List coding standards.
+    phpcs -i
+
     # Check Drupal PHP coding standards and best practices.
     phpcs .
 

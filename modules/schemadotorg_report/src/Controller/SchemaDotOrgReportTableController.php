@@ -3,7 +3,6 @@
 namespace Drupal\schemadotorg_report\Controller;
 
 use Drupal\Core\Database\Query\PagerSelectExtender;
-use Drupal\Core\Database\Query\SelectInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

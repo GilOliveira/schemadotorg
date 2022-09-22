@@ -8,7 +8,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
-use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
