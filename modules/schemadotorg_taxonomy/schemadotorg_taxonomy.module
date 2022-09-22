@@ -40,18 +40,18 @@ function schemadotorg_taxonomy_schemadotorg_jsonld_schema_property_alter(&$value
 }
 
 /**
- * Implements hook_schemadotorg_jsonld_entity_load().
+ * Implements hook_schemadotorg_jsonld_schema_type_entity_load().
  */
-function schemadotorg_taxonomy_schemadotorg_jsonld_entity_load(array &$data, EntityInterface $entity) {
+function schemadotorg_taxonomy_schemadotorg_jsonld_schema_type_entity_load(array &$data, EntityInterface $entity) {
   /** @var \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyJsonLdManager $taxonomy_jsonld_manager */
   $taxonomy_jsonld_manager = \Drupal::service('schemadotorg_taxonomy.jsonld_manager');
   $taxonomy_jsonld_manager->load($data, $entity);
 }
 
 /**
- * Implements hook_schemadotorg_jsonld_entity_alter().
+ * Implements hook_schemadotorg_jsonld_schema_type_entity_alter().
  */
-function schemadotorg_taxonomy_schemadotorg_jsonld_entity_alter(array &$data, EntityInterface $entity) {
+function schemadotorg_taxonomy_schemadotorg_jsonld_schema_type_entity_alter(array &$data, EntityInterface $entity) {
   /** @var \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyJsonLdManager $taxonomy_jsonld_manager */
   $taxonomy_jsonld_manager = \Drupal::service('schemadotorg_taxonomy.jsonld_manager');
   $taxonomy_jsonld_manager->alter($data, $entity);

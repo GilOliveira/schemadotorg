@@ -161,12 +161,12 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
     ];
 
     // Allow modules to alter the default field via a hook.
-    $hook = 'schemadotorg_property_field_prepare';
-    $implementations = $this->moduleHandler->getImplementations($hook);
-    foreach ($implementations as $module) {
-      $function = $module . '_' . $hook;
-      $function($type, $property, $default_field);
-    }
+    $this->moduleHandler->invokeAllWith(
+      'schemadotorg_property_field_prepare',
+      function (callable $hook) use ($type, $property, $default_field) {
+        $hook($type, $property, $default_field);
+      }
+    );
 
     return $default_field;
   }

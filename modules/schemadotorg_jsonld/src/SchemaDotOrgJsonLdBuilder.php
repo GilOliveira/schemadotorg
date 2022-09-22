@@ -21,8 +21,11 @@ use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
  *
  * @see hook_schemadotorg_jsonld()
  * @see \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilder::buildMappedEntity
- * @see hook_schemadotorg_jsonld_entity_load()
- * @see hook_schemadotorg_jsonld_entity_alter()
+ * @see hook_schemadotorg_jsonld_schema_type_entity_load()
+ * @see hook_schemadotorg_jsonld_schema_type_entity_alter()
+ * @see hook_schemadotorg_jsonld_schema_type_field_alter()
+ * @see hook_schemadotorg_jsonld_schema_property_alter()
+ * @see hook_schemadotorg_jsonld_schema_properties_alter()
  * @see hook_schemadotorg_jsonld_alter()
  */
 class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
@@ -100,7 +103,12 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
 
     // Add custom data based on the route match.
     // @see hook_schemadotorg_jsonld()
-    $data += $this->invokeDataHook('schemadotorg_jsonld', [$route_match]);
+    $this->moduleHandler->invokeAllWith('schemadotorg_jsonld', function (callable $hook, string $module) use (&$data, $route_match) {
+      $module_data = $hook($route_match);
+      if ($module_data) {
+        $data[$module . '_schemadotorg_jsonld'] = $module_data;
+      }
+    });
 
     // Add entity data.
     $entity = $this->schemaJsonLdManager->getRouteMatchEntity($route_match);
@@ -138,8 +146,13 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $data = $this->buildMappedEntity($entity);
 
     // Load Schema.org JSON-LD entity data.
-    // @see schemadotorg_jsonld_entity_load()
-    $this->invokeEntityHook('schemadotorg_jsonld_entity_load', $data, $entity);
+    // @see schemadotorg_jsonld_schema_type_entity_load()
+    $this->moduleHandler->invokeAllWith(
+      'schemadotorg_jsonld_schema_type_entity_load',
+      function (callable $hook) use (&$data, $entity) {
+        $hook($data, $entity);
+      }
+    );
 
     // Add Schema.org identifiers. (Defaults to UUID)
     if ($options['identifier']) {
@@ -158,9 +171,9 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       }
     }
 
-    // Alter Schema.org JSON-LD entity data.
-    // @see schemadotorg_jsonld_entity_alter()
-    $this->invokeEntityHook('schemadotorg_jsonld_entity_alter', $data, $entity);
+    // Alter Schema.org type JSON-LD using the entity.
+    // @see schemadotorg_jsonld_schema_type_entity_alter()
+    $this->moduleHandler->alter('schemadotorg_jsonld_schema_type_entity', $data, $entity);
 
     // Sort Schema.org properties in specified order and then alphabetically.
     $data = $this->schemaJsonLdManager->sortProperties($data);
@@ -204,7 +217,6 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
         continue;
       }
 
-      // Make sure the user has access to the field.
       /** @var \Drupal\Core\Field\FieldItemListInterface $items */
       $items = $entity->get($field_name);
 
@@ -272,7 +284,24 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     if ($entity->hasLinkTemplate('canonical') && $entity->access('view')) {
       $default_data['@url'] = $entity->toUrl('canonical')->setAbsolute()->toString();
     }
-    return $default_data + $type_data;
+
+    $data = $default_data + $type_data;
+
+    // Alter Schema.org type JSON-LD using the entity.
+    // @see schemadotorg_jsonld_schema_type_entity_alter()
+    foreach ($schema_properties as $field_name => $schema_property) {
+      // Make sure the entity has the field and the current user has
+      // access to the field.
+      if (!$entity->hasField($field_name) || !$entity->get($field_name)->access('view')) {
+        continue;
+      }
+
+      /** @var \Drupal\Core\Field\FieldItemListInterface $items */
+      $items = $entity->get($field_name);
+      $this->moduleHandler->alter('schemadotorg_jsonld_schema_type_field', $data, $items);
+    }
+
+    return $data;
   }
 
   /**
@@ -317,47 +346,6 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     // Get Schema.org property value with the property's
     // default Schema.org type.
     return $this->schemaJsonLdManager->getSchemaPropertyValueDefaultType($schema_type, $schema_property, $property_value);
-  }
-
-  /**
-   * Invokes a Schema.org hook and collect data.
-   *
-   * @param string $hook
-   *   The name of the hook to invoke.
-   * @param array $args
-   *   Arguments to pass to the hook implementation.
-   *
-   * @return array
-   *   The return data  of the hook implementation.
-   */
-  protected function invokeDataHook($hook, array $args) {
-    $data = [];
-    $implementations = $this->moduleHandler->getImplementations($hook);
-    foreach ($implementations as $module) {
-      $module_data = $this->moduleHandler->invoke($module, $hook, $args);
-      if ($module_data) {
-        $data[$module . '_' . $hook] = $module_data;
-      }
-    }
-    return $data;
-  }
-
-  /**
-   * Invokes a Schema.org hook and alter data.
-   *
-   * @param string $hook
-   *   The name of the hook to invoke.
-   * @param array $data
-   *   The Schema.org type data.
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity.
-   */
-  protected function invokeEntityHook($hook, array &$data, EntityInterface $entity) {
-    $implementations = $this->moduleHandler->getImplementations($hook);
-    foreach ($implementations as $module) {
-      $function = $module . '_' . $hook;
-      $function($data, $entity);
-    }
   }
 
   /**

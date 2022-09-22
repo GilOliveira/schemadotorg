@@ -82,7 +82,7 @@ function hook_schemadotorg_jsonld_alter(array &$data, \Drupal\Core\Routing\Route
 /* ************************************************************************** */
 
 /**
- * Load the Schema.org JSON-LD data for an entity.
+ * Load the Schema.org type JSON-LD data for an entity.
  *
  * Modules can define custom JSON-LD data for any entity type.
  *
@@ -91,7 +91,7 @@ function hook_schemadotorg_jsonld_alter(array &$data, \Drupal\Core\Routing\Route
  * @param \Drupal\Core\Entity\EntityInterface $entity
  *   The entity.
  */
-function hook_schemadotorg_jsonld_entity_load(array &$data, \Drupal\Core\Entity\EntityInterface $entity) {
+function hook_schemadotorg_jsonld_schema_type_entity_load(array &$data, \Drupal\Core\Entity\EntityInterface $entity) {
   if (!$entity instanceof \Drupal\taxonomy\VocabularyInterface) {
     return;
   }
@@ -128,7 +128,7 @@ function hook_schemadotorg_jsonld_entity_load(array &$data, \Drupal\Core\Entity\
  * @param \Drupal\Core\Entity\EntityInterface $entity
  *   The entity.
  */
-function hook_schemadotorg_jsonld_entity_alter(array &$data, \Drupal\Core\Entity\EntityInterface $entity) {
+function hook_schemadotorg_jsonld_schema_type_entity_alter(array &$data, \Drupal\Core\Entity\EntityInterface $entity) {
   if (!$entity instanceof \Drupal\taxonomy\TermInterface) {
     return;
   }
@@ -154,6 +154,19 @@ function hook_schemadotorg_jsonld_entity_alter(array &$data, \Drupal\Core\Entity
   $builder = \Drupal::service('schemadotorg_json.builder');
   $vocabulary_data = $builder->buildEntity($vocabulary);
   $data["in{$schema_type}Set"] = $vocabulary_data;
+}
+
+/**
+ * Alter the Schema.org JSON-LD data for a field item list.
+ *
+ * This hook allows a field to alter the other Schema.org properties outside
+ * of the field's Schema.org property mapping.
+ *
+ * @param \Drupal\Core\Field\FieldItemListInterface $items
+ *   A field item list.
+ */
+function hook_schemadotorg_jsonld_schema_type_field_alter(array &$data, \Drupal\Core\Field\FieldItemListInterface $items) {
+  // @todo Provide some example code.
 }
 
 /* ************************************************************************** */

@@ -147,16 +147,17 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    */
   public function getMappingDefaults($entity_type_id, $bundle, $schema_type) {
     $defaults = [];
+
     $defaults['entity'] = $this->getMappingEntityDefaults($entity_type_id, $bundle, $schema_type);
     $defaults['properties'] = $this->getMappingPropertiesFieldDefaults($entity_type_id, $bundle, $schema_type);
 
     // Allow modules to alter the mapping defaults via a hook.
-    $hook = 'schemadotorg_mapping_defaults_alter';
-    $implementations = $this->moduleHandler->getImplementations($hook);
-    foreach ($implementations as $module) {
-      $function = $module . '_' . $hook;
-      $function($entity_type_id, $bundle, $schema_type, $defaults);
-    }
+    $this->moduleHandler->invokeAllWith(
+      'schemadotorg_mapping_defaults_alter',
+      function (callable $hook) use ($entity_type_id, $bundle, $schema_type, &$defaults) {
+        $hook($entity_type_id, $bundle, $schema_type, $defaults);
+      }
+    );
 
     return $defaults;
   }
