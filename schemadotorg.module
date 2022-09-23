@@ -57,6 +57,8 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
 
 /**
  * Implements hook_modules_installed().
+ *
+ * Create mapping types for modules that provide a content entities.
  */
 function schemadotorg_modules_installed($modules) {
   if (!\Drupal::isConfigSyncing()) {
@@ -65,7 +67,6 @@ function schemadotorg_modules_installed($modules) {
     $installer->installModules($modules);
   }
 }
-
 
 /**
  * Implements hook_form_FORM_ID_alter().
