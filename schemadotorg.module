@@ -25,19 +25,19 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
         . t('The <em>Schema.org mappings</em> page lists all available mappings from Drupal entity types to Schema.org types.')
         . '<br/>'
         . '<a href="' . $uri . '">' . t('Learn more about the Schema.org Blueprints module') . '</a>'
-        . '<p>';
+        . '</p>';
 
     case 'entity.schemadotorg_mapping_type.collection':
-      return '<p>' . t('The <em>Schema.org mapping types</em> page lists all available mapping types with default settings for available Drupal entity types.') . '<p>';
+      return '<p>' . t('The <em>Schema.org mapping types</em> page lists all available mapping types with default settings for available Drupal entity types.') . '</p>';
 
     case 'schemadotorg.settings.types':
-      return '<p>' . t('The <em>Schema.org types settings</em> page allows administrators to configure the default settings for Schema.org types.') . '<p>';
+      return '<p>' . t('The <em>Schema.org types settings</em> page allows administrators to configure the default settings for Schema.org types.') . '</p>';
 
     case 'schemadotorg.settings':
-      return '<p>' . t('The <em>Schema.org settings</em> page allows administrators to configure the default settings for the Schema.org Blueprints module.') . '<p>';
+      return '<p>' . t('The <em>Schema.org settings</em> page allows administrators to configure the default settings for the Schema.org Blueprints module.') . '</p>';
 
     case 'schemadotorg.settings.properties':
-      return '<p>' . t('The <em>Schema.org properties settings</em> page allows administrators to configure the default settings for Schema.org properties.') . '<p>';
+      return '<p>' . t('The <em>Schema.org properties settings</em> page allows administrators to configure the default settings for Schema.org properties.') . '</p>';
 
     case 'schemadotorg.settings.names':
       $t_args = [
@@ -47,7 +47,7 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
         . t("The <em>Schema.org names settings</em> page allows administrators to configure how Schema.org's <a href=\":href\">naming conventions</a> for types and properties are converted to Drupal's naming conventions.", $t_args)
         . ' '
         . t('For example, Schema.org uses camel case (camelCase) and Drupal uses snake case (snake_case) and Drupal limits all entity ids and field names to 32 characters.')
-        . '<p>';
+        . '</p>';
   }
 
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
