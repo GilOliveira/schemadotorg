@@ -5,4 +5,5 @@ package: Schema.org Blueprints Extras
 core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental
 dependencies:
+  - 'schemadotorg:schemadotorg_jsonapi'
   - 'schemadotorg:schemadotorg_next'

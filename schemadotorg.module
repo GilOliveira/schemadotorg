@@ -56,6 +56,18 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
 }
 
 /**
+ * Implements hook_modules_installed().
+ */
+function schemadotorg_modules_installed($modules) {
+  if (!\Drupal::isConfigSyncing()) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
+    $installer = \Drupal::service('schemadotorg.installer');
+    $installer->installModules($modules);
+  }
+}
+
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Display a warning on the entity revision configuration page when the

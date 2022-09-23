@@ -186,6 +186,47 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   /**
    * {@inheritdoc}
    */
+  public function installModules(array $modules = NULL) {
+    $modules = $modules ?? array_keys($this->moduleHandler->getModuleList());
+    // Create default mapping type for modules that provide content entities
+    // that could be mapped to Schema.org types.
+    $mapping_types = [
+      // Module name.
+      'storage' => [
+        // Target entity type id.
+        'storage' => [
+          // Mapping type default values.
+          'default_base_fields' => [
+            'uuid' => [],
+            'user_id' => [],
+            'langcode' => ['inLanguage'],
+            'name' => ['name', 'headline', 'title'],
+            'created' => ['dateCreated'],
+            'changed' => ['dateModified'],
+          ],
+        ],
+      ],
+    ];
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
+    $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
+    foreach ($modules as $module) {
+      if (isset($mapping_types[$module])) {
+        foreach ($mapping_types[$module] as $target_entity_type_id => $values) {
+          $values = $mapping_types[$module] + [
+            'multiple' => FALSE,
+            'target_entity_type_id' => $target_entity_type_id,
+          ];
+          if (!$mapping_type_storage->load($target_entity_type_id)) {
+            $mapping_type_storage->create($values)->save();
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function schema() {
     $schema = [];
 

@@ -21,10 +21,13 @@ function schemadotorg_requirements($phase) {
 /**
  * Implements hook_install().
  */
-function schemadotorg_install() {
+function schemadotorg_install($is_syncing) {
   /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
   $installer = \Drupal::service('schemadotorg.installer');
   $installer->install();
+  if (!$is_syncing) {
+    $installer->installModules();
+  }
 }
 
 /**

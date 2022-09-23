@@ -24,6 +24,14 @@ interface SchemaDotOrgInstallerInterface {
   public function install();
 
   /**
+   * Create mapping types for modules that provide a content entities.
+   *
+   * @param array $modules
+   *   An array of installed modules.
+   */
+  public function installModules(array $modules = NULL);
+
+  /**
    * Gets Schema.org properties and types database schema.
    *
    * @return array
