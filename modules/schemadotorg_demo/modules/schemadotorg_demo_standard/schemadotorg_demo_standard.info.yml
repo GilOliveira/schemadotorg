@@ -45,6 +45,7 @@ dependencies:
   - 'inline_entity_form:inline_entity_form'
   - 'linkit:linkit'
   - 'metatag:metatag'
+  - 'multiple_fields_remove_button:multiple_fields_remove_button'
   - 'jsonapi_extras:jsonapi_extras'
   - 'openapi_ui:openapi_ui'
   - 'openapi_ui_redoc:openapi_ui_redoc'
