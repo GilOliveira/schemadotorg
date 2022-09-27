@@ -22,7 +22,6 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
    * @var string[]
    */
   protected static $modules = [
-    'datetime_range',
     'filter',
     'schemadotorg_jsonld',
   ];
@@ -145,19 +144,6 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
     ]);
     $place_node->save();
 
-    // Event node.
-    $event_node = Node::create([
-      'type' => 'event',
-      'title' => 'Sometime',
-      'schema_event_schedule' => [
-        [
-          'value' => '2001-01-01T11:00:00',
-          'end_value' => '2001-01-01T12:00:00',
-        ],
-      ],
-    ]);
-    $event_node->save();
-
     /* ********************************************************************** */
 
     // Check getting an entity's canonical route match.
@@ -193,15 +179,6 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
     ];
     $actual_value = NULL;
     address_schemadotorg_jsonld_schema_property_alter($actual_value, $place_node->schema_address->get(0));
-    $this->assertEquals($expected_value, $actual_value);
-
-    // Event schedule.
-    $expected_value = [
-      '@type' => 'Schedule',
-      'startDate' => '2001-01-01T11:00:00',
-      'endDate' => '2001-01-01T12:00:00',
-    ];
-    $actual_value = $this->manager->getSchemaPropertyValue($event_node->schema_event_schedule->get(0));
     $this->assertEquals($expected_value, $actual_value);
 
     // Language.

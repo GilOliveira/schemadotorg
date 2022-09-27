@@ -24,11 +24,11 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
   protected $moduleHandler;
 
   /**
-   * The Schema.org config.
+   * The configuration factory.
    *
-   * @var \Drupal\Core\Config\Config
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
-  protected $config;
+  protected $configFactory;
 
   /**
    * The entity type manager.
@@ -63,7 +63,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler service.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
@@ -76,14 +76,14 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
    */
   public function __construct(
     ModuleHandlerInterface $module_handler,
-    ConfigFactoryInterface $config,
+    ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
     EntityFieldManagerInterface $entity_field_manager,
     FieldTypePluginManagerInterface $field_type_plugin_manager,
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
   ) {
     $this->moduleHandler = $module_handler;
-    $this->config = $config->get('schemadotorg.settings');
+    $this->configFactory = $config_factory;
     $this->entityTypeManager = $entity_type_manager;
     $this->entityFieldManager = $entity_field_manager;
     $this->fieldTypePluginManager = $field_type_plugin_manager;
@@ -146,7 +146,9 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
     $default_field = [];
 
     // Get custom field default settings.
-    $default_fields = $this->config->get('schema_properties.default_fields');
+    $default_fields = $this->configFactory
+      ->get('schemadotorg.settings')
+      ->get('schema_properties.default_fields');
     $default_field += $default_fields["$type--$property"] ?? [];
     $default_field += $default_fields[$property] ?? [];
 
@@ -441,7 +443,9 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
   protected function getSchemaTypeFieldTypes() {
     $schema_field_types = &drupal_static(__METHOD__);
     if (!isset($schema_field_types)) {
-      $schema_field_types = $this->config->get('schema_types.default_field_types');
+      $schema_field_types = $this->configFactory
+        ->get('schemadotorg.settings')
+        ->get('schema_types.default_field_types');
       // Make sure the field types exist, by checking the UI definitions.
       $field_type_definitions = $this->fieldTypePluginManager->getUiDefinitions();
       foreach ($schema_field_types as $id => $field_types) {

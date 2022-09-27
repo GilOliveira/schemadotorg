@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 
@@ -89,11 +90,8 @@ function schemadotorg_rdf_preprocess_node(&$variables) {
  *   The entity.
  */
 function _schemadotorg_rdf_preprocess_entity(array &$variables, EntityInterface $entity) {
-  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-  $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
+  $mapping = SchemaDotOrgMapping::loadByEntity($entity);
 
-  // Get the Schema.org mapping.
-  $mapping = $mapping_storage->loadByEntity($entity);
   if (!$mapping) {
     return;
   }

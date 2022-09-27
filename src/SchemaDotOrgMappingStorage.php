@@ -149,6 +149,10 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
    * {@inheritdoc}
    */
   public function loadByEntity(EntityInterface $entity) {
+    if (!$this->isEntityMapped($entity)) {
+      return NULL;
+    }
+
     $entities = $this->loadByProperties([
       'target_entity_type_id' => $entity->getEntityTypeId(),
       'target_bundle' => $entity->bundle(),

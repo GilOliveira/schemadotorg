@@ -3,6 +3,7 @@
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Provides an interface defining a Schema.org mapping entity.
@@ -190,5 +191,16 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
    *   TRUE if a Schema.org property is mapped to a Drupal field.
    */
   public function hasSchemaPropertyMapping($property);
+
+  /**
+   * Load by entity.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity.
+   *
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null
+   *   The Schema.org mapping entity.
+   */
+  public static function loadByEntity(EntityInterface $entity);
 
 }

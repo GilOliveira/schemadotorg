@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Render\Element;
@@ -287,9 +288,5 @@ function _schemadotorg_flexfield_get_mapping($item) {
     return NULL;
   }
 
-  // Get the Schema.org mapping for the entity.
-  $entity = $item->getEntity();
-  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-  $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
-  return $mapping_storage->loadByEntity($entity);
+  return SchemaDotOrgMapping::loadByEntity($item->getEntity());
 }

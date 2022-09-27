@@ -4,6 +4,7 @@ namespace Drupal\schemadotorg\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
@@ -376,6 +377,15 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
       }
     }
     return $intersect;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function loadByEntity(EntityInterface $entity) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+    $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
+    return $mapping_storage->loadByEntity($entity);
   }
 
 }
