@@ -2,7 +2,7 @@ name: Schema.org Blueprints JSON-LD Breadcrumb
 type: module
 description: Adds Drupal's breadcrumb to the Schema.org JSON-LD for the current route.
 package: Schema.org Blueprints Extras
-core_version_requirement: '^8.9 || ^9'
+core_version_requirement: '^9.4'
 lifecycle: experimental
 dependencies:
   - 'schemadotorg:schemadotorg_jsonld'

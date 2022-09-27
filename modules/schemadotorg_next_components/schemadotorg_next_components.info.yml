@@ -2,7 +2,7 @@ name: 'Schema.org Blueprints Next.js Components'
 type: module
 description: 'Generates and previews Next.js React components to assist with the integration of Schema.org Blueprints with Next.js'
 package: Schema.org Blueprints Extras
-core_version_requirement: '^8.9 || ^9'
+core_version_requirement: '^9.4'
 lifecycle: experimental
 dependencies:
   - 'schemadotorg:schemadotorg_jsonapi'
