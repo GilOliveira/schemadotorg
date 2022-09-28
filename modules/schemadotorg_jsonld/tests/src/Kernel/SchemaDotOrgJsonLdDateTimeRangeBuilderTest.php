@@ -45,7 +45,7 @@ class SchemaDotOrgJsonLdDateTimeRangeBuilderTest extends SchemaDotOrgKernelEntit
    * Test Schema.org JSON-LD builder.
    */
   public function testBuilder() {
-    // Reset Event properties.
+    // Reset Event properties to use eventSchedule and startDate with daterange.
     $config = $this->config('schemadotorg.settings');
     $config
       ->set('schema_types.default_properties.Event', ['eventSchedule', 'inLanguage', 'name', 'startDate'])
