@@ -85,6 +85,9 @@ types:
       title: 'Home Activities and Structured Data'
       uri: 'https://developers.google.com/search/docs/advanced/structured-data/home-activities'
     -
+      title: 'How to mark up recurring events with Schema.org for Google?'
+      uri: 'https://stackoverflow.com/questions/24685541/how-to-mark-up-recurring-events-with-schema-org-for-google'
+    -
       title: Event
       uri: 'https://jsonld.com/event/'
   FAQPage:
