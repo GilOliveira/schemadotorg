@@ -1,0 +1,71 @@
+config_rewrite: replace
+form_settings:
+  taxonomy_term:
+    default_value: false
+    disable: false
+    hidden: true
+  block_content:
+    default_value: false
+    disable: false
+    hidden: true
+  contact_message:
+    default_value: false
+    disable: false
+    hidden: true
+  file:
+    default_value: true
+    disable: false
+    hidden: false
+  node:
+    default_value: false
+    disable: false
+    hidden: true
+  shortcut:
+    default_value: false
+    disable: false
+    hidden: true
+  user:
+    default_value: false
+    disable: false
+    hidden: true
+  menu_link_content:
+    default_value: false
+    disable: false
+    hidden: true
+  consumer:
+    hidden: true
+    default_value: false
+    disable: false
+  entity_embed_fake_entity:
+    hidden: true
+    default_value: false
+    disable: false
+  paragraphs_library_item:
+    hidden: true
+    default_value: false
+    disable: false
+  path_alias:
+    hidden: true
+    default_value: false
+    disable: false
+  oauth2_token:
+    hidden: true
+    default_value: false
+    disable: false
+  smart_date_override:
+    hidden: true
+    default_value: false
+    disable: false
+  smart_date_rule:
+    hidden: true
+    default_value: false
+    disable: false
+  paragraph:
+    default_value: true
+    disable: true
+    hidden: false
+  media:
+    default_value: false
+    disable: false
+    hidden: false
+take_ownership: 1
