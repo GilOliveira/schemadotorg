@@ -14,7 +14,8 @@
    */
   Drupal.behaviors.schemaDotOrgJsonLdPreviewCopy = {
     attach: function attach(context) {
-      $(context).find('.js-schemadotorg-jsonld-preview').once('schemadotorg-jsonld-preview-copy').each(function () {
+      $(once('schemadotorg-jsonld-preview-copy', '.js-schemadotorg-jsonld-preview', context))
+        .each(function () {
         var $container = $(this);
         var $input = $container.find('input:hidden');
         var $button = $container.find(':submit, :button');

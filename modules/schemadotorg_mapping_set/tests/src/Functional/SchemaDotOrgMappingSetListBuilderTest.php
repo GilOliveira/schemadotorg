@@ -106,7 +106,7 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     $this->submitForm([], 'Confirm');
 
     // Check that ContactPoint and Person Schema.org mappings exist.
-    $this->assertEquals(['media.image', 'node.contact_point', 'node.place'], array_keys($mapping_storage->getQuery()->execute()));
+    $this->assertEquals(['media.image', 'node.contact_point', 'node.place'], array_keys($mapping_storage->getQuery()->accessCheck(FALSE)->accessCheck(FALSE)->execute()));
 
     // Check the common mapping set operations have changed but
     // generate and kill operations are missing.
@@ -153,24 +153,24 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     $this->submitForm([], 'Confirm');
 
     // Check that 10 nodes where created.
-    $this->assertEquals(10, count($node_storage->getQuery()->execute()));
+    $this->assertEquals(10, count($node_storage->getQuery()->accessCheck(FALSE)->accessCheck(FALSE)->execute()));
 
     // Teardown the common mapping set.
     $this->drupalGet('/admin/config/search/schemadotorg/sets/common/teardown');
     $this->submitForm([], 'Confirm');
 
     // Check node.place was removed.
-    $this->assertEquals(['media.image', 'node.contact_point'], array_keys($mapping_storage->getQuery()->execute()));
+    $this->assertEquals(['media.image', 'node.contact_point'], array_keys($mapping_storage->getQuery()->accessCheck(FALSE)->accessCheck(FALSE)->execute()));
 
     // Check that all generated nodes where deleted.
-    $this->assertEquals(0, count($node_storage->getQuery()->execute()));
+    $this->assertEquals(0, count($node_storage->getQuery()->accessCheck(FALSE)->accessCheck(FALSE)->execute()));
 
     // Teardown the required mapping set.
     $this->drupalGet('/admin/config/search/schemadotorg/sets/required/teardown');
     $this->submitForm([], 'Confirm');
 
     // Check media.image and node.contact_point were removed.
-    $this->assertEmpty($mapping_storage->getQuery()->execute());
+    $this->assertEmpty($mapping_storage->getQuery()->accessCheck(FALSE)->accessCheck(FALSE)->execute());
 
     // Update mapping set to use invalid type.
     $config = \Drupal::configFactory()->getEditable('schemadotorg_mapping_set.settings');

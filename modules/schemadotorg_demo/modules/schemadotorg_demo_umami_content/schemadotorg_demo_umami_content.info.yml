@@ -2,7 +2,7 @@ name: 'Schema.org Blueprints Demo Umami Content'
 type: module
 description: Imports the content from the Umami demo installation profile into a demo of Schema.org Blueprints.
 package: Schema.org Blueprints Demo
-core_version_requirement: '^9.4'
+core_version_requirement: '^9.4 || ^10.0'
 lifecycle: experimental
 dependencies:
   - 'drupal:media'

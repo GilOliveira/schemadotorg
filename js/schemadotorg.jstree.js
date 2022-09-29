@@ -3,7 +3,7 @@
  * Schema.org jsTree behaviors.
  */
 
-(function ($, Drupal) {
+(function ($, Drupal, once) {
 
   'use strict';
 
@@ -22,8 +22,7 @@
    */
   Drupal.behaviors.schemaDotOrgJsTree = {
     attach: function (context) {
-      $('.schemadotorg-jstree', context)
-        .once('schemadotorg-jstree')
+      $(once('schemadotorg-jstree', '.schemadotorg-jstree', context))
         .each(function () {
           var $tree = $(this);
 
@@ -75,4 +74,4 @@
     }
   }
 
-} (jQuery, Drupal));
+} (jQuery, Drupal, once));

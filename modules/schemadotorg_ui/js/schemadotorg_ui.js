@@ -14,8 +14,7 @@
    */
   Drupal.behaviors.schemaDotOrgUiPropertiesFilterByText = {
     attach: function attach(context) {
-      $('input.schemadotorg-ui-properties-filter-text', context)
-        .once('schemadotorg-ui-properties-filter-text')
+      $(once('schemadotorg-ui-properties-filter-text', 'input.schemadotorg-ui-properties-filter-text', context))
         .each( function () {
           // Input
           var $input = $(this);
@@ -79,15 +78,14 @@
   Drupal.behaviors.schemaDotOrgUiPropertiesToggle = {
     attach: function (context) {
       // Toggle selected/mapped properties.
-      $('table.schemadotorg-ui-properties', context)
-        .once('schemadotorg-ui-properties-toggle')
+      $(once('schemadotorg-ui-properties-toggle', 'table.schemadotorg-ui-properties', context))
         .each(function () {
           var $table = $(this);
 
           // Flag form validation errors.
           $table.find('tbody .form-item--error')
             .parents('tr')
-            .addClass('color-error')
+            .addClass('color-error');
 
           // Make sure the table has mapping properties before proceeding.
           if ($table.find('tbody tr.color-warning, tbody tr.color-success, tbody tr.color-error').length === 0) {
@@ -157,8 +155,7 @@
    */
   Drupal.behaviors.schemaDotOrgUiPropertyStatus = {
     attach: function (context) {
-      $('table.schemadotorg-ui-properties select[name$="[field][name]"]', context)
-        .once('schemadotorg-ui-property-status')
+      $(once('schemadotorg-ui-property-status', 'table.schemadotorg-ui-properties select[name$="[field][name]"]', context))
         .change(function () {
           var $select = $(this);
           var value = $select.val();

@@ -10,8 +10,8 @@ schemadotorg.details:
     js/schemadotorg.details.js: {}
   dependencies:
     - core/jquery
-    - core/jquery.once
     - core/drupal
+    - core/once
 
 schemadotorg.dialog:
   js:
@@ -26,9 +26,9 @@ schemadotorg.form:
     js/schemadotorg.form.js: {}
   dependencies:
     - core/jquery
-    - core/jquery.once
     - core/drupal
     - core/drupal.ajax
+    - core/once
 
 schemadotorg.jstree:
   css:

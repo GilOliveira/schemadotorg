@@ -15,7 +15,7 @@ Steps for creating a new release
     cd modules/sandbox/schemadotorg
     rm *.patch interdiff-*
 
-[PHP](https://www.drupal.org/node/1587138)
+[PHP Linting](https://www.drupal.org/node/1587138)
 
     # Install drupal/coder (One time).
     composer global require drupal/coder
@@ -35,47 +35,49 @@ Steps for creating a new release
     # Fix coding standards.
     phpcbf .
 
+[PHP version compatibility](https://www.drupal.org/node/2924272)
+
     # Install PHP version compatibility (One-time)
-    cd ~/Sites/drupal_schema
+    cd ~/Sites/drupal_next
     composer require --dev phpcompatibility/php-compatibility
 
-    # Check PHP version compatibility
-    cd ~/Sites/drupal_schema/web
-    phpcs --runtime-set testVersion 8.0 --standard=../vendor/phpcompatibility/php-compatibility/PHPCompatibility --extensions=php,module,inc,install,test,profile,theme modules/sandbox/schemadotorg > ~/schemadotorg-php-compatibility.txt
+    # Check PHP version compatibility.
+    cd ~/Sites/drupal_next/web
+    ../vendor/bin/phpcs --runtime-set testVersion 8.0 --standard=../vendor/phpcompatibility/php-compatibility/PHPCompatibility --extensions=php,module,inc,install,test,profile,theme modules/sandbox/schemadotorg > ~/schemadotorg-php-compatibility.txt
     cat ~/schemadotorg-php-compatibility.txt
 
 [JavaScript](https://www.drupal.org/node/2873849)
 
     # Install Eslint. (One-time)
-    cd ~/Sites/drupal_schema/web/core
+    cd ~/Sites/drupal_next/web/core
     yarn install
 
     # Check Drupal JavaScript (ES5) legacy coding standards.
-    cd ~/Sites/drupal_schema/web
+    cd ~/Sites/drupal_next/web
     core/node_modules/.bin/eslint --no-eslintrc -c=core/.eslintrc.legacy.json --ext=.js modules/sandbox/schemadotorg > ~/schemadotorg-javascript-coding-standards.txt
     cat ~/schemadotorg-javascript-coding-standards.txt
 
 [CSS](https://www.drupal.org/node/3041002)
 
     # Install Eslint. (One-time)
-    cd ~/Sites/drupal_schema/web/core
+    cd ~/Sites/drupal_next/web/core
     yarn install
 
-    cd ~/Sites/drupal_schema/web/core
+    cd ~/Sites/drupal_next/web/core
     yarn run lint:css ../modules/sandbox/schemadotorg/css --fix
 
 [Spell Check](https://www.drupal.org/node/3122084) for Drupal 9.1+
 
     # Install Pspell. (One-time)
-    cd ~/Sites/drupal_schema/web/core
+    cd ~/Sites/drupal_next/web/core
     yarn install
 
     # Update dictionary. (core/misc/cspell/dictionary.txt)
 
-    cd ~/Sites/drupal_schema/web/
+    cd ~/Sites/drupal_next/web/
     cat modules/sandbox/schemadotorg/cspell/dictionary.txt >> core/misc/cspell/dictionary.txt
 
-    cd ~/Sites/drupal_schema/web/core
+    cd ~/Sites/drupal_next/web/core
     yarn run spellcheck ../modules/sandbox/schemadotorg/**/* > ~/schemadotorg-spell-check.txt
     cat ~/schemadotorg-spell-check.txt
 
@@ -88,6 +90,7 @@ Steps for creating a new release
     # Directories should be 755 or drwxr-xr-x
     find . -type f -print0 | xargs -0 chmod 0644
 
+
 2. Deprecated code
 ------------------
 
@@ -95,7 +98,7 @@ Steps for creating a new release
 
 Install PHPStan
 
-    cd ~/Sites/drupal_schema
+    cd ~/Sites/drupal_next
     composer require \
       phpstan/phpstan \
       phpstan/extension-installer \
@@ -105,7 +108,7 @@ Install PHPStan
 Run PHPStan with level 2 to catch all deprecations.
 @see <https://phpstan.org/user-guide/rule-levels>
 
-    cd ~/Sites/drupal_schema
+    cd ~/Sites/drupal_next
     ./vendor/bin/phpstan --level=2 analyse web/modules/sandbox/schemadotorg > ~/schemadotorg-deprecated.txt
     cat ~/schemadotorg-deprecated.txt
 

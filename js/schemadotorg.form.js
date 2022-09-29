@@ -3,7 +3,7 @@
  * Schema.org form behaviors.
  */
 
-(function ($, Drupal) {
+(function ($, Drupal, once) {
 
   'use strict';
 
@@ -14,8 +14,7 @@
    */
   Drupal.behaviors.schemaDotOrgFormSubmitOnce = {
     attach: function (context) {
-      $('form.js-schemadotorg-submit-once', context)
-        .once('schemadotorg-submit-once')
+      $(once('schemadotorg-submit-once', 'form.js-schemadotorg-submit-once', context))
         .each(function () {
           var $form = $(this);
           // Track which button is clicked.
@@ -32,4 +31,4 @@
     }
   }
 
-} (jQuery, Drupal));
+} (jQuery, Drupal, once));

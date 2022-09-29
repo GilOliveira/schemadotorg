@@ -118,7 +118,9 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
    * {@inheritdoc}
    */
   public function getField($entity_type_id, $field_name) {
-    $field_ids = $this->entityTypeManager->getStorage('field_config')->getQuery()
+    $field_ids = $this->entityTypeManager->getStorage('field_config')
+      ->getQuery()
+      ->accessCheck(FALSE)
       ->condition('entity_type', $entity_type_id)
       ->condition('field_name', $field_name)
       ->execute();
@@ -499,6 +501,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
       }
 
       $entity_ids = $schemadotorg_mapping_storage->getQuery()
+        ->accessCheck(FALSE)
         ->condition('schema_type', $sub_types, 'IN')
         ->execute();
       if (empty($entity_ids)) {

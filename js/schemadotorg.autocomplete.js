@@ -3,7 +3,7 @@
  * Schema.org autocomplete behaviors.
  */
 
-(function ($, Drupal) {
+(function ($, Drupal, once) {
 
   'use strict';
 
@@ -14,7 +14,7 @@
    */
   Drupal.behaviors.schemaDotOrgAutocomplete = {
     attach: function (context) {
-      $('input.schemadotorg-autocomplete', context).once('schemadotorg-autocomplete')
+      $(once('schemadotorg-autocomplete', 'input.schemadotorg-autocomplete', context))
         .each(function () {
           // If input value is an autocomplete match, reset the input to its
           // default value.
@@ -46,4 +46,4 @@
     }
   };
 
-} (jQuery, Drupal));
+} (jQuery, Drupal, once));

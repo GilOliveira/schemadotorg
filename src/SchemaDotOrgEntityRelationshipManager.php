@@ -49,6 +49,7 @@ class SchemaDotOrgEntityRelationshipManager implements SchemaDotOrgEntityRelatio
     $field_storage = $this->entityTypeManager->getStorage('field_config');
 
     $entity_ids = $field_storage->getQuery()
+      ->accessCheck(FALSE)
       ->condition('field_type', ['entity_reference', 'entity_reference_revisions'], 'IN')
       ->sort('id')
       ->execute();

@@ -85,11 +85,11 @@ class SchemaDotOrgMappingSetManagerTest extends SchemaDotOrgKernelEntityTestBase
     ], $this->schemaMappingSetManager->getTypes('common', TRUE));
 
     // Check setting up the Schema.org mapping set.
-    $this->assertEmpty($this->entityTypeManager->getStorage('node_type')->getQuery()->execute());
+    $this->assertEmpty($this->entityTypeManager->getStorage('node_type')->getQuery()->accessCheck()->execute());
     $this->schemaMappingSetManager->setup('common');
-    $this->assertNotEmpty($this->entityTypeManager->getStorage('node_type')->getQuery()->execute());
-    $this->assertEquals(['contact_point' => 'contact_point', 'place' => 'place'], $this->entityTypeManager->getStorage('node_type')->getQuery()->execute());
-    $this->assertEquals(['node.contact_point' => 'node.contact_point', 'node.place' => 'node.place'], $this->entityTypeManager->getStorage('schemadotorg_mapping')->getQuery()->execute());
+    $this->assertNotEmpty($this->entityTypeManager->getStorage('node_type')->getQuery()->accessCheck()->execute());
+    $this->assertEquals(['contact_point' => 'contact_point', 'place' => 'place'], $this->entityTypeManager->getStorage('node_type')->getQuery()->accessCheck()->execute());
+    $this->assertEquals(['node.contact_point' => 'node.contact_point', 'node.place' => 'node.place'], $this->entityTypeManager->getStorage('schemadotorg_mapping')->getQuery()->accessCheck()->execute());
 
     // Check determining if a Schema.org mapping set is already setup.
     $this->assertTrue($this->schemaMappingSetManager->isSetup('required'));
@@ -113,12 +113,12 @@ class SchemaDotOrgMappingSetManagerTest extends SchemaDotOrgKernelEntityTestBase
 
     // Check tearing down the Schema.org mapping set.
     $this->schemaMappingSetManager->teardown('common');
-    $this->assertEquals(['contact_point' => 'contact_point'], $this->entityTypeManager->getStorage('node_type')->getQuery()->execute());
-    $this->assertEquals(['node.contact_point' => 'node.contact_point'], $this->entityTypeManager->getStorage('schemadotorg_mapping')->getQuery()->execute());
+    $this->assertEquals(['contact_point' => 'contact_point'], $this->entityTypeManager->getStorage('node_type')->getQuery()->accessCheck()->execute());
+    $this->assertEquals(['node.contact_point' => 'node.contact_point'], $this->entityTypeManager->getStorage('schemadotorg_mapping')->getQuery()->accessCheck()->execute());
 
     $this->schemaMappingSetManager->teardown('required');
-    $this->assertEquals([], $this->entityTypeManager->getStorage('node_type')->getQuery()->execute());
-    $this->assertEquals([], $this->entityTypeManager->getStorage('schemadotorg_mapping')->getQuery()->execute());
+    $this->assertEquals([], $this->entityTypeManager->getStorage('node_type')->getQuery()->accessCheck()->execute());
+    $this->assertEquals([], $this->entityTypeManager->getStorage('schemadotorg_mapping')->getQuery()->accessCheck()->execute());
   }
 
 }

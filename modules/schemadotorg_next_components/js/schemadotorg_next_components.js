@@ -3,7 +3,7 @@
  * Schema.org Next.js components preview behaviors.
  */
 
-(function ($, Drupal) {
+(function ($, Drupal, once) {
 
   'use strict';
 
@@ -14,8 +14,7 @@
    */
   Drupal.behaviors.schemaDotOrgNextComponentsPreviewCodePrettier = {
     attach: function attach(context) {
-      $(context).find('.schemadotorg-next-components-preview-code')
-        .once('.schemadotorg-next-components-preview-code')
+      $(once('.schemadotorg-next-components-preview-code', '.schemadotorg-next-components-preview-code', context))
         .each(function () {
           var text = prettier.format($(this).text(), {
             parser: 'typescript',
@@ -33,9 +32,8 @@
    */
   Drupal.behaviors.schemaDotOrgNextComponentsPreviewDownload = {
     attach: function attach(context) {
-      $(context)
-        .find('.js-schemadotorg-next-components-preview')
-        .once('schemadotorg-next-components-preview-download').each(function () {
+      $(once('schemadotorg-next-components-preview-download', '.js-schemadotorg-next-components-preview', context))
+        .each(function () {
           var $container = $(this);
           var $component = $container.parent().find('.schemadotorg-next-components-preview-code');
           var $link = $container.find('.schemadotorg-next-components-preview-download-button');
@@ -55,9 +53,7 @@
    */
   Drupal.behaviors.schemaDotOrgNextComponentsPreviewCopy = {
     attach: function attach(context) {
-      $(context)
-        .find('.js-schemadotorg-next-components-preview')
-        .once('schemadotorg-next-components-preview-copy')
+      $(once('schemadotorg-next-components-preview-copy', '.js-schemadotorg-next-components-preview', context))
         .each(function () {
           var $container = $(this);
           var $component = $container.parent().find('.schemadotorg-next-components-preview-code');
@@ -80,4 +76,4 @@
     }
   }
 
-} (jQuery, Drupal));
+} (jQuery, Drupal, once));

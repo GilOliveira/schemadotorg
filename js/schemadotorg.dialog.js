@@ -3,7 +3,7 @@
  * Schema.org dialog behaviors.
  */
 
-(function ($, Drupal) {
+(function ($, Drupal, once) {
 
   'use strict';
 
@@ -14,8 +14,8 @@
    */
   Drupal.behaviors.schemaDotOrgDialog = {
     attach: function (context) {
-      $('a[href*="/admin/reports/schemadotorg"]', context)
-        .once('schemadotorg-dialog').each(function () {
+      $(once('schemadotorg-dialog', 'a[href*="/admin/reports/schemadotorg"]', context))
+        .each(function () {
           var $a = $(this);
 
           // Skip links in the toolbar-bar.
@@ -56,4 +56,4 @@
 
   };
 
-} (jQuery, Drupal));
+} (jQuery, Drupal, once));
