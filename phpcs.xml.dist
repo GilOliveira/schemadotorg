@@ -8,7 +8,7 @@
   <!-- Use Drupal coding standards -->
   <rule ref="Drupal"/>
   <rule ref="DrupalPractice"/>
-  <rule ref="SlevomatCodingStandard.TypeHints" />
+  <!-- <rule ref="SlevomatCodingStandard.TypeHints" /> -->
 
   <!-- Issue #3173782: Increase line length limit -->
   <rule ref="Drupal.Files.LineLength">
@@ -41,9 +41,11 @@
     <exclude name="Generic.CodeAnalysis.UselessOverridingMethod.Found"/>
   </rule>
 
+  <!--
   <rule ref="SlevomatCodingStandard.TypeHints">
     <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.DeclareStrictTypesMissing"/>
   </rule>
+  -->
 
 </ruleset>
 
