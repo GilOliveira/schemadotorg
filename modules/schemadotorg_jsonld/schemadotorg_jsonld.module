@@ -57,7 +57,7 @@ function schemadotorg_jsonld_page_attachments_alter(array &$attachments) {
 }
 
 /**
- * Implement hook_schemadotorg_jsonld_schema_type_field_alter() for the datetime_range.module.
+ * Implements hook_schemadotorg_jsonld_schema_type_field_alter() for the datetime_range.module.
  *
  * Sets the endDate property for a single startDate property that is
  * using a daterange.
