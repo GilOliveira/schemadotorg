@@ -70,7 +70,7 @@ function schemadotorg_report_help($route_name, RouteMatchInterface $route_match)
       return '<p>' . t('The <strong>Schema.org: Property names</strong> report lists Schema.org properties and corresponding field names.') . '</p>';
 
     case 'schemadotorg_report.names.abbreviations':
-      return '<p>' . t('The <strong>Schema.org: Abbreviated names</strong> report lists the abbreviated Schema.org types and properties their corresponding entity type ids and field names') . '</p>';
+      return '<p>' . t('The <strong>Schema.org: Abbreviated names</strong> report lists the abbreviated Schema.org types and properties their corresponding entity type ids and field names.') . '</p>';
 
     case 'schemadotorg_report.references':
       return '<p>' . t('The <em>Schema.org: References</em> page lists Schema.org references and issues.') . '</p>';

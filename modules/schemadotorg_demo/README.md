@@ -52,6 +52,7 @@ Examples of Drupal's content authoring best practices and patterns
 - Link management
 - PDF generation
 - URL generation
+- Decoupling using Next.js
 
 **Multilingual support**
 

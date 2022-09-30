@@ -154,6 +154,10 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
         $info = $this->formatPlural($count, '@count property', '@count properties');
         break;
 
+      case 'abbreviations':
+        $info = $this->formatPlural($count, '@count abbreviation', '@count abbreviations');
+        break;
+
       default:
         $info = $this->formatPlural($count, '@count item', '@count items');
     }

@@ -251,11 +251,17 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
     ];
     $rows = [];
     foreach ($words as $word => $usage) {
+      $replacement = $replacements[$word] ?? '';
       $row = [];
       $row['word'] = $word;
       $row['word_usage'] = $usage;
-      $row['abbreviation'] = $replacements[$word] ?? '';
-      $rows[] = $row;
+      $row['abbreviation'] = $replacement;
+      if ($replacement) {
+        $rows[] = ['data' => $row, 'class' => ['color-success']];
+      }
+      else {
+        $rows[] = $row;
+      }
     }
     $build['table'] = [
       '#type' => 'table',
