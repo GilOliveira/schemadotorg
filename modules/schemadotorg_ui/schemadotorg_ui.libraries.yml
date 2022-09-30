@@ -8,6 +8,6 @@ schemadotorg_ui:
     - core/drupal
     - core/drupal.announce
     - core/drupal.debounce
-    - core/jquery
-    - core/jquery.once
+    - core/drupal.form
+    - core/once
     - schemadotorg/schemadotorg.dialog

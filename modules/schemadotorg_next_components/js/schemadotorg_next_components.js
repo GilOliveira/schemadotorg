@@ -1,12 +1,13 @@
+/* eslint-disable strict, no-undef, no-use-before-define */
+
 /**
  * @file
  * Schema.org Next.js components preview behaviors.
  */
 
-(function ($, Drupal, once) {
+"use strict";
 
-  'use strict';
-
+((Drupal, once) => {
   /**
    * Schema.org Next.js components preview code prettier.
    *
@@ -14,13 +15,12 @@
    */
   Drupal.behaviors.schemaDotOrgNextComponentsPreviewCodePrettier = {
     attach: function attach(context) {
-      $(once('.schemadotorg-next-components-preview-code', '.schemadotorg-next-components-preview-code', context))
-        .each(function () {
-          var text = prettier.format($(this).text(), {
+      once('.schemadotorg-next-components-preview-code', '.schemadotorg-next-components-preview-code', context)
+        .forEach((element) => {
+          element.innerText = prettier.format(element.innerText, {
             parser: 'typescript',
             plugins: prettierPlugins,
           });
-          $(this).text(text);
         });
     }
   }
@@ -32,16 +32,17 @@
    */
   Drupal.behaviors.schemaDotOrgNextComponentsPreviewDownload = {
     attach: function attach(context) {
-      $(once('schemadotorg-next-components-preview-download', '.js-schemadotorg-next-components-preview', context))
-        .each(function () {
-          var $container = $(this);
-          var $component = $container.parent().find('.schemadotorg-next-components-preview-code');
-          var $link = $container.find('.schemadotorg-next-components-preview-download-button');
-          var fileName = $link.attr('href').replace('#', '');
+      once('schemadotorg-next-components-preview-download', '.js-schemadotorg-next-components-preview', context)
+        .forEach((container) => {
+          const component = container.parentNode.querySelector('.schemadotorg-next-components-preview-code');
+          const link = container.querySelector('.schemadotorg-next-components-preview-download-button');
+          const fileName = link.getAttribute('href')
+            .replace('#', '');
 
           // @see https://ourcodeworld.com/articles/read/189/how-to-create-a-file-and-generate-a-download-with-javascript-in-the-browser-without-a-server
-          $link.attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent($component.text()));
-          $link.attr('download', fileName);
+          const encodedComponent = encodeURIComponent(component.innerHTML);
+          link.setAttribute('href', `data:text/plain;charset=utf-8,${encodedComponent}`);
+          link.setAttribute('download', fileName);
         });
     }
   }
@@ -53,27 +54,42 @@
    */
   Drupal.behaviors.schemaDotOrgNextComponentsPreviewCopy = {
     attach: function attach(context) {
-      $(once('schemadotorg-next-components-preview-copy', '.js-schemadotorg-next-components-preview', context))
-        .each(function () {
-          var $container = $(this);
-          var $component = $container.parent().find('.schemadotorg-next-components-preview-code');
-          var $button = $container.find(':submit, :button');
-          var $message = $container.find('.schemadotorg-next-components-preview-copy-message');
+      once('schemadotorg-next-components-preview-copy', '.js-schemadotorg-next-components-preview', context)
+        .forEach((container) => {
+          const component = container.parentNode.querySelector('.schemadotorg-next-components-preview-code');
+          const message = container.querySelector('.schemadotorg-next-components-preview-copy-message');
+          const button = container.querySelector('input[type="submit"], button');
 
-          // Copy code from textarea to the clipboard.
-          // @see https://stackoverflow.com/questions/47879184/document-execcommandcopy-not-working-on-chrome/47880284
-          $button.on('click', function () {
+          message.addEventListener('transitionend', hideMessage);
+
+          button.addEventListener('click', event => {
+            // Copy code from textarea to the clipboard.
+            // @see https://stackoverflow.com/questions/47879184/document-execcommandcopy-not-working-on-chrome/47880284
             if (window.navigator.clipboard) {
-              var text = $component.text();
+              let text = component.innerText;
               text = text.replaceAll(/<!--.+?-->\s*/sg, '');
               window.navigator.clipboard.writeText(text);
             }
-            $message.show().delay(1500).fadeOut('slow');
+
+            showMessage();
+
             Drupal.announce(Drupal.t('Components copied to clipboard…'));
-            return false;
+
+            event.preventDefault();
           });
+
+          // Show/hide message handling.
+          // @see https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript
+          function showMessage() {
+            message.style.display = 'inline-block'
+            setTimeout(() => {message.style.opacity = '0'}, 1500);
+          }
+
+          function hideMessage() {
+            message.style.display = 'none'
+            message.style.opacity = '1';
+          }
         });
     }
   }
-
-} (jQuery, Drupal, once));
+})(Drupal, once);

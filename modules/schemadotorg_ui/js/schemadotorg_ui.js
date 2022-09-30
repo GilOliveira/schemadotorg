@@ -1,11 +1,13 @@
+/* eslint-disable strict, no-use-before-define */
+
 /**
  * @file
  * Schema.org UI behaviors.
  */
 
-(function ($, Drupal, debounce, once) {
+"use strict";
 
-  'use strict';
+(($, Drupal, debounce, once) => {
 
   /**
    * Schema.org UI properties filter by text.
@@ -14,57 +16,59 @@
    */
   Drupal.behaviors.schemaDotOrgUiPropertiesFilterByText = {
     attach: function attach(context) {
-      $(once('schemadotorg-ui-properties-filter-text', 'input.schemadotorg-ui-properties-filter-text', context))
-        .each( function () {
-          // Input
-          var $input = $(this);
-
+      once('schemadotorg-ui-properties-filter-text', 'input.schemadotorg-ui-properties-filter-text', context)
+        .forEach((input) => {
           // Reset.
-          var $reset = $('<input class="schemadotorg-ui-properties-filter-reset" type="button" title="Clear the search query." value="✕" style="display: none" />');
-          $reset.on('click', resetFilter);
-          $reset.insertAfter($input);
+          const reset = document.createElement('input');
+          reset.setAttribute('class', 'schemadotorg-ui-properties-filter-reset');
+          reset.setAttribute('type', 'button');
+          reset.setAttribute('title', Drupal.t('Clear the search query.'));
+          reset.setAttribute('value', '✕');
+          reset.setAttribute('style', 'display: none');
+          reset.addEventListener('click', () => {
+            input.value = '';
+            input.dispatchEvent(new Event('keyup'));
+            input.focus();
+          });
+          input.parentNode.appendChild(reset);
 
           // Filter rows.
-          var $filterRows;
-          var $table = $('table.schemadotorg-ui-properties');
-          if ($table.length) {
-            $filterRows = $table.find('div.schemadotorg-ui-property');
-            $input.on('keyup', debounce(filterBlockList, 200));
+          const table = document.querySelector('table.schemadotorg-ui-properties');
+          let filterRows;
+          if (table) {
+            filterRows = table.querySelectorAll('div.schemadotorg-ui-property');
+            input.addEventListener('keyup', debounce(filterBlockList, 200));
           }
 
-          // Make sure the filter input is alway empty when the page loadis
-          setTimeout(function () {$input.val('');}, 100);
+          // Make sure the filter input is alway empty when the page loads.
+          setTimeout(() => {input.value = ''}, 100);
 
-          function resetFilter() {
-            $input.val('').keyup();
-            $input.trigger('focus');
-          }
-
-          function filterBlockList(e) {
-            var query = $(e.target).val().toLowerCase();
-
-            function toggleBlockEntry(index, label) {
-              var $label = $(label);
-              var $row = $label.parent().parent();
-              var textMatch = $label.text().toLowerCase().includes(query);
-              $row.toggleClass('schemadotorg-ui-properties-filter-match', textMatch);
-            }
+          function filterBlockList(event) {
+            const query = event.target.value.toLowerCase();
 
             // Use CSS to hide/show matches that the hide/show mapped properties
             // state is preserved.
             if (query.length >= 2) {
-              $table.addClass('schemadotorg-ui-properties-filter-matches');
-              $filterRows.each(toggleBlockEntry);
-              Drupal.announce(Drupal.formatPlural($table.find('tr:visible').length - 1, '1 property is available in the modified list.', '@count properties are available in the modified list.'));
+              table.classList.add('schemadotorg-ui-properties-filter-matches');
+              filterRows.forEach((label) => {
+                const textMatch = label.innerText.toLowerCase().includes(query);
+                const tableRow = label.closest('tr');
+                tableRow.classList.toggle('schemadotorg-ui-properties-filter-match', textMatch);
+              });
+
+              const totalProperties = table.querySelectorAll('.schemadotorg-ui-properties-filter-match').length;
+              const message = Drupal.formatPlural(totalProperties, '1 property is available in the modified list.', '@count properties are available in the modified list.');
+              Drupal.announce(message);
             } else {
-              $table.removeClass('schemadotorg-ui-properties-filter-matches');
-              $filterRows.each(function () {
-                $(this).parent().parent().removeClass('schemadotorg-ui-properties-filter-match');
+              table.classList.remove('schemadotorg-ui-properties-filter-matches');
+              filterRows.forEach((label) => {
+                const tableRow = label.closest('tr');
+                tableRow.classList.remove('schemadotorg-ui-properties-filter-match');
               });
             }
 
             // Hide/show reset.
-            $reset[query.length ? 'show' : 'hide']();
+            reset.style.display = query.length ? 'block' : 'none';
           }
         });
     }
@@ -76,28 +80,36 @@
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.schemaDotOrgUiPropertiesToggle = {
-    attach: function (context) {
+    attach: function attach(context) {
       // Toggle selected/mapped properties.
-      $(once('schemadotorg-ui-properties-toggle', 'table.schemadotorg-ui-properties', context))
-        .each(function () {
-          var $table = $(this);
-
+      once('schemadotorg-ui-properties-toggle', 'table.schemadotorg-ui-properties', context)
+        .forEach((table) => {
           // Flag form validation errors.
-          $table.find('tbody .form-item--error')
-            .parents('tr')
-            .addClass('color-error');
+          table.querySelectorAll('tbody .form-item--error')
+            .forEach((element) => {
+              while (element) {
+                if (element.tagName === 'TR') {
+                  element.classList.add('color-error');
+                  break;
+                }
+                element = element.parentNode;
+              }
+            });
 
           // Make sure the table has mapping properties before proceeding.
-          if ($table.find('tbody tr.color-warning, tbody tr.color-success, tbody tr.color-error').length === 0) {
-            $table.show();
-            $('#edit-ignored-properties').show();
+          if (table.querySelector('tbody tr.color-warning, tbody tr.color-success, tbody tr.color-error') === null) {
+            table.style.display = 'table';
+            const ignoredProperties = document.querySelector('#edit-ignored-properties');
+            if (ignoredProperties) {
+              ignoredProperties.style.display = 'block';
+            }
             return;
           }
 
-          var hideUnmappedLabel = Drupal.t('Hide unmapped');
-          var showUnmappedLabel = Drupal.t('Show unmapped');
+          const hideUnmappedLabel = Drupal.t('Hide unmapped');
+          const showUnmappedLabel = Drupal.t('Show unmapped');
 
-          var toggleKey = 'schemadotorg-ui-properties-toggle';
+          const toggleKey = 'schemadotorg-ui-properties-toggle';
 
           // If toggle key does not exist, set its default state
           // to hide unmapped.
@@ -106,42 +118,51 @@
           }
 
           // Create toggle button.
-          var button = '<button type="button" class="schemadotorg-ui-properties-toggle link action-link action-link--extrasmall"></button>';
-          var $toggleButton = $(button).on('click', function toggleButtonClick() {
-            var toggle = localStorage.getItem(toggleKey);
-            localStorage.setItem(toggleKey, (toggle === '1') ? '0' : '1');
+          const toggleButton = document.createElement('button')
+          toggleButton.setAttribute('type', 'button');
+          toggleButton.setAttribute('class', 'schemadotorg-ui-properties-toggle link action-link action-link--extrasmall');
+          toggleButton.addEventListener('click', () => {
+            const toggleState = localStorage.getItem(toggleKey);
+            localStorage.setItem(toggleKey, (toggleState === '1') ? '0' : '1');
             toggleProperties();
           });
 
           // Prepend toggle element with wrapper the table.
-          var $toggle = $toggleButton
-            .wrap('<div class="schemadotorg-ui-properties-toggle-wrapper"></div>')
-            .parent();
-          $table.before($toggle);
+          const toggle = document.createElement('div');
+          toggle.setAttribute('class', 'schemadotorg-ui-properties-toggle-wrapper');
+          toggle.appendChild(toggleButton);
+          table.parentNode.insertBefore(toggle, table);
 
           // Initialize properties toggle.
           toggleProperties();
 
           // Show the table after it has been fully initialized.
-          $table.show();
-          $('#edit-mapping-ignored-properties').show();
+          table.style.display = 'table';
+
+          const ignoredProperties = document.querySelector('#edit-ignored-properties');
+          if (ignoredProperties) {
+            ignoredProperties.style.display = 'block';
+          }
 
           function toggleProperties() {
-            var showAll = (localStorage.getItem('schemadotorg-ui-properties-toggle') === '0');
+            const showAll = (localStorage.getItem('schemadotorg-ui-properties-toggle') === '0');
             if (showAll) {
-              $toggleButton
-                .html(hideUnmappedLabel)
-                .removeClass('action-link--icon-show')
-                .addClass('action-link--icon-hide');
-              $table.find('tbody tr').show();
+              toggleButton.innerText = hideUnmappedLabel;
+              toggleButton.classList.remove('action-link--icon-show');
+              toggleButton.classList.add('action-link--icon-hide');
+
+              table.querySelectorAll('tbody tr')
+                .forEach((tablRow) => {tablRow.style.display = 'table-row'});
             }
             else {
-              $toggleButton
-                .html(showUnmappedLabel)
-                .removeClass('action-link--icon-hide')
-                .addClass('action-link--icon-show');
-              $table.find('tbody tr').hide();
-              $table.find('tbody tr.color-warning, tbody tr.color-success, tbody tr.color-error').show();
+              toggleButton.innerText = showUnmappedLabel;
+              toggleButton.classList.add('action-link--icon-show');
+              toggleButton.classList.remove('action-link--icon-hide');
+
+              table.querySelectorAll('tbody tr')
+                .forEach((tablRow) => {tablRow.style.display = 'none'});
+              table.querySelectorAll('tbody tr.color-warning, tbody tr.color-success, tbody tr.color-error')
+                .forEach((tablRow) => {tablRow.style.display = 'table-row'});
             }
           }
         });
@@ -154,25 +175,32 @@
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.schemaDotOrgUiPropertyStatus = {
-    attach: function (context) {
-      $(once('schemadotorg-ui-property-status', 'table.schemadotorg-ui-properties select[name$="[field][name]"]', context))
-        .change(function () {
-          var $select = $(this);
-          var value = $select.val();
-          var defaultValue = '';
-          $select.find('option').each(function (index, option) {
-            if (option.defaultSelected) {
-              defaultValue = option.value;
-              return;
-            }
-          });
+    attach: function attach(context) {
+      once('schemadotorg-ui-property-status', 'table.schemadotorg-ui-properties select[name$="[field][name]"]', context)
+        .forEach((element) => {
+          element.addEventListener('change', event => {
+            const select = event.target;
+            const selectedValue = select.options[select.selectedIndex].value;
+            let defaultSelectedValue = '';
+            select.querySelectorAll('option')
+              .forEach((option) => {
+                if (option.defaultSelected) {
+                  defaultSelectedValue = option.value;
+                }
+              });
 
-          var $tr = $select.parents('tr');
-          $tr.removeClass('color-success').removeClass('color-warning');
-          if (value) {
-            $tr.addClass( (value !== defaultValue) ? 'color-warning' : 'color-success')
-          }
-        })
+            let tr = select
+            while (tr.tagName !== 'TR') {
+              tr = tr.parentNode;
+            }
+
+            tr.classList.remove('color-success');
+            tr.classList.remove('color-warning');
+            if (selectedValue) {
+              tr.classList.add( (selectedValue !== defaultSelectedValue) ? 'color-warning' : 'color-success')
+            }
+          })
+        });
     }
   };
 
@@ -182,41 +210,54 @@
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.schemaDotOrgUiPropertyAddFieldSummary = {
-    attach: function (context) {
-      $('details[data-schemadotorg-ui-summary]', context)
-        .once('schemadotorg-ui-property-summary')
-        .each(function () {
-          var $details = $(this);
-          var text = $details.data('schemadotorg-ui-summary')
-         $details.drupalSetSummary(text).trigger('summaryUpdated');
+    attach: function attach(context) {
+      // Set detail summary from 'data-schemadotorg-ui-summary' attribute.
+      once('schemadotorg-ui-property-summary', 'details[data-schemadotorg-ui-summary]', context)
+        .forEach((details) => {
+          const summary = details.getAttribute('data-schemadotorg-ui-summary')
+          $(details)
+            .drupalSetSummary(summary)
+            .trigger('summaryUpdated');
         });
 
-      $('table.schemadotorg-ui-properties .schemadotorg-ui--add-field', context)
-        .once('schemadotorg-ui-property-summary')
-        .each(function () {
-          var $details = $(this);
-          $details.find('select')
-            .on('change', function () {
-              setPropertyAddFieldSummary($details);
+      // Set detail summary from the 'Add new field' elements.
+      once('schemadotorg-ui-property-summary', 'table.schemadotorg-ui-properties details.schemadotorg-ui--add-field', context)
+        .forEach((details) => {
+          details.querySelectorAll('select, input[type="checkbox"]')
+            .forEach((element) => {
+              if (element.tagName === 'SELECT') {
+                element.addEventListener('change', () => setPropertyAddFieldSummary(details));
+              }
+              else {
+                element.addEventListener('click', () => setPropertyAddFieldSummary(details));
+              }
             });
-          $details.find('input[type="checkbox"]')
-            .on('click', function () {
-              setPropertyAddFieldSummary($details);
-            });
-          setPropertyAddFieldSummary($details);
+          setPropertyAddFieldSummary(details);
         });
     }
   };
 
-  function setPropertyAddFieldSummary($details) {
-    var text = $details.find('select option:selected').text();
-    if ($details.find('input[name$="[unlimited]"]').prop("checked")) {
-      text += ' - ' + Drupal.t('unlimited');
-    }
-    if ($details.find('input[name$="[required]"]').prop("checked")) {
-      text += ' - ' + Drupal.t('required');
-    }
-    $details.drupalSetSummary(text).trigger('summaryUpdated');
-  }
+  function setPropertyAddFieldSummary(details) {
+    let summary = '';
 
-} (jQuery, Drupal, Drupal.debounce, once));
+    // Add field type to details summary.
+    const select = details.querySelector('select');
+    summary += select.options[select.selectedIndex].text;
+
+    // Add field unlimited to details summary.
+    const unlimitedCheckbox = details.querySelector('input[name$="[unlimited]"]');
+    if (unlimitedCheckbox.checked) {
+      summary += ` - ${Drupal.t('unlimited')}`;
+    }
+
+    // Add field required to details summary.
+    const requiredCheckbox = details.querySelector('input[name$="[required]"]');
+    if (requiredCheckbox.checked) {
+      summary += ` - ${Drupal.t('required')}`;
+    }
+
+    $(details)
+      .drupalSetSummary(summary)
+      .trigger('summaryUpdated');
+  }
+})(jQuery, Drupal, Drupal.debounce, once);

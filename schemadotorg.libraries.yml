@@ -2,14 +2,13 @@ schemadotorg.autocomplete:
   js:
     js/schemadotorg.autocomplete.js: {}
   dependencies:
-    - core/jquery
     - core/drupal
+    - drupal.autocomplete
 
 schemadotorg.details:
   js:
     js/schemadotorg.details.js: {}
   dependencies:
-    - core/jquery
     - core/drupal
     - core/once
 
@@ -17,7 +16,6 @@ schemadotorg.dialog:
   js:
     js/schemadotorg.dialog.js: {}
   dependencies:
-    - core/jquery
     - core/drupal
     - core/drupal.dialog.ajax
 
@@ -25,7 +23,6 @@ schemadotorg.form:
   js:
     js/schemadotorg.form.js: {}
   dependencies:
-    - core/jquery
     - core/drupal
     - core/drupal.ajax
     - core/once
@@ -37,7 +34,6 @@ schemadotorg.jstree:
   js:
     js/schemadotorg.jstree.js: {}
   dependencies:
-    - core/jquery
     - core/drupal
     - schemadotorg/jstree
 

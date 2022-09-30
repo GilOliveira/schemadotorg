@@ -12,6 +12,7 @@ html.js .schemadotorg-jsonld-preview-copy {
 }
 
 .schemadotorg-jsonld-preview-copy-message {
+  transition: opacity 1s;
   display: none;
   font-weight: bold;
 }

@@ -11,6 +11,10 @@ _The below manual JavaScript tests should be moved to automated tests._
 
 - Check that selected type in form redirects to the type.
 
+@see /admin/structure/types/schemadotorg?type=Person
+
+- Check that opened dialog redirects to the dialog.
+
 **schemadotorg.details.js**
 
 @see /node/add/person
@@ -27,17 +31,29 @@ _The below manual JavaScript tests should be moved to automated tests._
 
 @see /admin/config/search/schemadotorg/sets/common/setup
 
-- Check that the form is only be submitted once with progress throbber
+- Check that the form is only be submitted once with progress throbber.
+
+**schemadotorg.jstree.js**
+
+@see /admin/reports/schemadotorg/docs/things
+
+- Check that Schema.org type hierarchical tree works as expected.
+
+- Check that Schema.org types link to the Schema.org type details page.
 
 **schemadotorg_ui.js**
 
 @see /admin/structure/types/schemadotorg?type=Person
 
-- Check that the 'Hide/Show unmapped' link toggles the displayed properties.
-
 - Check that the 'Filter by Schema.org property' filters the displayed properties.
 
+- Check that the 'Filter by Schema.org property' can be reset.
+
+- Check that the 'Hide/Show unmapped' link toggles the displayed properties.
+
 - Check that the 'Add new field' summary is updated as the new field is configured.
+
+- Check that adding new field changes to row's status color to warning.
 
 **schemadotorg_jsonld_preview.js**
 

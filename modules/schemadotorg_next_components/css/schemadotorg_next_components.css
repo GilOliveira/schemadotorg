@@ -12,6 +12,7 @@ html.js .schemadotorg-next-components-preview-copy {
 }
 
 .schemadotorg-next-components-preview-copy-message {
+  transition: opacity 1s;
   display: none;
   font-weight: bold;
 }

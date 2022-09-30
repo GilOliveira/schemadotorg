@@ -1,39 +1,38 @@
+/* eslint-disable strict */
+
 /**
  * @file
  * Schema.org dialog behaviors.
  */
 
-(function ($, Drupal, once) {
+"use strict";
 
-  'use strict';
-
+((Drupal, once) => {
   /**
    * Open Schema.org type and property report links in a modal dialog.
    *
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.schemaDotOrgDialog = {
-    attach: function (context) {
-      $(once('schemadotorg-dialog', 'a[href*="/admin/reports/schemadotorg"]', context))
-        .each(function () {
-          var $a = $(this);
-
+    attach: function attach(context) {
+      once('schemadotorg-dialog', 'a[href*="/admin/reports/schemadotorg"]', context)
+        .forEach((link) => {
           // Skip links in the toolbar-bar.
-          if ($(this).closest('nav.toolbar-bar').length) {
+          if (link.closest('nav.toolbar-bar')) {
             return;
           }
 
           Drupal.ajax({
             progress: {type: 'fullscreen'},
-            url: $a.attr('href'),
+            url: link.getAttribute('href'),
             event: 'click',
             dialogType: 'modal',
             dialog: {width: '90%'},
-            element: this,
+            element: link,
           });
         });
     }
-  }
+  };
 
   /**
    * Programmatically open a Schema.org type or property in a dialog.
@@ -41,19 +40,20 @@
    * @param {string} url
    *   Webform URL.
    */
-  Drupal.schemaDotOrgOpenDialog = function (url) {
+  Drupal.schemaDotOrgOpenDialog = function schemaDotOrgOpenDialog(url) {
     if (url.indexOf('/admin/reports/schemadotorg/') === -1) {
       window.location.href = url;
     }
     else {
-      // Create a div with link but don't attach it to the page.
-      var $div = $('<div><a href="' + url + '"></a></div>');
+      // Create a link but don't attach it to the page.
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+
       // Init the dialog behavior.
-      Drupal.behaviors.schemaDotOrgDialog.attach($div);
+      Drupal.behaviors.schemaDotOrgDialog.attach(link);
+
       // Trigger the link.
-      $div.find('a').trigger('click');
+      link.click();
     }
-
   };
-
-} (jQuery, Drupal, once));
+})(Drupal, once);

@@ -1,13 +1,14 @@
+/* eslint-disable strict, prefer-destructuring */
+
 /**
  * @file
  * Schema.org jsTree behaviors.
  */
 
-(function ($, Drupal, once) {
+"use strict";
 
-  'use strict';
-
-  var jsTreeConfig = {
+(($, Drupal, once) => {
+  const jsTreeConfig = {
     "core" : {
       "themes" : {
         "icons": false,
@@ -21,23 +22,19 @@
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.schemaDotOrgJsTree = {
-    attach: function (context) {
-      $(once('schemadotorg-jstree', '.schemadotorg-jstree', context))
-        .each(function () {
-          var $tree = $(this);
-
+    attach: function attach(context) {
+      once('schemadotorg-jstree', '.schemadotorg-jstree', context)
+        .forEach((tree) => {
           // Remove <div> from nested list markup.
-          $tree.html(
-            $tree.html().replace(/<\/?div[^>]*>/g, '')
-          );
+          tree.innerHTML = tree.innerHTML.replace(/<\/?div[^>]*>/g, '');
 
-          var $jstree = $tree.parent();
-          $jstree.jstree(jsTreeConfig);
+          // Initialize the jstree.
+          const $jstree = $(tree.parentNode).jstree(jsTreeConfig);
 
           // Enable links.
           // @see https://stackoverflow.com/questions/8378561/js-tree-links-not-active
-          $jstree.on("activate_node.jstree", function (e, data) {
-            var href = data.node.a_attr.href;
+          $jstree.on("activate_node.jstree", function handleActiveNodeJsTree(e, data) {
+            const href = data.node.a_attr.href;
             if (Drupal.schemaDotOrgOpenDialog) {
               Drupal.schemaDotOrgOpenDialog(href);
             }
@@ -48,30 +45,34 @@
           });
 
           // Create toggle button.
-          var collapseLabel = Drupal.t('Collapse all');
-          var expandLabel = Drupal.t('Expand all');
+          const collapseLabel = Drupal.t('Collapse all');
+          const expandLabel = Drupal.t('Expand all');
 
-          var button = '<button type="button" class="schemadotorg-jstree-toggle link action-link">' + expandLabel + '</button>';
-          var $toggle = $(button)
-            .on('click', function (e) {
-              var toggle = $jstree.data('toggle') || false;
-              if (!toggle) {
-                $jstree.jstree('open_all');
-              }
-              else {
-                $jstree.jstree('close_all');
-              }
-              $(this).html(toggle ? expandLabel : collapseLabel);
-              $jstree.data('toggle', !toggle);
-            })
-            .wrap('<div class="schemadotorg-jstree-toggle-wrapper"></div>')
-            .parent();
+          const button = document.createElement('button');
+          button.setAttribute('type', 'button');
+          button.setAttribute('class', 'schemadotorg-jstree-toggle link action-link');
+          button.innerText = expandLabel;
 
-          // Prepend toggle button.
-          $jstree.before($toggle);
+          button.addEventListener('click', () => {
+            const toggle = $jstree.data('toggle') || false;
+            if (!toggle) {
+              $jstree.jstree('open_all');
+            }
+            else {
+              $jstree.jstree('close_all');
+            }
+            button.innerText = toggle ? expandLabel : collapseLabel;
+            $jstree.data('toggle', !toggle);
+          });
 
+          const div = document.createElement('div');
+          div.setAttribute('class', 'schemadotorg-jstree-toggle-wrapper');
+          div.appendChild(button);
+
+          // Prepend toggle button to jstree's DOM element.
+          const jstree = $jstree[0];
+          jstree.parentNode.insertBefore(div, jstree);
       });
     }
-  }
-
-} (jQuery, Drupal, once));
+  };
+})(jQuery, Drupal, once);

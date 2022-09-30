@@ -1,12 +1,13 @@
+/* eslint-disable strict, no-undef, no-use-before-define */
+
 /**
  * @file
  * Schema.org JSON-LD preview behaviors.
  */
 
-(function ($, Drupal, once) {
+"use strict";
 
-  'use strict';
-
+((Drupal, once) => {
   /**
    * Schema.org JSON-LD preview copy.
    *
@@ -14,25 +15,40 @@
    */
   Drupal.behaviors.schemaDotOrgJsonLdPreviewCopy = {
     attach: function attach(context) {
-      $(once('schemadotorg-jsonld-preview-copy', '.js-schemadotorg-jsonld-preview', context))
-        .each(function () {
-        var $container = $(this);
-        var $input = $container.find('input:hidden');
-        var $button = $container.find(':submit, :button');
-        var $message = $container.find('.schemadotorg-jsonld-preview-copy-message');
+      once('schemadotorg-jsonld-preview-copy', '.js-schemadotorg-jsonld-preview', context)
+        .forEach((container) => {
+          const input = container.querySelector('input[type="hidden"]');
+          const message = container.querySelector('.schemadotorg-jsonld-preview-copy-message');
+          const button = container.querySelector('input[type="submit"], button');
 
-        // Copy code from textarea to the clipboard.
-        // @see https://stackoverflow.com/questions/47879184/document-execcommandcopy-not-working-on-chrome/47880284
-        $button.on('click', function () {
-          if (window.navigator.clipboard) {
-            window.navigator.clipboard.writeText($input.val());
+          message.addEventListener('transitionend', hideMessage);
+
+          button.addEventListener('click', (event) => {
+            // Copy code from textarea to the clipboard.
+            // @see https://stackoverflow.com/questions/47879184/document-execcommandcopy-not-working-on-chrome/47880284
+            if (window.navigator.clipboard) {
+              window.navigator.clipboard.writeText(input.value);
+            }
+
+            showMessage();
+
+            Drupal.announce(Drupal.t('JSON-LD copied to clipboard…'));
+
+            event.preventDefault()
+          });
+
+          // Show/hide message handling.
+          // @see https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript
+          function showMessage() {
+            message.style.display = 'inline-block'
+            setTimeout(() => {message.style.opacity = '0'}, 1500);
           }
-          $message.show().delay(1500).fadeOut('slow');
-          Drupal.announce(Drupal.t('JSON-LD copied to clipboard…'));
-          return false;
-        });
+
+          function hideMessage() {
+            message.style.display = 'none';
+            message.style.opacity = '1';
+          }
       });
     }
   }
-
-} (jQuery, Drupal, once));
+})(Drupal, once);

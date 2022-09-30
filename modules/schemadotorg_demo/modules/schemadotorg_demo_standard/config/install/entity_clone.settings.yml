@@ -1,4 +1,3 @@
-config_rewrite: replace
 form_settings:
   taxonomy_term:
     default_value: false

@@ -7,6 +7,5 @@ schemadotorg_jsonld_preview:
   dependencies:
     - core/drupal
     - core/drupal.announce
-    - core/jquery
-    - core/jquery.once
+    - core/once
     - schemadotorg/schemadotorg.details

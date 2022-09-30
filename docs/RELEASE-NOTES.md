@@ -48,13 +48,15 @@ Steps for creating a new release
 
 [JavaScript](https://www.drupal.org/node/2873849)
 
+@see https://stackoverflow.com/questions/58424718/how-can-i-disable-the-error-prettier-prettier-on-eslint
+
     # Install Eslint. (One-time)
     cd ~/Sites/drupal_next/web/core
     yarn install
 
-    # Check Drupal JavaScript (ES5) legacy coding standards.
+    # Check Drupal JavaScript (ES6) coding standards.
     cd ~/Sites/drupal_next/web
-    core/node_modules/.bin/eslint --no-eslintrc -c=core/.eslintrc.legacy.json --ext=.js modules/sandbox/schemadotorg > ~/schemadotorg-javascript-coding-standards.txt
+    core/node_modules/.bin/eslint --no-eslintrc -c=core/.eslintrc.json --ext=.js modules/sandbox/schemadotorg > ~/schemadotorg-javascript-coding-standards.txt
     cat ~/schemadotorg-javascript-coding-standards.txt
 
 [CSS](https://www.drupal.org/node/3041002)

@@ -1,16 +1,17 @@
+/* eslint-disable strict, prefer-destructuring */
+
 /**
  * @file
  * Schema.org JSON-LD details behaviors.
  */
 
-(function ($, Drupal, once) {
+"use strict";
 
-  'use strict';
-
+((Drupal, once) => {
   // Determine if local storage exists and is enabled.
   // This approach is copied from Modernizr.
   // @see https://github.com/Modernizr/Modernizr/blob/c56fb8b09515f629806ca44742932902ac145302/modernizr.js#L696-731
-  var hasLocalStorage = (function () {
+  const hasLocalStorage = (function hasLocalStorage() {
     try {
       localStorage.setItem('schemadotorg_details', 'schemadotorg_details');
       localStorage.removeItem('schemadotorg_details');
@@ -31,21 +32,22 @@
       if (!hasLocalStorage) {
         return;
       }
-      $(once('schemadotorg-details-state', 'details[data-schemadotorg-details-key]', context))
-        .each( function () {
-          var $details = $(this);
-          var key = $details.attr('data-schemadotorg-details-key');
-          $details.find('summary').on('click', function () {
-            var open = ($details.attr('open') !== 'open') ? '1' : '0';
-            localStorage.setItem(key, open);
-          });
 
-          var open = localStorage.getItem(key);
+      once('schemadotorg-details-state', 'details[data-schemadotorg-details-key]', context)
+        .forEach((element) => {
+          const key = element.getAttribute('data-schemadotorg-details-key');
+          element
+            .querySelector('summary')
+            .addEventListener('click', () => {
+              const open = (element.getAttribute('open') !== 'open') ? '1' : '0';
+              localStorage.setItem(key, open);
+            });
+
+          const open = localStorage.getItem(key);
           if (open === '1') {
-            $details.attr('open', 'open');
+            element.setAttribute('open', 'open');
           }
         });
     }
-  }
-
-} (jQuery, Drupal, once));
+  };
+})(Drupal, once);

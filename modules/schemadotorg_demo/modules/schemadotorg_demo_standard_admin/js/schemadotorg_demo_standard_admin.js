@@ -1,22 +1,23 @@
+/* eslint-disable strict */
+
 /**
  * @file
  * Schema.org demo standard behaviors.
  */
 
-(function (drupalSettings) {
+"use strict";
 
-  'use strict';
-
+((drupalSettings) => {
   // Redirect anonymous users to /user/login.
   // Using JavaScript so that Acquia's Cloud IDE's 'share' query parameter
   // generates the 'share' cookie as expected.
-  if (drupalSettings.user.uid === 0
-    && drupalSettings.path.currentPath !== 'user/login') {
-    window.location = drupalSettings.path.baseUrl + 'user/login?destination=' + drupalSettings.path.baseUrl;
+  if (drupalSettings.user.uid === 0 &&
+    drupalSettings.path.currentPath !== 'user/login') {
+    window.location = `${drupalSettings.path.baseUrl}user/login?destination=${drupalSettings.path.baseUrl}`;
   }
 
   if (drupalSettings.path.currentPath === 'user/login') {
-    window.addEventListener('load', (event) => {
+    window.addEventListener('load', () => {
       // Clear local storage to reset the state of all details widget for demos.
       // @see schemadotorg/js/schemadotorg.details.js
       localStorage.clear();
@@ -32,5 +33,4 @@
       }, 100);
     });
   }
-
-} (drupalSettings));
+})(drupalSettings);
