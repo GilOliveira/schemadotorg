@@ -36,7 +36,7 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->installConfig(['schemadotorg_jsonld']);
     $this->manager = $this->container->get('schemadotorg_jsonld.manager');

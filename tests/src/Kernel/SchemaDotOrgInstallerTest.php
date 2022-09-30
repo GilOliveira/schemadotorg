@@ -27,7 +27,7 @@ class SchemaDotOrgInstallerTest extends SchemaDotOrgKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->installer = $this->container->get('schemadotorg.installer');

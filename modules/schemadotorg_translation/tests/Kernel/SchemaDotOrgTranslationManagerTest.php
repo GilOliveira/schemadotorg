@@ -52,7 +52,7 @@ class SchemaDotOrgTranslationManagerTest extends SchemaDotOrgKernelEntityTestBas
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->installEntitySchema('language_content_settings');
     $this->installConfig(['schemadotorg_translation']);

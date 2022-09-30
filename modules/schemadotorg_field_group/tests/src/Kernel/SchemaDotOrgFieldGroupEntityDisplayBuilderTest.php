@@ -50,7 +50,7 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilderTest extends SchemaDotOrgKernelE
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->installConfig(['schemadotorg_field_group']);

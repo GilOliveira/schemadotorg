@@ -35,7 +35,7 @@ class SchemaDotOrgJsonLdDateTimeRangeBuilderTest extends SchemaDotOrgKernelEntit
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->installConfig(['schemadotorg_jsonld']);
     $this->builder = $this->container->get('schemadotorg_jsonld.builder');

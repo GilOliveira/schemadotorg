@@ -22,7 +22,7 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->schemaEntityDisplayBuilder = $this->container->get('schemadotorg.entity_display_builder');

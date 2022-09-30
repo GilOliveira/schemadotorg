@@ -28,7 +28,7 @@ class SchemaDotOrgReportTest extends SchemaDotOrgBrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->reportUser = $this->drupalCreateUser(['access site reports']);

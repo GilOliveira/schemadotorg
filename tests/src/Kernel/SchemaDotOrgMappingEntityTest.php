@@ -64,7 +64,7 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->installEntitySchema('schemadotorg_mapping');
