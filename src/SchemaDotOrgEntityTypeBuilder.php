@@ -211,7 +211,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     // Create new field.
     if ($new_storage_type) {
       // Check if we're dealing with a preconfigured field.
-      if (strpos($field_storage_values['type'], 'field_ui:') !== FALSE) {
+      $field_type = $field_storage_values['type'] ?? '';
+      if (strpos($field_type, 'field_ui:') !== FALSE) {
 
         [, $field_type, $option_key] = explode(':', $field_storage_values['type'], 3);
         $field_storage_values['type'] = $field_type;

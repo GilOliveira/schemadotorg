@@ -3,7 +3,7 @@ schemadotorg.autocomplete:
     js/schemadotorg.autocomplete.js: {}
   dependencies:
     - core/drupal
-    - drupal.autocomplete
+    - core/drupal.autocomplete
 
 schemadotorg.details:
   js:

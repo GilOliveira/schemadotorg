@@ -128,6 +128,10 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
    * {@inheritdoc}
    */
   public function isSchemaTypeMapped($entity_type_id, $schema_type) {
+    if (empty($entity_type_id) || empty($schema_type)) {
+      return FALSE;
+    }
+
     return (boolean) $this->getQuery()
       ->condition('target_entity_type_id', $entity_type_id)
       ->condition('schema_type', $schema_type)
