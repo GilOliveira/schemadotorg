@@ -16,7 +16,7 @@ abstract class SchemaDotOrgBrowserTestBase extends BrowserTestBase {
    *
    * @var string
    */
-  protected $defaultTheme = 'stable';
+  protected $defaultTheme = 'stark';
 
   /**
    * Modules to enable.
