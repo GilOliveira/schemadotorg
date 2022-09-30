@@ -1,18 +1,14 @@
 <ruleset name="schemadotorg">
 
-  <description>Schema.org coding styles</description>
-
-  <!-- Use Drupal coding standards -->
-  <rule ref="Drupal"/>
-  <rule ref="DrupalPractice"/>
+  <description>Schema.org Blueprints coding styles</description>
 
   <!-- Test all the Drupal PHP file extensions -->
   <arg name="extensions" value="php,module,inc,install,test,profile,theme" />
 
-  <!-- Issue #3185082: Drupal.Arrays.Array.LongLineDeclaration make me write less readable code -->
-  <rule ref="Drupal.Arrays.Array">
-    <exclude name="Drupal.Arrays.Array.LongLineDeclaration"/>
-  </rule>
+  <!-- Use Drupal coding standards -->
+  <rule ref="Drupal"/>
+  <rule ref="DrupalPractice"/>
+  <rule ref="SlevomatCodingStandard.TypeHints" />
 
   <!-- Issue #3173782: Increase line length limit -->
   <rule ref="Drupal.Files.LineLength">
@@ -24,6 +20,8 @@
 
   <!-- Rules that need to ignored -->
   <rule ref="Drupal">
+    <!-- Issue #3185082: Drupal.Arrays.Array.LongLineDeclaration make me write less readable code -->
+    <exclude name="Drupal.Arrays.Array.LongLineDeclaration"/>
     <exclude name="Drupal.Arrays.Array.ArrayIndentation"/>
     <exclude name="Drupal.Commenting.DocComment.ShortNotCapital"/>
     <exclude name="Drupal.Commenting.FunctionComment.TypeHintMissing"/>
@@ -41,6 +39,10 @@
 
   <rule ref="Generic.CodeAnalysis.UselessOverridingMethod">
     <exclude name="Generic.CodeAnalysis.UselessOverridingMethod.Found"/>
+  </rule>
+
+  <rule ref="SlevomatCodingStandard.TypeHints">
+    <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.DeclareStrictTypesMissing"/>
   </rule>
 
 </ruleset>
