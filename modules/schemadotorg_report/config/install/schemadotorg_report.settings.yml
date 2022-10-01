@@ -15,8 +15,11 @@ about:
     title: 'Unlocking Hidden Gems Within Schema.org'
     uri: 'https://moz.com/blog/schema-hidden-gems'
   -
-    title: 'Schema.org - What, How, Why?'
+    title: 'Schema.org - What, How, Why? [VIDEO]'
     uri: 'https://www.youtube.com/watch?v=hcahQfN5u9Y'
+  -
+    title: 'Google Search Central: Schema.org [VIDEOS]'
+    uri: 'https://www.youtube.com/c/GoogleSearchCentral/search?query=Schema.org'
 types:
   Article:
     -
