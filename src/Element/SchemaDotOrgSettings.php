@@ -5,6 +5,7 @@ namespace Drupal\schemadotorg\Element;
 use Drupal\Core\Link;
 use Drupal\Core\Render\Element\Textarea;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
 
 /**
@@ -109,7 +110,14 @@ class SchemaDotOrgSettings extends Textarea {
       $element['#description'] .= (!empty($element['#description'])) ? '<br/><br/>' : '';
       $format = static::getSettingsFormat($element);
       if ($format) {
-        $element['#description'] .= t('Enter one value per line, in the format <code>@format</code>.', ['@format' => $format]);
+        // Format and emphasize each format example.
+        $code_examples = explode(' or ', $format);
+        $code_prefix = '<code><strong>';
+        $code_separator = '</strong></code> ' . t('or') . ' <code><strong>';
+        $code_suffix = '</strong></code>';
+        $code_example = Markup::create($code_prefix . implode($code_separator, $code_examples) . $code_suffix);
+
+        $element['#description'] .= t('Enter one value per line, in the format @code.', ['@code' => $code_example]);
       }
       else {
         $element['#description'] .= t('Enter one value per line.');
