@@ -5,6 +5,7 @@
  * Primary module hooks for Schema.org module.
  */
 
+use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -20,12 +21,37 @@ require_once __DIR__ . '/includes/schemadotorg.allowed_values.inc';
 function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     case 'entity.schemadotorg_mapping.collection':
-      $uri = Url::fromRoute('help.page', ['name' => 'schemadotorg'])->toString();
-      return '<p>'
-        . t('The <em>Schema.org mappings</em> page lists all available mappings from Drupal entity types to Schema.org types.')
-        . '<br/>'
-        . '<a href="' . $uri . '">' . t('Learn more about the Schema.org Blueprints module') . '</a>'
-        . '</p>';
+      $build = [
+        '#prefix' => '<p>',
+        '#prefix' => '</p>',
+      ];
+      $build['description'] = [
+        '#markup' => t('The <em>Schema.org mappings</em> page lists all available mappings from Drupal entity types to Schema.org types.'),
+        '#suffix' => ' ',
+      ];
+      $build['learn_more'] = [
+        '#type' => 'link',
+        '#title' => t('Learn more about the Schema.org Blueprints module'),
+        '#url' => Url::fromRoute('help.page', ['name' => 'schemadotorg']),
+        '#suffix' => ' ',
+      ];
+      $build['or'] = [
+        '#markup' => t('or'),
+        '#suffix' => ' ',
+      ];
+      $build['video'] = [
+        '#type' => 'link',
+        '#title' => t('► Watch videos'),
+        '#url' => Url::fromRoute('schemadotorg.help.videos'),
+        '#attributes' => [
+          'class' => ['use-ajax', 'button', 'button--small', 'button--extrasmall'],
+          'data-dialog-type' => 'modal',
+          'data-dialog-options' => Json::encode([
+            'width' => 800,
+          ]),
+        ],
+      ];
+      return $build;
 
     case 'entity.schemadotorg_mapping_type.collection':
       return '<p>' . t('The <em>Schema.org mapping types</em> page lists all available mapping types with default settings for available Drupal entity types.') . '</p>';
@@ -49,7 +75,7 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
 
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
-  return $help_manager->build($route_name, $route_match);
+  return $help_manager->buildHelpPage($route_name, $route_match);
 }
 
 /**

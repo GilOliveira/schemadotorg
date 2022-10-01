@@ -23,6 +23,14 @@ interface SchemaDotOrgHelpManagerInterface {
    * @return null|array
    *   A render array containing the Schema.org module's README.md contents.
    */
-  public function build($route_name, RouteMatchInterface $route_match);
+  public function buildHelpPage($route_name, RouteMatchInterface $route_match);
+
+  /**
+   * Get a module's video as a renderable array.
+   *
+   * @return array
+   *   A module's videos as a renderable array.
+   */
+  public function buildVideosPage();
 
 }

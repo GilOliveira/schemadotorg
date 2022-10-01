@@ -17,7 +17,7 @@ use Drupal\field\FieldConfigInterface;
 function schemadotorg_field_group_help($route_name, RouteMatchInterface $route_match) {
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
-  return $help_manager->build($route_name, $route_match);
+  return $help_manager->buildHelpPage($route_name, $route_match);
 }
 
 /**
@@ -111,7 +111,7 @@ function schemadotorg_field_group_form_schemadotorg_properties_settings_form_alt
     $form['schemadotorg_field_group']['default_field_groups'][$entity_type_id] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED_NAMED,
-      '#settings_format' => 'group_name|group_label|property01,property02,property03',
+      '#settings_format' => 'group_name|Group label|property01,property02,property03',
       '#array_name' => 'properties',
       '#title' => t('Default @type field groups', ['@type' => $entity_type_label]),
       '#description' => t('Enter the default field groups and field order used to group Schema.org properties as they are added to the @type entity type.', $t_args),

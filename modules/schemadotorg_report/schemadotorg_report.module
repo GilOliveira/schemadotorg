@@ -78,7 +78,7 @@ function schemadotorg_report_help($route_name, RouteMatchInterface $route_match)
 
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
-  return $help_manager->build($route_name, $route_match);
+  return $help_manager->buildHelpPage($route_name, $route_match);
 }
 
 /**

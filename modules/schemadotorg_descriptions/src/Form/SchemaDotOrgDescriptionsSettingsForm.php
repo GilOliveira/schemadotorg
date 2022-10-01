@@ -42,7 +42,7 @@ class SchemaDotOrgDescriptionsSettingsForm extends ConfigFormBase {
       '#title' => $this->t('Custom Schema.org type and property descriptions'),
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#settings_format' => 'type|description or property|description',
+      '#settings_format' => 'SchemeType or SchemeType|description or propertyName or propertyName|description',
       '#description' => $this->t('Enter custom Schema.org type and property descriptions. Leave the description blank to remove the default description provided by Schema.org.'),
       '#description_link' => 'types',
       '#default_value' => $config->get('custom_descriptions'),

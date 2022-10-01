@@ -70,7 +70,7 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
     $form['schema_properties']['default_fields'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
-      '#settings_format' => 'SchemaType--propertyName|type:string,label:Property name,unlimited:1,required:1',
+      '#settings_format' => 'SchemaType--propertyName|type:string,label:Property name,unlimited:1,required:1 or propertyName|type:string',
       '#title' => $this->t('Default Schema.org property fields'),
       '#rows' => 20,
       '#description' => $this->t('Enter default Schema.org property field definition used when adding a Schema.org property to an entity type.'),
@@ -87,7 +87,7 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
     $form['schema_properties']['range_includes'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
-      '#settings_format' => 'TypeName--propertyName|Type01,Type02,Type03',
+      '#settings_format' => 'TypeName--propertyName|Type01,Type02 or propertyName|Type01,Type02',
       '#title' => $this->t('Schema.org type/property custom range includes'),
       '#description' => $this->t('Enter custom range includes for Schema.org types/properties.'),
       '#description_link' => 'types',

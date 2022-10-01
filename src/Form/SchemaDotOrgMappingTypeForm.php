@@ -61,7 +61,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     $form['types']['recommended_schema_types'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED_NAMED,
-      '#settings_format' => 'group_name|group_label|SchemaType01,SchemaType01,SchemaType01',
+      '#settings_format' => 'group_name|Group label|SchemaType01,SchemaType01,SchemaType01',
       '#array_name' => 'types',
       '#title' => $this->t('Recommended Schema.org types'),
       '#description' => $this->t('Enter recommended Schema.org types to be displayed when creating a new Schema.org type. Recommended Schema.org types will only be displayed on entity types that support adding new Schema.org types.'),
@@ -71,7 +71,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     $form['types']['default_schema_types'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#settings_format' => 'format entity_type|schema_type',
+      '#settings_format' => 'entity_type|schema_type',
       '#title' => $this->t('Default Schema.org types'),
       '#description' => $this->t('Enter default Schema.org types that will automatically be assigned to an existing entity type/bundle.'),
       '#description_link' => 'types',
@@ -100,7 +100,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
     $form['properties']['default_base_fields'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
-      '#settings_format' => 'base_field_name|property_name_01,property_name_02',
+      '#settings_format' => 'base_field_name| or base_field_name|property_name_01,property_name_02',
       '#title' => $this->t('Default base field to Schema.org property mappings'),
       '#description' => $this->t('Enter default base field mappings from existing entity properties and fields to Schema.org properties.')
       . ' ' . $this->t('Leave the property_name value blank to allow the base field to be available but not mapped to a Schema.org property.'),

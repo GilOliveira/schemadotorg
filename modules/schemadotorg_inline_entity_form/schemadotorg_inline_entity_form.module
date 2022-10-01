@@ -17,7 +17,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 function schemadotorg_inline_entity_form_help($route_name, RouteMatchInterface $route_match) {
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
-  return $help_manager->build($route_name, $route_match);
+  return $help_manager->buildHelpPage($route_name, $route_match);
 }
 
 /**
@@ -150,7 +150,7 @@ function schemadotorg_inline_entity_form_form_schemadotorg_properties_settings_f
   $form['schemadotorg_inline_entity_form']['default_form_display_components'] = [
     '#type' => 'schemadotorg_settings',
     '#settings_type' => SchemaDotOrgSettings::INDEXED,
-    '#settings_format' => 'SchemaType',
+    '#settings_format' => 'field_name or propertyName',
     '#title' => t('Default form display components'),
     '#description' => t('Enter component field and property names that should be included in the default inline entity form display.'),
     '#default_value' => $config->get('default_form_display_components'),

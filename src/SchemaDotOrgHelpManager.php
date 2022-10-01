@@ -2,6 +2,7 @@
 
 namespace Drupal\schemadotorg;
 
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Extension\ExtensionPathResolver;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -33,31 +34,57 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function build($route_name, RouteMatchInterface $route_match) {
+  public function buildHelpPage($route_name, RouteMatchInterface $route_match) {
     if (strpos($route_name, 'help.page.schemadotorg') !== 0) {
       return NULL;
     }
 
     $module_name = str_replace('help.page.', '', $route_name);
 
-    $build = [];
-
-    // Readme.
-    $readme = $this->buildReadme($module_name);
-    if ($readme) {
-      $build['readme'] = $readme;
+    $module_readme = $this->extensionPathResolver->getPath('module', $module_name) . '/README.md';
+    if (!file_exists($module_readme)) {
+      return [];
     }
 
-    // Videos.
-    $videos = $this->buildVideos($module_name);
-    if ($videos) {
-      $build['videos'] = [
-        'title' => [
-          '#markup' => $this->t('Videos'),
-          '#prefix' => '<h2>',
-          '#suffix' => '</h2>',
+    $build = [];
+    if ($route_name === 'help.page.schemadotorg') {
+      $build['learn_more'] = [
+        '#markup' => $this->t('Learn more about the Schema.org Blueprints module below'),
+        '#suffix' => ' ',
+      ];
+      $build['or'] = [
+        '#markup' => $this->t('or'),
+        '#suffix' => ' ',
+      ];
+      $build['video'] = [
+        '#type' => 'link',
+        '#title' => $this->t('► Watch videos'),
+        '#url' => Url::fromRoute('schemadotorg.help.videos'),
+        '#attributes' => [
+          'class' => ['use-ajax', 'button', 'button--small', 'button--extrasmall'],
+          'data-dialog-type' => 'modal',
+          'data-dialog-options' => Json::encode([
+            'width' => 800,
+          ]),
         ],
-        'content' => $videos,
+      ];
+    }
+    $contents = file_get_contents($module_readme);
+
+    // Remove the table of contents.
+    $contents = preg_replace('/^.*?(Introduction\s+------------)/s', '$1', $contents);
+
+    if (class_exists('\Michelf\Markdown')) {
+      $build['readme'] = [
+        // phpcs:ignore Drupal.Classes.FullyQualifiedNamespace.UseStatementMissing
+        '#markup' => \Michelf\Markdown::defaultTransform($contents),
+      ];
+    }
+    else {
+      $build['readme'] = [
+        '#plain_text' => $contents,
+        '#prefix' => '<pre>',
+        '#suffix' => '</pre>',
       ];
     }
 
@@ -65,70 +92,18 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
   }
 
   /**
-   * Get a module's README.md as a renderable array.
-   *
-   * @param string $module_name
-   *   The module name.
-   *
-   * @return array
-   *   A module's README.md as a renderable array.
-   */
-  protected function buildReadme($module_name) {
-    $module_readme = $this->extensionPathResolver->getPath('module', $module_name) . '/README.md';
-    if (!file_exists($module_readme)) {
-      return [];
-    }
-
-    $contents = file_get_contents($module_readme);
-
-    // Remove the table of contents.
-    $contents = preg_replace('/^.*?(Introduction\s+------------)/s', '$1', $contents);
-
-    if (class_exists('\Michelf\Markdown')) {
-      return [
-        // phpcs:ignore Drupal.Classes.FullyQualifiedNamespace.UseStatementMissing
-        '#markup' => \Michelf\Markdown::defaultTransform($contents),
-      ];
-    }
-    else {
-      return [
-        '#plain_text' => $contents,
-        '#prefix' => '<pre>',
-        '#suffix' => '</pre>',
-      ];
-    }
-  }
-
-  /**
    * Get a module's video as a renderable array.
-   *
-   * @param string $module_name
-   *   The module name.
    *
    * @return array
    *   A module's videos as a renderable array.
    */
-  protected function buildVideos($module_name) {
-    if ($module_name !== 'schemadotorg') {
-      return [];
-    }
-
+  public function buildVideosPage() {
     // Videos.
     $videos = [
       [
         'title' => $this->t('Schema.org Blueprints module in 7 minutes'),
         'content' => $this->t('A presentation and demo of the Schema.org Blueprints for Drupal in 7 minutes.'),
         'youtube_id' => 'KzNFAEfbFNw',
-      ],
-      [
-        'title' => $this->t('Schema.org Blueprints - Short Overview'),
-        'content' => $this->t('This short presentation explains the what and why behind the Schema.org Blueprints module and shows how to use it to build a Schema.org Event content type in Drupal.'),
-        'youtube_id' => 'XkZP6QjJkWs',
-      ],
-      [
-        'title' => $this->t('Schema.org Blueprints - Full Demo'),
-        'content' => $this->t('This extended presentation walks through the background, configuration, and future of the Schema.org Blueprints module. It provides an in-depth demo of building an entire website architecture that leverages Schema.org type, properties, and enumerations in 5 minutes.'),
-        'youtube_id' => '_kk97O1SEw0',
       ],
       [
         'title' => $this->t('Defining the goals of the Schema.org Blueprints module for Drupal'),
@@ -139,6 +114,16 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
         'title' => $this->t('Baking a Recipe using the Schema.org Blueprints module for Drupal'),
         'content' => $this->t("This presentation shows how to create a 'recipe' content type in Drupal based entirely on https://Schema.org/Recipe using two possible approaches via the Paragraphs module or Flex Field module to build out the nutrition information."),
         'youtube_id' => 'F31avX4gRm0',
+      ],
+      [
+        'title' => $this->t('Schema.org Blueprints - Short Overview'),
+        'content' => $this->t('This short presentation explains the what and why behind the Schema.org Blueprints module and shows how to use it to build a Schema.org Event content type in Drupal.'),
+        'youtube_id' => 'XkZP6QjJkWs',
+      ],
+      [
+        'title' => $this->t('Schema.org Blueprints - Full Demo'),
+        'content' => $this->t('This extended presentation walks through the background, configuration, and future of the Schema.org Blueprints module. It provides an in-depth demo of building an entire website architecture that leverages Schema.org type, properties, and enumerations in 5 minutes.'),
+        'youtube_id' => '_kk97O1SEw0',
       ],
       [
         'title' => $this->t('Schemadotorg Blueprints - Exploration'),
@@ -163,6 +148,9 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
         '#theme' => 'image',
         '#uri' => 'https://img.youtube.com/vi/' . $video['youtube_id'] . '/0.jpg',
         '#alt' => $video['title'],
+        '#attributes' => [
+          'style' => 'display: block',
+        ],
       ];
 
       $row = [];
@@ -171,6 +159,9 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
           '#type' => 'link',
           '#url' => $video_url,
           '#title' => $video_thumbnail,
+          '#attributes' => [
+            'target' => '_blank',
+          ],
         ],
       ];
       // Content.
@@ -178,19 +169,22 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
         'data' => [
           'title' => [
             '#markup' => $video['title'],
-            '#prefix' => '<h3>',
-            '#suffix' => '</h3>',
+            '#prefix' => '<div><strong>',
+            '#suffix' => '</strong></div>',
           ],
           'content' => [
             '#markup' => $video['content'],
-            '#prefix' => '<p>',
-            '#suffix' => '</p>',
+            '#prefix' => '<div>',
+            '#suffix' => '</div>',
           ],
           'link' => [
             '#type' => 'link',
             '#url' => $video_url,
             '#title' => $this->t('▶ Watch video'),
-            '#attributes' => ['class' => ['button', 'button--small', 'button--extrasmall']],
+            '#attributes' => [
+              'class' => ['button', 'button--small', 'button--extrasmall'],
+              'target' => '_blank',
+            ],
           ],
         ],
       ];
