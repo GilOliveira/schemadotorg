@@ -101,27 +101,12 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
       'comment' => [
         'data' => $this->t('Comment'),
       ],
-      'sub_type_of' => [
-        'data' => $this->t('Sub type of'),
-      ],
       'enumerationtype' => [
         'data' => $this->t('Enumeration type'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
       'sub_types' => [
         'data' => $this->t('Sub types'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-      ],
-      'supersedes' => [
-        'data' => $this->t('Supersedes'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-      ],
-      'superseded_by' => [
-        'data' => $this->t('Superseded by'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-      ],
-      'is_part_of' => [
-        'data' => $this->t('Is part of'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
     ];
@@ -147,14 +132,6 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
       ],
       'range_includes' => [
         'data' => $this->t('Range includes'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-      ],
-      'inverse_of' => [
-        'data' => $this->t('Inverse of'),
-        'class' => [RESPONSIVE_PRIORITY_LOW],
-      ],
-      'is_part_of' => [
-        'data' => $this->t('Is part of'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
     ];

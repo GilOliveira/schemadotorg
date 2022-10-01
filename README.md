@@ -65,8 +65,8 @@ Install the Schema.org Blueprints module as you would normally
 Configuration
 -------------
 
-- Configure 'Schema.org Blueprints JSON-LD Preview' permission.
-  (/admin/people/permissions/module/schemadotorg_jsonapi_preview)
+- Configure 'Schema.org Blueprints' administer permission.
+  (/admin/people/permissions/module/schemadotorg)
 
 - Review Schema.org types configuration.
   (/admin/config/search/schemadotorg/settings/types)
