@@ -23,21 +23,21 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
     case 'entity.schemadotorg_mapping.collection':
       $build = [
         '#prefix' => '<p>',
-        '#prefix' => '</p>',
+        '#suffix' => '</p>',
       ];
       $build['description'] = [
         '#markup' => t('The <em>Schema.org mappings</em> page lists all available mappings from Drupal entity types to Schema.org types.'),
-        '#suffix' => ' ',
+        '#suffix' => '<br/>',
       ];
       $build['learn_more'] = [
         '#type' => 'link',
         '#title' => t('Learn more about the Schema.org Blueprints module'),
         '#url' => Url::fromRoute('help.page', ['name' => 'schemadotorg']),
-        '#suffix' => ' ',
       ];
       $build['or'] = [
+        '#prefix' => ' ',
         '#markup' => t('or'),
-        '#suffix' => ' ',
+        '#suffix' => ' &nbsp;',
       ];
       $build['video'] = [
         '#type' => 'link',

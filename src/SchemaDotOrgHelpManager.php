@@ -7,6 +7,7 @@ use Drupal\Core\Extension\ExtensionPathResolver;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
+use Drupal\help\HelpSectionManager;
 
 /**
  * Schema.org help manager service.
@@ -22,13 +23,23 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
   protected $extensionPathResolver;
 
   /**
+   * The help section plugin manager.
+   *
+   * @var \Drupal\help\HelpSectionManager
+   */
+  protected $helpManager;
+
+  /**
    * Constructs a SchemaDotOrgMappingManager object.
    *
    * @param \Drupal\Core\Extension\ExtensionPathResolver $extension_path_resolver
    *   The extension path resolver.
+   * @param \Drupal\help\HelpSectionManager|null $help_manager
+   *   The help section manager.
    */
-  public function __construct(ExtensionPathResolver $extension_path_resolver) {
+  public function __construct(ExtensionPathResolver $extension_path_resolver, HelpSectionManager $help_manager = NULL) {
     $this->extensionPathResolver = $extension_path_resolver;
+    $this->helpManager = $help_manager;
   }
 
   /**
@@ -39,36 +50,43 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
       return NULL;
     }
 
+    $build = [];
+
+    // Navigation and videos.
+    $build['navigation'] = [
+      '#prefix' => '<p>',
+      '#suffix' => '</p>',
+    ];
+    $build['navigation']['learn_more'] = [
+      '#type' => 'operations',
+      '#links' => $this->getHelpTopicsAsOperations(),
+    ];
+    $build['navigation']['or'] = [
+      '#prefix' => '&nbsp; ',
+      '#markup' => $this->t('or'),
+      '#suffix' => ' &nbsp;',
+    ];
+    $build['navigation']['link'] = [
+      '#type' => 'link',
+      '#title' => $this->t('► Watch videos'),
+      '#url' => Url::fromRoute('schemadotorg.help.videos'),
+      '#attributes' => [
+        'class' => ['use-ajax', 'button', 'button--small', 'button--extrasmall'],
+        'data-dialog-type' => 'modal',
+        'data-dialog-options' => Json::encode([
+          'width' => 800,
+        ]),
+      ],
+    ];
+
+    // README.md.
     $module_name = str_replace('help.page.', '', $route_name);
 
     $module_readme = $this->extensionPathResolver->getPath('module', $module_name) . '/README.md';
     if (!file_exists($module_readme)) {
-      return [];
+      return $build;
     }
 
-    $build = [];
-    if ($route_name === 'help.page.schemadotorg') {
-      $build['learn_more'] = [
-        '#markup' => $this->t('Learn more about the Schema.org Blueprints module below'),
-        '#suffix' => ' ',
-      ];
-      $build['or'] = [
-        '#markup' => $this->t('or'),
-        '#suffix' => ' ',
-      ];
-      $build['video'] = [
-        '#type' => 'link',
-        '#title' => $this->t('► Watch videos'),
-        '#url' => Url::fromRoute('schemadotorg.help.videos'),
-        '#attributes' => [
-          'class' => ['use-ajax', 'button', 'button--small', 'button--extrasmall'],
-          'data-dialog-type' => 'modal',
-          'data-dialog-options' => Json::encode([
-            'width' => 800,
-          ]),
-        ],
-      ];
-    }
     $contents = file_get_contents($module_readme);
 
     // Remove the table of contents.
@@ -212,6 +230,35 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
         'cellspacing' => 0,
       ],
     ];
+  }
+
+  /**
+   * Get Schema.org Blueprints helps topics as operations.
+   *
+   * @return array
+   *   An array of operations.
+   */
+  protected function getHelpTopicsAsOperations() {
+    /** @var \Drupal\help\HelpSectionPluginInterface $plugin */
+    $plugin = $this->helpManager->createInstance('hook_help');
+
+    /** @var \Drupal\Core\Link[] $links */
+    $links = $plugin->listTopics();
+
+    $operations = [];
+    foreach ($links as $key => $link) {
+      $route_parameters = $link->getUrl()->getRouteParameters();
+      if (strpos($route_parameters['name'], 'schemadotorg') === 0) {
+        $operations[$route_parameters['name']] = [
+          'title' => $links[$key]->getText(),
+          'url' => $links[$key]->getUrl(),
+        ];
+      }
+    }
+
+    $operations['schemadotorg']['title'] = $this->t('Learn more about the Schema.org Blueprints modules');
+
+    return $operations;
   }
 
 }
