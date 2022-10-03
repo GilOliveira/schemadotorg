@@ -69,7 +69,7 @@
           div.setAttribute('class', 'schemadotorg-jstree-toggle-wrapper');
           div.appendChild(button);
 
-          // Prepend toggle button to jstree's DOM element.
+          // Prepend toggle button to the jstree's DOM element.
           const jstree = $jstree[0];
           jstree.parentNode.insertBefore(div, jstree);
       });

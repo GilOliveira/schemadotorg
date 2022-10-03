@@ -8,7 +8,6 @@
 "use strict";
 
 (($, Drupal, debounce, once) => {
-
   /**
    * Schema.org UI properties filter by text.
    *
