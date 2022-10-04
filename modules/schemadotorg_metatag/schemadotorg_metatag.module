@@ -5,6 +5,8 @@
  * Automatically adds a metatag field to Schema.org types.
  */
 
+declare(strict_types = 1);
+
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
@@ -13,7 +15,7 @@ use Drupal\field\Entity\FieldConfig;
 /**
  * Implements hook_help().
  */
-function schemadotorg_metatag_help($route_name, RouteMatchInterface $route_match) {
+function schemadotorg_metatag_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
@@ -22,7 +24,7 @@ function schemadotorg_metatag_help($route_name, RouteMatchInterface $route_match
 /**
  * Implements hook_schemadotorg_mapping_insert().
  */
-function schemadotorg_metatag_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping) {
+function schemadotorg_metatag_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
   $entity_type_id = $mapping->getTargetEntityTypeId();
   $bundle = $mapping->getTargetBundle();
   $field_name = 'field_metatag';

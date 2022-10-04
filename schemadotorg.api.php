@@ -5,6 +5,8 @@
  * Hooks to define and alter mappings, entity types and fields.
  */
 
+declare(strict_types = 1);
+
 // phpcs:disable DrupalPractice.CodeAnalysis.VariableAnalysis.UnusedVariable
 
 /**
@@ -22,7 +24,7 @@
  * @param string $schema_property
  *   The Schema.org property.
  */
-function hook_schemadotorg_property_field_type_alter(array &$field_types, $schema_type, $schema_property) {
+function hook_schemadotorg_property_field_type_alter(array &$field_types, string $schema_type, string $schema_property): void {
   // Use SmartDate for startDate and endDate.
   if (in_array($schema_property, ['startDate', 'endData'])
     || \Drupal::moduleHandler()->moduleExists('smartdate')) {
@@ -40,7 +42,7 @@ function hook_schemadotorg_property_field_type_alter(array &$field_types, $schem
  * @param array $default_field
  *   The default values used in the Schema.org mapping form.
  */
-function hook_schemadotorg_property_field_prepare($schema_type, $schema_property, array &$default_field) {
+function hook_schemadotorg_property_field_prepare(string $schema_type, string $schema_property, array &$default_field): void {
   // Programmatically update the name field for an Event Schema.org type.
   if ($schema_type === 'Event' && $schema_property === 'name') {
     $default_field['name']['label'] = t('Event title');
@@ -57,7 +59,7 @@ function hook_schemadotorg_property_field_prepare($schema_type, $schema_property
  * @param array &$values
  *   The bundle entity type values.
  */
-function hook_schemadotorg_bundle_entity_alter($schema_type, $entity_type_id, array &$values) {
+function hook_schemadotorg_bundle_entity_alter(string $schema_type, string $entity_type_id, array &$values): void {
   // Remove the description from the bundle entity before it is created.
   // @see schemadotorg_descriptions_schemadotorg_bundle_entity_alter()
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
@@ -83,7 +85,7 @@ function hook_schemadotorg_bundle_entity_alter($schema_type, $entity_type_id, ar
  *   Field storage config values.
  * @param array $field_values
  *   Field config values.
- * @param string $widget_id
+ * @param string|null $widget_id
  *   The plugin ID of the widget.
  * @param array $widget_settings
  *   An array of widget settings.
@@ -93,15 +95,15 @@ function hook_schemadotorg_bundle_entity_alter($schema_type, $entity_type_id, ar
  *   An array of formatter settings.
  */
 function hook_schemadotorg_property_field_alter(
-  $schema_type,
-  $schema_property,
+  string $schema_type,
+  string $schema_property,
   array &$field_storage_values,
   array &$field_values,
-  &$widget_id,
+  ?string &$widget_id,
   array &$widget_settings,
-  &$formatter_id,
+  ?string &$formatter_id,
   array &$formatter_settings
-) {
+): void {
   // Remove the description from the field before it is created.
   // @see schemadotorg_descriptions_schemadotorg_property_field_alte()
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
@@ -141,7 +143,7 @@ function hook_schemadotorg_property_field_alter(
  * @param array $defaults
  *   The Schema.org mapping entity default values.
  */
-function hook_schemadotorg_mapping_defaults($entity_type_id, $bundle, $schema_type, array &$defaults) {
+function hook_schemadotorg_mapping_defaults(string $entity_type_id, string $bundle, string $schema_type, array &$defaults): void {
   // Add custom subtype property to a Schema.org mapping defaults.
   // @see schemadotorg_subtype_schemadotorg_mapping_defaults_alter()
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */

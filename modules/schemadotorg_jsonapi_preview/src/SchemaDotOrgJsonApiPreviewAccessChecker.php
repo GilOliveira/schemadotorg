@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonapi_preview;
 
 use Drupal\Core\Condition\ConditionManager;
@@ -67,7 +69,7 @@ class SchemaDotOrgJsonApiPreviewAccessChecker implements SchemaDotOrgJsonApiPrev
   /**
    * {@inheritdoc}
    */
-  public function access() {
+  public function access(): mixed {
     // Check current route.
     if ($this->adminContext->isAdminRoute()) {
       return FALSE;

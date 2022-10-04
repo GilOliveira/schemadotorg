@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_subtype\Functional;
 
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
@@ -26,10 +28,10 @@ class SchemaDotOrgSubtypeTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test Schema.org subtype UI.
    */
-  public function testSubtype() {
+  public function testSubtype(): void {
     $assert_session = $this->assertSession();
 
-    $config = \Drupal::config('schemadotorg_subtype.settings');
+    $config = $this->config('schemadotorg_subtype.settings');
 
     /* ********************************************************************** */
     // Mapping defaults.
@@ -98,7 +100,7 @@ class SchemaDotOrgSubtypeTest extends SchemaDotOrgBrowserTestBase {
     $this->submitForm([], 'Save');
     $assert_session->responseContains('The content type <em class="placeholder">Event</em> has been added.');
 
-    // Check mapping defaults for existing Schema.type just return the field name..
+    // Check mapping defaults for existing Schema.type just return the field name.
     $defaults = $this->getMappingDefaults('node', 'event', 'Event');
     $this->assertEquals(['name' => 'schema_event_subtype'], $defaults['properties']['subtype']);
 
@@ -130,7 +132,7 @@ class SchemaDotOrgSubtypeTest extends SchemaDotOrgBrowserTestBase {
    *
    * @param string $entity_type_id
    *   THe entity type.
-   * @param string $bundle
+   * @param string|null $bundle
    *   The bundle.
    * @param string $schema_type
    *   The Schema.org type.
@@ -138,7 +140,7 @@ class SchemaDotOrgSubtypeTest extends SchemaDotOrgBrowserTestBase {
    * @return array
    *   The mapping defaults.
    */
-  protected function getMappingDefaults($entity_type_id, $bundle, $schema_type) {
+  protected function getMappingDefaults(string $entity_type_id, ?string $bundle, string $schema_type): array {
     $defaults = [];
     schemadotorg_subtype_schemadotorg_mapping_defaults_alter($entity_type_id, $bundle, $schema_type, $defaults);
     return $defaults;

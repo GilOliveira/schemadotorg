@@ -5,6 +5,8 @@
  * Primary module hooks for Schema.org module.
  */
 
+declare(strict_types = 1);
+
 use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityInterface;
@@ -18,7 +20,7 @@ require_once __DIR__ . '/includes/schemadotorg.allowed_values.inc';
 /**
  * Implements hook_help().
  */
-function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
+function schemadotorg_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   switch ($route_name) {
     case 'entity.schemadotorg_mapping.collection':
       $build = [
@@ -83,7 +85,7 @@ function schemadotorg_help($route_name, RouteMatchInterface $route_match) {
  *
  * Create mapping types for modules that provide a content entities.
  */
-function schemadotorg_modules_installed($modules) {
+function schemadotorg_modules_installed(array $modules): void {
   if (!\Drupal::isConfigSyncing()) {
     /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
     $installer = \Drupal::service('schemadotorg.installer');
@@ -97,7 +99,7 @@ function schemadotorg_modules_installed($modules) {
  * Display a warning on the entity revision configuration page when the
  * expected Schema.org target bundles do not match the selected target bundles.
  */
-function schemadotorg_form_field_config_edit_form_alter(&$form, FormStateInterface $form_state) {
+function schemadotorg_form_field_config_edit_form_alter(array &$form, FormStateInterface $form_state): void {
   // Only display the warning via a GET form request.
   if (!\Drupal::request()->isMethod('GET')) {
     return;
@@ -168,7 +170,7 @@ function schemadotorg_form_field_config_edit_form_alter(&$form, FormStateInterfa
  * @todo Move this to SchemaDotOrgMapping::onDependencyRemoval.
  * @see \Drupal\schemadotorg\Entity\SchemaDotOrgMapping::onDependencyRemoval
  */
-function schemadotorg_field_config_delete(EntityInterface $entity) {
+function schemadotorg_field_config_delete(EntityInterface $entity): void {
   $bundle = $entity->getTargetBundle();
   $entity_type = $entity->getTargetEntityTypeId();
 

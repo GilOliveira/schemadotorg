@@ -5,13 +5,15 @@
  * Adds Drupal's breadcrumb to the Schema.org JSON-LD for the current route.
  */
 
+declare(strict_types = 1);
+
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 
 /**
  * Implements hook_help().
  */
-function schemadotorg_jsonld_breadcrumb_help($route_name, RouteMatchInterface $route_match) {
+function schemadotorg_jsonld_breadcrumb_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
@@ -20,7 +22,7 @@ function schemadotorg_jsonld_breadcrumb_help($route_name, RouteMatchInterface $r
 /**
  * Implements hook_schemadotorg_jsonld().
  */
-function schemadotorg_jsonld_breadcrumb_schemadotorg_jsonld(RouteMatchInterface $route_match) {
+function schemadotorg_jsonld_breadcrumb_schemadotorg_jsonld(RouteMatchInterface $route_match): ?array {
   /** @var \Drupal\Core\Breadcrumb\BreadcrumbManager $breadcrumb_manager */
   $breadcrumb_manager = \Drupal::service('breadcrumb');
   if (!$breadcrumb_manager->applies($route_match)) {

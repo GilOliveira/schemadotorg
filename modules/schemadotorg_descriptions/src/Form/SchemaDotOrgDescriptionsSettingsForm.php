@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_descriptions\Form;
 
 use Drupal\Core\Cache\Cache;
@@ -15,21 +17,21 @@ class SchemaDotOrgDescriptionsSettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'schemadotorg_descriptions_settings_form';
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function getEditableConfigNames() {
+  protected function getEditableConfigNames(): array {
     return ['schemadotorg_descriptions.settings'];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $config = $this->config('schemadotorg_descriptions.settings');
 
     $form['schemadotorg_descriptions'] = [
@@ -67,7 +69,7 @@ class SchemaDotOrgDescriptionsSettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     // Clear cache bins to make sure descriptions are updated.
     $cache_backends = Cache::getBins();
     $service_ids = ['data', 'discovery', 'dynamic_page_cache'];

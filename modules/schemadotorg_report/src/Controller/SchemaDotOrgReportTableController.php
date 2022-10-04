@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_report\Controller;
 
 use Drupal\Core\Database\Query\PagerSelectExtender;
@@ -22,7 +24,7 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
    *   A renderable array containing Schema.org types or properties
    *   documentation.
    */
-  public function index(Request $request, $table) {
+  public function index(Request $request, string $table): array {
     $id = $request->query->get('id');
 
     // Header.
@@ -93,7 +95,7 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
    * @return array[]
    *   Schema.org types table header.
    */
-  protected function getTypesHeader() {
+  protected function getTypesHeader(): array {
     return [
       'label' => [
         'data' => $this->t('Label'),
@@ -118,7 +120,7 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
    * @return array[]
    *   Properties table header.
    */
-  protected function getPropertiesHeader() {
+  protected function getPropertiesHeader(): array {
     return [
       'label' => [
         'data' => $this->t('Label'),

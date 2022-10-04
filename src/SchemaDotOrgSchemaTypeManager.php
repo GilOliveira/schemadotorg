@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Schema.org schema type manager.
@@ -73,22 +76,16 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   }
 
   /**
-   * Gets Schema.org type or property URI.
-   *
-   * @param string $id
-   *   The Schema.org type or property.
-   *
-   * @return string
-   *   The Schema.org type or property URI.
+   * {@inheritdoc}
    */
-  public function getUri($id) {
+  public function getUri(string $id): string {
     return static::URI . $id;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function isId($table, $id) {
+  public function isId(string $table, string $id): bool {
     $label = $this->database->select('schemadotorg_' . $table, 't')
       ->fields('t', ['label'])
       ->condition('label', $id)
@@ -102,21 +99,21 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function isItem($id) {
+  public function isItem(string $id): bool {
     return $this->isType($id) || $this->isProperty($id);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function isType($id) {
+  public function isType(string $id): bool {
     return $this->isId('types', $id);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function isSubTypeOf($type, $subtype_of) {
+  public function isSubTypeOf(string $type, string|array $subtype_of): bool {
     $subtype_of = (array) $subtype_of;
     $breadcrumbs = $this->getTypeBreadcrumbs($type);
     foreach ($breadcrumbs as $breadcrumb) {
@@ -133,7 +130,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function isThing($id) {
+  public function isThing(string $id): bool {
     $type_definition = $this->getType($id);
     return (!empty($type_definition)
       && $type_definition['label'] === $id
@@ -145,7 +142,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function isDataType($id) {
+  public function isDataType(string $id): bool {
     $data_types = $this->getDataTypes();
     return (isset($data_types[$id]));
   }
@@ -153,7 +150,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function isIntangible($id) {
+  public function isIntangible(string $id): bool {
     if (!$this->isType($id)) {
       return FALSE;
     }
@@ -163,7 +160,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
     else {
       $breadcrumbs = $this->getTypeBreadcrumbs($id);
       foreach ($breadcrumbs as $breadcrumb => $items) {
-        if (strpos($breadcrumb, '/Intangible/') !== FALSE) {
+        if (str_contains($breadcrumb, '/Intangible/')) {
           return TRUE;
         }
       }
@@ -174,7 +171,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function isEnumerationType($id) {
+  public function isEnumerationType(string $id): bool {
     return (boolean) $this->database->select('schemadotorg_types', 'types')
       ->fields('types', ['id'])
       ->condition('enumerationtype', $this->getUri($id))
@@ -186,7 +183,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function isEnumerationValue($id) {
+  public function isEnumerationValue(string $id): bool {
     $item = $this->getItem('types', $id);
     return (!empty($item['enumerationtype']));
   }
@@ -194,14 +191,14 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function isProperty($id) {
+  public function isProperty(string $id): bool {
     return $this->isId('properties', $id);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function isSuperseded($id) {
+  public function isSuperseded(string $id): bool {
     if (!isset($this->supersededCache)) {
       $this->supersededCache = [];
       foreach (['types', 'properties'] as $table) {
@@ -219,7 +216,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function parseIds($text) {
+  public function parseIds(string $text): array {
     $text = trim($text);
     if (empty($text)) {
       return [];
@@ -232,7 +229,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getItem($table, $id, array $fields = []) {
+  public function getItem(string $table, string $id, array $fields = []): array|false {
     $table_name = 'schemadotorg_' . $table;
     if (empty($fields)) {
       if (!isset($this->itemsCache[$table][$id])) {
@@ -256,21 +253,21 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getType($type, array $fields = []) {
+  public function getType(string $type, array $fields = []): array|false {
     return $this->getItem('types', $type, $fields);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getProperty($property, array $fields = []) {
+  public function getProperty(string $property, array $fields = []): array|false {
     return $this->getItem('properties', $property, $fields);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getPropertyRangeIncludes($property) {
+  public function getPropertyRangeIncludes(string $property): array {
     $property_definition = $this->getProperty($property);
     $range_includes = $property_definition['range_includes'] ?? '';
     return $this->parseIds($range_includes);
@@ -285,7 +282,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    * @return string|null
    *   The Schema.org property's default Schema.org type from range_includes.
    */
-  public function getPropertyDefaultType($property) {
+  public function getPropertyDefaultType(string $property): ?string {
     $property_definition = $this->getProperty($property);
     if (!$property_definition) {
       return NULL;
@@ -315,7 +312,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
       }
     }
 
-    // Make sure sub types of Thing comes first.
+    // Make sure subtypes of Thing comes first.
     $type_definitions = $sub_types_of_thing + $type_definitions;
 
     // Finally, return the first type in range_includes type definitions.
@@ -325,7 +322,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getPropertyUnit($property, $value = 0) {
+  public function getPropertyUnit(string $property, $value = 0): string|TranslatableMarkup|null {
     if ($value === NULL) {
       return NULL;
     }
@@ -361,7 +358,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getItems($table, array $ids, array $fields = []) {
+  public function getItems(string $table, array $ids, array $fields = []): array {
     if (empty($ids)) {
       return [];
     }
@@ -389,21 +386,21 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getTypes(array $types, array $fields = []) {
+  public function getTypes(array $types, array $fields = []): array {
     return $this->getItems('types', $types, $fields);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getProperties(array $properties, array $fields = []) {
+  public function getProperties(array $properties, array $fields = []): array {
     return $this->getItems('properties', $properties, $fields);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getTypeProperties($type, array $fields = []) {
+  public function getTypeProperties(string $type, array $fields = []): array {
     $type_definition = $this->getType($type);
     $properties = $this->parseIds($type_definition['properties']);
     $items = $this->database->select('schemadotorg_properties', 'properties')
@@ -421,7 +418,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getTypeChildren($type) {
+  public function getTypeChildren(string $type): array {
     $type_definition = $this->getType($type, ['sub_types']);
 
     $children = [];
@@ -448,9 +445,9 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getTypeChildrenAsOptions($type) {
+  public function getTypeChildrenAsOptions(string $type): array {
     $options = $this->getTypeChildren($type);
-    array_walk($options, function (&$value) {
+    array_walk($options, function (&$value): void {
       $value = $this->schemaNames->camelCaseToTitleCase($value);
     });
     return $options;
@@ -459,7 +456,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getAllTypeChildrenAsOptions($type, $indent = '') {
+  public function getAllTypeChildrenAsOptions(string $type, string $indent = ''): array {
     $options = [];
     $types = $this->getTypeChildren($type);
     foreach ($types as $subtype) {
@@ -476,7 +473,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getSubtypes($type) {
+  public function getSubtypes(string $type): array {
     $type_definition = $this->getType($type, ['sub_types']);
     return $this->parseIds($type_definition['sub_types']);
   }
@@ -484,7 +481,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getEnumerations($type) {
+  public function getEnumerations(string $type): array {
     $enumeration_types = $this->database->select('schemadotorg_types', 'types')
       ->fields('types', ['label'])
       ->condition('enumerationtype', $this->getUri($type))
@@ -497,7 +494,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getDataTypes() {
+  public function getDataTypes(): array {
     $labels = $this->database->select('schemadotorg_types', 'types')
       ->fields('types', ['label'])
       ->condition('sub_type_of', '')
@@ -513,17 +510,9 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   }
 
   /**
-   * Build Schema.org type hierarchical tree.
-   *
-   * @param string|array $type
-   *   The Schema.org type or an array of types.
-   * @param array $ignored_types
-   *   An array of ignored Schema.org types.
-   *
-   * @return array
-   *   A renderable array containing Schema.org type hierarchical tree.
+   * {@inheritdoc}
    */
-  public function getTypeTree($type, array $ignored_types = []) {
+  public function getTypeTree(string|array $type, array $ignored_types = []): array {
     if ($ignored_types) {
       $ignored_types = array_combine($ignored_types, $ignored_types);
     }
@@ -541,7 +530,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    * @return array
    *   A renderable array containing Schema.org type hierarchical tree.
    */
-  protected function getTypeTreeRecursive(array $types, array $ignored_types = []) {
+  protected function getTypeTreeRecursive(array $types, array $ignored_types = []): array {
     if (empty($types)) {
       return [];
     }
@@ -576,7 +565,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getAllSubTypes(array $types) {
+  public function getAllSubTypes(array $types): array {
     if (!isset($this->tree)) {
       $this->tree = [];
       $result = $this->database->select('schemadotorg_types', 'types')
@@ -607,7 +596,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getAllTypeChildren($type, array $fields = [], array $ignored_types = []) {
+  public function getAllTypeChildren(string $type, array $fields = [], array $ignored_types = []): array {
     if ($ignored_types) {
       $ignored_types = array_combine($ignored_types, $ignored_types);
     }
@@ -629,7 +618,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    *
    * @see \Drupal\schemadotorg_report\Controller\SchemaDotOrgReportControllerBase::buildItemsRecursive
    */
-  protected function getTypesChildrenRecursive(array $types, array $fields = [], array $ignored_types = []) {
+  protected function getTypesChildrenRecursive(array $types, array $fields = [], array $ignored_types = []): array {
     $fields = $fields ?: ['label', 'sub_types', 'sub_type_of'];
 
     $items = $this->database->select('schemadotorg_types', 'types')
@@ -657,7 +646,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getTypeBreadcrumbs($type) {
+  public function getTypeBreadcrumbs(string $type): array {
     $breadcrumbs = [];
     $breadcrumb_id = $type;
     $breadcrumbs[$breadcrumb_id] = [];
@@ -676,15 +665,15 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function hasProperty($type, $property) {
+  public function hasProperty(string $type, string $property): bool {
     $type_definition = $this->getType($type);
-    return (strpos($type_definition['properties'], '/' . $property) !== FALSE);
+    return (str_contains($type_definition['properties'], '/' . $property));
   }
 
   /**
    * {@inheritdoc}
    */
-  public function hasSubtypes($type) {
+  public function hasSubtypes(string $type): bool {
     $type_definition = $this->getType($type);
     return (boolean) $type_definition['sub_types'];
 
@@ -700,7 +689,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    * @param string $type
    *   The Schema.org type.
    */
-  protected function getTypeBreadcrumbsRecursive(array &$breadcrumbs, $breadcrumb_id, $type) {
+  protected function getTypeBreadcrumbsRecursive(array &$breadcrumbs, string $breadcrumb_id, string $type): void {
     $breadcrumbs[$breadcrumb_id][$type] = $type;
 
     $item = $this->getItem('types', $type, ['sub_type_of']);
@@ -735,11 +724,11 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    * @param array|false|null $item
    *   An associative array containing Schema.org type or property item.
    *
-   * @return array
+   * @return array|false|null
    *   The Schema.org type or property item with a 'drupal_name' and
    *   'drupal_label', if the Schema.org label is included with the item.
    */
-  protected function setItemDrupalFields($table, $item) {
+  protected function setItemDrupalFields(string $table, array|false|null $item): array|false|null {
     if (empty($item) || !isset($item['label'])) {
       return $item;
     }

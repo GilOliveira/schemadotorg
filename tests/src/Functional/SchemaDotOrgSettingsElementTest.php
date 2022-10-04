@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Functional;
 
 /**
@@ -10,17 +12,19 @@ namespace Drupal\Tests\schemadotorg\Functional;
  */
 class SchemaDotOrgSettingsElementTest extends SchemaDotOrgBrowserTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['schemadotorg_settings_element_test'];
+  // phpcs:enable
 
   /**
    * Test Schema.org settings form.
    */
-  public function testSchemaDotOrgSettingsElement() {
+  public function testSchemaDotOrgSettingsElement(): void {
     $assert_session = $this->assertSession();
 
     // Check expected values when submitting the form.

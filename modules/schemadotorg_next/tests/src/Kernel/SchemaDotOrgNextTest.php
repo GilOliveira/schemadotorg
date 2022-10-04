@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_next\Kernel;
 
 use Drupal\next\Entity\NextEntityTypeConfig;
@@ -16,6 +18,7 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
  */
 class SchemaDotOrgNextTest extends SchemaDotOrgKernelEntityTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -25,11 +28,12 @@ class SchemaDotOrgNextTest extends SchemaDotOrgKernelEntityTestBase {
     'next',
     'schemadotorg_next',
   ];
+  // phpcs:enable
 
   /**
    * Test Schema.org next.
    */
-  public function testNext() {
+  public function testNext(): void {
     // Create Next.js site.
     $next_site = NextSite::create([
       'label' => 'Next.js site',

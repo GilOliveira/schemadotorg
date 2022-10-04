@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\Core\Config\Entity\ConfigEntityType;
@@ -18,6 +20,7 @@ use Drupal\Tests\schemadotorg_subtype\Traits\SchemaDotOrgTestSubtypeTrait;
 class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
   use SchemaDotOrgTestSubtypeTrait;
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -32,6 +35,7 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     'options',
     'schemadotorg_subtype',
   ];
+  // phpcs:enable
 
   /**
    * A node type.
@@ -119,7 +123,7 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
   /**
    * Test Schema.org mapping entity.
    */
-  public function testSchemaDotOrgMappingEntity() {
+  public function testSchemaDotOrgMappingEntity(): void {
     $node_mapping = $this->nodeMapping;
     $user_mapping = $this->userMapping;
 

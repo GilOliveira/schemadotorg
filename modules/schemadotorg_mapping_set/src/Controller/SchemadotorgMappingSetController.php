@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_mapping_set\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
@@ -40,7 +42,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
   /**
    * Builds the response for the mapping sets overview page.
    */
-  public function overview() {
+  public function overview(): array {
     // Header.
     $header = [
       'title' => ['data' => $this->t('Title'), 'width' => '15%'],
@@ -167,7 +169,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
   /**
    * Builds the response for the mapping set detail page.
    */
-  public function details($name, $open = TRUE) {
+  public function details(string $name, bool $open = TRUE): array {
     $mapping_set = $this->config('schemadotorg_mapping_set.settings')->get("sets.$name");
     if (empty($mapping_set)) {
       throw new NotFoundHttpException();

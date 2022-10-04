@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_mapping_set\Breadcrumb;
 
 use Drupal\Core\Breadcrumb\Breadcrumb;
@@ -17,15 +19,15 @@ class SchemaDotOrgMappingSetBreadcrumbBuilder implements BreadcrumbBuilderInterf
   /**
    * {@inheritdoc}
    */
-  public function applies(RouteMatchInterface $route_match) {
+  public function applies(RouteMatchInterface $route_match): bool {
     $route_name = $route_match->getRouteName() ?? '';
-    return (preg_match('/^schemadotorg_mapping_set\./', $route_name));
+    return ((bool) preg_match('/^schemadotorg_mapping_set\./', $route_name));
   }
 
   /**
    * {@inheritdoc}
    */
-  public function build(RouteMatchInterface $route_match) {
+  public function build(RouteMatchInterface $route_match): Breadcrumb {
     $breadcrumb = new Breadcrumb();
     $breadcrumb->addLink(Link::createFromRoute($this->t('Home'), '<front>'));
     $breadcrumb->addLink(Link::createFromRoute($this->t('Administration'), 'system.admin'));

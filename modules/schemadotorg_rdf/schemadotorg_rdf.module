@@ -5,6 +5,8 @@
  * Integrates Schema.org mappings with Drupal core's RDF(a) mapping.
  */
 
+declare(strict_types = 1);
+
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
@@ -13,7 +15,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 /**
  * Implements hook_help().
  */
-function schemadotorg_rdf_help($route_name, RouteMatchInterface $route_match) {
+function schemadotorg_rdf_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
@@ -22,7 +24,7 @@ function schemadotorg_rdf_help($route_name, RouteMatchInterface $route_match) {
 /**
  * Implements hook_ENTITY_TYPE_insert().
  */
-function schemadotorg_rdf_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $schemadotorg_mapping) {
+function schemadotorg_rdf_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $schemadotorg_mapping): void {
   $entity_type_id = $schemadotorg_mapping->getTargetEntityTypeId();
   $bundle = $schemadotorg_mapping->getTargetBundle();
   $schema_type = $schemadotorg_mapping->getSchemaType();
@@ -49,14 +51,14 @@ function schemadotorg_rdf_schemadotorg_mapping_insert(SchemaDotOrgMappingInterfa
 /**
  * Implements hook_ENTITY_TYPE_update().
  */
-function schemadotorg_rdf_schemadotorg_mapping_update(SchemaDotOrgMappingInterface $schemadotorg_mapping) {
+function schemadotorg_rdf_schemadotorg_mapping_update(SchemaDotOrgMappingInterface $schemadotorg_mapping): void {
   schemadotorg_rdf_schemadotorg_mapping_insert($schemadotorg_mapping);
 }
 
 /**
  * Implements hook_ENTITY_TYPE_delete().
  */
-function schemadotorg_rdf_schemadotorg_mapping_delete(SchemaDotOrgMappingInterface $schemadotorg_mapping) {
+function schemadotorg_rdf_schemadotorg_mapping_delete(SchemaDotOrgMappingInterface $schemadotorg_mapping): void {
   $entity_type_id = $schemadotorg_mapping->getTargetEntityTypeId();
   $bundle = $schemadotorg_mapping->getTargetBundle();
   $rdf_mapping = rdf_get_mapping($entity_type_id, $bundle);
@@ -68,7 +70,7 @@ function schemadotorg_rdf_schemadotorg_mapping_delete(SchemaDotOrgMappingInterfa
  *
  * @see rdf_preprocess_user()
  */
-function schemadotorg_rdf_preprocess_user(&$variables) {
+function schemadotorg_rdf_preprocess_user(array &$variables): void {
   _schemadotorg_rdf_preprocess_entity($variables, $variables['elements']['#user']);
 }
 
@@ -77,7 +79,7 @@ function schemadotorg_rdf_preprocess_user(&$variables) {
  *
  * @see rdf_preprocess_node()
  */
-function schemadotorg_rdf_preprocess_node(&$variables) {
+function schemadotorg_rdf_preprocess_node(array &$variables): void {
   _schemadotorg_rdf_preprocess_entity($variables, $variables['node']);
 }
 
@@ -89,7 +91,7 @@ function schemadotorg_rdf_preprocess_node(&$variables) {
  * @param \Drupal\Core\Entity\EntityInterface $entity
  *   The entity.
  */
-function _schemadotorg_rdf_preprocess_entity(array &$variables, EntityInterface $entity) {
+function _schemadotorg_rdf_preprocess_entity(array &$variables, EntityInterface $entity): void {
   $mapping = SchemaDotOrgMapping::loadByEntity($entity);
 
   if (!$mapping) {

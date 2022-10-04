@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_report\Controller;
 
 use _PHPStan_52b7bec27\Nette\Neon\Exception;
@@ -29,10 +31,13 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
   /**
    * Builds the Schema.org names overview or table.
    *
+   * @param string $display
+   *   The Schema.org names display (overview or table).
+   *
    * @return array
    *   A renderable array containing Schema.org names overview or table.
    */
-  public function index($display) {
+  public function index(string $display): array {
     if ($display === 'overview') {
       return $this->overview();
     }
@@ -47,7 +52,7 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
    * @return array
    *   A renderable array containing Schema.org names overview.
    */
-  public function overview() {
+  public function overview(): array {
     $names = [];
     $abbreviated = [];
     $truncated = [];
@@ -189,7 +194,7 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
    * @return array
    *   A renderable array containing word usage.
    */
-  protected function buildWordUsage($type, array $words, array $names) {
+  protected function buildWordUsage(string $type, array $words, array $names): array {
     $config = $this->config('schemadotorg.names');
     $replacements = $config->get($type);
     switch ($type) {
@@ -306,10 +311,13 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
   /**
    * Builds the Schema.org names table.
    *
+   * @param string $display
+   *   The Schema.org names display (overview or table).
+   *
    * @return array
    *   A renderable array containing Schema.org names table.
    */
-  public function table($display) {
+  public function table(string $display): array {
     $tables = ['types', 'properties'];
     $is_schema_item = in_array($display, $tables);
 

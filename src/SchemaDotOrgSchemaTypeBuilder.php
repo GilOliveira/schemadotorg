@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Component\Utility\Html;
@@ -52,7 +54,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
   /**
    * {@inheritdoc}
    */
-  public function getItemUrl($id) {
+  public function getItemUrl(string $id): Url {
     return ($this->moduleHandler->moduleExists('schemadotorg_report')
       && $this->currentUser->hasPermission('access site reports'))
       ? Url::fromRoute('schemadotorg_report', ['id' => $id])
@@ -62,7 +64,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
   /**
    * {@inheritdoc}
    */
-  public function buildItemsLinks($text, array $options = []) {
+  public function buildItemsLinks(string|array $text, array $options = []): array {
     $options += ['attributes' => []];
 
     $ids = (is_string($text)) ? $this->schemaTypeManager->parseIds($text) : $text;
@@ -71,7 +73,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
       $prefix = ($links) ? ', ' : '';
 
       $is_item = $this->schemaTypeManager->isItem($id);
-      $is_uri = (strpos($id, 'http') === 0);
+      $is_uri = (str_starts_with($id, 'http'));
       if ($is_item || $is_uri) {
         $links[] = [
           '#type' => 'link',
@@ -91,7 +93,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
   /**
    * {@inheritdoc}
    */
-  public function buildTypeTree(array $tree, array $options = []) {
+  public function buildTypeTree(array $tree, array $options = []): array {
     $options += [
       'base_path' => $this->getDefaultBasePath(),
       'attributes' => [],
@@ -117,7 +119,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
    *
    * @see \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager::getTypesChildrenRecursive
    */
-  protected function buildTypeTreeRecursive(array $tree, array $options = []) {
+  protected function buildTypeTreeRecursive(array $tree, array $options = []): array {
     if (empty($tree)) {
       return [];
     }
@@ -143,7 +145,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
   /**
    * {@inheritdoc}
    */
-  public function formatComment($comment, array $options = []) {
+  public function formatComment(string $comment, array $options = []): string {
     $options += [
       'attributes' => [],
     ];
@@ -152,7 +154,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
       $options['base_path'] = $this->getDefaultBasePath();
     }
 
-    if (strpos($comment, 'href="') === FALSE) {
+    if (!str_contains($comment, 'href="')) {
       return $comment;
     }
 
@@ -168,7 +170,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
       if (preg_match('#^/([0-9A-Za-z]+)$#', $href, $match)) {
         $a_node->setAttribute('href', $options['base_path'] . $match[1]);
       }
-      elseif (strpos($href, '/') === 0) {
+      elseif (str_starts_with($href, '/')) {
         $a_node->setAttribute('href', 'https://schema.org' . $href);
       }
     }
@@ -181,7 +183,7 @@ class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInte
    * @return string
    *   The default Schema.org base path for the current user.
    */
-  protected function getDefaultBasePath() {
+  protected function getDefaultBasePath(): string {
     return ($this->moduleHandler->moduleExists('schemadotorg_report')
       && $this->currentUser->hasPermission('access site reports'))
       ? Url::fromRoute('schemadotorg_report')->setAbsolute()->toString() . '/'

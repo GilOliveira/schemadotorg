@@ -23,7 +23,7 @@ Features
 - Uninstalls the Comment module and its associated fields.
 - Rewrites contributed module settings. (/config/rewrite)
 - Adds consumer image styles to the 'Default Consumer'.
-- Adds shortcuts lining to key Schema.org Blueprints URLs.
+- Adds shortcuts linking to key Schema.org Blueprints URLs.
 - Creates path aliases for /api/*.
 - Improves generated text value and summary to make it easier demo
   a lot of data.

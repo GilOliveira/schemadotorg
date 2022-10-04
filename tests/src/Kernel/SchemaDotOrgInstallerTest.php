@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 /**
@@ -39,7 +41,7 @@ class SchemaDotOrgInstallerTest extends SchemaDotOrgKernelTestBase {
    *
    * @covers ::requirements
    */
-  public function testRequirements() {
+  public function testRequirements(): void {
     // Check installation requirements.
     $requirements = $this->installer->requirements('runtime');
     $this->assertNotEmpty($requirements);

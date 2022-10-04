@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
@@ -31,7 +33,7 @@ abstract class SchemaDotOrgConfigEntityListBuilderBase extends ConfigEntityListB
   /**
    * {@inheritdoc}
    */
-  public function buildHeader() {
+  public function buildHeader(): array {
     $row['operations'] = [
       'data' => $this->t('Operations'),
       'width' => '1%',
@@ -42,7 +44,7 @@ abstract class SchemaDotOrgConfigEntityListBuilderBase extends ConfigEntityListB
   /**
    * {@inheritdoc}
    */
-  public function render() {
+  public function render(): array {
     $build = [];
 
     // Details links.
@@ -90,7 +92,7 @@ abstract class SchemaDotOrgConfigEntityListBuilderBase extends ConfigEntityListB
    * @return bool|int
    *   The current request details toggle state.
    */
-  protected function getDetailsToggle() {
+  protected function getDetailsToggle(): bool|int {
     return (boolean) $this->request->query->get('details') ?? 0;
   }
 
@@ -103,7 +105,7 @@ abstract class SchemaDotOrgConfigEntityListBuilderBase extends ConfigEntityListB
    * @return array
    *   A renderable array containing itemss.
    */
-  protected function buildItems(array $items) {
+  protected function buildItems(array $items): array {
     return [
       'data' => [
         '#markup' => implode('<br/>', $items),
@@ -122,7 +124,7 @@ abstract class SchemaDotOrgConfigEntityListBuilderBase extends ConfigEntityListB
    * @return array
    *   A renderable array containing a source to destination association.
    */
-  protected function buildAssociationItems(array $items) {
+  protected function buildAssociationItems(array $items): array {
     $data = [];
     foreach ($items as $source => $destination) {
       $prefix = $data ? '<br/>' : '';

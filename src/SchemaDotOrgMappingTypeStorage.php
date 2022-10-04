@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityStorage;
@@ -38,7 +40,7 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
   /**
    * {@inheritdoc}
    */
-  public function getEntityTypes() {
+  public function getEntityTypes(): array {
     $entity_type_ids = array_keys($this->loadMultiple());
     $entity_types = [];
     foreach ($entity_type_ids as $entity_type_id) {
@@ -52,7 +54,7 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
   /**
    * {@inheritdoc}
    */
-  public function getEntityTypesWithBundles() {
+  public function getEntityTypesWithBundles(): array {
     $entity_type_ids = array_keys($this->loadMultiple());
     $entity_types = [];
     foreach ($entity_type_ids as $entity_type_id) {
@@ -67,7 +69,7 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
   /**
    * {@inheritdoc}
    */
-  public function getEntityTypeBundles() {
+  public function getEntityTypeBundles(): array {
     $entity_types = $this->getEntityTypes();
 
     $items = [];
@@ -105,7 +107,7 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
   /**
    * {@inheritdoc}
    */
-  public function getEntityTypeBundleDefinitions() {
+  public function getEntityTypeBundleDefinitions(): array {
     $items = [];
     $entity_types = $this->getEntityTypeBundles();
     foreach ($entity_types as $entity_type_id => $entity_type) {

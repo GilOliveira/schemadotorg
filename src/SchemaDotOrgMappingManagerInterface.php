@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 /**
@@ -13,14 +15,14 @@ interface SchemaDotOrgMappingManagerInterface {
    * @return array
    *   Ignored Schema.org properties.
    */
-  public function getIgnoredProperties();
+  public function getIgnoredProperties(): array;
 
   /**
    * Get Schema.org mapping default values.
    *
    * @param string $entity_type_id
    *   The entity type ID.
-   * @param string $bundle
+   * @param string|null $bundle
    *   The bundle.
    * @param string $schema_type
    *   The Schema.org type.
@@ -28,7 +30,7 @@ interface SchemaDotOrgMappingManagerInterface {
    * @return array
    *   Schema.org mapping default values.
    */
-  public function getMappingDefaults($entity_type_id, $bundle, $schema_type);
+  public function getMappingDefaults(string $entity_type_id, ?string $bundle, string $schema_type): array;
 
   /**
    * Save a Schema.org mapping and create associate entity type and fields.
@@ -43,7 +45,7 @@ interface SchemaDotOrgMappingManagerInterface {
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface
    *   A Schema.org mapping.
    */
-  public function saveMapping($entity_type_id, $schema_type, array $values);
+  public function saveMapping(string $entity_type_id, string $schema_type, array $values): SchemaDotOrgMappingInterface;
 
   /**
    * Validate create Schema.org type.
@@ -53,7 +55,7 @@ interface SchemaDotOrgMappingManagerInterface {
    * @param string $schema_type
    *   The Schema.org type.
    */
-  public function createTypeValidate($entity_type_id, $schema_type);
+  public function createTypeValidate(string $entity_type_id, string $schema_type): void;
 
   /**
    * Create Schema.org type.
@@ -62,11 +64,8 @@ interface SchemaDotOrgMappingManagerInterface {
    *   The entity type ID.
    * @param string $schema_type
    *   The Schema.org type.
-   *
-   * @return array
-   *   An array of all errors, keyed by the name of the form element.
    */
-  public function createType($entity_type_id, $schema_type);
+  public function createType(string $entity_type_id, string $schema_type): void;
 
   /**
    * Validate delete Schema.org type.
@@ -76,7 +75,7 @@ interface SchemaDotOrgMappingManagerInterface {
    * @param string $schema_type
    *   The Schema.org type.
    */
-  public function deleteTypeValidate($entity_type_id, $schema_type);
+  public function deleteTypeValidate(string $entity_type_id, string $schema_type): void;
 
   /**
    * Delete Schema.org type.
@@ -88,6 +87,6 @@ interface SchemaDotOrgMappingManagerInterface {
    * @param array $options
    *   (optional) An array of options.
    */
-  public function deleteType($entity_type_id, $schema_type, array $options = []);
+  public function deleteType(string $entity_type_id, string $schema_type, array $options = []): void;
 
 }

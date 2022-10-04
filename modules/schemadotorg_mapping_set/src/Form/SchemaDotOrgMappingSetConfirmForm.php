@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_mapping_set\Form;
 
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\schemadotorg_mapping_set\Controller\SchemadotorgMappingSetController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -41,14 +44,14 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'schemadotorg_mapping_set_confirm_form';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getQuestion() {
+  public function getQuestion(): TranslatableMarkup {
     $t_args = [
       '@action' => $this->getAction(),
       '%name' => $this->getLabel(),
@@ -59,7 +62,7 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getDescription() {
+  public function getDescription(): TranslatableMarkup {
     $t_args = [
       '@action' => $this->getAction(),
       '%name' => $this->getLabel(),
@@ -70,7 +73,7 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getCancelUrl() {
+  public function getCancelUrl(): Url {
     return new Url('schemadotorg_mapping_set.overview');
   }
 
@@ -91,7 +94,7 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $name = NULL, $operation = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?string $name = NULL, ?string $operation = NULL): array {
     $this->name = $name;
     $this->operation = $operation;
 
@@ -134,7 +137,7 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     // Execute the operation.
     $operation = $this->operation;
     $name = $this->name;
@@ -162,7 +165,7 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
    * @return string
    *   The current mapping set's label.
    */
-  protected function getLabel() {
+  protected function getLabel(): string {
     $mapping_sets = $this->config('schemadotorg_mapping_set.settings')->get('sets');
     if (!isset($mapping_sets[$this->name])) {
       throw new NotFoundHttpException();
@@ -176,7 +179,7 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
    * @return string
    *   The current mapping set's action.
    */
-  protected function getAction() {
+  protected function getAction(): TranslatableMarkup {
     $is_setup = $this->schemaMappingSetManager->isSetup($this->name);
     $operations = [];
     if (!$is_setup) {

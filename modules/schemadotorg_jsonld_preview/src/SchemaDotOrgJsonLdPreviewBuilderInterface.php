@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonld_preview;
 
 /**
@@ -13,6 +15,6 @@ interface SchemaDotOrgJsonLdPreviewBuilderInterface {
    * @return array
    *   The JSON-LD preview for the current route.
    */
-  public function build();
+  public function build(): array;
 
 }

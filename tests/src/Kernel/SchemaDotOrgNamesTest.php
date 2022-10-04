@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 /**
@@ -33,7 +35,7 @@ class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
    *
    * @covers ::snakeCasetoCamelCase
    */
-  public function testSnakeCaseToCamelCase() {
+  public function testSnakeCaseToCamelCase(): void {
     $tests = [
       ['one', 'one'],
       ['one_two', 'oneTwo'],
@@ -49,7 +51,7 @@ class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
    *
    * @covers ::snakeCasetoCamelCase
    */
-  public function testSnakeCaseToUpperCamelCase() {
+  public function testSnakeCaseToUpperCamelCase(): void {
     $tests = [
       ['one', 'One'],
       ['one', 'One'],
@@ -66,7 +68,7 @@ class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
    *
    * @covers ::camelCaseToSnakeCase
    */
-  public function testCamelCaseToSnakeCase() {
+  public function testCamelCaseToSnakeCase(): void {
     $tests = [
       ['one', 'one'],
       ['One', 'one'],
@@ -87,7 +89,7 @@ class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
    *
    * @covers ::camelCaseToTitleCase
    */
-  public function testCamelCaseToTitleCase() {
+  public function testCamelCaseToTitleCase(): void {
     $tests = [
       // Basic.
       ['one', 'One'],
@@ -120,7 +122,7 @@ class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
    *
    * @covers ::camelCaseToSentenceCase
    */
-  public function testCamelCaseToSentenceCase() {
+  public function testCamelCaseToSentenceCase(): void {
     $tests = [
       // Basic.
       ['one', 'One'],
@@ -153,7 +155,7 @@ class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
    *
    * @covers ::camelCaseToDrupalName
    */
-  public function testCamelCaseToDrupalName() {
+  public function testCamelCaseToDrupalName(): void {
     $this->assertEquals('one_two', $this->names->camelCaseToDrupalName('OneTwo'));
     $this->assertEquals('action_test', $this->names->camelCaseToDrupalName('actionableTest'));
     $this->assertEquals('action_test', $this->names->camelCaseToDrupalName('actionableTest', ['maxlength' => 5]));
@@ -166,7 +168,7 @@ class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
    *
    * @covers ::schemaIdToDrupalLabel
    */
-  public function testSchemaLabelToDrupalLabel() {
+  public function testSchemaLabelToDrupalLabel(): void {
     // Check that types use title case.
     $this->assertEquals('One Two', $this->names->schemaIdToDrupalLabel('types', 'OneTwo'));
 
@@ -179,7 +181,7 @@ class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
    *
    * @covers ::schemaIdToDrupalName
    */
-  public function testSchemaIdToDrupalName() {
+  public function testSchemaIdToDrupalName(): void {
     $tests = [
       // Schema.org types.
       ['types', 'ActionAccessSpecification', 'action_access_specification'],

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -87,13 +89,13 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
   /**
    * {@inheritdoc}
    */
-  public function getDefaultFieldWeights() {
+  public function getDefaultFieldWeights(): array {
     $weights = $this->configFactory
       ->get('schemadotorg.settings')
       ->get('schema_properties.default_field_weights');
     $weights = array_flip($weights);
     // Start field weights at 1 since most default fields are set to 0.
-    array_walk($weights, function (&$weight) {
+    array_walk($weights, function (&$weight): void {
       $weight += 1;
     });
     return $weights;
@@ -102,7 +104,7 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
   /**
    * {@inheritdoc}
    */
-  public function setFieldDisplays(array $field_values, $widget_id, array $widget_settings, $formatter_id, array $formatter_settings) {
+  public function setFieldDisplays(array $field_values, ?string $widget_id, array $widget_settings, ?string $formatter_id, array $formatter_settings): void {
     $entity_type_id = $field_values['entity_type'];
     $bundle = $field_values['bundle'];
     $field_name = $field_values['field_name'];
@@ -131,12 +133,12 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    *   The entity display.
    * @param string $field_name
    *   The field name to be set.
-   * @param string $type
+   * @param string|null $type
    *   The component's plugin id.
    * @param array $settings
    *   The component's plugin settings.
    */
-  protected function setComponent(EntityDisplayInterface $display, $field_name, $type, array $settings) {
+  protected function setComponent(EntityDisplayInterface $display, string $field_name, ?string $type, array $settings): void {
     // Only add the 'body' to 'teaser' and 'content_browser' view modes
     // for node types. This mirrors the default behavior for
     // adding new node types.
@@ -188,7 +190,7 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    * @param array $properties
    *   The Schema.org properties to be weighted.
    */
-  public function setFieldWeights($entity_type_id, $bundle, array $properties) {
+  public function setFieldWeights(string $entity_type_id, string $bundle, array $properties): void {
     // Form display.
     $form_modes = $this->getFormModes($entity_type_id, $bundle);
     foreach ($form_modes as $form_mode) {
@@ -220,7 +222,7 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    * @param string $schema_property
    *   The field name's associated Schema.org property.
    */
-  protected function setFieldWeight(EntityDisplayInterface $display, $field_name, $schema_property) {
+  protected function setFieldWeight(EntityDisplayInterface $display, string $field_name, string $schema_property): void {
     // Make sure the field component exists.
     if (!$display->getComponent($field_name)) {
       return;
@@ -242,7 +244,7 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
   /**
    * {@inheritdoc}
    */
-  public function isNodeTeaserDisplay(EntityDisplayInterface $display) {
+  public function isNodeTeaserDisplay(EntityDisplayInterface $display): bool {
     $entity_type_id = $display->getTargetEntityTypeId();
     $mode = $display->getMode();
     if ($mode !== EntityDisplayRepositoryInterface::DEFAULT_DISPLAY_MODE
@@ -259,7 +261,7 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
   /**
    * {@inheritdoc}
    */
-  public function getFormModes($entity_type_id, string $bundle) {
+  public function getFormModes(string $entity_type_id, string $bundle): array {
     return $this->getModes(
       $entity_type_id,
       $bundle,
@@ -271,7 +273,7 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
   /**
    * {@inheritdoc}
    */
-  public function getViewModes($entity_type_id, string $bundle) {
+  public function getViewModes(string $entity_type_id, string $bundle): array {
     $default_view_modes = ['teaser', 'content_browser'];
     return $this->getModes(
       $entity_type_id,
@@ -296,7 +298,7 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    * @return array
    *   An array of display modes.
    */
-  protected function getModes($entity_type_id, $bundle, $type = 'View', array $default_modes = []) {
+  protected function getModes(string $entity_type_id, string $bundle, string $type = 'View', array $default_modes = []): array {
     $mode_method = "get{$type}ModeOptionsByBundle";
     $mode_options = $this->entityDisplayRepository->$mode_method($entity_type_id, $bundle);
 

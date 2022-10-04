@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_taxonomy\Kernel;
 
 use Drupal\field\Entity\FieldConfig;
@@ -50,7 +52,7 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManagerTest extends SchemaDotOrgKern
   /**
    * Test Schema.org taxonomy property vocabulary manager.
    */
-  public function testManager() {
+  public function testManager(): void {
     $this->createSchemaEntity('node', 'Recipe');
 
     /* ********************************************************************** */

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_taxonomy\Functional;
 
 use Drupal\Core\Url;
@@ -45,7 +47,7 @@ class SchemaDotOrgTaxonomyJsonLdTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test Schema.org taxonomy.
    */
-  public function testTaxonomy() {
+  public function testTaxonomy(): void {
     $assert_session = $this->assertSession();
 
     $vocabulary = Vocabulary::create([

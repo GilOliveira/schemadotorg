@@ -5,12 +5,14 @@
  * Installation hooks for the Schema.org Blueprints module.
  */
 
+declare(strict_types = 1);
+
 /**
  * Implements hook_requirements().
  */
-function schemadotorg_requirements($phase) {
+function schemadotorg_requirements(string $phase): ?array {
   if ($phase !== 'runtime') {
-    return;
+    return NULL;
   }
 
   /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
@@ -21,7 +23,7 @@ function schemadotorg_requirements($phase) {
 /**
  * Implements hook_install().
  */
-function schemadotorg_install($is_syncing) {
+function schemadotorg_install(bool $is_syncing): void {
   /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
   $installer = \Drupal::service('schemadotorg.installer');
   $installer->install();
@@ -33,7 +35,7 @@ function schemadotorg_install($is_syncing) {
 /**
  * Implements hook_schema().
  */
-function schemadotorg_schema() {
+function schemadotorg_schema(): array {
   /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
   $installer = \Drupal::service('schemadotorg.installer');
   return $installer->schema();

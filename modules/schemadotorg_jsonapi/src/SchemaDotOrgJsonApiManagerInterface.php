@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonapi;
 
 use Drupal\field\FieldConfigInterface;
@@ -20,7 +22,7 @@ interface SchemaDotOrgJsonApiManagerInterface {
    * @return array
    *   An array of entity reference field public names to be used as includes.
    */
-  public function getResourceIncludes(ResourceType $resource_type);
+  public function getResourceIncludes(ResourceType $resource_type): array;
 
   /**
    * Insert Schema.org mapping JSON:API resource config.
@@ -28,7 +30,7 @@ interface SchemaDotOrgJsonApiManagerInterface {
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
    *   The Schema.org mapping.
    */
-  public function insertMappingResourceConfig(SchemaDotOrgMappingInterface $mapping);
+  public function insertMappingResourceConfig(SchemaDotOrgMappingInterface $mapping): void;
 
   /**
    * Update Schema.org mapping JSON:API resource config.
@@ -36,7 +38,7 @@ interface SchemaDotOrgJsonApiManagerInterface {
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
    *   The Schema.org mapping.
    */
-  public function updateMappingResourceConfig(SchemaDotOrgMappingInterface $mapping);
+  public function updateMappingResourceConfig(SchemaDotOrgMappingInterface $mapping): void;
 
   /**
    * Insert field into JSON:API resource config.
@@ -44,6 +46,6 @@ interface SchemaDotOrgJsonApiManagerInterface {
    * @param \Drupal\field\FieldConfigInterface $field
    *   The field.
    */
-  public function insertFieldConfigResource(FieldConfigInterface $field);
+  public function insertFieldConfigResource(FieldConfigInterface $field): void;
 
 }

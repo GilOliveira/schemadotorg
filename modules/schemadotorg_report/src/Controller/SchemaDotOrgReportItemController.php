@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_report\Controller;
 
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -20,7 +23,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    * @return array
    *   A renderable array containing a Schema.org type or property item.
    */
-  public function index($id = '') {
+  public function index(string $id = ''): array {
     if ($id === '') {
       return $this->about();
     }
@@ -44,7 +47,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    * @return \Drupal\Core\StringTranslation\TranslatableMarkup
    *   The title.
    */
-  public function title($id) {
+  public function title(string $id): TranslatableMarkup {
     if (empty($id)) {
       return $this->t('Schema.org: About');
     }
@@ -75,7 +78,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    * @return array
    *   A renderable array containing Schema.org about page.
    */
-  protected function about() {
+  protected function about(): array {
     $build = parent::buildHeader();
 
     // Introduction.
@@ -148,7 +151,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    * @return array
    *   A renderable array containing Schema.org type or property item.
    */
-  protected function item($table, $id) {
+  protected function item(string $table, string $id): array {
     // Fields.
     $fields = ($table === 'types')
       ? $this->getTypeFields()
@@ -201,17 +204,17 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
             'types' => $this->t('References'),
             'issues' => $this->t('Issues/Discussions'),
           ];
-          foreach ($links as $name => $title) {
-            $type_items = $this->config('schemadotorg_report.settings')->get("$name.$id");
+          foreach ($links as $link_type => $link_title) {
+            $type_items = $this->config('schemadotorg_report.settings')->get("$link_type.$id");
             if ($type_items) {
               $type_links = $this->buildReportLinks($type_items);
               foreach ($type_links as &$ype_link) {
                 $ype_link['#prefix'] = '<div>';
                 $ype_link['#suffix'] .= '</div>';
               }
-              $build[$name] = [
+              $build[$link_type] = [
                 '#type' => 'item',
-                '#title' => $title,
+                '#title' => $link_title,
                 'items' => $type_links,
               ];
             }
@@ -359,7 +362,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    * @return array
    *   A renderable array containing a Schema.org type properties table.
    */
-  protected function buildTypeProperties(array $properties) {
+  protected function buildTypeProperties(array $properties): array {
     $header = [
       'label' => [
         'data' => $this->t('Label'),
@@ -409,13 +412,13 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    * @return array
    *   A renderable array containing schema.org type enumerations.
    */
-  protected function buildTypeEnumerations($type) {
+  protected function buildTypeEnumerations(string $type): array {
     $enumerations = $this->schemaTypeManager->getEnumerations($type);
     if (!$enumerations) {
       return [];
     }
 
-    array_walk($enumerations, function (&$enumeration) {
+    array_walk($enumerations, function (&$enumeration): void {
       $enumeration = Link::fromTextAndUrl($enumeration, $this->schemaTypeBuilder->getItemUrl($enumeration))->toRenderable();
     });
 
@@ -438,7 +441,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    * @return array
    *   A renderable array containing Schema.org type appears in.
    */
-  protected function buildTypeAppearsIn($type) {
+  protected function buildTypeAppearsIn(string $type): array {
     $header = [
       'label' => [
         'data' => $this->t('Label'),
@@ -488,12 +491,15 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
   /**
    * Build add Schema.org type operation dropdown.
    *
-   * @return array
+   * @param string $type
+   *   The Schema.org type.
+   *
+   * @return array|null
    *   A renderable array containing the add Schema.org type operation dropdown.
    *
    * @see \Drupal\schemadotorg_ui\Routing\SchemaDotOrgRouteSubscriber
    */
-  protected function buildAddType($type) {
+  protected function buildAddType(string $type): ?array {
     if (!$this->moduleHandler()->moduleExists('schemadotorg_ui')) {
       return NULL;
     }
@@ -548,7 +554,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    * @return array
    *   Schema.org type fields.
    */
-  protected function getTypeFields() {
+  protected function getTypeFields(): array {
     return [
       'id' => $this->t('ID'),
       'label' => $this->t('Label'),
@@ -570,7 +576,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    * @return array
    *   Schema.org Property fields.
    */
-  protected function getPropertyFields() {
+  protected function getPropertyFields(): array {
     return [
       'id' => $this->t('ID'),
       'label' => $this->t('Label'),

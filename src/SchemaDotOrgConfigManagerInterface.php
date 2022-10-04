@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 /**
@@ -10,6 +12,6 @@ interface SchemaDotOrgConfigManagerInterface {
   /**
    * Repair configuration.
    */
-  public function repair();
+  public function repair(): void;
 
 }

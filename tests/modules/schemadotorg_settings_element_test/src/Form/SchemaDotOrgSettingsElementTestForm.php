@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_settings_element_test\Form;
 
 use Drupal\Core\Form\FormBase;
@@ -16,14 +18,14 @@ class SchemaDotOrgSettingsElementTestForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'schemadotorg_settings_element_test_form';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $form['settings'] = [
       '#tree' => TRUE,
     ];
@@ -170,7 +172,7 @@ class SchemaDotOrgSettingsElementTestForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     $settings = $form_state->getValue('settings');
     $this->messenger()->addStatus(Markup::create('<pre>' . Yaml::encode($settings) . '</pre>'));
   }

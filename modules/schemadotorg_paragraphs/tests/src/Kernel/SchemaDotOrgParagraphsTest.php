@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_paragraphs\Kernel;
 
 use Drupal\field\Entity\FieldConfig;
@@ -25,6 +27,7 @@ class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
    */
   protected $builder;
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -35,6 +38,7 @@ class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
     'paragraphs_library',
     'schemadotorg_jsonld',
   ];
+  // phpcs:enable
 
   /**
    * {@inheritdoc}
@@ -54,7 +58,7 @@ class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
   /**
    * Test Schema.org paragraphs.
    */
-  public function testParagraphs() {
+  public function testParagraphs(): void {
     $this->createSchemaEntity('paragraph', 'ContactPoint');
     $this->createSchemaEntity('node', 'Person');
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_subtype\EventSubscriber;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -51,7 +53,7 @@ class SchemaDotOrgSubtypeEventSubscriber extends ServiceProviderBase implements 
    * @param \Symfony\Component\HttpKernel\Event\ViewEvent $event
    *   The event to process.
    */
-  public function onView(ViewEvent $event) {
+  public function onView(ViewEvent $event): void {
     if ($this->routeMatch->getRouteName() !== 'entity.schemadotorg_mapping.collection') {
       return;
     }
@@ -102,7 +104,7 @@ class SchemaDotOrgSubtypeEventSubscriber extends ServiceProviderBase implements 
    * @param mixed $new_value
    *   The value to insert.
    */
-  protected function insertAfter(array &$array, $target_key, $new_key, $new_value) {
+  protected function insertAfter(array &$array, string $target_key, string $new_key, mixed $new_value): void {
     $new = [];
     foreach ($array as $key => $value) {
       $new[$key] = $value;
@@ -116,7 +118,7 @@ class SchemaDotOrgSubtypeEventSubscriber extends ServiceProviderBase implements 
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents() {
+  public static function getSubscribedEvents(): array {
     // Run before main_content_view_subscriber.
     $events[KernelEvents::VIEW][] = ['onView', 100];
     return $events;

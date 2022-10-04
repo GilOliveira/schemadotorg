@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonld_embed;
 
 use Drupal\Core\Entity\EntityInterface;
@@ -18,6 +20,6 @@ interface SchemaDotOrgJsonLdEmbedInterface {
    * @return array
    *   The embedded media and content entity JSON-LD data.
    */
-  public function build(EntityInterface $entity);
+  public function build(EntityInterface $entity): array;
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\Core\Entity\Entity\EntityViewDisplay;
@@ -31,7 +33,7 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
   /**
    * Test Schema.org entity display builder.
    */
-  public function testEntityDisplayBuilder() {
+  public function testEntityDisplayBuilder(): void {
     $this->createSchemaEntity('node', 'thing');
 
     // Check getting default field weights.

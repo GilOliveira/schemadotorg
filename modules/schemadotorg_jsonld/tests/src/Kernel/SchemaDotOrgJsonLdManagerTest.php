@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_jsonld\Kernel;
 
 use Drupal\Core\Language\LanguageInterface;
@@ -45,7 +47,7 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
   /**
    * Test Schema.org JSON-LD manager.
    */
-  public function testManager() {
+  public function testManager(): void {
     // Allow https://schema.org/Event to default to supporting
     // https://schema.org/eventSchedule property.
     $config = $this->config('schemadotorg.settings');

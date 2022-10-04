@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_mapping_set;
 
 /**
@@ -16,7 +18,7 @@ interface SchemaDotOrgMappingSetManagerInterface {
    * @return bool
    *   If a Schema.org mapping set is already setup.
    */
-  public function isSetup($name);
+  public function isSetup(string $name): bool;
 
   /**
    * Determine if a mapping set type is valid.
@@ -27,7 +29,7 @@ interface SchemaDotOrgMappingSetManagerInterface {
    * @return bool
    *   TRUE if a mapping set type is valid.
    */
-  public function isValidType($type);
+  public function isValidType(string $type): bool;
 
   /**
    * Get Schema.org types from mapping set name.
@@ -40,7 +42,7 @@ interface SchemaDotOrgMappingSetManagerInterface {
    * @return array
    *   Schema.org types.
    */
-  public function getTypes($name, $required = FALSE);
+  public function getTypes(string $name, bool $required = FALSE): array;
 
   /**
    * Setup the Schema.org mapping set.
@@ -51,7 +53,7 @@ interface SchemaDotOrgMappingSetManagerInterface {
    * @return array
    *   An array of messages.
    */
-  public function setup($name);
+  public function setup(string $name): array;
 
   /**
    * Teardown the Schema.org mapping set.
@@ -62,7 +64,7 @@ interface SchemaDotOrgMappingSetManagerInterface {
    * @return array
    *   An array of messages.
    */
-  public function teardown($name);
+  public function teardown(string $name): array;
 
   /**
    * Generate the Schema.org mapping set.
@@ -70,7 +72,7 @@ interface SchemaDotOrgMappingSetManagerInterface {
    * @param string $name
    *   The name of mapping set.
    */
-  public function generate($name);
+  public function generate(string $name): void;
 
   /**
    * Kill the Schema.org mapping set.
@@ -78,6 +80,6 @@ interface SchemaDotOrgMappingSetManagerInterface {
    * @param string $name
    *   The name of mapping set.
    */
-  public function kill($name);
+  public function kill(string $name): void;
 
 }

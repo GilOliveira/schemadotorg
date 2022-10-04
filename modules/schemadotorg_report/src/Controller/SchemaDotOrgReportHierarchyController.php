@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_report\Controller;
 
 /**
@@ -10,10 +12,13 @@ class SchemaDotOrgReportHierarchyController extends SchemaDotOrgReportController
   /**
    * Builds the Schema.org types hierarchy.
    *
+   * @param string $type
+   *   The root  Schema.org type.
+   *
    * @return array
    *   A renderable array containing Schema.org types hierarchy.
    */
-  public function index($type = 'Thing') {
+  public function index(string $type = 'Thing'): array {
     if ($type === 'DataTypes') {
       $types = $this->database->select('schemadotorg_types', 'types')
         ->fields('types', ['label'])

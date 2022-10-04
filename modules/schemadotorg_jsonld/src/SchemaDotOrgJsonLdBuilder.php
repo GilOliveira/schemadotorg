@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonld;
 
 use Drupal\Core\Entity\EntityInterface;
@@ -96,14 +98,14 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   /**
    * {@inheritdoc}
    */
-  public function build(RouteMatchInterface $route_match = NULL) {
+  public function build(?RouteMatchInterface $route_match = NULL): array|bool {
     $route_match = $route_match ?: $this->routeMatch;
 
     $data = [];
 
     // Add custom data based on the route match.
     // @see hook_schemadotorg_jsonld()
-    $this->moduleHandler->invokeAllWith('schemadotorg_jsonld', function (callable $hook, string $module) use (&$data, $route_match) {
+    $this->moduleHandler->invokeAllWith('schemadotorg_jsonld', function (callable $hook, string $module) use (&$data, $route_match): void {
       $module_data = $hook($route_match);
       if ($module_data) {
         $data[$module . '_schemadotorg_jsonld'] = $module_data;
@@ -133,7 +135,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   /**
    * {@inheritdoc}
    */
-  public function buildEntity(EntityInterface $entity = NULL, array $options = []) {
+  public function buildEntity(?EntityInterface $entity = NULL, array $options = []): array|bool {
     if (!$entity) {
       return [];
     }
@@ -149,7 +151,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     // @see schemadotorg_jsonld_schema_type_entity_load()
     $this->moduleHandler->invokeAllWith(
       'schemadotorg_jsonld_schema_type_entity_load',
-      function (callable $hook) use (&$data, $entity) {
+      function (callable $hook) use (&$data, $entity): void {
         $hook($data, $entity);
       }
     );
@@ -197,7 +199,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    *   The JSON-LD for an entity that is mapped to a Schema.org type
    *   or FALSE if the entity is not mapped to a Schema.org type.
    */
-  protected function buildMappedEntity(EntityInterface $entity, $map_entity = TRUE) {
+  protected function buildMappedEntity(EntityInterface $entity, bool $map_entity = TRUE): array|bool {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
     if (!$mapping_storage->isEntityMapped($entity)) {
@@ -316,10 +318,10 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    * @param bool $map_entity
    *   TRUE if entity should be mapped.
    *
-   * @return array|bool|mixed|null
+   * @return mixed
    *   A data type.
    */
-  protected function getFieldItem($schema_type, $schema_property, FieldItemInterface $item = NULL, $map_entity = TRUE) {
+  protected function getFieldItem(string $schema_type, string $schema_property, ?FieldItemInterface $item = NULL, bool $map_entity = TRUE): mixed {
     if ($item === NULL) {
       return NULL;
     }
@@ -357,7 +359,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    * @return array
    *   Schema.org types.
    */
-  protected function getSchemaTypesFromData(array $data) {
+  protected function getSchemaTypesFromData(array $data): array {
     $types = [];
     foreach ($data as $item) {
       if (is_array($item)) {

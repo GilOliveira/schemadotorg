@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_export\EventSubscriber;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -41,7 +43,7 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
    * @param \Symfony\Component\HttpKernel\Event\ViewEvent $event
    *   The event to process.
    */
-  public function onView(ViewEvent $event) {
+  public function onView(ViewEvent $event): void {
     $route = [
       'entity.schemadotorg_mapping.collection' => 'entity.schemadotorg_mapping.export',
       'schemadotorg_mapping_set.overview' => 'schemadotorg_mapping_set.overview.export',
@@ -66,7 +68,7 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents() {
+  public static function getSubscribedEvents(): array {
     // Run before main_content_view_subscriber.
     $events[KernelEvents::VIEW][] = ['onView', 100];
     return $events;

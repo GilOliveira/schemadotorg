@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\node\Entity\Node;
@@ -16,6 +18,7 @@ use Drupal\Tests\schemadotorg_subtype\Traits\SchemaDotOrgTestSubtypeTrait;
 class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
   use SchemaDotOrgTestSubtypeTrait;
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -30,6 +33,7 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
     'options',
     'schemadotorg_subtype',
   ];
+  // phpcs:enable
 
   /**
    * The Schema.org mapping storage.
@@ -98,7 +102,7 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
   /**
    * Test Schema.org mapping storage.
    */
-  public function testSchemaDotOrgMappingStorage() {
+  public function testSchemaDotOrgMappingStorage(): void {
     $page_node = Node::create(['type' => 'page', 'title' => 'Page']);
     $page_node->save();
 

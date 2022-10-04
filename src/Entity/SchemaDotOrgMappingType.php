@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
 
 /**
@@ -96,14 +99,14 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
   /**
    * {@inheritdoc}
    */
-  public function id() {
+  public function id(): string {
     return $this->target_entity_type_id;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function label() {
+  public function label(): TranslatableMarkup|string {
     $entity_type_manager = \Drupal::entityTypeManager();
     return $entity_type_manager->hasDefinition($this->id())
       ? $entity_type_manager->getDefinition($this->id())->getLabel()
@@ -113,7 +116,7 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
   /**
    * {@inheritdoc}
    */
-  public function getDefaultSchemaTypeBundles($type) {
+  public function getDefaultSchemaTypeBundles(string $type): array {
     $schema_types = $this->get('default_schema_types');
     $bundles = [];
     foreach ($schema_types as $bundle => $schema_type) {
@@ -127,7 +130,7 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
   /**
    * {@inheritdoc}
    */
-  public function getDefaultSchemaType($bundle) {
+  public function getDefaultSchemaType(string $bundle): ?string {
     $schema_types = $this->get('default_schema_types');
     return $schema_types[$bundle] ?? NULL;
   }
@@ -135,7 +138,7 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
   /**
    * {@inheritdoc}
    */
-  public function getDefaultSchemaTypeProperties($schema_type) {
+  public function getDefaultSchemaTypeProperties(string $schema_type): array {
     /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
     $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
 
@@ -185,7 +188,7 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * @param string $type
    *   The Schema.org type.
    */
-  protected function setSchemaTypeDefaultProperties(array &$default_properties, array $properties, $type) {
+  protected function setSchemaTypeDefaultProperties(array &$default_properties, array $properties, string $type): void {
     if (!isset($properties[$type])) {
       return;
     }
@@ -203,21 +206,21 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
   /**
    * {@inheritdoc}
    */
-  public function supportsMultiple() {
+  public function supportsMultiple(): bool {
     return $this->get('multiple');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getRecommendedSchemaTypes() {
+  public function getRecommendedSchemaTypes(): array {
     return $this->get('recommended_schema_types');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getBaseFieldMappings() {
+  public function getBaseFieldMappings(): array {
     $base_fields = $this->get('default_base_fields') ?: [];
     $base_fields = array_filter($base_fields);
     if (empty($base_fields)) {
@@ -236,7 +239,7 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
   /**
    * {@inheritdoc}
    */
-  public function getBaseFieldNames() {
+  public function getBaseFieldNames(): array {
     $default_base_fields = $this->get('default_base_fields') ?: [];
     $base_field_names = array_keys($default_base_fields);
     return array_combine($base_field_names, $base_field_names);

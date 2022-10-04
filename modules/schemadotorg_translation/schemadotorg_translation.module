@@ -5,6 +5,8 @@
  * Manages translations for Schema.org types and properties as they are created.
  */
 
+declare(strict_types = 1);
+
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\field\FieldConfigInterface;
@@ -12,7 +14,7 @@ use Drupal\field\FieldConfigInterface;
 /**
  * Implements hook_help().
  */
-function schemadotorg_translation_help($route_name, RouteMatchInterface $route_match) {
+function schemadotorg_translation_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   if ($route_name === 'schemadotorg_translation.settings') {
     return '<p>' . t('The <em>Schema.org translations settings</em> page allows administrators to configure which field names and types are excluded or included for allowing translations.') . '<p>';
   }
@@ -25,7 +27,7 @@ function schemadotorg_translation_help($route_name, RouteMatchInterface $route_m
 /**
  * Implements hook_schemadotorg_mapping_insert().
  */
-function schemadotorg_translation_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping) {
+function schemadotorg_translation_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
   /** @var \Drupal\schemadotorg_translation\SchemaDotOrgTranslationManagerInterface $manager */
   $manager = \Drupal::service('schemadotorg_translation.manager');
   $manager->enableMapping($mapping);
@@ -34,7 +36,7 @@ function schemadotorg_translation_schemadotorg_mapping_insert(SchemaDotOrgMappin
 /**
  * Implements hook_field_config_insert().
  */
-function schemadotorg_translation_field_config_insert(FieldConfigInterface $field_config) {
+function schemadotorg_translation_field_config_insert(FieldConfigInterface $field_config): void {
   /** @var \Drupal\schemadotorg_translation\SchemaDotOrgTranslationManagerInterface $manager */
   $manager = \Drupal::service('schemadotorg_translation.manager');
   $manager->enableMappingField($field_config);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\field\Entity\FieldStorageConfig;
@@ -16,6 +18,7 @@ use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
  */
 class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -37,6 +40,7 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
     'schemadotorg_paragraphs',
     'schemadotorg_ui',
   ];
+  // phpcs:enable
 
   /**
    * The Schema.org entity field manager.
@@ -116,7 +120,7 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
   /**
    * Test Schema.org entity field manager.
    */
-  public function testEntityFieldManager() {
+  public function testEntityFieldManager(): void {
     // Check determining if a field exists.
     $this->assertTrue($this->fieldManager->fieldExists('node', 'thing', 'schema_alternate_name'));
     $this->assertFalse($this->fieldManager->fieldExists('node', 'thing', 'not_schema_alternate_name'));

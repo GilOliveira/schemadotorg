@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_demo_umami_content;
 
 use Drupal\demo_umami_content\InstallHelper;
@@ -84,7 +86,7 @@ class SchemaDotOrgDemoUmamiContentInstallHelper extends InstallHelper {
    * @return array
    *   Mapped values.
    */
-  protected function applyMapping(array $values, array $mapping) {
+  protected function applyMapping(array $values, array $mapping): array {
     foreach ($mapping as $source => $destination) {
       if (isset($values[$source])) {
         $value = $values[$source];

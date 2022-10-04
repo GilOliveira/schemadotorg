@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonld_endpoint\Controller;
 
+use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -47,7 +50,7 @@ class SchemaDotOrgJsonLdEndpointController extends ControllerBase {
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   The Schema.org JSON-LD response for an entity.
    */
-  public function getEntity(EntityInterface $entity) {
+  public function getEntity(EntityInterface $entity): JsonResponse {
     $entity_route_match = $this->manager->getEntityRouteMatch($entity);
     if ($entity_route_match) {
       $data = $this->builder->build($entity_route_match);
@@ -77,7 +80,7 @@ class SchemaDotOrgJsonLdEndpointController extends ControllerBase {
    * @return \Drupal\Core\Access\AccessResultInterface
    *   The access result.
    */
-  public function access(AccountInterface $account, EntityInterface $entity) {
+  public function access(AccountInterface $account, EntityInterface $entity): AccessResultInterface {
     return $entity->access('view', $account, TRUE);
   }
 

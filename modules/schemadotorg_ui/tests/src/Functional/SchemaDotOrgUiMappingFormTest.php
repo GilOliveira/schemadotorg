@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_ui\Functional;
 
 use Drupal\paragraphs\Entity\ParagraphsType;
@@ -72,7 +74,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test Schema.org mapping form.
    */
-  public function testMappingForm() {
+  public function testMappingForm(): void {
     global $base_path;
 
     $assert_session = $this->assertSession();
@@ -350,7 +352,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
    * @param array $actual
    *   The object to test.
    */
-  protected function assertEntityArraySubset(array $expected, array $actual) {
+  protected function assertEntityArraySubset(array $expected, array $actual): void {
     foreach ($expected as $key => $value) {
       if (is_array($value)) {
         $this->assertEntityArraySubset($value, $actual[$key]);

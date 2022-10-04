@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_report\Controller;
 
 use Drupal\Core\Ajax\AjaxHelperTrait;
@@ -65,11 +67,14 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   /**
    * Build Ajax dialog header with local tasks block and filter form.
    *
+   * @param string $table
+   *   The Schema.org table (types or properties).
+   *
    * @return array
    *   A render array containing the Ajax dialog header with local tasks block
    *   and filter form.
    */
-  protected function buildHeader($table = 'types') {
+  protected function buildHeader(string $table = 'types'): array {
     $build = [];
     $build['#attached']['library'][] = 'schemadotorg_report/schemadotorg_report';
     if (!$this->isAjax()) {
@@ -103,13 +108,13 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    *
    * @param string $table
    *   Types or properties table name.
-   * @param string $id
+   * @param string|null $id
    *   Type or property to filter by.
    *
    * @return array
    *   The form array.
    */
-  protected function getFilterForm($table, $id = '') {
+  protected function getFilterForm(string $table, ?string $id = NULL): array {
     return $this->formBuilder->getForm('\Drupal\schemadotorg_report\Form\SchemaDotOrgReportFilterForm', $table, $id);
   }
 
@@ -118,13 +123,13 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    *
    * @param string $type
    *   Type of info being displayed.
-   * @param int $count
+   * @param int|string $count
    *   The item count to display.
    *
    * @return array
    *   A renderable array containing info.
    */
-  protected function buildInfo($type, $count) {
+  protected function buildInfo(string $type, int|string $count): array {
     switch ($type) {
       case 'Thing':
         $info = $this->formatPlural($count, '@count thing', '@count things');
@@ -179,7 +184,7 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    * @return array[]|string
    *   A renderable array containing a table cell.
    */
-  protected function buildTableCell($name, $value) {
+  protected function buildTableCell(string $name, string $value): array|string {
     switch ($name) {
       case 'comment':
         $options = ['base_path' => Url::fromRoute('schemadotorg_report')->toString()];
@@ -211,7 +216,7 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    * @return array
    *   A renderable containing reference links.
    */
-  protected function buildReportLinks(array $links) {
+  protected function buildReportLinks(array $links): array {
     $items = [];
     foreach ($links as $link) {
       $host = parse_url($link['uri'], PHP_URL_HOST);
@@ -234,11 +239,11 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
    * @return array
    *   A renderable containing Schema.org type breadcrumbs.
    */
-  protected function buildTypeBreadcrumbs($type) {
+  protected function buildTypeBreadcrumbs(string $type): array {
     $build = [];
     $breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs($type);
     foreach ($breadcrumbs as $breadcrumb_path => $breadcrumb) {
-      array_walk($breadcrumb, function (&$type) {
+      array_walk($breadcrumb, function (&$type): void {
         $type = Link::fromTextAndUrl($type, $this->schemaTypeBuilder->getItemUrl($type));
       });
       $build[$breadcrumb_path] = [

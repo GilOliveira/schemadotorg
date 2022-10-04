@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_translation\Kernel;
 
 use Drupal\field\Entity\FieldConfig;
@@ -65,7 +67,7 @@ class SchemaDotOrgTranslationManagerTest extends SchemaDotOrgKernelEntityTestBas
   /**
    * Test Schema.org translation manager.
    */
-  public function testManager() {
+  public function testManager(): void {
     /* ********************************************************************** */
     // Insert Schema.org mapping.
     // @see schemadotorg_translation_schemadotorg_mapping_insert()
@@ -80,7 +82,7 @@ class SchemaDotOrgTranslationManagerTest extends SchemaDotOrgKernelEntityTestBas
     $this->assertTrue($this->contentTranslationManager->isEnabled('node', 'place'));
 
     // Check that exclude type does not have translations enabled.
-    \Drupal::configFactory()->getEditable('schemadotorg_translation.settings')
+    $this->config('schemadotorg_translation.settings')
       ->set('excluded_schema_types', ['Action'])
       ->save();
     $this->createSchemaEntity('node', 'Action');
@@ -114,7 +116,7 @@ class SchemaDotOrgTranslationManagerTest extends SchemaDotOrgKernelEntityTestBas
     $this->assertTrue($field_definitions['schema_text']->isTranslatable());
 
     // Check exclude field name do not have translation enabled.
-    \Drupal::configFactory()->getEditable('schemadotorg_translation.settings')
+    $this->config('schemadotorg_translation.settings')
       ->set('excluded_field_names', ['field_excluded'])
       ->save();
     FieldStorageConfig::create([
@@ -131,13 +133,13 @@ class SchemaDotOrgTranslationManagerTest extends SchemaDotOrgKernelEntityTestBas
     $this->assertFalse($field_definitions['field_excluded']->isTranslatable());
 
     // Check included field name do have translation enabled.
-    \Drupal::configFactory()->getEditable('schemadotorg_translation.settings')
+    $this->config('schemadotorg_translation.settings')
       ->set('included_field_names', ['field_included'])
       ->save();
     FieldStorageConfig::create([
       'entity_type' => 'node',
       'field_name' => 'field_included',
-      // Note: Include field name will ignored the excluded field type.
+      // Note: Include field name will ignore the excluded field type.
       'type' => 'integer',
     ])->save();
     FieldConfig::create([
@@ -155,7 +157,7 @@ class SchemaDotOrgTranslationManagerTest extends SchemaDotOrgKernelEntityTestBas
     $this->assertFalse($field_definitions['schema_integer']->isTranslatable());
 
     // Check excluded Schema.org properties.
-    \Drupal::configFactory()->getEditable('schemadotorg_translation.settings')
+    $this->config('schemadotorg_translation.settings')
       ->set('excluded_schema_properties', ['disambiguatingDescription'])
       ->save();
     $this->createSchemaDotOrgField('node', 'Place', 'disambiguatingDescription');

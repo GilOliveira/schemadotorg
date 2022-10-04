@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_next_components;
 
 /**
@@ -16,7 +18,7 @@ interface SchemaDotOrgNextComponentsBuilderInterface {
    * @return string
    *   An entity's Next.js component.
    */
-  public function buildEntity($entity_type_id);
+  public function buildEntity(string $entity_type_id): string;
 
   /**
    * Build an entity bundle's Next.js component.
@@ -29,6 +31,6 @@ interface SchemaDotOrgNextComponentsBuilderInterface {
    * @return string
    *   An entity bundle's Next.js component.
    */
-  public function buildEntityBundle($entity_type_id, $bundle);
+  public function buildEntityBundle(string $entity_type_id, string $bundle): string;
 
 }

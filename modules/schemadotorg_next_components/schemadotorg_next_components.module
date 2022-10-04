@@ -5,12 +5,14 @@
  * Provides a preview of React components for Next.js.
  */
 
+declare(strict_types = 1);
+
 use Drupal\Core\Url;
 
 /**
  * Implements hook_next_site_preview_alter().
  */
-function schemadotorg_next_components_next_site_preview_alter(array &$preview, array $context) {
+function schemadotorg_next_components_next_site_preview_alter(array &$preview, array $context): void {
   // Check tha the current user can the access the preview.
   if (!\Drupal::currentUser()->hasPermission('view schemadotorg next components')) {
     return;

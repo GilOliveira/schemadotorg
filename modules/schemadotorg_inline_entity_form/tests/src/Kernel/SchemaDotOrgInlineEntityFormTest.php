@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_inline_entity_form\Kernel;
 
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
@@ -13,6 +15,7 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
  */
 class SchemaDotOrgInlineEntityFormTest extends SchemaDotOrgKernelEntityTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -22,6 +25,7 @@ class SchemaDotOrgInlineEntityFormTest extends SchemaDotOrgKernelEntityTestBase 
     'inline_entity_form',
     'schemadotorg_inline_entity_form',
   ];
+  // phpcs:enable
 
   /**
    * The entity display repository.
@@ -46,9 +50,9 @@ class SchemaDotOrgInlineEntityFormTest extends SchemaDotOrgKernelEntityTestBase 
   /**
    * Test Schema.org inline entity form.
    */
-  public function testInlineEntityForm() {
+  public function testInlineEntityForm(): void {
     // Use an inline entity form for Person:alumniOf.
-    \Drupal::configFactory()->getEditable('schemadotorg_inline_entity_form.settings')
+    $this->config('schemadotorg_inline_entity_form.settings')
       ->set('default_properties', ['Person--alumniOf'])
       ->save();
 

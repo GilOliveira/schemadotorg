@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg\Commands;
 
 use Consolidation\AnnotatedCommand\CommandData;
@@ -91,7 +93,7 @@ class SchemaDotOrgCommands extends DrushCommands {
    *
    * @usage schemadotorg:download-schema
    */
-  public function download() {
+  public function download(): void {
     if (!$this->io()->confirm(dt('Are you sure you want to download Schema.org CSV data?'))) {
       throw new UserAbortException();
     }
@@ -110,7 +112,7 @@ class SchemaDotOrgCommands extends DrushCommands {
    *
    * @aliases soup
    */
-  public function update() {
+  public function update(): void {
     if (!$this->io()->confirm(dt('Are you sure you want to update Schema.org data?'))) {
       throw new UserAbortException();
     }
@@ -131,7 +133,7 @@ class SchemaDotOrgCommands extends DrushCommands {
    *
    * @see \Drupal\schemadotorg_report\Controller\SchemaDotOrgReportMappingsController::relationships
    */
-  public function repair() {
+  public function repair(): void {
     if (!$this->io()->confirm(dt('Are you sure you want to repair Schema.org configuration and relationships?'))) {
       throw new UserAbortException();
     }
@@ -155,7 +157,7 @@ class SchemaDotOrgCommands extends DrushCommands {
    *
    * @hook validate schemadotorg:create-type
    */
-  public function createTypeValidate(CommandData $commandData) {
+  public function createTypeValidate(CommandData $commandData): void {
     $arguments = $commandData->getArgsWithoutAppName();
     $types = $arguments['types'] ?? [];
     if (empty($types)) {
@@ -164,7 +166,7 @@ class SchemaDotOrgCommands extends DrushCommands {
 
     foreach ($types as $type) {
       // Validate mapping type.
-      if (strpos($type, ':') === FALSE) {
+      if (!str_contains($type, ':')) {
         $t_args = ['@type' => $type];
         $message = dt("The Schema.org mapping type '@type' is not valid. A Schema.org type must be defined with an entity type and Schema.org type delimited using a colon (:).", $t_args);
         throw new \Exception($message);
@@ -192,7 +194,7 @@ class SchemaDotOrgCommands extends DrushCommands {
    *
    * @aliases socr
    */
-  public function createType(array $types) {
+  public function createType(array $types): void {
     $t_args = ['@types' => implode(', ', $types)];
     if (!$this->io()->confirm(dt('Are you sure you want to create these types (@types)?', $t_args))) {
       throw new UserAbortException();
@@ -233,7 +235,7 @@ class SchemaDotOrgCommands extends DrushCommands {
    *
    * @hook validate schemadotorg:delete-type
    */
-  public function deleteTypeValidate(CommandData $commandData) {
+  public function deleteTypeValidate(CommandData $commandData): void {
     $arguments = $commandData->getArgsWithoutAppName();
     $types = $arguments['types'] ?? [];
 
@@ -268,7 +270,7 @@ class SchemaDotOrgCommands extends DrushCommands {
    *
    * @aliases sode
    */
-  public function deleteType(array $types, array $options = ['delete-entity' => FALSE, 'delete-fields' => FALSE]) {
+  public function deleteType(array $types, array $options = ['delete-entity' => FALSE, 'delete-fields' => FALSE]): void {
     $t_args = ['@types' => implode(', ', $types)];
     if (!$this->io()->confirm(dt('Are you sure you want to delete these Schema.org types (@types) and their associated entities and fields?', $t_args))) {
       throw new UserAbortException();

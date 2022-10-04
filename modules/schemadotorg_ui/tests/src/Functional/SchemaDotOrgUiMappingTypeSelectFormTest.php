@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_ui\Functional;
 
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
@@ -22,7 +24,7 @@ class SchemaDotOrgUiMappingTypeSelectFormTest extends SchemaDotOrgBrowserTestBas
   /**
    * Test Schema.org mapping type select form.
    */
-  public function testMappingTypeSelectForm() {
+  public function testMappingTypeSelectForm(): void {
     $assert_session = $this->assertSession();
 
     $this->drupalLogin($this->rootUser);

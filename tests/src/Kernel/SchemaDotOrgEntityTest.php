@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 /**
@@ -37,7 +39,7 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
    * - node:Organization
    * - node:Event.
    */
-  public function testCreateSchemaEntity() {
+  public function testCreateSchemaEntity(): void {
     // Check creating paragraph:ContentPoint Schema.org mapping.
     $mapping = $this->createSchemaEntity('paragraph', 'ContactPoint');
     $this->assertEquals('paragraph', $mapping->getTargetEntityTypeId());

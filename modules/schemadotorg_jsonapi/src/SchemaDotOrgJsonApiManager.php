@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonapi;
 
+use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
+use Drupal\jsonapi_extras\Entity\JsonapiResourceConfig;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
@@ -99,7 +103,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function getResourceIncludes(ResourceType $resource_type) {
+  public function getResourceIncludes(ResourceType $resource_type): array {
     return $this->getResourceIncludesRecursive($resource_type);
   }
 
@@ -114,7 +118,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * @return array
    *   An array of entity reference field public names to be used as includes.
    */
-  protected function getResourceIncludesRecursive(ResourceType $resource_type, $level = 0) {
+  protected function getResourceIncludesRecursive(ResourceType $resource_type, int $level = 0): array {
     $entity_type_id = $resource_type->getEntityTypeId();
     $bundle = $resource_type->getBundle();
 
@@ -175,10 +179,11 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function insertMappingResourceConfig(SchemaDotOrgMappingInterface $mapping) {
+  public function insertMappingResourceConfig(SchemaDotOrgMappingInterface $mapping): void {
     $resource_config = $this->loadResourceConfig($mapping);
     if ($resource_config) {
-      return $this->updateMappingResourceConfig($mapping);
+      $this->updateMappingResourceConfig($mapping);
+      return;
     }
 
     $resource_fields = [];
@@ -212,10 +217,11 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function updateMappingResourceConfig(SchemaDotOrgMappingInterface $mapping) {
+  public function updateMappingResourceConfig(SchemaDotOrgMappingInterface $mapping): void {
     $resource_config = $this->loadResourceConfig($mapping);
     if (!$resource_config) {
-      return $this->insertMappingResourceConfig($mapping);
+      $this->insertMappingResourceConfig($mapping);
+      return;
     }
 
     $resource_fields = $resource_config->get('resourceFields');
@@ -245,7 +251,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function insertFieldConfigResource(FieldConfigInterface $field) {
+  public function insertFieldConfigResource(FieldConfigInterface $field): void {
     // Do not insert field into JSON:API resource config if the
     // Scheme.org entity type builder is adding it.
     // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::addFieldToEntity
@@ -296,10 +302,10 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
   /**
    * Get JSON:API resource config storage.
    *
-   * @return \Drupal\Core\Entity\EntityStorageInterface
+   * @return \Drupal\Core\Config\Entity\ConfigEntityStorageInterface
    *   JSON:API resource config storage.
    */
-  protected function getResourceConfigStorage() {
+  protected function getResourceConfigStorage(): ConfigEntityStorageInterface {
     return $this->entityTypeManager->getStorage('jsonapi_resource_config');
   }
 
@@ -312,7 +318,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * @return \Drupal\jsonapi_extras\Entity\JsonapiResourceConfig|null
    *   A JSON:API resource config id.
    */
-  protected function loadResourceConfig(SchemaDotOrgMappingInterface $mapping) {
+  protected function loadResourceConfig(SchemaDotOrgMappingInterface $mapping): ?JsonapiResourceConfig {
     $target_entity_type_id = $mapping->getTargetEntityTypeId();
     $target_bundle = $mapping->getTargetBundle();
     $resource_id = $target_entity_type_id . '--' . $target_bundle;
@@ -333,7 +339,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    *   An array containing a resource type's relationships without
    *   internal resources.
    */
-  protected function getResourceTypeRelationships(ResourceType $resource_type) {
+  protected function getResourceTypeRelationships(ResourceType $resource_type): array {
     $relationships = $resource_type->getRelatableResourceTypes();
 
     // Remove internal relationships.
@@ -366,7 +372,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * @return string
    *   A JSON:API resource id.
    */
-  protected function getResourceId(SchemaDotOrgMappingInterface $mapping) {
+  protected function getResourceId(SchemaDotOrgMappingInterface $mapping): string {
     $target_entity_type_id = $mapping->getTargetEntityTypeId();
     $target_bundle = $mapping->getTargetBundle();
     return $target_entity_type_id . '--' . $target_bundle;
@@ -383,7 +389,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * @return string
    *   JSON:API resource type.
    */
-  protected function getResourceType(SchemaDotOrgMappingInterface $mapping, $delimiter = '--') {
+  protected function getResourceType(SchemaDotOrgMappingInterface $mapping, string $delimiter = '--'): string {
     $resource_type_schemadotorg = $this->configFactory
       ->get('schemadotorg_jsonapi.settings')
       ->get('resource_type_schemadotorg');
@@ -408,7 +414,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * @return string
    *   JSON:API resource path.
    */
-  protected function getResourcePath(SchemaDotOrgMappingInterface $mapping) {
+  protected function getResourcePath(SchemaDotOrgMappingInterface $mapping): string {
     return $this->getResourceType($mapping, '/');
   }
 
@@ -423,7 +429,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * @return string
    *   The resource field's public name,
    */
-  protected function getResourceFieldPublicName(SchemaDotOrgMappingInterface $mapping, $field_name) {
+  protected function getResourceFieldPublicName(SchemaDotOrgMappingInterface $mapping, string $field_name): string {
     $config = $this->configFactory
       ->get('schemadotorg_jsonapi.settings');
 
@@ -454,7 +460,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * @return bool
    *   TRUE if a resource field is disabled.
    */
-  protected function isResourceFieldDisabled(SchemaDotOrgMappingInterface $mapping, $field_name) {
+  protected function isResourceFieldDisabled(SchemaDotOrgMappingInterface $mapping, string $field_name): bool {
     if ($mapping->getSchemaPropertyMapping($field_name)) {
       return FALSE;
     }
@@ -492,7 +498,7 @@ class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface 
    * @return bool
    *   TRUE if the field is a base field.
    */
-  protected function isBaseField($entity_type_id, $field_name) {
+  protected function isBaseField(string $entity_type_id, string $field_name): bool {
     $field_base_definitions = $this->fieldManager->getBaseFieldDefinitions($entity_type_id);
     return isset($field_base_definitions[$field_name]);
   }

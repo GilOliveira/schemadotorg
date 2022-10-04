@@ -9,6 +9,9 @@
   <rule ref="Drupal"/>
   <rule ref="DrupalPractice"/>
 
+  <!-- Use type hints -->
+  <rule ref="SlevomatCodingStandard.TypeHints" />
+
   <!-- Issue #3173782: Increase line length limit -->
   <rule ref="Drupal.Files.LineLength">
     <properties>
@@ -40,22 +43,15 @@
     <exclude name="Generic.CodeAnalysis.UselessOverridingMethod.Found"/>
   </rule>
 
-  <!--
   <rule ref="SlevomatCodingStandard.TypeHints">
     <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.UselessAnnotation"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingTraversableTypeHintSpecification"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.DisallowArrayTypeHintSyntax.DisallowedArrayTypeHintSyntax"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint"/>
   </rule>
-
-  <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.DeclareStrictTypesMissing"/>
-  <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint"/>
-  <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint"/>
-  <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint"/>
-  <rule ref="SlevomatCodingStandard.TypeHints.UnionTypeHintFormat"/>
-  <rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
-  <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/>
-  <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
-  <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
-  <rule ref="SlevomatCodingStandard.TypeHints.UnionTypeHintFormat"/>
-  -->
 
 </ruleset>
 

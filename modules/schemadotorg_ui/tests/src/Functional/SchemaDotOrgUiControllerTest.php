@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_ui\Functional;
 
 use Drupal\Tests\media\Traits\MediaTypeCreationTrait;
@@ -39,7 +41,7 @@ class SchemaDotOrgUiControllerTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test SSchema.org UI controller.
    */
-  public function testController() {
+  public function testController(): void {
     $assert_session = $this->assertSession();
 
     // Check that access is denied to 'Add Schema.org type' page.

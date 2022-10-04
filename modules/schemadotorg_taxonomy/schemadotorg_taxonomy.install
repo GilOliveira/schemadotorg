@@ -5,10 +5,12 @@
  * Installation hooks for the Schema.org Blueprints Taxonomy module.
  */
 
+declare(strict_types = 1);
+
 /**
  * Implements hook_modules_installed().
  */
-function schemadotorg_taxonomy_modules_installed($modules) {
+function schemadotorg_taxonomy_modules_installed(array $modules): void {
   $rebuild_router = FALSE;
 
   // Enable the term and vocabulary JSON-LD endpoints.
@@ -33,7 +35,7 @@ function schemadotorg_taxonomy_modules_installed($modules) {
 /**
  * Implements hook_modules_uninstalled().
  */
-function schemadotorg_taxonomy_modules_uninstalled($modules) {
+function schemadotorg_taxonomy_modules_uninstalled(array $modules): void {
   // Disable/remove the term and vocabulary JSON-LD endpoints.
   if (in_array('schemadotorg_jsonld_endpoint', $modules)
     && \Drupal::moduleHandler()->moduleExists('schemadotorg_jsonld_endpoint')) {
@@ -51,13 +53,13 @@ function schemadotorg_taxonomy_modules_uninstalled($modules) {
 /**
  * Implements hook_install().
  */
-function schemadotorg_taxonomy_install() {
+function schemadotorg_taxonomy_install(): void {
   schemadotorg_taxonomy_modules_installed(['schemadotorg_jsonapi', 'schemadotorg_jsonld_endpoint']);
 }
 
 /**
  * Implements hook_install().
  */
-function schemadotorg_taxonomy_uninstall() {
+function schemadotorg_taxonomy_uninstall(): void {
   schemadotorg_taxonomy_modules_uninstalled(['schemadotorg_jsonapi', 'schemadotorg_jsonld_endpoint']);
 }

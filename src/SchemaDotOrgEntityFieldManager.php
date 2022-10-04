@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
@@ -93,7 +96,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
   /**
    * {@inheritdoc}
    */
-  public function fieldExists($entity_type_id, $bundle, $field_name) {
+  public function fieldExists(string $entity_type_id, string $bundle, string $field_name): bool {
     if (!$this->entityTypeManager->hasDefinition($entity_type_id)) {
       return FALSE;
     }
@@ -105,7 +108,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
   /**
    * {@inheritdoc}
    */
-  public function fieldStorageExists($entity_type_id, $field_name) {
+  public function fieldStorageExists(string $entity_type_id, string $field_name): bool {
     if (!$this->entityTypeManager->hasDefinition($entity_type_id)) {
       return FALSE;
     }
@@ -117,7 +120,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
   /**
    * {@inheritdoc}
    */
-  public function getField($entity_type_id, $field_name) {
+  public function getField(string $entity_type_id, string $field_name): ?EntityInterface {
     $field_ids = $this->entityTypeManager->getStorage('field_config')
       ->getQuery()
       ->accessCheck(FALSE)
@@ -144,7 +147,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
    * @return array
    *   A Schema.org property's default field settings.
    */
-  public function getPropertyDefaultField($type, $property) {
+  public function getPropertyDefaultField(string $type, string $property): array {
     $default_field = [];
 
     // Get custom field default settings.
@@ -167,7 +170,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
     // Allow modules to alter the default field via a hook.
     $this->moduleHandler->invokeAllWith(
       'schemadotorg_property_field_prepare',
-      function (callable $hook) use ($type, $property, $default_field) {
+      function (callable $hook) use ($type, $property, $default_field): void {
         $hook($type, $property, $default_field);
       }
     );
@@ -178,7 +181,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
   /**
    * {@inheritdoc}
    */
-  public function getPropertyFieldTypeOptions($type, $property) {
+  public function getPropertyFieldTypeOptions(string $type, string $property): array {
     $recommended_field_types = $this->getSchemaPropertyFieldTypes($type, $property);
     $recommended_category = (string) $this->t('Recommended');
 
@@ -218,7 +221,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
    * @return array
    *   The current entity's fields as options.
    */
-  protected function getFieldDefinitionsOptions($entity_type_id, $bundle) {
+  protected function getFieldDefinitionsOptions(string $entity_type_id, string $bundle): array {
     $field_types = $this->fieldTypePluginManager->getDefinitions();
 
     $field_definitions = array_diff_key(
@@ -239,7 +242,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
   /**
    * {@inheritdoc}
    */
-  public function getFieldOptions($entity_type_id, $bundle) {
+  public function getFieldOptions(string $entity_type_id, string $bundle): array {
     $options = [];
     $options[static::ADD_FIELD] = $this->t('Add a new field…');
 
@@ -271,7 +274,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
    * @return array
    *   Base fields as options.
    */
-  protected function getBaseFieldDefinitionsOptions($entity_type_id, $bundle) {
+  protected function getBaseFieldDefinitionsOptions(string $entity_type_id, string $bundle): array {
     $field_types = $this->fieldTypePluginManager->getDefinitions();
 
     $field_definitions = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
@@ -316,7 +319,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
    *
    * @see \Drupal\field_ui\Form\FieldStorageAddForm::getExistingFieldStorageOptions
    */
-  protected function getExistingFieldStorageOptions($entity_type_id, $bundle) {
+  protected function getExistingFieldStorageOptions(string $entity_type_id, string $bundle): array {
     $field_types = $this->fieldTypePluginManager->getDefinitions();
 
     // Load the field_storages and build the list of options.
@@ -346,7 +349,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyFieldTypes($schema_type, $schema_property) {
+  public function getSchemaPropertyFieldTypes(string $schema_type, string $schema_property): array {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
     $range_includes = $mapping_storage->getSchemaPropertyRangeIncludes($schema_type, $schema_property);
@@ -442,7 +445,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
    * @return array
    *   Schema.org type or property field type mapping.
    */
-  protected function getSchemaTypeFieldTypes() {
+  protected function getSchemaTypeFieldTypes(): array {
     $schema_field_types = &drupal_static(__METHOD__);
     if (!isset($schema_field_types)) {
       $schema_field_types = $this->configFactory
@@ -471,7 +474,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
    * @return string
    *   Default entity reference field type.
    */
-  protected function getDefaultEntityReferenceFieldType($entity_type_id) {
+  protected function getDefaultEntityReferenceFieldType(string $entity_type_id): string {
     return ($entity_type_id === 'paragraph')
       ? 'field_ui:entity_reference_revisions:paragraph'
       : "field_ui:entity_reference:$entity_type_id";
@@ -486,7 +489,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
    * @return string
    *   The entity reference entity type.
    */
-  protected function getDefaultEntityReferenceEntityType(array $types) {
+  protected function getDefaultEntityReferenceEntityType(array $types): string {
     // Remove 'Thing' from $types because it is too generic.
     $types = array_combine($types, $types);
     unset($types['Thing']);
@@ -538,7 +541,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface
    *   The Schema.org mapping storage.
    */
-  protected function getMappingStorage() {
+  protected function getMappingStorage(): SchemaDotOrgMappingStorageInterface {
     return $this->entityTypeManager->getStorage('schemadotorg_mapping');
   }
 
@@ -548,7 +551,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface
    *   The Schema.org mapping type storage.
    */
-  protected function getMappingTypeStorage() {
+  protected function getMappingTypeStorage(): SchemaDotOrgMappingTypeStorageInterface {
     return $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
   }
 

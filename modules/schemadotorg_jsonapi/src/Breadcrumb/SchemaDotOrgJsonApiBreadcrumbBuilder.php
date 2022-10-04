@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonapi\Breadcrumb;
 
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -13,7 +15,7 @@ class SchemaDotOrgJsonApiBreadcrumbBuilder extends SchemaDotOrgBreadcrumbBuilder
   /**
    * {@inheritdoc}
    */
-  public function applies(RouteMatchInterface $route_match) {
+  public function applies(RouteMatchInterface $route_match): bool {
     return ($route_match->getRouteName() === 'schemadotorg_jsonapi.settings');
   }
 

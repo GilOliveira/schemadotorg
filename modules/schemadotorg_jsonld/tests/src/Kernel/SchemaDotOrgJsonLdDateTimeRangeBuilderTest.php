@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_jsonld\Kernel;
 
 use Drupal\node\Entity\Node;
@@ -44,7 +46,7 @@ class SchemaDotOrgJsonLdDateTimeRangeBuilderTest extends SchemaDotOrgKernelEntit
   /**
    * Test Schema.org JSON-LD builder.
    */
-  public function testBuilder() {
+  public function testBuilder(): void {
     // Reset Event properties to use eventSchedule and startDate with daterange.
     $config = $this->config('schemadotorg.settings');
     $config

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\schemadotorg\Controller\SchemaDotOrgAutocompleteController;
@@ -13,12 +15,14 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SchemaDotOrgAutocompleteControllerTest extends SchemaDotOrgKernelTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['user', 'field', 'text'];
+  // phpcs:enable
 
   /**
    * The Schema.org autocomplete controller.
@@ -47,7 +51,7 @@ class SchemaDotOrgAutocompleteControllerTest extends SchemaDotOrgKernelTestBase 
   /**
    * Test the Schema.org autocomplete controller.
    */
-  public function testAutocompleteController() {
+  public function testAutocompleteController(): void {
     // Check searching for 'Thing' within Schema.org types returns 3 results.
     $result = $this->controller->autocomplete(new Request(['q' => 'Thing']), 'types');
     $this->assertEquals('[{"value":"ClothingStore","label":"ClothingStore"},{"value":"MensClothingStore","label":"MensClothingStore"},{"value":"Thing","label":"Thing"}]', $result->getContent());

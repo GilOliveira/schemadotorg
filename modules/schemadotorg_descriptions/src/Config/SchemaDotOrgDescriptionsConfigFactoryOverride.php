@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_descriptions\Config;
 
 use Drupal\Core\Cache\CacheableMetadata;
@@ -10,6 +12,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ConfigFactoryOverrideBase;
 use Drupal\Core\Config\ConfigFactoryOverrideInterface;
 use Drupal\Core\Config\ConfigRenameEvent;
+use Drupal\Core\Config\StorableConfigBase;
 use Drupal\Core\Config\StorageInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface;
@@ -98,7 +101,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
   /**
    * {@inheritdoc}
    */
-  public function loadOverrides($names) {
+  public function loadOverrides($names): array {
     $overrides = $this->getDescriptionOverrides();
     return array_intersect_key($overrides, array_flip($names));
   }
@@ -106,14 +109,14 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
   /**
    * {@inheritdoc}
    */
-  public function getCacheSuffix() {
+  public function getCacheSuffix(): string {
     return 'schemadotorg_descriptions';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getCacheableMetadata($name) {
+  public function getCacheableMetadata($name): CacheableMetadata {
     $metadata = new CacheableMetadata();
     $metadata->addCacheTags(['schemadotorg_descriptions.settings']);
     return $metadata;
@@ -122,7 +125,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
   /**
    * {@inheritdoc}
    */
-  public function createConfigObject($name, $collection = StorageInterface::DEFAULT_COLLECTION) {
+  public function createConfigObject($name, $collection = StorageInterface::DEFAULT_COLLECTION): StorableConfigBase|null {
     return NULL;
   }
 
@@ -132,28 +135,28 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
    * @param \Drupal\Core\Config\ConfigCollectionInfo $collection_info
    *   The configuration collection info event.
    */
-  public function addCollections(ConfigCollectionInfo $collection_info) {
+  public function addCollections(ConfigCollectionInfo $collection_info): void {
     // Do nothing.
   }
 
   /**
    * {@inheritdoc}
    */
-  public function onConfigSave(ConfigCrudEvent $event) {
+  public function onConfigSave(ConfigCrudEvent $event): void {
     $this->onConfigChange($event);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function onConfigDelete(ConfigCrudEvent $event) {
+  public function onConfigDelete(ConfigCrudEvent $event): void {
     $this->onConfigChange($event);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function onConfigRename(ConfigRenameEvent $event) {
+  public function onConfigRename(ConfigRenameEvent $event): void {
     $this->onConfigChange($event);
   }
 
@@ -163,12 +166,12 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
    * @param \Drupal\Core\Config\ConfigCrudEvent $event
    *   The config event.
    */
-  public function onConfigChange(ConfigCrudEvent $event) {
+  public function onConfigChange(ConfigCrudEvent $event): void {
     $config = $event->getConfig();
     $name = $config->getName();
 
     // Purge cached overrides when any mapping is updated.
-    if (strpos($name, 'schemadotorg.schemadotorg_mapping.') === 0) {
+    if (str_starts_with($name, 'schemadotorg.schemadotorg_mapping.')) {
       $this->resetDescriptionOverrides();
       return;
     }
@@ -183,7 +186,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
   /**
    * Reset Schema.org description configuration overrides.
    */
-  public function resetDescriptionOverrides() {
+  public function resetDescriptionOverrides(): void {
     // Reset config.
     $this->configFactory->reset();
     // Reset default cache item.
@@ -199,7 +202,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
    *   An array of description configuration overrides for
    *   mapped entity types and fields.
    */
-  public function getDescriptionOverrides() {
+  public function getDescriptionOverrides(): array {
     if ($cache = $this->defaultCacheBackend->get(static::CACHE_ID)) {
       return $cache->data;
     }
@@ -250,7 +253,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
    * @return array
    *   Donfiguration override descriptions for Schema.org types or properties.
    */
-  protected function setItemDescriptionOverrides($table, array &$overrides, $type = '') {
+  protected function setItemDescriptionOverrides(string $table, array &$overrides, string $type = ''): array {
     $items = $this->schemaTypeManager->getItems($table, $overrides, ['label', 'comment']);
     $options = ['base_path' => 'https://schema.org/'];
 
@@ -281,7 +284,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
         $help = $this->schemaTypeBuilder->formatComment($comment, $options);
 
         // Trim description.
-        if ($trim_descriptions && $comment && strpos($comment, '<br/><br/>') !== FALSE) {
+        if ($trim_descriptions && $comment && str_contains($comment, '<br/><br/>')) {
           [$comment] = explode('<br/><br/>', $comment);
           $comment .= ' <a href="/' . $id . '">Learn more</a>';
         }

@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_translation;
 
+use Drupal\Core\Field\FieldConfigBase;
 use Drupal\content_translation\ContentTranslationManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\ContentEntityTypeInterface;
@@ -81,7 +84,7 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
   /**
    * {@inheritdoc}
    */
-  public function enableMapping(SchemaDotOrgMappingInterface $mapping) {
+  public function enableMapping(SchemaDotOrgMappingInterface $mapping): void {
     if (!$this->isMappingTranslated($mapping)) {
       return;
     }
@@ -96,7 +99,7 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
   /**
    * {@inheritdoc}
    */
-  public function enableMappingField($field_config) {
+  public function enableMappingField(FieldConfigBase $field_config): void {
     // Check that field is associated with Schema.org type mapping.
     $entity_type_id = $field_config->getTargetEntityTypeId();
     $bundle = $field_config->getTargetBundle();
@@ -144,7 +147,7 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    * @param string $bundle
    *   The entity bundle.
    */
-  protected function enableEntityType($entity_type_id, $bundle) {
+  protected function enableEntityType(string $entity_type_id, string $bundle): void {
     $this->contentTranslationManager->setEnabled($entity_type_id, $bundle, TRUE);
   }
 
@@ -156,7 +159,7 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    * @param string $bundle
    *   The entity bundle.
    */
-  protected function enableEntityFields($entity_type_id, $bundle) {
+  protected function enableEntityFields(string $entity_type_id, string $bundle): void {
     $field_definitions = $this->fieldManager->getFieldDefinitions($entity_type_id, $bundle);
     foreach ($field_definitions as $field_definition) {
       $field_config = $field_definition->getConfig($bundle);
@@ -175,7 +178,7 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null
    *   A Schema.org mapping.
    */
-  protected function loadMapping($entity_type_id, $bundle) {
+  protected function loadMapping(string $entity_type_id, string $bundle): ?SchemaDotOrgMappingInterface {
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
     return $mapping_storage->load("$entity_type_id.$bundle");
   }
@@ -189,7 +192,7 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    * @return bool
    *   TRUE if an entity supports translations.
    */
-  protected function supportsEntityTranslation(EntityInterface $entity) {
+  protected function supportsEntityTranslation(EntityInterface $entity): bool {
     $entity_type_id = $entity->getEntityTypeId();
 
     // Make sure the field is associate with a content entity.
@@ -206,7 +209,7 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    * @return bool
    *   TRUE if a Schema.org mapping entity should be translated.
    */
-  protected function isMappingTranslated(SchemaDotOrgMappingInterface $mapping) {
+  protected function isMappingTranslated(SchemaDotOrgMappingInterface $mapping): bool {
     $config = $this->configFactory->get('schemadotorg_translation.settings');
 
     // Check excluded Schema.org type.
@@ -222,7 +225,7 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
   /**
    * Determine if a field supports translation.
    *
-   * @param \Drupal\field\FieldConfigInterface $field_config
+   * @param \Drupal\Core\Field\FieldConfigBase $field_config
    *   The field.
    *
    * @return bool
@@ -230,7 +233,7 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
    *
    * @see _content_translation_form_language_content_settings_form_alter()
    */
-  protected function supportsFieldTranslations($field_config) {
+  protected function supportsFieldTranslations(FieldConfigBase $field_config): bool {
     $field_name = $field_config->getName();
     $entity_type_id = $field_config->getTargetEntityTypeId();
 
@@ -262,13 +265,13 @@ class SchemaDotOrgTranslationManager implements SchemaDotOrgTranslationManagerIn
   /**
    * Determine if a field should be translated.
    *
-   * @param \Drupal\field\FieldConfigInterface $field_config
+   * @param \Drupal\Core\Field\FieldConfigBase $field_config
    *   The field.
    *
    * @return bool
    *   TRUE if a field should be translated.
    */
-  protected function isFieldTranslated($field_config) {
+  protected function isFieldTranslated(FieldConfigBase $field_config): bool {
     $entity_type_id = $field_config->getTargetEntityTypeId();
     $bundle = $field_config->getTargetBundle();
     $field_name = $field_config->getName();

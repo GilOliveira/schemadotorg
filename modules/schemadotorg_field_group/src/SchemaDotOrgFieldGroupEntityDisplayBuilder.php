@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_field_group;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -82,7 +84,7 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
   /**
    * {@inheritdoc}
    */
-  public function setFieldGroups($entity_type_id, $bundle, $schema_type, array $properties) {
+  public function setFieldGroups(string $entity_type_id, string $bundle, string $schema_type, array $properties): void {
     // Form display.
     $form_modes = $this->schemaEntityDisplayBuilder->getFormModes($entity_type_id, $bundle);
     foreach ($form_modes as $form_mode) {
@@ -122,7 +124,7 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
    * @see field_group_field_overview_submit()
    * @see \Drupal\field_group\Form\FieldGroupAddForm::submitForm
    */
-  protected function setFieldGroup(EntityDisplayInterface $display, $field_name, $schema_type, $schema_property) {
+  protected function setFieldGroup(EntityDisplayInterface $display, string $field_name, string $schema_type, string $schema_property): void {
     // Make sure the field component exists.
     if (!$display->getComponent($field_name)) {
       return;

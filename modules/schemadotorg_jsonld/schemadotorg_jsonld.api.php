@@ -5,6 +5,8 @@
  * Hooks to define and alter Schema.org JSON-LD.
  */
 
+declare(strict_types = 1);
+
 // phpcs:disable DrupalPractice.CodeAnalysis.VariableAnalysis.UnusedVariable
 
 /**
@@ -22,10 +24,10 @@
  * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
  *   The current route match.
  *
- * @return array
+ * @return array|null
  *   Custom Schema.org JSON-LD data.
  */
-function hook_schemadotorg_jsonld(\Drupal\Core\Routing\RouteMatchInterface $route_match) {
+function hook_schemadotorg_jsonld(\Drupal\Core\Routing\RouteMatchInterface $route_match): ?array {
   return [
     '@context' => 'https://schema.org',
     '@type' => 'BreadcrumbList',
@@ -58,7 +60,7 @@ function hook_schemadotorg_jsonld(\Drupal\Core\Routing\RouteMatchInterface $rout
  * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
  *   The current route match.
  */
-function hook_schemadotorg_jsonld_alter(array &$data, \Drupal\Core\Routing\RouteMatchInterface $route_match) {
+function hook_schemadotorg_jsonld_alter(array &$data, \Drupal\Core\Routing\RouteMatchInterface $route_match): void {
   /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $manager */
   $manager = \Drupal::service('schemadotorg_jsonld.manager');
   $entity = $manager->getRouteMatchEntity($route_match);
@@ -91,7 +93,7 @@ function hook_schemadotorg_jsonld_alter(array &$data, \Drupal\Core\Routing\Route
  * @param \Drupal\Core\Entity\EntityInterface $entity
  *   The entity.
  */
-function hook_schemadotorg_jsonld_schema_type_entity_load(array &$data, \Drupal\Core\Entity\EntityInterface $entity) {
+function hook_schemadotorg_jsonld_schema_type_entity_load(array &$data, \Drupal\Core\Entity\EntityInterface $entity): void {
   if (!$entity instanceof \Drupal\taxonomy\VocabularyInterface) {
     return;
   }
@@ -128,7 +130,7 @@ function hook_schemadotorg_jsonld_schema_type_entity_load(array &$data, \Drupal\
  * @param \Drupal\Core\Entity\EntityInterface $entity
  *   The entity.
  */
-function hook_schemadotorg_jsonld_schema_type_entity_alter(array &$data, \Drupal\Core\Entity\EntityInterface $entity) {
+function hook_schemadotorg_jsonld_schema_type_entity_alter(array &$data, \Drupal\Core\Entity\EntityInterface $entity): void {
   if (!$entity instanceof \Drupal\taxonomy\TermInterface) {
     return;
   }
@@ -160,12 +162,12 @@ function hook_schemadotorg_jsonld_schema_type_entity_alter(array &$data, \Drupal
  * Alter the Schema.org JSON-LD data for a field item list.
  *
  * This hook allows a field to alter the other Schema.org properties outside
- * of the field's Schema.org property mapping.
+ * the field's Schema.org property mapping.
  *
  * @param \Drupal\Core\Field\FieldItemListInterface $items
  *   A field item list.
  */
-function hook_schemadotorg_jsonld_schema_type_field_alter(array &$data, \Drupal\Core\Field\FieldItemListInterface $items) {
+function hook_schemadotorg_jsonld_schema_type_field_alter(array &$data, \Drupal\Core\Field\FieldItemListInterface $items): void {
   // @todo Provide some example code.
 }
 
@@ -181,7 +183,7 @@ function hook_schemadotorg_jsonld_schema_type_field_alter(array &$data, \Drupal\
  * @param \Drupal\Core\Field\FieldItemInterface $item
  *   The entity's field item.
  */
-function hook_schemadotorg_jsonld_schema_property_alter(&$value, \Drupal\Core\Field\FieldItemInterface $item) {
+function hook_schemadotorg_jsonld_schema_property_alter(mixed &$value, \Drupal\Core\Field\FieldItemInterface $item): void {
   // Get entity information.
   $entity = $item->getEntity();
   $entity_type_id = $entity->getEntityTypeId();
@@ -220,7 +222,7 @@ function hook_schemadotorg_jsonld_schema_property_alter(&$value, \Drupal\Core\Fi
  * @param \Drupal\Core\Field\FieldItemListInterface $items
  *   The entity's field items.
  */
-function hook_schemadotorg_jsonld_schema_properties_alter(array &$values, \Drupal\Core\Field\FieldItemListInterface $items) {
+function hook_schemadotorg_jsonld_schema_properties_alter(array &$values, \Drupal\Core\Field\FieldItemListInterface $items): void {
   // @todo Provide some example code.
 }
 

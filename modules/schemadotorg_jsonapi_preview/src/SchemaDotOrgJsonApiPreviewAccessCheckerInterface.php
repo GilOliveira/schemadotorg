@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonapi_preview;
 
 /**
@@ -10,9 +12,9 @@ interface SchemaDotOrgJsonApiPreviewAccessCheckerInterface {
   /**
    * Checks JSON:API preview access for the current user and route.
    *
-   * @return bool
+   * @return mixed
    *   TRUE if the current user can access the preview.
    */
-  public function access();
+  public function access(): mixed;
 
 }

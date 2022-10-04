@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\Core\Config\Entity\ConfigEntityType;
@@ -13,6 +15,7 @@ use Drupal\Core\Entity\ContentEntityType;
  */
 class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -25,6 +28,7 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
     'file',
     'schemadotorg_paragraphs',
   ];
+  // phpcs:enable
 
   /**
    * The Schema.org mapping type storage.
@@ -55,7 +59,7 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
   /**
    * Test Schema.org mapping type storage.
    */
-  public function testSchemaDotOrgMappingTypeStorage() {
+  public function testSchemaDotOrgMappingTypeStorage(): void {
     // Check getting entity types that implement Schema.org.
     $expected_entity_types = [
       'node' => 'node',

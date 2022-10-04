@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonld_embed;
 
 use Drupal\Component\Utility\Html;
@@ -41,7 +43,7 @@ class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface
    * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface|null $schema_jsonld_builder
    *   The Schema.org JSON-LD builder service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgJsonLdBuilderInterface $schema_jsonld_builder = NULL) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgJsonLdBuilderInterface|null $schema_jsonld_builder = NULL) {
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaJsonLdBuilder = $schema_jsonld_builder;
   }
@@ -49,7 +51,7 @@ class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface
   /**
    * {@inheritdoc}
    */
-  public function build(EntityInterface $entity) {
+  public function build(EntityInterface $entity): array {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
 
@@ -60,7 +62,7 @@ class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface
 
     // Make sure the entity's values includes the [data-entity-type] attribute.
     $text = print_r($entity->toArray(), TRUE);
-    if (strpos($text, 'data-entity-type') === FALSE) {
+    if (!str_contains($text, 'data-entity-type')) {
       return [];
     }
 
@@ -94,7 +96,7 @@ class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface
    * @return array
    *   Embedded media and content JSON-LD data from a text value.
    */
-  protected function getEntitiesData($value) {
+  protected function getEntitiesData(string $value): array {
     $dom = Html::load($value);
     $xpath = new \DOMXPath($dom);
     $types = [];
@@ -121,7 +123,7 @@ class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface
    * @return array|null
    *   Embedded media and content JSON-LD data.
    */
-  protected function getEntityData($entity_type_id, $uuid) {
+  protected function getEntityData(string $entity_type_id, string $uuid): ?array {
     $embed_storage = $this->entityTypeManager->getStorage($entity_type_id);
     $embed_entities = $embed_storage->loadByProperties(['uuid' => $uuid]);
     if (!$embed_entities) {

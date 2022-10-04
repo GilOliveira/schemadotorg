@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_report\Controller;
 
 use Drupal\Core\Link;
@@ -17,7 +19,7 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
    * @return array
    *   A renderable array containing the Schema.org mapping recommendations.
    */
-  public function recommendations() {
+  public function recommendations(): array {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping_type');
 
@@ -140,7 +142,7 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
    *
    * @see \Drupal\schemadotorg\Commands\SchemaDotOrgCommands::repair
    */
-  public function relationships() {
+  public function relationships(): array {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping');
 
@@ -243,10 +245,10 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type
    *   The Schema.org mapping type.
    *
-   * @return array|false
+   * @return array
    *   The sorted properties for a mapping type.
    */
-  protected function getSortedProperties(SchemaDotOrgMappingTypeInterface $mapping_type) {
+  protected function getSortedProperties(SchemaDotOrgMappingTypeInterface $mapping_type): array {
     $sorted_properties = [];
 
     // Get properties from default field groups from
@@ -270,7 +272,7 @@ class SchemaDotOrgReportMappingsController extends SchemaDotOrgReportControllerB
     }
 
     // Get properties from default field weights.
-    $default_field_weights = \Drupal::config('schemadotorg.settings')
+    $default_field_weights = $this->config('schemadotorg.settings')
       ->get('schema_properties.default_field_weights');
     $sorted_properties += array_combine($default_field_weights, $default_field_weights);
 

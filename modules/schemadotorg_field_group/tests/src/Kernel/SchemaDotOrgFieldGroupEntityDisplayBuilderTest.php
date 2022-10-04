@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_field_grup\Kernel;
 
 use Drupal\field\Entity\FieldConfig;
@@ -63,7 +65,7 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilderTest extends SchemaDotOrgKernelE
   /**
    * Test Schema.org entity display builder.
    */
-  public function testEntityDisplayBuilder() {
+  public function testEntityDisplayBuilder(): void {
     // Allow Schema.org Thing to have default properties.
     $this->config('schemadotorg.settings')
       ->set('schema_types.default_properties.Thing', ['name', 'alternateName'])
@@ -170,7 +172,7 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilderTest extends SchemaDotOrgKernelE
     $this->assertEquals(4, $form_display->getComponent('body')['weight']);
 
     // Check settings entity display field groups for Schema.org properties.
-    \Drupal::configFactory()->getEditable('schemadotorg_field_group.settings')
+    $this->config('schemadotorg_field_group.settings')
       ->set('default_field_groups.node', [
         'general' => [
           'label' => 'General information',

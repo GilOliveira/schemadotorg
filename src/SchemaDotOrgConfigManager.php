@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -39,7 +41,7 @@ class SchemaDotOrgConfigManager implements SchemaDotOrgConfigManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function repair() {
+  public function repair(): void {
     // Default properties sorted by path/breadcrumb.
     $config = $this->configFactory->getEditable('schemadotorg.settings');
     $default_properties = $config->get('schema_types.default_properties');

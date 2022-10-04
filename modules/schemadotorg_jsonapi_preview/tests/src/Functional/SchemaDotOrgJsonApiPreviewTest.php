@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_jsonapi_preview\Functional;
 
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
@@ -21,7 +23,7 @@ class SchemaDotOrgJsonApiPreviewTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test Schema.org list builder enhancements.
    */
-  public function testSchemaDotOrgListBuilder() {
+  public function testSchemaDotOrgListBuilder(): void {
     $assert_session = $this->assertSession();
 
     $account = $this->createUser(['access content', 'view schemadotorg jsonapi']);

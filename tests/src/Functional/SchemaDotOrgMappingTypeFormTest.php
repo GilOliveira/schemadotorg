@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_ui\Functional;
 
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
@@ -42,7 +44,7 @@ class SchemaDotOrgMappingTypeFormTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test Schema.org mapping type form.
    */
-  public function testSchemaDotOrgMappingTypeForm() {
+  public function testSchemaDotOrgMappingTypeForm(): void {
     $assert_session = $this->assertSession();
 
     // Check that editing and re-saving the mapping type does not alter the

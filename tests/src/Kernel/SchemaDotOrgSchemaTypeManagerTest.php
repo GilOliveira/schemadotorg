@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\Component\Utility\NestedArray;
@@ -39,7 +41,7 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
   /**
    * Test Schema.org schema type manager .
    */
-  public function testSchemaTypeManager() {
+  public function testSchemaTypeManager(): void {
     // Check get Schema.org type or property URI.
     $this->assertEquals('https://schema.org/Thing', $this->schemaTypeManager->getUri('Thing'));
 

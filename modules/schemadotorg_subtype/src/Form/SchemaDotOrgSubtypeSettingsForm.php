@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_subtype\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
@@ -14,21 +16,21 @@ class SchemaDotOrgSubtypeSettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'schemadotorg_subtype_settings_form';
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function getEditableConfigNames() {
+  protected function getEditableConfigNames(): array {
     return ['schemadotorg_subtype.settings'];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $config = $this->config('schemadotorg_subtype.settings');
     $form['schemadotorg_subtype'] = [
       '#type' => 'details',
@@ -79,7 +81,7 @@ class SchemaDotOrgSubtypeSettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     $config = $this->config('schemadotorg_subtype.settings');
     $values = $form_state->getValue('schemadotorg_subtype');
     foreach ($values as $key => $value) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_next\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
@@ -13,21 +15,21 @@ class SchemaDotOrgNextSettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'schemadotorg_next_settings_form';
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function getEditableConfigNames() {
+  protected function getEditableConfigNames(): array {
     return ['schemadotorg_next.settings'];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $config = $this->config('schemadotorg_next.settings');
 
     $form['schemadotorg_next'] = [
@@ -50,7 +52,7 @@ class SchemaDotOrgNextSettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     $config = $this->config('schemadotorg_next.settings');
     $values = $form_state->getValue('schemadotorg_next');
     foreach ($values as $key => $value) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_taxonomy;
 
 use Drupal\content_translation\ContentTranslationManagerInterface;
@@ -80,7 +82,7 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
     ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
-    ContentTranslationManagerInterface $content_translation_manager = NULL
+    ?ContentTranslationManagerInterface $content_translation_manager = NULL
   ) {
     $this->messenger = $messenger;
     $this->logger = $logger;
@@ -93,7 +95,7 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
   /**
    * {@inheritdoc}
    */
-  public function propertyFieldTypeAlter(array &$field_types, $schema_type, $schema_property) {
+  public function propertyFieldTypeAlter(array &$field_types, string $schema_type, string $schema_property): void {
     $property_vocabulary_settings = $this->getPropertyVocabularySettings($schema_property);
     if ($property_vocabulary_settings) {
       $field_types = ['field_ui:entity_reference:taxonomy_term' => 'field_ui:entity_reference:taxonomy_term'] + $field_types;
@@ -104,15 +106,15 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
    * {@inheritdoc}
    */
   public function propertyFieldAlter(
-    $schema_type,
-    $schema_property,
+    string $schema_type,
+    string $schema_property,
     array &$field_storage_values,
     array &$field_values,
-    &$widget_id,
+    ?string &$widget_id,
     array &$widget_settings,
-    &$formatter_id,
+    ?string &$formatter_id,
     array &$formatter_settings
-  ) {
+  ): void {
     // Make sure the field type is set to 'entity_reference' with the target type
     // set to 'taxonomy_term'.
     $is_entity_reference_taxonomy_term = ($field_storage_values['type'] === 'entity_reference' && $field_storage_values['settings']['target_type'] === 'taxonomy_term');
@@ -183,7 +185,7 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
    * @return array|null
    *   A Schema.org default property vocabulary definition.
    */
-  protected function getPropertyVocabularySettings($property) {
+  protected function getPropertyVocabularySettings(string $property): ?array {
     return $this->configFactory->get('schemadotorg_taxonomy.settings')
       ->get("property_vocabularies.$property");
   }

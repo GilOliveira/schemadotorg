@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -135,7 +137,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function getIgnoredProperties() {
+  public function getIgnoredProperties(): array {
     $ignored_properties = $this->configFactory
       ->get('schemadotorg.settings')
       ->get('schema_properties.ignored_properties');
@@ -145,7 +147,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function getMappingDefaults($entity_type_id, $bundle, $schema_type) {
+  public function getMappingDefaults(string $entity_type_id, ?string $bundle, string $schema_type): array {
     $defaults = [];
 
     $defaults['entity'] = $this->getMappingEntityDefaults($entity_type_id, $bundle, $schema_type);
@@ -154,7 +156,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     // Allow modules to alter the mapping defaults via a hook.
     $this->moduleHandler->invokeAllWith(
       'schemadotorg_mapping_defaults_alter',
-      function (callable $hook) use ($entity_type_id, $bundle, $schema_type, &$defaults) {
+      function (callable $hook) use ($entity_type_id, $bundle, $schema_type, &$defaults): void {
         $hook($entity_type_id, $bundle, $schema_type, $defaults);
       }
     );
@@ -167,7 +169,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    *
    * @param string $entity_type_id
    *   The entity type ID.
-   * @param string $bundle
+   * @param string|null $bundle
    *   The bundle.
    * @param string $schema_type
    *   The Schema.org type.
@@ -175,7 +177,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    * @return array
    *   Schema.org mapping entity default values.
    */
-  protected function getMappingEntityDefaults($entity_type_id, $bundle, $schema_type) {
+  protected function getMappingEntityDefaults(string $entity_type_id, ?string $bundle, string $schema_type): array {
     $mapping = $this->loadMapping($entity_type_id, $bundle);
     if ($mapping) {
       $defaults = [];
@@ -200,7 +202,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    *
    * @param string $entity_type_id
    *   The entity type ID.
-   * @param string $bundle
+   * @param string|null $bundle
    *   The bundle.
    * @param string $schema_type
    *   The Schema.org type.
@@ -208,7 +210,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    * @return array
    *   Schema.org mapping properties field default values.
    */
-  protected function getMappingPropertiesFieldDefaults($entity_type_id, $bundle, $schema_type) {
+  protected function getMappingPropertiesFieldDefaults(string $entity_type_id, ?string $bundle, string $schema_type): array {
     $mapping = $this->loadMapping($entity_type_id, $bundle);
 
     $fields = ['label', 'comment', 'range_includes', 'superseded_by'];
@@ -235,7 +237,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    *
    * @param string $entity_type_id
    *   The entity type ID.
-   * @param string $bundle
+   * @param string|null $bundle
    *   The bundle.
    * @param string $schema_type
    *   The Schema.org type.
@@ -245,7 +247,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    * @return array
    *   Schema.org mapping property default values.
    */
-  protected function getMappingPropertyFieldDefaults($entity_type_id, $bundle, $schema_type, array $property_definition) {
+  protected function getMappingPropertyFieldDefaults(string $entity_type_id, ?string $bundle, string $schema_type, array $property_definition): array {
     $schema_property = $property_definition['label'];
 
     $mapping_type = $this->loadMappingType($entity_type_id);
@@ -315,7 +317,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function saveMapping($entity_type_id, $schema_type, array $values) {
+  public function saveMapping(string $entity_type_id, string $schema_type, array $values): SchemaDotOrgMappingInterface {
     $bundle = $values['entity']['id'] ?? $entity_type_id;
 
     // Get mapping entity.
@@ -385,7 +387,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function createTypeValidate($entity_type_id, $schema_type) {
+  public function createTypeValidate(string $entity_type_id, string $schema_type): void {
     // Validate entity type.
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
@@ -395,14 +397,14 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
         '@entity_type' => $entity_type_id,
         '@entity_types' => implode(', ', $entity_types),
       ];
-      $message = $this->t("The entity type '@entity_type' is not valid. Please select a entity type (@entity_types).", $t_args);
+      $message = (string) $this->t("The entity type '@entity_type' is not valid. Please select a entity type (@entity_types).", $t_args);
       throw new \Exception($message);
     }
 
     // Validate Schema.org type.
     if (!$this->schemaTypeManager->isType($schema_type)) {
       $t_args = ['@schema_type' => $schema_type];
-      $message = $this->t("The Schema.org type '@schema_type' is not valid.", $t_args);
+      $message = (string) $this->t("The Schema.org type '@schema_type' is not valid.", $t_args);
       throw new \Exception($message);
     }
   }
@@ -410,7 +412,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function createType($entity_type_id, $schema_type) {
+  public function createType(string $entity_type_id, string $schema_type): void {
     $mapping_type = $this->loadMappingType($entity_type_id);
     $bundles = $mapping_type->getDefaultSchemaTypeBundles($schema_type);
     $bundles = $bundles ?: [$this->schemaNames->schemaIdToDrupalName('types', $schema_type)];
@@ -423,7 +425,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function deleteTypeValidate($entity_type_id, $schema_type) {
+  public function deleteTypeValidate(string $entity_type_id, string $schema_type): void {
     $mappings = $this->entityTypeManager
       ->getStorage('schemadotorg_mapping')
       ->loadByProperties([
@@ -432,14 +434,15 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       ]);
     if (empty($mappings)) {
       $t_args = ['@entity_type' => $entity_type_id, '@schema_type' => $schema_type];
-      throw new \Exception($this->t('No Schema.org mapping exists for @schema_type (@entity_type).', $t_args));
+      $message = (string) $this->t('No Schema.org mapping exists for @schema_type (@entity_type).', $t_args);
+      throw new \Exception($message);
     }
   }
 
   /**
    * {@inheritdoc}
    */
-  public function deleteType($entity_type_id, $schema_type, array $options = []) {
+  public function deleteType(string $entity_type_id, string $schema_type, array $options = []): void {
     $options += [
       'delete-entity' => FALSE,
       'delete-fields' => FALSE,
@@ -471,7 +474,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
    *   The Schema.org mapping.
    */
-  protected function deleteFields(SchemaDotOrgMappingInterface $mapping) {
+  protected function deleteFields(SchemaDotOrgMappingInterface $mapping): void {
     $entity_type_id = $mapping->getTargetEntityTypeId();
     $bundle = $mapping->getTargetBundle();
 
@@ -519,7 +522,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface|null
    *   A Schema.org mapping tyup.
    */
-  protected function loadMappingType($entity_type_id) {
+  protected function loadMappingType(string $entity_type_id): ?SchemaDotOrgMappingTypeInterface {
     return $this->entityTypeManager
       ->getStorage('schemadotorg_mapping_type')
       ->load($entity_type_id);
@@ -530,13 +533,13 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    *
    * @param string $entity_type_id
    *   The entity type ID.
-   * @param string $bundle
+   * @param string|null $bundle
    *   The bundle.
    *
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null
    *   A Schema.org mapping.
    */
-  protected function loadMapping($entity_type_id, $bundle) {
+  protected function loadMapping(string $entity_type_id, ?string $bundle): ?SchemaDotOrgMappingInterface {
     return $this->entityTypeManager
       ->getStorage('schemadotorg_mapping')
       ->load("$entity_type_id.$bundle");

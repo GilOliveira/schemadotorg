@@ -5,6 +5,10 @@
  * Builds and adds Schema.org structured data as JSON-LD to web pages.
  */
 
+/* phpcs:disable Drupal.NamingConventions.ValidFunctionName.InvalidPrefix */
+
+declare(strict_types = 1);
+
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
@@ -13,7 +17,7 @@ use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 /**
  * Implements hook_help().
  */
-function schemadotorg_jsonld_help($route_name, RouteMatchInterface $route_match) {
+function schemadotorg_jsonld_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   if ($route_name === 'schemadotorg_jsonld.settings') {
     return '<p>' . t('The <em>Schema.org JSON-LD settings</em> page allows administrators to configure the default settings for the Schema.org JSON-LD data and endpoints.') . '<p>';
   }
@@ -26,7 +30,7 @@ function schemadotorg_jsonld_help($route_name, RouteMatchInterface $route_match)
 /**
  * Implements hook_page_attachments_alter().
  */
-function schemadotorg_jsonld_page_attachments_alter(array &$attachments) {
+function schemadotorg_jsonld_page_attachments_alter(array &$attachments): void {
   // Make sure the page has an HTML <head> section.
   if (empty($attachments['#attached']['html_head'])) {
     return;
@@ -62,7 +66,7 @@ function schemadotorg_jsonld_page_attachments_alter(array &$attachments) {
  * Sets the endDate property for a single startDate property that is
  * using a daterange.
  */
-function datetime_range_schemadotorg_jsonld_schema_type_field_alter(array &$data, FieldItemListInterface $items) {
+function datetime_range_schemadotorg_jsonld_schema_type_field_alter(array &$data, FieldItemListInterface $items): void {
   $field_definition = $items->getFieldDefinition();
 
   // Only alter the Schema.org type data that have a daterange field.
@@ -103,7 +107,7 @@ function datetime_range_schemadotorg_jsonld_schema_type_field_alter(array &$data
 /**
  * Implements hook_schemadotorg_jsonld_schema_property_alter() for the address.module.
  */
-function address_schemadotorg_jsonld_schema_property_alter(&$value, FieldItemInterface $item) {
+function address_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item): void {
   $field_type = $item->getFieldDefinition()->getType();
   if ($field_type !== 'address') {
     return;

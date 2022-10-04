@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Unit\Breadcrumb;
 
 use Drupal\Core\Cache\Cache;
@@ -48,7 +50,7 @@ class SchemaDotOrgBreadcrumbBuilderTest extends UnitTestCase {
    * @dataProvider providerTestApplies
    * @covers ::applies
    */
-  public function testApplies($expected, $route_name = NULL) {
+  public function testApplies(bool $expected, ?string $route_name = NULL): void {
     $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder')
       ->onlyMethods([])
       ->getMock();
@@ -69,7 +71,7 @@ class SchemaDotOrgBreadcrumbBuilderTest extends UnitTestCase {
    *   - SchemaDotOrgBreadcrumbBuilder::applies() expected result.
    *   - SchemaDotOrgBreadcrumbBuilder::applies() route name.
    */
-  public function providerTestApplies() {
+  public function providerTestApplies(): array {
     return [
       [FALSE],
       [FALSE, 'schemadotorg'],
@@ -86,7 +88,7 @@ class SchemaDotOrgBreadcrumbBuilderTest extends UnitTestCase {
    *
    * @covers ::build
    */
-  public function testBuild() {
+  public function testBuild(): void {
     // Build a breadcrumb builder to test.
     $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder')
       ->onlyMethods([])

@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types = 1);
+
+// phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+
 namespace Drupal\Tests\schemadotorg_auto_entitylabel\Functional;
 
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
@@ -11,12 +15,16 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgAutoEntityLabelSettingsFormTest extends SchemaDotOrgBrowserTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
-  protected static $modules = ['schemadotorg_auto_entitylabel'];
+  protected static $modules = [
+    'schemadotorg_auto_entitylabel',
+  ];
+  // phpcs:enable
 
   /**
    * {@inheritdoc}
@@ -31,7 +39,7 @@ class SchemaDotOrgAutoEntityLabelSettingsFormTest extends SchemaDotOrgBrowserTes
   /**
    * Test Schema.org inline entity form settings form.
    */
-  public function testSettingsForm() {
+  public function testSettingsForm(): void {
     $this->assertSaveSettingsConfigForm('schemadotorg_auto_entitylabel.settings', '/admin/config/search/schemadotorg/settings/types');
   }
 

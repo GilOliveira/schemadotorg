@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_ui\Functional;
 
 use Drupal\Tests\media\Traits\MediaTypeCreationTrait;
@@ -47,7 +49,7 @@ class SchemaDotOrgUiRouteTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test Schema.org UI routes, actions, tasks, and menu links.
    */
-  public function testSchemaDotOrgUiRoutes() {
+  public function testSchemaDotOrgUiRoutes(): void {
     global $base_path;
 
     $assert_session = $this->assertSession();
@@ -142,7 +144,7 @@ class SchemaDotOrgUiRouteTest extends SchemaDotOrgBrowserTestBase {
    * @param string $name
    *   A route name.
    */
-  protected function assertRouteExists($name) {
+  protected function assertRouteExists(string $name): void {
     $router = $this->container->get('router');
     $this->assertTrue((boolean) $router->getRouteCollection()->get($name));
   }
@@ -153,7 +155,7 @@ class SchemaDotOrgUiRouteTest extends SchemaDotOrgBrowserTestBase {
    * @param string $name
    *   A route name.
    */
-  protected function assertRouteNotExists($name) {
+  protected function assertRouteNotExists(string $name): void {
     $router = $this->container->get('router');
     $this->assertFalse((boolean) $router->getRouteCollection()->get($name));
   }

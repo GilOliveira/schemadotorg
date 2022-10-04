@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_taxonomy;
 
 /**
@@ -10,20 +12,20 @@ interface SchemaDotOrgTaxonomyPropertyVocabularyManagerInterface {
   /**
    * Implements hook_schemadotorg_property_field_type_alter().
    */
-  public function propertyFieldTypeAlter(array &$field_types, $schema_type, $schema_property);
+  public function propertyFieldTypeAlter(array &$field_types, string $schema_type, string $schema_property): void;
 
   /**
    * Implements hook_schemadotorg_property_field_alter().
    */
   public function propertyFieldAlter(
-    $schema_type,
-    $schema_property,
+    string $schema_type,
+    string $schema_property,
     array &$field_storage_values,
     array &$field_values,
-    &$widget_id,
+    ?string &$widget_id,
     array &$widget_settings,
-    &$formatter_id,
+    ?string &$formatter_id,
     array &$formatter_settings
-  );
+  ): void;
 
 }

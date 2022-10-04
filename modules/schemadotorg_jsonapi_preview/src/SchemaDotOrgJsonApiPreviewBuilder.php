@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonapi_preview;
 
 use Drupal\Core\Entity\EntityInterface;
@@ -85,7 +87,7 @@ class SchemaDotOrgJsonApiPreviewBuilder implements SchemaDotOrgJsonApiPreviewBui
   /**
    * {@inheritdoc}
    */
-  public function build() {
+  public function build(): ?array {
     $entity = $this->getRouteMatchEntity();
     if (!$entity) {
       return NULL;
@@ -132,7 +134,7 @@ class SchemaDotOrgJsonApiPreviewBuilder implements SchemaDotOrgJsonApiPreviewBui
     // Add <span> tag to properties.
     $json_markup = preg_replace('/&quot;([^&]+)&quot;: /', '<span>&quot;$1&quot;</span>: ', $json_markup);
     // Add links to URLs.
-    $json_markup = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.-]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $json_markup);
+    $json_markup = preg_replace('@(https?://([-\w.]+)+(:\d+)?(/([\w/_.-]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $json_markup);
     $build['json'] = [
       '#type' => 'html_tag',
       '#tag' => 'pre',
@@ -174,7 +176,7 @@ class SchemaDotOrgJsonApiPreviewBuilder implements SchemaDotOrgJsonApiPreviewBui
    *
    * @see \Drupal\jsonapi_extras\EntityToJsonApi::normalize
    */
-  protected function entityToJsonApiUrl(EntityInterface $entity, array $includes = []) {
+  protected function entityToJsonApiUrl(EntityInterface $entity, array $includes = []): Url {
     $resource_type = $this->resourceTypeRepository->get(
       $entity->getEntityTypeId(),
       $entity->bundle()
@@ -198,7 +200,7 @@ class SchemaDotOrgJsonApiPreviewBuilder implements SchemaDotOrgJsonApiPreviewBui
    *
    * @see metatag_get_route_entity()
    */
-  protected function getRouteMatchEntity() {
+  protected function getRouteMatchEntity(): EntityInterface|null {
     $route_name = $this->routeMatch->getRouteName();
     if (preg_match('/entity\.(.*)\.(latest[_-]version|canonical)/', $route_name, $matches)) {
       return $this->routeMatch->getParameter($matches[1]);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_taxonomy\Kernel;
 
 use Drupal\node\Entity\Node;
@@ -47,7 +49,7 @@ class SchemaDotOrgTaxonomyJsonLdTest extends SchemaDotOrgKernelEntityTestBase {
   /**
    * Test Schema.org taxonomy JSON-LD.
    */
-  public function testJsonLd() {
+  public function testJsonLd(): void {
     // Create a Schema.org Recipe which automatically creates
     // a 'recipe_category' vocabulary.
     // @se e\Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyPropertyVocabularyManager::propertyFieldAlter

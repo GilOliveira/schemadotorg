@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_export\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
@@ -44,8 +46,8 @@ class SchemaDotOrgExportMappingSetController extends ControllerBase {
    * @return \Symfony\Component\HttpFoundation\StreamedResponse
    *   A streamed HTTP response containing a Schema.org mapping set CSV export.
    */
-  public function overview() {
-    $response = new StreamedResponse(function () {
+  public function overview(): StreamedResponse {
+    $response = new StreamedResponse(function (): void {
       $handle = fopen('php://output', 'r+');
 
       // Header.
@@ -81,13 +83,13 @@ class SchemaDotOrgExportMappingSetController extends ControllerBase {
    * @return \Symfony\Component\HttpFoundation\StreamedResponse
    *   A streamed HTTP response containing a Schema.org mapping set CSV export.
    */
-  public function details($name) {
+  public function details(string $name): StreamedResponse {
     $mapping_set = $this->config('schemadotorg_mapping_set.settings')->get("sets.$name");
     if (empty($mapping_set)) {
       throw new NotFoundHttpException();
     }
 
-    $response = new StreamedResponse(function () use ($mapping_set) {
+    $response = new StreamedResponse(function () use ($mapping_set): void {
       $handle = fopen('php://output', 'r+');
 
       // Header.

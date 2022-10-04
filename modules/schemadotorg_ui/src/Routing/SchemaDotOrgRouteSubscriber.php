@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_ui\Routing;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -72,9 +74,9 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
       $defaults = [
         'entity_type_id' => $entity_type_id,
       ];
-      // If the entity type has no bundles and it doesn't use {bundle} in its
+      // If the entity type has no bundles, and it doesn't use {bundle} in its
       // admin path, use the entity type.
-      if (strpos($path, '{bundle}') === FALSE) {
+      if (!str_contains($path, '{bundle}')) {
         $defaults['bundle'] = !$entity_type->hasKey('bundle') ? $entity_type_id : '';
       }
 

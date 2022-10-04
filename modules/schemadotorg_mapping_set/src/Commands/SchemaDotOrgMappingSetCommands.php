@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_mapping_set\Commands;
 
 use Consolidation\AnnotatedCommand\CommandData;
@@ -51,7 +53,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
    *
    * @hook interact schemadotorg:set-setup
    */
-  public function setupInteract(InputInterface $input) {
+  public function setupInteract(InputInterface $input): void {
     $this->interactChooseMappingSet($input, dt('setup'));
   }
 
@@ -60,7 +62,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
    *
    * @hook validate schemadotorg:set-setup
    */
-  public function setupValidate(CommandData $commandData) {
+  public function setupValidate(CommandData $commandData): void {
     $this->validateMappingSet($commandData);
   }
 
@@ -76,7 +78,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
    *
    * @aliases soss
    */
-  public function setup($name) {
+  public function setup(string $name): void {
     $this->confirmMappingSet($name, dt('setup'), TRUE);
     $messages = $this->schemaMappingSetManager->setup($name);
     foreach ($messages as $message) {
@@ -93,7 +95,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
    *
    * @hook interact schemadotorg:set-generate
    */
-  public function generateInteract(InputInterface $input) {
+  public function generateInteract(InputInterface $input): void {
     $this->interactChooseMappingSet($input, dt('generate'));
   }
 
@@ -102,7 +104,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
    *
    * @hook validate schemadotorg:set-generate
    */
-  public function generateValidate(CommandData $commandData) {
+  public function generateValidate(CommandData $commandData): void {
     $this->validateMappingSet($commandData);
   }
 
@@ -118,7 +120,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
    *
    * @aliases sosg
    */
-  public function generate($name) {
+  public function generate(string $name): void {
     $this->confirmMappingSet($name, dt('generate'));
     $this->schemaMappingSetManager->generate($name);
   }
@@ -132,7 +134,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
    *
    * @hook interact schemadotorg:set-kill
    */
-  public function killInteract(InputInterface $input) {
+  public function killInteract(InputInterface $input): void {
     $this->interactChooseMappingSet($input, dt('kill'));
   }
 
@@ -141,7 +143,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
    *
    * @hook validate schemadotorg:set-kill
    */
-  public function killValidate(CommandData $commandData) {
+  public function killValidate(CommandData $commandData): void {
     $this->validateMappingSet($commandData);
   }
 
@@ -157,7 +159,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
    *
    * @aliases sosk
    */
-  public function kill($name) {
+  public function kill(string $name): void {
     $this->confirmMappingSet($name, dt('kill'));
     $this->schemaMappingSetManager->kill($name);
   }
@@ -171,7 +173,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
    *
    * @hook interact schemadotorg:set-teardown
    */
-  public function teardownInteract(InputInterface $input) {
+  public function teardownInteract(InputInterface $input): void {
     $this->interactChooseMappingSet($input, dt('teardown'));
   }
 
@@ -180,7 +182,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
    *
    * @hook validate schemadotorg:set-teardown
    */
-  public function teardownValidate(CommandData $commandData) {
+  public function teardownValidate(CommandData $commandData): void {
     $this->validateMappingSet($commandData);
   }
 
@@ -196,7 +198,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
    *
    * @aliases sost
    */
-  public function teardown($name) {
+  public function teardown(string $name): void {
     $this->confirmMappingSet($name, dt('teardown'));
     $messages = $this->schemaMappingSetManager->teardown($name);
     foreach ($messages as $message) {
@@ -216,7 +218,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
    * @param string $action
    *   The action.
    */
-  protected function interactChooseMappingSet(InputInterface $input, $action) {
+  protected function interactChooseMappingSet(InputInterface $input, string $action): void {
     $name = $input->getArgument('name');
     if (!$name) {
       $sets = $this->configFactory->get('schemadotorg_mapping_set.settings')->get('sets');
@@ -230,7 +232,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
   /**
    * Validates the Schema.org mapping set name.
    */
-  protected function validateMappingSet(CommandData $commandData) {
+  protected function validateMappingSet(CommandData $commandData): void {
     $arguments = $commandData->getArgsWithoutAppName();
     $name = $arguments['name'] ?? '';
     $mapping_set = $this->configFactory->get('schemadotorg_mapping_set.settings')->get("sets.$name");
@@ -251,7 +253,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
    *
    * @throws \Drush\Exceptions\UserAbortException
    */
-  protected function confirmMappingSet($name, $action, $required = FALSE) {
+  protected function confirmMappingSet(string $name, string $action, bool $required = FALSE): void {
     $types = $this->schemaMappingSetManager->getTypes($name, $required);
 
     $t_args = [

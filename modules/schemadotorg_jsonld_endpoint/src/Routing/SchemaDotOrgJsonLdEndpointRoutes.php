@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonld_endpoint\Routing;
 
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
@@ -14,8 +16,6 @@ class SchemaDotOrgJsonLdEndpointRoutes implements ContainerInjectionInterface {
 
   /**
    * A key with which to flag a route as belonging to the Schema.org JSON-LD endpoint module.
-   *
-   * @var string
    */
   const JSONLD_ROUTE_FLAG_KEY = '_is_schemadotorg_jsonld_endpoint';
 
@@ -46,7 +46,7 @@ class SchemaDotOrgJsonLdEndpointRoutes implements ContainerInjectionInterface {
   /**
    * {@inheritdoc}
    */
-  public function routes() {
+  public function routes(): RouteCollection {
     $config = $this->configFactory->get('schemadotorg_jsonld_endpoint.settings');
 
     $routes = new RouteCollection();

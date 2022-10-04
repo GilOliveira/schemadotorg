@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_next_components\Commands;
 
 use Consolidation\AnnotatedCommand\CommandData;
@@ -49,7 +51,7 @@ class SchemaDotOrgNextComponentsCommands extends DrushCommands {
    *
    * @hook validate schemadotorg_next_components:create
    */
-  public function createValidate(CommandData $commandData) {
+  public function createValidate(CommandData $commandData): void {
     $arguments = $commandData->getArgsWithoutAppName();
     $destination = $arguments['destination'];
 
@@ -78,7 +80,7 @@ class SchemaDotOrgNextComponentsCommands extends DrushCommands {
    *
    * @aliases sonc
    */
-  public function create(string $destination) {
+  public function create(string $destination): void {
     if (!$this->io()->confirm(dt('Are you sure you want to generate Next.js components?'))) {
       throw new UserAbortException();
     }

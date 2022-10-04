@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg\Controller;
 
+use Drupal\Component\Render\MarkupInterface;
 use Drupal\Component\Utility\SortArray;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Routing\RouteMatch;
@@ -41,7 +44,7 @@ class SchemaDotOrgSettingsController extends ControllerBase {
   /**
    * Returns Schema.org settings index page.
    */
-  public function index() {
+  public function index(): array {
     $content = [];
 
     $definitions = $this->localTaskManager->getDefinitions();
@@ -79,12 +82,12 @@ class SchemaDotOrgSettingsController extends ControllerBase {
    * @return \Drupal\Component\Render\MarkupInterface
    *   The route's description from help.
    */
-  protected function getDescriptionFromHelp($route_name) {
+  protected function getDescriptionFromHelp(string $route_name): MarkupInterface {
     $route = new Route(Url::fromRoute($route_name)->toString());
     $route_match = new RouteMatch($route_name, $route);
 
     $build = [];
-    $this->moduleHandler()->invokeAllWith('help', function (callable $hook, string $module) use (&$build, $route_match) {
+    $this->moduleHandler()->invokeAllWith('help', function (callable $hook, string $module) use (&$build, $route_match): void {
       if ($help = $hook($route_match->getRouteName(), $route_match)) {
         $build[] = is_array($help) ? $help : ['#markup' => $help];
       }

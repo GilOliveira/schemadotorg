@@ -5,12 +5,14 @@
  * Allows administrators to attach custom Schema.org properties to fieldable types.
  */
 
+declare(strict_types = 1);
+
 use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Implements hook_help().
  */
-function schemadotorg_ui_endpoint_help($route_name, RouteMatchInterface $route_match) {
+function schemadotorg_ui_endpoint_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
@@ -19,7 +21,7 @@ function schemadotorg_ui_endpoint_help($route_name, RouteMatchInterface $route_m
 /**
  * Implements hook_entity_type_build().
  */
-function schemadotorg_ui_entity_type_build(array &$entity_types) {
+function schemadotorg_ui_entity_type_build(array &$entity_types): void {
   $entity_types['schemadotorg_mapping']->setFormClass('add', '\Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm');
   $entity_types['schemadotorg_mapping']->setFormClass('edit', '\Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm');
 }
@@ -27,7 +29,7 @@ function schemadotorg_ui_entity_type_build(array &$entity_types) {
 /**
  * Implements hook_field_ui_preconfigured_options_alter().
  */
-function schemadotorg_ui_field_ui_preconfigured_options_alter(array &$options, $field_type) {
+function schemadotorg_ui_field_ui_preconfigured_options_alter(array &$options, string $field_type): void {
   if ($field_type === 'entity_reference'
     && !isset($options['block_content'])
     && \Drupal::moduleHandler()->moduleExists('block_content')) {
@@ -45,7 +47,7 @@ function schemadotorg_ui_field_ui_preconfigured_options_alter(array &$options, $
 /**
  * Implements hook_ENTITY_TYPE_insert().
  */
-function schemadotorg_ui_schemadotorg_mapping_type_insert() {
+function schemadotorg_ui_schemadotorg_mapping_type_insert(): void {
   // Rebuild dynamic routes.
   // @see \Drupal\schemadotorg_ui\Routing\SchemaDotOrgRouteSubscriber
   /** @var \Drupal\Core\Routing\RouteBuilderInterface $router_builder */
@@ -56,13 +58,13 @@ function schemadotorg_ui_schemadotorg_mapping_type_insert() {
 /**
  * Implements hook_ENTITY_TYPE_update().
  */
-function schemadotorg_ui_schemadotorg_mapping_type_update() {
+function schemadotorg_ui_schemadotorg_mapping_type_update(): void {
   schemadotorg_ui_schemadotorg_mapping_type_insert();
 }
 
 /**
  * Implements hook_ENTITY_TYPE_update().
  */
-function schemadotorg_ui_schemadotorg_mapping_type_delete() {
+function schemadotorg_ui_schemadotorg_mapping_type_delete(): void {
   schemadotorg_ui_schemadotorg_mapping_type_insert();
 }

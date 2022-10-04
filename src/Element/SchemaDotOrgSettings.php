@@ -1,5 +1,10 @@
 <?php
 
+/* phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint */
+/* phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingAnyTypeHint */
+
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg\Element;
 
 use Drupal\Core\Link;
@@ -133,7 +138,7 @@ class SchemaDotOrgSettings extends Textarea {
   /**
    * Form element validation handler for #type 'schemadotorg_settings'.
    */
-  public static function validateSchemaDotOrgSettings(&$element, FormStateInterface $form_state, &$complete_form) {
+  public static function validateSchemaDotOrgSettings(array &$element, FormStateInterface $form_state, array &$complete_form): void {
     try {
       $settings = static::convertElementValueToSettings($element, $form_state);
       $form_state->setValueForElement($element, $settings);
@@ -152,7 +157,7 @@ class SchemaDotOrgSettings extends Textarea {
    * @return string
    *   The array item format for the Schema.org settings form element.
    */
-  protected static function getSettingsFormat(array $element) {
+  protected static function getSettingsFormat(array $element): string {
     $formats = [
       static::INDEXED => '',
       static::INDEXED_GROUPED => 'name|item_1,item_2,item_3',
@@ -175,7 +180,7 @@ class SchemaDotOrgSettings extends Textarea {
    * @return array|mixed|string
    *   An element's default value string.
    */
-  protected static function convertSettingsToElementDefaultValue(array $element) {
+  protected static function convertSettingsToElementDefaultValue(array $element): mixed {
     $settings = $element['#default_value'] ?? NULL;
     if (!is_array($settings)) {
       return $settings;
@@ -261,7 +266,7 @@ class SchemaDotOrgSettings extends Textarea {
    * @throws \Exception
    *   Throw an exception when there is a validation error.
    */
-  protected static function convertElementValueToSettings(array $element, FormStateInterface $form_state) {
+  protected static function convertElementValueToSettings(array $element, FormStateInterface $form_state): array {
     $value = $element['#value'];
     switch ($element['#settings_type']) {
       case static::INDEXED:
@@ -272,7 +277,8 @@ class SchemaDotOrgSettings extends Textarea {
         $groups = static::convertStringToIndexedArray($value);
         foreach ($groups as $group) {
           if (substr_count($group, '|') !== 1) {
-            throw new \Exception(t('The @value is not valid.', ['@value' => $group]));
+            $message = (string) t('The @value is not valid.', ['@value' => $group]);
+            throw new \Exception($message);
           }
 
           [$name, $items] = explode('|', $group);
@@ -289,7 +295,8 @@ class SchemaDotOrgSettings extends Textarea {
         $groups = static::convertStringToIndexedArray($value);
         foreach ($groups as $group) {
           if (substr_count($group, '|') !== 2) {
-            throw new \Exception(t('The @value is not valid.', ['@value' => $group]));
+            $message = (string) t('The @value is not valid.', ['@value' => $group]);
+            throw new \Exception($message);
           }
 
           [$name, $label, $items] = explode('|', $group);
@@ -310,7 +317,8 @@ class SchemaDotOrgSettings extends Textarea {
         $groups = static::convertStringToIndexedArray($value);
         foreach ($groups as $item) {
           if (substr_count($item, '|') !== 1) {
-            throw new \Exception(t('The @value is not valid.', ['@value' => $item]));
+            $message = (string) t('The @value is not valid.', ['@value' => $item]);
+            throw new \Exception($message);
           }
 
           [$name, $items] = explode('|', $item);
@@ -328,7 +336,8 @@ class SchemaDotOrgSettings extends Textarea {
         $groups = static::convertStringToIndexedArray($value);
         foreach ($groups as $group) {
           if (substr_count($group, '|') !== 2) {
-            throw new \Exception(t('The @value is not valid.', ['@value' => $group]));
+            $message = (string) t('The @value is not valid.', ['@value' => $group]);
+            throw new \Exception($message);
           }
 
           [$name, $label, $items] = explode('|', $group);
@@ -357,9 +366,10 @@ class SchemaDotOrgSettings extends Textarea {
         $group = NULL;
         $array = static::convertStringToIndexedArray($value);
         foreach ($array as $item) {
-          if (strpos($item, 'http') === 0) {
+          if (str_starts_with($item, 'http')) {
             if ($group === NULL) {
-              throw new \Exception(t('The @value is not valid.', ['@value' => $item]));
+              $message = (string) t('The @value is not valid.', ['@value' => $item]);
+              throw new \Exception($message);
             }
             $items = preg_split('/\s*\|\s*/', $item);
             $uri = $items[0];
@@ -373,6 +383,8 @@ class SchemaDotOrgSettings extends Textarea {
         }
         return $settings;
     }
+
+    return [];
   }
 
   /**
@@ -386,7 +398,7 @@ class SchemaDotOrgSettings extends Textarea {
    * @return string
    *   The indexed array converted to a string.
    */
-  protected static function convertIndexedArrayToString(array $array, $delimiter = "\n") {
+  protected static function convertIndexedArrayToString(array $array, string $delimiter = "\n"): string {
     return ($array) ? implode($delimiter, $array) : '';
   }
 
@@ -403,7 +415,7 @@ class SchemaDotOrgSettings extends Textarea {
    * @return string
    *   The associative array converted to a string.
    */
-  protected static function convertAssociativeArrayToString(array $array, $assoc_delimiter = '|', $item_delimiter = "\n") {
+  protected static function convertAssociativeArrayToString(array $array, string $assoc_delimiter = '|', string $item_delimiter = "\n"): string {
     $lines = [];
     foreach ($array as $key => $value) {
       $lines[] = ($value !== NULL) ? "$key$assoc_delimiter$value" : $key;
@@ -422,7 +434,7 @@ class SchemaDotOrgSettings extends Textarea {
    * @return array
    *   An indexed array.
    */
-  protected static function convertStringToIndexedArray($string, $delimiter = "\n") {
+  protected static function convertStringToIndexedArray(string $string, string $delimiter = "\n"): array {
     $list = explode($delimiter, $string);
     $list = array_map('trim', $list);
     return array_filter($list, 'strlen');
@@ -441,7 +453,7 @@ class SchemaDotOrgSettings extends Textarea {
    * @return array
    *   An associative array.
    */
-  protected static function convertStringToAssociativeArray($string, $assoc_delimiter = '|', $item_delimiter = "\n") {
+  protected static function convertStringToAssociativeArray(string $string, string $assoc_delimiter = '|', string $item_delimiter = "\n"): array {
     $items = static::convertStringToIndexedArray($string, $item_delimiter);
     $array = [];
     foreach ($items as $item) {
@@ -462,7 +474,7 @@ class SchemaDotOrgSettings extends Textarea {
    * @return string
    *   The remote URI's page title.
    */
-  protected static function getLinkTitle($uri) {
+  protected static function getLinkTitle(string $uri): string {
     $contents = file_get_contents($uri);
     $dom = new \DOMDocument();
     @$dom->loadHTML($contents);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_inline_entity_form\Functional;
 
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
@@ -11,12 +13,14 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgInlineEntityFormSettingsFormTest extends SchemaDotOrgBrowserTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['schemadotorg_inline_entity_form'];
+  // phpcs:enable
 
   /**
    * {@inheritdoc}
@@ -31,7 +35,7 @@ class SchemaDotOrgInlineEntityFormSettingsFormTest extends SchemaDotOrgBrowserTe
   /**
    * Test Schema.org inline entity form settings form.
    */
-  public function testSettingsForm() {
+  public function testSettingsForm(): void {
     $this->assertSaveSettingsConfigForm('schemadotorg_inline_entity_form.settings', '/admin/config/search/schemadotorg/settings/properties');
   }
 

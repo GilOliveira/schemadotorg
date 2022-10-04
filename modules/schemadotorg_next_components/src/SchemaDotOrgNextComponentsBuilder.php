@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_next_components;
 
 use Drupal\Component\Serialization\Json;
@@ -80,7 +82,7 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
   /**
    * {@inheritdoc}
    */
-  public function buildEntity($entity_type_id) {
+  public function buildEntity(string $entity_type_id): string {
     $bundle_entity_type = $this->entityTypeManager->getDefinition($entity_type_id)->getBundleEntityType();
     $bundle_entity_storage = $this->entityTypeManager->getStorage($bundle_entity_type);
     $bundles = array_keys($bundle_entity_storage->loadMultiple());
@@ -158,7 +160,7 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
   /**
    * {@inheritdoc}
    */
-  public function buildEntityBundle($entity_type_id, $bundle) {
+  public function buildEntityBundle(string $entity_type_id, string $bundle): string {
     $base_name = $this->snakeCaseToUpperCamelCase('drupal_' . $entity_type_id);
     $attribute_name = $entity_type_id;
     $component_name = $this->snakeCaseToUpperCamelCase($entity_type_id . '_' . $bundle);
@@ -271,7 +273,7 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
    * @return string
    *   A Next.js field group component.
    */
-  protected function buildNextGroupComponent(array $field_group, array $children) {
+  protected function buildNextGroupComponent(array $field_group, array $children): string {
     $group_label = $field_group['label'];
 
     $next_components = array_map(function ($child) {
@@ -307,7 +309,7 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
    * @return string|null
    *   A Next.js field component.
    */
-  protected function buildNextFieldComponent($entity_type_id, $bundle, $field_name, array $field_component, array &$next_imports) {
+  protected function buildNextFieldComponent(string $entity_type_id, string $bundle, string $field_name, array $field_component, array &$next_imports): ?string {
     $field_definitions = $this->entityFieldManager->getFieldDefinitions($entity_type_id, $bundle);
     $field_definition = $field_definitions[$field_name] ?? NULL;
     if (!$field_definition) {
@@ -473,7 +475,7 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
    * @return string
    *   The JSON:API public name for a field.
    */
-  protected function getPublicName($entity_type_id, $bundle, $field_name) {
+  protected function getPublicName(string $entity_type_id, string $bundle, string $field_name): string {
     return $this->resourceTypeRepository
       ->get($entity_type_id, $bundle)
       ->getPublicName($field_name);
@@ -488,7 +490,7 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
    * @return string
    *   The component type for a field type.
    */
-  protected function getComponentType($field_type) {
+  protected function getComponentType(string $field_type): string {
     switch ($field_type) {
       case 'text_long':
       case 'text':
@@ -534,7 +536,7 @@ class SchemaDotOrgNextComponentsBuilder implements SchemaDotOrgNextComponentsBui
    * @return string
    *   The snake case (snake_case) to upper camel case (CamelCase).
    */
-  protected function snakeCaseToUpperCamelCase($string) {
+  protected function snakeCaseToUpperCamelCase(string $string): string {
     return str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
   }
 

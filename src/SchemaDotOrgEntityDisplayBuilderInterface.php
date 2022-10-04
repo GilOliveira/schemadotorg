@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Entity\Display\EntityDisplayInterface;
@@ -15,14 +17,14 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
    * @return array
    *   An array containing default field weights.
    */
-  public function getDefaultFieldWeights();
+  public function getDefaultFieldWeights(): array;
 
   /**
    * Set entity displays for a field.
    *
    * @param array $field_values
    *   Field config values.
-   * @param string $widget_id
+   * @param string|null $widget_id
    *   The plugin ID of the widget.
    * @param array $widget_settings
    *   An array of widget settings.
@@ -31,7 +33,7 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
    * @param array $formatter_settings
    *   An array of formatter settings.
    */
-  public function setFieldDisplays(array $field_values, $widget_id, array $widget_settings, $formatter_id, array $formatter_settings);
+  public function setFieldDisplays(array $field_values, ?string $widget_id, array $widget_settings, ?string $formatter_id, array $formatter_settings): void;
 
   /**
    * Set entity display field weights for Schema.org properties.
@@ -43,7 +45,7 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
    * @param array $properties
    *   The Schema.org properties to be weighted.
    */
-  public function setFieldWeights($entity_type_id, $bundle, array $properties);
+  public function setFieldWeights(string $entity_type_id, string $bundle, array $properties): void;
 
   /**
    * Determine if a display is node teaser view display.
@@ -56,7 +58,7 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
    *
    * @see node_add_body_field()
    */
-  public function isNodeTeaserDisplay(EntityDisplayInterface $display);
+  public function isNodeTeaserDisplay(EntityDisplayInterface $display): bool;
 
   /**
    * Get display form modes for a specific entity type.
@@ -69,7 +71,7 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
    * @return array
    *   An array of display form modes.
    */
-  public function getFormModes($entity_type_id, string $bundle);
+  public function getFormModes(string $entity_type_id, string $bundle): array;
 
   /**
    * Get display view modes for a specific entity type.
@@ -82,6 +84,6 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
    * @return array
    *   An array of display view modes.
    */
-  public function getViewModes($entity_type_id, string $bundle);
+  public function getViewModes(string $entity_type_id, string $bundle): array;
 
 }

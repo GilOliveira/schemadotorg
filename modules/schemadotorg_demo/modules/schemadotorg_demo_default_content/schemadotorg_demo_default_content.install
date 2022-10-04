@@ -5,10 +5,12 @@
  * Installation hooks for the Schema.org Blueprints Demo Default Content module.
  */
 
+declare(strict_types = 1);
+
 /**
  * Implements hook_install().
  */
-function schemadotorg_demo_default_content_install($is_syncing) {
+function schemadotorg_demo_default_content_install(bool $is_syncing): void {
   if ($is_syncing) {
     return;
   }

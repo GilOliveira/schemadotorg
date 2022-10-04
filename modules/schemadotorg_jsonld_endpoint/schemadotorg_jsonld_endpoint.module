@@ -5,6 +5,8 @@
  * Provides an endpoint to get an entity's Schema.org JSON-LD.
  */
 
+declare(strict_types = 1);
+
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
@@ -12,7 +14,7 @@ use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 /**
  * Implements hook_help().
  */
-function schemadotorg_jsonld_endpoint_help($route_name, RouteMatchInterface $route_match) {
+function schemadotorg_jsonld_endpoint_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
@@ -21,7 +23,7 @@ function schemadotorg_jsonld_endpoint_help($route_name, RouteMatchInterface $rou
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function schemadotorg_jsonld_endpoint_form_schemadotorg_jsonld_settings_form_alter(&$form, FormStateInterface $form_state) {
+function schemadotorg_jsonld_endpoint_form_schemadotorg_jsonld_settings_form_alter(array &$form, FormStateInterface $form_state): void {
   $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonld_endpoint.settings');
 
   $form['schemadotorg_jsonld_endpoint'] = [
@@ -50,7 +52,7 @@ function schemadotorg_jsonld_endpoint_form_schemadotorg_jsonld_settings_form_alt
  *
  * @see schemadotorg_jsonld_endpoint_form_schemadotorg_jsonld_settings_form_alter()
  */
-function schemadotorg_jsonld_endpoint_settings_form_submit(&$form, FormStateInterface $form_state) {
+function schemadotorg_jsonld_endpoint_settings_form_submit(array &$form, FormStateInterface $form_state): void {
   // Rebuild dynamic routes.
   // @see \Drupal\schemadotorg_jsonld_endpoint\Routing\SchemaDotOrgJsonLdEndpointRoutes
   /** @var \Drupal\Core\Routing\RouteBuilderInterface $router_builder */

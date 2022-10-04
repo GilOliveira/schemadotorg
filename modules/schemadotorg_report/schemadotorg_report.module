@@ -5,13 +5,15 @@
  * Primary module hooks for Schema.org Report module.
  */
 
+declare(strict_types = 1);
+
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 
 /**
  * Implements hook_help().
  */
-function schemadotorg_report_help($route_name, RouteMatchInterface $route_match) {
+function schemadotorg_report_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   switch ($route_name) {
     case 'schemadotorg_report':
       /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
@@ -84,7 +86,7 @@ function schemadotorg_report_help($route_name, RouteMatchInterface $route_match)
 /**
  * Implements hook_menu_local_tasks_alter().
  */
-function schemadotorg_report_menu_local_tasks_alter(&$data, $route_name) {
+function schemadotorg_report_menu_local_tasks_alter(array &$data, string $route_name): void {
   // Always point to the About page/tab to the same URL, which it shares
   // with the type and property detail page.
   // @see \Drupal\schemadotorg_report\Controller\SchemaDotOrgReportItemController::index

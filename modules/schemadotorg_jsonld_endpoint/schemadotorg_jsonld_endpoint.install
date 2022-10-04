@@ -5,12 +5,14 @@
  * Requirements functions for the Schema.org JSON-LD endpoint module.
  */
 
+declare(strict_types = 1);
+
 /**
  * Implements hook_requirements().
  */
-function schemadotorg_jsonld_endpoint_requirements($phase) {
+function schemadotorg_jsonld_endpoint_requirements(string $phase): ?array {
   if ($phase !== 'runtime') {
-    return;
+    return NULL;
   }
 
   $requirements = [];

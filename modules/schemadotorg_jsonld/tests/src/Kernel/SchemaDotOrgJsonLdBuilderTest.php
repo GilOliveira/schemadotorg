@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_jsonld\Kernel;
 
 use Drupal\filter\Entity\FilterFormat;
@@ -43,7 +45,7 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
   /**
    * Test Schema.org JSON-LD builder.
    */
-  public function testBuilder() {
+  public function testBuilder(): void {
     // Allow Schema.org Thing to have default properties.
     $this->config('schemadotorg.settings')
       ->set('schema_types.default_properties.Thing', ['name', 'alternateName', 'description', 'subjectOf'])

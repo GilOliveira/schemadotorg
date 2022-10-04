@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonld;
 
 use Drupal\Core\Entity\EntityInterface;
@@ -19,10 +21,10 @@ interface SchemaDotOrgJsonLdManagerInterface {
    * @param string $rel
    *   The link relationship type, for example: canonical or edit-form.
    *
-   * @return \Drupal\Core\Routing\RouteMatch|null
+   * @return \Drupal\Core\Routing\RouteMatchInterface|null
    *   An entity's canonical route match.
    */
-  public function getEntityRouteMatch(EntityInterface $entity, $rel = 'canonical');
+  public function getEntityRouteMatch(EntityInterface $entity, string $rel = 'canonical'): RouteMatchInterface|null;
 
   /**
    * Returns the entity of the current route.
@@ -35,7 +37,7 @@ interface SchemaDotOrgJsonLdManagerInterface {
    *
    * @see metatag_get_route_entity()
    */
-  public function getRouteMatchEntity(RouteMatchInterface $route_match = NULL);
+  public function getRouteMatchEntity(?RouteMatchInterface $route_match = NULL): EntityInterface|null;
 
   /**
    * Sort Schema.org properties in specified order and then alphabetically.
@@ -46,7 +48,7 @@ interface SchemaDotOrgJsonLdManagerInterface {
    * @return array
    *   The Schema.org propertiesin specified order and then alphabetically.
    */
-  public function sortProperties(array $properties);
+  public function sortProperties(array $properties): array;
 
   /**
    * Get a Schema.org property's value for a field item.
@@ -54,10 +56,10 @@ interface SchemaDotOrgJsonLdManagerInterface {
    * @param \Drupal\Core\Field\FieldItemInterface $item
    *   The field item.
    *
-   * @return array|mixed|null
+   * @return mixed
    *   A Schema.org property's value for a field item.
    */
-  public function getSchemaPropertyValue(FieldItemInterface $item);
+  public function getSchemaPropertyValue(FieldItemInterface $item): mixed;
 
   /**
    * Get a Schema.org type property's value converted to the default Schema.org type.
@@ -72,7 +74,7 @@ interface SchemaDotOrgJsonLdManagerInterface {
    * @return array|string
    *   The Schema.org property's value converted to the default Schema.org type.
    */
-  public function getSchemaPropertyValueDefaultType($type, $property, $value);
+  public function getSchemaPropertyValueDefaultType(string $type, string $property, mixed $value): array|string;
 
   /**
    * Get Schema.org identifiers for an entity.
@@ -83,6 +85,6 @@ interface SchemaDotOrgJsonLdManagerInterface {
    * @return array
    *   An array of identifiers containing Schema.org PropertyValue types.
    */
-  public function getSchemaIdentifiers(EntityInterface $entity);
+  public function getSchemaIdentifiers(EntityInterface $entity): array;
 
 }

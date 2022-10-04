@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonld_endpoint\ParamConverter;
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\TranslatableInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\ParamConverter\EntityConverter;
@@ -36,14 +39,14 @@ class SchemaDotOrgJsonLdEndpointEntityUuidConverter extends EntityConverter {
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager to get the current content language.
    */
-  public function setLanguageManager(LanguageManagerInterface $language_manager) {
+  public function setLanguageManager(LanguageManagerInterface $language_manager): void {
     $this->languageManager = $language_manager;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function convert($value, $definition, $name, array $defaults) {
+  public function convert($value, mixed $definition, $name, array $defaults): ?EntityInterface {
     $entity_type_id = $this->getEntityTypeFromDefaults($definition, $name, $defaults);
     $definition = $this->entityTypeManager->getDefinition($entity_type_id);
     $uuid_key = $definition->getKey('uuid');
@@ -73,9 +76,9 @@ class SchemaDotOrgJsonLdEndpointEntityUuidConverter extends EntityConverter {
   /**
    * {@inheritdoc}
    */
-  public function applies($definition, $name, Route $route) {
+  public function applies($definition, $name, Route $route): bool {
     $has_jsonld_route_flag = $route->getDefault(SchemaDotOrgJsonLdEndpointRoutes::JSONLD_ROUTE_FLAG_KEY);
-    $has_entity_type_definition = (!empty($definition['type']) && strpos($definition['type'], 'entity') === 0);
+    $has_entity_type_definition = (!empty($definition['type']) && str_starts_with($definition['type'], 'entity'));
     return ($has_jsonld_route_flag && $has_entity_type_definition);
   }
 

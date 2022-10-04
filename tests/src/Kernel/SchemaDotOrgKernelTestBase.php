@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\Component\Render\MarkupInterface;
@@ -12,12 +14,14 @@ use Drupal\Tests\schemadotorg\Traits\SchemaDotOrgTestTrait;
 abstract class SchemaDotOrgKernelTestBase extends EntityKernelTestBase {
   use SchemaDotOrgTestTrait;
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['schemadotorg'];
+  // phpcs:enable
 
   /**
    * Convert all render(able) markup into strings.
@@ -25,7 +29,7 @@ abstract class SchemaDotOrgKernelTestBase extends EntityKernelTestBase {
    * @param array $elements
    *   An associative array of elements.
    */
-  protected function convertMarkupToStrings(array &$elements) {
+  protected function convertMarkupToStrings(array &$elements): void {
     foreach ($elements as $key => &$value) {
       if (is_array($value)) {
         self::convertMarkupToStrings($value);

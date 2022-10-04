@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_rdf\Functional;
 
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
@@ -14,6 +16,7 @@ use Drupal\Tests\schemadotorg_subtype\Traits\SchemaDotOrgTestSubtypeTrait;
 class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
   use SchemaDotOrgTestSubtypeTrait;
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -24,6 +27,7 @@ class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
     'schemadotorg_subtype',
     'schemadotorg_rdf',
   ];
+  // phpcs:enable
 
   /**
    * A test node.
@@ -83,7 +87,7 @@ class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test Schema.org RDF(a) support.
    */
-  public function testRdf() {
+  public function testRdf(): void {
     // Check that the Schema.org mapping is sync'd with the RDF mapping.
     $this->drupalGet('/node/' . $this->node->id());
     $this->assertSession()->responseContains('typeof="schema:Event"');

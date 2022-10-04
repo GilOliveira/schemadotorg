@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\SchemaDotOrgJsonLdEndpoint\Functional;
 
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
@@ -16,6 +18,7 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgJsonLdEndpointTest extends SchemaDotOrgBrowserTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -27,11 +30,12 @@ class SchemaDotOrgJsonLdEndpointTest extends SchemaDotOrgBrowserTestBase {
     'schemadotorg_jsonapi',
     'schemadotorg_jsonld_endpoint',
   ];
+  // phpcs:enable
 
   /**
    * Test Schema.org JSON-LD endpoints.
    */
-  public function testEndpoints() {
+  public function testEndpoints(): void {
     $assert_session = $this->assertSession();
 
     // Create Thing content type with a Schema.org mapping.

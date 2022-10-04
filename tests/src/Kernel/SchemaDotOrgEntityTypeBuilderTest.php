@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\Core\Entity\Entity\EntityFormMode;
@@ -63,7 +65,7 @@ class SchemaDotOrgEntityTypeBuilderTest extends SchemaDotOrgKernelEntityTestBase
   /**
    * Test Schema.org entity type builder.
    */
-  public function testEntityTypeBuilder() {
+  public function testEntityTypeBuilder(): void {
     // Check adding an entity bundle.
     $values = [
       'label' => 'Thing',

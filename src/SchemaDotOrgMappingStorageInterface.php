@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
@@ -20,7 +22,7 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    * @return bool
    *   TRUE if the entity is mapped to a Schema.org type.
    */
-  public function isEntityMapped(EntityInterface $entity);
+  public function isEntityMapped(EntityInterface $entity): bool;
 
   /**
    * Determine if an entity type and bundle are mapped to a Schema.org type.
@@ -33,7 +35,7 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    * @return bool
    *   TRUE if an entity type and bundle are mapped to a Schema.org type.
    */
-  public function isBundleMapped($entity_type_id, $bundle);
+  public function isBundleMapped(string $entity_type_id, string $bundle): bool;
 
   /**
    * Gets the Schema.org type for an entity and bundle.
@@ -43,10 +45,10 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    * @param string $bundle
    *   The name of the bundle.
    *
-   * @return string
+   * @return string|null
    *   The Schema.org type for an entity and bundle.
    */
-  public function getSchemaType($entity_type_id, $bundle);
+  public function getSchemaType(string $entity_type_id, string $bundle): ?string;
 
   /**
    * Gets the Schema.org property name for an entity field mapping.
@@ -61,7 +63,7 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    * @return string
    *   The Schema.org property name for an entity field mapping.
    */
-  public function getSchemaPropertyName($entity_type_id, $bundle, $field_name);
+  public function getSchemaPropertyName(string $entity_type_id, string $bundle, string $field_name): ?string;
 
   /**
    * Get a Schema.org property's range includes.
@@ -74,7 +76,7 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    * @return array
    *   The Schema.org property's range includes.
    */
-  public function getSchemaPropertyRangeIncludes($schema_type, $schema_property);
+  public function getSchemaPropertyRangeIncludes(string $schema_type, string $schema_property): array;
 
   /**
    * Get a Schema.org property's target bundles.
@@ -89,7 +91,7 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    * @return array
    *   The Schema.org property's target bundles.
    */
-  public function getSchemaPropertyTargetBundles($target_type, $schema_type, $schema_property);
+  public function getSchemaPropertyTargetBundles(string $target_type, string $schema_type, string $schema_property): array;
 
   /**
    * Gets the Schema.org range includes target bundles.
@@ -102,20 +104,20 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    * @return array
    *   The Schema.org range includes target bundles.
    */
-  public function getRangeIncludesTargetBundles($target_type, array $range_includes);
+  public function getRangeIncludesTargetBundles(string $target_type, array $range_includes): array;
 
   /**
    * Determine if Schema.org type is mapped to an entity.
    *
-   * @param string $entity_type_id
+   * @param string|null $entity_type_id
    *   The entity type ID.
-   * @param string $schema_type
+   * @param string|null $schema_type
    *   The Schema.org type.
    *
    * @return bool
    *   TRUE if Schema.org type is mapped to an entity.
    */
-  public function isSchemaTypeMapped($entity_type_id, $schema_type);
+  public function isSchemaTypeMapped(?string $entity_type_id, ?string $schema_type): bool;
 
   /**
    * Load by target entity id and Schema.org type.
@@ -128,7 +130,7 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null
    *   The Schema.org mapping entity.
    */
-  public function loadBySchemaType($entity_type_id, $schema_type);
+  public function loadBySchemaType(string $entity_type_id, string $schema_type): ?SchemaDotOrgMappingInterface;
 
   /**
    * Load by entity.
@@ -139,6 +141,6 @@ interface SchemaDotOrgMappingStorageInterface extends ConfigEntityStorageInterfa
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null
    *   The Schema.org mapping entity.
    */
-  public function loadByEntity(EntityInterface $entity);
+  public function loadByEntity(EntityInterface $entity): ?SchemaDotOrgMappingInterface;
 
 }

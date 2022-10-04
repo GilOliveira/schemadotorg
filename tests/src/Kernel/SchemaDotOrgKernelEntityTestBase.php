@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
+use Drupal\media\MediaTypeInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\file\Entity\File;
 use Drupal\Tests\media\Traits\MediaTypeCreationTrait;
 use Drupal\Tests\TestFileCreationTrait;
@@ -120,7 +124,7 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
    * @param string $entity_type_id
    *   The entity type ID.
    */
-  protected function installEntityDependencies($entity_type_id) {
+  protected function installEntityDependencies(string $entity_type_id): void {
     // Install the target entity type schema.
     if (isset($this->installedEntitySchemas[$entity_type_id])
       && $this->installedEntitySchemas[$entity_type_id] !== TRUE) {
@@ -156,7 +160,7 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null
    *   The entity type/bundle's Schema.org mapping.
    */
-  protected function createSchemaEntity($entity_type_id, $schema_type) {
+  protected function createSchemaEntity(string $entity_type_id, string $schema_type): ?SchemaDotOrgMappingInterface {
     // Install the entity type dependencies.
     $this->installEntityDependencies($entity_type_id);
 
@@ -177,7 +181,7 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
    * @return \Drupal\file\Entity\File
    *   A test image file.
    */
-  protected function createFileImage() {
+  protected function createFileImage(): File {
     $this->installEntityDependencies('file');
 
     $file_uri = $this->getTestFiles('image')[0]->uri;
@@ -196,7 +200,7 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
    * @return \Drupal\media\MediaTypeInterface
    *   The image media type.
    */
-  protected function createMediaImage() {
+  protected function createMediaImage(): MediaTypeInterface {
     return $this->createMediaType('image', ['id' => 'image', 'label' => 'Image']);
   }
 

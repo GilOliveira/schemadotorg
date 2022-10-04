@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Component\Serialization\Json;
@@ -37,7 +39,7 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
    * @param \Drupal\help\HelpSectionManager|null $help_manager
    *   The help section manager.
    */
-  public function __construct(ExtensionPathResolver $extension_path_resolver, HelpSectionManager $help_manager = NULL) {
+  public function __construct(ExtensionPathResolver $extension_path_resolver, ?HelpSectionManager $help_manager = NULL) {
     $this->extensionPathResolver = $extension_path_resolver;
     $this->helpManager = $help_manager;
   }
@@ -45,8 +47,8 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function buildHelpPage($route_name, RouteMatchInterface $route_match) {
-    if (strpos($route_name, 'help.page.schemadotorg') !== 0) {
+  public function buildHelpPage(string $route_name, RouteMatchInterface $route_match): ?array {
+    if (!str_starts_with($route_name, 'help.page.schemadotorg')) {
       return NULL;
     }
 
@@ -115,7 +117,7 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
    * @return array
    *   A module's videos as a renderable array.
    */
-  public function buildVideosPage() {
+  public function buildVideosPage(): array {
     // Videos.
     $videos = [
       [
@@ -238,7 +240,7 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
    * @return array
    *   An array of operations.
    */
-  protected function getHelpTopicsAsOperations() {
+  protected function getHelpTopicsAsOperations(): array {
     /** @var \Drupal\help\HelpSectionPluginInterface $plugin */
     $plugin = $this->helpManager->createInstance('hook_help');
 
@@ -246,12 +248,12 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
     $links = $plugin->listTopics();
 
     $operations = [];
-    foreach ($links as $key => $link) {
+    foreach ($links as $link) {
       $route_parameters = $link->getUrl()->getRouteParameters();
-      if (strpos($route_parameters['name'], 'schemadotorg') === 0) {
+      if (str_starts_with($route_parameters['name'], 'schemadotorg')) {
         $operations[$route_parameters['name']] = [
-          'title' => $links[$key]->getText(),
-          'url' => $links[$key]->getUrl(),
+          'title' => $link->getText(),
+          'url' => $link->getUrl(),
         ];
       }
     }

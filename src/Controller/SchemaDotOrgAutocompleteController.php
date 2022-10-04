@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
@@ -62,7 +64,7 @@ class SchemaDotOrgAutocompleteController extends ControllerBase {
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   A JSON response containing the autocomplete suggestions.
    */
-  public function autocomplete(Request $request, $table) {
+  public function autocomplete(Request $request, string $table): JsonResponse {
     $input = $request->query->get('q');
     if (!$input) {
       return new JsonResponse([]);

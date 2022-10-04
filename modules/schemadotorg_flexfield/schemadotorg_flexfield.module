@@ -5,6 +5,10 @@
  * Allows FlexFields to be used to create Schema.org relationships.
  */
 
+declare(strict_types = 1);
+
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
@@ -15,7 +19,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 /**
  * Implements hook_help().
  */
-function schemadotorg_flexfield_help($route_name, RouteMatchInterface $route_match) {
+function schemadotorg_flexfield_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
@@ -24,7 +28,7 @@ function schemadotorg_flexfield_help($route_name, RouteMatchInterface $route_mat
 /**
  * Implements hook_schemadotorg_property_field_type_alter().
  */
-function schemadotorg_flexfield_schemadotorg_property_field_type_alter(array &$field_types, $schema_type, $schema_property) {
+function schemadotorg_flexfield_schemadotorg_property_field_type_alter(array &$field_types, string $schema_type, string $schema_property): void {
   $default_properties = _schemadotorg_flexfield_get_default_properties($schema_type, $schema_property);
   if ($default_properties) {
     $field_types = ['flex' => 'flex'] + $field_types;
@@ -35,15 +39,15 @@ function schemadotorg_flexfield_schemadotorg_property_field_type_alter(array &$f
  * Implements hook_schemadotorg_property_field_alter().
  */
 function schemadotorg_flexfield_schemadotorg_property_field_alter(
-  $schema_type,
-  $schema_property,
+  string $schema_type,
+  string $schema_property,
   array &$field_storage_values,
   array &$field_values,
-  &$widget_id,
-  array &$widget_settings,
-  &$formatter_id,
+  ?string &$widget_id,
+  array|null &$widget_settings,
+  string &$formatter_id,
   array &$formatter_settings
-) {
+): void {
   // Make sure the field type is set to 'flex' (field).
   if ($field_storage_values['type'] !== 'flex') {
     return;
@@ -102,7 +106,7 @@ function schemadotorg_flexfield_schemadotorg_property_field_alter(
 /**
  * Implements hook_schemadotorg_jsonld_field_item_alter().
  */
-function schemadotorg_flexfield_schemadotorg_jsonld_schema_property_alter(&$value, FieldItemInterface $item) {
+function schemadotorg_flexfield_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item): void {
   $mapping = _schemadotorg_flexfield_get_mapping($item);
   if (!$mapping) {
     return;
@@ -148,7 +152,7 @@ function schemadotorg_flexfield_schemadotorg_jsonld_schema_property_alter(&$valu
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function schemadotorg_flexfield_form_schemadotorg_properties_settings_form_alter(&$form, FormStateInterface $form_state) {
+function schemadotorg_flexfield_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
   $config = \Drupal::configFactory()->getEditable('schemadotorg_flexfield.settings');
 
   $form['schemadotorg_flexfield'] = [
@@ -178,7 +182,7 @@ function schemadotorg_flexfield_form_schemadotorg_properties_settings_form_alter
  *
  * @see schemadotorg_flexfield_form_schemadotorg_properties_settings_form_alter()
  */
-function schemadotorg_flexfield_settings_form_submit(&$form, FormStateInterface $form_state) {
+function schemadotorg_flexfield_settings_form_submit(array &$form, FormStateInterface $form_state): void {
   $config = \Drupal::configFactory()->getEditable('schemadotorg_flexfield.settings');
   $values = $form_state->getValue('schemadotorg_flexfield');
   foreach ($values as $key => $value) {
@@ -190,7 +194,7 @@ function schemadotorg_flexfield_settings_form_submit(&$form, FormStateInterface 
 /**
  * Implements hook_field_widget_form_alter().
  */
-function schemadotorg_flexfield_field_widget_form_alter(&$element, FormStateInterface $form_state, $context) {
+function schemadotorg_flexfield_field_widget_form_alter(array &$element, FormStateInterface $form_state, array $context): void {
   /** @var \Drupal\Core\Field\FieldItemListInterface $items */
   $items = $context['items'];
   $mapping = _schemadotorg_flexfield_get_mapping($items);
@@ -225,7 +229,7 @@ function schemadotorg_flexfield_field_widget_form_alter(&$element, FormStateInte
 /**
  * Preprocess variables for flexfield.html.twig.
  */
-function schemadotorg_flexfield_preprocess_flexfield(&$variables) {
+function schemadotorg_flexfield_preprocess_flexfield(array &$variables): void {
   /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
   $schema_names = Drupal::service('schemadotorg.names');
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
@@ -263,7 +267,7 @@ function schemadotorg_flexfield_preprocess_flexfield(&$variables) {
  *
  * @internal
  */
-function _schemadotorg_flexfield_get_default_properties($schema_type, $schema_property) {
+function _schemadotorg_flexfield_get_default_properties(string $schema_type, string $schema_property): ?array {
   $config = \Drupal::config('schemadotorg_flexfield.settings');
   return $config->get("default_properties.$schema_type--$schema_property")
     ?? $config->get("default_properties.$schema_property")
@@ -281,7 +285,7 @@ function _schemadotorg_flexfield_get_default_properties($schema_type, $schema_pr
  *
  * @internal
  */
-function _schemadotorg_flexfield_get_mapping($item) {
+function _schemadotorg_flexfield_get_mapping(FieldItemListInterface|FieldItemInterface $item): ?SchemaDotOrgMappingInterface {
   $field_type = $item->getFieldDefinition()->getType();
   // Make sure the field type is set to 'flex' (field).
   if ($field_type !== 'flex') {

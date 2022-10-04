@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_descriptions\Functional;
 
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
@@ -11,6 +13,7 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
 
+  // phpcs:disable
   /**
    * Modules to install.
    *
@@ -26,6 +29,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     'schemadotorg_ui',
     'schemadotorg_subtype',
   ];
+  // phpcs:enable
 
   /**
    * {@inheritdoc}
@@ -38,7 +42,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test Schema.org descriptions.
    */
-  public function testDescriptions() {
+  public function testDescriptions(): void {
     $assert_session = $this->assertSession();
 
     // Login as node type administrator.

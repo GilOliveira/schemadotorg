@@ -5,6 +5,8 @@
  * Provides development tools for the Schema.org Blueprints module.
  */
 
+declare(strict_types = 1);
+
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -13,7 +15,7 @@ use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 /**
  * Implements hook_help().
  */
-function schemadotorg_devel_help($route_name, RouteMatchInterface $route_match) {
+function schemadotorg_devel_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   if ($route_name === 'schemadotorg_devel.settings') {
     return '<p>' . t('The <em>Schema.org development settings</em> page allows administrators to configure content generation settings.') . '<p>';
   }
@@ -26,7 +28,7 @@ function schemadotorg_devel_help($route_name, RouteMatchInterface $route_match) 
 /**
  * Implements hook_entity_presave().
  */
-function schemadotorg_devel_entity_presave(EntityInterface $entity) {
+function schemadotorg_devel_entity_presave(EntityInterface $entity): void {
   // Check that devel is generating a content entity.
   // @see https://www.drupal.org/project/devel/issues/2582845
   if (empty($entity->devel_generate)
@@ -53,7 +55,7 @@ function schemadotorg_devel_entity_presave(EntityInterface $entity) {
   // Populate the fields.
   foreach ($property_values as $property => $values) {
     // Check Type--property.
-    if (strpos($property, '--') !== FALSE) {
+    if (str_contains($property, '--')) {
       [$property_schema_type, $property] = explode('--', $property);
       if (!isset($schema_properties[$property])
         || !$schema_type_manager->isSubTypeOf($property_schema_type, $schema_type)) {

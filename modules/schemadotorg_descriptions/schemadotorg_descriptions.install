@@ -5,10 +5,12 @@
  * Installation hooks for the Schema.org Blueprints Descriptions module.
  */
 
+declare(strict_types = 1);
+
 /**
  * Implements hook_install().
  */
-function schemadotorg_descriptions_install() {
+function schemadotorg_descriptions_install(): void {
   // Setting weight to 1 so that descriptions will be added or removed after
   // entity and field forms have been altered.
   module_set_weight('schemadotorg_descriptions', 1);

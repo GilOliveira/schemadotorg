@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_taxonomy;
 
 use Drupal\Core\Entity\EntityInterface;
@@ -17,7 +19,7 @@ interface SchemaDotOrgTaxonomyJsonLdManagerInterface {
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity.
    */
-  public function load(array &$data, EntityInterface $entity);
+  public function load(array &$data, EntityInterface $entity): void;
 
   /**
    * Alter Schema.org JSON-LD for an entity.
@@ -27,7 +29,7 @@ interface SchemaDotOrgTaxonomyJsonLdManagerInterface {
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity.
    */
-  public function alter(array &$data, EntityInterface $entity);
+  public function alter(array &$data, EntityInterface $entity): void;
 
   /**
    * Preprocess HTML alter JSON-LD Term endpoint.
@@ -35,6 +37,6 @@ interface SchemaDotOrgTaxonomyJsonLdManagerInterface {
    * @param array $variables
    *   An array of variables.
    */
-  public function preprocessHtml(array &$variables);
+  public function preprocessHtml(array &$variables): void;
 
 }

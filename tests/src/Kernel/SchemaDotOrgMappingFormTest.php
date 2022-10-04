@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\Core\Form\FormState;
@@ -15,12 +17,14 @@ use Drupal\schemadotorg\Form\SchemaDotOrgMappingForm;
  */
 class SchemaDotOrgMappingFormTest extends SchemaDotOrgKernelTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['system', 'user', 'node', 'field'];
+  // phpcs:enable
 
   /**
    * A node type.
@@ -106,7 +110,7 @@ class SchemaDotOrgMappingFormTest extends SchemaDotOrgKernelTestBase {
   /**
    * Test Schema.org mapping form.
    */
-  public function testSchemaDotOrgMappingForm() {
+  public function testSchemaDotOrgMappingForm(): void {
     // Display node (with bundle) mapping form.
     $this->entityForm->setEntity($this->nodeMapping);
     $form = $this->entityForm->buildForm([], new FormState());

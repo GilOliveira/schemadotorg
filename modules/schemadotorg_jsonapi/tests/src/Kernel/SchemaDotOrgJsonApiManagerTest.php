@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_jsonapi\Kernel;
 
+use Drupal\jsonapi_extras\Entity\JsonapiResourceConfig;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\node\Entity\NodeType;
@@ -84,7 +87,7 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
   /**
    * Test Schema.org JSON:API manager.
    */
-  public function testSchemaDotOrgJsonApiManager() {
+  public function testSchemaDotOrgJsonApiManager(): void {
 
     /* ********************************************************************** */
     // Insert Schema.org mapping JSON:API resource config.
@@ -285,7 +288,7 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgKernelTestBase {
    * @return \Drupal\jsonapi_extras\Entity\JsonapiResourceConfig
    *   A JSON:API resource.
    */
-  protected function loadResource($id) {
+  protected function loadResource(string $id): JsonapiResourceConfig {
     $this->resourceStorage->resetCache([$id]);
     return $this->resourceStorage->load($id);
   }

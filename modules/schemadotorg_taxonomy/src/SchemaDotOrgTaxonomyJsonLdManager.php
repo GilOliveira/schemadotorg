@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_taxonomy;
 
+use Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -51,8 +54,8 @@ class SchemaDotOrgTaxonomyJsonLdManager implements SchemaDotOrgTaxonomyJsonLdMan
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
-    SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager = NULL,
-    SchemaDotOrgJsonLdBuilderInterface $schema_jsonld_builder = NULL) {
+    ?SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager = NULL,
+    ?SchemaDotOrgJsonLdBuilderInterface $schema_jsonld_builder = NULL) {
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaJsonLdManager = $schema_jsonld_manager;
     $this->schemaJsonLdBuilder = $schema_jsonld_builder;
@@ -61,7 +64,7 @@ class SchemaDotOrgTaxonomyJsonLdManager implements SchemaDotOrgTaxonomyJsonLdMan
   /**
    * {@inheritdoc}
    */
-  public function load(array &$data, EntityInterface $entity) {
+  public function load(array &$data, EntityInterface $entity): void {
     if (!$entity instanceof VocabularyInterface) {
       return;
     }
@@ -88,7 +91,7 @@ class SchemaDotOrgTaxonomyJsonLdManager implements SchemaDotOrgTaxonomyJsonLdMan
   /**
    * {@inheritdoc}
    */
-  public function alter(array &$data, EntityInterface $entity) {
+  public function alter(array &$data, EntityInterface $entity): void {
     if (!$entity instanceof TermInterface) {
       return;
     }
@@ -118,7 +121,7 @@ class SchemaDotOrgTaxonomyJsonLdManager implements SchemaDotOrgTaxonomyJsonLdMan
    * @param array $variables
    *   An array of variables.
    */
-  public function preprocessHtml(array &$variables) {
+  public function preprocessHtml(array &$variables): void {
     if (empty($this->schemaJsonLdBuilder)) {
       return;
     }
@@ -166,7 +169,7 @@ class SchemaDotOrgTaxonomyJsonLdManager implements SchemaDotOrgTaxonomyJsonLdMan
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface
    *   The Schema.org mapping storage.
    */
-  protected function getMappingStorage() {
+  protected function getMappingStorage(): SchemaDotOrgMappingStorageInterface {
     return $this->entityTypeManager->getStorage('schemadotorg_mapping');
   }
 

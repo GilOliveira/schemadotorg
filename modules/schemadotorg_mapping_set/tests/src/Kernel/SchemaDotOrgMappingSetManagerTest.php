@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\mapping_set\Kernel;
 
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
@@ -53,9 +55,9 @@ class SchemaDotOrgMappingSetManagerTest extends SchemaDotOrgKernelEntityTestBase
   /**
    * Test Schema.org mapping set manager.
    */
-  public function testManager() {
+  public function testManager(): void {
     // Update mapping sets to simples sets.
-    $config = \Drupal::configFactory()->getEditable('schemadotorg_mapping_set.settings');
+    $config = $this->config('schemadotorg_mapping_set.settings');
     $config->set('sets', [
       'required' => [
         'label' => 'Required',

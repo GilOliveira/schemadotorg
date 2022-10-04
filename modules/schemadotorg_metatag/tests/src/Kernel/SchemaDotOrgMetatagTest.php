@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_metatag\Kernel;
 
 use Drupal\field\Entity\FieldConfig;
@@ -14,6 +16,7 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
  */
 class SchemaDotOrgMetatagTest extends SchemaDotOrgKernelEntityTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -24,6 +27,7 @@ class SchemaDotOrgMetatagTest extends SchemaDotOrgKernelEntityTestBase {
     'metatag',
     'schemadotorg_metatag',
   ];
+  // phpcs:enable
 
   /**
    * The entity display repository.
@@ -45,7 +49,7 @@ class SchemaDotOrgMetatagTest extends SchemaDotOrgKernelEntityTestBase {
   /**
    * Test Schema.org metatag.
    */
-  public function testMetatag() {
+  public function testMetatag(): void {
     // Create node:place.
     $this->createSchemaEntity('node', 'Place');
 

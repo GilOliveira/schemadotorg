@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Component\Serialization\Json;
@@ -86,9 +88,9 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   /**
    * {@inheritdoc}
    */
-  public function requirements($phase) {
+  public function requirements(string $phase): ?array {
     if ($phase !== 'runtime') {
-      return [];
+      return NULL;
     }
 
     // NOTE: Suggestions are also included the Schema.org Blueprints
@@ -172,7 +174,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   /**
    * {@inheritdoc}
    */
-  public function install() {
+  public function install(): void {
     // Recreate Schema.org types and properties tables.
     // Recreating these readonly tables allows us to continually refine and
     // optimize the table schemas.
@@ -186,7 +188,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   /**
    * {@inheritdoc}
    */
-  public function installModules(array $modules = NULL) {
+  public function installModules(?array $modules = NULL): void {
     $modules = $modules ?? array_keys($this->moduleHandler->getModuleList());
     // Create default mapping type for modules that provide content entities
     // that could be mapped to Schema.org types.
@@ -227,7 +229,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   /**
    * {@inheritdoc}
    */
-  public function schema() {
+  public function schema(): array {
     $schema = [];
 
     // Schema.org: Types.
@@ -385,7 +387,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   /**
    * Download and cleanup Schema.org CSV data.
    */
-  public function downloadCsvData() {
+  public function downloadCsvData(): void {
     $version = static::VERSION;
 
     $jsonld_uri = "https://github.com/schemaorg/schemaorg/blob/main/data/releases/$version/schemaorg-all-https.jsonld?raw=true";
@@ -438,7 +440,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   /**
    * Import Schema.org types and properties tables.
    */
-  public function importTables() {
+  public function importTables(): void {
     $this->importTable('types');
     $this->importTable('properties');
   }
@@ -449,7 +451,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
    * @param string $name
    *   The Schema.org table type (properties or types).
    */
-  protected function importTable($name) {
+  protected function importTable(string $name): void {
     $table = 'schemadotorg_' . $name;
     $filename = __DIR__ . '/../data/' . static::VERSION . '/schemaorg-current-https-' . $name . '.csv';
 
@@ -461,7 +463,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
 
     // Get field names.
     $fields = fgetcsv($handle);
-    array_walk($fields, function (&$field_name) {
+    array_walk($fields, function (&$field_name): void {
       $field_name = $this->schemaNames->camelCaseToSnakeCase($field_name);
     });
 
@@ -480,7 +482,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   /**
    * Reinstall Schema.org tables.
    */
-  protected function reinstallSchema() {
+  protected function reinstallSchema(): void {
     $tables = $this->schema();
     foreach ($tables as $name => $table) {
       if ($this->database->schema()->tableExists($name)) {

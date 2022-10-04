@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
@@ -31,14 +34,14 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
   /**
    * {@inheritdoc}
    */
-  public function getFieldPrefix() {
+  public function getFieldPrefix(): string {
     return $this->getSettingsConfig()->get('field_prefix');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getNameMaxLength($table) {
+  public function getNameMaxLength(string $table): int {
     return ($table === 'properties')
       ? 32 - strlen($this->getFieldPrefix())
       : 32;
@@ -47,21 +50,21 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
   /**
    * {@inheritdoc}
    */
-  public function snakeCaseToUpperCamelCase($string) {
+  public function snakeCaseToUpperCamelCase(string $string): string {
     return str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
   }
 
   /**
    * {@inheritdoc}
    */
-  public function snakeCaseToCamelCase($string) {
+  public function snakeCaseToCamelCase(string $string): string {
     return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $string))));
   }
 
   /**
    * {@inheritdoc}
    */
-  public function camelCaseToSnakeCase($string) {
+  public function camelCaseToSnakeCase(string $string): string {
     $intermediate = preg_replace('/(?!^)([[:upper:]][[:lower:]]+)/', '_$0', $string);
     $snake_case = preg_replace('/(?!^)([[:lower:]])([[:upper:]])/', '$1_$2', $intermediate);
     return strtolower($snake_case);
@@ -70,7 +73,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
   /**
    * {@inheritdoc}
    */
-  public function camelCaseToTitleCase($string) {
+  public function camelCaseToTitleCase(string $string): string {
     // CamelCase to Title Case PHP Regex.
     // @see https://gist.github.com/justjkk/1402061
     $intermediate = preg_replace('/(?!^)([[:upper:]][[:lower:]]+)/', ' $0', $string);
@@ -100,7 +103,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
   /**
    * {@inheritdoc}
    */
-  public function camelCaseToSentenceCase($string) {
+  public function camelCaseToSentenceCase(string $string): string {
     $sentence = $this->camelCaseToTitleCase($string);
     $sentence = preg_replace_callback('/ ([A-Z])([a-z])/', function ($matches) {
       return ' ' . strtolower($matches[1]) . $matches[2];
@@ -111,7 +114,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
   /**
    * {@inheritdoc}
    */
-  public function camelCaseToDrupalName($string, array $options = []) {
+  public function camelCaseToDrupalName(string $string, array $options = []): string {
     $max_length = $options['maxlength'] ?? NULL;
     $truncate = $options['truncate'] ?? FALSE;
 
@@ -161,7 +164,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
   /**
    * {@inheritdoc}
    */
-  public function schemaIdToDrupalLabel($table, $string) {
+  public function schemaIdToDrupalLabel(string $table, string $string): string {
     return ($table === 'types')
       ? $this->camelCaseToTitleCase($string)
       : $this->camelCaseToSentenceCase($string);
@@ -170,7 +173,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
   /**
    * {@inheritdoc}
    */
-  public function schemaIdToDrupalName($table, $string) {
+  public function schemaIdToDrupalName(string $table, string $string): string {
     $max_length = $this->getNameMaxLength($table);
     return $this->camelCaseToDrupalName($string, ['maxlength' => $max_length]);
   }
@@ -181,7 +184,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
    * @return \Drupal\Core\Config\ImmutableConfig
    *   The Schema.org settings configuration.
    */
-  protected function getSettingsConfig() {
+  protected function getSettingsConfig(): ImmutableConfig {
     return $this->configFactory->get('schemadotorg.settings');
   }
 
@@ -191,7 +194,7 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
    * @return \Drupal\Core\Config\ImmutableConfig
    *   The Schema.org names configuration.
    */
-  protected function getNamesConfig() {
+  protected function getNamesConfig(): ImmutableConfig {
     return $this->configFactory->get('schemadotorg.names');
   }
 

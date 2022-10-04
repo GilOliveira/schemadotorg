@@ -5,10 +5,12 @@
  * Installation hooks for Schema.org Blueprints Next.js Components module.
  */
 
+declare(strict_types = 1);
+
 /**
  * Implements hook_install().
  */
-function schemadotorg_next_components_install() {
+function schemadotorg_next_components_install(): void {
   // Assign a weight 1 higher than schemadotorg_next.module to ensure
   // schemadotorg_next_next_site_preview_alter() runs after
   // schemadotorg_next_components_next_site_preview_alter().

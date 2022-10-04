@@ -65,4 +65,4 @@ _The below manual JavaScript tests should be moved to automated tests._
 
 @see /node/add/person
 
-- Check that Next.js** component can be download and copied-n-pasted
+- Check that Next.js** component can be downloaded and copied-n-pasted

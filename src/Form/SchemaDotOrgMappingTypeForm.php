@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg\Form;
 
 use Drupal\Core\Entity\ContentEntityTypeInterface;
@@ -17,7 +19,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
   /**
    * {@inheritdoc}
    */
-  public function form(array $form, FormStateInterface $form_state) {
+  public function form(array $form, FormStateInterface $form_state): array {
     $form = parent::form($form, $form_state);
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $entity */
@@ -113,7 +115,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
   /**
    * {@inheritdoc}
    */
-  public function save(array $form, FormStateInterface $form_state) {
+  public function save(array $form, FormStateInterface $form_state): int {
     $result = parent::save($form, $form_state);
     $t_args = ['%label' => $this->getEntity()->label()];
     $message = ($result === SAVED_NEW)
@@ -134,7 +136,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
    * @return array
    *   Available target content entity type options.
    */
-  protected function getTargetEntityTypeOptions() {
+  protected function getTargetEntityTypeOptions(): array {
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
     $definitions = $this->entityTypeManager->getDefinitions();
 

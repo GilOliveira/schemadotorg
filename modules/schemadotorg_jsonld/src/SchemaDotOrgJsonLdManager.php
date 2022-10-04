@@ -1,13 +1,17 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonld;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
@@ -16,6 +20,7 @@ use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Routing\RouteMatch;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\image\ImageStyleInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -135,7 +140,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getEntityRouteMatch(EntityInterface $entity, $rel = 'canonical') {
+  public function getEntityRouteMatch(EntityInterface $entity, string $rel = 'canonical'): RouteMatchInterface|null {
     if (!$entity->hasLinkTemplate($rel)) {
       return NULL;
     }
@@ -159,7 +164,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getRouteMatchEntity(RouteMatchInterface $route_match = NULL) {
+  public function getRouteMatchEntity(?RouteMatchInterface $route_match = NULL): EntityInterface|null {
     $route_match = $route_match ?: $this->routeMatch;
     $route_name = $route_match->getRouteName();
     if (preg_match('/entity\.(.*)\.(latest[_-]version|canonical)/', $route_name, $matches)) {
@@ -173,7 +178,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function sortProperties(array $properties) {
+  public function sortProperties(array $properties): array {
     $definition_properties = [];
     $sorted_properties = [];
 
@@ -203,7 +208,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyValue(FieldItemInterface $item) {
+  public function getSchemaPropertyValue(FieldItemInterface $item): mixed {
     // Field type (from Drupal core only).
     $field_type = $this->getFieldType($item);
     switch ($field_type) {
@@ -280,7 +285,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyValueDefaultType($type, $property, $value) {
+  public function getSchemaPropertyValueDefaultType(string $type, string $property, mixed $value): array|string {
     $default_property_values = $this->configFactory
       ->get('schemadotorg.settings')
       ->get('schema_types.default_property_values');
@@ -326,7 +331,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @return string
    *   A Schema.org type's main property. (Defaults to 'name')
    */
-  protected function getSchemaTypeMainProperty($type) {
+  protected function getSchemaTypeMainProperty(string $type): string {
     $main_properties = $this->configFactory
       ->get('schemadotorg.settings')
       ->get('schema_types.main_properties');
@@ -349,7 +354,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getSchemaIdentifiers(EntityInterface $entity) {
+  public function getSchemaIdentifiers(EntityInterface $entity): array {
     $identifiers = $this->getConfig()->get('identifiers');
 
     $entity_data = [];
@@ -402,7 +407,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @return \Drupal\Core\Config\ImmutableConfig
    *   Schema.org JSON-LD configuration settings.
    */
-  protected function getConfig() {
+  protected function getConfig(): ImmutableConfig {
     return $this->configFactory->get('schemadotorg_jsonld.settings');
   }
 
@@ -415,7 +420,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @return \Drupal\Core\Entity\FieldableEntityInterface
    *   The entity for a field item.
    */
-  protected function getEntity(FieldItemInterface $item) {
+  protected function getEntity(FieldItemInterface $item): FieldableEntityInterface {
     return $item->getEntity();
   }
 
@@ -428,7 +433,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @return string
    *   The field name for a field item.
    */
-  protected function getFieldName(FieldItemInterface $item) {
+  protected function getFieldName(FieldItemInterface $item): string {
     return $item->getFieldDefinition()->getName();
   }
 
@@ -441,7 +446,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @return string
    *   The field type for a field item.
    */
-  protected function getFieldType(FieldItemInterface $item) {
+  protected function getFieldType(FieldItemInterface $item): string {
     return $item->getFieldDefinition()->getFieldStorageDefinition()->getType();
   }
 
@@ -451,10 +456,10 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @param \Drupal\Core\Field\FieldItemInterface $item
    *   The field item.
    *
-   * @return array|mixed
+   * @return mixed
    *   The field values for a field item.
    */
-  protected function getFieldValue(FieldItemInterface $item) {
+  protected function getFieldValue(FieldItemInterface $item): mixed {
     $property_names = $this->getPropertyNames($item);
     $property_names = array_combine($property_names, $property_names);
     return array_intersect_key($item->getValue(), $property_names);
@@ -466,10 +471,10 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @param \Drupal\Core\Field\FieldItemInterface $item
    *   The field item.
    *
-   * @return array|mixed
+   * @return mixed
    *   The field values or main property's value for a field item.
    */
-  protected function getFieldMainPropertyValue(FieldItemInterface $item) {
+  protected function getFieldMainPropertyValue(FieldItemInterface $item): mixed {
     $values = $this->getFieldValue($item);
     if (empty($values)) {
       return NULL;
@@ -488,7 +493,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @return string[]
    *   The property names for a field item.
    */
-  protected function getPropertyNames(FieldItemInterface $item) {
+  protected function getPropertyNames(FieldItemInterface $item): array {
     return $item->getFieldDefinition()->getFieldStorageDefinition()->getPropertyNames();
   }
 
@@ -501,7 +506,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @return string
    *   The main property name for a field item.
    */
-  protected function getMainPropertyName(FieldItemInterface $item) {
+  protected function getMainPropertyName(FieldItemInterface $item): string {
     return $item->getFieldDefinition()->getFieldStorageDefinition()->getMainPropertyName();
   }
 
@@ -514,7 +519,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @return string
    *   The main property date type for a field item.
    */
-  protected function getMainPropertyDateType(FieldItemInterface $item) {
+  protected function getMainPropertyDateType(FieldItemInterface $item): ?string {
     $field_storage_definition = $item->getFieldDefinition()->getFieldStorageDefinition();
     $main_property_name = $field_storage_definition->getMainPropertyName();
     $main_property_definition = $field_storage_definition->getPropertyDefinition($main_property_name);
@@ -530,7 +535,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @return string
    *   The mapped Schema.org property for a field item.
    */
-  protected function getSchemaProperty(FieldItemInterface $item) {
+  protected function getSchemaProperty(FieldItemInterface $item): string {
     $entity = $this->getEntity($item);
     $field_name = $this->getFieldName($item);
 
@@ -549,7 +554,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @return string
    *   The file URI for a field item.
    */
-  protected function getFileUri(FieldItemInterface $item) {
+  protected function getFileUri(FieldItemInterface $item): string {
     return $item->entity->getFileUri();
   }
 
@@ -562,7 +567,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @return string
    *   The file URL for a field item.
    */
-  protected function getFileUrl(FieldItemInterface $item) {
+  protected function getFileUrl(FieldItemInterface $item): string {
     $uri = $this->getFileUri($item);
     return $this->fileUrlGenerator->generateAbsoluteString($uri);
   }
@@ -576,7 +581,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @return \Drupal\image\ImageStyleInterface|null
    *   The selected image style for a field item.
    */
-  protected function getImageStyle(FieldItemInterface $item) {
+  protected function getImageStyle(FieldItemInterface $item): ImageStyleInterface|null {
     $schema_property = $this->getSchemaProperty($item);
     $style = $this->getConfig()->get('property_image_styles.' . $schema_property);
     if (!$style) {
@@ -593,10 +598,10 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @param \Drupal\Core\Field\FieldItemInterface $item
    *   The field item.
    *
-   * @return string
+   * @return string|null
    *   The image deriative URL for a field item.
    */
-  protected function getImageDeriativeUrl(FieldItemInterface $item) {
+  protected function getImageDeriativeUrl(FieldItemInterface $item): ?string {
     $field_type = $this->getFieldType($item);
     if ($field_type !== 'image') {
       return NULL;

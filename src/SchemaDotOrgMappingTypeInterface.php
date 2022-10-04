@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
@@ -20,7 +22,7 @@ interface SchemaDotOrgMappingTypeInterface extends ConfigEntityInterface {
    * @return array
    *   The default bundles for a Schema.org type.
    */
-  public function getDefaultSchemaTypeBundles($type);
+  public function getDefaultSchemaTypeBundles(string $type): array;
 
   /**
    * Gets default Schema.org type for a bundle.
@@ -31,7 +33,7 @@ interface SchemaDotOrgMappingTypeInterface extends ConfigEntityInterface {
    * @return string|null
    *   The default Schema.org type for a bundle.
    */
-  public function getDefaultSchemaType($bundle);
+  public function getDefaultSchemaType(string $bundle): ?string;
 
   /**
    * Gets default Schema.org type's default properties.
@@ -42,7 +44,7 @@ interface SchemaDotOrgMappingTypeInterface extends ConfigEntityInterface {
    * @return array
    *   The Schema.org type's default properties.
    */
-  public function getDefaultSchemaTypeProperties($schema_type);
+  public function getDefaultSchemaTypeProperties(string $schema_type): array;
 
   /**
    * Determine if the mapping type supports multiple Schema.org type mappings.
@@ -50,7 +52,7 @@ interface SchemaDotOrgMappingTypeInterface extends ConfigEntityInterface {
    * @return bool
    *   TRUE if the mapping type supports multiple Schema.org type mappings.
    */
-  public function supportsMultiple();
+  public function supportsMultiple(): bool;
 
   /**
    * Gets common Schema.org types.
@@ -58,7 +60,7 @@ interface SchemaDotOrgMappingTypeInterface extends ConfigEntityInterface {
    * @return array
    *   An associative array containing common Schema.org types.
    */
-  public function getRecommendedSchemaTypes();
+  public function getRecommendedSchemaTypes(): array;
 
   /**
    * Gets an entity type's base field mappings.
@@ -66,7 +68,7 @@ interface SchemaDotOrgMappingTypeInterface extends ConfigEntityInterface {
    * @return array
    *   An entity type's base field mappings.
    */
-  public function getBaseFieldMappings();
+  public function getBaseFieldMappings(): array;
 
   /**
    * Gets an entity type's base fields names.
@@ -74,6 +76,6 @@ interface SchemaDotOrgMappingTypeInterface extends ConfigEntityInterface {
    * @return array
    *   An entity type's base fields names.
    */
-  public function getBaseFieldNames();
+  public function getBaseFieldNames(): array;
 
 }

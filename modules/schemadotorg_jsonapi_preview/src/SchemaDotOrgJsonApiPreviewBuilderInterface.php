@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonapi_preview;
 
 /**
@@ -10,9 +12,9 @@ interface SchemaDotOrgJsonApiPreviewBuilderInterface {
   /**
    * Build JSON:API preview for the current route.
    *
-   * @return array
+   * @return array|null
    *   The JSON:API preview for the current route.
    */
-  public function build();
+  public function build(): array|null;
 
 }

@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
+
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Schema.org entity type builder interface.
@@ -20,7 +24,7 @@ interface SchemaDotOrgEntityTypeBuilderInterface {
    * @return \Drupal\Core\Entity\EntityInterface
    *   The bundle entity type.
    */
-  public function addEntityBundle($entity_type_id, $schema_type, array $values);
+  public function addEntityBundle(string $entity_type_id, string $schema_type, array $values): EntityInterface;
 
   /**
    * Add a field to an entity.
@@ -32,6 +36,6 @@ interface SchemaDotOrgEntityTypeBuilderInterface {
    * @param array $field
    *   The field to be added to the entity.
    */
-  public function addFieldToEntity($entity_type_id, $bundle, array $field);
+  public function addFieldToEntity(string $entity_type_id, string $bundle, array $field): void;
 
 }

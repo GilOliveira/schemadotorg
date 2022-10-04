@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_ui\Plugin\Menu\LocalAction;
 
 use Drupal\Component\Serialization\Json;
@@ -14,7 +16,7 @@ class SchemaDotOrgUiLocalAction extends LocalActionDefault {
   /**
    * {@inheritdoc}
    */
-  public function getOptions(RouteMatchInterface $route_match) {
+  public function getOptions(RouteMatchInterface $route_match): array {
     $options = parent::getOptions($route_match);
     if (isset($this->pluginDefinition['dialog'])) {
       $options['attributes'] = [

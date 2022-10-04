@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_subtype\Functional;
 
 use Drupal\Tests\media\Traits\MediaTypeCreationTrait;
@@ -31,7 +33,7 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
   /**
    * Test Schema.org list builder enhancements.
    */
-  public function testSchemaDotOrgListBuilder() {
+  public function testSchemaDotOrgListBuilder(): void {
     global $base_path;
 
     $assert_session = $this->assertSession();
@@ -80,7 +82,7 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     $assert_session->responseContains('node:WebPage');
 
     // Update mapping set to just create a Person with a ContactPoint.
-    $config = \Drupal::configFactory()->getEditable('schemadotorg_mapping_set.settings');
+    $config = $this->config('schemadotorg_mapping_set.settings');
     $config->set('sets', [
       'required' => [
         'label' => 'Required',
@@ -173,7 +175,7 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     $this->assertEmpty($mapping_storage->getQuery()->accessCheck(FALSE)->accessCheck(FALSE)->execute());
 
     // Update mapping set to use invalid type.
-    $config = \Drupal::configFactory()->getEditable('schemadotorg_mapping_set.settings');
+    $config = $this->config('schemadotorg_mapping_set.settings');
     $config->set('sets', [
       'required' => [
         'label' => 'Required',

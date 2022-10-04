@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 /**
@@ -10,6 +12,7 @@ namespace Drupal\Tests\schemadotorg\Kernel;
  */
 class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -24,6 +27,7 @@ class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
     'paragraphs',
     'schemadotorg_paragraphs',
   ];
+  // phpcs:enable
 
   /**
    * The Schema.org mapping storage.
@@ -58,7 +62,7 @@ class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
   /**
    * Test Schema.org mapping entity.
    */
-  public function testSchemaDotOrgMappingTypeEntity() {
+  public function testSchemaDotOrgMappingTypeEntity(): void {
     $user_mapping_type = $this->storage->load('user');
     $node_mapping_type = $this->storage->load('node');
     $media_mapping_type = $this->storage->load('media');

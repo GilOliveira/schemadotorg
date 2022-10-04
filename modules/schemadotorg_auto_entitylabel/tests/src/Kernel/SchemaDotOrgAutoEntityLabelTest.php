@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_auto_entitylabel\Kernel;
 
 use Drupal\node\Entity\Node;
@@ -13,6 +15,7 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
  */
 class SchemaDotOrgAutoEntityLabelTest extends SchemaDotOrgKernelEntityTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -27,6 +30,7 @@ class SchemaDotOrgAutoEntityLabelTest extends SchemaDotOrgKernelEntityTestBase {
     'auto_entitylabel',
     'schemadotorg_auto_entitylabel',
   ];
+  // phpcs:enable
 
   /**
    * {@inheritdoc}
@@ -42,12 +46,12 @@ class SchemaDotOrgAutoEntityLabelTest extends SchemaDotOrgKernelEntityTestBase {
   /**
    * Test Schema.org auto entity labels.
    */
-  public function testAutoEntityLabel() {
+  public function testAutoEntityLabel(): void {
     $this->createSchemaEntity('node', 'Person');
 
     // Check that node.person pattern has Schema.org property tokens replaced
     // with related fields.
-    $settings = \Drupal::config('auto_entitylabel.settings.node.person')
+    $settings = $this->config('auto_entitylabel.settings.node.person')
       ->getRawData();
     $this->assertEquals('[node:schema_given_name] [node:schema_family_name]', $settings['pattern']);
 

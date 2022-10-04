@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_jsonld_breadcrumb\Kernel;
 
 use Drupal\Core\Url;
@@ -50,7 +52,7 @@ class SchemaDotOrgJsonLdBreadcrumbTest extends SchemaDotOrgKernelEntityTestBase 
   /**
    * Test Schema.org JSON-LD breadcrumb.
    */
-  public function testBreadcrumb() {
+  public function testBreadcrumb(): void {
     // Allow Schema.org Thing to have default properties.
     $this->config('schemadotorg.settings')
       ->set('schema_types.default_properties.Thing', ['name'])

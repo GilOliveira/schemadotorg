@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
@@ -31,21 +33,21 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'schemadotorg_names_settings_form';
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function getEditableConfigNames() {
+  protected function getEditableConfigNames(): array {
     return ['schemadotorg.names'];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $config = $this->config('schemadotorg.names');
 
     // Display warning about updating names.
@@ -124,7 +126,7 @@ class SchemaDotOrgSettingsNamesForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     $config = $this->config('schemadotorg.names');
     $values = $form_state->getValue('names');
     foreach ($values as $key => $value) {

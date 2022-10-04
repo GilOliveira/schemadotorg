@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
@@ -16,7 +18,7 @@ interface SchemaDotOrgMappingTypeStorageInterface extends ConfigEntityStorageInt
    * @return array
    *   Entity types that implement Schema.org.
    */
-  public function getEntityTypes();
+  public function getEntityTypes(): array;
 
   /**
    * Gets entity types with bundles that implement Schema.org.
@@ -24,7 +26,7 @@ interface SchemaDotOrgMappingTypeStorageInterface extends ConfigEntityStorageInt
    * @return array
    *   Entity types with bundles that implement Schema.org.
    */
-  public function getEntityTypesWithBundles();
+  public function getEntityTypesWithBundles(): array;
 
   /**
    * Get entity type bundles. (i.e node)
@@ -32,7 +34,7 @@ interface SchemaDotOrgMappingTypeStorageInterface extends ConfigEntityStorageInt
    * @return \Drupal\Core\Entity\ContentEntityTypeInterface[]
    *   Entity type bundles.
    */
-  public function getEntityTypeBundles();
+  public function getEntityTypeBundles(): array;
 
   /**
    * Get entity type bundle definitions. (i.e node_type)
@@ -40,6 +42,6 @@ interface SchemaDotOrgMappingTypeStorageInterface extends ConfigEntityStorageInt
    * @return \Drupal\Core\Config\Entity\ConfigEntityTypeInterface[]
    *   Entity type bundle definitions.
    */
-  public function getEntityTypeBundleDefinitions();
+  public function getEntityTypeBundleDefinitions(): array;
 
 }

@@ -5,12 +5,14 @@
  * Provides the ability to create related Schema.org types via Drush.
  */
 
+declare(strict_types = 1);
+
 use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Implements hook_help().
  */
-function schemadotorg_mapping_set_help($route_name, RouteMatchInterface $route_match) {
+function schemadotorg_mapping_set_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   switch ($route_name) {
     case 'schemadotorg_mapping_set.settings':
       return '<p>' . t('The <em>Schema.org mapping sets configure</em> page allows administrators to define a set of Schema.org mappings that can be setup and managed using the admin UI or <a href=":href">Drush</a>.', [':href' => 'https://www.drush.org']) . '<p>';

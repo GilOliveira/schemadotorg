@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_subtype\Functional;
 
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
@@ -25,7 +27,7 @@ class SchemaDotOrgSubtypeListBuilderTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test Schema.org list builder enhancements.
    */
-  public function testSchemaDotOrgListBuilder() {
+  public function testSchemaDotOrgListBuilder(): void {
     $assert_session = $this->assertSession();
 
     // Create Thing content type with a Schema.org mapping.

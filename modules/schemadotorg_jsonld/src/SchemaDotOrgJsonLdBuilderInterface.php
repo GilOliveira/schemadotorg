@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonld;
 
 use Drupal\Core\Entity\EntityInterface;
@@ -19,7 +21,7 @@ interface SchemaDotOrgJsonLdBuilderInterface {
    * @return array|bool
    *   The JSON-LD for a route.
    */
-  public function build(RouteMatchInterface $route_match = NULL);
+  public function build(?RouteMatchInterface $route_match = NULL): array|bool;
 
   /**
    * Build JSON-LD for an entity that is mapped to a Schema.org type.
@@ -33,6 +35,6 @@ interface SchemaDotOrgJsonLdBuilderInterface {
    *   The JSON-LD for an entity that is mapped to a Schema.org type
    *   or FALSE if the entity is not mapped to a Schema.org type.
    */
-  public function buildEntity(EntityInterface $entity, array $options = []);
+  public function buildEntity(EntityInterface $entity, array $options = []): array|bool;
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_jsonld_preview\Functional;
 
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
@@ -22,7 +24,7 @@ class SchemaDotOrgJsonLdPreviewTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test Schema.org list builder enhancements.
    */
-  public function testSchemaDotOrgListBuilder() {
+  public function testSchemaDotOrgListBuilder(): void {
     $assert_session = $this->assertSession();
 
     $account = $this->createUser(['access content', 'view schemadotorg jsonld']);

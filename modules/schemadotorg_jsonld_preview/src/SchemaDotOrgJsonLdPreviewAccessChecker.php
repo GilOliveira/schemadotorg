@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonld_preview;
 
 use Drupal\Core\Condition\ConditionManager;
@@ -67,7 +69,7 @@ class SchemaDotOrgJsonLdPreviewAccessChecker implements SchemaDotOrgJsonLdPrevie
   /**
    * {@inheritdoc}
    */
-  public function access() {
+  public function access(): bool {
     // Check current route.
     if ($this->adminContext->isAdminRoute()) {
       return FALSE;

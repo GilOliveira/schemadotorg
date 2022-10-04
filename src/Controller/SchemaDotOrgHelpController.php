@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
@@ -29,7 +31,7 @@ class SchemaDotOrgHelpController extends ControllerBase {
   /**
    * Returns Schema.org help videos page.
    */
-  public function videos() {
+  public function videos(): array {
     return $this->helpMananger->buildVideosPage();
   }
 

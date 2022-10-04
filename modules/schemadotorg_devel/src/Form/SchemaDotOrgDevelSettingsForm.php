@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_devel\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
@@ -14,21 +16,21 @@ class SchemaDotOrgDevelSettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'schemadotorg_devel_settings_form';
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function getEditableConfigNames() {
+  protected function getEditableConfigNames(): array {
     return ['schemadotorg_devel.settings'];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $config = $this->config('schemadotorg_devel.settings');
 
     $form['schemadotorg_devel'] = [
@@ -54,7 +56,7 @@ class SchemaDotOrgDevelSettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     $config = $this->config('schemadotorg_devel.settings');
     $values = $form_state->getValue('schemadotorg_devel');
     foreach ($values as $key => $value) {

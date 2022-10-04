@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_subtype\Traits;
 
 use Drupal\field\Entity\FieldConfig;
@@ -18,7 +20,7 @@ trait SchemaDotOrgTestSubtypeTrait {
    * @param string $schema_type
    *   The Schema.org type.
    */
-  protected function createSchemaDotOrgSubTypeField($entity_type_id, $schema_type) {
+  protected function createSchemaDotOrgSubTypeField(string $entity_type_id, string $schema_type): void {
     /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
     $schema_names = $this->container->get('schemadotorg.names');
     $bundle = $schema_names->camelCaseToSnakeCase($schema_type);

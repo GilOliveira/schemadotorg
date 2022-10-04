@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Entity\EntityInterface;
@@ -30,7 +32,7 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
   /**
    * {@inheritdoc}
    */
-  public function buildHeader() {
+  public function buildHeader(): array {
     $header['entity_type'] = [
       'data' => $this->t('Type'),
       'class' => [RESPONSIVE_PRIORITY_LOW],
@@ -69,7 +71,7 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
   /**
    * {@inheritdoc}
    */
-  public function buildRow(EntityInterface $entity) {
+  public function buildRow(EntityInterface $entity): array {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
 
     $target_entity_type_definition = $entity->getTargetEntityTypeDefinition();
@@ -105,7 +107,7 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
    *   A renderable array containing Schema.org mapping properties range
    *   includes relationships.
    */
-  protected function buildSchemaRelationships(SchemaDotOrgMappingInterface $entity) {
+  protected function buildSchemaRelationships(SchemaDotOrgMappingInterface $entity): array {
     /** @var \Drupal\field\FieldConfigStorage $field_config_storage */
     $field_config_storage = $this->entityTypeManager->getStorage('field_config');
 
@@ -157,7 +159,7 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
   /**
    * {@inheritdoc}
    */
-  public function getDefaultOperations(EntityInterface $entity) {
+  public function getDefaultOperations(EntityInterface $entity): array {
     $operations = parent::getDefaultOperations($entity);
     if (!$this->moduleHandler()->moduleExists('schemadotorg_ui')) {
       $operations['edit']['title'] = $this->t('View');
@@ -171,7 +173,7 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
    * @return array
    *   An array of entity IDs.
    */
-  protected function getEntityIds() {
+  protected function getEntityIds(): array {
     $query = $this->getStorage()->getQuery()
       ->accessCheck(TRUE)
       ->sort('target_entity_type_id');
@@ -186,7 +188,7 @@ class SchemaDotOrgMappingListBuilder extends SchemaDotOrgConfigEntityListBuilder
   /**
    * {@inheritdoc}
    */
-  public function load() {
+  public function load(): array {
     // Override the default load method to not sort mapping by label
     // and instead sort them by the id.
     // @see \Drupal\Core\Config\Entity\ConfigEntityListBuilder::load

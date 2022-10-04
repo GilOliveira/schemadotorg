@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_field_group;
 
 /**
@@ -19,6 +21,6 @@ interface SchemaDotOrgFieldGroupEntityDisplayBuilderInterface {
    * @param array $properties
    *   The Schema.org properties to be added to field groups.
    */
-  public function setFieldGroups($entity_type_id, $bundle, $schema_type, array $properties);
+  public function setFieldGroups(string $entity_type_id, string $bundle, string $schema_type, array $properties): void;
 
 }

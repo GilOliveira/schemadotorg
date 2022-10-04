@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
+
+use Drupal\Core\Url;
 
 /**
  * Schema.org schema type builder interface.
@@ -16,7 +20,7 @@ interface SchemaDotOrgSchemaTypeBuilderInterface {
    * @return \Drupal\Core\Url
    *   Schema.org type or property URL.
    */
-  public function getItemUrl($id);
+  public function getItemUrl(string $id): Url;
 
   /**
    * Build links to Schema.org items (types or properties).
@@ -30,7 +34,7 @@ interface SchemaDotOrgSchemaTypeBuilderInterface {
    * @return array
    *   An array of links to Schema.org items (types or properties).
    */
-  public function buildItemsLinks($text, array $options = []);
+  public function buildItemsLinks(string|array $text, array $options = []): array;
 
   /**
    * Build Schema.org type tree as an item list.
@@ -45,7 +49,7 @@ interface SchemaDotOrgSchemaTypeBuilderInterface {
    * @return array
    *   A renderable array containing Schema.org type tree as an item list.
    */
-  public function buildTypeTree(array $tree, array $options = []);
+  public function buildTypeTree(array $tree, array $options = []): array;
 
   /**
    * Format Schema.org type or property comment.
@@ -60,6 +64,6 @@ interface SchemaDotOrgSchemaTypeBuilderInterface {
    * @return string
    *   Formatted Schema.org type or property comment with links to details.
    */
-  public function formatComment($comment, array $options = []);
+  public function formatComment(string $comment, array $options = []): string;
 
 }

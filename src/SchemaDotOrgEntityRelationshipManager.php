@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -41,7 +43,7 @@ class SchemaDotOrgEntityRelationshipManager implements SchemaDotOrgEntityRelatio
   /**
    * {@inheritdoc}
    */
-  public function repair() {
+  public function repair(): array {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
 

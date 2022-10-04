@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_report\Breadcrumb;
 
 use Drupal\Core\Breadcrumb\Breadcrumb;
@@ -17,15 +19,15 @@ class SchemaDotOrgReportBreadcrumbBuilder implements BreadcrumbBuilderInterface 
   /**
    * {@inheritdoc}
    */
-  public function applies(RouteMatchInterface $route_match) {
+  public function applies(RouteMatchInterface $route_match): bool {
     $route_name = $route_match->getRouteName() ?? '';
-    return (strpos($route_name, 'schemadotorg_report.') === 0);
+    return (str_starts_with($route_name, 'schemadotorg_report.'));
   }
 
   /**
    * {@inheritdoc}
    */
-  public function build(RouteMatchInterface $route_match) {
+  public function build(RouteMatchInterface $route_match): Breadcrumb {
     $breadcrumb = new Breadcrumb();
     $breadcrumb->addLink(Link::createFromRoute($this->t('Home'), '<front>'));
     $breadcrumb->addLink(Link::createFromRoute($this->t('Administration'), 'system.admin'));

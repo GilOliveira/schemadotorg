@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonld_endpoint\EventSubscriber;
 
 use Drupal\Core\Routing\AccessAwareRouterInterface;
@@ -37,7 +39,7 @@ class SchemaDotOrgJsonLdEndpointEventSubscriber extends ServiceProviderBase impl
    * @param \Drupal\jsonapi\Events\CollectResourceObjectMetaEvent $event
    *   The event used for collecting resource object metadata.
    */
-  public function addResourceObjectMeta(CollectResourceObjectMetaEvent $event) {
+  public function addResourceObjectMeta(CollectResourceObjectMetaEvent $event): void {
     $resource_object = $event->getResourceObject();
     $resource_type = $resource_object->getResourceType();
 
@@ -62,7 +64,7 @@ class SchemaDotOrgJsonLdEndpointEventSubscriber extends ServiceProviderBase impl
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents() {
+  public static function getSubscribedEvents(): array {
     if (!class_exists('\Drupal\jsonapi\Events\MetaDataEvents')) {
       return [];
     }

@@ -5,6 +5,8 @@
  * Provides mappings from taxonomy vocabularies and terms to Schema.org.
  */
 
+declare(strict_types = 1);
+
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem;
@@ -15,7 +17,7 @@ use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 /**
  * Implements hook_help().
  */
-function schemadotorg_taxonomy_help($route_name, RouteMatchInterface $route_match) {
+function schemadotorg_taxonomy_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
@@ -28,7 +30,7 @@ function schemadotorg_taxonomy_help($route_name, RouteMatchInterface $route_matc
 /**
  * Implements hook_schemadotorg_jsonld_schema_property_alter().
  */
-function schemadotorg_taxonomy_schemadotorg_jsonld_schema_property_alter(&$value, FieldItemInterface $item) {
+function schemadotorg_taxonomy_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item): void {
   // If the JSON-LD item value is null for an entity_reference:taxonomy_terms,
   // the term's name is used as the JSON-LD item value.
   if (is_null($value)
@@ -42,7 +44,7 @@ function schemadotorg_taxonomy_schemadotorg_jsonld_schema_property_alter(&$value
 /**
  * Implements hook_schemadotorg_jsonld_schema_type_entity_load().
  */
-function schemadotorg_taxonomy_schemadotorg_jsonld_schema_type_entity_load(array &$data, EntityInterface $entity) {
+function schemadotorg_taxonomy_schemadotorg_jsonld_schema_type_entity_load(array &$data, EntityInterface $entity): void {
   /** @var \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyJsonLdManager $taxonomy_jsonld_manager */
   $taxonomy_jsonld_manager = \Drupal::service('schemadotorg_taxonomy.jsonld_manager');
   $taxonomy_jsonld_manager->load($data, $entity);
@@ -51,7 +53,7 @@ function schemadotorg_taxonomy_schemadotorg_jsonld_schema_type_entity_load(array
 /**
  * Implements hook_schemadotorg_jsonld_schema_type_entity_alter().
  */
-function schemadotorg_taxonomy_schemadotorg_jsonld_schema_type_entity_alter(array &$data, EntityInterface $entity) {
+function schemadotorg_taxonomy_schemadotorg_jsonld_schema_type_entity_alter(array &$data, EntityInterface $entity): void {
   /** @var \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyJsonLdManager $taxonomy_jsonld_manager */
   $taxonomy_jsonld_manager = \Drupal::service('schemadotorg_taxonomy.jsonld_manager');
   $taxonomy_jsonld_manager->alter($data, $entity);
@@ -60,7 +62,7 @@ function schemadotorg_taxonomy_schemadotorg_jsonld_schema_type_entity_alter(arra
 /**
  * Implements hook_preprocess_html().
  */
-function schemadotorg_taxonomy_preprocess_html(array &$variables) {
+function schemadotorg_taxonomy_preprocess_html(array &$variables): void {
   // Make sure the Schema.org JSON-LD module exists.
   if (!\Drupal::moduleHandler()->moduleExists('schemadotorg_jsonld')) {
     return;
@@ -78,7 +80,7 @@ function schemadotorg_taxonomy_preprocess_html(array &$variables) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter(&$form, FormStateInterface $form_state) {
+function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
   $config = \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings');
 
   $form['schemadotorg_taxonomy'] = [
@@ -108,7 +110,7 @@ function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter(
  *
  * @see schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter()
  */
-function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_submit(&$form, FormStateInterface $form_state) {
+function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_submit(array &$form, FormStateInterface $form_state): void {
   $config = \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings');
   $values = $form_state->getValue('schemadotorg_taxonomy');
   foreach ($values as $key => $value) {
@@ -120,7 +122,7 @@ function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_submit
 /**
  * Implements hook_schemadotorg_property_field_type_alter().
  */
-function schemadotorg_taxonomy_schemadotorg_property_field_type_alter(array &$field_types, $schema_type, $schema_property) {
+function schemadotorg_taxonomy_schemadotorg_property_field_type_alter(array &$field_types, string $schema_type, string $schema_property): void {
   /** @var \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyPropertyVocabularyManagerInterface $taxonomy_property_vocabulary_manager */
   $taxonomy_property_vocabulary_manager = \Drupal::service('schemadotorg_taxonomy.property_vocabulary_manager');
   $taxonomy_property_vocabulary_manager->propertyFieldTypeAlter($field_types, $schema_type, $schema_property);
@@ -130,15 +132,15 @@ function schemadotorg_taxonomy_schemadotorg_property_field_type_alter(array &$fi
  * Implements hook_schemadotorg_property_field_alter().
  */
 function schemadotorg_taxonomy_schemadotorg_property_field_alter(
-  $schema_type,
-  $schema_property,
+  string $schema_type,
+  string $schema_property,
   array &$field_storage_values,
   array &$field_values,
-  &$widget_id,
+  ?string &$widget_id,
   array &$widget_settings,
-  &$formatter_id,
+  ?string &$formatter_id,
   array &$formatter_settings
-) {
+): void {
   /** @var \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyPropertyVocabularyManagerInterface $taxonomy_property_vocabulary_manager */
   $taxonomy_property_vocabulary_manager = \Drupal::service('schemadotorg_taxonomy.property_vocabulary_manager');
   $taxonomy_property_vocabulary_manager->propertyFieldAlter(

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_report\Controller;
 
 use Drupal\Core\Url;
@@ -15,7 +17,7 @@ class SchemaDotOrgReportReferencesController extends SchemaDotOrgReportControlle
    * @return array
    *   A renderable array containing the Schema.org references.
    */
-  public function index() {
+  public function index(): array {
     $config = $this->config('schemadotorg_report.settings');
 
     $build = [];

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_jsonapi\Functional;
 
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
@@ -49,7 +51,7 @@ class SchemaDotOrgJsonApiListBuilderTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test Schema.org list builder enhancements.
    */
-  public function testSchemaDotOrgListBuilder() {
+  public function testSchemaDotOrgListBuilder(): void {
     $assert_session = $this->assertSession();
 
     $this->drupalGet('/admin/config/search/schemadotorg');

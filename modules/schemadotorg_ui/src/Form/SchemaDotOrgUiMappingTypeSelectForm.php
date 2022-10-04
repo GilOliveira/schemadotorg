@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_ui\Form;
 
 use Drupal\Core\Form\FormBase;
@@ -43,7 +45,7 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'schemadotorg_ui_mapping_type_select_form';
   }
 
@@ -62,7 +64,7 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $entity_type_id = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, $entity_type_id = NULL): array {
     // Description top.
     if ($this->moduleHandler->moduleExists('schemadotorg_report')
       && $this->currentUser()->hasPermission('access site reports')) {
@@ -167,7 +169,7 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    */
-  public static function validateTypeForm(array &$form, FormStateInterface $form_state) {
+  public static function validateTypeForm(array &$form, FormStateInterface $form_state): void {
     $type = $form_state->getValue('type');
     /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
     $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
@@ -185,7 +187,7 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    */
-  public static function submitTypeForm(array &$form, FormStateInterface $form_state) {
+  public static function submitTypeForm(array &$form, FormStateInterface $form_state): void {
     $type = $form_state->getValue('type');
     $form_state->setRedirect('<current>', [], ['query' => ['type' => $type]]);
   }
@@ -193,8 +195,8 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-    // Do nothing because the submit callback is already handled.
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
+    // Do nothing because the 'submit' callback is already handled.
     // @see \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiTypeSelectForm::submitTypeForm
   }
 
@@ -209,7 +211,7 @@ class SchemaDotOrgUiMappingTypeSelectForm extends FormBase {
    * @return array
    *   A renderable array containing the Schema.org type item.
    */
-  protected function buildSchemaTypeItem($entity_type_id, $schema_type) {
+  protected function buildSchemaTypeItem(string $entity_type_id, string $schema_type): array {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */

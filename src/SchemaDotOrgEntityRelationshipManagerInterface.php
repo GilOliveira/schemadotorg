@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 /**
@@ -13,6 +15,6 @@ interface SchemaDotOrgEntityRelationshipManagerInterface {
    * @return array
    *   An array of messages.
    */
-  public function repair();
+  public function repair(): array;
 
 }

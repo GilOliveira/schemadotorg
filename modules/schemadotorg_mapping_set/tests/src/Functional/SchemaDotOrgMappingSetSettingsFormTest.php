@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_mapping_set\Functional;
 
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
@@ -12,6 +14,7 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgMappingSetSettingsFormTest extends SchemaDotOrgBrowserTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -26,6 +29,7 @@ class SchemaDotOrgMappingSetSettingsFormTest extends SchemaDotOrgBrowserTestBase
     'block_content',
     'schemadotorg_mapping_set',
   ];
+  // phpcs:enable
 
   /**
    * {@inheritdoc}
@@ -40,7 +44,7 @@ class SchemaDotOrgMappingSetSettingsFormTest extends SchemaDotOrgBrowserTestBase
   /**
    * Test Schema.org MappingSet settings form.
    */
-  public function testSettingsForm() {
+  public function testSettingsForm(): void {
     $assert_session = $this->assertSession();
 
     // Check saving config form.

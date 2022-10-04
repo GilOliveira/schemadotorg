@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_paragraphs\Functional;
 
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
@@ -11,12 +13,14 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgParagraphsSettingsFormTest extends SchemaDotOrgBrowserTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['schemadotorg_paragraphs'];
+  // phpcs:enable
 
   /**
    * {@inheritdoc}
@@ -31,7 +35,7 @@ class SchemaDotOrgParagraphsSettingsFormTest extends SchemaDotOrgBrowserTestBase
   /**
    * Test Schema.org paragraphs settings form.
    */
-  public function testSettingsForm() {
+  public function testSettingsForm(): void {
     $this->assertSaveSettingsConfigForm('schemadotorg_paragraphs.settings', '/admin/config/search/schemadotorg/settings/properties');
   }
 

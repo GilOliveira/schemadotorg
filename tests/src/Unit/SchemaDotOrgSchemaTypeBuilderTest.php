@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Unit\SchemaDotOrgSchemaTypeBuilderTest;
 
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilder;
@@ -65,7 +67,7 @@ class SchemaDotOrgSchemaTypeBuilderTest extends UnitTestCase {
    *
    * @covers ::getItemUrl
    */
-  public function testGetItemUrl() {
+  public function testGetItemUrl(): void {
     $this->moduleHandler
       ->method('moduleExists')
       ->with('schemadotorg_report')
@@ -92,7 +94,7 @@ class SchemaDotOrgSchemaTypeBuilderTest extends UnitTestCase {
    *
    * @covers ::buildItemsLinks
    */
-  public function testBuildItemsLinks() {
+  public function testBuildItemsLinks(): void {
     $this->moduleHandler->method('moduleExists')->willReturn(FALSE);
     $this->currentUser->method('hasPermission')->willReturn(TRUE);
     $this->schemaTypeManager->method('parseIds')->willReturn(['Thing', 'NotThing']);
@@ -120,7 +122,7 @@ class SchemaDotOrgSchemaTypeBuilderTest extends UnitTestCase {
    *
    * @covers ::buildTypeTree
    */
-  public function testBuildTypeTree() {
+  public function testBuildTypeTree(): void {
     $this->moduleHandler->method('moduleExists')->willReturn(FALSE);
     $this->currentUser->method('hasPermission')->willReturn(TRUE);
 
@@ -173,7 +175,7 @@ class SchemaDotOrgSchemaTypeBuilderTest extends UnitTestCase {
    * @dataProvider providerTestFormatComment
    * @covers ::formatComment
    */
-  public function testFormatComment($comment, array $options, $expected) {
+  public function testFormatComment(string $comment, array $options, string $expected): void {
     $this->moduleHandler->method('moduleExists')->willReturn(FALSE);
     $this->currentUser->method('hasPermission')->willReturn(TRUE);
 
@@ -189,7 +191,7 @@ class SchemaDotOrgSchemaTypeBuilderTest extends UnitTestCase {
    *   - SchemaDotOrgReportBreadcrumbBuilder::applies() expected result.
    *   - SchemaDotOrgReportBreadcrumbBuilder::applies() route name.
    */
-  public function providerTestFormatComment() {
+  public function providerTestFormatComment(): array {
     return [
       [
         'This is a comment.',

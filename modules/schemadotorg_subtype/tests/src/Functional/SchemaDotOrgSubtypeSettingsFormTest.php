@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_subtype\Functional;
 
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
@@ -11,12 +13,14 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgSubtypeSettingsFormTest extends SchemaDotOrgBrowserTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['schemadotorg_subtype'];
+  // phpcs:enable
 
   /**
    * {@inheritdoc}
@@ -31,7 +35,7 @@ class SchemaDotOrgSubtypeSettingsFormTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test Schema.org inline entity form settings form.
    */
-  public function testSettingsForm() {
+  public function testSettingsForm(): void {
     $this->assertSaveSettingsConfigForm('schemadotorg_subtype.settings', '/admin/config/search/schemadotorg/settings/subtype');
   }
 

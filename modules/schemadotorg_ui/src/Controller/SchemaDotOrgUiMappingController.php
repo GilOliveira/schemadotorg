@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_ui\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
@@ -13,7 +15,7 @@ class SchemaDotOrgUiMappingController extends ControllerBase {
   /**
    * Returns response for Schema.org UI create and update mappings.
    */
-  public function index() {
+  public function index(): array {
     $build = [];
 
     $create_mapping_links = $this->getCreateMappingLinks();
@@ -52,7 +54,7 @@ class SchemaDotOrgUiMappingController extends ControllerBase {
    * @return array
    *   An array containing add Schema.org mapping links.
    */
-  protected function getCreateMappingLinks() {
+  protected function getCreateMappingLinks(): array {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping_type');
 
@@ -77,7 +79,7 @@ class SchemaDotOrgUiMappingController extends ControllerBase {
    * @return array
    *   An array containing update Schema.org mapping links.
    */
-  protected function getUpdateMappingLinks() {
+  protected function getUpdateMappingLinks(): array {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping');
 

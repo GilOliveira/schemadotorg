@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Traits;
 
 use Drupal\Component\Render\MarkupInterface;
@@ -17,7 +19,7 @@ trait SchemaDotOrgTestTrait {
    * @param array $elements
    *   An associative array of elements.
    */
-  protected function convertMarkupToStrings(array &$elements) {
+  protected function convertMarkupToStrings(array &$elements): void {
     foreach ($elements as $key => &$value) {
       if (is_array($value)) {
         $this->convertMarkupToStrings($value);
@@ -41,11 +43,11 @@ trait SchemaDotOrgTestTrait {
    *   (optional) The field type.  Defaults to 'string'.
    */
   protected function createSchemaDotOrgField(
-    $entity_type_id,
-    $schema_type,
-    $schema_property = 'alternateName',
-    $field_type = 'string'
-  ) {
+    string $entity_type_id,
+    string $schema_type,
+    string $schema_property = 'alternateName',
+    string $field_type = 'string'
+  ): void {
     /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
     $schema_names = $this->container->get('schemadotorg.names');
 
@@ -81,7 +83,7 @@ trait SchemaDotOrgTestTrait {
    * @param array|string $property
    *   The Schema.org property or an array of Schema.org properties.
    */
-  protected function appendSchemaTypeDefaultProperties($type, $property) {
+  protected function appendSchemaTypeDefaultProperties(string $type, array|string $property): void {
     $config = \Drupal::configFactory()->getEditable('schemadotorg.settings');
     $default_properties = $config->get('schema_types.default_properties');
     $default_properties[$type] = array_merge($default_properties[$type], (array) $property);

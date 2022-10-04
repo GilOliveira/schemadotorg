@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_mapping_set;
 
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\State\StateInterface;
@@ -91,7 +94,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
     SchemaDotOrgEntityRelationshipManagerInterface $schema_entity_relationship_manager,
     SchemaDotOrgMappingManagerInterface $schema_mapping_manager,
-    DevelGeneratePluginManager $devel_generate_manager = NULL
+    ?DevelGeneratePluginManager $devel_generate_manager = NULL
   ) {
     $this->state = $state;
     $this->configFactory = $config_factory;
@@ -105,7 +108,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
   /**
    * {@inheritdoc}
    */
-  public function isSetup($name) {
+  public function isSetup(string $name): bool {
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
     $types = $this->getTypes($name);
     foreach ($types as $type) {
@@ -127,8 +130,8 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
    * @return bool
    *   TRUE if a mapping set type is valid.
    */
-  public function isValidType($type) {
-    if (strpos($type, ':') === FALSE) {
+  public function isValidType(string $type): bool {
+    if (!str_contains($type, ':')) {
       return FALSE;
     }
     [$entity_type_id, $schema_type] = explode(':', $type);
@@ -139,7 +142,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getTypes($name, $required = FALSE) {
+  public function getTypes(string $name, bool $required = FALSE): array {
     $mapping_set = $this->configFactory
       ->get('schemadotorg_mapping_set.settings')
       ->get("sets.$name");
@@ -160,7 +163,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
   /**
    * {@inheritdoc}
    */
-  public function setup($name) {
+  public function setup(string $name): array {
     if ($this->isSetup($name)) {
       return [$this->t('Schema.org mapping set @name is already setup.', ['@name' => $name])];
     }
@@ -204,7 +207,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
   /**
    * {@inheritdoc}
    */
-  public function teardown($name) {
+  public function teardown($name): array {
     if (!$this->isSetup($name)) {
       return [$this->t('Schema.org mapping set $name is not setup.')];
     }
@@ -262,7 +265,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
   /**
    * {@inheritdoc}
    */
-  public function generate($name) {
+  public function generate($name): void {
     $types = $this->getTypes($name, TRUE);
     $this->develGenerate($types);
   }
@@ -270,7 +273,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
   /**
    * {@inheritdoc}
    */
-  public function kill($name) {
+  public function kill($name): void {
     $types = $this->getTypes($name, TRUE);
     $this->develGenerate($types, 0);
   }
@@ -284,7 +287,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
    * @return array
    *   An array entity type bundles.
    */
-  protected function getEntityTypeBundles(array $types) {
+  protected function getEntityTypeBundles(array $types): array {
     // Collect the entity type and bundles to be generated.
     $entity_types = [];
     foreach ($types as $type) {
@@ -310,7 +313,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
    * @return \Drupal\schemadotorg\SchemaDotOrgMappingInterface|null
    *   A Schema.org mapping.
    */
-  protected function loadMappingByType($entity_type, $schema_type) {
+  protected function loadMappingByType(string $entity_type, string $schema_type): ?SchemaDotOrgMappingInterface {
     $mappings = $this->entityTypeManager->getStorage('schemadotorg_mapping')->loadByProperties([
       'target_entity_type_id' => $entity_type,
       'schema_type' => $schema_type,
@@ -326,7 +329,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
    * @param int $num
    *   The number of entities to create for each type.
    */
-  protected function develGenerate(array $types, $num = 5) {
+  protected function develGenerate(array $types, int $num = 5): void {
     // Make sure the devel generate manager and module are installed.
     if (!$this->develGenerateManager) {
       throw new \Exception('The devel_generate.module needs to be enabled.');

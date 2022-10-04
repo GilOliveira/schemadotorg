@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_report\Functional;
 
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
@@ -11,12 +13,14 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgReportTest extends SchemaDotOrgBrowserTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['block', 'schemadotorg_report'];
+  // phpcs:enable
 
   /**
    * A user with permission to access site reports.
@@ -43,7 +47,7 @@ class SchemaDotOrgReportTest extends SchemaDotOrgBrowserTestBase {
    * This a baseline test that confirms the Schema.org report renders
    * as expected with the expected page title.
    */
-  public function testReport() {
+  public function testReport(): void {
     global $base_path;
 
     $assert_session = $this->assertSession();

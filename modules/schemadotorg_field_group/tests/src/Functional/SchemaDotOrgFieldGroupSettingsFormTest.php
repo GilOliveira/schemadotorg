@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_field_group\Functional;
 
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
@@ -11,12 +13,14 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgFieldGroupSettingsFormTest extends SchemaDotOrgBrowserTestBase {
 
+  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['schemadotorg_field_group'];
+  // phpcs:enable
 
   /**
    * {@inheritdoc}
@@ -31,7 +35,7 @@ class SchemaDotOrgFieldGroupSettingsFormTest extends SchemaDotOrgBrowserTestBase
   /**
    * Test Schema.org field group settings form.
    */
-  public function testSettingsForm() {
+  public function testSettingsForm(): void {
     $this->assertSaveSettingsConfigForm('schemadotorg_field_group.settings', '/admin/config/search/schemadotorg/settings/properties');
   }
 

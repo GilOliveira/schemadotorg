@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_report\Form;
 
 use Drupal\Core\Form\FormBase;
@@ -29,7 +31,7 @@ class SchemaDotOrgReportFilterForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'schemadotorg_report_filter_form';
   }
 
@@ -45,7 +47,7 @@ class SchemaDotOrgReportFilterForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $table = NULL, $id = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?string $table = NULL, ?string $id = NULL): array {
     $this->table = $table;
 
     $t_args = [
@@ -89,7 +91,7 @@ class SchemaDotOrgReportFilterForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     $id = $form_state->getValue('id');
     if ($id && $this->schemaTypeManager->isId($this->table, $id)) {
       $form_state->setRedirect('schemadotorg_report', ['id' => $id]);
@@ -107,7 +109,7 @@ class SchemaDotOrgReportFilterForm extends FormBase {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    */
-  public function resetForm(array &$form, FormStateInterface $form_state) {
+  public function resetForm(array &$form, FormStateInterface $form_state): void {
     $form_state->setRedirect($this->getRouteMatch()->getRouteName(), $this->getRouteMatch()->getRawParameters()->all());
   }
 

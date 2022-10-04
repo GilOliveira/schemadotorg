@@ -5,10 +5,12 @@
  * Installation hooks for the Schema.org Blueprints Demo Next.js module.
  */
 
+declare(strict_types = 1);
+
 /**
  * Implements hook_install().
  */
-function schemadotorg_demo_next_install() {
+function schemadotorg_demo_next_install(): void {
   /** @var \Drupal\user\UserStorageInterface $user_storage */
   $user_storage = \Drupal::entityTypeManager()->getStorage('user');
 

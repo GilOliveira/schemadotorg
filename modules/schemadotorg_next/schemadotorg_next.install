@@ -5,12 +5,14 @@
  * Installation hooks for Schema.org Blueprints Next.js module.
  */
 
+declare(strict_types = 1);
+
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
 /**
  * Implements hook_install().
  */
-function schemadotorg_next_install() {
+function schemadotorg_next_install(): void {
   $mappings = SchemaDotOrgMapping::loadMultiple();
   foreach ($mappings as $mapping) {
     schemadotorg_next_schemadotorg_mapping_insert($mapping);

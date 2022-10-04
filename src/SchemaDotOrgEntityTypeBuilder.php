@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -91,7 +94,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * {@inheritdoc}
    */
-  public function addEntityBundle($entity_type_id, $schema_type, array $values) {
+  public function addEntityBundle(string $entity_type_id, string $schema_type, array $values): EntityInterface {
     $entity_type_definition = $this->entityTypeManager->getDefinition($entity_type_id);
 
     // Get bundle entity values and map id and label keys.
@@ -143,7 +146,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * {@inheritdoc}
    */
-  public function addFieldToEntity($entity_type_id, $bundle, array $field) {
+  public function addFieldToEntity(string $entity_type_id, string $bundle, array $field): void {
     // Define and document expected default field settings.
     // @see \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildSchemaPropertyFieldForm
     $field += [
@@ -212,7 +215,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     if ($new_storage_type) {
       // Check if we're dealing with a preconfigured field.
       $field_type = $field_storage_values['type'] ?? '';
-      if (strpos($field_type, 'field_ui:') !== FALSE) {
+      if (str_contains($field_type, 'field_ui:')) {
 
         [, $field_type, $option_key] = explode(':', $field_storage_values['type'], 3);
         $field_storage_values['type'] = $field_type;
@@ -324,7 +327,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *   Field storage config values.
    * @param array $field_values
    *   Field config values.
-   * @param string $widget_id
+   * @param string|null $widget_id
    *   The plugin ID of the widget.
    * @param array $widget_settings
    *   An array of widget settings.
@@ -334,15 +337,15 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *   An array of formatter settings.
    */
   protected function alterFieldValues(
-    $schema_type,
-    $schema_property,
+    string $schema_type,
+    string $schema_property,
     array &$field_storage_values,
     array &$field_values,
-    &$widget_id,
+    ?string &$widget_id,
     array &$widget_settings,
-    &$formatter_id,
+    ?string &$formatter_id,
     array &$formatter_settings
-  ) {
+  ): void {
     $this->copyExistingFieldValues(
       $field_values,
       $widget_id,
@@ -383,7 +386,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *
    * @param array $field_values
    *   Field config values.
-   * @param string $widget_id
+   * @param string|null $widget_id
    *   The plugin ID of the widget.
    * @param array $widget_settings
    *   An array of widget settings.
@@ -394,11 +397,11 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    */
   protected function copyExistingFieldValues(
     array &$field_values,
-    &$widget_id,
+    ?string &$widget_id,
     array &$widget_settings,
-    &$formatter_id,
+    ?string &$formatter_id,
     array &$formatter_settings
-  ) {
+  ): void {
     // Get the entity type id and field.
     $entity_type_id = $field_values['entity_type'];
     $field_name = $field_values['field_name'];
@@ -461,7 +464,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *   Field storage config values.
    * @param array $field_values
    *   Field config values.
-   * @param string $widget_id
+   * @param string|null $widget_id
    *   The plugin ID of the widget.
    * @param array $widget_settings
    *   An array of widget settings.
@@ -471,15 +474,15 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *   An array of formatter settings.
    */
   protected function setDefaultFieldValues(
-    $schema_type,
-    $schema_property,
+    string $schema_type,
+    string $schema_property,
     array &$field_storage_values,
     array &$field_values,
-    &$widget_id,
+    ?string &$widget_id,
     array &$widget_settings,
-    &$formatter_id,
+    ?string &$formatter_id,
     array &$formatter_settings
-  ) {
+  ): void {
     switch ($field_storage_values['type']) {
       case 'entity_reference':
       case 'entity_reference_revisions':

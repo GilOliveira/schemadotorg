@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg\Kernel;
 
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
@@ -74,7 +76,7 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
   /**
    * Tests SchemaDotOrgMappingManager.
    */
-  public function testMappingManager() {
+  public function testMappingManager(): void {
     // Checking getting ignored Schema.org properties.
     $this->assertArrayHasKey('accessMode', $this->mappingManager->getIgnoredProperties());
 

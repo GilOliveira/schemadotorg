@@ -5,6 +5,8 @@
  * Provides an opinionated demo built on top of Drupal's standard profile.
  */
 
+declare(strict_types = 1);
+
 use Drupal\Component\Utility\Random;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
@@ -14,7 +16,7 @@ use Drupal\filter\Entity\FilterFormat;
 /**
  * Implements hook_help().
  */
-function schemadotorg_demo_standard_help($route_name, RouteMatchInterface $route_match) {
+function schemadotorg_demo_standard_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
@@ -23,7 +25,7 @@ function schemadotorg_demo_standard_help($route_name, RouteMatchInterface $route
 /**
  * Implements hook_entity_presave().
  */
-function schemadotorg_demo_standard_entity_presave(EntityInterface $entity) {
+function schemadotorg_demo_standard_entity_presave(EntityInterface $entity): void {
   // Check that devel is generating a content entity.
   // @see https://www.drupal.org/project/devel/issues/2582845
   if (empty($entity->devel_generate)

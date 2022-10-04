@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_jsonld_preview;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -82,7 +84,7 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
   /**
    * {@inheritdoc}
    */
-  public function build() {
+  public function build(): array {
     // Build the entity's Schema.org data.
     /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface $builder */
     $data = $this->schemaJsonLdBuilder->build();
@@ -134,7 +136,7 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
     // Add <span> tag to properties.
     $json_markup = preg_replace('/&quot;([^&]+)&quot;: /', '<span>&quot;$1&quot;</span>: ', $json_markup);
     // Add links to URLs.
-    $json_markup = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.-]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $json_markup);
+    $json_markup = preg_replace('@(https?://([-\w.]+)+(:\d+)?(/([\w/_.-]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $json_markup);
     $build['json'] = [
       'input' => [
         '#type' => 'hidden',

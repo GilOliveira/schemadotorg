@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_mapping_set\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
@@ -15,7 +17,7 @@ class SchemaDotOrgMappingSetSettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'schemadotorg_mapping_set_settings_form';
   }
 
@@ -46,14 +48,14 @@ class SchemaDotOrgMappingSetSettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  protected function getEditableConfigNames() {
+  protected function getEditableConfigNames(): array {
     return ['schemadotorg_mapping_set.settings'];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $config = $this->config('schemadotorg_mapping_set.settings');
     $form['sets'] = [
       '#type' => 'schemadotorg_settings',
@@ -72,7 +74,7 @@ class SchemaDotOrgMappingSetSettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
+  public function validateForm(array &$form, FormStateInterface $form_state): void {
     if ($form_state->getErrors()) {
       return;
     }
@@ -81,7 +83,7 @@ class SchemaDotOrgMappingSetSettingsForm extends ConfigFormBase {
     foreach ($sets as $set) {
       foreach ($set['types'] as $type) {
         $t_args = ['%set' => $set['label']];
-        if (strpos($type, ':') === FALSE) {
+        if (!str_contains($type, ':')) {
           $t_args['%type'] = $type;
           $message = $this->t('%type in %set is not valid. Please enter the entity type id and Schema.org type (i.e. entity_type_id:SchemaType).', $t_args);
           $form_state->setErrorByName('sets', $message);
@@ -106,7 +108,7 @@ class SchemaDotOrgMappingSetSettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     $this->config('schemadotorg_mapping_set.settings')
       ->set('sets', $form_state->getValue('sets'))
       ->save();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg\Form;
 
 use Drupal\Core\Entity\EntityForm;
@@ -48,7 +50,7 @@ class SchemaDotOrgMappingForm extends EntityForm {
   /**
    * {@inheritdoc}
    */
-  public function form(array $form, FormStateInterface $form_state) {
+  public function form(array $form, FormStateInterface $form_state): array {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
     $entity = $this->getEntity();
 
@@ -144,7 +146,7 @@ class SchemaDotOrgMappingForm extends EntityForm {
   /**
    * {@inheritdoc}
    */
-  public function actions(array $form, FormStateInterface $form_state) {
+  public function actions(array $form, FormStateInterface $form_state): array {
     return [];
   }
 

@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
+use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
@@ -107,7 +111,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function postSave(EntityStorageInterface $storage, $update = TRUE) {
+  public function postSave(EntityStorageInterface $storage, $update = TRUE): void {
     parent::postSave($storage, $update);
     $this->setOriginalSchemaProperties($this->getSchemaProperties());
   }
@@ -140,14 +144,14 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function getTargetEntityTypeId() {
+  public function getTargetEntityTypeId(): string {
     return $this->target_entity_type_id;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getTargetBundle() {
+  public function getTargetBundle(): string {
     return $this->isTargetEntityTypeBundle()
       ? $this->target_bundle
       : $this->getTargetEntityTypeId();
@@ -156,7 +160,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function setTargetBundle($bundle) {
+  public function setTargetBundle($bundle): SchemaDotOrgMappingInterface {
     $this->set('target_bundle', $bundle);
     return $this;
   }
@@ -164,21 +168,21 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function getTargetEntityTypeDefinition() {
+  public function getTargetEntityTypeDefinition(): ?EntityTypeInterface {
     return $this->entityTypeManager()->getDefinition($this->getTargetEntityTypeId());
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getTargetEntityTypeBundleId() {
+  public function getTargetEntityTypeBundleId(): ?string {
     return $this->getTargetEntityTypeDefinition()->getBundleEntityType();
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getTargetEntityTypeBundleDefinition() {
+  public function getTargetEntityTypeBundleDefinition(): ?EntityTypeInterface {
     $bundle_entity_type = $this->getTargetEntityTypeBundleId();
     return $bundle_entity_type ? $this->entityTypeManager()->getDefinition($bundle_entity_type) : NULL;
   }
@@ -186,7 +190,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function getTargetEntityBundleEntity() {
+  public function getTargetEntityBundleEntity(): ?ConfigEntityBundleBase {
     if (!$this->isTargetEntityTypeBundle()) {
       return NULL;
     }
@@ -200,28 +204,28 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function isTargetEntityTypeBundle() {
+  public function isTargetEntityTypeBundle(): bool {
     return (boolean) $this->getTargetEntityTypeBundleId();
   }
 
   /**
    * {@inheritdoc}
    */
-  public function isNewTargetEntityTypeBundle() {
+  public function isNewTargetEntityTypeBundle(): bool {
     return ($this->isTargetEntityTypeBundle() && !$this->getTargetEntityBundleEntity());
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getSchemaType() {
+  public function getSchemaType(): ?string {
     return $this->schema_type;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setSchemaType($type) {
+  public function setSchemaType($type): SchemaDotOrgMappingInterface {
     $this->schema_type = $type;
     return $this;
   }
@@ -229,42 +233,42 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function getSchemaProperties() {
+  public function getSchemaProperties(): array {
     return $this->schema_properties;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getOriginalSchemaProperties() {
+  public function getOriginalSchemaProperties(): array {
     return $this->original_schema_properties;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setOriginalSchemaProperties(array $properties) {
+  public function setOriginalSchemaProperties(array $properties): void {
     $this->original_schema_properties = $properties;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getNewSchemaProperties() {
+  public function getNewSchemaProperties(): array {
     return array_diff_key($this->schema_properties, $this->original_schema_properties);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyMapping($name) {
+  public function getSchemaPropertyMapping($name): ?string {
     return $this->schema_properties[$name] ?? NULL;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setSchemaPropertyMapping($name, $property) {
+  public function setSchemaPropertyMapping(string $name, string $property): SchemaDotOrgMappingInterface {
     $this->schema_properties[$name] = $property;
     return $this;
   }
@@ -272,7 +276,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function removeSchemaProperty($name) {
+  public function removeSchemaProperty($name): SchemaDotOrgMappingInterface {
     unset($this->schema_properties[$name]);
     return $this;
   }
@@ -280,7 +284,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyFieldName($property) {
+  public function getSchemaPropertyFieldName(string $property): ?string {
     $schema_properties = array_flip($this->schema_properties);
     return $schema_properties[$property] ?? NULL;
   }
@@ -288,14 +292,14 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function hasSchemaPropertyMapping($property) {
+  public function hasSchemaPropertyMapping(string $property): bool {
     return in_array($property, $this->schema_properties);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function calculateDependencies() {
+  public function calculateDependencies(): SchemaDotOrgMappingInterface {
     parent::calculateDependencies();
     $target_entity_type = $this->entityTypeManager()->getDefinition($this->target_entity_type_id);
 
@@ -322,7 +326,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public function onDependencyRemoval(array $dependencies) {
+  public function onDependencyRemoval(array $dependencies): bool {
     $changed = parent::onDependencyRemoval($dependencies);
     foreach ($dependencies['config'] as $entity) {
       if ($entity->getEntityTypeId() === 'field_config') {
@@ -358,7 +362,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
    * @see \Drupal\Core\Config\Entity\ConfigEntityInterface::calculateDependencies()
    * @see \Drupal\Core\Config\Entity\ConfigEntityInterface::onDependencyRemoval()
    */
-  protected function getPluginRemovedDependencies(array $plugin_dependencies, array $removed_dependencies) {
+  protected function getPluginRemovedDependencies(array $plugin_dependencies, array $removed_dependencies): array {
     $intersect = [];
     foreach ($plugin_dependencies as $type => $dependencies) {
       if ($removed_dependencies[$type]) {
@@ -382,7 +386,7 @@ class SchemaDotOrgMapping extends ConfigEntityBase implements SchemaDotOrgMappin
   /**
    * {@inheritdoc}
    */
-  public static function loadByEntity(EntityInterface $entity) {
+  public static function loadByEntity(EntityInterface $entity): ?SchemaDotOrgMappingInterface {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
     return $mapping_storage->loadByEntity($entity);

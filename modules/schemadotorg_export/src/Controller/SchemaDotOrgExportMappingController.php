@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_export\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
@@ -16,8 +18,8 @@ class SchemaDotOrgExportMappingController extends ControllerBase {
    * @return \Symfony\Component\HttpFoundation\StreamedResponse
    *   A streamed HTTP response containing a Schema.org mapping CSV export.
    */
-  public function index() {
-    $response = new StreamedResponse(function () {
+  public function index(): StreamedResponse {
+    $response = new StreamedResponse(function (): void {
       $subtype_installed = $this->moduleHandler()->moduleExists('schemadotorg_subtype');
 
       $handle = fopen('php://output', 'r+');

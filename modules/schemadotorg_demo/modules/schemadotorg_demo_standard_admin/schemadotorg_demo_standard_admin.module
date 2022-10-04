@@ -5,6 +5,8 @@
  * Provides an opinionated demo of the Schema.org Blueprints.
  */
 
+declare(strict_types = 1);
+
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -12,7 +14,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 /**
  * Implements hook_help().
  */
-function schemadotorg_demo_standard_admin_help($route_name, RouteMatchInterface $route_match) {
+function schemadotorg_demo_standard_admin_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
@@ -21,7 +23,7 @@ function schemadotorg_demo_standard_admin_help($route_name, RouteMatchInterface 
 /**
  * Implements hook_page_attachments().
  */
-function schemadotorg_demo_standard_admin_page_attachments(array &$page) {
+function schemadotorg_demo_standard_admin_page_attachments(array &$page): void {
   // Attach CSS and JavaScript, that fixes minor UI issues with
   // minor UX enhancements.
   $page['#attached']['library'][] = 'schemadotorg_demo_standard_admin/schemadotorg_demo_standard_admin';
@@ -30,7 +32,7 @@ function schemadotorg_demo_standard_admin_page_attachments(array &$page) {
 /**
  * Implements hook_toolbar_alter().
  */
-function schemadotorg_demo_standard_admin_toolbar_alter(&$items) {
+function schemadotorg_demo_standard_admin_toolbar_alter(array &$items): void {
   // Tweak the Environment Indicator module's toolbar weights.
   $weights = [
     'environment_indicator' => 999,
@@ -45,7 +47,7 @@ function schemadotorg_demo_standard_admin_toolbar_alter(&$items) {
 /**
  * Implements hook_form_BASE_FORM_ID_alter().
  */
-function schemadotorg_demo_standard_admin_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+function schemadotorg_demo_standard_admin_form_node_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
   // Close the 'URL alias' details widget in the sidebar.
   $path_widget =& NestedArray::getValue($form, ['path', 'widget', '0']);
   $path_widget['#open'] = FALSE;
@@ -54,7 +56,7 @@ function schemadotorg_demo_standard_admin_form_node_form_alter(&$form, FormState
 /**
  * Implements hook_link_alter().
  */
-function schemadotorg_demo_standard_admin_link_alter(&$variables) {
+function schemadotorg_demo_standard_admin_link_alter(array &$variables): void {
   if (!isset($variables['url'])) {
     return;
   }

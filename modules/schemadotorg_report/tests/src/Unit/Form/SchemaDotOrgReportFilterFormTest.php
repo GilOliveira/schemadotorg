@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_report\Unit\Breadcrumb;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
@@ -70,7 +72,7 @@ class SchemaDotOrgReportFilterFormTest extends UnitTestCase {
    *
    * @covers ::buildForm
    */
-  public function testBuildForm() {
+  public function testBuildForm(): void {
     // Build the filter form without a table of id.
     $form = [];
     $form_state = new FormState();
@@ -95,7 +97,7 @@ class SchemaDotOrgReportFilterFormTest extends UnitTestCase {
    *
    * @covers ::submitForm
    */
-  public function testSubmitForm() {
+  public function testSubmitForm(): void {
     // Build the filter by Schema.org types form.
     $form = [];
     $form_state = new FormState();
@@ -125,7 +127,7 @@ class SchemaDotOrgReportFilterFormTest extends UnitTestCase {
    *
    * @covers ::resetForm
    */
-  public function testResetForm() {
+  public function testResetForm(): void {
     // Trigger the reset form handler.
     $form = [];
     $form_state = new FormState();

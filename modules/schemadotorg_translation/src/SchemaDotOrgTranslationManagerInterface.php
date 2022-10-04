@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_translation;
 
-use Drupal\field\FieldConfigInterface;
+use Drupal\Core\Field\FieldConfigBase;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
@@ -16,14 +18,14 @@ interface SchemaDotOrgTranslationManagerInterface {
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
    *   The Schema.org mapping.
    */
-  public function enableMapping(SchemaDotOrgMappingInterface $mapping);
+  public function enableMapping(SchemaDotOrgMappingInterface $mapping): void;
 
   /**
    * Enable translation for a Schema.org mapping field.
    *
-   * @param \Drupal\field\FieldConfigInterface $field_config
+   * @param \Drupal\Core\Field\FieldConfigBase $field_config
    *   The field.
    */
-  public function enableMappingField(FieldConfigInterface $field_config);
+  public function enableMappingField(FieldConfigBase $field_config): void;
 
 }

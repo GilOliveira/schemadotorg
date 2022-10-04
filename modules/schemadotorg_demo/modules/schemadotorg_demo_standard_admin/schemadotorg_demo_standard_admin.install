@@ -5,10 +5,12 @@
  * Installation hooks for the Schema.org Blueprints Demo Standard Admin module.
  */
 
+declare(strict_types = 1);
+
 /**
  * Implements hook_install().
  */
-function schemadotorg_demo_standard_admin_install() {
+function schemadotorg_demo_standard_admin_install(): void {
   /** @var \Drupal\Core\Extension\ThemeInstallerInterface $theme_installer */
   $theme_installer = \Drupal::service('theme_installer');
   /** @var \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler */

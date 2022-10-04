@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityStorage;
@@ -39,14 +41,14 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   /**
    * {@inheritdoc}
    */
-  public function isEntityMapped(EntityInterface $entity) {
+  public function isEntityMapped(EntityInterface $entity): bool {
     return $this->isBundleMapped($entity->getEntityTypeId(), $entity->bundle());
   }
 
   /**
    * {@inheritdoc}
    */
-  public function isBundleMapped($entity_type_id, $bundle) {
+  public function isBundleMapped(string $entity_type_id, string $bundle): bool {
     return (boolean) $this->getQuery()
       ->condition('target_entity_type_id', $entity_type_id)
       ->condition('target_bundle', $bundle)
@@ -56,7 +58,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   /**
    * {@inheritdoc}
    */
-  public function getSchemaType($entity_type_id, $bundle) {
+  public function getSchemaType(string $entity_type_id, string $bundle): ?string {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
     $entity = $this->load($entity_type_id . '.' . $bundle);
     if (!$entity) {
@@ -68,7 +70,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyName($entity_type_id, $bundle, $field_name) {
+  public function getSchemaPropertyName(string $entity_type_id, string $bundle, string $field_name): ?string {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
     $entity = $this->load($entity_type_id . '.' . $bundle);
     if (!$entity) {
@@ -80,7 +82,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyRangeIncludes($schema_type, $schema_property) {
+  public function getSchemaPropertyRangeIncludes(string $schema_type, string $schema_property): array {
     $schema_properties_range_includes = $this->configFactory
       ->get('schemadotorg.settings')
       ->get("schema_properties.range_includes");
@@ -93,7 +95,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyTargetBundles($target_type, $schema_type, $schema_property) {
+  public function getSchemaPropertyTargetBundles(string $target_type, string $schema_type, string $schema_property): array {
     $range_includes = $this->getSchemaPropertyRangeIncludes($schema_type, $schema_property);
     return $this->getRangeIncludesTargetBundles($target_type, $range_includes);
   }
@@ -101,7 +103,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   /**
    * {@inheritdoc}
    */
-  public function getRangeIncludesTargetBundles($target_type, array $range_includes) {
+  public function getRangeIncludesTargetBundles(string $target_type, array $range_includes): array {
     // Remove 'Thing' because it is too generic.
     unset($range_includes['Thing']);
 
@@ -127,7 +129,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   /**
    * {@inheritdoc}
    */
-  public function isSchemaTypeMapped($entity_type_id, $schema_type) {
+  public function isSchemaTypeMapped(?string $entity_type_id, ?string $schema_type): bool {
     if (empty($entity_type_id) || empty($schema_type)) {
       return FALSE;
     }
@@ -141,7 +143,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   /**
    * {@inheritdoc}
    */
-  public function loadBySchemaType($entity_type_id, $schema_type) {
+  public function loadBySchemaType(string $entity_type_id, string $schema_type): ?SchemaDotOrgMappingInterface {
     $entities = $this->loadByProperties([
       'target_entity_type_id' => $entity_type_id,
       'schema_type' => $schema_type,
@@ -152,7 +154,7 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   /**
    * {@inheritdoc}
    */
-  public function loadByEntity(EntityInterface $entity) {
+  public function loadByEntity(EntityInterface $entity): ?SchemaDotOrgMappingInterface {
     if (!$this->isEntityMapped($entity)) {
       return NULL;
     }

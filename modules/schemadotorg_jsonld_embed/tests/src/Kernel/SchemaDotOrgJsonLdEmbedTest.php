@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\schemadotorg_jsonld_embed\Kernel;
 
 use Drupal\Core\Session\UserSession;
@@ -68,7 +70,7 @@ class SchemaDotOrgJsonLdEmbedTest extends SchemaDotOrgKernelEntityTestBase {
   /**
    * Test Schema.org JSON-LD embed.
    */
-  public function testEmbed() {
+  public function testEmbed(): void {
     // Allow Schema.org Thing to have default properties.
     $this->config('schemadotorg.settings')
       ->set('schema_types.default_properties.Thing', ['name', 'description'])

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -20,10 +22,10 @@ interface SchemaDotOrgHelpManagerInterface {
    *   The current route match. This can be used to generate different help
    *   output for different pages that share the same route.
    *
-   * @return null|array
+   * @return array|null
    *   A render array containing the Schema.org module's README.md contents.
    */
-  public function buildHelpPage($route_name, RouteMatchInterface $route_match);
+  public function buildHelpPage(string $route_name, RouteMatchInterface $route_match): ?array;
 
   /**
    * Get a module's video as a renderable array.
@@ -31,6 +33,6 @@ interface SchemaDotOrgHelpManagerInterface {
    * @return array
    *   A module's videos as a renderable array.
    */
-  public function buildVideosPage();
+  public function buildVideosPage(): array;
 
 }
