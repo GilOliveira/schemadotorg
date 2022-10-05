@@ -191,15 +191,15 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity.
-   * @param bool $map_entity
-   *   TRUE if the entity should be mapped.
+   * @param bool $map_entities
+   *   TRUE if the entity reference should be mapped.
    *   This helps prevent a mapping recursion.
    *
    * @return array|bool
    *   The JSON-LD for an entity that is mapped to a Schema.org type
    *   or FALSE if the entity is not mapped to a Schema.org type.
    */
-  protected function buildMappedEntity(EntityInterface $entity, bool $map_entity = TRUE): array|bool {
+  protected function buildMappedEntity(EntityInterface $entity, bool $map_entities = TRUE): array|bool {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
     if (!$mapping_storage->isEntityMapped($entity)) {
@@ -227,7 +227,8 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       $position = 1;
       $property_values = [];
       foreach ($items as $item) {
-        $property_value = $this->getFieldItem($schema_type, $schema_property, $item, $map_entity);
+        $property_value = $this->getFieldItem($schema_type, $schema_property, $item, $map_entities);
+
         // Alter the Schema.org property's individual value.
         $this->moduleHandler->alter(
           'schemadotorg_jsonld_schema_property',
