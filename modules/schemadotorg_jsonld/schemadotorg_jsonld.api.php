@@ -3,6 +3,11 @@
 /**
  * @file
  * Hooks to define and alter Schema.org JSON-LD.
+ *
+ * NOTE: Modules can move all Schema.org JSON-LD hooks into a dedicated
+ * MODULE_NAME.schemadotorg.inc file.
+ *
+ * @see schemadotorg_jsonld.schemadotorg.inc
  */
 
 declare(strict_types = 1);

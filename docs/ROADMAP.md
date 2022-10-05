@@ -14,6 +14,7 @@ Schema.org Blueprints: Roadmap
   - Always review default Schema.org type properties.
 - Build out the default schema types properties.
 - Review patterns and tests.
+- Remove experimental tag from most sub-modules.
 
 
 # Alpha
@@ -31,7 +32,7 @@ Schema.org Blueprints: Roadmap
 # Beta
 
 - Find co-maintainers and sponsoring organizations
-- Improve documentation with in-line help
+- Provide training videos
 - Determine upgrade path between Schema.org versions
 --------------------------------------------------------------------------------
 - Finalize and document hooks and APIs
