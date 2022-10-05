@@ -23,6 +23,7 @@ class SchemaDotOrgTaxonomyJsonLdTest extends SchemaDotOrgBrowserTestBase {
    * @var string[]
    */
   protected static $modules = [
+    'filter',
     'schemadotorg_jsonld',
     'schemadotorg_jsonld_endpoint',
     'schemadotorg_jsonld_preview',

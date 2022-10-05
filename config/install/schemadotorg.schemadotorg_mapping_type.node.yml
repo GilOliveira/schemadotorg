@@ -93,9 +93,12 @@ default_schema_types:
 default_schema_type_properties:
   CreativeWork:
     - name
-    - description
+    - text
     - dateCreated
     - dateModified
+  Article:
+    - '-text'
+    - articleBody
 default_base_fields:
   uuid: {  }
   revision_uid: {  }

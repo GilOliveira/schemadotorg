@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldItemInterface;
+use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 
@@ -227,7 +228,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       $position = 1;
       $property_values = [];
       foreach ($items as $item) {
-        $property_value = $this->getFieldItem($schema_type, $schema_property, $item, $map_entities);
+        $property_value = $this->getSchemaPropertyFieldItem($schema_type, $schema_property, $item, $map_entities);
 
         // Alter the Schema.org property's individual value.
         $this->moduleHandler->alter(
@@ -301,10 +302,23 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
 
       /** @var \Drupal\Core\Field\FieldItemListInterface $items */
       $items = $entity->get($field_name);
-      $this->moduleHandler->alter('schemadotorg_jsonld_schema_type_field', $data, $items);
+      $this->alterSchemaTypeFieldItems($data, $items);
     }
 
     return $data;
+  }
+
+  /**
+   * Alter the Schema.org JSON-LD data for a field item list.
+   *
+   * @param array $data
+   *   The Schema.org JSON-LD data for an entity.
+   * @param \Drupal\Core\Field\FieldItemListInterface $items
+   *   A field item list.
+   */
+  protected function alterSchemaTypeFieldItems(array &$data, FieldItemListInterface $items): void {
+    $data += $this->schemaJsonLdManager->getSchemaTypeProperties($items);
+    $this->moduleHandler->alter('schemadotorg_jsonld_schema_type_field', $data, $items);
   }
 
   /**
@@ -322,7 +336,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    * @return mixed
    *   A data type.
    */
-  protected function getFieldItem(string $schema_type, string $schema_property, ?FieldItemInterface $item = NULL, bool $map_entity = TRUE): mixed {
+  protected function getSchemaPropertyFieldItem(string $schema_type, string $schema_property, ?FieldItemInterface $item = NULL, bool $map_entity = TRUE): mixed {
     if ($item === NULL) {
       return NULL;
     }

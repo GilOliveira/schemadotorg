@@ -164,11 +164,27 @@ function hook_schemadotorg_jsonld_schema_type_entity_alter(array &$data, \Drupal
  * This hook allows a field to alter the other Schema.org properties outside
  * the field's Schema.org property mapping.
  *
+ * @param array &$data
+ *   The Schema.org JSON-LD data for an entity.
  * @param \Drupal\Core\Field\FieldItemListInterface $items
  *   A field item list.
  */
 function hook_schemadotorg_jsonld_schema_type_field_alter(array &$data, \Drupal\Core\Field\FieldItemListInterface $items): void {
-  // @todo Provide some example code.
+  $field_storage = $items->getFieldDefinition()->getFieldStorageDefinition();
+  $field_type = $field_storage->getType();
+  if ($field_type === 'text_with_summary') {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+    $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
+    $mapping = $mapping_storage->loadByEntity($items->getEntity());
+    $field_name = $field_storage->getName();
+    $cardinality = $field_storage->getCardinality();
+    $schema_property = $mapping->getSchemaPropertyMapping($field_name);
+    // For text and articleBody properties set the description
+    // to the summary.
+    if (in_array($schema_property, ['text', 'articleBody']) && $cardinality === 1) {
+      $data['description'] = (string) check_markup($items->summary, $items->format);
+    }
+  }
 }
 
 /* ************************************************************************** */

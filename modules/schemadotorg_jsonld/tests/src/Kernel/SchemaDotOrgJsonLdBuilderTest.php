@@ -46,12 +46,18 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
    * Test Schema.org JSON-LD builder.
    */
   public function testBuilder(): void {
-    // Allow Schema.org Thing to have default properties.
+    /** @var \Drupal\Core\Datetime\DateFormatterInterface $data_formatter */
+    $data_formatter = \Drupal::service('date.formatter');
+    $now = time();
+
+    // Append subjectOf and alternateName to CreativeWork default properties.
+    $default_properties = $this->config('schemadotorg.settings')
+      ->get('schema_types.default_properties.CreativeWork');
     $this->config('schemadotorg.settings')
-      ->set('schema_types.default_properties.Thing', ['name', 'alternateName', 'description', 'subjectOf'])
+      ->set('schema_types.default_properties.CreativeWork', array_merge($default_properties, ['subjectOf', 'alternateName']))
       ->save();
 
-    $this->createSchemaEntity('node', 'Thing');
+    $this->createSchemaEntity('node', 'CreativeWork');
 
     FilterFormat::create([
       'format' => 'empty_format',
@@ -59,7 +65,7 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
     ])->save();
 
     $node = Node::create([
-      'type' => 'thing',
+      'type' => 'creative_work',
       'title' => 'Something',
       'schema_alternate_name' => [
         'value' => 'Something else',
@@ -68,15 +74,18 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
         'value' => 'Some subject',
       ],
       'body' => [
+        'summary' => 'A summary',
         'value' => 'Some description',
         'format' => 'empty_format',
       ],
+      'created' => $now,
+      'changed' => $now,
     ]);
     $node->save();
 
     // Check building JSON-LD for an entity that is mapped to a Schema.org type.
     $expected_result = [
-      '@type' => 'Thing',
+      '@type' => 'CreativeWork',
       'identifier' => [
           [
             '@type' => 'PropertyValue',
@@ -88,11 +97,15 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
       'alternateName' => [
         'Something else',
       ],
-      'description' => 'Some description',
+      'description' => 'A summary',
+      'text' => 'Some description',
       'subjectOf' => [
         '@type' => 'CreativeWork',
         'name' => 'Some subject',
       ],
+      'inLanguage' => 'en',
+      'dateCreated' => $data_formatter->format($now, 'custom', 'Y-m-d H:i:s P'),
+      'dateModified' => $data_formatter->format($now, 'custom', 'Y-m-d H:i:s P'),
     ];
     $this->assertEquals($expected_result, $this->builder->buildEntity($node));
 

@@ -11,8 +11,8 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Field\FieldItemInterface;
+use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Language\LanguageInterface;
@@ -208,9 +208,42 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
+  public function getSchemaTypeProperties(FieldItemListInterface $items): array {
+    $field_storage = $items->getFieldDefinition()->getFieldStorageDefinition();
+    $field_type = $field_storage->getType();
+    switch ($field_type) {
+      case 'text_with_summary';
+        /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+        $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+        $mapping = $mapping_storage->loadByEntity($items->getEntity());
+        $field_name = $field_storage->getName();
+        $cardinality = $field_storage->getCardinality();
+        $schema_property = $mapping->getSchemaPropertyMapping($field_name);
+        // For text and articleBody properties set the description
+        // to the summary.
+        if (in_array($schema_property, ['text', 'articleBody'])
+          && $cardinality === 1
+          && $items->summary
+          && $items->format) {
+          $summary = (string) check_markup($items->summary, $items->format);
+          return $summary ? ['description' => $summary] : [];
+        }
+        else {
+          return [];
+        }
+    }
+
+    return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getSchemaPropertyValue(FieldItemInterface $item): mixed {
-    // Field type (from Drupal core only).
-    $field_type = $this->getFieldType($item);
+    $field_storage = $item->getFieldDefinition()->getFieldStorageDefinition();
+    $field_type = $field_storage->getType();
+
+    // Get value from Drupal core field types.
     switch ($field_type) {
       case 'language':
         return ($item->value !== LanguageInterface::LANGCODE_NOT_SPECIFIED) ? $item->value : NULL;
@@ -227,18 +260,10 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
         return $this->getImageDeriativeUrl($item) ?: $this->getFileUrl($item);
 
       case 'daterange':
-        $entity_type_id = $item->getFieldDefinition()->getTargetEntityTypeId();
-        $bundle = $item->getFieldDefinition()->getTargetBundle();
+        /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+        $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+        $mapping = $mapping_storage->loadByEntity($item->getEntity());
         $field_name = $item->getFieldDefinition()->getName();
-
-        /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
-        $mapping = $this->entityTypeManager
-          ->getStorage('schemadotorg_mapping')
-          ->load("$entity_type_id.$bundle");
-        if (!$mapping) {
-          return $item->value;
-        }
-
         $schema_property = $mapping->getSchemaPropertyMapping($field_name);
         if ($schema_property === 'eventSchedule') {
           return [
@@ -262,7 +287,8 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     }
 
     // Main property data type.
-    $value = $this->getFieldMainPropertyValue($item);
+    $main_property_name = $this->getMainPropertyName($item);
+    $value = $item->$main_property_name ?? NULL;
     if (!is_array($value)) {
       $main_property_data_type = $this->getMainPropertyDateType($item);
       switch ($main_property_data_type) {
@@ -412,79 +438,6 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   }
 
   /**
-   * Gets the entity for a field item.
-   *
-   * @param \Drupal\Core\Field\FieldItemInterface $item
-   *   The field item.
-   *
-   * @return \Drupal\Core\Entity\FieldableEntityInterface
-   *   The entity for a field item.
-   */
-  protected function getEntity(FieldItemInterface $item): FieldableEntityInterface {
-    return $item->getEntity();
-  }
-
-  /**
-   * Gets the field name for a field item.
-   *
-   * @param \Drupal\Core\Field\FieldItemInterface $item
-   *   The field item.
-   *
-   * @return string
-   *   The field name for a field item.
-   */
-  protected function getFieldName(FieldItemInterface $item): string {
-    return $item->getFieldDefinition()->getName();
-  }
-
-  /**
-   * Gets the field type for a field item.
-   *
-   * @param \Drupal\Core\Field\FieldItemInterface $item
-   *   The field item.
-   *
-   * @return string
-   *   The field type for a field item.
-   */
-  protected function getFieldType(FieldItemInterface $item): string {
-    return $item->getFieldDefinition()->getFieldStorageDefinition()->getType();
-  }
-
-  /**
-   * Gets the field values for a field item.
-   *
-   * @param \Drupal\Core\Field\FieldItemInterface $item
-   *   The field item.
-   *
-   * @return mixed
-   *   The field values for a field item.
-   */
-  protected function getFieldValue(FieldItemInterface $item): mixed {
-    $property_names = $this->getPropertyNames($item);
-    $property_names = array_combine($property_names, $property_names);
-    return array_intersect_key($item->getValue(), $property_names);
-  }
-
-  /**
-   * Gets the field values or main property's value for a field item.
-   *
-   * @param \Drupal\Core\Field\FieldItemInterface $item
-   *   The field item.
-   *
-   * @return mixed
-   *   The field values or main property's value for a field item.
-   */
-  protected function getFieldMainPropertyValue(FieldItemInterface $item): mixed {
-    $values = $this->getFieldValue($item);
-    if (empty($values)) {
-      return NULL;
-    }
-
-    $main_property_name = $this->getMainPropertyName($item);
-    return $values[$main_property_name] ?? NULL;
-  }
-
-  /**
    * Gets the property names for a field item.
    *
    * @param \Drupal\Core\Field\FieldItemInterface $item
@@ -536,8 +489,8 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    *   The mapped Schema.org property for a field item.
    */
   protected function getSchemaProperty(FieldItemInterface $item): string {
-    $entity = $this->getEntity($item);
-    $field_name = $this->getFieldName($item);
+    $entity = $item->getEntity();
+    $field_name = $item->getFieldDefinition()->getName();
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
@@ -602,7 +555,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    *   The image deriative URL for a field item.
    */
   protected function getImageDeriativeUrl(FieldItemInterface $item): ?string {
-    $field_type = $this->getFieldType($item);
+    $field_type = $item->getFieldDefinition()->getFieldStorageDefinition()->getType();
     if ($field_type !== 'image') {
       return NULL;
     }

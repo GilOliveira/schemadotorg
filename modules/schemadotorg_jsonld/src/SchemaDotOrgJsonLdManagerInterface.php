@@ -6,6 +6,7 @@ namespace Drupal\schemadotorg_jsonld;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldItemInterface;
+use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
@@ -49,6 +50,17 @@ interface SchemaDotOrgJsonLdManagerInterface {
    *   The Schema.org propertiesin specified order and then alphabetically.
    */
   public function sortProperties(array $properties): array;
+
+  /**
+   * Get Schema.org type properties from field items.
+   *
+   * @param \Drupal\Core\Field\FieldItemListInterface $item
+   *   THe field items.
+   *
+   * @return array
+   *   An array of Schema.org type properties.
+   */
+  public function getSchemaTypeProperties(FieldItemListInterface $item): array;
 
   /**
    * Get a Schema.org property's value for a field item.
