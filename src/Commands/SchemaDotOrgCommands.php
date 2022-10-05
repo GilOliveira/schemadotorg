@@ -104,6 +104,26 @@ class SchemaDotOrgCommands extends DrushCommands {
   }
 
   /**
+   * Extract translatable strings Schema.org CSV data.
+   *
+   * IMPORTANT: This command is used by maintainers to extract translatable
+   * strings from the latest CSV data from Schema.org.
+   *
+   * @command schemadotorg:translate-schema
+   *
+   * @usage schemadotorg:translate-schema
+   */
+  public function translate(): void {
+    if (!$this->io()->confirm(dt('Are you sure you want to extract translatable strings Schema.org CSV data.?'))) {
+      throw new UserAbortException();
+    }
+
+    $this->schemaInstaller->translateCsvData();
+
+    $this->output()->writeln(dt('Extracted translatable strings Schema.org CSV data.'));
+  }
+
+  /**
    * Update Schema.org data.
    *
    * @command schemadotorg:update-schema

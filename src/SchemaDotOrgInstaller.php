@@ -438,6 +438,74 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   }
 
   /**
+   * Extract translatable strings Schema.org CSV data.
+   */
+  public function translateCsvData(): void {
+    $tables = ['properties', 'types'];
+    $strings = [];
+    foreach ($tables as $table) {
+      $result = $this->database
+        ->select('schemadotorg_' . $table, 'table')
+        ->fields('table', ['id', 'label', 'comment'])
+        ->orderBy('label')
+        ->execute();
+      while ($record = $result->fetchAssoc()) {
+        $strings[] = '// ' . $record['id'];
+        $strings[] = $this->formatStringTranslation($record['label']);
+        $strings[] = $this->formatStringTranslation($record['comment']);
+        $strings[] = '';
+      }
+      $filename = __DIR__ . '/../data/' . static::VERSION . '/schemaorgdotorg.translations.' . $table . '.inc';
+      $translatable_strings = implode(PHP_EOL, $strings);
+      $contents = <<<EOT
+        <?php
+
+        /**
+         * @file
+         * Translate Schema.org $table id and comment strings.
+         *
+         * Passing Schema.org label and comments to Drupal's t() function to
+         * ensure all translatable Schema.org strings discovered by
+         * localize.drupal.org.
+         *
+         * DO NOT EDIT.
+         * This file is generated using `drush schemadotorg:translate-schema`.
+         *
+         * @see https://localize.drupal.org/translate/languages/en-gb/translate?project=schemadotorg
+         */
+
+        declare(strict_types = 1);
+
+        // phpcs:disable Drupal.Semantics.FunctionT.BackslashSingleQuote
+
+        $translatable_strings
+        EOT;
+      file_put_contents($filename, $contents);
+    }
+  }
+
+  /**
+   * Format string for translation using the t() function.
+   *
+   * @param string $string
+   *   A translatable string.
+   *
+   * @return string
+   *   A translatable string formatted for translation using the t() function.
+   */
+  protected function formatStringTranslation(string $string): string {
+    if (str_contains($string, '"') && str_contains($string, "'")) {
+      return "t('" . str_replace("'", "\'", $string) . "');";
+    }
+    elseif (str_contains($string, '"')) {
+      return "t('" . $string . "');";
+    }
+    else {
+      return 't("' . $string . '");';
+    }
+  }
+
+  /**
    * Import Schema.org types and properties tables.
    */
   public function importTables(): void {
