@@ -42,11 +42,7 @@ class SchemaDotOrgUiMenuLink extends DeriverBase implements ContainerDeriverInte
     $this->derivatives = [];
     foreach ($this->entityTypeManager->getDefinitions() as $entity_type_id => $entity_type) {
       $bundle_of = $entity_type->getBundleOf();
-      if ($bundle_of
-        && in_array($bundle_of, $entity_types)
-        // Block media from being created because it requires a source to be defined.
-        // @see \Drupal\media\MediaTypeForm::form
-        && $bundle_of !== 'media') {
+      if ($bundle_of && in_array($bundle_of, $entity_types)) {
         $entity_type_label = ($entity_type_id === 'paragraphs_type')
           ? $this->t('paragraph type')
           : $entity_type->getSingularLabel();

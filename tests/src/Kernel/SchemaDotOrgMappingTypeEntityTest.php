@@ -25,6 +25,7 @@ class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
     'node',
     'media',
     'paragraphs',
+    'schemadotorg_media',
     'schemadotorg_paragraphs',
   ];
   // phpcs:enable
@@ -48,7 +49,7 @@ class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
     $this->installEntitySchema('paragraph');
 
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
-    $this->installConfig(['schemadotorg', 'schemadotorg_paragraphs']);
+    $this->installConfig(['schemadotorg', 'schemadotorg_media', 'schemadotorg_paragraphs']);
 
     // Import CSV data into the Schema.org type and properties tables.
     /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */

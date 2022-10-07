@@ -499,15 +499,6 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         $handler_settings = [];
         $handler_settings['target_bundles'] = $target_bundles;
         switch ($target_type) {
-          case 'media':
-            // Widget.
-            if ($this->moduleHandler->moduleExists('media_library')) {
-              $widget_id = 'media_library_widget';
-            }
-            // Formatter.
-            $formatter_id = 'entity_reference_entity_view';
-            break;
-
           case 'node':
             // Widget.
             if ($this->moduleHandler->moduleExists('content_browser')) {

@@ -169,14 +169,6 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
       }
     }
 
-    // Custom weights.
-    $entity_type_id = $display->getTargetEntityTypeId();
-    switch ($entity_type_id) {
-      case 'media':
-        $options['weight'] = 10;
-        break;
-    }
-
     $display->setComponent($field_name, $options);
   }
 

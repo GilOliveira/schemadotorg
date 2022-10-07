@@ -27,6 +27,7 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     'paragraphs',
     'taxonomy',
     'block_content',
+    'schemadotorg_media',
     'schemadotorg_mapping_set',
   ];
 

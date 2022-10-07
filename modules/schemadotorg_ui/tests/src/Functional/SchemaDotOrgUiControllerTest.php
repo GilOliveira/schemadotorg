@@ -34,6 +34,7 @@ class SchemaDotOrgUiControllerTest extends SchemaDotOrgBrowserTestBase {
     'telephone',
     'link',
     'options',
+    'schemadotorg_media',
     'schemadotorg_paragraphs',
     'schemadotorg_ui',
   ];

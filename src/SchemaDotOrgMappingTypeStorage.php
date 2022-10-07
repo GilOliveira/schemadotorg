@@ -87,12 +87,6 @@ class SchemaDotOrgMappingTypeStorage extends ConfigEntityStorage implements Sche
         continue;
       }
 
-      // Media bundles are not support because the add media form is
-      // not reusable.
-      if ($entity_type_id === 'media') {
-        continue;
-      }
-
       // Make sure the bundle entity exists.
       $bundle_entity_type_id = $entity_type->getBundleEntityType();
       if (!$bundle_entity_type_id) {

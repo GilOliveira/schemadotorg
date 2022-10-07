@@ -517,6 +517,7 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
       // Define the default order for found entity types.
       $entity_types = [
         'paragraph' => NULL,
+        'block_content' => NULL,
         'media' => NULL,
         'node' => NULL,
         'user' => NULL,

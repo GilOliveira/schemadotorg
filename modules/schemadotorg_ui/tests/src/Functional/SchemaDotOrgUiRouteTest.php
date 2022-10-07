@@ -25,7 +25,16 @@ class SchemaDotOrgUiRouteTest extends SchemaDotOrgBrowserTestBase {
    *
    * @var string[]
    */
-  protected static $modules = ['block', 'user', 'node', 'media', 'field', 'field_ui', 'schemadotorg_ui'];
+  protected static $modules = [
+    'block',
+    'user',
+    'node',
+    'media',
+    'field',
+    'field_ui',
+    'schemadotorg_media',
+    'schemadotorg_ui',
+  ];
 
   /**
    * {@inheritdoc}
@@ -65,9 +74,9 @@ class SchemaDotOrgUiRouteTest extends SchemaDotOrgBrowserTestBase {
     $assert_session->statusCodeEquals(200);
 
     // Check that media 'Add Schema.org type' route does exist.
-    $this->assertRouteNotExists('schemadotorg.media_type.type_add');
+    $this->assertRouteExists('schemadotorg.media_type.type_add');
     $this->drupalGet('/admin/structure/media/schemadotorg');
-    $assert_session->statusCodeEquals(404);
+    $assert_session->statusCodeEquals(200);
 
     /* ********************************************************************** */
     // Local actions.
@@ -80,11 +89,11 @@ class SchemaDotOrgUiRouteTest extends SchemaDotOrgBrowserTestBase {
     $assert_session->linkExists('Add Schema.org type');
     $assert_session->linkByHrefExists($base_path . 'admin/structure/types/schemadotorg');
 
-    // Check that media 'Add Schema.org type' action does not exist.
+    // Check that media 'Add Schema.org type' action exists.
     $this->drupalGet('/admin/structure/media');
     $assert_session->statusCodeEquals(200);
-    $assert_session->linkNotExists('Add Schema.org type');
-    $assert_session->linkByHrefNotExists($base_path . 'admin/structure/media/schemadotorg');
+    $assert_session->linkExists('Add Schema.org type');
+    $assert_session->linkByHrefExists($base_path . 'admin/structure/media/schemadotorg');
 
     /* ********************************************************************** */
     // Local tasks.
@@ -133,9 +142,11 @@ class SchemaDotOrgUiRouteTest extends SchemaDotOrgBrowserTestBase {
     $menu_link = reset($menu_links);
     $this->assertEquals('entity.node_type.collection', $menu_link->getParent());
 
-    // Check that media 'Add Schema.org type' menu link does not exist.
+    // Check that media 'Add Schema.org type' menu link exists.
     $menu_links = $menu_link_manager->loadLinksByRoute('schemadotorg.media_type.type_add');
-    $this->assertCount(0, $menu_links);
+    $this->assertCount(1, $menu_links);
+    $menu_link = reset($menu_links);
+    $this->assertEquals('entity.media_type.collection', $menu_link->getParent());
   }
 
   /**

@@ -168,6 +168,7 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
 
     // Check getting a Schema.org property's value for a field item.
     // Address.
+    \Drupal::moduleHandler()->loadInclude('schemadotorg_jsonld', 'inc', 'schemadotorg_jsonld.schemadotorg');
     $expected_value = [
       '@type' => 'PostalAddress',
       'name' => '{organization}',

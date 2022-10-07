@@ -10,9 +10,6 @@
 declare(strict_types = 1);
 
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Field\FieldItemInterface;
-use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
 /**
  * Implements hook_help().

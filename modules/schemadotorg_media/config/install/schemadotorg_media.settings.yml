@@ -1,0 +1,5 @@
+default_sources:
+  AudioObject: audio_file
+  DataDownload: file
+  ImageObject: image
+  VideoObject: 'oembed:video'

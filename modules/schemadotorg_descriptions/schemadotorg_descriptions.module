@@ -116,9 +116,9 @@ function schemadotorg_descriptions_form_schemadotorg_mapping_form_alter(array &$
   }
 
   // Append a note to the subtype description.
-  if (isset($form['subtype'][$add_field]['description'])) {
-    $form['subtype'][$add_field]['description']['#default_value'] = '';
-    $form['subtype'][$add_field]['description']['#description'] .= '<br/>'
+  if (isset($form['mapping']['subtype'][$add_field]['description'])) {
+    $form['mapping']['subtype'][$add_field]['description']['#default_value'] = '';
+    $form['mapping']['subtype'][$add_field]['description']['#description'] .= '<br/>'
       . '<strong>' . t("If left blank, the description will be automatically set.") . '</strong>';
   }
 }

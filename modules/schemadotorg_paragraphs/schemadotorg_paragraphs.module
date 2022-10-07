@@ -164,6 +164,10 @@ function schemadotorg_paragraphs_schemadotorg_jsonld_schema_property_alter(mixed
   $value = $jsonld_builder->buildEntity($paragraph, ['identifier' => FALSE]);
 }
 
+/* ************************************************************************** */
+// Schema.org types settings form.
+/* ************************************************************************** */
+
 /**
  * Implements hook_form_FORM_ID_alter().
  */

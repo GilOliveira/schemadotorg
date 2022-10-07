@@ -120,13 +120,13 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
   // Determine if Schema.org type already has subtyping enabled and
   // display subtyping information.
   if ($subtype_defaults['name'] && $subtype_defaults['name'] !== $add_field) {
-    $form['subtype'] = [
+    $form['mapping']['subtype'] = [
       '#type' => 'item',
       '#title' => t('Schema.org subtyping'),
       '#markup' => t('Enabled'),
       '#weight' => -5,
     ];
-    $form['subtype']['name'] = [
+    $form['mapping']['subtype']['name'] = [
       '#type' => 'value',
       '#parents' => ['mapping', 'properties', 'subtype', 'field', 'name'],
       '#default_value' => $subtype_defaults['name'],
@@ -143,13 +143,13 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
   // The subtype element name correspond the Schema.org Blueprints UI mapping
   // form's properties.
   // @see \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildSchemaPropertyFieldForm
-  $form['subtype'] = [
+  $form['mapping']['subtype'] = [
     '#type' => 'details',
     '#title' => t('Schema.org subtyping'),
     '#open' => ($mapping->isNew() && $subtype_defaults['name']),
     '#weight' => -5,
   ];
-  $form['subtype']['name'] = [
+  $form['mapping']['subtype']['name'] = [
     '#type' => 'checkbox',
     '#title' => t('Enable Schema.org subtyping'),
     '#description' => t("If checked, a 'Type' field is added to the entity which allows content authors to specify a more specific (sub)type for the entity."),
@@ -157,7 +157,7 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
     '#parents' => ['mapping', 'properties', 'subtype', 'field', 'name'],
     '#default_value' => $subtype_defaults['name'],
   ];
-  $form['subtype'][$add_field] = [
+  $form['mapping']['subtype'][$add_field] = [
     '#type' => 'details',
     '#title' => t('Add field'),
     '#attributes' => ['data-schemadotorg-ui-summary' => t('List (text)')],
@@ -167,19 +167,19 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
       ],
     ],
   ];
-  $form['subtype'][$add_field]['type'] = [
+  $form['mapping']['subtype'][$add_field]['type'] = [
     '#type' => 'item',
     '#title' => t('Type'),
     '#markup' => t('List (text)'),
     '#value' => $subtype_defaults['type'],
   ];
-  $form['subtype'][$add_field]['label'] = [
+  $form['mapping']['subtype'][$add_field]['label'] = [
     '#type' => 'textfield',
     '#title' => t('Label'),
     '#required' => TRUE,
     '#default_value' => $subtype_defaults['label'],
   ];
-  $form['subtype'][$add_field]['machine_name'] = [
+  $form['mapping']['subtype'][$add_field]['machine_name'] = [
     '#type' => 'textfield',
     '#title' => t('Machine-readable name'),
     '#field_prefix' => $schema_names->getFieldPrefix(),
@@ -187,13 +187,13 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
     '#required' => TRUE,
     '#default_value' => $subtype_defaults['machine_name'],
   ];
-  $form['subtype'][$add_field]['description'] = [
+  $form['mapping']['subtype'][$add_field]['description'] = [
     '#type' => 'textarea',
     '#title' => t('Description'),
     '#description' => t('Instructions to present to the user below this field on the editing form.'),
     '#default_value' => $subtype_defaults['description'],
   ];
-  $form['subtype'][$add_field]['allowed_values'] = [
+  $form['mapping']['subtype'][$add_field]['allowed_values'] = [
     '#type' => 'schemadotorg_settings',
     '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
     '#settings_description' => FALSE,
@@ -209,7 +209,7 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
   ];
 
   // Set parents for each element to align the Schema.org UI mapping form.
-  foreach (Element::children($form['subtype'][$add_field]) as $key) {
-    $form['subtype'][$add_field][$key]['#parents'] = ['mapping', 'properties', 'subtype', 'field', $add_field, $key];
+  foreach (Element::children($form['mapping']['subtype'][$add_field]) as $key) {
+    $form['mapping']['subtype'][$add_field][$key]['#parents'] = ['mapping', 'properties', 'subtype', 'field', $add_field, $key];
   }
 }

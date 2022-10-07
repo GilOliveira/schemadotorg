@@ -72,6 +72,7 @@ dependencies:
   - 'schemadotorg:schemadotorg_jsonld_endpoint'
   - 'schemadotorg:schemadotorg_jsonld_preview'
   - 'schemadotorg:schemadotorg_mapping_set'
+  - 'schemadotorg:schemadotorg_media'
   - 'schemadotorg:schemadotorg_metatag'
   - 'schemadotorg:schemadotorg_paragraphs'
   # - 'schemadotorg:schemadotorg_rdf'

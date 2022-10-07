@@ -96,11 +96,7 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
 
       // Add 'Add Schema.org type' route. (except media)
       $entity_collection_route = $collection->get("entity.{$bundle_entity_type}.collection");
-      if ($bundle_entity_type
-        && $entity_collection_route
-        // Block media from being created because it requires a source to be defined.
-        // @see \Drupal\media\MediaTypeForm::form
-        && $entity_type_id !== 'media') {
+      if ($bundle_entity_type && $entity_collection_route) {
         $entity_collection_path = $entity_collection_route->getPath();
         $bundle_entity_type_label = ($entity_type_id === 'paragraph')
           ? 'paragraph type'
