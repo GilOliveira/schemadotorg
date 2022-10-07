@@ -94,7 +94,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * {@inheritdoc}
    */
-  public function addEntityBundle(string $entity_type_id, string $schema_type, array $values): EntityInterface {
+  public function addEntityBundle(string $entity_type_id, string $schema_type, array &$values): EntityInterface {
+    $entity_values =& $values['entity'];
     $entity_type_definition = $this->entityTypeManager->getDefinition($entity_type_id);
 
     // Get bundle entity values and map id and label keys.
@@ -103,8 +104,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     foreach ($keys as $key) {
       $key_name = $entity_type_definition->getKey($key);
       if ($key_name !== $key) {
-        $values[$key_name] = $values[$key];
-        unset($values[$key]);
+        $entity_values[$key_name] = $entity_values[$key];
+        unset($entity_values[$key]);
       }
     }
 
@@ -113,8 +114,9 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
 
     /** @var \Drupal\Core\Entity\Sql\SqlContentEntityStorage $bundle_entity_storage */
     $bundle_entity_storage = $this->entityTypeManager->getStorage($entity_type_id);
-    $bundle_entity = $bundle_entity_storage->create($values);
+    $bundle_entity = $bundle_entity_storage->create($entity_values);
     $bundle_entity->schemaDotOrgType = $schema_type;
+    $bundle_entity->schemaDotOrgValues =& $values;
     $bundle_entity->save();
 
     $bundle_of = $bundle_entity->getEntityType()->getBundleOf();

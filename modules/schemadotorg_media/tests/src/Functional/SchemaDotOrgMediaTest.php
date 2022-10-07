@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\Tests\schemadotorg_media\Functional;
 
 use Drupal\media\Entity\MediaType;
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 
 /**
@@ -84,12 +85,24 @@ class SchemaDotOrgMediaTest extends SchemaDotOrgBrowserTestBase {
 
     $form_display = $entity_display_repository->getFormDisplay('media', 'image_object');
     $form_components = $form_display->getComponents();
-    $this->assertEquals(0, $form_components['field_media_image']['weight']);
+    $this->assertEquals(7, $form_components['field_media_image']['weight']);
 
     $view_display = $entity_display_repository->getViewDisplay('media', 'image_object');
     $view_components = $view_display->getComponents();
-    $this->assertEquals(0, $view_components['field_media_image']['weight']);
+    $this->assertEquals(7, $view_components['field_media_image']['weight']);
 
+    // Check default source mapping.
+    $mapping = SchemaDotOrgMapping::load('media.image_object');
+    $this->assertEquals('ImageObject', $mapping->getSchemaType());
+    $expected_value = [
+      'created' => 'dateCreated',
+      'changed' => 'dateModified',
+      'langcode' => 'inLanguage',
+      'name' => 'name',
+      'thumbnail' => 'thumbnail',
+      'field_media_image' => 'image',
+    ];
+    $this->assertEquals($expected_value, $mapping->getSchemaProperties());
   }
 
   /**

@@ -68,8 +68,10 @@ class SchemaDotOrgEntityTypeBuilderTest extends SchemaDotOrgKernelEntityTestBase
   public function testEntityTypeBuilder(): void {
     // Check adding an entity bundle.
     $values = [
-      'label' => 'Thing',
-      'id' => 'thing',
+      'entity' => [
+        'label' => 'Thing',
+        'id' => 'thing',
+      ],
     ];
     $bundle_entity = $this->schemaEntityTypeBuilder->addEntityBundle('node_type', 'Thing', $values);
     $this->assertEquals('thing', $bundle_entity->id());

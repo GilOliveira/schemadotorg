@@ -60,6 +60,8 @@ function hook_schemadotorg_property_field_prepare(string $schema_type, string $s
  *   The bundle entity type values.
  */
 function hook_schemadotorg_bundle_entity_alter(string $schema_type, string $entity_type_id, array &$values): void {
+  $entity_values =& $values['entity'];
+
   // Remove the description from the bundle entity before it is created.
   // @see schemadotorg_descriptions_schemadotorg_bundle_entity_alter()
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
@@ -69,8 +71,8 @@ function hook_schemadotorg_bundle_entity_alter(string $schema_type, string $enti
 
   $definition = $schema_type_manager->getType($schema_type);
   $description = $schema_type_builder->formatComment($definition['comment'], ['base_path' => 'https://schema.org/']);
-  if ($values['description'] === $description) {
-    $values['description'] = '';
+  if ($entity_values['description'] === $description) {
+    $entity_values['description'] = '';
   }
 }
 

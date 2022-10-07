@@ -8,3 +8,9 @@ schemadotorg_media.settings:
       sequence:
         type: string
         label: 'Default media source'
+    source_field_mappings:
+      type: sequence
+      label: 'Source field mappings'
+      sequence:
+        type: string
+        label: 'Source field mapping'

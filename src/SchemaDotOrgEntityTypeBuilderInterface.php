@@ -19,12 +19,12 @@ interface SchemaDotOrgEntityTypeBuilderInterface {
    * @param string $schema_type
    *   The Schema.org type.
    * @param array $values
-   *   The entity bundle values.
+   *   The mapping values.
    *
    * @return \Drupal\Core\Entity\EntityInterface
    *   The bundle entity type.
    */
-  public function addEntityBundle(string $entity_type_id, string $schema_type, array $values): EntityInterface;
+  public function addEntityBundle(string $entity_type_id, string $schema_type, array &$values): EntityInterface;
 
   /**
    * Add a field to an entity.
