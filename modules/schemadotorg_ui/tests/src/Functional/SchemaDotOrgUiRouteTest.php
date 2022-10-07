@@ -147,6 +147,24 @@ class SchemaDotOrgUiRouteTest extends SchemaDotOrgBrowserTestBase {
     $this->assertCount(1, $menu_links);
     $menu_link = reset($menu_links);
     $this->assertEquals('entity.media_type.collection', $menu_link->getParent());
+
+    // Check that uninstalling the schemadotorg_media module removes
+    // routes and links.
+    /** @var \Drupal\Core\Extension\ModuleInstallerInterface $installer */
+    $installer = \Drupal::service('module_installer');
+    $installer->uninstall(['schemadotorg_media']);
+    drupal_flush_all_caches();
+
+    // Check that add Schema.org media type route is removed.
+    $this->drupalGet('/admin/structure/media/schemadotorg');
+    $assert_session->statusCodeEquals(404);
+    // Check that Add Schema.org media type action is removed.
+    $this->drupalGet('/admin/structure/media');
+    $assert_session->linkNotExists('Add Schema.org type');
+    $assert_session->linkByHrefNotExists($base_path . 'admin/structure/media/schemadotorg');
+    // Check that Add Schema.org media type menu link is removed.
+    $menu_links = $menu_link_manager->loadLinksByRoute('schemadotorg.media_type.type_add');
+    $this->assertCount(0, $menu_links);
   }
 
   /**

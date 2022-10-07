@@ -5,8 +5,10 @@ declare(strict_types = 1);
 namespace Drupal\schemadotorg_ui\Routing;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Routing\RouteSubscriberBase;
 use Drupal\Core\Routing\RoutingEvents;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -18,6 +20,13 @@ use Symfony\Component\Routing\RouteCollection;
 class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
 
   /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
    * The entity type manager.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
@@ -27,10 +36,13 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
   /**
    * Constructs a SchemaDotOrgRouteSubscriber object.
    *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(ModuleHandlerInterface $module_handler, EntityTypeManagerInterface $entity_type_manager) {
+    $this->moduleHandler = $module_handler;
     $this->entityTypeManager = $entity_type_manager;
   }
 
@@ -94,7 +106,13 @@ class SchemaDotOrgRouteSubscriber extends RouteSubscriberBase {
       );
       $collection->add("entity.{$entity_type_id}.schemadotorg_mapping", $route);
 
-      // Add 'Add Schema.org type' route. (except media)
+      // Skip media unless the schemadotorg_media.module is installed.
+      if ($entity_type_id === 'media'
+        && !$this->moduleHandler->moduleExists('schemadotorg_media')) {
+        continue;
+      }
+
+      // Add 'Add Schema.org type' route.
       $entity_collection_route = $collection->get("entity.{$bundle_entity_type}.collection");
       if ($bundle_entity_type && $entity_collection_route) {
         $entity_collection_path = $entity_collection_route->getPath();
