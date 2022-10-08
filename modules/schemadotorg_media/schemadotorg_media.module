@@ -269,6 +269,23 @@ function schemadotorg_media_form_schemadotorg_types_settings_form_alter(array &$
     '#description_link' => 'types',
     '#default_value' => $config->get('default_sources'),
   ];
+
+  // Add submit callback.
+  $form['#submit'][] = 'schemadotorg_media_settings_form_submit';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function schemadotorg_media_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_media.settings');
+
+  $form['schemadotorg_media'] = [
+    '#type' => 'details',
+    '#title' => t('Media settings'),
+    '#open' => TRUE,
+    '#tree' => TRUE,
+  ];
   $form['schemadotorg_media']['source_field_mappings'] = [
     '#type' => 'schemadotorg_settings',
     '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,

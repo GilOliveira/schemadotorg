@@ -3,8 +3,8 @@ Schema.org Blueprints: Roadmap
 
 # Pre-Alpha (Dev)
 
-- Fix issue as they come up with or without issues or MRs.
-- Plan for hooks.
+- Fix issues as they come up with or without issues or MRs.
+- Build out APIs' and hooks.
 - Define core dependencies.
 - Implement core submodules.
 --------------------------------------------------------------------------------
@@ -22,7 +22,6 @@ Schema.org Blueprints: Roadmap
 - Define baseline Schema.org types and properties
 - Establish sub-modules and feature list
 --------------------------------------------------------------------------------
-- Create hooks and APIs
 - Ensure baseline test coverage
 - Finalize core dependencies
 - Research and support contrib modules

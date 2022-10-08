@@ -25,6 +25,7 @@
     },
     "require": {
         "drupal/core": "^9.4 || ^10.0",
+        "php": "^8.0",
         "michelf/php-markdown": "^1.0"
     },
     "require-dev": {
