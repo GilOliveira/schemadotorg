@@ -150,6 +150,13 @@ _The below modules improve the Schema.org Blueprints module's user experience._
 - **[Inline Entity Form](https://www.drupal.org/project/inline_entity_form)**
   Provides a widget for inline management (creation, modification, removal) of referenced entities.
 
+- **[Autosave Form](https://www.drupal.org/project/autosave_form)**
+  Provides an autosave feature for all forms (entity forms inclusive).
+
+- **[Node Edit Protection](https://www.drupal.org/project/node_edit_protection)**
+  Alerts a user if they are navigating away from a modified Node Edit form without saving.
+
+
 ### Field Collections
 
 _The below modules provide different ways to create and manage a collection of fields._
