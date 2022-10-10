@@ -24,11 +24,9 @@ class SchemaDotOrgContentModerationTest extends SchemaDotOrgKernelEntityTestBase
    * @var array
    */
   protected static $modules = [
-    'content_moderation',
     'node',
     'system',
     'user',
-    'workflows',
     'workflows',
     'content_moderation',
     'schemadotorg_content_moderation',

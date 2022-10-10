@@ -43,7 +43,9 @@ function schemadotorg_subtype_schemadotorg_mapping_defaults_alter(string $entity
 
   // Handle existing subtype property mapping.
   /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
-  $mapping = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping')->load("$entity_type_id.$bundle");
+  $mapping = \Drupal::entityTypeManager()
+    ->getStorage('schemadotorg_mapping')
+    ->load("$entity_type_id.$bundle");
   if ($mapping && $mapping->hasSchemaPropertyMapping('subtype')) {
     $defaults['properties']['subtype']['name'] = $mapping->getSchemaPropertyFieldName('subtype');
     return;

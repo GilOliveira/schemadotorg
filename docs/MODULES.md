@@ -38,7 +38,10 @@ UI/UX
 Workflow
 
 - **[Schema.org Blueprints Content Moderation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_content_moderation)**
-  Automatically enables content moderation and scheduling for Schema,org content types as they are created.
+  Automatically enables content moderation for Schema.org types as they are created.
+
+- **[Schema.org Blueprints Scheduler](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_scheduler)**
+  Automatically enables scheduling for Schema.org types as they are created.
 
 Fields
 
@@ -167,6 +170,12 @@ _The below modules improve the Schema.org Blueprints module's workflow and moder
 
 - **[Moderation Sidebar](https://www.drupal.org/project/moderation_sidebar)**
   Provides an off-canvas menu to moderate the current Entity.
+
+- **[Scheduler](https://www.drupal.org/project/scheduler)**
+  Gives content editors the ability to schedule nodes to be published and unpublished at specified dates and times in the future.
+
+- **[Scheduler content moderation integration](https://www.drupal.org/project/scheduler_content_moderation_integration)**
+  A submodule for the scheduler module to integrate with content moderation.
 
 ### Field Collections
 

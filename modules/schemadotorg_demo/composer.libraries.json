@@ -76,6 +76,8 @@
     "drupal/openapi_ui_redoc": "^1.0",
     "drupal/paragraphs": "^1.0",
     "drupal/pathauto": "^1.0",
+    "drupal/scheduler": "^1.0",
+    "drupal/scheduler_content_moderation_integration": "^1.0",
     "drupal/time_field": "^2.0",
     "drupal/token": "^1.0",
     "drupal/toolbar_language_switcher": "^2.0",
