@@ -60,14 +60,6 @@ function schemadotorg_content_moderation_schemadotorg_mapping_insert(SchemaDotOr
 function schemadotorg_content_moderation_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
   $config = \Drupal::configFactory()->getEditable('schemadotorg_content_moderation.settings');
 
-  $workflow_options = [];
-  $workflows = Workflow::loadMultiple();
-  foreach ($workflows as $workflow) {
-    if ($workflow->getTypePlugin() instanceof ContentModerationInterface) {
-      $workflow_options[$workflow->id()] = $workflow->label();
-    }
-  }
-
   $form['schemadotorg_content_moderation'] = [
     '#type' => 'details',
     '#title' => t('Content moderation settings'),
