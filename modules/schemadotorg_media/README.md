@@ -16,6 +16,7 @@ Media Library module with the Schema.org Blueprints module.
 Features
 --------
 
+- Installs the Media Schema.org mapping type.
 - Sets default sources for Schema.org
   [MediaObject](https://schema.org/MediaObject) types.
 - Adds 'Media source' select element to the 'Add Schema.org media type' form.

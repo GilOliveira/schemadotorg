@@ -32,6 +32,7 @@ dependencies:
   - 'devel:devel'
   - 'devel:devel_generate'
 #  - 'devel:webprofiler'
+  - 'diff:diff'
   - 'dropzonejs:dropzonejs'
   - 'embed:embed'
   - 'entity_clone:entity_clone'
