@@ -11,7 +11,7 @@ Introduction
 ------------
 
 The **Schema.org Blueprints Content Moderation** automatically enables
-content moderation and scheduling for Schema.org types as they are created.
+content moderation for Schema.org types as they are created.
 
 
 Features

@@ -15,6 +15,15 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\workflows\Entity\Workflow;
 
 /**
+ * Implements hook_help().
+ */
+function schemadotorg_content_moderation_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
+  $help_manager = \Drupal::service('schemadotorg.help_manager');
+  return $help_manager->buildHelpPage($route_name, $route_match);
+}
+
+/**
  * Implements hook_schemadotorg_mapping_insert().
  */
 function schemadotorg_content_moderation_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
@@ -43,15 +52,6 @@ function schemadotorg_content_moderation_schemadotorg_mapping_insert(SchemaDotOr
 
   $content_moderation->addEntityTypeAndBundle($entity_type_id, $bundle);
   $workflow->save();
-}
-
-/**
- * Implements hook_help().
- */
-function schemadotorg_content_moderation_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
-  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
-  $help_manager = \Drupal::service('schemadotorg.help_manager');
-  return $help_manager->buildHelpPage($route_name, $route_match);
 }
 
 /**
