@@ -45,6 +45,7 @@
     "drupal/config_rewrite": "^1.0",
     "drupal/consumer_image_styles": "^4.0",
     "drupal/content_browser": "^1.0",
+    "drupal/moderation_sidebar": "^1.0",
     "drupal/dashboards": "^2.1",
     "drupal/default_content": "^2.0",
     "drupal/devel": "^5.0",

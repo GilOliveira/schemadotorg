@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * @file
+ * Automatically enables content moderation Schema.org types.
+ */
+
+declare(strict_types = 1);
+
+use Drupal\content_moderation\Plugin\WorkflowType\ContentModerationInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+use Drupal\workflows\Entity\Workflow;
+
+/**
+ * Implements hook_schemadotorg_mapping_insert().
+ */
+function schemadotorg_content_moderation_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  $bundle = $mapping->getTargetBundle();
+  $schema_type = $mapping->getSchemaType();
+
+  $config = \Drupal::config('schemadotorg_content_moderation.settings');
+  $default_workflow = $config->get("default_workflows.$entity_type_id--$schema_type");
+  if (is_null($default_workflow)) {
+    $default_workflow = $config->get("default_workflows.$entity_type_id");
+  }
+  if (!$default_workflow) {
+    return;
+  }
+
+  $workflow = Workflow::load($default_workflow);
+  if (!$workflow) {
+    return;
+  }
+
+  $content_moderation = $workflow->getTypePlugin();
+  if (!$content_moderation instanceof ContentModerationInterface) {
+    return;
+  }
+
+  $content_moderation->addEntityTypeAndBundle($entity_type_id, $bundle);
+  $workflow->save();
+}
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_content_moderation_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
+  $help_manager = \Drupal::service('schemadotorg.help_manager');
+  return $help_manager->buildHelpPage($route_name, $route_match);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function schemadotorg_content_moderation_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_content_moderation.settings');
+
+  $workflow_options = [];
+  $workflows = Workflow::loadMultiple();
+  foreach ($workflows as $workflow) {
+    if ($workflow->getTypePlugin() instanceof ContentModerationInterface) {
+      $workflow_options[$workflow->id()] = $workflow->label();
+    }
+  }
+
+  $form['schemadotorg_content_moderation'] = [
+    '#type' => 'details',
+    '#title' => t('Content moderation settings'),
+    '#open' => TRUE,
+    '#tree' => TRUE,
+  ];
+  $form['schemadotorg_content_moderation']['default_workflows'] = [
+    '#type' => 'schemadotorg_settings',
+    '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+    '#settings_format' => 'entity_type|workflow_id or entity_type--SchemaType|workflow_id or entity_type--SchemaType|',
+    '#title' => t('Default content moderation workflows'),
+    '#description' => t('Enter the default content moderation workflow per entity type and Schema.org type. Leave the blank to not set a workflow for a Schema.org type.'),
+    '#default_value' => $config->get('default_workflows'),
+  ];
+
+  // Add submit callback.
+  $form['#submit'][] = 'schemadotorg_content_moderation_settings_form_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_properties_settings_form.
+ *
+ * @see schemadotorg_content_moderation_form_schemadotorg_properties_settings_form_alter()
+ */
+function schemadotorg_content_moderation_settings_form_submit(array &$form, FormStateInterface $form_state): void {
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_content_moderation.settings');
+  $values = $form_state->getValue('schemadotorg_content_moderation');
+  foreach ($values as $key => $value) {
+    $config->set($key, $value);
+  }
+  $config->save();
+}

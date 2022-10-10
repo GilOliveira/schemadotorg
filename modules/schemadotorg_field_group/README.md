@@ -26,19 +26,19 @@ Features
 Requirements
 ------------
 
-**[Field Group](https://www.drupal.org/project/field_group)**  
+**[Field Group](https://www.drupal.org/project/field_group)**
 Provides the ability to group your fields on both form and display.
 
 
 Configuration
 -------------
 
-- Go to the Schema.org property configuration page. 
+- Go to the Schema.org properties configuration page.
   (/admin/config/search/schemadotorg/settings/properties)
-- Enter the default field groups and field order used to group Schema.org 
+- Enter the default field groups and field order used to group Schema.org
   properties as they are added to entity types.
 - Enter the field group label suffix used when creating new field groups.
-- Select the default field group type used when adding a field group to 
+- Select the default field group type used when adding a field group to
   an entity type's default form.
-- Select the default field group type used when adding a field group to 
+- Select the default field group type used when adding a field group to
   an entity type's default view display.

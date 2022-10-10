@@ -35,6 +35,11 @@ UI/UX
 - **[Schema.org Blueprints Translation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_translation)**
   Manages translations for Schema.org types and properties as they are created.
 
+Workflow
+
+- **[Schema.org Blueprints Content Moderation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_content_moderation)**
+  Automatically enables content moderation and scheduling for Schema,org content types as they are created.
+
 Fields
 
 - **[Schema.org Blueprints Field Group](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_field_group)**
@@ -156,6 +161,12 @@ _The below modules improve the Schema.org Blueprints module's user experience._
 - **[Node Edit Protection](https://www.drupal.org/project/node_edit_protection)**
   Alerts a user if they are navigating away from a modified Node Edit form without saving.
 
+### Workflow/Moderation
+
+_The below modules improve the Schema.org Blueprints module's workflow and moderation experience._
+
+- **[Moderation Sidebar](https://www.drupal.org/project/moderation_sidebar)**
+  Provides an off-canvas menu to moderate the current Entity.
 
 ### Field Collections
 
