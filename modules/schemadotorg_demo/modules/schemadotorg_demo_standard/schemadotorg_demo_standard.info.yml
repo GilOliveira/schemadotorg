@@ -81,6 +81,7 @@ dependencies:
   - 'schemadotorg:schemadotorg_paragraphs'
   # - 'schemadotorg:schemadotorg_rdf'
   - 'schemadotorg:schemadotorg_report'
+  - 'schemadotorg:schemadotorg_simple_sitemap'
   - 'schemadotorg:schemadotorg_subtype'
   - 'schemadotorg:schemadotorg_scheduler'
   - 'schemadotorg:schemadotorg_taxonomy'

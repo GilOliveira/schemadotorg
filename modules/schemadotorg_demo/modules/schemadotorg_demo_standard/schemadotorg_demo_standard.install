@@ -40,6 +40,7 @@ function schemadotorg_demo_standard_install(): void {
     '/admin/config/search/schemadotorg/sets' => 'Create Schema.org content models',
     '/admin/help/schemadotorg'  => 'Learn more about Schema.org Blueprints',
     '/api/documentation' => 'Explore JSON:API OpenAPI Documentation',
+    '/sitemap.xml' => 'Review Sitemap.xml',
   ];
   $weight = -18;
   $shortcut_storage = \Drupal::entityTypeManager()->getStorage('shortcut');

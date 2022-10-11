@@ -548,7 +548,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
           ];
           unset($field_storage_values['allowed_values']);
         }
-        else {
+        elseif ($this->schemaTypeManager->hasProperty($schema_type, $schema_property)) {
           // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager::getSchemaPropertyFieldTypes
           $property_definition = $this->schemaTypeManager->getProperty($schema_property);
           $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);

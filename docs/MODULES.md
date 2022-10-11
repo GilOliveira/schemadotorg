@@ -35,14 +35,6 @@ UI/UX
 - **[Schema.org Blueprints Translation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_translation)**
   Manages translations for Schema.org types and properties as they are created.
 
-Workflow
-
-- **[Schema.org Blueprints Content Moderation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_content_moderation)**
-  Automatically enables content moderation for Schema.org types as they are created.
-
-- **[Schema.org Blueprints Scheduler](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_scheduler)**
-  Automatically enables scheduling for Schema.org types as they are created.
-
 Fields
 
 - **[Schema.org Blueprints Field Group](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_field_group)**
@@ -68,8 +60,21 @@ Entities
 - **[Schema.org Blueprints Taxonomy](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_taxonomy)**
   Provides mappings from taxonomy vocabularies and terms to https://schema.org/DefinedTermSet and https://schema.org/DefinedTerm.
 
+SEO
+
 - **[Schema.org Blueprints Metatag](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_metatag)**
   Automatically adds a metatag field to Schema.org types.
+
+- **[Schema.org Blueprints Simple Sitemap](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_simple_sitemap)**
+  Automatically adds Schema.org types to sitemap.xml.
+
+Workflow
+
+- **[Schema.org Blueprints Content Moderation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_content_moderation)**
+  Automatically enables content moderation for Schema.org types as they are created.
+
+- **[Schema.org Blueprints Scheduler](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_scheduler)**
+  Automatically enables scheduling for Schema.org types as they are created.
 
 JSON-LD
 

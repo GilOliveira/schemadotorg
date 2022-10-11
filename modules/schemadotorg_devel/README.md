@@ -9,7 +9,7 @@ Table of contents
 Introduction
 ------------
 
-The **Schema.org Blueprints Devel module** provides development tools for the 
+The **Schema.org Blueprints Devel module** provides development tools for the
 Schema.org Blueprints module.
 
 
@@ -23,6 +23,6 @@ Features
 Configuration
 -------------
 
-- Go to /admin/config/search/schemadotorg/settings/deve
-- Enter Schema.org property values to be used when generating content using 
-  the Devel generate module.
+- Go to /admin/config/search/schemadotorg/settings/devel
+- Enter Schema.org property values to be used when generating content using
+  the Devel Generate module.

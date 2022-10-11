@@ -198,4 +198,24 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
     return $operations[$this->operation];
   }
 
+  /**
+   * Get the current mapping set's name.
+   *
+   * @return string
+   *   the current mapping set's name.
+   */
+  public function getName(): string {
+    return $this->name;
+  }
+
+  /**
+   * Get the current mapping set's operation.
+   *
+   * @return string
+   *   the current mapping set's operation.
+   */
+  public function getOperation(): string {
+    return $this->operation;
+  }
+
 }
