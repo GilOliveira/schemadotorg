@@ -11,6 +11,7 @@ use Drupal\Core\Field\FieldFilteredMarkup;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 
@@ -52,16 +53,6 @@ function schemadotorg_subtype_schemadotorg_mapping_defaults_alter(string $entity
   }
 
   $config = \Drupal::configFactory()->get('schemadotorg_subtype.settings');
-  $label = $config->get('default_field_label');
-  $description = $config->get('default_field_description');
-  $default_subtypes = $config->get('default_subtypes');
-  $allowed_values = $config->get("default_allowed_values.$schema_type") ?: $allowed_values;
-
-  // Get the field name which can either be _add_ or empty.
-  // This value is displayed via a checkbox.
-  $name = (!$mapping && in_array($schema_type, $default_subtypes))
-    ? SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD
-    : '';
 
   // Get machine name with subtype suffix.
   /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
@@ -74,6 +65,25 @@ function schemadotorg_subtype_schemadotorg_mapping_defaults_alter(string $entity
   ];
   $machine_name = $bundle ?: $schema_names->camelCaseToDrupalName($schema_type, $options);
   $machine_name .= $machine_name_suffix;
+
+  // If the expected subtype field name exists use it.
+  // This will only occur when a mapping with subtype is deleted and recreated.
+  $subtype_field_name = $schema_names->getFieldPrefix() . $machine_name;
+  if (FieldStorageConfig::loadByName($entity_type_id, $subtype_field_name)) {
+    $defaults['properties']['subtype']['name'] = $subtype_field_name;
+    return;
+  }
+
+  $label = $config->get('default_field_label');
+  $description = $config->get('default_field_description');
+  $default_subtypes = $config->get('default_subtypes');
+  $allowed_values = $config->get("default_allowed_values.$schema_type") ?: $allowed_values;
+
+  // Get the field name which can either be _add_ or empty.
+  // This value is displayed via a checkbox.
+  $name = (!$mapping && in_array($schema_type, $default_subtypes))
+    ? SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD
+    : '';
 
   // Sets the Schema.org mapping defaults for creating a subtype property.
   $defaults['properties']['subtype']['name'] = $name;
