@@ -10,8 +10,8 @@ Table of contents
 Introduction
 ------------
 
-The **Schema.org Blueprints Scheduler** automatically enables
-scheduler and scheduling for Schema.org types as they are created.
+The **Schema.org Blueprints Scheduler** automatically enables scheduling for
+Schema.org types as they are created.
 
 
 Features

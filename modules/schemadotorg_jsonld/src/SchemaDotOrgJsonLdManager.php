@@ -311,7 +311,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyValueDefaultType(string $type, string $property, mixed $value): array|string {
+  public function getSchemaPropertyValueDefaultType(string $type, string $property, mixed $value): array|string|null {
     $default_property_values = $this->configFactory
       ->get('schemadotorg.settings')
       ->get('schema_types.default_property_values');

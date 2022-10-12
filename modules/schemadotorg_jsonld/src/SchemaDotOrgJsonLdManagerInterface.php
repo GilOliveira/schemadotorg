@@ -86,7 +86,7 @@ interface SchemaDotOrgJsonLdManagerInterface {
    * @return array|string
    *   The Schema.org property's value converted to the default Schema.org type.
    */
-  public function getSchemaPropertyValueDefaultType(string $type, string $property, mixed $value): array|string;
+  public function getSchemaPropertyValueDefaultType(string $type, string $property, mixed $value): array|string|null;
 
   /**
    * Get Schema.org identifiers for an entity.
