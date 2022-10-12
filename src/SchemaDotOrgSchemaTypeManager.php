@@ -60,7 +60,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   protected $supersededCache;
 
   /**
-   * Constructs a SchemaDotOrgTYpeManger object.
+   * Constructs a SchemaDotOrgTypeManger object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.

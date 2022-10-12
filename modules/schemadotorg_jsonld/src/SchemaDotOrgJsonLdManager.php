@@ -354,10 +354,10 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @param string $type
    *   The Schema.org type.
    *
-   * @return string
+   * @return string|null
    *   A Schema.org type's main property. (Defaults to 'name')
    */
-  protected function getSchemaTypeMainProperty(string $type): string {
+  protected function getSchemaTypeMainProperty(string $type): ?string {
     $main_properties = $this->configFactory
       ->get('schemadotorg.settings')
       ->get('schema_types.main_properties');

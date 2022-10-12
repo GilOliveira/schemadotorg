@@ -71,7 +71,7 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
   protected $schemaTypeBuilder;
 
   /**
-   * Constructs a SchemaDotOrgInstaller object.
+   * Constructs a SchemaDotOrgDescriptionsConfigFactoryOverride object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.

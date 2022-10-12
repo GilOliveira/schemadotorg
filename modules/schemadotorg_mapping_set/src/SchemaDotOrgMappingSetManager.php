@@ -70,7 +70,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
   protected $develGenerateManager;
 
   /**
-   * SchemaDotOrgMappingSetCommands constructor.
+   * Constructs a SchemaDotOrgMappingSetCommands object.
    *
    * @param \Drupal\Core\State\StateInterface $state
    *   The state service.

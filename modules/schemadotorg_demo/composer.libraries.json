@@ -45,7 +45,6 @@
     "drupal/config_rewrite": "^1.0",
     "drupal/consumer_image_styles": "^4.0",
     "drupal/content_browser": "^1.0",
-    "drupal/moderation_sidebar": "^1.0",
     "drupal/dashboards": "^2.1",
     "drupal/default_content": "^2.0",
     "drupal/devel": "^5.0",
@@ -64,10 +63,12 @@
     "drupal/gin": "^3.0",
     "drupal/gin_lb": "^1.0",
     "drupal/gin_login": "^1.0",
+    "drupal/focal_point": "^1.0",
     "drupal/inline_entity_form": "^1.0",
     "drupal/jsonapi_extras": "^3.0",
     "drupal/linkit": "^6.0",
     "drupal/metatag": "1.21.0",
+    "drupal/moderation_sidebar": "^1.0",
     "drupal/multiple_fields_remove_button": "^1.0",
     "drupal/node_edit_protection": "^1.0",
     "drupal/next": "^1.0",
@@ -99,6 +100,9 @@
       },
       "drupal/address": {
         "Issue #2819251: generateSampleValue": "https://www.drupal.org/files/issues/2022-05-16/address-2819251-6.patch"
+      },
+      "drupal/focal_point": {
+        "Issue #3162961: Stylish the preview button according to the admin theme CSS": "https://www.drupal.org/files/issues/2021-07-02/claro_gin_preview_link-3162961-4.patch"
       },
       "drupal/subrequests": {
         "Get same results on different request": "https://www.drupal.org/files/issues/2019-07-18/change_request_type-63049395-09.patch"

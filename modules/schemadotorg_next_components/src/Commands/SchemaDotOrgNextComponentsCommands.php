@@ -30,7 +30,7 @@ class SchemaDotOrgNextComponentsCommands extends DrushCommands {
   protected $componentsBuilder;
 
   /**
-   * SchemaDotOrgNextComponentsCommands constructor.
+   * Constructs a SchemaDotOrgNextComponentsCommands object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.

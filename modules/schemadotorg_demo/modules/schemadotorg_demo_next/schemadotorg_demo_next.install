@@ -34,6 +34,13 @@ function schemadotorg_demo_next_install(): void {
   $consumer_storage = \Drupal::entityTypeManager()->getStorage('consumer');
   $consumers = $consumer_storage->loadByProperties(['uuid' => '00000000-0000-0000-0000-000000000000']);
   if (!$consumers) {
+    $image_styles = \Drupal::config('schemadotorg_focal_point.settings')
+      ->get('image_styles');
+    $image_style_values = [];
+    foreach (array_keys($image_styles) as $image_style_name) {
+      $image_style_values[] = ['target_id' => $image_style_name];
+    }
+
     $consumer = $consumer_storage->create([
       'label' => 'Schema.org Blueprints Next.js Demo',
       'description' => 'This is demo account intended to be used with the schemadotorg_demo_app. @see https://www.drupal.org/sandbox/jrockowitz/3305940',
@@ -45,11 +52,7 @@ function schemadotorg_demo_next_install(): void {
       'user_id' => [
         ['target_id' => $account->id()],
       ],
-      'image_styles' => [
-        ['target_id' => 'large'],
-        ['target_id' => 'medium'],
-        ['target_id' => 'thumbnail'],
-      ],
+      'image_styles' => $image_style_values,
     ]);
     $consumer->save();
   }

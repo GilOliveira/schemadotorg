@@ -22,15 +22,17 @@ function schemadotorg_demo_standard_install(): void {
     ->set('devel_dumper', 'kint')
     ->save();
 
-  // Add consumer image styles to the 'Default Consumer'.
+  // Add consumer focal point image styles to the 'Default Consumer'.
   $consumer_storage = \Drupal::entityTypeManager()->getStorage('consumer');
   $consumer = $consumer_storage->load(1);
   if ($consumer) {
-    $consumer->get('image_styles')->setValue([
-      ['target_id' => 'large'],
-      ['target_id' => 'medium'],
-      ['target_id' => 'thumbnail'],
-    ]);
+    $image_styles = \Drupal::config('schemadotorg_focal_point.settings')
+      ->get('image_styles');
+    $values = [];
+    foreach (array_keys($image_styles) as $image_style_name) {
+      $values[] = ['target_id' => $image_style_name];
+    }
+    $consumer->get('image_styles')->setValue($values);
     $consumer->save();
   }
 

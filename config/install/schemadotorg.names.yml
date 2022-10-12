@@ -15,6 +15,7 @@ custom_names:
   mission_coverage_priorities_policy: mis_cover_priorities_pol
   monoisotopic_molecular_weight: mono_molecular_weight
   offers_prescription_by_mail: offers_prescript_by_mail
+  primary_image_of_page: primary_image
   provides_broadcast_service: provides_broadcast_serv
   public_transport_closures_info: pub_trans_closures_info
   vehicle_identification_number: vin

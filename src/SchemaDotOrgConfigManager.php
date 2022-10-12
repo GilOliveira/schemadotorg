@@ -26,7 +26,7 @@ class SchemaDotOrgConfigManager implements SchemaDotOrgConfigManagerInterface {
   protected $schemaTypeManager;
 
   /**
-   * SchemaDotOrgConfig constructor.
+   * Constructs a SchemaDotOrgConfigManager object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.

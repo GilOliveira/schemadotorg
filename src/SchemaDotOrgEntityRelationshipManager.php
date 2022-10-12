@@ -28,7 +28,7 @@ class SchemaDotOrgEntityRelationshipManager implements SchemaDotOrgEntityRelatio
   protected $schemaTypeManager;
 
   /**
-   * SchemaDotOrgEntityRelationships constructor.
+   * Constructs a SchemaDotOrgEntityRelationshipsManager object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.

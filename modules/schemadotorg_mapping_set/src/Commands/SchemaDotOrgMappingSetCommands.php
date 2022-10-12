@@ -31,7 +31,7 @@ class SchemaDotOrgMappingSetCommands extends DrushCommands {
   protected $schemaMappingSetManager;
 
   /**
-   * SchemaDotOrgMappingSetCommands constructor.
+   * Constructs a SchemaDotOrgMappingSetCommands object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration object factory.

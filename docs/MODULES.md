@@ -43,6 +43,9 @@ Fields
 - **[Schema.org Blueprints Flex Field](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_flexfield)**
   Allows a Flex field to be used to create Schema.org relationships within an entity type/bundle Schema.org mapping.
 
+- **[Schema.org Blueprints Focal Point](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_focal_popint)**
+  Enables focal point for Schema.org images and generates default image styles for decoupled front-ends.
+
 - **[Schema.org Blueprints Inline Entity Form](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_inline_entity_form)**
   Allows an inline entity form to be automatically added to Schema.org properties within an entity type/bundle Schema.org mapping.
 
@@ -232,6 +235,11 @@ Numeric
 - **[Numeric Range](https://www.drupal.org/project/range)**
   (Applies to: [typicalAgeRange](https://schema.org/typicalAgeRange))
   Defines a numeric range field type.
+
+Image
+
+- **[Focal Point](https://www.drupal.org/project/focal_point)**
+  Allows users to specify the focal point of an image for use during cropping.
 
 Demographic
 

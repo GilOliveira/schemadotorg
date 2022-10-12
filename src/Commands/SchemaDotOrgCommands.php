@@ -55,7 +55,7 @@ class SchemaDotOrgCommands extends DrushCommands {
   protected $schemaMappingManager;
 
   /**
-   * SchemaDotOrgCommands constructor.
+   * Constructs a SchemaDotOrgCommands object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
