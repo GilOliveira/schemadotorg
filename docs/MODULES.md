@@ -37,6 +37,9 @@ UI/UX
 
 Fields
 
+- **[Schema.org Blueprints Automatic Entity Labels](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_auto_entitylabel)**
+  Creates automatic entity label settings for Schema.org types.
+
 - **[Schema.org Blueprints Field Group](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_field_group)**
   Creates field groups in entity view and form displays when Schema.org properties are mapping to a field.
 
@@ -49,8 +52,8 @@ Fields
 - **[Schema.org Blueprints Inline Entity Form](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_inline_entity_form)**
   Allows an inline entity form to be automatically added to Schema.org properties within an entity type/bundle Schema.org mapping.
 
-- **[Schema.org Blueprints Automatic Entity Labels](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_auto_entitylabel)**
-  Creates automatic entity label settings for Schema.org types.
+- **[Schema.org Blueprints Smart Date](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_smart_date)**
+  Allows a Smart date field to be used to create date ranges and event schedules included in a site's Schema.org JSON-LD.
 
 Entities
 

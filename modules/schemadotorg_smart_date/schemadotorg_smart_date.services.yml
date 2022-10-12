@@ -1,0 +1,7 @@
+services:
+  schemadotorg_smartdate.installer:
+    class: Drupal\schemadotorg_smart_date\SchemadotorgSmartDateInstaller
+    arguments: ['@config.factory']
+  schemadotorg_smart_date.jsonld_manager:
+    class: Drupal\schemadotorg_smart_date\SchemaDotOrgSmartDateJsonLdManager
+    arguments: ['@entity_type.manager', '@schemadotorg.schema_type_manager']
