@@ -110,6 +110,9 @@
       "drupal/decoupled_router": {
         "Unable to resolve path on node in other language than default": "https://www.drupal.org/files/issues/2021-05-05/3111456-34.patch"
       },
+      "drupal/smart_date": {
+        "Issue #3300768: Widget configuration for min and max date_year_range": "https://www.drupal.org/files/issues/2022-10-12/smart_date-3300768-14.patch"
+      },
       "drupal/metatag": {
         "Issue #2945817: Support JSON API, REST, GraphQL and custom normalizations": "https://www.drupal.org/files/issues/2022-07-13/metatag-data-type-support-2945817-148_0.patch"
       },
