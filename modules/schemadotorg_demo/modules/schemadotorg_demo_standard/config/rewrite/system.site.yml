@@ -1,4 +1,4 @@
 config_rewrite:
   replace: ['page.front']
 page:
-  front: /dashboard/schemadotorg
+  front: /dashboard/overview

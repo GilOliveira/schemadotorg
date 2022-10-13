@@ -7,3 +7,4 @@ lifecycle: experimental
 configure: schemadotorg.settings
 dependencies:
   - 'drupal:media'
+  - 'schemadotorg:schemadotorg'

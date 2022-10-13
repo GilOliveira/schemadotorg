@@ -21,7 +21,7 @@ class SchemaDotOrgAutoEntityLabelTest extends SchemaDotOrgKernelEntityTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'system',
     'user',
     'node',

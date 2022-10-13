@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_taxonomy;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\content_translation\ContentTranslationManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -117,7 +118,10 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
   ): void {
     // Make sure the field type is set to 'entity_reference' with the target type
     // set to 'taxonomy_term'.
-    $is_entity_reference_taxonomy_term = ($field_storage_values['type'] === 'entity_reference' && $field_storage_values['settings']['target_type'] === 'taxonomy_term');
+    $target_type = NestedArray::getValue($field_storage_values, ['settings', 'target_type']);
+    $is_entity_reference_taxonomy_term = ($field_storage_values['type'] === 'entity_reference'
+      && $target_type === 'taxonomy_term');
+
     if (!$is_entity_reference_taxonomy_term) {
       return;
     }

@@ -7,6 +7,7 @@
 
 declare(strict_types = 1);
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\media\MediaTypeInterface;
@@ -223,8 +224,9 @@ function schemadotorg_media_schemadotorg_property_field_alter(
   ?string &$formatter_id,
   array &$formatter_settings
 ): void {
+  $target_type = NestedArray::getValue($field_storage_values, ['settings', 'target_type']);
   if (!in_array($field_storage_values['type'], ['entity_reference', 'entity_reference_revisions'])
-    || $field_storage_values['settings']['target_type'] !== 'media') {
+    || $target_type !== 'media') {
     return;
   }
 
