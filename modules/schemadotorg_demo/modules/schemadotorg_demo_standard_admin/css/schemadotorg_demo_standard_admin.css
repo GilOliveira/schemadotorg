@@ -41,3 +41,14 @@
 .flexfield__label {
   font-weight: bold;
 }
+
+/**
+ * Entity Reference Tree Widget.
+ */
+.field--widget-entity-reference-tree > .form-item {
+  margin: 0;
+}
+
+.field--widget-entity-reference-tree > a.button {
+  margin: .5rem 0 1rem 0;
+}

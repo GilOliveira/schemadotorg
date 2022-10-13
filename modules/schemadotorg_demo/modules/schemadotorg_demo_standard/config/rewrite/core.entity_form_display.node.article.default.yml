@@ -1,0 +1,16 @@
+config_rewrite:
+  replace:
+    - 'content.field_tags.type'
+    - 'content.field_tags.settings'
+content:
+  field_tags:
+    type: entity_reference_tree
+    settings:
+      theme: default
+      dots: 0
+      size: 60
+      placeholder: ''
+      match_operator: CONTAINS
+      match_limit: 10
+      dialog_title: 'Select items'
+      label: 'Select items'

@@ -166,8 +166,11 @@ _The below modules improve the Schema.org Blueprints module's user experience._
 - **[Content Browser](https://www.drupal.org/project/content_browser)**
   Provides a default Entity Browser for default Content Entity types, using Masonry.
 
+- **[Entity Reference Tree Widget](https://www.drupal.org/project/entity_reference_tree)**
+  Provides an entity relationship hierarchy tree widget for an entity reference field.
+
 - **[Inline Entity Form](https://www.drupal.org/project/inline_entity_form)**
-  Provides a widget for inline management (creation, modification, removal) of referenced entities.
+  Provides a widget for inline management (creation, modification, removal) of referenced entities.\
 
 - **[Autosave Form](https://www.drupal.org/project/autosave_form)**
   Provides an autosave feature for all forms (entity forms inclusive).
@@ -290,7 +293,7 @@ Calculation
 - **[Field Token Value](https://www.drupal.org/project/field_token_value)**
   Provides a field allowing the value to be set using a string containing tokens.
 
-Integrations
+### Integrations
 
 - **[Next.js](https://www.drupal.org/project/next)**
   Next.js + Drupal for Incremental Static Regeneration and Preview mode.
