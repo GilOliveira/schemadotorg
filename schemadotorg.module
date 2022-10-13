@@ -15,7 +15,8 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
-require_once __DIR__ . '/includes/schemadotorg.allowed_values.inc';
+// Load all MODULE.schemadotorg.inc files.
+\Drupal::moduleHandler()->loadAllIncludes('schemadotorg.inc');
 
 /**
  * Implements hook_help().

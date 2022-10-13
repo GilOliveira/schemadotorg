@@ -11,6 +11,10 @@ use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
+/* ************************************************************************** */
+// Datetime range.
+/* ************************************************************************** */
+
 /**
  * Implements hook_schemadotorg_jsonld_schema_type_field_alter() for the datetime_range.module.
  *
@@ -54,6 +58,10 @@ function datetime_range_schemadotorg_jsonld_schema_type_field_alter(array &$data
 
   // @todo Set the duration property.
 }
+
+/* ************************************************************************** */
+// Address.
+/* ************************************************************************** */
 
 /**
  * Implements hook_schemadotorg_jsonld_schema_property_alter() for the address.module.

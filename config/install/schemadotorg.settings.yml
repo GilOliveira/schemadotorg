@@ -672,6 +672,9 @@ schema_types:
       - datetime
     Date:
       - datetime
+    Duration:
+      - duration
+      - string
     Boolean:
       - boolean
     Integer:

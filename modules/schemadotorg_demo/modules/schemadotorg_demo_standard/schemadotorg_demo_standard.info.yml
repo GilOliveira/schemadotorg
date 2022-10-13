@@ -34,6 +34,7 @@ dependencies:
 #  - 'devel:webprofiler'
   - 'diff:diff'
   - 'dropzonejs:dropzonejs'
+  - 'duration_field:duration_field'
   - 'embed:embed'
   - 'entity_clone:entity_clone'
   - 'entity_browser:entity_browser'

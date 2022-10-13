@@ -94,8 +94,6 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaTypeManager = $schema_type_manager;
     $this->schemaJsonLdManager = $schema_jsonld_manager;
-
-    $this->moduleHandler->loadAllIncludes('schemadotorg.inc');
   }
 
   /**

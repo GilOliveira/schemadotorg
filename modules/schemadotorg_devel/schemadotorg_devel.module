@@ -12,6 +12,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
+use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
 
 /**
@@ -57,7 +58,8 @@ function schemadotorg_devel_entity_presave(EntityInterface $entity): void {
   // Limit node titles to two words with a max of 25 characters.
   if ($entity instanceof NodeInterface) {
     $random = new Random();
-    $entity->set('title', $random->word(mt_rand(1, 25)) . ' ' . $random->word(mt_rand(1, 25)));
+    $node_type = NodeType::load($entity->bundle());
+    $entity->set('title', $node_type->label() . ' - ' . $random->word(mt_rand(1, 25)) . ' ' . $random->word(mt_rand(1, 25)));
   }
 
   // Populate the fields.

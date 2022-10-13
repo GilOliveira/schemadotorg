@@ -50,6 +50,7 @@
     "drupal/devel": "^5.0",
     "drupal/diff": "^1.0",
     "drupal/dropzonejs": "^2.0",
+    "drupal/duration_field": "^2.0",
     "drupal/embed": "^1.0",
     "drupal/entity_browser": "^2.0",
     "drupal/entity_clone": "^1.0",
@@ -105,23 +106,26 @@
       "drupal/address": {
         "Issue #2819251: generateSampleValue": "https://www.drupal.org/files/issues/2022-05-16/address-2819251-6.patch"
       },
-      "drupal/focal_point": {
-        "Issue #3162961: Stylish the preview button according to the admin theme CSS": "https://www.drupal.org/files/issues/2021-07-02/claro_gin_preview_link-3162961-4.patch"
-      },
-      "drupal/subrequests": {
-        "Get same results on different request": "https://www.drupal.org/files/issues/2019-07-18/change_request_type-63049395-09.patch"
-      },
       "drupal/decoupled_router": {
         "Unable to resolve path on node in other language than default": "https://www.drupal.org/files/issues/2021-05-05/3111456-34.patch"
       },
-      "drupal/smart_date": {
-        "Issue #3300768: Widget configuration for min and max date_year_range": "https://www.drupal.org/files/issues/2022-10-12/smart_date-3300768-14.patch"
+      "drupal/duration_field": {
+        "Issue #3284489: CSS Styles for duration field  are not applied in some themes": "https://www.drupal.org/files/issues/2022-06-07/duration_field-3284489.patch"
+      },
+      "drupal/features": {
+        "Issue #3202711: Bug in feature revert / import parsing": "https://git.drupalcode.org/project/features/-/merge_requests/9.diff"
+      },
+      "drupal/focal_point": {
+        "Issue #3162961: Stylish the preview button according to the admin theme CSS": "https://www.drupal.org/files/issues/2021-07-02/claro_gin_preview_link-3162961-4.patch"
       },
       "drupal/metatag": {
         "Issue #2945817: Support JSON API, REST, GraphQL and custom normalizations": "https://www.drupal.org/files/issues/2022-10-13/metatag-data-type-support-2945817-154.patch"
       },
-      "drupal/features": {
-        "Issue #3202711: Bug in feature revert / import parsing": "https://git.drupalcode.org/project/features/-/merge_requests/9.diff"
+      "drupal/smart_date": {
+        "Issue #3300768: Widget configuration for min and max date_year_range": "https://www.drupal.org/files/issues/2022-10-12/smart_date-3300768-14.patch"
+      },
+      "drupal/subrequests": {
+        "Get same results on different request": "https://www.drupal.org/files/issues/2019-07-18/change_request_type-63049395-09.patch"
       }
     }
   }
