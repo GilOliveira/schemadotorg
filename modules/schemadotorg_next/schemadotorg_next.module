@@ -19,7 +19,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
  */
 function schemadotorg_next_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   if ($route_name === 'schemadotorg_next.settings') {
-    return '<p>' . t('The <em>Schema.org Next.js settings</em> page allows administrators to configure how Next.js previews Schema.org entity types and content.') . '<p>';
+    return '<p>' . t('The <em>Schema.org Next.js settings</em> page allows administrators to configure Next.js support and integration.') . '<p>';
   }
 
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */

@@ -239,6 +239,12 @@ class SchemadotorgMappingSetController extends ControllerBase {
         if (empty($property_definition['name'])) {
           continue;
         }
+
+        if (empty($property_definition['name'])
+          || empty($property_definition['label'])) {
+          continue;
+        }
+
         $row = [];
         $row['label'] = [
           'data' => [

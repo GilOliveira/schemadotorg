@@ -102,7 +102,39 @@ class SchemaDotOrgSubtypeTest extends SchemaDotOrgBrowserTestBase {
 
     // Check mapping defaults for existing Schema.type just return the field name.
     $defaults = $this->getMappingDefaults('node', 'event', 'Event');
-    $this->assertEquals(['name' => 'schema_event_subtype'], $defaults['properties']['subtype']);
+    $expected_subtype_properties = [
+      'name' => 'schema_event_subtype',
+      'type' => 'list_string',
+      'label' => 'Subtype',
+      'description' => 'A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.',
+      'machine_name' => 'event_subtype',
+      'allowed_values' => [
+        'BusinessEvent' => 'Business Event',
+        'ChildrensEvent' => 'Childrens Event',
+        'ComedyEvent' => 'Comedy Event',
+        'CourseInstance' => 'Course Instance',
+        'DanceEvent' => 'Dance Event',
+        'DeliveryEvent' => 'Delivery Event',
+        'EducationEvent' => 'Education Event',
+        'EventSeries' => 'Event Series',
+        'ExhibitionEvent' => 'Exhibition Event',
+        'Festival' => 'Festival',
+        'FoodEvent' => 'Food Event',
+        'Hackathon' => 'Hackathon',
+        'LiteraryEvent' => 'Literary Event',
+        'MusicEvent' => 'Music Event',
+        'PublicationEvent' => 'Publication Event',
+        'BroadcastEvent' => '- Broadcast Event',
+        'OnDemandEvent' => '- On Demand Event',
+        'SaleEvent' => 'Sale Event',
+        'ScreeningEvent' => 'Screening Event',
+        'SocialEvent' => 'Social Event',
+        'SportsEvent' => 'Sports Event',
+        'TheaterEvent' => 'Theater Event',
+        'VisualArtsEvent' => 'Visual Arts Event',
+      ],
+    ];
+    $this->assertEquals($expected_subtype_properties, $defaults['properties']['subtype']);
 
     /* ********************************************************************** */
     // Mapping defaults configuration.
