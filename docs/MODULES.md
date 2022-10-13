@@ -182,8 +182,12 @@ _The below modules improve the Schema.org Blueprints module's user experience._
 
 _The below modules improve the Schema.org Blueprints module's workflow and moderation experience._
 
+- **[Moderation Dashboard](https://www.drupal.org/project/moderation_dashboard)**
+  Provides a per-user dashboard that contains useful blocks related to managing moderated content.
+
 - **[Moderation Sidebar](https://www.drupal.org/project/moderation_sidebar)**
   Provides an off-canvas menu to moderate the current Entity.
+
 
 - **[Scheduler](https://www.drupal.org/project/scheduler)**
   Gives content editors the ability to schedule nodes to be published and unpublished at specified dates and times in the future.

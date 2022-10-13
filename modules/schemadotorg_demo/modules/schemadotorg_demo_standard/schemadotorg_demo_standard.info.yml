@@ -49,6 +49,7 @@ dependencies:
   - 'linkit:linkit'
   - 'metatag:metatag'
   - 'moderation_sidebar:moderation_sidebar'
+  - 'moderation_dashboard:moderation_dashboard'
   - 'multiple_fields_remove_button:multiple_fields_remove_button'
   - 'node_edit_protection:node_edit_protection'
   - 'jsonapi_extras:jsonapi_extras'
