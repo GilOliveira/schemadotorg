@@ -32,6 +32,12 @@
   padding: 0 24px;
 }
 
+.dashboards-container .view-empty,
+.dashboards-container .view-content {
+  margin: 0 .75rem .75rem .75rem;
+  padding: 0 24px;
+}
+
 /**
  * Issue #2887220: ReDoc: "(Versioning not supported)"
  * @see https://www.drupal.org/node/2887220

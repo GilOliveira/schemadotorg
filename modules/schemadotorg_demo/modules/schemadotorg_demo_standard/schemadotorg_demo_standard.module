@@ -60,7 +60,7 @@ function schemadotorg_demo_standard_entity_presave(EntityInterface $entity): voi
 /**
  * Implements hook_schemadotorg_mapping_defaults().
  */
-function schemadotorg_demo_standard_schemadotorg_mapping_defaults_alter(string $entity_type_id, string $bundle, string $schema_type, array &$defaults): void {
+function schemadotorg_demo_standard_schemadotorg_mapping_defaults_alter(string $entity_type_id, ?string $bundle, string $schema_type, array &$defaults): void {
   // Handle unique case where the standard article content type is still using
   // the image field.
   if ($entity_type_id === 'node'

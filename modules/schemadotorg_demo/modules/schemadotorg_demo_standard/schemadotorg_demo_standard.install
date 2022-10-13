@@ -9,6 +9,7 @@ declare(strict_types = 1);
 
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\views\Entity\View;
 
 /**
  * Implements hook_install().
@@ -21,6 +22,12 @@ function schemadotorg_demo_standard_install(): void {
   \Drupal::configFactory()->getEditable('devel.settings')
     ->set('devel_dumper', 'kint')
     ->save();
+
+  // Delete the moderation dashboard view which is replaced by a custom dashboard.
+  $view = View::load('moderation_dashboard');
+  if ($view) {
+    $view->delete();
+  }
 
   // Add consumer focal point image styles to the 'Default Consumer'.
   $consumer_storage = \Drupal::entityTypeManager()->getStorage('consumer');

@@ -1,8 +1,8 @@
 langcode: en
 status: true
 dependencies: {  }
-id: schemadotorg
-admin_label: 'Schema.org Blueprints'
+id: overview
+admin_label: 'System overview'
 category: ''
 frontend: false
 weight: 0

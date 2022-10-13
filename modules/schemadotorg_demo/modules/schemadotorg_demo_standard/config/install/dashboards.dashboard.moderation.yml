@@ -1,0 +1,120 @@
+langcode: en
+status: true
+dependencies: {  }
+id: moderation
+admin_label: 'Content moderation'
+category: ''
+frontend: false
+weight: 1
+sections:
+  -
+    layout_id: layout_2
+    layout_settings:
+      label: Moderation
+      context_mapping: {  }
+    components:
+      c9935b19-e70e-45aa-b18e-97b85f4f7f47:
+        uuid: c9935b19-e70e-45aa-b18e-97b85f4f7f47
+        region: one
+        configuration:
+          id: 'views_block:content_moderation_dashboard_in_review-block_2'
+          label: 'Content in draft'
+          label_display: visible
+          provider: views
+          context_mapping: {  }
+          views_label: 'Content in draft'
+          items_per_page: none
+        weight: 1
+        additional: {  }
+      1fc67c34-8f78-4050-8c3b-1915c8ddf6f4:
+        uuid: 1fc67c34-8f78-4050-8c3b-1915c8ddf6f4
+        region: three
+        configuration:
+          id: 'views_block:content_moderation_dashboard_in_review-block_3'
+          label: ''
+          label_display: visible
+          provider: views
+          context_mapping: {  }
+          views_label: ''
+          items_per_page: none
+        weight: 1
+        additional: {  }
+      b5692cc0-1c93-48e6-babe-588ff5d8d4b1:
+        uuid: b5692cc0-1c93-48e6-babe-588ff5d8d4b1
+        region: three
+        configuration:
+          id: 'views_block:moderation_dashboard_recently_created-block_2'
+          label: 'Your activity'
+          label_display: visible
+          provider: views
+          context_mapping: {  }
+          views_label: 'Your activity'
+          items_per_page: none
+        weight: 2
+        additional: {  }
+      6ce7d197-813b-418f-a7bb-21c7262aa7f3:
+        uuid: 6ce7d197-813b-418f-a7bb-21c7262aa7f3
+        region: three
+        configuration:
+          id: 'views_block:moderation_dashboard_recently_created-block_2'
+          label: 'Content you created'
+          label_display: visible
+          provider: views
+          context_mapping: {  }
+          views_label: 'Content you created'
+          items_per_page: none
+        weight: 3
+        additional: {  }
+      5aecb506-5b27-47a0-9eab-012cf3ac165e:
+        uuid: 5aecb506-5b27-47a0-9eab-012cf3ac165e
+        region: one
+        configuration:
+          id: 'views_block:content_moderation_dashboard_in_review-block_1'
+          label: 'Content in review'
+          label_display: visible
+          provider: views
+          context_mapping: {  }
+          views_label: 'Content in review'
+          items_per_page: none
+        weight: 0
+        additional: {  }
+      3d1f63a4-2a8b-40b1-abd4-4b1bc7fdb6cd:
+        uuid: 3d1f63a4-2a8b-40b1-abd4-4b1bc7fdb6cd
+        region: one
+        configuration:
+          id: 'views_block:moderation_dashboard_recent_changes-block_2'
+          label: 'Editor activity for the last 30 days'
+          label_display: visible
+          provider: views
+          context_mapping: {  }
+          views_label: 'Editor activity for the last 30 days'
+          items_per_page: none
+        weight: 4
+        additional: {  }
+      6ef338b9-f8fa-4767-98f6-8a673ec0710a:
+        uuid: 6ef338b9-f8fa-4767-98f6-8a673ec0710a
+        region: two
+        configuration:
+          id: 'views_block:moderation_dashboard_recently_created-block_1'
+          label: 'Recently created'
+          label_display: visible
+          provider: views
+          context_mapping: {  }
+          views_label: 'Recently created'
+          items_per_page: none
+        weight: 2
+        additional: {  }
+      5306b16a-3828-4849-a685-b3cfaf57be09:
+        uuid: 5306b16a-3828-4849-a685-b3cfaf57be09
+        region: two
+        configuration:
+          id: 'views_block:moderation_dashboard_recent_changes-block_1'
+          label: 'Recent updates'
+          label_display: visible
+          provider: views
+          context_mapping: {  }
+          views_label: 'Recent updates'
+          items_per_page: none
+        weight: 1
+        additional: {  }
+    third_party_settings: {  }
