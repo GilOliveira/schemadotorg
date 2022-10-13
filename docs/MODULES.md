@@ -7,7 +7,7 @@ Below are recommended core and contributed modules that can be used with the Sch
 
 _Below modules are included with the Schema.org Blueprints module/package._
 
-Core
+Base
 
 - **[Schema.org Blueprints](https://git.drupalcode.org/project/schemadotorg)**
   Uses Schema.org as the blueprint for the content architecture and structured data in a Drupal website.

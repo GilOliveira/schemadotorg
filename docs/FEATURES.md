@@ -1,7 +1,7 @@
 Schema.org Blueprints: Features
 -------------------------------
 
-# Core
+# Base
 
 _Below are features and functionality related to the core Schema.org Blueprints module._
 

@@ -11,6 +11,7 @@ use Drupal\Component\Utility\Random;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\filter\Entity\FilterFormat;
 
 /**
@@ -53,5 +54,21 @@ function schemadotorg_demo_standard_entity_presave(EntityInterface $entity): voi
         $entity->{$field_name}->format = 'full_html';
       }
     }
+  }
+}
+
+/**
+ * Implements hook_schemadotorg_mapping_defaults().
+ */
+function schemadotorg_demo_standard_schemadotorg_mapping_defaults_alter(string $entity_type_id, string $bundle, string $schema_type, array &$defaults): void {
+  // Handle unique case where the standard article content type is still using
+  // the image field.
+  if ($entity_type_id === 'node'
+    && $bundle === 'article'
+    && $schema_type === 'Article'
+    && empty($defaults['properties']['image']['name'])
+    && FieldStorageConfig::loadByName('node', 'field_image')
+  ) {
+    $defaults['properties']['image']['name'] = 'field_image';
   }
 }

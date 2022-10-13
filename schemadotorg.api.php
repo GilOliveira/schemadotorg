@@ -145,7 +145,7 @@ function hook_schemadotorg_property_field_alter(
  * @param array $defaults
  *   The Schema.org mapping entity default values.
  */
-function hook_schemadotorg_mapping_defaults(string $entity_type_id, string $bundle, string $schema_type, array &$defaults): void {
+function hook_schemadotorg_mapping_defaults_alter(string $entity_type_id, string $bundle, string $schema_type, array &$defaults): void {
   // Add custom subtype property to a Schema.org mapping defaults.
   // @see schemadotorg_subtype_schemadotorg_mapping_defaults_alter()
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
