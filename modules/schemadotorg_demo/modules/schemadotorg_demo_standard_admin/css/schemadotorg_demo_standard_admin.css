@@ -24,6 +24,10 @@
 /**
  * Dashboards spacing.
  */
+.layout-builder .block-search .panel__content,
+.layout-builder .block-dashboards-blockdashboardnode-statistics .panel__content,
+.layout-builder .block-views-blockwho-s-online-who-s-online-block .panel__content,
+.layout-builder .block-dashboards-blockdashboardaccount .panel__content,
 .dashboards-container .block-search .panel__content,
 .dashboards-container .block-dashboards-blockdashboardnode-statistics .panel__content,
 .dashboards-container .block-views-blockwho-s-online-who-s-online-block .panel__content,
@@ -32,6 +36,8 @@
   padding: 0 24px;
 }
 
+.layout-builder .view-empty,
+.layout-builder .view-content,
 .dashboards-container .view-empty,
 .dashboards-container .view-content {
   margin: 0 .75rem .75rem .75rem;
