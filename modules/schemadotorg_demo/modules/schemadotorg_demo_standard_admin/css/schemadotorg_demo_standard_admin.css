@@ -16,6 +16,11 @@
   mask-image: url(../images/sidebar.svg);
 }
 
+.toolbar .toolbar-bar .toolbar-icon.toolbar-icon-moderation-sidebar:before {
+  -webkit-mask-image: url(../images/info.svg);
+  mask-image: url(../images/info.svg);
+}
+
 /**
  * Dashboards spacing.
  */

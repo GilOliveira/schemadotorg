@@ -29,6 +29,7 @@ Additional documentation
 
 - [docs/NOTES.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/NOTES.md)
 - [docs/ROADMAP.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/ROADMAP.md)
+- [docs/FEATURES.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/FEATURES.md)
 - [docs/MODULES.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/MODULES.md)
 - [docs/REFERENCES.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/REFERENCES.md)
 - [docs/DRUSH.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/DRUSH.md)

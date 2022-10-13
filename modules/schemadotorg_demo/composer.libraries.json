@@ -68,7 +68,7 @@
     "drupal/inline_entity_form": "^1.0",
     "drupal/jsonapi_extras": "^3.0",
     "drupal/linkit": "^6.0",
-    "drupal/metatag": "1.21.0",
+    "drupal/metatag": "^1.0",
     "drupal/moderation_sidebar": "^1.0",
     "drupal/multiple_fields_remove_button": "^1.0",
     "drupal/node_edit_protection": "^1.0",
@@ -80,8 +80,9 @@
     "drupal/pathauto": "^1.0",
     "drupal/revision_log_default": "^1.0",
     "drupal/scheduler": "^1.0",
-    "drupal/simple_sitemap": "^4.0",
     "drupal/scheduler_content_moderation_integration": "^1.0",
+    "drupal/simple_sitemap": "^4.0",
+    "drupal/smart_date": "^3.7@beta",
     "drupal/time_field": "^2.0",
     "drupal/token": "^1.0",
     "drupal/toolbar_language_switcher": "^2.0",
@@ -116,7 +117,7 @@
         "Issue #3300768: Widget configuration for min and max date_year_range": "https://www.drupal.org/files/issues/2022-10-12/smart_date-3300768-14.patch"
       },
       "drupal/metatag": {
-        "Issue #2945817: Support JSON API, REST, GraphQL and custom normalizations": "https://www.drupal.org/files/issues/2022-07-13/metatag-data-type-support-2945817-148_0.patch"
+        "Issue #2945817: Support JSON API, REST, GraphQL and custom normalizations": "https://www.drupal.org/files/issues/2022-10-13/metatag-data-type-support-2945817-154.patch"
       },
       "drupal/features": {
         "Issue #3202711: Bug in feature revert / import parsing": "https://git.drupalcode.org/project/features/-/merge_requests/9.diff"
