@@ -532,7 +532,17 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     }
 
     // Add the default operation.
-    $default_entity_type = $this->schemaTypeManager->isIntangible($type) ? 'paragraph' : 'node';
+    if ($this->schemaTypeManager->isSubTypeOf($type, 'Intangible')
+      && $mapping_type_storage->load('paragraph')) {
+      $default_entity_type = 'paragraph';
+    }
+    elseif ($this->schemaTypeManager->isSubTypeOf($type, 'MediaObject')
+      && $mapping_type_storage->load('media')) {
+      $default_entity_type = 'media';
+    }
+    else {
+      $default_entity_type = 'node';
+    }
     if (isset($operations[$default_entity_type])) {
       $default_operation = $operations[$default_entity_type];
       $default_operation['title'] = $this->t('Add Schema.org type');
