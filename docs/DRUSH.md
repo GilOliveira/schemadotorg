@@ -6,19 +6,35 @@ Schema.org Blueprints: Drush commands
 ```
 drush list --filter=schemadotorg
 
-Available commands:                                                      
-schemadotorg:                                                            
-  schemadotorg:create-type (socr)   Create Schema.org types.           
-  schemadotorg:delete-type (sode)   Delete Schema.org type.             
+Available commands:
+schemadotorg:
+  schemadotorg:create-type (socr)   Create Schema.org types.
+  schemadotorg:delete-type (sode)   Delete Schema.org type.
   schemadotorg:repair (sorp)        Update Schema.org repair.
   schemadotorg:set-generate (sosg)  Generate the Schema.org mapping set.
-  schemadotorg:set-kill (sosk)      Kill the Schema.org mapping set. 
+  schemadotorg:set-kill (sosk)      Kill the Schema.org mapping set.
   schemadotorg:set-setup (soss)     Setup the Schema.org mapping set.
   schemadotorg:set-teardown (sost)  Teardown the Schema.org mapping set.
   schemadotorg:update-schema (soup) Update Schema.org data.
 ```
 
 # Usage
+
+## List Schema.org Blueprints modules
+
+```
+# List core modules.
+drush pm:list --package='Schema.org Blueprints';
+
+# List JSON:API and JSON-LD modules.
+drush pm:list --package='Schema.org Blueprints API';
+
+# List integration modules.
+drush pm:list --package='Schema.org Blueprints Extras';
+
+# List demo modules.
+drush pm:list --package='Schema.org Blueprints Demo';
+```
 
 ## Setup and generate individual Schema.org types with example content.
 
