@@ -52,6 +52,9 @@ Fields
 - **[Schema.org Blueprints Inline Entity Form](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_inline_entity_form)**
   Allows an inline entity form to be automatically added to Schema.org properties within an entity type/bundle Schema.org mapping.
 
+- **[Schema.org Blueprints Office Hours](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_office_hours)**
+  Allows an Office hours field to be used to create https://schema.org/OpeningHoursSpecification.
+
 - **[Schema.org Blueprints Smart Date](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_smart_date)**
   Allows a Smart date field to be used to create date ranges and event schedules included in a site's Schema.org JSON-LD.
 
@@ -188,7 +191,6 @@ _The below modules improve the Schema.org Blueprints module's workflow and moder
 - **[Moderation Sidebar](https://www.drupal.org/project/moderation_sidebar)**
   Provides an off-canvas menu to moderate the current Entity.
 
-
 - **[Scheduler](https://www.drupal.org/project/scheduler)**
   Gives content editors the ability to schedule nodes to be published and unpublished at specified dates and times in the future.
 
@@ -232,6 +234,10 @@ _The below modules provide more specific field types and behaviors._
 
 Date/time
 
+- **[Duration Field](https://www.drupal.org/project/duration_field)**
+  (Applies to: [Duration](https://schema.org/Duration))
+  Provides a duration field, that collects a period of time, whether that be hours, minutes, seconds, days, months, years, or any combination of those.
+
 - **[Time Field](https://www.drupal.org/project/time_field)**
   (Applies to: [Time](https://schema.org/Time))
   Provides "Time Field" and "Time Range Field".
@@ -239,12 +245,6 @@ Date/time
 - **[SmartDate](https://www.drupal.org/project/smart_date)**
   (Applies to: [Date](https://schema.org/Date), [DateTime](https://schema.org/DateTime), [Schedule](https://schema.org/Schedule))
   Provides the ability to store start and end times, with duration. Also provides an intelligent admin UI, and a variety of formatting options.
-
-Numeric
-
-- **[Numeric Range](https://www.drupal.org/project/range)**
-  (Applies to: [typicalAgeRange](https://schema.org/typicalAgeRange))
-  Defines a numeric range field type.
 
 Image
 
@@ -262,6 +262,10 @@ Location
 - **[Address](https://www.drupal.org/project/address)**
   (Applies to: [PostalAddress](https://schema.org/PostalAddress), [address](https://schema.org/address))
   Provides functionality for storing, validating and displaying international postal addresses.
+
+- **[Office hours](https://www.drupal.org/project/office_hours)**
+  (Applies to: [OpeningHoursSpecification](https://schema.org/OpeningHoursSpecification))
+  Defines a 'weekly office hours' field type, allowing you to specify when an Entity is open or closed.
 
 Telephone
 

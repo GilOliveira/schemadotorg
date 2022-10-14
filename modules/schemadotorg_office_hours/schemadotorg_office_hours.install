@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Smart Date module.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_office_hours_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schema_config_manager */
+  $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
+
+  // Add openingHoursSpecification to Place's default properties.
+  $schema_config_manager->setSchemaTypeDefaultProperties('Place', 'openingHoursSpecification');
+
+  // Add office_hours field to OpeningHoursSpecification field types.
+  \Drupal::configFactory()->getEditable('schemadotorg.settings')
+    ->set('schema_types.default_field_types.OpeningHoursSpecification', ['office_hours'])
+    ->save();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function schemadotorg_office_hours_uninstall(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schema_config_manager */
+  $schema_config_manager = \Drupal::service('schemadotorg.config_manager');
+
+  // Remove openingHoursSpecification to Place's default properties.
+  $schema_config_manager->setSchemaTypeDefaultProperties('Place', NULL, 'openingHoursSpecification');
+
+  // Remove office_hours field to OpeningHoursSpecification field types.
+  \Drupal::configFactory()->getEditable('schemadotorg.settings')
+    ->clear('schema_types.default_field_types.OpeningHoursSpecification')
+    ->save();
+}

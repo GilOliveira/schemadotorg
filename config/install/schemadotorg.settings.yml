@@ -1060,6 +1060,12 @@ schema_properties:
     occupationalCategory:
       label: 'Occupational categories'
       unlimited: true
+    openingHours:
+      label: Opening hours
+      unlimited: true
+    openingHoursSpecification:
+      label: Opening hours
+      unlimited: true
     organizer:
       label: Organizers
       unlimited: true
@@ -1196,6 +1202,8 @@ schema_properties:
     - opens
     - hoursAvailable
     - closes
+    - openingHours
+    - openingHoursSpecification
     - termCode
     - value
     - valueReference

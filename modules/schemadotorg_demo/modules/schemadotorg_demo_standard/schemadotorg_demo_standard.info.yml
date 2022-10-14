@@ -84,6 +84,7 @@ dependencies:
   - 'schemadotorg:schemadotorg_mapping_set'
   - 'schemadotorg:schemadotorg_media'
   - 'schemadotorg:schemadotorg_metatag'
+  - 'schemadotorg:schemadotorg_office_hours'
   - 'schemadotorg:schemadotorg_paragraphs'
   # - 'schemadotorg:schemadotorg_rdf'
   - 'schemadotorg:schemadotorg_report'
