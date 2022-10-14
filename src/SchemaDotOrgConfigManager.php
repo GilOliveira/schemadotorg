@@ -41,6 +41,38 @@ class SchemaDotOrgConfigManager implements SchemaDotOrgConfigManagerInterface {
   /**
    * {@inheritdoc}
    */
+  public function setSchemaTypeDefaultProperties(string $schema_type, array|string|null $add = NULL, array|string|null $remove = NULL): void {
+    $config = $this->configFactory->getEditable('schemadotorg.settings');
+
+    // Get or create default properties.
+    $default_properties = $config->get("schema_types.default_properties.$schema_type") ?? [];
+
+    // Remove default properties.
+    if ($remove) {
+      $remove = (array) $remove;
+      $default_properties = array_filter($default_properties, function ($property) use ($remove) {
+        return !in_array($property, $remove);
+      });
+    }
+
+    // Add default properties.
+    if ($add) {
+      $add = (array) $add;
+      $default_properties = array_merge($default_properties, $add);
+      $default_properties = array_unique($default_properties);
+    }
+
+    // Sort default properties.
+    sort($default_properties);
+
+    // Save default properties.
+    $config->set("schema_types.default_properties.$schema_type", $default_properties)
+      ->save();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function repair(): void {
     // Default properties sorted by path/breadcrumb.
     $config = $this->configFactory->getEditable('schemadotorg.settings');

@@ -3,6 +3,7 @@ Table of contents
 
 * Introduction
 * Features
+* Requirements
 * Use cases
 * Todo
 
@@ -26,6 +27,13 @@ Features
 
 - Alters Schema.org JSON-LD for startDate and eventSchedule to convert
   Smart Date recurring dates and overrides in Schedule types.
+
+
+Requirements
+------------
+
+**[Smart date](https://www.drupal.org/project/smart_date)**
+Provides the ability to store start and end times, with duration. Also provides an intelligent admin UI, and a variety of formatting options.
 
 
 Use cases
@@ -61,12 +69,6 @@ To configure either approach, you need to adjust the
 and
 'Default Schema.org property fields'
 (/admin/config/search/schemadotorg/settings/properties).
-
-Requirements
-------------
-
-**[Smart date](https://www.drupal.org/project/smart_date)**
-Provides the ability to store start and end times, with duration. Also provides an intelligent admin UI, and a variety of formatting options.
 
 
 TODO

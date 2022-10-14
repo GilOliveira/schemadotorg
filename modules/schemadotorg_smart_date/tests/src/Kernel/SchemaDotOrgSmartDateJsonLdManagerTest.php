@@ -2,11 +2,13 @@
 
 declare(strict_types = 1);
 
-namespace Drupal\Tests\schemadotorg_jsonld\Kernel;
+namespace Drupal\Tests\schemadotorg_smart_date\Kernel;
 
 use Drupal\node\Entity\Node;
 use Drupal\smart_date_recur\Entity\SmartDateRule;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
+
+require_once __DIR__ . '/../../../schemadotorg_smart_date.install';
 
 /**
  * Tests the functionality of the Schema.org Smart Date integration.
@@ -36,13 +38,6 @@ class SchemaDotOrgSmartDateJsonLdManagerTest extends SchemaDotOrgKernelEntityTes
   ];
 
   /**
-   * Schema.org Smart Date installer.
-   *
-   * @var \Drupal\schemadotorg_smart_date\SchemadotorgSmartDateInstallerInterface
-   */
-  protected $installer;
-
-  /**
    * Schema.org JSON-LD builder.
    *
    * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface
@@ -58,7 +53,6 @@ class SchemaDotOrgSmartDateJsonLdManagerTest extends SchemaDotOrgKernelEntityTes
     $this->installEntitySchema('smart_date_rule');
     $this->installEntitySchema('smart_date_override');
 
-    $this->installer = \Drupal::service('schemadotorg_smartdate.installer');
     $this->builder = $this->container->get('schemadotorg_jsonld.builder');
   }
 
@@ -69,7 +63,7 @@ class SchemaDotOrgSmartDateJsonLdManagerTest extends SchemaDotOrgKernelEntityTes
    */
   public function testEventSchedule(): void {
     // Install the module.
-    $this->installer->install(FALSE);
+    schemadotorg_smart_date_install(FALSE);
 
     // Create Event with eventSchedule.
     $this->createSchemaEntity('node', 'Event');

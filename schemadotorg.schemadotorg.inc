@@ -40,7 +40,7 @@ function schemadotorg_allowed_values_language(): array {
 /* ************************************************************************** */
 
 /**
- * Implements hook_schemadotorg_property_field_alter()for the duration_field.module.
+ * Implements hook_schemadotorg_property_field_alter() for the duration_field.module.
  */
 function duration_field_schemadotorg_property_field_alter(
   string $schema_type,

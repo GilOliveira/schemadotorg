@@ -2,16 +2,18 @@
 
 declare(strict_types = 1);
 
-namespace Drupal\Tests\schemadotorg_jsonld\Kernel;
+namespace Drupal\Tests\schemadotorg_smart_date\Kernel;
 
 use Drupal\Tests\token\Kernel\KernelTestBase;
 
+require_once __DIR__ . '/../../../schemadotorg_smart_date.install';
+
 /**
- * Tests the functionality of the Schema.org Smart Date installer.
+ * Tests the functionality of the Schema.org Smart Date install/uninstall.
  *
  * @group schemadotorg
  */
-class SchemaDotOrgSmartDateInstallerTest extends KernelTestBase {
+class SchemaDotOrgSmartDateInstallTest extends KernelTestBase {
 
   /**
    * Modules to install.
@@ -24,31 +26,22 @@ class SchemaDotOrgSmartDateInstallerTest extends KernelTestBase {
   ];
 
   /**
-   * Schema.org Smart Date installer.
-   *
-   * @var \Drupal\schemadotorg_smart_date\SchemadotorgSmartDateInstallerInterface
-   */
-  protected $installer;
-
-  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
     parent::setUp();
 
     $this->installConfig(['schemadotorg']);
-
-    $this->installer = \Drupal::service('schemadotorg_smartdate.installer');
   }
 
   /**
-   * Test Schema.org Smart Date installer.
+   * Test Schema.org Smart Date install/uninstall hooks.
    */
-  public function testInstaller(): void {
+  public function testInstallAndUninstall(): void {
     $config = $this->config('schemadotorg.settings');
 
     // Check performing setup tasks when the Schema.org Smart Date module is installed.
-    $this->installer->install(FALSE);
+    schemadotorg_smart_date_install(FALSE);
 
     $event_properties = $config->get('schema_types.default_properties.Event');
     $this->assertTrue(in_array('eventSchedule', $event_properties));
@@ -59,7 +52,7 @@ class SchemaDotOrgSmartDateInstallerTest extends KernelTestBase {
     $this->assertEquals(['type' => 'smartdate', 'unlimited' => TRUE], $event_schedule);
 
     // Check removing any information that the Schema.org Smart Date module sets.
-    $this->installer->uninstall(FALSE);
+    schemadotorg_smart_date_uninstall(FALSE);
 
     $event_properties = $config->get('schema_types.default_properties.Event');
     $this->assertFalse(in_array('eventSchedule', $event_properties));

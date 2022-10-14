@@ -131,6 +131,7 @@ default_field_groups:
       label: 'Business information'
       properties:
         - openingHours
+        - openingHoursSpecification
         - paymentAccepted
         - priceRange
         - acceptsReservations

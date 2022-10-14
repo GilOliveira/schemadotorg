@@ -72,7 +72,6 @@ function schemadotorg_smart_date_schemadotorg_property_field_alter(
       'time_wrapper' => TRUE,
     ];
   }
-
 }
 
 /**
