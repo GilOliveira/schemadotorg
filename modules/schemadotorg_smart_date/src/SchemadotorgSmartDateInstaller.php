@@ -36,9 +36,10 @@ class SchemadotorgSmartDateInstaller implements SchemadotorgSmartDateInstallerIn
       return;
     }
 
-    $this->setEventDefaultProperties(
-      ['startDate', 'endDate', 'duration'],
-      ['eventSchedule']
+    $this->setDefaultProperties(
+      'Event',
+      ['eventSchedule'],
+      ['startDate', 'endDate', 'duration']
     );
 
     // Set eventSchedule to use a multiple smartdate field.
@@ -61,9 +62,10 @@ class SchemadotorgSmartDateInstaller implements SchemadotorgSmartDateInstallerIn
 
     // Restore startDate and endDate from Event default properties
     // and remove eventSchedule.
-    $this->setEventDefaultProperties(
-      ['eventSchedule'],
+    $this->setDefaultProperties(
+      'Event',
       ['startDate', 'endDate', 'duration'],
+      ['eventSchedule'],
     );
 
     // Restore eventSchedule to use multiple daterange fields.
@@ -77,27 +79,29 @@ class SchemadotorgSmartDateInstaller implements SchemadotorgSmartDateInstallerIn
   }
 
   /**
-   * Update Event Schema.org default properties by removing and adding properties.
+   * Update a Schema.org type's default properties.
    *
-   * @param array $remove
-   *   Schema.org properties to be removed.
+   * @param string $schema_type
+   *   The Schema.org type.
    * @param array $add
+   *   Schema.org properties to be removed.
+   * @param array $remove
    *   Schema.org properties to be added.
    */
-  protected function setEventDefaultProperties(array $remove, array $add): void {
+  protected function setDefaultProperties(string $schema_type, array $add, array $remove): void {
     $config = $this->configFactory->getEditable('schemadotorg.settings');
-    $event_properties = $config->get('schema_types.default_properties.Event');
-    if (!$event_properties) {
+    $default_properties = $config->get("schema_types.default_properties.$schema_type");
+    if (!$default_properties) {
       return;
     }
 
-    $event_properties = array_filter($event_properties, function ($property) use ($remove) {
+    $default_properties = array_filter($default_properties, function ($property) use ($remove) {
       return !in_array($property, $remove);
     });
-    $event_properties = array_merge($event_properties, $add);
-    $event_properties = array_unique($event_properties);
-    asort($event_properties);
-    $config->set('schema_types.default_properties.Event', $event_properties)
+    $default_properties = array_merge($default_properties, $add);
+    $default_properties = array_unique($default_properties);
+    sort($default_properties);
+    $config->set("schema_types.default_properties.$schema_type", $default_properties)
       ->save();
   }
 

@@ -86,11 +86,11 @@ function address_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldI
   // Map organization and full name to Schema.org name and
   // alternateName properties.
   $values = $item->getValue();
-  $values['organization'] = trim($values['organization']);
+  $values['organization'] = trim((string) $values['organization']);
   $values['name'] = implode(' ', array_filter([
-    trim($values['given_name']),
-    trim($values['additional_name']),
-    trim($values['family_name']),
+    trim((string) $values['given_name']),
+    trim((string) $values['additional_name']),
+    trim((string) $values['family_name']),
   ]));
   if ($values['organization']) {
     $mapping['organization'] = 'name';
