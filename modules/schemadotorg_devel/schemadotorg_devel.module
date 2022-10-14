@@ -58,8 +58,9 @@ function schemadotorg_devel_entity_presave(EntityInterface $entity): void {
   // Limit node titles to two words with a max of 25 characters.
   if ($entity instanceof NodeInterface) {
     $random = new Random();
-    $node_type = NodeType::load($entity->bundle());
-    $entity->set('title', $node_type->label() . ' - ' . $random->word(mt_rand(1, 25)) . ' ' . $random->word(mt_rand(1, 25)));
+    $node_type = NodeType::load($entity->bundle())->label();
+    $node_title = ucwords($random->word(mt_rand(1, 25)) . ' ' . $random->word(mt_rand(1, 25)));
+    $entity->set('title', "$node_type - $node_title");
   }
 
   // Populate the fields.
