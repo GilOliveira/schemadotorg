@@ -63,6 +63,7 @@ dependencies:
   - 'pathauto:pathauto'
   - 'revision_log_default:revision_log_default'
   - 'time_field:time_field'
+  - 'scheduler_content_moderation_integration:scheduler_content_moderation_integration'
   - 'schemata:schemata'
   - 'schemata:schemata_json_schema'
   - 'schemadotorg:schemadotorg'

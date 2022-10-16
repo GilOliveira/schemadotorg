@@ -7,7 +7,9 @@
 
 declare(strict_types = 1);
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
 
 /**
  * Implements hook_help().
@@ -27,4 +29,45 @@ function schemadotorg_mapping_set_help(string $route_name, RouteMatchInterface $
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Displays a warning when a mapping is created which is part of a mapping set.
+ */
+function schemadotorg_mapping_set_form_schemadotorg_mapping_add_form_alter(array &$form, FormStateInterface $form_state): void {
+  // Make sure we are loading the form via the GET method.
+  if (\Drupal::request()->getMethod() !== 'GET') {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_mapping_set\SchemaDotOrgMappingSetManagerInterface $mapping_set_manager */
+  $mapping_set_manager = \Drupal::service('schemadotorg_mapping_set.manager');
+
+  /** @var \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm $form_object */
+  $form_object = $form_state->getFormObject();
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
+  $mapping = $form_object->getEntity();
+  $type = $mapping->getTargetEntityTypeId() . ':' . $mapping->getSchemaType();
+  $mapping_sets = \Drupal::config('schemadotorg_mapping_set.settings')->get('sets');
+  foreach ($mapping_sets as $mapping_set_name => $mapping_set) {
+    if (in_array($type, $mapping_set['types'])
+      && !$mapping_set_manager->isSetup($mapping_set_name)) {
+      $url = Url::fromRoute(
+        'schemadotorg_mapping_set.confirm_form',
+        ['name' => $mapping_set_name, 'operation' => 'setup'],
+      );
+      $t_args = [
+        '%type' => $mapping->getSchemaType(),
+        '@label' => $mapping_set['label'],
+        '@types' => implode('; ', $mapping_set['types']),
+        ':href' => $url->toString(),
+      ];
+      $message = t('The %type Schema.org type is part of the <a href=":href">@label</a> mapping set, which has not been <a href=":href">setup</a>.', $t_args);
+      \Drupal::messenger()->addWarning($message);
+    }
+  }
+
 }

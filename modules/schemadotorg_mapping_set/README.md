@@ -10,7 +10,7 @@ Table of contents
 Introduction
 ------------
 
-The **Schema.org Blueprints Mapping Sets module** provides the ability to create 
+The **Schema.org Blueprints Mapping Sets module** provides the ability to create
 a set of related Schema.org types via Drush.
 
 Use cases include...
@@ -32,6 +32,7 @@ Features
 - Admin page to set up, generate, kill, and teardown mapping sets
 - Drush commands to set up, generate, kill, and teardown mapping sets
 - Configure custom mapping sets.
+- Displays a warning when a mapping is created, which is part of a mapping set.
 
 
 Configuration
@@ -45,9 +46,9 @@ Configuration
 Notes
 -----
 
-Schema.org mapping set provides a quick way to set up and test different 
-related Schema.org types while adjusting and refining your Schema.org types 
+Schema.org mapping set provides a quick way to set up and test different
+related Schema.org types while adjusting and refining your Schema.org types
 and property defaults.
 
-Custom modules can also use the 'schemadotorg_mapping_set.manager' service 
+Custom modules can also use the 'schemadotorg_mapping_set.manager' service
 to set up Schema.org types via code.
