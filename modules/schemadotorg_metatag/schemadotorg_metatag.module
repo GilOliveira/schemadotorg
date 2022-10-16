@@ -8,9 +8,9 @@
 declare(strict_types = 1);
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
-use Drupal\field\Entity\FieldConfig;
 
 /**
  * Implements hook_help().

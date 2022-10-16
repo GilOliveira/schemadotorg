@@ -8,12 +8,12 @@
 declare(strict_types = 1);
 
 use Drupal\Component\Utility\Random;
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
 /**
  * Implements hook_help().

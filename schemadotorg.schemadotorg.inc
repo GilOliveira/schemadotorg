@@ -7,9 +7,9 @@
 
 declare(strict_types = 1);
 
-use Drupal\Core\Locale\CountryManager;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Language\LanguageManager;
+use Drupal\Core\Locale\CountryManager;
 
 /* ************************************************************************** */
 // Allowed values.

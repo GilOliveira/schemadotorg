@@ -4,15 +4,15 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_jsonapi;
 
-use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
-use Drupal\jsonapi_extras\Entity\JsonapiResourceConfig;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RedirectDestinationInterface;
 use Drupal\field\FieldConfigInterface;
 use Drupal\jsonapi\ResourceType\ResourceType;
+use Drupal\jsonapi_extras\Entity\JsonapiResourceConfig;
 use Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgNamesInterface;

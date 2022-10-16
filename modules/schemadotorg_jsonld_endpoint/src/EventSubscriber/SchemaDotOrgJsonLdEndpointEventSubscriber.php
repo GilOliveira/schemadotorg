@@ -4,12 +4,12 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_jsonld_endpoint\EventSubscriber;
 
+use Drupal\Core\DependencyInjection\ServiceProviderBase;
 use Drupal\Core\Routing\AccessAwareRouterInterface;
 use Drupal\Core\Url;
 use Drupal\jsonapi\Events\CollectResourceObjectMetaEvent;
 use Drupal\jsonapi\Events\MetaDataEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Drupal\Core\DependencyInjection\ServiceProviderBase;
 
 /**
  * Alters JSON:API resource meta data to include JSON-LD URI.

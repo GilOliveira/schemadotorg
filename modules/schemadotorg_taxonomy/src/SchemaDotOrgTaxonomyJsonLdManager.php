@@ -4,12 +4,12 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_taxonomy;
 
-use Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
+use Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface;
 use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface;
 use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface;
 use Drupal\taxonomy\TermInterface;

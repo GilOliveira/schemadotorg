@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace Drupal\Tests\schemadotorg\Kernel;
 
+use Drupal\file\Entity\File;
 use Drupal\media\MediaTypeInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
-use Drupal\file\Entity\File;
 use Drupal\Tests\media\Traits\MediaTypeCreationTrait;
 use Drupal\Tests\TestFileCreationTrait;
 

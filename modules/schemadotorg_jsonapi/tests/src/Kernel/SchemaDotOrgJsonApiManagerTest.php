@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace Drupal\Tests\schemadotorg_jsonapi\Kernel;
 
-use Drupal\jsonapi_extras\Entity\JsonapiResourceConfig;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\jsonapi_extras\Entity\JsonapiResourceConfig;
 use Drupal\node\Entity\NodeType;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelTestBase;
 use Drupal\Tests\schemadotorg_subtype\Traits\SchemaDotOrgTestSubtypeTrait;

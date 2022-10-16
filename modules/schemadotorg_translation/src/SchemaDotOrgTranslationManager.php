@@ -4,13 +4,13 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_translation;
 
-use Drupal\Core\Field\FieldConfigBase;
 use Drupal\content_translation\ContentTranslationManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\ContentEntityTypeInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Field\FieldConfigBase;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 

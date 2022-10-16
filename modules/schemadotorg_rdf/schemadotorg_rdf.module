@@ -8,9 +8,9 @@
 declare(strict_types = 1);
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
-use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Implements hook_help().

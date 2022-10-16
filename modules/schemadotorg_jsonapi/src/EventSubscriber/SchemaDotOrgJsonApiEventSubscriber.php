@@ -5,7 +5,9 @@ declare(strict_types = 1);
 namespace Drupal\schemadotorg_jsonapi\EventSubscriber;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\DependencyInjection\ServiceProviderBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository;
@@ -13,8 +15,6 @@ use Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\DependencyInjection\ServiceProviderBase;
 
 /**
  * Alters Schema.org mapping list builder and adds a 'JSON:API' column.

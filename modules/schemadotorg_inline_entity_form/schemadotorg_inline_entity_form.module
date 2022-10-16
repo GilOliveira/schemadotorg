@@ -9,9 +9,9 @@ declare(strict_types = 1);
 
 use Drupal\Core\Entity\Entity\EntityFormMode;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
-use Drupal\node\NodeTypeInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\node\NodeTypeInterface;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 
 /**
  * Implements hook_help().

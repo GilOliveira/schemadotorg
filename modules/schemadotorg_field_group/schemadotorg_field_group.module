@@ -11,9 +11,9 @@ declare(strict_types = 1);
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\field\FieldConfigInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
-use Drupal\field\FieldConfigInterface;
 
 /**
  * Implements hook_help().
