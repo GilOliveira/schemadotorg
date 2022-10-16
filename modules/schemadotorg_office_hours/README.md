@@ -27,5 +27,5 @@ Features
 Requirements
 ------------
 
-**[Office Hours](https://www.drupal.org/project/office_hours)**
+**[Office Hours](https://www.drupal.org/project/office_hours)**  
 Defines a 'weekly office hours' field type, allowing you to specify when an Entity is open or closed.

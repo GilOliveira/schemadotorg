@@ -22,6 +22,6 @@ Features
 Requirements
 ------------
 
-**[Simple Sitemap](https://www.drupal.org/project/simple_sitemap)**
+**[Simple Sitemap](https://www.drupal.org/project/simple_sitemap)**  
 Generates standard conform hreflang XML sitemaps of the site content and provides a framework for developing other sitemap types.
 

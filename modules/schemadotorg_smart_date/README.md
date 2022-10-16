@@ -32,7 +32,7 @@ Features
 Requirements
 ------------
 
-**[Smart date](https://www.drupal.org/project/smart_date)**
+**[Smart date](https://www.drupal.org/project/smart_date)**  
 Provides the ability to store start and end times, with duration. Also provides an intelligent admin UI, and a variety of formatting options.
 
 

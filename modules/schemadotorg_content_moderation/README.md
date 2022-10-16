@@ -24,7 +24,7 @@ Features
 Requirements
 ------------
 
-**[Content moderation](https://www.drupal.org/docs/8/core/modules/content-moderation/overview)**
+**[Content moderation](https://www.drupal.org/docs/8/core/modules/content-moderation/overview)**  
 Allows you to expand on Drupal's "unpublished" and "published" states for content.
 
 

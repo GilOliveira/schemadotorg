@@ -30,7 +30,7 @@ Features
 Requirements
 ------------
 
-**[JSON:API Extras](https://www.drupal.org/project/jsonapi_extras)**
+**[JSON:API Extras](https://www.drupal.org/project/jsonapi_extras)**  
 Provides a means to override and provide limited configurations to the default
 zero-configuration implementation provided by the JSON:API in Core.
 

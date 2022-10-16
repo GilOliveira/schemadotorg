@@ -23,7 +23,7 @@ Features
 Requirements
 ------------
 
-**[Scheduler](https://www.drupal.org/project/scheduler)**
+**[Scheduler](https://www.drupal.org/project/scheduler)**  
 Gives content editors the ability to schedule nodes to be published and unpublished at specified dates and times in the future.
 
 
