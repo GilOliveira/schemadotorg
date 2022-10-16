@@ -117,6 +117,7 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     )->toString();
     $this->drupalGet('/admin/structure/types/schemadotorg', ['query' => ['type' => 'Place']]);
     $assert_session->linkByHrefExists($setup_uri);
+    $assert_session->responseContains('The <em class="placeholder">Place</em> Schema.org type is part of the');
 
     // Check that updated required and common mapping set types are displayed on the
     // confirm form.
@@ -128,6 +129,7 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     // DOES NOT display a warning message.
     $this->drupalGet('/admin/structure/types/schemadotorg', ['query' => ['type' => 'Place']]);
     $assert_session->linkByHrefNotExists($setup_uri);
+    $assert_session->responseNotContains('The <em class="placeholder">Place</em> Schema.org type is part of the');
 
     // Check that ContactPoint and Person Schema.org mappings exist.
     $this->assertEquals(['media.image', 'node.contact_point', 'node.place'], array_keys($mapping_storage->getQuery()->accessCheck(FALSE)->execute()));
