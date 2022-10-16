@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg;
 
-use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 
 /**
  * Schema.org names service.

@@ -5,9 +5,9 @@ declare(strict_types = 1);
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
-use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
 
 /**
  * Provides an interface defining a Schema.org mapping entity.

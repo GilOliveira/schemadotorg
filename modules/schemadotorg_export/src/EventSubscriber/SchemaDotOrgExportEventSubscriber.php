@@ -4,13 +4,13 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_export\EventSubscriber;
 
+use Drupal\Core\DependencyInjection\ServiceProviderBase;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\DependencyInjection\ServiceProviderBase;
 
 /**
  * Alters Schema.org mapping list builder and adds a 'Download CSV' link.

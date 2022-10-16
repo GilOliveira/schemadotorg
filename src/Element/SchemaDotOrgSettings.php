@@ -7,9 +7,9 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg\Element;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Render\Element\Textarea;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
 

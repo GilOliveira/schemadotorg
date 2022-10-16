@@ -4,13 +4,13 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_subtype\EventSubscriber;
 
+use Drupal\Core\DependencyInjection\ServiceProviderBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\DependencyInjection\ServiceProviderBase;
 
 /**
  * Alters the Schema.org mapping list builder and adds a 'Subtype' column.

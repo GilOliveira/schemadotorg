@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_demo_umami_content;
 
-use Drupal\demo_umami_content\InstallHelper;
 use Drupal\Component\Utility\Html;
+use Drupal\demo_umami_content\InstallHelper;
 
 include \Drupal::root() . '/core/profiles/demo_umami/modules/demo_umami_content/src/InstallHelper.php';
 

@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_report\Controller;
 
-use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Link;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
