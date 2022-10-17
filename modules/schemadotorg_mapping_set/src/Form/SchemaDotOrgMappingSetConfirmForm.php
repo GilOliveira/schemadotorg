@@ -112,7 +112,7 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
       // During setup replace mapping set types with the mapping set's details.
       /** @var \Drupal\schemadotorg_mapping_set\Controller\SchemadotorgMappingSetController $controller */
       $controller = SchemadotorgMappingSetController::create(\Drupal::getContainer());
-      $form['description']['type'] = $controller->details($this->name, FALSE);
+      $form['description']['type'] = $controller->buildDetails($this->name);
 
       // Add note after the actions element which has a weight of 100.
       $form['note'] = [

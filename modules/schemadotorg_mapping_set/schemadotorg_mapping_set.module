@@ -42,6 +42,14 @@ function schemadotorg_mapping_set_form_schemadotorg_mapping_add_form_alter(array
     return;
   }
 
+  // Don't display any warning is the user is in the process of creating
+  // a mapping set.
+  // @see \Drupal\schemadotorg_mapping_set\Controller\SchemadotorgMappingSetController::details
+  $destination = \Drupal::request()->query->get('destination');
+  if ($destination && str_contains($destination, 'admin/config/search/schemadotorg/sets/')) {
+    return;
+  }
+
   /** @var \Drupal\schemadotorg_mapping_set\SchemaDotOrgMappingSetManagerInterface $mapping_set_manager */
   $mapping_set_manager = \Drupal::service('schemadotorg_mapping_set.manager');
 

@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\schemadotorg_mapping_set\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -14,6 +15,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * Returns responses for Schema.org Blueprints Mapping Sets routes.
  */
 class SchemadotorgMappingSetController extends ControllerBase {
+
+  /**
+   * The redirect destination.
+   *
+   * @var \Drupal\Core\Routing\RedirectDestinationInterface
+   */
+  protected $redirectDestination;
 
   /**
    * The Schema.org mapping manager service.
@@ -34,6 +42,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     $instance = new static();
+    $instance->redirectDestination = $container->get('redirect.destination');
     $instance->schemaMappingManager = $container->get('schemadotorg.mapping_manager');
     $instance->schemaMappingSetManager = $container->get('schemadotorg_mapping_set.manager');
     return $instance;
@@ -52,9 +61,6 @@ class SchemadotorgMappingSetController extends ControllerBase {
       'operations' => ['data' => $this->t('Operations'), 'width' => '10%'],
     ];
 
-    // Track if the devel_generate.module is enabled.
-    $devel_generate_exists = $this->moduleHandler()->moduleExists('devel_generate');
-
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping');
 
@@ -63,35 +69,6 @@ class SchemadotorgMappingSetController extends ControllerBase {
     $mapping_sets = $this->config('schemadotorg_mapping_set.settings')->get('sets');
     foreach ($mapping_sets as $name => $mapping_set) {
       $is_setup = $this->schemaMappingSetManager->isSetup($name);
-
-      // Operations.
-      $operations = [];
-      if (!$is_setup) {
-        $operations['setup'] = $this->t('Setup types');
-      }
-      else {
-        if ($devel_generate_exists) {
-          $operations['generate'] = $this->t('Generate content');
-          $operations['kill'] = $this->t('Kill content');
-        }
-        $operations['teardown'] = $this->t('Teardown types');
-      }
-      foreach ($operations as $operation => $title) {
-        $operations[$operation] = [
-          'title' => $title,
-          'url' => Url::fromRoute(
-            'schemadotorg_mapping_set.confirm_form',
-            ['name' => $name, 'operation' => $operation],
-          ),
-        ];
-      }
-      $operations['view'] = [
-        'title' => $this->t('View details'),
-        'url' => Url::fromRoute(
-          'schemadotorg_mapping_set.details',
-          ['name' => $name],
-        ),
-      ];
 
       // Types.
       $invalid_types = [];
@@ -111,12 +88,13 @@ class SchemadotorgMappingSetController extends ControllerBase {
         }
       }
 
+      $view_url = Url::fromRoute('schemadotorg_mapping_set.details', ['name' => $name]);
       $row = [];
       $row['title'] = [
         'data' => [
           '#type' => 'link',
           '#title' => $mapping_set['label'],
-          '#url' => Url::fromRoute('schemadotorg_mapping_set.details', ['name' => $name]),
+          '#url' => $view_url,
         ],
       ];
       $row['name'] = $name;
@@ -124,6 +102,11 @@ class SchemadotorgMappingSetController extends ControllerBase {
       $row['types'] = ['data' => ['#markup' => implode(', ', $types)]];
       // Only show operation when there are no invalid types.
       if (!$invalid_types) {
+        $operations = $this->getOperations($name);
+        $operations['view'] = [
+          'title' => $this->t('View details'),
+          'url' => $view_url,
+        ];
         $row['operations'] = [
           'data' => [
             '#type' => 'operations',
@@ -169,20 +152,36 @@ class SchemadotorgMappingSetController extends ControllerBase {
   /**
    * Builds the response for the mapping set detail page.
    */
-  public function details(string $name, bool $open = TRUE): array {
+  public function details(string $name): array {
     $mapping_set = $this->config('schemadotorg_mapping_set.settings')->get("sets.$name");
     if (empty($mapping_set)) {
       throw new NotFoundHttpException();
     }
 
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-    $mapping_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping');
-
     $build = [];
     $build['#title'] = $this->t('@label Schema.org mapping set', ['@label' => $mapping_set['label']]);
+    $build['summary'] = $this->buildSummary($name);
+    $build['details'] = $this->buildDetails($name);
+    return $build;
+  }
 
-    $types = $mapping_set['types'];
-    foreach ($types as $type) {
+  /**
+   * Build a mapping set's summary.
+   *
+   * @param string $name
+   *   The mapping set's name.
+   *
+   * @return array
+   *   A renderable array containing a mapping set's summary.
+   */
+  public function buildSummary(string $name): array {
+    $mapping_set = $this->config('schemadotorg_mapping_set.settings')->get("sets.$name");
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+    $mapping_storage = $this->entityTypeManager()
+      ->getStorage('schemadotorg_mapping');
+
+    foreach ($mapping_set['types'] as $type) {
       if (!$this->schemaMappingSetManager->isValidType($type)) {
         continue;
       }
@@ -191,42 +190,148 @@ class SchemadotorgMappingSetController extends ControllerBase {
       $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
       $mapping_defaults = $this->schemaMappingManager->getMappingDefaults($entity_type_id, NULL, $schema_type);
 
-      $t_args = [
-        '@label' => $mapping_defaults['entity']['label'],
-        '@type' => $type,
+      if ($mapping) {
+        $status = $this->t('Exists');
+
+        $operation = $mapping->getTargetEntityBundleEntity()
+          ->toLink($this->t('Edit type'), 'edit-form')
+          ->toRenderable();
+      }
+      else {
+        $status = $this->t('Missing');
+
+        $bundle_entity_type = $this->entityTypeManager
+          ->getDefinition($entity_type_id)
+          ->getBundleEntityType();
+        $route_name = "schemadotorg.{$bundle_entity_type}.type_add";
+        $route_options = [
+          'query' => ['type' => $schema_type] + $this->redirectDestination->getAsArray(),
+        ];
+        $url = Url::fromRoute($route_name, [], $route_options);
+        $operation = Link::fromTextAndUrl($this->t('Add type'), $url)->toRenderable();
+      }
+
+      $row = [];
+      $row['schema_type'] = $schema_type;
+      $row['entity_type'] = [
+        'data' => [
+          'label' => [
+            '#markup' => $mapping_defaults['entity']['label'],
+            '#prefix' => '<strong>',
+            '#suffix' => '</strong> (' . $entity_type_id . ')<br/>',
+          ],
+          'comment' => [
+            '#markup' => $mapping_defaults['entity']['description'],
+          ],
+        ],
       ];
-      $build[$type] = [
-        '#type' => 'details',
-        '#title' => $this->t('@label (@type)', $t_args),
-        '#open' => $open,
+      $row['status'] = $status;
+      $row['operations'] = [
+        'data' => $operation + [
+          '#attributes' => [
+            'class' => ['button', 'button--extrasmall'],
+          ],
+        ],
       ];
 
-      // Entity.
-      $build[$type]['schema_type'] = [
-        '#type' => 'item',
-        '#title' => $this->t('Schema.org type'),
-        '#markup' => $schema_type,
+      $rows[] = [
+        'data' => $row,
+        'class' => [
+          ($mapping) ? 'color-success' : 'color-warning',
+        ],
       ];
+    }
+
+    // Append operations as the last row in the table.
+    $rows[] = [
+      ['colspan' => 3],
+      'operations' => [
+        'data' => [
+          '#type' => 'operations',
+          '#links' => $this->getOperations($name, ['query' => $this->redirectDestination->getAsArray()]),
+        ],
+      ],
+    ];
+
+    $header = [
+      'schema_type' => ['data' => $this->t('Schema.org type'), 'width' => '15%'],
+      'entitu_type' => ['data' => $this->t('Entity label (type) / description'), 'width' => '65%'],
+      'status' => ['data' => $this->t('Status'), 'width' => '10%'],
+      'operation' => ['data' => $this->t('Operations'), 'width' => '10%'],
+    ];
+
+    return [
+      '#type' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+    ];
+  }
+
+  /**
+   * Build a mapping set's details.
+   *
+   * @param string $name
+   *   The mapping set's name.
+   *
+   * @return array
+   *   A renderable array containing a mapping set's details.
+   */
+  public function buildDetails(string $name): array {
+    $mapping_set = $this->config('schemadotorg_mapping_set.settings')->get("sets.$name");
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+    $mapping_storage = $this->entityTypeManager()
+      ->getStorage('schemadotorg_mapping');
+
+    $build = [];
+    foreach ($mapping_set['types'] as $type) {
+      if (!$this->schemaMappingSetManager->isValidType($type)) {
+        continue;
+      }
+
+      [$entity_type_id, $schema_type] = explode(':', $type);
+
+      $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
+      $mapping_defaults = $this->schemaMappingManager->getMappingDefaults($entity_type_id, NULL, $schema_type);
+
       if ($mapping) {
         $entity_type = $mapping->getTargetEntityBundleEntity()
           ->toLink($type, 'edit-form')
           ->toRenderable();
       }
       else {
-        $entity_type = ['#markup' => $entity_type_id . ':' . $mapping_defaults['entity']['id']];
+        $entity_type = [
+          '#markup' => $entity_type_id . ':' . $mapping_defaults['entity']['id'],
+        ];
       }
-      $build[$type]['entity_type'] = [
+
+      $t_args = [
+        '@label' => $mapping_defaults['entity']['label'],
+        '@type' => $type,
+      ];
+      $details = [
+        '#type' => 'details',
+        '#title' => $this->t('@label (@type)', $t_args),
+      ];
+
+      // Entity.
+      $details['schema_type'] = [
+        '#type' => 'item',
+        '#title' => $this->t('Schema.org type'),
+        '#markup' => $schema_type,
+      ];
+      $details['entity_type'] = [
         '#type' => 'item',
         '#title' => $this->t('Entity type and bundle'),
         'item' => $entity_type,
       ];
-      $build[$type]['label'] = [
+      $details['label'] = [
         '#type' => 'item',
         '#title' => $this->t('Entity label'),
         '#markup' => $mapping_defaults['entity']['label'],
       ];
 
-      $build[$type]['entity_description'] = [
+      $details['entity_description'] = [
         '#type' => 'item',
         '#title' => $this->t('Entity description'),
         '#markup' => $mapping_defaults['entity']['description'],
@@ -271,7 +376,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
         $row['required'] = !empty($property_definition['required']) ? $this->t('Yes') : $this->t('No');
         $rows[] = $row;
       }
-      $build[$type]['properties'] = [
+      $details['properties'] = [
         '#type' => 'table',
         '#header' => [
           'label' => ['data' => $this->t('Label / Description'), 'width' => '35%'],
@@ -285,9 +390,48 @@ class SchemadotorgMappingSetController extends ControllerBase {
         ],
         '#rows' => $rows,
       ];
+      $build[$type] = $details;
+    }
+    return $build;
+  }
+
+  /**
+   * Get a mapping set's operations based on its status.
+   *
+   * @param string $name
+   *   The name of the mapping set.
+   * @param array|null $options
+   *   An array of route options.
+   *
+   * @return array
+   *   A mapping set's operations based on its status.
+   */
+  protected function getOperations(string $name, ?array $options): array {
+    $operations = [];
+
+    $is_setup = $this->schemaMappingSetManager->isSetup($name);
+    if (!$is_setup) {
+      $operations['setup'] = $this->t('Setup types');
+    }
+    else {
+      if ($this->moduleHandler()->moduleExists('devel_generate')) {
+        $operations['generate'] = $this->t('Generate content');
+        $operations['kill'] = $this->t('Kill content');
+      }
+      $operations['teardown'] = $this->t('Teardown types');
+    }
+    foreach ($operations as $operation => $title) {
+      $operations[$operation] = [
+        'title' => $title,
+        'url' => Url::fromRoute(
+          'schemadotorg_mapping_set.confirm_form',
+          ['name' => $name, 'operation' => $operation],
+          $options
+        ),
+      ];
     }
 
-    return $build;
+    return $operations;
   }
 
 }
