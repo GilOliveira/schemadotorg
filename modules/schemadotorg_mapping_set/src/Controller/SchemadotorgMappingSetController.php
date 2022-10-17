@@ -400,13 +400,13 @@ class SchemadotorgMappingSetController extends ControllerBase {
    *
    * @param string $name
    *   The name of the mapping set.
-   * @param array|null $options
+   * @param array $options
    *   An array of route options.
    *
    * @return array
    *   A mapping set's operations based on its status.
    */
-  protected function getOperations(string $name, ?array $options): array {
+  protected function getOperations(string $name, array $options = []): array {
     $operations = [];
 
     $is_setup = $this->schemaMappingSetManager->isSetup($name);
