@@ -1,0 +1,8 @@
+allowed_metatags:
+  - title
+  - description
+  - keywords
+  - robots
+allowed_robots:
+  - noindex
+
