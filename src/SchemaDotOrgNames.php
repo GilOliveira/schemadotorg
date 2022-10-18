@@ -81,21 +81,27 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
 
     // Custom words.
     $custom_words = $this->getNamesConfig()->get('custom_words');
-    foreach ($custom_words as $search => $replace) {
-      $title = str_replace($search, $replace, $title);
+    if ($custom_words) {
+      foreach ($custom_words as $search => $replace) {
+        $title = str_replace($search, $replace, $title);
+      }
     }
 
     // Acronyms.
     $acronyms = $this->getNamesConfig()->get('acronyms');
-    $title = preg_replace_callback('/(\b)(' . implode('|', $acronyms) . ')(\b)/i', function ($matches) {
-      return $matches[1] . strtoupper($matches[2]) . $matches[3];
-    }, $title);
+    if ($acronyms) {
+      $title = preg_replace_callback('/(\b)(' . implode('|', $acronyms) . ')(\b)/i', function ($matches) {
+        return $matches[1] . strtoupper($matches[2]) . $matches[3];
+      }, $title);
+    }
 
     // Minor words.
     $minor_words = $this->getNamesConfig()->get('minor_words');
-    $title = preg_replace_callback('/ (' . implode('|', $minor_words) . ')(\b)/i', function ($matches) {
-      return ' ' . strtolower($matches[1]) . $matches[2];
-    }, $title);
+    if ($minor_words) {
+      $title = preg_replace_callback('/ (' . implode('|', $minor_words) . ')(\b)/i', function ($matches) {
+        return ' ' . strtolower($matches[1]) . $matches[2];
+      }, $title);
+    }
 
     return ucfirst($title);
   }
