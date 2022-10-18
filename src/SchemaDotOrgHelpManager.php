@@ -6,6 +6,8 @@ namespace Drupal\schemadotorg;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Extension\ExtensionPathResolver;
+use Drupal\Core\Extension\ModuleExtensionList;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
@@ -16,6 +18,20 @@ use Drupal\help\HelpSectionManager;
  */
 class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
   use StringTranslationTrait;
+
+  /**
+   * The module handler service.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
+   * The module extension list.
+   *
+   * @var \Drupal\Core\Extension\ModuleExtensionList
+   */
+  protected $moduleExtensionList;
 
   /**
    * The extension path resolver.
@@ -34,12 +50,23 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
   /**
    * Constructs a SchemaDotOrgMappingManager object.
    *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler.
+   * @param \Drupal\Core\Extension\ModuleExtensionList $module_extension_list
+   *   The module extension list.
    * @param \Drupal\Core\Extension\ExtensionPathResolver $extension_path_resolver
    *   The extension path resolver.
    * @param \Drupal\help\HelpSectionManager|null $help_manager
    *   The help section manager.
    */
-  public function __construct(ExtensionPathResolver $extension_path_resolver, ?HelpSectionManager $help_manager = NULL) {
+  public function __construct(
+    ModuleHandlerInterface $module_handler,
+    ModuleExtensionList $module_extension_list,
+    ExtensionPathResolver $extension_path_resolver,
+    ?HelpSectionManager $help_manager = NULL
+  ) {
+    $this->moduleExtensionList = $module_extension_list;
+    $this->moduleHandler = $module_handler;
     $this->extensionPathResolver = $extension_path_resolver;
     $this->helpManager = $help_manager;
   }
@@ -106,6 +133,10 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
         '#prefix' => '<pre>',
         '#suffix' => '</pre>',
       ];
+    }
+
+    if ($module_name === 'schemadotorg') {
+      $build['modules'] = $this->buildModules();
     }
 
     return $build;
@@ -231,6 +262,61 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
         'cellpadding' => 2,
         'cellspacing' => 0,
       ],
+    ];
+  }
+
+  /**
+   * Build a list of Schema.org Blueprints sub-modules.
+   *
+   * @return array
+   *   A renderable array containing Schema.org Blueprints sub-modules.
+   */
+  protected function buildModules(): array {
+    $modules = array_filter($this->moduleExtensionList->getAllAvailableInfo(), function (array $info): bool {
+      return str_starts_with($info['package'], 'Schema.org Blueprints');
+    });
+    $packages = [];
+    foreach ($modules as $module_name => $module_info) {
+      $package = $module_info['package'];
+      if (!isset($packages[$package])) {
+        $packages[$package] = [
+          'title' => [
+            '#markup' => $package,
+            '#prefix' => '<h3>',
+            '#suffix' => '</h3>',
+          ],
+          'modules' => [],
+        ];
+      }
+      if ($this->moduleHandler->moduleExists($module_name)) {
+        $name = [
+          '#type' => 'link',
+          '#url' => Url::fromRoute('help.page', ['name' => $module_name]),
+          '#title' => $module_info['name'],
+          '#prefix' => '<strong>',
+          '#suffix' => '</strong><br/>',
+        ];
+      }
+      else {
+        $name = [
+          '#markup' => $module_info['name'],
+          '#prefix' => '<strong>',
+          '#suffix' => '</strong><br/>',
+        ];
+      }
+      $packages[$package]['modules'][$module_name] = [
+        '#prefix' => '<p>',
+        '#suffix' => '</p>',
+        'name' => $name,
+        'description' => ['#markup' => $module_info['description']],
+      ];
+    }
+    ksort($packages);
+
+    return [
+      '#type' => 'details',
+      '#title' => $this->t('Learn more about the Schema.org Blueprints modules'),
+      'packages' => $packages,
     ];
   }
 
