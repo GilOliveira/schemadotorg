@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\schemadotorg;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -537,22 +538,22 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
   }
 
   /**
-   * Gets Schema.org mapping storage.
+   * Gets the Schema.org mapping storage.
    *
-   * @return \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface
-   *   The Schema.org mapping storage.
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface|\Drupal\Core\Config\Entity\ConfigEntityStorageInterface
+   *   The Schema.org mapping storage
    */
-  protected function getMappingStorage(): SchemaDotOrgMappingStorageInterface {
+  protected function getMappingStorage(): SchemaDotOrgMappingStorageInterface|ConfigEntityStorageInterface {
     return $this->entityTypeManager->getStorage('schemadotorg_mapping');
   }
 
   /**
-   * Gets Schema.org mapping type storage.
+   * Gets the Schema.org mapping type storage.
    *
-   * @return \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface
-   *   The Schema.org mapping type storage.
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface|\Drupal\Core\Config\Entity\ConfigEntityStorageInterface
+   *   The Schema.org mapping type storage
    */
-  protected function getMappingTypeStorage(): SchemaDotOrgMappingTypeStorageInterface {
+  protected function getMappingTypeStorage(): SchemaDotOrgMappingTypeStorageInterface|ConfigEntityStorageInterface {
     return $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
   }
 

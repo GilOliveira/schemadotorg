@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\schemadotorg_taxonomy;
 
 use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -164,12 +165,12 @@ class SchemaDotOrgTaxonomyJsonLdManager implements SchemaDotOrgTaxonomyJsonLdMan
   }
 
   /**
-   * Gets Schema.org mapping storage.
+   * Gets the Schema.org mapping storage.
    *
-   * @return \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface
-   *   The Schema.org mapping storage.
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface|\Drupal\Core\Config\Entity\ConfigEntityStorageInterface
+   *   The Schema.org mapping storage
    */
-  protected function getMappingStorage(): SchemaDotOrgMappingStorageInterface {
+  protected function getMappingStorage(): SchemaDotOrgMappingStorageInterface|ConfigEntityStorageInterface {
     return $this->entityTypeManager->getStorage('schemadotorg_mapping');
   }
 

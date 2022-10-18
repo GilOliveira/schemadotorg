@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\schemadotorg_ui\Form;
 
 use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -922,20 +923,20 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
   /**
    * Gets the Schema.org mapping storage.
    *
-   * @return \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface|\Drupal\Core\Config\Entity\ConfigEntityStorageInterface
    *   The Schema.org mapping storage
    */
-  protected function getMappingStorage(): SchemaDotOrgMappingStorageInterface {
+  protected function getMappingStorage(): SchemaDotOrgMappingStorageInterface|ConfigEntityStorageInterface {
     return $this->entityTypeManager->getStorage('schemadotorg_mapping');
   }
 
   /**
    * Gets the Schema.org mapping type storage.
    *
-   * @return \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface
+   * @return \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface|\Drupal\Core\Config\Entity\ConfigEntityStorageInterface
    *   The Schema.org mapping type storage
    */
-  protected function getMappingTypeStorage(): SchemaDotOrgMappingTypeStorageInterface {
+  protected function getMappingTypeStorage(): SchemaDotOrgMappingTypeStorageInterface|ConfigEntityStorageInterface {
     return $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
   }
 
