@@ -7,15 +7,15 @@
 
 declare(strict_types = 1);
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
 
 /**
  * Implements hook_help().
@@ -77,7 +77,7 @@ function schemadotorg_metatag_schemadotorg_mapping_insert(SchemaDotOrgMappingInt
 /**
  * Implements hook_field_widget_WIDGET_TYPE_form_alter().
  */
-function schemadotorg_metatag_field_widget_metatag_firehose_form_alter(&$element, FormStateInterface $form_state, $context) {
+function schemadotorg_metatag_field_widget_metatag_firehose_form_alter(array &$element, FormStateInterface $form_state, array $context): void {
   // @see https://www.drupal.org/project/metatag/issues/3108108
   /** @var \Drupal\metatag\Plugin\Field\FieldType\MetatagFieldItemList $items */
   $items = $context['items'];
@@ -107,7 +107,7 @@ function schemadotorg_metatag_field_widget_metatag_firehose_form_alter(&$element
 /**
  * Recurse through the metatag widget and only display allowed metatags.
  */
-function _schemadotorg_metatag_field_widget_metatag_firehose_form_alter_recursive(array &$elements, array $allowed_metatags, array $allowed_robots) {
+function _schemadotorg_metatag_field_widget_metatag_firehose_form_alter_recursive(array &$elements, array $allowed_metatags, array $allowed_robots): void {
   foreach (Element::children($elements) as $key) {
     $element =& $elements[$key];
     $type = $element['#type'] ?? '';

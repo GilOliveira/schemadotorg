@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\Tests\schemadotorg\Functional;
 
-use Drupal\Component\Render\FormattableMarkup;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\Tests\BrowserTestBase;
 use Drupal\Tests\schemadotorg\Traits\SchemaDotOrgTestTrait;

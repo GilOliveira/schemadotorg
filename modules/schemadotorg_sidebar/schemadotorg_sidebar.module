@@ -117,7 +117,7 @@ function schemadotorg_sidebar_schemadotorg_mapping_insert(SchemaDotOrgMappingInt
 /**
  * Implements hook_field_widget_WIDGET_TYPE_form_alter().
  */
-function schemadotorg_sidebar_field_widget_inline_entity_form_simple_form_alter(&$element, FormStateInterface $form_state, $context) {
+function schemadotorg_sidebar_field_widget_inline_entity_form_simple_form_alter(array &$element, FormStateInterface $form_state, array $context): void {
   // Remove the nested fieldset from the inline entity form.
   /** @var \Drupal\entity_reference_revisions\EntityReferenceRevisionsFieldItemList $items */
   $items = $context['items'];
@@ -129,7 +129,7 @@ function schemadotorg_sidebar_field_widget_inline_entity_form_simple_form_alter(
 /**
  * Implements hook_ENTITY_TYPE_prepare_form().
  */
-function schemadotorg_sidebar_node_prepare_form(NodeInterface $node, $operation, FormStateInterface $form_state): void {
+function schemadotorg_sidebar_node_prepare_form(NodeInterface $node, string $operation, FormStateInterface $form_state): void {
   // Only display message when the node edit for is loaded via a GET request.
   if (\Drupal::request()->getMethod() !== 'GET') {
     return;
@@ -162,7 +162,7 @@ function schemadotorg_sidebar_node_prepare_form(NodeInterface $node, $operation,
 /**
  * Implements hook_ENTITY_TYPE_view_alter().
  */
-function schemadotorg_sidebar_node_view_alter(array &$build, NodeInterface $node, EntityViewDisplayInterface $display) {
+function schemadotorg_sidebar_node_view_alter(array &$build, NodeInterface $node, EntityViewDisplayInterface $display): void {
   $field_name = 'field_editorial';
   if (empty($build[$field_name])) {
     return;
