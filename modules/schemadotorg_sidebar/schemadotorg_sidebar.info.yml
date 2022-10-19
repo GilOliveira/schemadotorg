@@ -1,0 +1,16 @@
+name: 'Schema.org Blueprints Sidebar'
+type: module
+description: 'Creates and manages paragraph types that are displayed in the node edit form''s sidebar on every content type.'
+package: Schema.org Blueprints Extras
+core_version_requirement: '^9.4 || ^10.0'
+lifecycle: experimental
+dependencies:
+  - 'drupal:datetime'
+  - 'drupal:field'
+  - 'drupal:node'
+  - 'drupal:options'
+  - 'drupal:text'
+  - 'schemadotorg:schemadotorg'
+  - 'field_group:field_group'
+  - 'inline_entity_form:inline_entity_form'
+  - 'paragraphs:paragraphs'

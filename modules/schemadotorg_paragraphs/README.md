@@ -4,7 +4,7 @@ Table of contents
 * Introduction
 * Features
 * Configuration
-
+* Requirements
 
 Introduction
 ------------
@@ -27,3 +27,10 @@ Configuration
 - Go to the Schema.org types configuration page.
   (/admin/config/search/schemadotorg/settings/types)
 - Enter Schema.org types that default to using the Paragraphs library.
+
+
+Requirements
+------------
+
+**[Paragraphs](https://www.drupal.org/project/paragraphs)**
+Enables the creation of paragraphs entities.
