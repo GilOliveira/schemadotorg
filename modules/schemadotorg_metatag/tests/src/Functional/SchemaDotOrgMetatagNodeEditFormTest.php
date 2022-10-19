@@ -38,6 +38,12 @@ class SchemaDotOrgMetatagNodeEditFormTest extends SchemaDotOrgBrowserTestBase {
     $mapping_manager = $this->container->get('schemadotorg.mapping_manager');
     $mapping_manager->createType('node', 'WebPage');
 
+    // Check that metatag default groups set for the content type.
+    $this->assertEquals(
+      ['basic' => 'basic', 'advanced' => 'advanced'],
+      $this->config('metatag.settings')->get('entity_type_groups.node.page')
+    );
+
     // Check that meta tag description and noindex field exist.
     $this->drupalGet('/node/add/page');
     $assert_session->fieldExists('field_metatag[0][basic][description]');

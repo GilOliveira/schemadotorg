@@ -2,6 +2,12 @@ schemadotorg_metatag.settings:
   type: config_entity
   label: Schema.org Metatag settings
   mapping:
+    default_groups:
+      type: sequence
+      label: 'Default groups'
+      sequence:
+        type: string
+        label: 'Default group'
     allowed_metatags:
       type: sequence
       label: 'Allowed meta tags'

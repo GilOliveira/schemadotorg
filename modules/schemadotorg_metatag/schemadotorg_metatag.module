@@ -72,6 +72,15 @@ function schemadotorg_metatag_schemadotorg_mapping_insert(SchemaDotOrgMappingInt
     'weight' => 120,
   ]);
   $form_display->save();
+
+  // Set metatag default groups for the content type.
+  $default_groups = \Drupal::config('schemadotorg_metatag.settings')
+    ->get('default_groups');
+  if ($default_groups) {
+    \Drupal::configFactory()->getEditable('metatag.settings')
+      ->set("entity_type_groups.node.$bundle", array_combine($default_groups, $default_groups))
+      ->save();
+  }
 }
 
 /**
@@ -138,10 +147,18 @@ function _schemadotorg_metatag_field_widget_metatag_firehose_form_alter_recursiv
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function schemadotorg_metatag_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+function schemadotorg_metatag_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
   $config = \Drupal::configFactory()->getEditable('schemadotorg_metatag.settings');
 
   $t_args = [':href' => Url::fromRoute('metatag.reports_plugins')->toString()];
+
+  /** @var \Drupal\metatag\MetatagManagerInterface $metatag_manager */
+  $metatag_manager = \Drupal::service('metatag.manager');
+  $metatag_groups = $metatag_manager->sortedGroups();
+  $metatag_group_options = [];
+  foreach ($metatag_groups as $group_name => $group_info) {
+    $metatag_group_options[$group_name] = $group_info['label'];
+  }
 
   $form['schemadotorg_metatag'] = [
     '#type' => 'details',
@@ -149,12 +166,19 @@ function schemadotorg_metatag_form_schemadotorg_properties_settings_form_alter(a
     '#open' => TRUE,
     '#tree' => TRUE,
   ];
+  $form['schemadotorg_metatag']['default_groups'] = [
+    '#type' => 'checkboxes',
+    '#title' => t('Default metatag groups'),
+    '#description' => t('Identify which metatag groups should be available on which entity type / bundle combination. Unselected groups will not appear on the configuration form for that entity type, reducing the size of the form and increasing performance. If no groups are selected for a type, all groups will appear.'),
+    '#default_value' => $config->get('default_groups'),
+    '#options' => $metatag_group_options,
+  ];
   $form['schemadotorg_metatag']['allowed_metatags'] = [
     '#type' => 'schemadotorg_settings',
     '#settings_type' => SchemaDotOrgSettings::INDEXED,
-    '#settings_format' => 'meta_tag',
-    '#title' => t('Allowed meta tags'),
-    '#description' => t('Enter allowed <a href=":href">meta tags by name</a> to be displayed on node edit forms. Leave blank to allow all meta tags to be display.', $t_args),
+    '#settings_format' => 'metatag',
+    '#title' => t('Allowed metatags'),
+    '#description' => t('Enter allowed <a href=":href">metatags by name</a> to be displayed on node edit forms. Leave blank to allow all meta tags to be display.', $t_args),
     '#default_value' => $config->get('allowed_metatags'),
   ];
   $form['schemadotorg_metatag']['allowed_robots'] = [
@@ -188,6 +212,7 @@ function schemadotorg_metatag_form_schemadotorg_properties_settings_form_alter(a
 function schemadotorg_metatag_settings_form_submit(array &$form, FormStateInterface $form_state): void {
   $config = \Drupal::configFactory()->getEditable('schemadotorg_metatag.settings');
   $values = $form_state->getValue('schemadotorg_metatag');
+  $values['default_groups'] = array_values(array_filter($values['default_groups']));
   $values['allowed_robots'] = array_values(array_filter($values['allowed_robots']));
   foreach ($values as $key => $value) {
     $config->set($key, $value);
