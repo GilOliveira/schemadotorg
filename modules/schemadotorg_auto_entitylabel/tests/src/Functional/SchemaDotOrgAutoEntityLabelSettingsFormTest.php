@@ -37,7 +37,7 @@ class SchemaDotOrgAutoEntityLabelSettingsFormTest extends SchemaDotOrgBrowserTes
   }
 
   /**
-   * Test Schema.org inline entity form settings form.
+   * Test Schema.org Auto Entity Label settings form.
    */
   public function testSettingsForm(): void {
     $this->assertSaveSettingsConfigForm('schemadotorg_auto_entitylabel.settings', '/admin/config/search/schemadotorg/settings/types');

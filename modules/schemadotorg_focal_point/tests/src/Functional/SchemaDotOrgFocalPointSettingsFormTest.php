@@ -33,7 +33,7 @@ class SchemaDotOrgFocalPointSettingsFormTest extends SchemaDotOrgBrowserTestBase
   }
 
   /**
-   * Test Schema.org focal point settings form.
+   * Test Schema.org Focal Point settings form.
    */
   public function testSettingsForm(): void {
     $session = $this->assertSession();

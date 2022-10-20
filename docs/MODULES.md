@@ -70,7 +70,7 @@ Entities
   Integrates the Paragraphs and Paragraphs Library module with the Schema.org Blueprints module.
 
 - **[Schema.org Blueprints Taxonomy](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_taxonomy)**
-  Provides mappings from taxonomy vocabularies and terms to https://schema.org/DefinedTermSet and https://schema.org/DefinedTerm.
+  Assists with creating and mapping taxonomy vocabularies and terms.
 
 SEO
 

@@ -259,8 +259,8 @@ default_field_groups:
         - cookTime
         - recipeInstructions
         - nutrition
-    meta:
-      label: 'Meta data'
+    taxonomy:
+      label: 'Tags/Categories'
       properties:
         - keywords
     links:

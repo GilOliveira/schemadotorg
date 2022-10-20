@@ -42,7 +42,7 @@ class SchemaDotOrgMappingSetSettingsFormTest extends SchemaDotOrgBrowserTestBase
   }
 
   /**
-   * Test Schema.org MappingSet settings form.
+   * Test Schema.org Mapping Set settings form.
    */
   public function testSettingsForm(): void {
     $assert_session = $this->assertSession();

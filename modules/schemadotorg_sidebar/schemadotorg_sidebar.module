@@ -28,19 +28,20 @@ function schemadotorg_sidebar_help(string $route_name, RouteMatchInterface $rout
  * Implements hook_schemadotorg_mapping_insert().
  */
 function schemadotorg_sidebar_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
-  // Make sure we are adding sidebars to nodes.
   $entity_type = $mapping->getTargetEntityTypeId();
   $bundle = $mapping->getTargetBundle();
   $field_name = 'field_editorial';
   $group_name = 'group_sidebar_editorial';
   $target_paragraph_type = 'editorial';
+
+  // Make sure we are adding sidebars to nodes.
   if ($entity_type !== 'node') {
     return;
   }
 
   // Create the field storage.
-  $field_storage = FieldStorageConfig::loadByName('node', 'field_editorial');
-  if (!FieldStorageConfig::loadByName('node', 'field_editorial')) {
+  $field_storage = FieldStorageConfig::loadByName('node', $field_name);
+  if (!FieldStorageConfig::loadByName('node', $field_name)) {
     $field_storage = FieldStorageConfig::create([
       'field_name' => $field_name,
       'entity_type' => $entity_type,
@@ -123,6 +124,21 @@ function schemadotorg_sidebar_field_widget_inline_entity_form_simple_form_alter(
   $items = $context['items'];
   if ($items->getName() === 'field_editorial') {
     $element['#theme_wrappers'] = [];
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function schemadotorg_sidebar_node_presave(NodeInterface $node): void {
+  // Do not generate the editorial message, which would be displayed on
+  // every node edit form.
+  if (!empty($node->devel_generate)
+    && $node->hasField('field_editorial')
+    && !empty($node->field_editorial->entity)
+    && $node->field_editorial->entity->hasField('field_editorial_message')
+  ) {
+    $node->field_editorial->entity->field_editorial_message->value = '';
   }
 }
 

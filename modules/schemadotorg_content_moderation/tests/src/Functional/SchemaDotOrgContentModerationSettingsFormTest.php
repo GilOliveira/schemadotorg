@@ -33,7 +33,7 @@ class SchemaDotOrgContentModerationSettingsFormTest extends SchemaDotOrgBrowserT
   }
 
   /**
-   * Test Schema.org content moderation settings form.
+   * Test Schema.org Content Moderation settings form.
    */
   public function testSettingsForm(): void {
     $this->assertSaveSettingsConfigForm('schemadotorg_content_moderation.settings', '/admin/config/search/schemadotorg/settings/types');

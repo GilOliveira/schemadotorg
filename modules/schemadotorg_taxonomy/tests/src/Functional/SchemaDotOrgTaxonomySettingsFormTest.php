@@ -33,9 +33,10 @@ class SchemaDotOrgTaxonomySettingsFormTest extends SchemaDotOrgBrowserTestBase {
   }
 
   /**
-   * Test Schema.org inline entity form settings form.
+   * Test Schema.org Taxonomy settings form.
    */
   public function testSettingsForm(): void {
+    $this->assertSaveSettingsConfigForm('schemadotorg_taxonomy.settings', '/admin/config/search/schemadotorg/settings/types');
     $this->assertSaveSettingsConfigForm('schemadotorg_taxonomy.settings', '/admin/config/search/schemadotorg/settings/properties');
   }
 

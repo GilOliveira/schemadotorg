@@ -12,7 +12,7 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 /**
  * Tests the functionality of the Schema.org taxonomy property vocabulary manager.
  *
- * @covers \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyPropertyVocabularyManagerTest;
+ * @covers \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyPropertyVocabularyManager
  * @group schemadotorg
  */
 class SchemaDotOrgTaxonomyPropertyVocabularyManagerTest extends SchemaDotOrgKernelEntityTestBase {

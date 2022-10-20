@@ -2,6 +2,28 @@ schemadotorg_taxonomy.settings:
   type: config_entity
   label: Schema.org Taxonomy settings
   mapping:
+    default_vocabularies_group_label:
+      type: text
+      label: 'Default vocabularies group label'
+    default_vocabularies:
+      type: sequence
+      label: 'Default vocabularies'
+      sequence:
+        type: mapping
+        label: 'Default vocabulary'
+        mapping:
+          id:
+            type: string
+            label: 'Vocabulary ID'
+          label:
+            type: text
+            label: 'Vocabulary name'
+          description:
+            type: text
+            label: 'Vocabulary description'
+          auto_create:
+            type: boolean
+            label: 'Auto create'
     property_vocabularies:
       type: sequence
       label: 'Default properties'
@@ -11,11 +33,11 @@ schemadotorg_taxonomy.settings:
         mapping:
           id:
             type: string
-            label: Vocabulary ID
+            label: 'Vocabulary ID'
           label:
             type: text
-            label: Vocabulary name
+            label: 'Vocabulary name'
           description:
             type: text
-            label: Vocabulary description
+            label: 'Vocabulary description'
 

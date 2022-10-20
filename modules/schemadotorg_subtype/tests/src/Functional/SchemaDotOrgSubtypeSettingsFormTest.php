@@ -33,7 +33,7 @@ class SchemaDotOrgSubtypeSettingsFormTest extends SchemaDotOrgBrowserTestBase {
   }
 
   /**
-   * Test Schema.org inline entity form settings form.
+   * Test Schema.org Subtype settings form.
    */
   public function testSettingsForm(): void {
     $this->assertSaveSettingsConfigForm('schemadotorg_subtype.settings', '/admin/config/search/schemadotorg/settings/subtype');

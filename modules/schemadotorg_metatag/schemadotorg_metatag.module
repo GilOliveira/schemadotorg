@@ -177,8 +177,8 @@ function schemadotorg_metatag_form_schemadotorg_types_settings_form_alter(array 
     '#type' => 'schemadotorg_settings',
     '#settings_type' => SchemaDotOrgSettings::INDEXED,
     '#settings_format' => 'metatag',
-    '#title' => t('Allowed metatags'),
-    '#description' => t('Enter allowed <a href=":href">metatags by name</a> to be displayed on node edit forms. Leave blank to allow all meta tags to be display.', $t_args),
+    '#title' => t('Allowed meta tags'),
+    '#description' => t('Enter allowed <a href=":href">meta tags by name</a> to be displayed on node edit forms. Leave blank to allow all meta tags to be display.', $t_args),
     '#default_value' => $config->get('allowed_metatags'),
   ];
   $form['schemadotorg_metatag']['allowed_robots'] = [

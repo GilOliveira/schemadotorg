@@ -39,13 +39,13 @@ class SchemaDotOrgSidebarEditorialTest extends SchemaDotOrgBrowserTestBase {
     // Check that the field storage is created.
     $this->assertNotNull(FieldStorageConfig::loadByName('node', 'field_editorial'));
 
-    // Check that the fieldis created.
+    // Check that the field is created.
     $this->assertNotNull(FieldConfig::loadByName('node', 'place', 'field_editorial'));
 
     /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */
     $entity_display_repository = \Drupal::service('entity_display.repository');
 
-    // Create that the form display and component are created..
+    // Create that the form display and component are created.
     $form_display = $entity_display_repository->getFormDisplay('node', 'place');
     $this->assertNotNull($form_display);
     $form_component = $form_display->getComponent('field_editorial');
@@ -53,8 +53,9 @@ class SchemaDotOrgSidebarEditorialTest extends SchemaDotOrgBrowserTestBase {
     $form_group = $form_display->getThirdPartySetting('field_group', 'group_sidebar_editorial');
     $this->assertEquals('Editorial information', $form_group['label']);
     $this->assertEquals('details_sidebar', $form_group['format_type']);
+    $this->assertEquals(['field_editorial'], $form_group['children']);
 
-    // Create that the view display and component are created..
+    // Create that the view display and component are created.
     $view_display = $entity_display_repository->getViewDisplay('node', 'place');
     $this->assertNotNull($view_display);
     $view_component = $view_display->getComponent('field_editorial');
@@ -63,6 +64,7 @@ class SchemaDotOrgSidebarEditorialTest extends SchemaDotOrgBrowserTestBase {
     $view_group = $view_display->getThirdPartySetting('field_group', 'group_sidebar_editorial');
     $this->assertEquals('Editorial information', $view_group['label']);
     $this->assertEquals('fieldset', $view_group['format_type']);
+    $this->assertEquals(['field_editorial'], $view_group['children']);
 
     $this->drupalLogin($this->rootUser);
     $this->drupalGet('/node/add/place');

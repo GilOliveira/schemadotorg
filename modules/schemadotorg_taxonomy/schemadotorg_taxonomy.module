@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Provides mappings from taxonomy vocabularies and terms to Schema.org.
+ * Assists with creating and mapping taxonomy vocabularies and terms.
  */
 
 declare(strict_types = 1);
@@ -13,6 +13,7 @@ use Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
  * Implements hook_help().
@@ -74,50 +75,21 @@ function schemadotorg_taxonomy_preprocess_html(array &$variables): void {
 }
 
 /* ************************************************************************** */
-// Default property vocabulary.
+// Default type vocabulary.
 /* ************************************************************************** */
 
 /**
- * Implements hook_form_FORM_ID_alter().
+ * Implements hook_schemadotorg_mapping_insert().
  */
-function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings');
-
-  $form['schemadotorg_taxonomy'] = [
-    '#type' => 'details',
-    '#title' => t('Taxonomy settings'),
-    '#open' => TRUE,
-    '#tree' => TRUE,
-  ];
-  $form['schemadotorg_taxonomy']['property_vocabularies'] = [
-    '#type' => 'schemadotorg_settings',
-    '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
-    '#settings_format' => 'propertyName|id:vocabulary_id,label:Vocabulary name,description: Vocabulary description goes here',
-    '#title' => t('Default vocabulary properties'),
-    '#description' => t('Enter Schema.org properties that should be mapped to a vocabulary.')
-    . '<br/>'
-    . t('If the mapped vocabulary does exist it will be created when the Schema.org property mapping is created.'),
-    '#description_link' => 'properties',
-    '#default_value' => $config->get('property_vocabularies'),
-  ];
-
-  // Add submit callback.
-  $form['#submit'][] = 'schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_submit';
+function schemadotorg_taxonomy_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  /** @var \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyDefaultVocabularyManagerInterface $taxonomy_default_vocabulary_manager */
+  $taxonomy_default_vocabulary_manager = \Drupal::service('schemadotorg_taxonomy.default_vocabulary_manager');
+  $taxonomy_default_vocabulary_manager->mappingInsert($mapping);
 }
 
-/**
- * Form submission handler for schemadotorg_properties_settings_form().
- *
- * @see schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter()
- */
-function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_submit(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings');
-  $values = $form_state->getValue('schemadotorg_taxonomy');
-  foreach ($values as $key => $value) {
-    $config->set($key, $value);
-  }
-  $config->save();
-}
+/* ************************************************************************** */
+// Default property vocabulary.
+/* ************************************************************************** */
 
 /**
  * Implements hook_schemadotorg_property_field_type_alter().
@@ -153,4 +125,84 @@ function schemadotorg_taxonomy_schemadotorg_property_field_alter(
     $formatter_id,
     $formatter_settings
   );
+}
+
+/* ************************************************************************** */
+// Taxonomy settings form.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function schemadotorg_taxonomy_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings');
+
+  $form['schemadotorg_taxonomy'] = [
+    '#type' => 'details',
+    '#title' => t('Taxonomy settings'),
+    '#open' => TRUE,
+    '#tree' => TRUE,
+  ];
+  $form['schemadotorg_taxonomy']['default_vocabularies_group_label'] = [
+    '#type' => 'textfield',
+    '#title' => t('Default vocabularies group label'),
+    '#description' => t('Enter the field group label for default vocabularies.'),
+    '#default_value' => $config->get('default_vocabularies_group_label'),
+    '#required' => TRUE,
+    '#access' => \Drupal::moduleHandler()->moduleExists('field_group'),
+  ];
+  $form['schemadotorg_taxonomy']['default_vocabularies'] = [
+    '#type' => 'schemadotorg_settings',
+    '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
+    '#settings_format' => 'propertyName|id:vocabulary_id,label:Vocabulary name,description: Vocabulary description goes here',
+    '#title' => t('Default vocabularies'),
+    '#description' => t('Enter default vocabularies that will be added to every Schema.org content type.'),
+    '#default_value' => $config->get('default_vocabularies'),
+  ];
+
+  // Add submit callback.
+  $form['#submit'][] = 'schemadotorg_taxonomy_settings_form_submit';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings');
+
+  $form['schemadotorg_taxonomy'] = [
+    '#type' => 'details',
+    '#title' => t('Taxonomy settings'),
+    '#open' => TRUE,
+    '#tree' => TRUE,
+  ];
+  $form['schemadotorg_taxonomy']['property_vocabularies'] = [
+    '#type' => 'schemadotorg_settings',
+    '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
+    '#settings_format' => 'propertyName|id:vocabulary_id,label:Vocabulary name,description:Vocabulary description goes here,auto_create:true',
+    '#title' => t('Default vocabulary properties'),
+    '#description' => t('Enter Schema.org properties that should be mapped to a vocabulary.')
+    . '<br/>'
+    . t('If the mapped vocabulary does exist it will be created when the Schema.org property mapping is created.'),
+    '#description_link' => 'properties',
+    '#default_value' => $config->get('property_vocabularies'),
+  ];
+
+  // Add submit callback.
+  $form['#submit'][] = 'schemadotorg_taxonomy_settings_form_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_properties_settings_form().
+ *
+ * @see schemadotorg_taxonomy_form_schemadotorg_type_settings_form_alter()
+ * @see schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter()
+ */
+function schemadotorg_taxonomy_settings_form_submit(array &$form, FormStateInterface $form_state): void {
+  $config = \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings');
+  $values = $form_state->getValue('schemadotorg_taxonomy');
+  foreach ($values as $key => $value) {
+    $config->set($key, $value);
+  }
+  $config->save();
 }

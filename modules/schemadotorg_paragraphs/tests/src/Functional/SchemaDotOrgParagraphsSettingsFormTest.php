@@ -33,7 +33,7 @@ class SchemaDotOrgParagraphsSettingsFormTest extends SchemaDotOrgBrowserTestBase
   }
 
   /**
-   * Test Schema.org paragraphs settings form.
+   * Test Schema.org Paragraphs settings form.
    */
   public function testSettingsForm(): void {
     $this->assertSaveSettingsConfigForm('schemadotorg_paragraphs.settings', '/admin/config/search/schemadotorg/settings/properties');

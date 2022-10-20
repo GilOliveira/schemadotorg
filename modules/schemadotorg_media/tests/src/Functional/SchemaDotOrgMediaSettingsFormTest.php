@@ -33,7 +33,7 @@ class SchemaDotOrgMediaSettingsFormTest extends SchemaDotOrgBrowserTestBase {
   }
 
   /**
-   * Test Schema.org media settings form.
+   * Test Schema.org Media settings form.
    */
   public function testSettingsForm(): void {
     $this->assertSaveSettingsConfigForm('schemadotorg_media.settings', '/admin/config/search/schemadotorg/settings/types');

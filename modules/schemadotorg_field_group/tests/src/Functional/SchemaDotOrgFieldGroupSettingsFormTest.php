@@ -33,7 +33,7 @@ class SchemaDotOrgFieldGroupSettingsFormTest extends SchemaDotOrgBrowserTestBase
   }
 
   /**
-   * Test Schema.org field group settings form.
+   * Test Schema.org Field Group settings form.
    */
   public function testSettingsForm(): void {
     $this->assertSaveSettingsConfigForm('schemadotorg_field_group.settings', '/admin/config/search/schemadotorg/settings/properties');

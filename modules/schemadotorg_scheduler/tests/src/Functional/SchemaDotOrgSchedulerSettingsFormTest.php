@@ -33,7 +33,7 @@ class SchemaDotOrgSchedulerSettingsFormTest extends SchemaDotOrgBrowserTestBase 
   }
 
   /**
-   * Test Schema.org scheduler settings form.
+   * Test Schema.org Scheduler settings form.
    */
   public function testSettingsForm(): void {
     $this->assertSaveSettingsConfigForm('schemadotorg_scheduler.settings', '/admin/config/search/schemadotorg/settings/types');

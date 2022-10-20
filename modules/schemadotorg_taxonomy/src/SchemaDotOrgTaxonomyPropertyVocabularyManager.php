@@ -18,6 +18,7 @@ use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
  */
 class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxonomyPropertyVocabularyManagerInterface {
   use StringTranslationTrait;
+  use SchemaDotOrgTaxonomyTrait;
 
   /**
    * The messenger service.
@@ -89,8 +90,8 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
     $this->logger = $logger;
     $this->configFactory = $config_factory;
     $this->entityTypeManager = $entity_type_manager;
-    $this->contentTranslationManager = $content_translation_manager;
     $this->schemaTypeManager = $schema_type_manager;
+    $this->contentTranslationManager = $content_translation_manager;
   }
 
   /**
@@ -140,30 +141,8 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
       'description' => $property_definition['comment'],
     ];
 
-    $vid = $property_vocabulary_settings['id'];
-
-    // Make sure the vocabulary exists, if not create it.
-    /** @var \Drupal\taxonomy\VocabularyStorageInterface $vocabulary_storage */
-    $vocabulary_storage = $this->entityTypeManager->getStorage('taxonomy_vocabulary');
-    $vocabulary = $vocabulary_storage->load($vid);
-    if (!$vocabulary) {
-      // Create the vocabulary.
-      $vocabulary = $vocabulary_storage->create([
-        'vid' => $vid,
-        'name' => $property_vocabulary_settings['label'],
-        'description' => $property_vocabulary_settings['description'],
-      ]);
-      $vocabulary->save();
-
-      // Enable translations for the vocabulary's taxonomy terms.
-      if ($this->contentTranslationManager) {
-        $this->contentTranslationManager->setEnabled('taxonomy_term', $vid, TRUE);
-      }
-
-      $edit_link = $vocabulary->toLink($this->t('Edit'), 'edit-form')->toString();
-      $this->messenger->addStatus($this->t('Created new vocabulary %name.', ['%name' => $vocabulary->label()]));
-      $this->logger->get('taxonomy')->notice('Created new vocabulary %name.', ['%name' => $vocabulary->label(), 'link' => $edit_link]);
-    }
+    $vocabulary_id = $property_vocabulary_settings['id'];
+    $this->createVocabulary($vocabulary_id, $property_vocabulary_settings);
 
     // Set the term reference's default handler, target bundle, and allow
     // the creation of terms if they don't already exist.
@@ -171,7 +150,7 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
     $field_values['settings'] = [
       'handler' => 'default:taxonomy_term',
       'handler_settings' => [
-        'target_bundles' => [$vocabulary->id() => $vocabulary->id()],
+        'target_bundles' => [$vocabulary_id => $vocabulary_id],
         'auto_create' => TRUE,
       ],
     ];

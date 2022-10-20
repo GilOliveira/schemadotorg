@@ -1,4 +1,11 @@
+default_vocabularies_group_label: 'Tags / Categories'
+default_vocabularies:
+  tags:
+    id: tags
+    label: Tags
+    description: 'Use tags to group articles on similar topics into categories.'
+    auto_create: true
 property_vocabularies:
   recipeCategory:
     id: recipe_category
-    label: Recipe category
+    label: 'Recipe category'
