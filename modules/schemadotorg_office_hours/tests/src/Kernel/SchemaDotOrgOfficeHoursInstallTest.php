@@ -60,12 +60,25 @@ class SchemaDotOrgOfficeHoursInstallTest extends KernelTestBase {
       \Drupal::config('schemadotorg.settings')->get('schema_types.default_properties.Place')
     );
 
+    // Check switching from openingHours to openingHoursSpecification.
+    $this->assertContains(
+      'openingHoursSpecification',
+      \Drupal::config('schemadotorg.settings')->get('schema_types.default_properties.LocalBusiness')
+    );
+
     schemadotorg_office_hours_uninstall(FALSE);
 
+    // Check removing openingHoursSpecification from Place's default properties.
     $this->assertNull(\Drupal::config('schemadotorg.settings')->get('schema_types.default_field_types.OpeningHoursSpecification'));
     $this->assertEquals(
       ['address', 'description', 'image', 'name', 'telephone'],
       \Drupal::config('schemadotorg.settings')->get('schema_types.default_properties.Place')
+    );
+
+    // Check switching back from openingHoursSpecification to openingHours.
+    $this->assertContains(
+      'openingHours',
+      \Drupal::config('schemadotorg.settings')->get('schema_types.default_properties.LocalBusiness')
     );
   }
 

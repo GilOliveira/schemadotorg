@@ -46,6 +46,13 @@ Steps for creating a new release
     ../vendor/bin/phpcs --runtime-set testVersion 8.0 --standard=../vendor/phpcompatibility/php-compatibility/PHPCompatibility --extensions=php,module,inc,install,test,profile,theme modules/sandbox/schemadotorg > ~/schemadotorg-php-compatibility.txt
     cat ~/schemadotorg-php-compatibility.txt
 
+[YAML](https://github.com/adrienverge/yamllint)
+
+    # Install Homebrew <https://formulae.brew.sh/formula/yamllint>
+    brew install yamllint
+    cd ~/Sites/drupal_next/web/modules/sandbox/schemadotorg
+
+
 [JavaScript](https://www.drupal.org/node/2873849)
 
 @see https://stackoverflow.com/questions/58424718/how-can-i-disable-the-error-prettier-prettier-on-eslint
