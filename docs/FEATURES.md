@@ -28,14 +28,17 @@ _Below are features and functionality within the demo, submodules and contribute
 - Entity usage
 - Paragraph library
 - Link management
+- Editorial information
 - PDF generation
 
 ## Fields
 - Recurring dates
 - Postal address
+- Office hours
 - Field groups
 - Paragraphs
 - Drag-n-drop file uploads
+- Site-wide fields
 
 ## Media
 - Focal point

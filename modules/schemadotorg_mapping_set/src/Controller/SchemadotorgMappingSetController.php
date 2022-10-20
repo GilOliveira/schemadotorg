@@ -161,7 +161,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
     $build = [];
     $build['#title'] = $this->t('@label Schema.org mapping set', ['@label' => $mapping_set['label']]);
     $build['summary'] = $this->buildSummary($name);
-    $build['details'] = $this->buildDetails($name);
+    $build['details'] = $this->buildDetails($name, 'view');
     return $build;
   }
 
@@ -198,7 +198,13 @@ class SchemadotorgMappingSetController extends ControllerBase {
           ->toRenderable();
       }
       else {
-        $status = $this->t('Missing');
+        $status = [
+          'data' => [
+            '#markup' => $this->t('Missing'),
+            '#prefix' => '<em>',
+            '#suffix' => '</em>',
+          ],
+        ];
 
         $bundle_entity_type = $this->entityTypeManager
           ->getDefinition($entity_type_id)
@@ -272,11 +278,13 @@ class SchemadotorgMappingSetController extends ControllerBase {
    *
    * @param string $name
    *   The mapping set's name.
+   * @param string $operation
+   *   The current operation.
    *
    * @return array
    *   A renderable array containing a mapping set's details.
    */
-  public function buildDetails(string $name): array {
+  public function buildDetails(string $name, string $operation = 'view'): array {
     $mapping_set = $this->config('schemadotorg_mapping_set.settings')->get("sets.$name");
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
@@ -313,6 +321,33 @@ class SchemadotorgMappingSetController extends ControllerBase {
         '#type' => 'details',
         '#title' => $this->t('@label (@type)', $t_args),
       ];
+      switch ($operation) {
+        case 'view':
+          $details['#title'] .= ' - ' . ($mapping ? $this->t('Exists') : '<em>' . $this->t('Missing') . '</em>');
+          $details['#summary_attributes']['class'] = [($mapping) ? 'color-success' : 'color-warning'];
+          break;
+
+        case 'setup':
+          $details['#title'] .= ' - ' . ($mapping ? $this->t('Exists') : '<em>' . $this->t('Creating') . '</em>');
+          $details['#summary_attributes']['class'] = [($mapping) ? 'color-success' : 'color-warning'];
+          break;
+
+        case 'teardown':
+          $mapping_sets = $this->schemaMappingSetManager->getMappingSets($entity_type_id, $schema_type, TRUE);
+          if (count($mapping_sets) > 1) {
+            unset($mapping_sets[$name]);
+            $labels = array_map(
+              function ($mapping_set) {
+                return $mapping_set['label'];
+              },
+              $mapping_sets
+            );
+            $t_args = ['%labels' => implode(', ', $labels)];
+            $details['#title'] .= ' - ' . $this->t('Used by %labels', $t_args);
+            $details['#summary_attributes']['class'] = ['color-warning'];
+          }
+          break;
+      }
 
       // Entity.
       $details['schema_type'] = [

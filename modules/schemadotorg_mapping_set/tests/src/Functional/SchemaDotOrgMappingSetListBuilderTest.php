@@ -85,28 +85,28 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     // Check that required and common mapping set types are displayed on the
     // confirm form.
     $this->drupalGet('/admin/config/search/schemadotorg/sets/common/setup');
-    $assert_session->responseContains('media:AudioObject');
-    $assert_session->responseContains('node:WebPage');
+    $assert_session->responseContains('Audio Object (media:AudioObject) - <em>Creating</em>');
+    $assert_session->responseContains('Web Page (node:WebPage) - <em>Creating</em>');
 
     // Update mapping set to just create a Person with a ContactPoint.
     $config = $this->config('schemadotorg_mapping_set.settings');
     $config->set('sets', [
       'required' => [
         'label' => 'Required',
-        'types' => ['node:ContactPoint', 'media:ImageObject'],
+        'types' => ['media:ImageObject', 'node:ContactPoint', 'node:Person'],
       ],
       'common' => [
         'label' => 'Common',
-        'types' => ['node:Place'],
+        'types' => ['node:Place', 'node:Person'],
       ],
     ])->save();
 
     // Check that the required and common mapping sets are updated.
     $this->drupalGet('/admin/config/search/schemadotorg/sets');
     $assert_session->responseContains('Required');
-    $assert_session->responseContains('<td>node:ContactPoint, media:ImageObject</td>');
+    $assert_session->responseContains('<td>media:ImageObject, node:ContactPoint, node:Person</td>');
     $assert_session->responseContains('Common');
-    $assert_session->responseContains('<td>node:Place</td>');
+    $assert_session->responseContains('<td>node:Place, node:Person</td>');
 
     // Check that the 'Add Schema.org content type' form for node:Place
     // displays a warning message.
@@ -119,10 +119,17 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     $assert_session->linkByHrefExists($setup_uri);
     $assert_session->responseContains('The <em class="placeholder">Place</em> Schema.org type is part of the');
 
-    // Check that updated required and common mapping set types are displayed on the
-    // confirm form.
+    // Create required types.
+    $this->drupalGet('/admin/config/search/schemadotorg/sets/required/setup');
+    $assert_session->responseContains('Image Object (media:ImageObject) - <em>Creating</em>');
+    $assert_session->responseContains('Contact Point (node:ContactPoint) - <em>Creating</em>');
+    $assert_session->responseContains('Person (node:Person) - <em>Creating</em>');
+    $this->submitForm([], 'Confirm');
+
+    // Check common (and required) types.
     $this->drupalGet('/admin/config/search/schemadotorg/sets/common/setup');
-    $assert_session->responseContains('node:Place');
+    $assert_session->responseContains('Person (node:Person) - Exists');
+    $assert_session->responseContains('Place (node:Place) - <em>Creating</em>');
     $this->submitForm([], 'Confirm');
 
     // Check that the 'Add Schema.org content type' form for node:Place
@@ -132,7 +139,12 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     $assert_session->responseNotContains('The <em class="placeholder">Place</em> Schema.org type is part of the');
 
     // Check that ContactPoint and Person Schema.org mappings exist.
-    $this->assertEquals(['media.image', 'node.contact_point', 'node.place'], array_keys($mapping_storage->getQuery()->accessCheck(FALSE)->execute()));
+    $this->assertEquals([
+      'media.image',
+      'node.contact_point',
+      'node.person',
+      'node.place',
+    ], array_keys($mapping_storage->getQuery()->accessCheck(FALSE)->execute()));
 
     // Check the common mapping set operations have changed but
     // generate and kill operations are missing.
@@ -179,14 +191,25 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     $this->submitForm([], 'Confirm');
 
     // Check that 10 nodes where created.
-    $this->assertEquals(10, count($node_storage->getQuery()->accessCheck(FALSE)->execute()));
+    $this->assertEquals(15, count($node_storage->getQuery()->accessCheck(FALSE)->execute()));
 
-    // Teardown the common mapping set.
+    // Check required teardown type states.
+    $this->drupalGet('/admin/config/search/schemadotorg/sets/required/teardown');
+    $assert_session->responseContains('Image Object (media:ImageObject)');
+    $assert_session->responseContains('Contact Point (node:ContactPoint)');
+    $assert_session->responseContains('Person (node:Person) - Used by <em class="placeholder">Common</em>');
+
+    // Check common teardown type states.
+    $this->drupalGet('/admin/config/search/schemadotorg/sets/common/teardown');
+    $assert_session->responseContains('Person (node:Person) - Used by <em class="placeholder">Required</em>');
+    $assert_session->responseContains('Place (node:Place)');
+
+    // Teardown common.
     $this->drupalGet('/admin/config/search/schemadotorg/sets/common/teardown');
     $this->submitForm([], 'Confirm');
 
     // Check node.place was removed.
-    $this->assertEquals(['media.image', 'node.contact_point'], array_keys($mapping_storage->getQuery()->accessCheck(FALSE)->execute()));
+    $this->assertEquals(['media.image', 'node.contact_point', 'node.person'], array_keys($mapping_storage->getQuery()->accessCheck(FALSE)->execute()));
 
     // Check that all generated nodes where deleted.
     $this->assertEquals(0, count($node_storage->getQuery()->accessCheck(FALSE)->execute()));

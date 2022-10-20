@@ -32,6 +32,22 @@ interface SchemaDotOrgMappingSetManagerInterface {
   public function isValidType(string $type): bool;
 
   /**
+   * Get mapping sets for an entity type and Schema.org type.
+   *
+   * @param string $entity_type_id
+   *   The entity type id.
+   * @param string $schema_type
+   *   The Schema.org type.
+   * @param bool|null $is_setup
+   *   Optional filter to return mapping sets that are setup (TRUE)
+   *   or not setup (FALSE).
+   *
+   * @return array
+   *   An associative array of mappings sets.
+   */
+  public function getMappingSets(string $entity_type_id, string $schema_type, ?bool $is_setup = NULL): array;
+
+  /**
    * Get Schema.org types from mapping set name.
    *
    * @param string $name

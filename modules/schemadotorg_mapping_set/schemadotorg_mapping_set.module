@@ -58,24 +58,23 @@ function schemadotorg_mapping_set_form_schemadotorg_mapping_add_form_alter(array
 
   /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
   $mapping = $form_object->getEntity();
-  $type = $mapping->getTargetEntityTypeId() . ':' . $mapping->getSchemaType();
-  $mapping_sets = \Drupal::config('schemadotorg_mapping_set.settings')->get('sets') ?? [];
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  $schema_type = $mapping->getSchemaType();
+
+  $mapping_sets = $mapping_set_manager->getMappingSets($entity_type_id, $schema_type, FALSE);
   foreach ($mapping_sets as $mapping_set_name => $mapping_set) {
-    if (in_array($type, $mapping_set['types'])
-      && !$mapping_set_manager->isSetup($mapping_set_name)) {
-      $url = Url::fromRoute(
-        'schemadotorg_mapping_set.confirm_form',
-        ['name' => $mapping_set_name, 'operation' => 'setup'],
-      );
-      $t_args = [
-        '%type' => $mapping->getSchemaType(),
-        '@label' => $mapping_set['label'],
-        '@types' => implode('; ', $mapping_set['types']),
-        ':href' => $url->toString(),
-      ];
-      $message = t('The %type Schema.org type is part of the <a href=":href">@label</a> mapping set, which has not been <a href=":href">setup</a>.', $t_args);
-      \Drupal::messenger()->addWarning($message);
-    }
+    $url = Url::fromRoute(
+      'schemadotorg_mapping_set.confirm_form',
+      ['name' => $mapping_set_name, 'operation' => 'setup'],
+    );
+    $t_args = [
+      '%type' => $mapping->getSchemaType(),
+      '@label' => $mapping_set['label'],
+      '@types' => implode('; ', $mapping_set['types']),
+      ':href' => $url->toString(),
+    ];
+    $message = t('The %type Schema.org type is part of the <a href=":href">@label</a> mapping set, which has not been <a href=":href">setup</a>.', $t_args);
+    \Drupal::messenger()->addWarning($message);
   }
 
 }

@@ -100,27 +100,44 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
 
     $form = parent::buildForm($form, $form_state);
 
+    /** @var \Drupal\schemadotorg_mapping_set\Controller\SchemadotorgMappingSetController $controller */
+    $controller = SchemadotorgMappingSetController::create(\Drupal::getContainer());
     $form['description'] = [
       'description' => $form['description'] + ['#prefix' => '<p>', '#suffix' => '</p>'],
-      'type' => [
-        '#theme' => 'item_list',
-        '#items' => $this->schemaMappingSetManager->getTypes($this->name),
-      ],
+      'types' => $controller->buildDetails($this->name, $operation),
     ];
 
-    if ($this->operation === 'setup') {
-      // During setup replace mapping set types with the mapping set's details.
-      /** @var \Drupal\schemadotorg_mapping_set\Controller\SchemadotorgMappingSetController $controller */
-      $controller = SchemadotorgMappingSetController::create(\Drupal::getContainer());
-      $form['description']['type'] = $controller->buildDetails($this->name);
+    switch ($this->operation) {
+      case 'setup':
+        // Add note after the actions element which has a weight of 100.
+        $form['note'] = [
+          '#weight' => 101,
+          '#markup' => $this->t('Please note that setting up multiple entity types and fields may take a minute or two to complete.'),
+          '#prefix' => '<div><em>',
+          '#suffix' => '</em></div>',
+        ];
+        break;
 
-      // Add note after the actions element which has a weight of 100.
-      $form['note'] = [
-        '#weight' => 101,
-        '#markup' => $this->t('Please note that setting up multiple entity types and fields may take a minute or two to complete.'),
-        '#prefix' => '<div><em>',
-        '#suffix' => '</em></div>',
-      ];
+      case 'teardown':
+        // Display warning about Schema.org types used by other mapping sets.
+        if ($this->getRequest()->isMethod('get')) {
+          $types = $this->schemaMappingSetManager->getTypes($name);
+          $used_types = [];
+          foreach ($types as $type) {
+            [$entity_type_id, $schema_type] = explode(':', $type);
+            $mapping_sets = $this->schemaMappingSetManager->getMappingSets($entity_type_id, $schema_type);
+            if (count($mapping_sets) > 1) {
+              $used_types[] = $type;
+            }
+          }
+          if ($used_types) {
+            $t_args = ['%types' => implode('; ', $used_types)];
+            $message = $this->t('The below %types types are used by other mapping sets and will not be deleted.', $t_args);
+            $this->messenger()->addWarning($message);
+          }
+        }
+        break;
+
     }
 
     if ($form_state->isMethodType('GET')

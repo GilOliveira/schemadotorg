@@ -163,6 +163,30 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
   /**
    * {@inheritdoc}
    */
+  public function getMappingSets(string $entity_type_id, string $schema_type, ?bool $is_setup = NULL): array {
+    $type = "$entity_type_id:$schema_type";
+
+    $mapping_sets = $this->configFactory
+      ->get('schemadotorg_mapping_set.settings')
+      ->get('sets');
+    foreach ($mapping_sets as $name => $mapping_set) {
+      if (!in_array($type, $mapping_set['types'])) {
+        unset($mapping_sets[$name]);
+      }
+      elseif ($is_setup === TRUE && !$this->isSetup($name)) {
+        unset($mapping_sets[$name]);
+      }
+      elseif ($is_setup === FALSE && $this->isSetup($name)) {
+        unset($mapping_sets[$name]);
+      }
+    }
+
+    return $mapping_sets;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function setup(string $name): array {
     if ($this->isSetup($name)) {
       return [$this->t('Schema.org mapping set @name is already setup.', ['@name' => $name])];
@@ -224,16 +248,30 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
     // Reverse types to prevent entity reference errors.
     $types = $this->getTypes($name);
     $types = array_reverse($types, TRUE);
+
+    // Filter the list of types to be deleted by removing used
+    // or not mapped types.
     foreach ($types as $type) {
       [$entity_type, $schema_type] = explode(':', $type);
 
+      // Only delete the mapping and entity type is there is one remaining
+      // instance setup.
+      $mapping_sets = $this->getMappingSets($entity_type, $schema_type, TRUE);
+      if (count($mapping_sets) > 1) {
+        unset($types[$type]);
+      }
+
+      // Make sure the mapping exists.
       $mapping = $this->loadMappingByType($entity_type, $schema_type);
       if (!$mapping) {
         $t_args = ['@type' => $type];
         $messages[] = $this->t("Schema.org type '@type' already removed.", $t_args);
         unset($types[$type]);
-        continue;
       }
+    }
+
+    foreach ($types as $type) {
+      [$entity_type, $schema_type] = explode(':', $type);
 
       // Determine if the entity type bundle is default entity type that should
       // not be deleted.
