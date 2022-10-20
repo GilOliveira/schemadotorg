@@ -59,7 +59,7 @@ function schemadotorg_mapping_set_form_schemadotorg_mapping_add_form_alter(array
   /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
   $mapping = $form_object->getEntity();
   $type = $mapping->getTargetEntityTypeId() . ':' . $mapping->getSchemaType();
-  $mapping_sets = \Drupal::config('schemadotorg_mapping_set.settings')->get('sets');
+  $mapping_sets = \Drupal::config('schemadotorg_mapping_set.settings')->get('sets') ?? [];
   foreach ($mapping_sets as $mapping_set_name => $mapping_set) {
     if (in_array($type, $mapping_set['types'])
       && !$mapping_set_manager->isSetup($mapping_set_name)) {
