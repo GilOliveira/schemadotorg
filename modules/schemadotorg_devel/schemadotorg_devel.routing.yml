@@ -1,7 +1,7 @@
 schemadotorg_devel.settings:
-  path: '/admin/config/search/schemadotorg/settings/devel'
+  path: /admin/config/search/schemadotorg/settings/devel
   defaults:
     _title: 'Schema.org devel settings'
-    _form: 'Drupal\schemadotorg_devel\Form\SchemaDotOrgDevelSettingsForm'
+    _form: Drupal\schemadotorg_devel\Form\SchemaDotOrgDevelSettingsForm
   requirements:
     _permission: 'administer schemadotorg'

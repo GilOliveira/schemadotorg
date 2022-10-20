@@ -1,6 +1,6 @@
 schemadotorg_descriptions.settings:
   type: config_entity
-  label: Schema.org Descriptions settings
+  label: 'Schema.org Descriptions settings'
   mapping:
     custom_descriptions:
       type: sequence

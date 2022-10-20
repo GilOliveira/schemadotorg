@@ -1,7 +1,7 @@
-name: Schema.org Blueprints RDF
+name: 'Schema.org Blueprints RDF'
 type: module
-description: Integrates Schema.org mappings with Drupal core's RDF(a) mappings. RDF is deprecated in Drupal 9.4 core and will move to contrib in Drupal 10.0 core.
-package: Schema.org Blueprints [DEPRECATED]
+description: 'Integrates Schema.org mappings with Drupal core''s RDF(a) mappings. RDF is deprecated in Drupal 9.4 core and will move to contrib in Drupal 10.0 core.'
+package: 'Schema.org Blueprints [DEPRECATED]'
 core_version_requirement: '^9.4 || ^10.0'
 lifecycle: deprecated
 lifecycle_link: 'https://www.drupal.org/project/ideas/issues/2152459'

@@ -1,7 +1,7 @@
 name: 'Schema.org Blueprints Automatic Entity Labels'
 type: module
 description: 'Creates automatic entity label settings for Schema.org types.'
-package: Schema.org Blueprints Extras
+package: 'Schema.org Blueprints Extras'
 core_version_requirement: '^9.4 || ^10.0'
 lifecycle: experimental
 configure: schemadotorg.settings.properties

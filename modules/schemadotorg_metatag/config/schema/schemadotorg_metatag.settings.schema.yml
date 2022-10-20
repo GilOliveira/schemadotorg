@@ -1,6 +1,6 @@
 schemadotorg_metatag.settings:
   type: config_entity
-  label: Schema.org Metatag settings
+  label: 'Schema.org Metatag settings'
   mapping:
     default_groups:
       type: sequence

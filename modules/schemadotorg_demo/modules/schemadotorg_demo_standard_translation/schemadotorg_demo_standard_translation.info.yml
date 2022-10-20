@@ -3,7 +3,7 @@ type: module
 description: |
   Provides an opinionated translation of the Schema.org Blueprints built on top of Drupal's standard profile.
   THIS MODULE SHOULD ONLY BE INSTALLED ON A PLAIN VANILLA STANDARD INSTANCE OF DRUPAL
-package: Schema.org Blueprints Demo
+package: 'Schema.org Blueprints Demo'
 core_version_requirement: '^9.4 || ^10.0'
 lifecycle: experimental
 dependencies:

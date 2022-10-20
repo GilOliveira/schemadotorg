@@ -6,39 +6,28 @@ _meta:
   default_langcode: en
 default:
   revision_uid:
-    -
-      target_id: 1
+    - target_id: 1
   status:
-    -
-      value: true
+    - value: true
   uid:
-    -
-      target_id: 1
+    - target_id: 1
   title:
-    -
-      value: 'George Washington'
+    - value: 'George Washington'
   created:
-    -
-      value: 1657041130
+    - value: 1657041130
   promote:
-    -
-      value: true
+    - value: true
   sticky:
-    -
-      value: false
+    - value: false
   revision_translation_affected:
-    -
-      value: true
+    - value: true
   path:
-    -
-      alias: ''
+    - alias: ''
       langcode: en
   schema_additional_name:
-    -
-      value: Samuel
+    - value: Samuel
   schema_address:
-    -
-      langcode: ''
+    - langcode: ''
       country_code: US
       administrative_area: NY
       locality: Brooklyn
@@ -52,14 +41,10 @@ default:
       additional_name: ''
       family_name: Washington
   schema_email:
-    -
-      value: example@example
+    - value: example@example
   schema_family_name:
-    -
-      value: Washington
+    - value: Washington
   schema_given_name:
-    -
-      value: George
+    - value: George
   schema_telephone:
-    -
-      value: '1234567890'
+    - value: '1234567890'

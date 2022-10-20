@@ -1,7 +1,7 @@
 schemadotorg_subtype.settings:
-  path: '/admin/config/search/schemadotorg/settings/subtype'
+  path: /admin/config/search/schemadotorg/settings/subtype
   defaults:
     _title: 'Schema.org subtype settings'
-    _form: 'Drupal\schemadotorg_subtype\Form\SchemaDotOrgSubtypeSettingsForm'
+    _form: Drupal\schemadotorg_subtype\Form\SchemaDotOrgSubtypeSettingsForm
   requirements:
     _permission: 'administer schemadotorg'

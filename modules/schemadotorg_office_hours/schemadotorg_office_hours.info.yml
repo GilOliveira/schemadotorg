@@ -1,7 +1,7 @@
-name: Schema.org Blueprints Office Hours
+name: 'Schema.org Blueprints Office Hours'
 type: module
-description: Allows an Office hours field to be used to create https://schema.org/OpeningHoursSpecification.
-package: Schema.org Blueprints Extras
+description: 'Allows an Office hours field to be used to create https://schema.org/OpeningHoursSpecification.'
+package: 'Schema.org Blueprints Extras'
 core_version_requirement: '^9.4 || 10.0'
 lifecycle: experimental
 dependencies:

@@ -5,7 +5,7 @@ custom_words:
 custom_names:
   applies_to_delivery_method: applies_to_delivery_meth
   customer_remorse_return_shipping_fees_amount: cust_rem_ret_ship_fee_amt
-  customer_remorse_return_label_source:  cust_rem_ret_label_src
+  customer_remorse_return_label_source: cust_rem_ret_label_src
   currency_conversion_service: currency_conv_service
   delivery_charge_specification: delivery_charge_spec
   is_accessory_or_spare_part_for: is_access_or_part_for

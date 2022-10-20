@@ -1,6 +1,6 @@
 schemadotorg_smart_date.settings:
   type: config_entity
-  label: Schema.org Smart date settings
+  label: 'Schema.org Smart date settings'
   mapping:
     default_properties:
       type: sequence

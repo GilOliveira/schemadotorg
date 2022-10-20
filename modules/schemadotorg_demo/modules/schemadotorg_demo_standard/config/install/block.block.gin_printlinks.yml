@@ -29,4 +29,9 @@ visibility:
   request_path:
     id: request_path
     negate: true
-    pages: "/node/add/*\r\n/node/*/*\r\n/print/*\r\n/devel/*\r\n/entity_clone/*"
+    pages: |-
+      /node/add/*
+      /node/*/*
+      /print/*
+      /devel/*
+      /entity_clone/*

@@ -260,7 +260,7 @@ default_field_groups:
         - recipeInstructions
         - nutrition
     taxonomy:
-      label: 'Tags/Categories'
+      label: Tags/Categories
       properties:
         - keywords
     links:
