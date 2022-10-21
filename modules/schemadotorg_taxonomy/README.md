@@ -32,10 +32,10 @@ Features
 Optional (Recommended)
 ----------------------
 
-**[Field Group](https://www.drupal.org/project/field_group)**
+**[Field Group](https://www.drupal.org/project/field_group)**  
 Provides the ability to group your fields on both form and display.
 
-**[Entity Reference Tree Widget](https://www.drupal.org/project/entity_reference_tree)**
+**[Entity Reference Tree Widget](https://www.drupal.org/project/entity_reference_tree)**  
 Provides an entity relationship hierarchy tree widget for an entity reference field.
 
 

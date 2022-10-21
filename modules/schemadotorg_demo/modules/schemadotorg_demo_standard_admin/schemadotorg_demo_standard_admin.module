@@ -10,6 +10,7 @@ declare(strict_types = 1);
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Render\Element;
 
 /**
  * Implements hook_help().
@@ -70,4 +71,30 @@ function schemadotorg_demo_standard_admin_link_alter(array &$variables): void {
       ['button', 'button--small']
     );
   }
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ */
+function schemadotorg_demo_standard_admin_field_widget_office_hours_default_form_alter(array &$element, FormStateInterface $form_state, array $context): void {
+  foreach (Element::children($element['value']) as $key) {
+    $element['value'][$key]['#process'] = [
+      // phpcs:ignore
+      [\Drupal\office_hours\Element\OfficeHoursWeekSlot::class, 'processOfficeHoursSlot'],
+      '_schemadotorg_demo_standard_admin_field_widget_office_hours_default_process',
+    ];
+  }
+}
+
+/**
+ * Process office hours table row and convert links to extra small buttons.
+ */
+function _schemadotorg_demo_standard_admin_field_widget_office_hours_default_process(array &$element, FormStateInterface $form_state, array $context) {
+  foreach ($element['operations']['data'] as &$link) {
+    if (isset($link['#type'])) {
+      $link['#attributes']['class'][] = 'button';
+      $link['#attributes']['class'][] = 'button--extrasmall';
+    }
+  }
+  return $element;
 }

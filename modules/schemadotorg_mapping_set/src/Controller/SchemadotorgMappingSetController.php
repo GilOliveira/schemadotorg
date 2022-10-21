@@ -17,6 +17,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class SchemadotorgMappingSetController extends ControllerBase {
 
   /**
+   * Link options.
+   *
+   * @var array
+   */
+  protected $linkOptions = ['attributes' => ['target' => '_blank']];
+
+  /**
    * The redirect destination.
    *
    * @var \Drupal\Core\Routing\RedirectDestinationInterface
@@ -38,6 +45,20 @@ class SchemadotorgMappingSetController extends ControllerBase {
   protected $schemaMappingSetManager;
 
   /**
+   * The Schema.org schema type manager.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
+   */
+  protected $schemaTypeManager;
+
+  /**
+   * The Schema.org schema type builder.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface
+   */
+  protected $schemaTypeBuilder;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -45,6 +66,8 @@ class SchemadotorgMappingSetController extends ControllerBase {
     $instance->redirectDestination = $container->get('redirect.destination');
     $instance->schemaMappingManager = $container->get('schemadotorg.mapping_manager');
     $instance->schemaMappingSetManager = $container->get('schemadotorg_mapping_set.manager');
+    $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
+    $instance->schemaTypeBuilder = $container->get('schemadotorg.schema_type_builder');
     return $instance;
   }
 
@@ -301,7 +324,6 @@ class SchemadotorgMappingSetController extends ControllerBase {
 
       $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
       $mapping_defaults = $this->schemaMappingManager->getMappingDefaults($entity_type_id, NULL, $schema_type);
-
       if ($mapping) {
         $entity_type = $mapping->getTargetEntityBundleEntity()
           ->toLink($type, 'edit-form')
@@ -353,7 +375,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
       $details['schema_type'] = [
         '#type' => 'item',
         '#title' => $this->t('Schema.org type'),
-        '#markup' => $schema_type,
+        'link' => $this->schemaTypeBuilder->buildItemsLinks($schema_type, $this->linkOptions),
       ];
       $details['entity_type'] = [
         '#type' => 'item',
@@ -384,6 +406,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
           || empty($property_definition['label'])) {
           continue;
         }
+        $range_includes = $this->schemaTypeManager->getPropertyRangeIncludes($property_name);
 
         $row = [];
         $row['label'] = [
@@ -393,7 +416,15 @@ class SchemadotorgMappingSetController extends ControllerBase {
               '#prefix' => '<strong>',
               '#suffix' => '</strong></br>',
             ],
-            'description' => ['#markup' => $property_definition['description']],
+            'description' => [
+              '#markup' => $property_definition['description'],
+              '#suffix' => '</br>',
+            ],
+            'range_includes' => $range_includes ? [
+              'links' => $this->schemaTypeBuilder->buildItemsLinks($range_includes, $this->linkOptions),
+              '#prefix' => '(',
+              '#suffix' => ')',
+            ] : '',
           ],
         ];
         $row['property'] = $property_name;
@@ -427,6 +458,9 @@ class SchemadotorgMappingSetController extends ControllerBase {
       ];
       $build[$type] = $details;
     }
+
+    $build['#attached']['library'][] = 'schemadotorg/schemadotorg.dialog';
+
     return $build;
   }
 

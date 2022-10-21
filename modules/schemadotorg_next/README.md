@@ -27,7 +27,7 @@ Features
 Requirements
 ------------
 
-**[Next.js](https://www.drupal.org/project/next)**  
+**[Next.js](https://www.drupal.org/project/next)**    
 Next.js + Drupal for Incremental Static Regeneration and Preview mode.
 
 

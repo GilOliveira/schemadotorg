@@ -67,22 +67,22 @@ Examples of Drupal's content authoring best practices and patterns
 Sub-modules
 -----------
 
-- **[Schema.org Blueprints Demo Standard Profile Setup](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_demo/modules/schemadotorg_demo_standard)**  
+- **[Schema.org Blueprints Demo Standard Profile Setup](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_demo/modules/schemadotorg_demo_standard)**    
   Provides an opinionated demo of the Schema.org Blueprints built on top of Drupal's standard profile.
 
-- **[Schema.org Blueprints Demo Standard Profile Translation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_demo/modules/schemadotorg_demo_standardard_translation)**  
+- **[Schema.org Blueprints Demo Standard Profile Translation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_demo/modules/schemadotorg_demo_standardard_translation)**    
   Provides an opinionated translation of the Schema.org Blueprints built on top of Drupal's standard profile.
 
-- **[Schema.org Blueprints Demo Standard Profile Admin](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_demo/modules/schemadotorg_demo_standard_admin)**  
+- **[Schema.org Blueprints Demo Standard Profile Admin](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_demo/modules/schemadotorg_demo_standard_admin)**    
   Provides admin UI enhancements for the Schema.org Blueprints demo built on top of Drupal's standard profile.
 
-- **[Schema.org Blueprints Default Content](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_demo/modules/schemadotorg_demo_default_content)**  
+- **[Schema.org Blueprints Default Content](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_demo/modules/schemadotorg_demo_default_content)**    
   Provides default Schema.org types and mappings with default content.
 
-- **[Schema.org Blueprints Umami Demo Content](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_demo/modules/schemadotorg_demo_umami_content)**  
+- **[Schema.org Blueprints Umami Demo Content](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_demo/modules/schemadotorg_demo_umami_content)**    
   Imports the content for the Umami demo with Schema.org Blueprints.
 
-- **[Schema.org Blueprints Demo Next.js](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_demo/modules/schemadotorg_demo_next)**  
+- **[Schema.org Blueprints Demo Next.js](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_demo/modules/schemadotorg_demo_next)**    
   Provides a demo Schema.org Blueprints used Next.js for Drupal.
 
 

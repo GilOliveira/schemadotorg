@@ -28,7 +28,7 @@ Features
 Requirements
 ------------
 
-**[Metatag](https://www.drupal.org/project/metatag)**
+**[Metatag](https://www.drupal.org/project/metatag)**  
 Manages meta tags for all entities.
 
 

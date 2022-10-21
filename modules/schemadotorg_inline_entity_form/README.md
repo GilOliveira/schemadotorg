@@ -26,7 +26,7 @@ Features
 Requirements
 ------------
 
-**[Inline Entity Form](https://www.drupal.org/project/inline_entity_form)**  
+**[Inline Entity Form](https://www.drupal.org/project/inline_entity_form)**    
 Provides a widget for inline management (creation, modification, removal) of referenced entities.
 
 

@@ -26,7 +26,7 @@ Features
 Requirements
 ------------
 
-**[Field Group](https://www.drupal.org/project/field_group)**  
+**[Field Group](https://www.drupal.org/project/field_group)**    
 Provides the ability to group your fields on both form and display.
 
 

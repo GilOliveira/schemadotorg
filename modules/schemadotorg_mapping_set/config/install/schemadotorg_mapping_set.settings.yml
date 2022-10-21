@@ -20,12 +20,25 @@ sets:
       - 'node:Event'
       - 'node:Article'
       - 'node:WebPage'
-  block:
-    label: Block
+  web_site:
+    label: 'Web site'
+    types:
+      - 'node:WebPage'
+      - 'node:WebSite'
+      - 'node:MediaGallery'
+      - 'node:ImageGallery'
+      - 'node:VideoGallery'
+  web_content:
+    label: 'Web content'
     types:
       - 'block_content:Quotation'
       - 'block_content:WebContent'
       - 'block_content:ItemList'
+  faq:
+    label: FAQ
+    types:
+      - 'paragraph:Question'
+      - 'node:FAQPage'
   howto:
     label: 'How to'
     types:
@@ -36,77 +49,87 @@ sets:
       - 'paragraph:HowToStep'
       - 'paragraph:HowToSection'
       - 'node:HowTo'
-  food:
-    label: Food
+  food_establishment:
+    label: 'Food establishment'
     types:
       - 'paragraph:NutritionInformation'
       - 'paragraph:MenuItem'
       - 'paragraph:MenuSection'
       - 'node:Menu'
-      - 'node:Recipe'
       - 'node:FoodEstablishment'
-  entertainment:
-    label: Entertainment
+  recipe:
+    label: Recipe
+    types:
+      - 'paragraph:NutritionInformation'
+      - 'node:Recipe'
+  movie:
+    label: Movie
     types:
       - 'node:Movie'
-      - 'node:TVEpisode'
-      - 'node:TVSeason'
-      - 'node:TVSeries'
+  podcast:
+    label: Podcast
+    types:
       - 'node:PodcastEpisode'
       - 'node:PodcastSeason'
       - 'node:PodcastSeries'
-  web:
-    label: Web
+  tv:
+    label: TV
     types:
-      - 'paragraph:Question'
-      - 'node:WebPage'
-      - 'node:WebSite'
-      - 'node:FAQPage'
-      - 'node:MediaGallery'
-      - 'node:ImageGallery'
-      - 'node:VideoGallery'
-  education:
-    label: Education
+      - 'node:TVEpisode'
+      - 'node:TVSeason'
+      - 'node:TVSeries'
+  education_organization:
+    label: 'Education organization'
     types:
-      - 'node:EducationalOrganization'
       - 'node:CourseInstance'
       - 'node:Course'
-  organization:
-    label: Organization
+      - 'node:EducationalOrganization'
+  local_business:
+    label: 'Local business'
     types:
-      - 'paragraph:OpeningHoursSpecification'
-      - 'paragraph:Rating'
       - 'paragraph:ServiceChannel'
       - 'node:Service'
       - 'node:JobPosting'
       - 'node:LocalBusiness'
-      - 'node:LodgingBusiness'
+  medical_doctor:
+    label: 'Medical doctor'
+    types:
+      - 'node:Physician'
+  medical_research:
+    label: 'Medical research'
+    types:
+      - 'node:ResearchOrganization'
+      - 'node:ResearchProject'
   medical_organization:
     label: 'Medical organization'
     types:
       - 'paragraph:MedicalAudience'
       - 'node:MedicalTest'
-      - 'node:MedicalWebPage'
       - 'node:Hospital'
       - 'node:MedicalBusiness'
       - 'node:MedicalClinic'
       - 'node:DiagnosticLab'
-      - 'node:Physician'
+  medical_content:
+    label: 'Medical content'
+    types:
+      - 'node:MedicalWebPage'
+      - 'node:HealthTopicContent'
   medical_information:
     label: 'Medical information'
     types:
+      - 'paragraph:MedicalAudience'
       - 'paragraph:MedicalDevice'
       - 'paragraph:MedicalContraindication'
       - 'paragraph:MedicalIndication'
       - 'paragraph:MedicalCause'
-      - 'paragraph:MedicalProcedure'
       - 'paragraph:MedicalRiskFactor'
-      - 'paragraph:MedicalTherapy'
       - 'paragraph:MedicalSignOrSymptom'
+      - 'paragraph:MedicalProcedure'
+      - 'paragraph:MedicalTherapy'
       - 'paragraph:MedicalTest'
-      - 'node:HealthTopicContent'
       - 'node:Drug'
       - 'node:DietarySupplement'
       - 'node:MedicalStudy'
       - 'node:MedicalTrial'
       - 'node:MedicalCondition'
+

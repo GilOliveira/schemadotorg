@@ -26,7 +26,7 @@ Features
 Requirements
 ------------
 
-**[Focal Point](https://www.drupal.org/project/focal_point)**  
+**[Focal Point](https://www.drupal.org/project/focal_point)**    
 Allows users to specify the focal point of an image for use during cropping.
 
 

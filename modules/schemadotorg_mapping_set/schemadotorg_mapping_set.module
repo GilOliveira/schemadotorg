@@ -60,6 +60,9 @@ function schemadotorg_mapping_set_form_schemadotorg_mapping_add_form_alter(array
   $mapping = $form_object->getEntity();
   $entity_type_id = $mapping->getTargetEntityTypeId();
   $schema_type = $mapping->getSchemaType();
+  if (empty($schema_type)) {
+    return;
+  }
 
   $mapping_sets = $mapping_set_manager->getMappingSets($entity_type_id, $schema_type, FALSE);
   foreach ($mapping_sets as $mapping_set_name => $mapping_set) {

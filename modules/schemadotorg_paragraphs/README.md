@@ -32,5 +32,5 @@ Configuration
 Requirements
 ------------
 
-**[Paragraphs](https://www.drupal.org/project/paragraphs)**
+**[Paragraphs](https://www.drupal.org/project/paragraphs)**  
 Enables the creation of paragraphs entities.
