@@ -8,6 +8,9 @@ schemadotorg_metatag.settings:
       sequence:
         type: string
         label: 'Default group'
+    hide_groups_details:
+      type: boolean
+      label: 'Hide metatag group details wrapper'
     allowed_metatags:
       type: sequence
       label: 'Allowed meta tags'

@@ -135,6 +135,10 @@ function _schemadotorg_metatag_field_widget_metatag_firehose_form_alter_recursiv
       }
     }
     else {
+      if ($type === 'details'
+        && \Drupal::config('schemadotorg_metatag.settings')->get('hide_groups_details')) {
+        $element['#type'] = 'container';
+      }
       _schemadotorg_metatag_field_widget_metatag_firehose_form_alter_recursive($element, $allowed_metatags, $allowed_robots);
     }
   }
@@ -172,6 +176,13 @@ function schemadotorg_metatag_form_schemadotorg_types_settings_form_alter(array 
     '#description' => t('Identify which metatag groups should be available on which entity type / bundle combination. Unselected groups will not appear on the configuration form for that entity type, reducing the size of the form and increasing performance. If no groups are selected for a type, all groups will appear.'),
     '#default_value' => $config->get('default_groups'),
     '#options' => $metatag_group_options,
+  ];
+  $form['schemadotorg_metatag']['hide_groups_details'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Hide metatag group details wrapper'),
+    '#description' => t('If checked, metatag grouping will not be displayed.'),
+    '#default_value' => $config->get('hide_groups_details'),
+    '#return_value' => TRUE,
   ];
   $form['schemadotorg_metatag']['allowed_metatags'] = [
     '#type' => 'schemadotorg_settings',
