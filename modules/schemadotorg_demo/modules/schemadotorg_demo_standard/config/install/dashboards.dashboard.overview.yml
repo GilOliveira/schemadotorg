@@ -7,7 +7,8 @@ category: ''
 frontend: false
 weight: 0
 sections:
-  - layout_id: layout_3
+  -
+    layout_id: layout_3
     layout_settings:
       label: 'Main content'
       context_mapping: {  }
@@ -77,7 +78,8 @@ sections:
         weight: 1
         additional: {  }
     third_party_settings: {  }
-  - layout_id: layout_2
+  -
+    layout_id: layout_2
     layout_settings:
       label: Stats
       context_mapping: {  }
@@ -119,7 +121,8 @@ sections:
         weight: 0
         additional: {  }
     third_party_settings: {  }
-  - layout_id: layout_2
+  -
+    layout_id: layout_2
     layout_settings:
       label: Reports
       context_mapping: {  }

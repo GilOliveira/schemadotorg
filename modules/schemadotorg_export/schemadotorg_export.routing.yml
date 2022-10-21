@@ -1,11 +1,12 @@
 entity.schemadotorg_mapping.export:
-  path: /admin/config/search/schemadotorg/export
+  path: '/admin/config/search/schemadotorg/export'
   defaults:
     _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportMappingController::index'
   requirements:
     _permission: 'administer schemadotorg'
+
 schemadotorg_mapping_set.overview.export:
-  path: /admin/config/search/schemadotorg/sets/export
+  path: '/admin/config/search/schemadotorg/sets/export'
   defaults:
     _controller: '\Drupal\schemadotorg_export\Controller\SchemaDotOrgExportMappingSetController::overview'
   requirements:

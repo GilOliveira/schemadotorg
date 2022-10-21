@@ -1,7 +1,7 @@
-name: 'Schema.org Blueprints UI'
+name: Schema.org Blueprints UI
 type: module
-description: 'Allows administrators to attach custom Schema.org properties to fieldable types.'
-package: 'Schema.org Blueprints'
+description: Allows administrators to attach custom Schema.org properties to fieldable types.
+package: Schema.org Blueprints
 core_version_requirement: '^9.4 || ^10.0'
 lifecycle: experimental
 configure: entity.schemadotorg_mapping.collection

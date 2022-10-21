@@ -1,6 +1,6 @@
 schemadotorg_taxonomy.settings:
   type: config_entity
-  label: 'Schema.org Taxonomy settings'
+  label: Schema.org Taxonomy settings
   mapping:
     default_vocabularies_group_label:
       type: text
@@ -40,3 +40,4 @@ schemadotorg_taxonomy.settings:
           description:
             type: text
             label: 'Vocabulary description'
+

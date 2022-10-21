@@ -1,8 +1,6 @@
 services:
   schemadotorg_export.event_subscriber:
     class: Drupal\schemadotorg_export\EventSubscriber\SchemaDotOrgExportEventSubscriber
-    arguments:
-      - '@current_route_match'
-      - '@entity_type.manager'
+    arguments: ['@current_route_match', '@entity_type.manager']
     tags:
-      - name: event_subscriber
+      - { name: event_subscriber }

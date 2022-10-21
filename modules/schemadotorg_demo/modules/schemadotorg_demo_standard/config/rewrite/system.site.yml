@@ -1,5 +1,4 @@
 config_rewrite:
-  replace:
-    - page.front
+  replace: ['page.front']
 page:
   front: /dashboard/overview

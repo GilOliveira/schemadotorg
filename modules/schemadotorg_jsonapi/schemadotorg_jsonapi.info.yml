@@ -1,7 +1,7 @@
 name: 'Schema.org Blueprints JSON:API'
 type: module
 description: 'Builds on top of the JSON:API and JSON:API extras modules to apply Schema.org type and property mappings to JSON:API resources.'
-package: 'Schema.org Blueprints API'
+package: Schema.org Blueprints API
 core_version_requirement: '^9.4 || ^10.0'
 lifecycle: experimental
 configure: schemadotorg_jsonapi.settings

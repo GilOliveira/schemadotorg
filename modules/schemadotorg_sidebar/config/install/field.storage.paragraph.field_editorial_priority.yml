@@ -10,11 +10,14 @@ entity_type: paragraph
 type: list_string
 settings:
   allowed_values:
-    - value: low
+    -
+      value: low
       label: Low
-    - value: medium
+    -
+      value: medium
       label: Medium
-    - value: high
+    -
+      value: high
       label: High
   allowed_values_function: ''
 module: options

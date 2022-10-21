@@ -1,6 +1,6 @@
 schemadotorg.settings:
   type: config_entity
-  label: 'Schema.org settings'
+  label: Schema.org settings
   mapping:
     field_prefix:
       type: string

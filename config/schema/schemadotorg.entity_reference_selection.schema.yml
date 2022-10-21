@@ -7,11 +7,11 @@ entity_reference_selection.schemadotorg_range_includes:
       label: 'Type of item to reference'
     target_bundles:
       type: sequence
-      label: types
+      label: 'types'
       nullable: true
       sequence:
         type: string
-        label: Bundle
+        label: 'Bundle'
     schemadotorg_mapping:
       type: mapping
       label: 'Schema.org field mapping'
@@ -25,6 +25,7 @@ entity_reference_selection.schemadotorg_range_includes:
         field_name:
           type: string
           label: 'Field name'
+
 entity_reference_selection.schemadotorg_enumeration:
   type: entity_reference_selection
   label: 'Scheme.org enumeration handler settings'
@@ -45,6 +46,7 @@ entity_reference_selection.schemadotorg_enumeration:
         field_name:
           type: string
           label: 'Field name'
+
 entity_reference_selection.schemadotorg_type:
   type: entity_reference_selection
   label: 'Scheme.org type handler settings'
@@ -54,7 +56,7 @@ entity_reference_selection.schemadotorg_type:
       label: 'Type of item to reference'
     depth:
       type: integer
-      label: Depth
+      label: 'Depth'
     schemadotorg_mapping:
       type: mapping
       label: 'Schema.org field mapping'

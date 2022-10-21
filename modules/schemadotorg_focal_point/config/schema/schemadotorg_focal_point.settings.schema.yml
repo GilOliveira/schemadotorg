@@ -1,6 +1,6 @@
 schemadotorg_focal_point.settings:
   type: config_entity
-  label: 'Schema.org Focal Point settings'
+  label: Schema.org Focal Point settings
   mapping:
     image_styles:
       type: sequence
@@ -22,3 +22,4 @@ schemadotorg_focal_point.settings:
               height:
                 type: integer
                 label: Height
+

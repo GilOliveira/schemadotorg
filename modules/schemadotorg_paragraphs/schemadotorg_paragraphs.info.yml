@@ -1,7 +1,7 @@
 name: 'Schema.org Blueprints Paragraphs'
 type: module
 description: 'Integrates the Paragraphs and Paragraphs Library module with the Schema.org Blueprints module.'
-package: 'Schema.org Blueprints'
+package: Schema.org Blueprints
 core_version_requirement: '^9.4 || ^10.0'
 lifecycle: experimental
 configure: schemadotorg.settings

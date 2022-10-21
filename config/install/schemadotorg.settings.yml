@@ -1061,10 +1061,10 @@ schema_properties:
       label: 'Occupational categories'
       unlimited: true
     openingHours:
-      label: 'Opening hours'
+      label: Opening hours
       unlimited: true
     openingHoursSpecification:
-      label: 'Opening hours'
+      label: Opening hours
       unlimited: true
     organizer:
       label: Organizers

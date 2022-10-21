@@ -1,7 +1,7 @@
 name: 'Schema.org Blueprints Simple Sitemap'
 type: module
 description: 'Automatically adds Schema.org types to sitemap.xml.'
-package: 'Schema.org Blueprints Extras'
+package: Schema.org Blueprints Extras
 core_version_requirement: '^9.4 || ^10.0'
 lifecycle: experimental
 dependencies:

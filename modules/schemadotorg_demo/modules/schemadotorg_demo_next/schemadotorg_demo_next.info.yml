@@ -1,7 +1,7 @@
 name: 'Schema.org Blueprints Next.js Demo'
 type: module
-description: 'Provides a demo Schema.org Blueprints used Next.js for Drupal.'
-package: 'Schema.org Blueprints Demo'
+description: Provides a demo Schema.org Blueprints used Next.js for Drupal.
+package: Schema.org Blueprints Demo
 core_version_requirement: '^9.4 || ^10.0'
 lifecycle: experimental
 dependencies:

@@ -1,7 +1,4 @@
 visibility:
   request_path:
     negate: true
-    pages: |-
-      */layout
-      /dashboard/*
-      /user/*/
+    pages: "*/layout\r\n/dashboard/*\r\n/user/*/"

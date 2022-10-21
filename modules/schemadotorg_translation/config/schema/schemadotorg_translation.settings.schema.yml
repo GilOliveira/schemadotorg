@@ -1,6 +1,6 @@
 schemadotorg_translation.settings:
   type: config_entity
-  label: 'Schema.org Translate settings'
+  label: Schema.org Translate settings
   mapping:
     excluded_schema_types:
       type: sequence

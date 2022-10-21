@@ -1,7 +1,7 @@
 name: 'Schema.org Blueprints Content Moderation'
 type: module
 description: 'Automatically enables content moderation for Schema.org types as they are created.'
-package: 'Schema.org Blueprints Extras'
+package: Schema.org Blueprints Extras
 core_version_requirement: '^9.4 || ^10.0'
 lifecycle: experimental
 dependencies:
