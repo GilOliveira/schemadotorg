@@ -125,7 +125,7 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
           $used_types = [];
           foreach ($types as $type) {
             [$entity_type_id, $schema_type] = explode(':', $type);
-            $mapping_sets = $this->schemaMappingSetManager->getMappingSets($entity_type_id, $schema_type);
+            $mapping_sets = $this->schemaMappingSetManager->getMappingSets($entity_type_id, $schema_type, TRUE);
             if (count($mapping_sets) > 1) {
               $used_types[] = $type;
             }
