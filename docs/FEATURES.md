@@ -5,15 +5,12 @@ Schema.org Blueprints: Features
 
 _Below are features and functionality related to the core Schema.org Blueprints module._
 
-- Browsable Schema.org report
-- Schema.org type creation and mapping UI
-- Bulk Schema.org type creation
+- Reporting
+- User interface
+- Mapping sets
 - Subtyping
 - Documentation
-- JSON:API
-- JSON-LD
-- Translation configuration
-- Drush support
+- Translations
 
 # Contributed
 
@@ -21,50 +18,59 @@ _Below are features and functionality within the demo, submodules and contribute
 
 ## Content
 - Auto node title
-- Content browser
-- Inline entity form
+- Entity browse
 - Entity clone
 - Entity embed
 - Entity usage
+- Entity (PDF) print 
+- Hierarchical term selection
+- Inline entity form
 - Paragraph library
 - Link management
 - Editorial information
-- PDF generation
 
 ## Fields
-- Recurring dates
-- Postal address
-- Office hours
 - Field groups
 - Paragraphs
-- Drag-n-drop file uploads
-- Site-wide fields
+- Recurring dates
+- Postal addresses
+- Office hours
+- Durations
+- Time fields
+- Field collections
 
 ## Media
 - Focal point
 - Image styles
 - Media embed
 - Media library
+- Drag-n-drop file uploads
 
 ## Workflow
 - Content moderation
 - Moderation sidebar
+- Moderation dashboard
 - Scheduling
 
 ## SEO
-- Metatag
+- Metatags
 - Sitemap.xml
 - Pathauto
 - JSON-LD
 
 ## Admin
-- Admin toolbar
-- Dashboard
 - Environment indicator
 - Language switcher
+- Admin toolbar
+- Admin search
+- Admin dashboards
 - Node edit protection
 - Node save draft
 
 ## API
 - JSON:API
 - API documentation
+
+## Decoupled
+- Next.js preview
+- Next.js components 

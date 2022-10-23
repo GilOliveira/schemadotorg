@@ -424,7 +424,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
               'links' => $this->schemaTypeBuilder->buildItemsLinks($range_includes, $this->linkOptions),
               '#prefix' => '(',
               '#suffix' => ')',
-            ] : '',
+            ] : [],
           ],
         ];
         $row['property'] = $property_name;
