@@ -60,14 +60,8 @@ class SchemaDotOrgSubtypeTest extends SchemaDotOrgBrowserTestBase {
     $defaults = $this->getMappingDefaults('node', NULL, 'WebPage');
     $expected_allowed_values = [
       'AboutPage' => 'About Page',
-      'CheckoutPage' => 'Checkout Page',
       'ContactPage' => 'Contact Page',
-      'FAQPage' => 'FAQ Page',
       'MedicalWebPage' => 'Medical Web Page',
-      'ProfilePage' => 'Profile Page',
-      'QAPage' => 'QA Page',
-      'RealEstateListing' => 'Real Estate Listing',
-      'SearchResultsPage' => 'Search Results Page',
     ];
     $this->assertEquals($expected_allowed_values, $defaults['properties']['subtype']['allowed_values']);
 
