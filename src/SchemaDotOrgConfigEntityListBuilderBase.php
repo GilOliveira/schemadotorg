@@ -146,4 +146,24 @@ abstract class SchemaDotOrgConfigEntityListBuilderBase extends ConfigEntityListB
     return ['data' => $data, 'nowrap' => TRUE];
   }
 
+  /**
+   * Build key/value paids.
+   *
+   * @param array $items
+   *   An associative array.
+   *
+   * @return array
+   *   A renderable array containing key/value pairs.
+   */
+  protected function buildKeyValuePairs(array $items): array {
+    $data = [];
+    foreach ($items as $source => $destination) {
+      $data[] = [
+        '#markup' => "$source: $destination",
+        '#prefix' => '<br/>',
+      ];
+    }
+    return ['data' => $data, 'nowrap' => TRUE];
+  }
+
 }

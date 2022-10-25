@@ -48,6 +48,16 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
   public function setFieldWeights(string $entity_type_id, string $bundle, array $properties): void;
 
   /**
+   * Set the default component weights for a Schema.org mapping entity.
+   *
+   * @param string $entity_type_id
+   *   The entity type id.
+   * @param string $bundle
+   *   The entity bundle.
+   */
+  public function setComponentWeights(string $entity_type_id, string $bundle): void;
+
+  /**
    * Determine if a display is node teaser view display.
    *
    * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display

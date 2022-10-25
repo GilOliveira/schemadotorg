@@ -109,6 +109,16 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#description_link' => 'properties',
       '#default_value' => $entity->get('default_base_fields'),
     ];
+    $form['properties']['default_component_weights'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#settings_format' => 'component_name|100 or field_name|100',
+      '#title' => $this->t('Default component display weights'),
+      '#description' => $this->t('Enter default display component weights.')
+      . ' ' . $this->t('Generally, existing component weights should come after Schema.org fields and start at 100.'),
+      '#default_value' => $entity->get('default_component_weights'),
+    ];
+
     return $form;
   }
 

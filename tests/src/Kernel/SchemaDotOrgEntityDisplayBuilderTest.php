@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Drupal\Tests\schemadotorg\Kernel;
 
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Entity\Entity\EntityViewDisplay;
 
 /**
@@ -67,7 +68,6 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
 
     // Check setting entity display field weights for Schema.org properties.
     $this->schemaEntityDisplayBuilder->setFieldWeights('node', 'thing', ['name' => 'name']);
-
     \Drupal::entityTypeManager()->getStorage('entity_view_display')->resetCache();
     /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $entity_view_display */
     $entity_view_display = EntityViewDisplay::load('node.thing.default');
@@ -78,6 +78,15 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
       'region' => 'content',
     ];
     $this->assertEquals($expected_value, $entity_view_display->getComponent('name'));
+
+    // Check settings the default component weights.
+    $this->schemaEntityDisplayBuilder->setComponentWeights('node', 'thing');
+    \Drupal::entityTypeManager()->getStorage('entity_form_display')->resetCache();
+    /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $entity_view_display */
+    $entity_form_display = EntityFormDisplay::load('node.thing.default');
+    $components = $entity_form_display->getComponents();
+    $this->assertEquals(100, $components['uid']['weight']);
+    $this->assertEquals(110, $components['promote']['weight']);
 
     // Check determining if a display is node teaser view display.
     $entity_view_display = EntityViewDisplay::create([

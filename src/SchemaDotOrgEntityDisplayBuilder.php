@@ -236,6 +236,62 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
   /**
    * {@inheritdoc}
    */
+  public function setComponentWeights(string $entity_type_id, string $bundle): void {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
+    $mapping_type = $this->entityTypeManager
+      ->getStorage('schemadotorg_mapping_type')
+      ->load($entity_type_id);
+    if (!$mapping_type) {
+      return;
+    }
+
+    $component_weights = $mapping_type->getDefaultComponentWeights();
+    if (empty($component_weights)) {
+      return;
+    }
+
+    $this->setDisplayComponentWeights($entity_type_id, $bundle, 'form', $component_weights);
+    $this->setDisplayComponentWeights($entity_type_id, $bundle, 'view', $component_weights);
+  }
+
+  /**
+   * Set the display component weights.
+   *
+   * @param string $entity_type_id
+   *   The entity type id.
+   * @param string $bundle
+   *   The entity bundle.
+   * @param string $display_type
+   *   The entity display type.
+   * @param array $component_weights
+   *   The entity display component weights.
+   */
+  protected function setDisplayComponentWeights(string $entity_type_id, string $bundle, string $display_type, array $component_weights): void {
+    $display_type = ucfirst($display_type);
+    $modes_method = "get{$display_type}Modes";
+    $display_method = "get{$display_type}Display";
+
+    $modes = $this->$modes_method($entity_type_id, $bundle);
+    foreach ($modes as $mode) {
+      $display = $this->entityDisplayRepository->$display_method($entity_type_id, $bundle, $mode);
+      foreach ($component_weights as $component_name => $component_weight) {
+        $is_updated = FALSE;
+        $component = $display->getComponent($component_name);
+        if ($component && isset($component['region'])) {
+          $component['weight'] = $component_weight;
+          $display->setComponent($component_name, $component);
+          $is_updated = TRUE;
+        }
+      }
+      if ($is_updated) {
+        $display->save();
+      }
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function isNodeTeaserDisplay(EntityDisplayInterface $display): bool {
     $entity_type_id = $display->getTargetEntityTypeId();
     $mode = $display->getMode();

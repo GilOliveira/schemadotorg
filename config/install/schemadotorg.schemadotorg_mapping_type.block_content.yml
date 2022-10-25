@@ -28,3 +28,6 @@ default_base_fields:
     - dateModified
   langcode:
     - inLanguage
+default_component_weights:
+  langcode: 100
+

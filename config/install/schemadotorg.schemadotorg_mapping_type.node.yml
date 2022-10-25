@@ -122,3 +122,18 @@ default_base_fields:
     - dateModified
   field_tags:
     - keywords
+default_component_weights:
+  langcode: 100
+  links: 100
+  uid: 100
+  created: 100
+  promote: 110
+  sticky: 110
+  publish_on: 110
+  publish_state: 110
+  unpublish_on: 110
+  unpublish_state: 110
+  moderation_state: 110
+  simple_sitemap: 120
+  path: 120
+  status: 120

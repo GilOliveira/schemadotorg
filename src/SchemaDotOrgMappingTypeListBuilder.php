@@ -63,6 +63,11 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
         'class' => [RESPONSIVE_PRIORITY_LOW],
         'width' => '10%',
       ];
+      $header['default_component_weights'] = [
+        'data' => $this->t('Default component weights'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+        'width' => '10%',
+      ];
     }
     else {
       $header['entity_type'] = [
@@ -117,6 +122,9 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
 
       // Default base fields mapping.
       $row['default_base_fields'] = $this->buildAssociationItems($entity->get('default_base_fields'));
+
+      // Default component weights.
+      $row['default_component_weights'] = $this->buildKeyValuePairs($entity->get('default_component_weights'));
     }
 
     $row = $row + parent::buildRow($entity);

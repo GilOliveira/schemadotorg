@@ -69,7 +69,7 @@ function schemadotorg_metatag_schemadotorg_mapping_insert(SchemaDotOrgMappingInt
       'sidebar' => TRUE,
       'use_details' => TRUE,
     ],
-    'weight' => 120,
+    'weight' => 99,
   ]);
   $form_display->save();
 

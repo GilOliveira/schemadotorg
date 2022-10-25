@@ -62,7 +62,7 @@ class SchemaDotOrgMetatagTest extends SchemaDotOrgKernelEntityTestBase {
     // Check setting meta tag component in the default form display.
     $expected_component = [
       'type' => 'metatag_firehose',
-      'weight' => 120,
+      'weight' => 99,
       'region' => 'content',
       'settings' => [
         'sidebar' => TRUE,

@@ -49,6 +49,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *     "default_schema_types",
  *     "default_schema_type_properties",
  *     "default_base_fields",
+ *     "default_component_weights",
  *   }
  * )
  */
@@ -88,6 +89,15 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * @var array
    */
   protected $default_base_fields = [];
+
+  /**
+   * An associative array of default display component weights.
+   *
+   * @var array
+   */
+  protected $default_component_weights = [
+    'langcode' => 100,
+  ];
 
   /**
    * An associative array of grouped recommended Schema.org types.
@@ -243,6 +253,13 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
     $default_base_fields = $this->get('default_base_fields') ?: [];
     $base_field_names = array_keys($default_base_fields);
     return array_combine($base_field_names, $base_field_names);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultComponentWeights(): array {
+    return $this->get('default_component_weights');
   }
 
 }

@@ -194,7 +194,7 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManager implements SchemaDotOrgTaxono
             'children' => [],
             'parent_name' => '',
             // Same weight as meta tag sidebar.
-            'weight' => 120,
+            'weight' => 99,
             'format_type' => 'details',
             'format_settings' => ['open' => TRUE],
             'region' => 'content',

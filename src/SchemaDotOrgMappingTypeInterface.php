@@ -78,4 +78,12 @@ interface SchemaDotOrgMappingTypeInterface extends ConfigEntityInterface {
    */
   public function getBaseFieldNames(): array;
 
+  /**
+   * Gets an entity type's default display component weights.
+   *
+   * @return array
+   *   An entity type's default display component weights.
+   */
+  public function getDefaultComponentWeights(): array;
+
 }

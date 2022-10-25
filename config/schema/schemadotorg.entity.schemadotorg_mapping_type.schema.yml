@@ -51,3 +51,10 @@ schemadotorg.schemadotorg_mapping_type.*:
         sequence:
           type: string
           label: 'Schema.org property'
+    default_component_weights:
+      type: sequence
+      label: 'Default component weights'
+      sequence:
+        type: integer
+        label: 'Default component weight'
+

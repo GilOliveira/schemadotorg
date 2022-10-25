@@ -51,3 +51,15 @@ default_base_fields:
   field_media_video_file:
     - video
     - contentUrl
+default_component_weights:
+  field_media_audio_file: 0
+  field_media_document: 0
+  field_media_image: 0
+  field_media_oembed_video: 0
+  field_media_video_file: 0
+  langcode: 100
+  created: 100
+  uid: 100
+  status: 100
+  path: 110
+

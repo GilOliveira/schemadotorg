@@ -29,12 +29,20 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
   protected $schemaTypeManager;
 
   /**
+   * The Schema.org entity display builder.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface
+   */
+  protected $schemaEntityDisplayBuilder;
+
+  /**
    * {@inheritdoc}
    */
   public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
     $instance = parent::createInstance($container, $entity_type);
     $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
     $instance->schemaNames = $container->get('schemadotorg.names');
+    $instance->schemaEntityDisplayBuilder = $container->get('schemadotorg.entity_display_builder');
     return $instance;
   }
 
@@ -164,6 +172,20 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
       'target_bundle' => $entity->bundle(),
     ]);
     return ($entities) ? reset($entities) : NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function doPostSave(EntityInterface $entity, $update): void {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
+    parent::doPostSave($entity, $update);
+    if (!$update) {
+      $this->schemaEntityDisplayBuilder->setComponentWeights(
+        $entity->getTargetEntityTypeId(),
+        $entity->getTargetBundle(),
+      );
+    }
   }
 
 }
