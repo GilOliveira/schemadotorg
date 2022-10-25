@@ -20,4 +20,3 @@ dependencies:
   - 'paragraphs:paragraphs'
   - 'schemadotorg:schemadotorg'
   - 'schemadotorg:schemadotorg_paragraphs'
-  - 'schemadotorg_layout_paragraphs:schemadotorg_layout_paragraphs'
