@@ -115,11 +115,18 @@ function schemadotorg_descriptions_form_schemadotorg_mapping_form_alter(array &$
     }
   }
 
-  // Append a note to the subtype description.
-  if (isset($form['mapping']['subtype'][$add_field]['description'])) {
-    $form['mapping']['subtype'][$add_field]['description']['#default_value'] = '';
-    $form['mapping']['subtype'][$add_field]['description']['#description'] .= '<br/>'
-      . '<strong>' . t("If left blank, the description will be automatically set.") . '</strong>';
+  // Append a note to custom descriptions.
+  // @see schemadotorg_layout_paragraphs.module
+  // @see schemadotorg_subtype.module
+  $custom_descriptions = \Drupal::config('schemadotorg_descriptions.settings')
+    ->get('custom_descriptions');
+  foreach (array_keys($custom_descriptions) as $schema_property) {
+    if (isset($form['mapping'][$schema_property][$add_field]['description'])) {
+      $form['mapping'][$schema_property][$add_field]['description']['#default_value'] = '';
+      $form['mapping'][$schema_property][$add_field]['description']['#description'] .= '<br/>'
+        . '<strong>' . t("If left blank, the description will be automatically set.") . '</strong>';
+    }
+
   }
 }
 

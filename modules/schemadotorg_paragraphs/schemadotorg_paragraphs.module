@@ -68,7 +68,9 @@ function schemadotorg_paragraphs_schemadotorg_property_field_alter(
   // If any of the target bundles use the Paragraphs library,
   // append 'from_library' to target bundles.
   $target_type = $field_storage_values['settings']['target_type'];
-  $target_bundles = $field_values['settings']['handler_settings']['target_bundles'];
+  $handler_settings = $field_values['settings']['handler_settings'] ?? [];
+
+  $target_bundles = $handler_settings['target_bundles'] ?? [];
   foreach ($target_bundles as $target_bundle) {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $target_mapping */
     $target_mappings = $mapping_storage->loadByProperties([
@@ -89,7 +91,6 @@ function schemadotorg_paragraphs_schemadotorg_property_field_alter(
   }
 
   // Set the target bundles drag and drop order.
-  $handler_settings = $field_values['settings']['handler_settings'];
   $handler_settings['target_bundles_drag_drop'] = [];
   $weight = 0;
   foreach ($target_bundles as $target_bundle) {

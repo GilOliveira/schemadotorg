@@ -259,10 +259,6 @@ default_field_groups:
         - cookTime
         - recipeInstructions
         - nutrition
-    taxonomy:
-      label: 'Tags/Categories'
-      properties:
-        - keywords
     links:
       label: Links
       properties:
@@ -270,6 +266,10 @@ default_field_groups:
         - mentions
         - relatedLink
         - significantLink
+    taxonomy:
+      label: 'Tags/Categories'
+      properties:
+        - keywords
 default_label_suffix: information
 default_form_type: details
 default_view_type: fieldset

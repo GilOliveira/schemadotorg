@@ -261,8 +261,9 @@ schema_types:
     WebPage:
       - name
       - primaryImageOfPage
-      - relatedLink
+      - text
       - significantLink
+      - relatedLink
     CollectionPage:
       - hasPart
       - mentions
@@ -274,6 +275,7 @@ schema_types:
       - mainEntity
     WebSite:
       - name
+      - text
     Event:
       - description
       - duration
@@ -1176,15 +1178,17 @@ schema_properties:
     worksFor:
       unlimited: true
   default_field_weights:
+    - subtype
     - name
     - title
     - alternateName
+    - image
+    - logo
+    - primaryImageOfPage
+    - slogan
     - description
     - text
     - acceptedAnswer
-    - image
-    - logo
-    - slogan
     - author
     - contactType
     - telephone
@@ -1277,3 +1281,6 @@ schema_properties:
     - increasesRiskOf
     - usedToDiagnose
     - usesDevice
+    - significantLink
+    - relatedLink
+    - layoutParagraphs

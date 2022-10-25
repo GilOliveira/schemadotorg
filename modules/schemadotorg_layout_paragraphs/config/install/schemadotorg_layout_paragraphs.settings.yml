@@ -1,0 +1,5 @@
+default_schema_types:
+  - WebPage
+default_paragraph_types:
+  - layout
+  - cta

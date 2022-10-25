@@ -69,9 +69,7 @@ class SchemaDotOrgUiControllerTest extends SchemaDotOrgBrowserTestBase {
     $assert_session->linkExists('User (Person)');
 
     // Check that access is allowed to 'Add Schema.org type' page.
-    $account = $this->drupalCreateUser([
-      'administer schemadotorg',
-    ]);
+    $account = $this->drupalCreateUser(['administer schemadotorg']);
     $this->drupalLogin($account);
 
     // Check that access is allowed to 'Add Schema.org type' page but

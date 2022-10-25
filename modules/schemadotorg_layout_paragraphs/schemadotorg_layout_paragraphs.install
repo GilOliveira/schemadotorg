@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Layout Paragraphs module.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_layout_paragraphs_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  // Setting weight to 1 so that the Schema.org Layout Paragraphs hooks
+  // are triggered after the Schema.org Paragraphs module.
+  module_set_weight('schemadotorg_layout_paragraphs', 1);
+}

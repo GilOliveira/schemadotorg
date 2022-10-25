@@ -84,5 +84,40 @@
 
 .office-hours-slot td .office-hours-link + .office-hours-link{
   margin-top: 0.25rem;
+}
 
+/**
+ * Layout paragraphs.
+ */
+.paragraph--type--cta {
+  border: 1px solid var(--colorGinBorder);
+  border-radius: var(--ginBorderDefault);
+  padding: 1.25rem;
+}
+
+.lpb-enable__empty-message__wrapper {
+  border: 1px solid var(--colorGinBorder);
+  padding: 1.25rem;
+}
+
+.lpb-enable-button {
+  margin-top: 1.25rem;
+}
+
+.paragraph--type--cta .field--name-schema-name {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.paragraph--type--cta.border {
+  border-width: 3px;
+  border-color: #000;
+}
+
+.paragraph--type--cta.highlight {
+  background-color: #ffe;
+}
+
+.paragraph--type--cta.shadow {
+  box-shadow: 5px 10px 8px #888888;
 }

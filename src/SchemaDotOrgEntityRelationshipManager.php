@@ -77,6 +77,11 @@ class SchemaDotOrgEntityRelationshipManager implements SchemaDotOrgEntityRelatio
         continue;
       }
 
+      // Skip Schema.org property whose range include Schema.org Thing.
+      if (in_array($schema_property, ['mainEntity'])) {
+        continue;
+      }
+
       // Get expected target bundles.
       $target_type = $field->getSetting('target_type');
       $expected_target_bundles = $mapping_storage->getSchemaPropertyTargetBundles($target_type, $schema_type, $schema_property);

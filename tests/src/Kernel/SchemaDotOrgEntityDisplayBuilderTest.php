@@ -38,10 +38,10 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
 
     // Check getting default field weights.
     $default_field_weights = $this->schemaEntityDisplayBuilder->getDefaultFieldWeights();
-    $this->assertEquals(1, $default_field_weights['name']);
-    $this->assertEquals(2, $default_field_weights['title']);
-    $this->assertEquals(3, $default_field_weights['alternateName']);
-    $this->assertEquals(4, $default_field_weights['description']);
+    $this->assertEquals(2, $default_field_weights['name']);
+    $this->assertEquals(3, $default_field_weights['title']);
+    $this->assertEquals(4, $default_field_weights['alternateName']);
+    $this->assertEquals(9, $default_field_weights['description']);
 
     // Check setting entity displays for a field.
     $this->schemaEntityDisplayBuilder->setFieldDisplays(
@@ -74,7 +74,7 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
     $expected_value = [
       'settings' => [],
       'third_party_settings' => [],
-      'weight' => 1,
+      'weight' => 2,
       'region' => 'content',
     ];
     $this->assertEquals($expected_value, $entity_view_display->getComponent('name'));

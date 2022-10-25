@@ -1,0 +1,8 @@
+name: 'Schema.org Blueprint Layout Paragraphs test'
+type: module
+description: 'Support module for the Schema.org Blueprint Layout Paragraphs module tests.'
+package: Testing
+dependencies:
+ - 'drupal:file'
+ - 'drupal:image'
+ - 'drupal:media'

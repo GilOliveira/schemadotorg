@@ -9,8 +9,8 @@ declare(strict_types = 1);
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Render\Element;
+use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Implements hook_help().
@@ -89,7 +89,7 @@ function schemadotorg_demo_standard_admin_field_widget_office_hours_default_form
 /**
  * Process office hours table row and convert links to extra small buttons.
  */
-function _schemadotorg_demo_standard_admin_field_widget_office_hours_default_process(array &$element, FormStateInterface $form_state, array $context) {
+function _schemadotorg_demo_standard_admin_field_widget_office_hours_default_process(array &$element, FormStateInterface $form_state, array $context): array {
   foreach ($element['operations']['data'] as &$link) {
     if (isset($link['#type'])) {
       $link['#attributes']['class'][] = 'button';

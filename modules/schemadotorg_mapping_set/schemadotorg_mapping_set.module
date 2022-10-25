@@ -38,7 +38,7 @@ function schemadotorg_mapping_set_help(string $route_name, RouteMatchInterface $
  */
 function schemadotorg_mapping_set_form_schemadotorg_mapping_add_form_alter(array &$form, FormStateInterface $form_state): void {
   // Make sure we are loading the form via the GET method.
-  if (\Drupal::request()->getMethod() !== 'GET') {
+  if (!\Drupal::request()->isMethod('get')) {
     return;
   }
 

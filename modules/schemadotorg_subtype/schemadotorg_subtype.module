@@ -9,11 +9,11 @@ declare(strict_types = 1);
 
 use Drupal\Core\Field\FieldFilteredMarkup;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
+use Drupal\schemadotorg\Utility\SchemaDotOrgElementHelper;
 
 /**
  * Implements hook_help().
@@ -28,6 +28,10 @@ function schemadotorg_subtype_help(string $route_name, RouteMatchInterface $rout
   return $help_manager->buildHelpPage($route_name, $route_match);
 }
 
+/* ************************************************************************** */
+// Schema.org mapping defaults.
+/* ************************************************************************** */
+
 /**
  * Implements hook_schemadotorg_mapping_defaults_alter().
  */
@@ -39,6 +43,9 @@ function schemadotorg_subtype_schemadotorg_mapping_defaults_alter(string $entity
     return;
   }
 
+  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+  $schema_names = \Drupal::service('schemadotorg.names');
+
   $config = \Drupal::configFactory()->get('schemadotorg_subtype.settings');
 
   // Set default properties.
@@ -49,8 +56,6 @@ function schemadotorg_subtype_schemadotorg_mapping_defaults_alter(string $entity
   ];
 
   // Set machine name with subtype suffix.
-  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
-  $schema_names = \Drupal::service('schemadotorg.names');
   $machine_name_suffix = $config->get('default_field_suffix');
   $machine_name_max_length = $schema_names->getNameMaxLength('properties') - strlen($machine_name_suffix);
   $options = [
@@ -140,6 +145,7 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
       '#type' => 'item',
       '#title' => t('Schema.org subtyping'),
       '#markup' => t('Enabled'),
+      '#input' => FALSE,
       '#weight' => -5,
     ];
     $form['mapping']['subtype']['name'] = [
@@ -179,7 +185,7 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
     '#attributes' => ['data-schemadotorg-ui-summary' => t('List (text)')],
     '#states' => [
       'visible' => [
-        ':input[name="properties[subtype][field][name]"]' => ['checked' => TRUE],
+        ':input[name="mapping[properties][subtype][field][name]"]' => ['checked' => TRUE],
       ],
     ],
   ];
@@ -224,8 +230,8 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
     '#default_value' => $subtype_defaults['allowed_values'],
   ];
 
-  // Set parents for each element to align the Schema.org UI mapping form.
-  foreach (Element::children($form['mapping']['subtype'][$add_field]) as $key) {
-    $form['mapping']['subtype'][$add_field][$key]['#parents'] = ['mapping', 'properties', 'subtype', 'field', $add_field, $key];
-  }
+  SchemaDotOrgElementHelper::setElementParents(
+    $form['mapping']['subtype'][$add_field],
+    ['mapping', 'properties', 'subtype', 'field', $add_field]
+  );
 }

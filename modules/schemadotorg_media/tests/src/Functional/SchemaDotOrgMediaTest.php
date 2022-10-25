@@ -85,11 +85,11 @@ class SchemaDotOrgMediaTest extends SchemaDotOrgBrowserTestBase {
 
     $form_display = $entity_display_repository->getFormDisplay('media', 'image_object');
     $form_components = $form_display->getComponents();
-    $this->assertEquals(7, $form_components['field_media_image']['weight']);
+    $this->assertEquals(5, $form_components['field_media_image']['weight']);
 
     $view_display = $entity_display_repository->getViewDisplay('media', 'image_object');
     $view_components = $view_display->getComponents();
-    $this->assertEquals(7, $view_components['field_media_image']['weight']);
+    $this->assertEquals(5, $view_components['field_media_image']['weight']);
 
     // Check default source mapping.
     $mapping = SchemaDotOrgMapping::load('media.image_object');

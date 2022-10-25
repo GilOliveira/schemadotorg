@@ -143,7 +143,8 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     // Display warning that new Schema.org type is already mapped.
     if ($mapping_storage->isSchemaTypeMapped($target_entity_type_id, $schema_type)
-      && !$supports_multiple) {
+      && !$supports_multiple
+      && $this->getRequest()->isMethod('get')) {
       /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $entity */
       $entity = $mapping_storage->loadBySchemaType($target_entity_type_id, $schema_type);
       $target_entity = $entity->getTargetEntityBundleEntity();
@@ -422,7 +423,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
 
     // Display warning when creating a new entity or fields to UI and not CLI.
     $is_new = $this->getEntity()->isNew();
-    $is_get = ($this->getRequest()->getMethod() === 'GET');
+    $is_get = $this->getRequest()->isMethod('get');
     $is_cli = (PHP_SAPI === 'cli');
     if ($is_new && $is_get && !$is_cli) {
       if ($this->getEntity()->isTargetEntityTypeBundle()) {

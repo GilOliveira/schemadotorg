@@ -130,11 +130,6 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
       return;
     }
 
-    // Do not use field groups via node teaser display.
-    if ($this->schemaEntityDisplayBuilder->isNodeTeaserDisplay($display)) {
-      return;
-    }
-
     $entity_type_id = $display->getTargetEntityTypeId();
     $display_type = ($display instanceof EntityFormDisplayInterface) ? 'form' : 'view';
 
@@ -144,6 +139,14 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
     $default_format_type = $config->get('default_' . $display_type . '_type') ?: '';
     $default_format_settings = ($default_format_type === 'details') ? ['open' => TRUE] : [];
 
+    // @todo Determine a better mechanism to disable field groups.
+    // Do not use field groups via node teaser display or layout paragraphs.
+    if ($this->schemaEntityDisplayBuilder->isNodeTeaserDisplay($display)
+      || $schema_property === 'layoutParagraphs') {
+      return;
+    }
+
+    // @todo Determine a better mechanism to disable field groups.
     // Require field groups to be defined except for a paragraph's view display,
     // which adds a field group around all displayed paragraphs.
     $is_paragraph_view_display = ($entity_type_id === 'paragraph' && $display_type === 'view');

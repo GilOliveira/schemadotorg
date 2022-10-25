@@ -68,7 +68,9 @@
     "drupal/focal_point": "^1.0",
     "drupal/inline_entity_form": "^1.0",
     "drupal/jsonapi_extras": "^3.0",
+    "drupal/layout_paragraphs": "^2.0",
     "drupal/linkit": "^6.0",
+    "drupal/link_attributes": "^1.0",
     "drupal/metatag": "^1.0",
     "drupal/moderation_sidebar": "^1.0",
     "drupal/moderation_dashboard": "^2.0",
@@ -102,7 +104,8 @@
         "Issue #2582295: Confirmation cancel links are incorrect if installed in a subdirectory": "https://www.drupal.org/files/issues/2021-08-23/2582295-52.patch",
         "Issue #3087632: menu_name max length is too long":  "https://git.drupalcode.org/project/drupal/-/merge_requests/1459.diff",
         "Issue #3151534: 'Add another item' field button is displayed as a modal action": "https://www.drupal.org/files/issues/2022-01-06/3151534-34.patch",
-        "Issue #3312270: Twig LoaderError after upgrading Twig to 2.15.3": "https://www.drupal.org/files/issues/2022-09-28/3312270-claro-menu-twig-fix.patch"
+        "Issue #3312270: Twig LoaderError after upgrading Twig to 2.15.3": "https://www.drupal.org/files/issues/2022-09-28/3312270-claro-menu-twig-fix.patch",
+        "Issue #2764829: EditorConfig file lack settings for markdown files": "https://www.drupal.org/files/issues/2022-06-14/drupal-2764829-21.patch"
       },
       "drupal/address": {
         "Issue #2819251: generateSampleValue": "https://www.drupal.org/files/issues/2022-05-16/address-2819251-6.patch"
@@ -118,6 +121,9 @@
       },
       "drupal/focal_point": {
         "Issue #3162961: Stylish the preview button according to the admin theme CSS": "https://www.drupal.org/files/issues/2021-07-02/claro_gin_preview_link-3162961-4.patch"
+      },
+      "drupal/layout_paragraphs": {
+         "Issue #3258029 by Peacog: Media Library validation bug when content type has a media field and a paragraph field with the same machine name": "https://git.drupalcode.org/project/layout_paragraphs/-/merge_requests/58.diff"
       },
       "drupal/metatag": {
         "Issue #2945817: Support JSON API, REST, GraphQL and custom normalizations": "https://www.drupal.org/files/issues/2022-10-13/metatag-data-type-support-2945817-154.patch"

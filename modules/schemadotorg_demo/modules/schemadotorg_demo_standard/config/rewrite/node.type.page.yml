@@ -1,0 +1,4 @@
+config_rewrite:
+  replace: ['name', 'description']
+name: 'Page'
+description: ''

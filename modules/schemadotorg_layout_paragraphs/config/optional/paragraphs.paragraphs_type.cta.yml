@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_library
+third_party_settings:
+  paragraphs_library:
+    allow_library_conversion: true
+id: cta
+label: 'Call to action'
+icon_uuid: null
+icon_default: null
+description: 'A call to action (CTA) is an element on a <a href="https://schema.org/WebPage">https://schema.org/WebPage</a> that results in a <a href="https://schema.org/ConsumeAction">https://schema.org/ConsumeAction</a>.'
+behavior_plugins: {  }

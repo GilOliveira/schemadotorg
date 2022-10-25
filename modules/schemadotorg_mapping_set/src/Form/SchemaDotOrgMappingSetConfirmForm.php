@@ -140,7 +140,7 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
 
     }
 
-    if ($form_state->isMethodType('GET')
+    if ($form_state->isMethodType('get')
       && in_array($this->operation, ['generate', 'kill'])) {
       $this->messenger()->addWarning($this->t('All existing content will be deleted.'));
     }

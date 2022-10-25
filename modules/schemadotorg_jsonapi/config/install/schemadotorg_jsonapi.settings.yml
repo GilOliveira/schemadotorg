@@ -18,6 +18,7 @@ default_base_fields:
   - node--metatag
   - node--field_image
   - node--field_tags
+  - paragraph--behavior_settings
   - term--weight
   - term--parent
   - user--user_picture
