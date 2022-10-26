@@ -267,11 +267,11 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
       ->getEditable('schemadotorg_descriptions.settings')
       ->get('custom_descriptions');
     foreach ($overrides as $config_name => $id) {
-      if ($type && array_key_exists("$type--$id", $custom_descriptions)) {
+      if ($custom_descriptions && array_key_exists("$type--$id", $custom_descriptions)) {
         $description = $custom_descriptions["$type--$id"];
         $help = $custom_descriptions["$type--$id"];
       }
-      elseif (array_key_exists($id, $custom_descriptions)) {
+      elseif ($custom_descriptions && array_key_exists($id, $custom_descriptions)) {
         $description = $custom_descriptions[$id];
         $help = $custom_descriptions[$id];
       }

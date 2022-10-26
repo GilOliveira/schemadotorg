@@ -72,6 +72,13 @@ Entities
 - **[Schema.org Blueprints Taxonomy](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_taxonomy)**  
   Assists with creating and mapping taxonomy vocabularies and terms.
 
+Layout
+
+- **[Schema.org Blueprints Action](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_action)**  
+  Provides support for https:://schema.org/Action using a call to action paragraph type.
+
+- **[Schema.org Layout Paragraphs](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_layout_paragraphs)**  
+
 SEO
 
 - **[Schema.org Blueprints Metatag](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_metatag)**  
@@ -248,6 +255,11 @@ Date/time
 - **[SmartDate](https://www.drupal.org/project/smart_date)**  
   (Applies to: [Date](https://schema.org/Date), [DateTime](https://schema.org/DateTime), [Schedule](https://schema.org/Schedule))
   Provides the ability to store start and end times, with duration. Also provides an intelligent admin UI, and a variety of formatting options.
+
+Link
+
+**[Link Attributes](https://www.drupal.org/project/link_attributes)**    
+  Provides a widget to allow settings of link attributes for menu links.
 
 Image
 

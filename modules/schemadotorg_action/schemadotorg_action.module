@@ -1,0 +1,116 @@
+<?php
+
+/**
+ * @file
+ * Provides support for https:://schema.org/Action.
+ */
+
+declare(strict_types = 1);
+
+use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\paragraphs\ParagraphInterface;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_action_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
+  $help_manager = \Drupal::service('schemadotorg.help_manager');
+  return $help_manager->buildHelpPage($route_name, $route_match);
+}
+
+/**
+ * Implements hook_schemadotorg_jsonld_schema_type_entity_load().
+ */
+function schemadotorg_action_schemadotorg_jsonld_schema_type_entity_load(array &$data, EntityInterface $entity): void {
+  if (empty($data['mainEntity'])) {
+    return;
+  }
+
+  // Move potentialAction from mainEntity to the main $data.
+  foreach ($data['mainEntity'] as &$main_entity) {
+    if (empty($main_entity['potentialAction'])) {
+      continue;
+    }
+
+    $data += ['potentialAction' => []];
+    if (isset($main_entity['potentialAction']['@type'])) {
+      $data['potentialAction'][] = $main_entity['potentialAction'];
+    }
+    else {
+      $data['potentialAction'] = array_merge($data['potentialAction'], $main_entity['potentialAction']);
+    }
+    unset($main_entity['potentialAction']);
+  }
+}
+
+/**
+ * Implements hook_schemadotorg_jsonld_schema_type_field_alter().
+ */
+function schemadotorg_action_schemadotorg_jsonld_schema_type_field_alter(array &$data, FieldItemListInterface $items): void {
+  $field_storage = $items->getFieldDefinition()->getFieldStorageDefinition();
+  $field_type = $field_storage->getType();
+  if ($field_type !== 'link') {
+    return;
+  }
+
+  /** @var \Drupal\link\LinkItemInterface $item */
+  foreach ($items as $item) {
+    $options = $item->options ?? [];
+    $potential_action = NestedArray::getValue($options, ['attributes', 'schema_potential_action']);
+    if ($potential_action) {
+      $data += ['potentialAction' => []];
+      $data['potentialAction'][] = [
+        '@action' => $potential_action,
+        'target' => $item->getUrl()->setAbsolute()->toString(),
+      ];
+    }
+  }
+}
+
+/**
+ * Implements hook_link_alter().
+ */
+function schemadotorg_action_link_alter(array &$variables): void {
+  // Remove the custom 'schema_potential_action' link attribute.
+  if (isset($variables['options'])
+    && isset($variables['options']['attributes'])
+    && isset($variables['options']['attributes']['schema_potential_action'])) {
+    unset($variables['options']['attributes']['schema_potential_action']);
+  }
+}
+
+/**
+ * Implements hook_entity_view_alter().
+ *
+ * Takes paragraph's field_PARAGRAPH_TYPE_class values and adds them to the
+ * paragraph's attributes.
+ *
+ * @todo Replace custom 'class' field with Paragraphs Collection module.
+ * @see https://www.drupal.org/project/paragraphs_collection
+ */
+function schemadotorg_action_paragraph_view_alter(array &$build, ParagraphInterface $paragraph, EntityViewDisplayInterface $display): void {
+  $field_name = 'field_' . $paragraph->bundle() . '_class';
+  if (!$paragraph->hasField($field_name)) {
+    return;
+  }
+
+  $classses = [];
+  foreach ($paragraph->$field_name as $item) {
+    $classses[] = $item->value;
+  }
+  if (empty($classses)) {
+    return;
+  }
+
+  if (!empty($build['#attributes']['class'])) {
+    $build['#attributes']['class'] = array_merge($build['#attributes']['class'], $classses);
+  }
+  else {
+    $build['#attributes']['class'] = $classses;
+  }
+}

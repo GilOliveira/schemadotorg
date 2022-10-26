@@ -26,10 +26,6 @@ Features
   instance, form display, and view display.
 - Configure paragraph libraries support when the 'Layout Paragraphs Library'
   module is enabled.
-- Creates a 'Call to action' paragraph type which is mapped to
-  [Webpage](https://schema.org/WebPage).
-- Add class field to 'Call to actions' paragraph type which add custom class
-  to the render paragraph and JSON:API.
 
 
 Requirements
@@ -71,10 +67,6 @@ Notes
 Todo
 ----
 
-- CTA paragraph type might need to be moved to schemadotorg_action.module
-- Replace custom 'class' field with
-  [Paragraphs Collection](https://www.drupal.org/project/paragraphs_collection) module.
-  @see schemadotorg_layout_paragraphs_paragraph_view_alter()
-- Rework layout pargraphs field weighting.
+- Rework layout paragraphs field weighting and grouping.
   @see schemadotorg_layout_paragraphs_entity_form_display_presave()
 

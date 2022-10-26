@@ -249,7 +249,8 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
         return ($item->value !== LanguageInterface::LANGCODE_NOT_SPECIFIED) ? $item->value : NULL;
 
       case 'link':
-        return $item->uri;
+        /** @var \Drupal\link\LinkItemInterface $item */
+        return $item->getUrl()->setAbsolute()->toString();
 
       case 'text_long':
       case 'text_with_summary':

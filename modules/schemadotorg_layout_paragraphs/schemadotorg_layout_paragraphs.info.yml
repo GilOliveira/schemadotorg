@@ -6,17 +6,8 @@ core_version_requirement: '^8.9 || ^9'
 lifecycle: experimental
 configure: schemadotorg.settings.types
 dependencies:
-  - 'drupal:field'
-  - 'drupal:image'
-  - 'drupal:link'
-  - 'drupal:media'
-  - 'drupal:media_library'
   - 'drupal:node'
-  - 'drupal:options'
-  - 'drupal:text'
   - 'jsonapi_extras:jsonapi_extras'
   - 'layout_paragraphs:layout_paragraphs'
-  - 'link_attributes:link_attributes'
-  - 'paragraphs:paragraphs'
   - 'schemadotorg:schemadotorg'
   - 'schemadotorg:schemadotorg_paragraphs'

@@ -48,6 +48,7 @@ content:
       enabled_attributes:
         class: true
         title: true
+        schema_potential_action: true
         id: false
         name: false
         target: false
