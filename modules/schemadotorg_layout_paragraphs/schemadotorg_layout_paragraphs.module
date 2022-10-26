@@ -10,6 +10,8 @@ declare(strict_types = 1);
 use Drupal\Core\Entity\Display\EntityDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\file\Entity\File;
+use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 
 /**
