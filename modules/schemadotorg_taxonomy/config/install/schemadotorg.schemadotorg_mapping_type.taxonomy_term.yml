@@ -32,6 +32,6 @@ default_base_fields:
   description:
     - description
 default_component_weights:
-  langcode: 100
-  published: 100
-  path: 110
+  langcode: 200
+  published: 200
+  path: 210

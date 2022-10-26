@@ -86,6 +86,8 @@ schema_types:
       - name
     PodcastEpisode:
       - actor
+    Statement:
+      - text
     TVEpisode:
       - actor
       - director
@@ -198,8 +200,6 @@ schema_types:
       - penciler
     Quotation:
       - creator
-      - isPartOf
-      - name
       - text
     Review:
       - itemReviewed
@@ -1024,6 +1024,7 @@ schema_properties:
       unlimited: true
     itemListElement:
       label: Items
+      type: text_long
       unlimited: true
     jobBenefits:
       type: text_long
@@ -1190,6 +1191,7 @@ schema_properties:
     - text
     - acceptedAnswer
     - author
+    - creator
     - contactType
     - telephone
     - email
@@ -1283,4 +1285,4 @@ schema_properties:
     - usesDevice
     - significantLink
     - relatedLink
-    - layoutParagraphs
+    - mainEntity

@@ -123,17 +123,17 @@ default_base_fields:
   field_tags:
     - keywords
 default_component_weights:
-  langcode: 100
-  links: 100
-  uid: 100
-  created: 100
-  promote: 110
-  sticky: 110
-  publish_on: 110
-  publish_state: 110
-  unpublish_on: 110
-  unpublish_state: 110
-  moderation_state: 110
-  simple_sitemap: 120
-  path: 120
-  status: 120
+  langcode: 200
+  links: 200
+  uid: 200
+  created: 200
+  promote: 210
+  sticky: 210
+  publish_on: 210
+  publish_state: 210
+  unpublish_on: 210
+  unpublish_state: 210
+  moderation_state: 210
+  simple_sitemap: 220
+  path: 220
+  status: 220

@@ -85,8 +85,8 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
     /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $entity_view_display */
     $entity_form_display = EntityFormDisplay::load('node.thing.default');
     $components = $entity_form_display->getComponents();
-    $this->assertEquals(100, $components['uid']['weight']);
-    $this->assertEquals(110, $components['promote']['weight']);
+    $this->assertEquals(200, $components['uid']['weight']);
+    $this->assertEquals(210, $components['promote']['weight']);
 
     // Check determining if a display is node teaser view display.
     $entity_view_display = EntityViewDisplay::create([

@@ -30,3 +30,9 @@ schemadotorg_field_group.settings:
     default_view_type:
       type: string
       label: 'Default field group view type'
+    disable_field_groups:
+      type: sequence
+      label: 'Disable field groups'
+      sequence:
+        type: string
+        label: 'Disable field group'

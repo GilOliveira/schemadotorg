@@ -7,7 +7,6 @@ Table of contents
 * Configuration
 * References
 * Notes
-* Todo
 
 
 Introduction
@@ -62,11 +61,3 @@ Notes
   - Table
   - Group
   - Embed (Block, Custom block, View, Webform)
-
-
-Todo
-----
-
-- Rework layout paragraphs field weighting and grouping.
-  @see schemadotorg_layout_paragraphs_entity_form_display_presave()
-

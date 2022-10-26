@@ -69,4 +69,4 @@ default_base_fields:
   langcode:
     - inLanguage
 default_component_weights:
-  langcode: 100
+  langcode: 200

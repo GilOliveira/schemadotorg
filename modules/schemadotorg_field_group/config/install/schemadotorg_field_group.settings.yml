@@ -44,10 +44,6 @@ default_field_groups:
         - articleBody
         - text
         - author
-    main_content:
-      label: 'Main content'
-      properties:
-        - mainEntity
     media:
       label: Media/Assets
       properties:
@@ -273,3 +269,10 @@ default_field_groups:
 default_label_suffix: information
 default_form_type: details
 default_view_type: fieldset
+disable_field_groups:
+  - 'node--view--teaser'
+  - 'paragraph--view--default'
+  - 'paragraph--Quotation'
+  - 'paragraph--Statement'
+  - 'paragraph--ItemList'
+  - 'mainEntity'

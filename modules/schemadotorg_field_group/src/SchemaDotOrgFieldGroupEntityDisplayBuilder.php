@@ -125,8 +125,7 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
    * @see \Drupal\field_group\Form\FieldGroupAddForm::submitForm
    */
   protected function setFieldGroup(EntityDisplayInterface $display, string $field_name, string $schema_type, string $schema_property): void {
-    // Make sure the field component exists.
-    if (!$display->getComponent($field_name)) {
+    if (!$this->hasFieldGroup($display, $field_name, $schema_type, $schema_property)) {
       return;
     }
 
@@ -138,21 +137,6 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
     $default_label_suffix = $config->get('default_label_suffix');
     $default_format_type = $config->get('default_' . $display_type . '_type') ?: '';
     $default_format_settings = ($default_format_type === 'details') ? ['open' => TRUE] : [];
-
-    // @todo Determine a better mechanism to disable field groups.
-    // Do not use field groups via node teaser display or layout paragraphs.
-    if ($this->schemaEntityDisplayBuilder->isNodeTeaserDisplay($display)
-      || $schema_property === 'layoutParagraphs') {
-      return;
-    }
-
-    // @todo Determine a better mechanism to disable field groups.
-    // Require field groups to be defined except for a paragraph's view display,
-    // which adds a field group around all displayed paragraphs.
-    $is_paragraph_view_display = ($entity_type_id === 'paragraph' && $display_type === 'view');
-    if (empty($default_field_groups) && !$is_paragraph_view_display) {
-      return;
-    }
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
     $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
@@ -241,6 +225,56 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
     $component = $display->getComponent($field_name);
     $component['weight'] = $field_weight;
     $display->setComponent($field_name, $component);
+  }
+
+  /**
+   * Determine if the Schema.org property/field name has field group.
+   *
+   * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
+   *   The entity display.
+   * @param string $field_name
+   *   The field name to be set.
+   * @param string $schema_type
+   *   The field name's associated Schema.org type.
+   * @param string $schema_property
+   *   The field name's associated Schema.org property.
+   *
+   * @return bool
+   *   TRUE if the Schema.org property/field name has field group
+   */
+  protected function hasFieldGroup(EntityDisplayInterface $display, string $field_name, string $schema_type, string $schema_property): bool {
+    if (!$display->getComponent($field_name)) {
+      return FALSE;
+    }
+
+    $disable_field_groups = $this->configFactory
+      ->get('schemadotorg_field_group.settings')
+      ->get('disable_field_groups');
+    if (empty($disable_field_groups)) {
+      return TRUE;
+    }
+
+    $entity_type_id = $display->getTargetEntityTypeId();
+    $display_type = ($display instanceof EntityFormDisplayInterface) ? 'form' : 'view';
+    $display_mode = $display->getMode();
+
+    $disabled_patterns = [
+      $entity_type_id,
+      "$entity_type_id--$display_type",
+      "$entity_type_id--$display_type--$schema_type",
+      "$entity_type_id--$display_type--$schema_type--$schema_property",
+      "$entity_type_id--$display_type--$schema_property",
+      "$entity_type_id--$display_type--$display_mode",
+      "$entity_type_id--$display_type--$display_mode--$schema_type",
+      "$entity_type_id--$display_type--$display_mode--$schema_type--$schema_property",
+      "$entity_type_id--$display_type--$display_mode--$schema_property",
+      "$entity_type_id--$schema_type",
+      "$entity_type_id--$schema_type--$schema_property",
+      "$entity_type_id--$schema_property",
+    ];
+
+    $disabled = (bool) array_intersect($disable_field_groups, $disabled_patterns);
+    return !$disabled;
   }
 
 }

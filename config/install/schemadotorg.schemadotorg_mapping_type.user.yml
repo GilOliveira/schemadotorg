@@ -20,6 +20,6 @@ default_base_fields:
     - image
 default_component_weights:
   user_picture: 0
-  langcode: 100
-  member_for: 100
+  langcode: 200
+  member_for: 200
 

@@ -123,7 +123,8 @@
         "Issue #3162961: Stylish the preview button according to the admin theme CSS": "https://www.drupal.org/files/issues/2021-07-02/claro_gin_preview_link-3162961-4.patch"
       },
       "drupal/layout_paragraphs": {
-         "Issue #3258029 by Peacog: Media Library validation bug when content type has a media field and a paragraph field with the same machine name": "https://git.drupalcode.org/project/layout_paragraphs/-/merge_requests/58.diff"
+         "Issue #3258029: Media Library validation bug when content type has a media field and a paragraph field with the same machine name": "https://git.drupalcode.org/project/layout_paragraphs/-/merge_requests/58.diff",
+        "Issue #3273387: Layout Paragraphs Builder Field Formatter causes error on Layout Builder display mode management screen": "https://git.drupalcode.org/project/layout_paragraphs/-/merge_requests/95.diff"
       },
       "drupal/metatag": {
         "Issue #2945817: Support JSON API, REST, GraphQL and custom normalizations": "https://www.drupal.org/files/issues/2022-10-13/metatag-data-type-support-2945817-154.patch"

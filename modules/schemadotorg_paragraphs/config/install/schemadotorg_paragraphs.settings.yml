@@ -8,3 +8,6 @@ paragraphs_library:
   - MedicalRiskFactor
   - MedicalTherapy
   - MedicalSignOrSymptom
+  - Statement
+  - Quotation
+  - ItemList

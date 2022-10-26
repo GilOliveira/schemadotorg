@@ -69,42 +69,6 @@ function schemadotorg_layout_paragraphs_schemadotorg_property_field_alter(
 }
 
 /* ************************************************************************** */
-// Entity hooks.
-/* ************************************************************************** */
-
-/**
- * Implements hook_ENTITY_TYPE_presave().
- *
- * @todo Rework layout pargraphs field weighting.
- */
-function schemadotorg_layout_paragraphs_entity_form_display_presave(EntityDisplayInterface $display): void {
-  /** @var \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManagerInterface $layout_pragraphs_mananger */
-  $layout_pragraphs_mananger = \Drupal::service('schemadotorg_layout_paragraphs.manager');
-  $field_name = $layout_pragraphs_mananger->getFieldName();
-
-  $component = $display->getComponent($field_name);
-  if (!$component) {
-    return;
-  }
-
-  // Force the layout component to always be last on the page.
-  if ($component['region'] === 'content') {
-    $component['weight'] = 200;
-    $display->setComponent($field_name, $component);
-  }
-
-  // Remove the layout component from the main content group.
-  $display->unsetThirdPartySetting('field_group', 'group_main_content');
-}
-
-/**
- * Implements hook_ENTITY_TYPE_presave().
- */
-function schemadotorg_layout_paragraphs_entity_view_display_presave(EntityDisplayInterface $display): void {
-  schemadotorg_layout_paragraphs_entity_form_display_presave($display);
-}
-
-/* ************************************************************************** */
 // Schema.org types settings form.
 /* ************************************************************************** */
 

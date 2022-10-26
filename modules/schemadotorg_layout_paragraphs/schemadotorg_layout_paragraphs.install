@@ -7,6 +7,8 @@
 
 declare(strict_types = 1);
 
+use Drupal\paragraphs\Entity\ParagraphsType;
+
 /**
  * Implements hook_install().
  */
@@ -18,4 +20,21 @@ function schemadotorg_layout_paragraphs_install(bool $is_syncing): void {
   // Setting weight to 1 so that the Schema.org Layout Paragraphs hooks
   // are triggered after the Schema.org Paragraphs module.
   module_set_weight('schemadotorg_layout_paragraphs', 1);
+
+  // Create default paragraph types.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $mapping_manager */
+  $mapping_manager = \Drupal::service('schemadotorg.mapping_manager');
+  $schema_types = [
+    'quotation' => 'Quotation',
+    'item_list' => 'ItemList',
+    'statement' => 'Statement',
+  ];
+  foreach ($schema_types as $paragraph_type => $schema_type) {
+    if (!ParagraphsType::load($paragraph_type)) {
+      $mapping_manager->createType('paragraph', $schema_type);
+    }
+  }
+
+  // Create the WebPage content type.
+  // $mapping_manager->createType('node', 'WebPage');
 }

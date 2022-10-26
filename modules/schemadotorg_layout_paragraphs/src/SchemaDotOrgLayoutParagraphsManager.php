@@ -296,11 +296,15 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
     }
 
     // Make sure the paragraph types exists.
-    $default_paragraph_types = $this->entityTypeManager
+    $existing_paragraph_types = $this->entityTypeManager
       ->getStorage('paragraphs_type')
       ->getQuery()
       ->condition('id', $default_paragraph_types, 'IN')
       ->execute();
+    $default_paragraph_types = array_intersect_key(
+      array_combine($default_paragraph_types, $default_paragraph_types),
+      array_combine($existing_paragraph_types, $existing_paragraph_types)
+    );
 
     // Start weight at -10 to insert these paragraphs type before
     // the existing paragraph types.
@@ -312,7 +316,7 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
         'weight' => $weight,
         'enabled' => TRUE,
       ];
-      $weight--;
+      $weight++;
     }
 
     $field_values['settings']['handler_settings'] = $handler_settings;

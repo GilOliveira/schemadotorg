@@ -55,14 +55,17 @@ class SchemaDotOrgLayoutParagraphsTest extends SchemaDotOrgBrowserTestBase {
     /** @var \Drupal\field\Entity\FieldConfig $field */
     $field = FieldConfig::loadByName('node', 'page', 'schema_main_entity');
     $handler_settings = $field->getSetting('handler_settings');
-    $this->assertEquals(['layout' => 'layout'], $handler_settings['target_bundles']);
+    $this->assertEquals([
+      'layout' => 'layout',
+      'statement' => 'statement',
+      'quotation' => 'quotation',
+      'item_list' => 'item_list',
+    ], $handler_settings['target_bundles']);
 
     // Check that the form display is set up.
     $form_display = $entity_display_repository->getFormDisplay('node', 'page');
     $form_component = $form_display->getComponent('schema_main_entity');
     $this->assertEquals('layout_paragraphs', $form_component['type']);
-    // @see schemadotorg_layout_paragraphs_entity_form_display_presave()
-    $this->assertEquals(200, $form_component['weight']);
     $this->assertNull($form_display->getThirdPartySetting('field_group', 'group_main_content'));
 
     // Check that the view display is set up.
@@ -70,8 +73,6 @@ class SchemaDotOrgLayoutParagraphsTest extends SchemaDotOrgBrowserTestBase {
     $view_component = $view_display->getComponent('schema_main_entity');
     $this->assertEquals('layout_paragraphs_builder', $view_component['type']);
     $this->assertEquals('hidden', $view_component['label']);
-    // @see schemadotorg_layout_paragraphs_entity_view_display_presave()
-    $this->assertEquals(200, $view_component['weight']);
     $this->assertNull($view_display->getThirdPartySetting('field_group', 'group_main_content'));
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $mapping_manager */

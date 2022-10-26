@@ -108,7 +108,7 @@ n   */
     $this->assertEquals(4, $component['weight']);
 
     $component = $form_display->getComponent('status');
-    $this->assertEquals(120, $component['weight']);
+    $this->assertEquals(220, $component['weight']);
 
     // Add body field to node.thing.
     // @see node_add_body_field()
@@ -156,7 +156,7 @@ n   */
     // Check that fields added to an existing form display is appended last
     // (after the status component).
     // @see \Drupal\schemadotorg\SchemaDotOrgMappingManager::saveMapping
-    $this->assertEquals(121, $component['weight']);
+    $this->assertEquals(221, $component['weight']);
 
     // Check (re)settings entity display field weights for Schema.org properties.
     $this->schemaEntityDisplayBuilder->setFieldWeights(
