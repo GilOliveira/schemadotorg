@@ -14,22 +14,6 @@ sections:
       context_mapping: {  }
       reverse: 0
     components:
-      9127b399-d4db-4dce-b6d9-8dfc0866b1c9:
-        uuid: 9127b399-d4db-4dce-b6d9-8dfc0866b1c9
-        region: one
-        configuration:
-          id: 'dashboards_block:dashboard:add_content_menu'
-          label: 'Add content'
-          label_display: visible
-          provider: dashboards
-          context_mapping: {  }
-          items:
-            article:
-              weight: '0'
-            page:
-              weight: '0'
-        weight: 3
-        additional: {  }
       8df4432a-aea7-4631-9243-b0dae0cfe5f4:
         uuid: 8df4432a-aea7-4631-9243-b0dae0cfe5f4
         region: two

@@ -107,10 +107,14 @@ function _schemadotorg_demo_standard_admin_field_widget_office_hours_default_pro
 function schemadotorg_demo_standard_admin_paragraph_view_alter(array &$build, ParagraphInterface $paragraph, EntityViewDisplayInterface $display): void {
   switch ($paragraph->bundle()) {
     case 'quotation':
-      $build['schema_text'][0]['#prefix'] = '<blockquote>';
-      $build['schema_text'][0]['#suffix'] = '</blockquote>';
-      $build['schema_creator'][0]['#prefix'] = '<address>-- ';
-      $build['schema_creator'][0]['#suffix'] = '</address>';
+      if (isset($build['schema_text'][0])) {
+        $build['schema_text'][0]['#prefix'] = '<blockquote>';
+        $build['schema_text'][0]['#suffix'] = '</blockquote>';
+      }
+      if (isset($build['schema_creator'][0])) {
+        $build['schema_creator'][0]['#prefix'] = '<address>-- ';
+        $build['schema_creator'][0]['#suffix'] = '</address>';
+      }
       break;
 
     case 'item_list':

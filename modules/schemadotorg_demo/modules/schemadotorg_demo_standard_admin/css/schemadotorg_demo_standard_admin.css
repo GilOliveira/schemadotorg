@@ -6,7 +6,7 @@
 /**
  * Media image and remote video.
  */
-.field--name-schema-main-entity-of-page .media--type-image img {
+.field--name-schema-main-entity .media--type-image img {
   width: 100%;
   height: auto;
 }
@@ -129,6 +129,7 @@ iframe.media-oembed-content {
 .paragraph--type--cta .field--name-schema-name {
   font-weight: bold;
   font-size: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .paragraph--type--cta.border {
