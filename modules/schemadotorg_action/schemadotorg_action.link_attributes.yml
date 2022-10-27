@@ -4,8 +4,12 @@ schema_potential_action:
   type: select
   default_value: ViewAction
   options:
-    InstallAction: Install Action
+    DonateAction: Donate Action
     ListenAction: Listen Action
     ReadAction: Read Action
+    RegisterAction: Register Action
+    ReserveAction: Reserve Action
+    ScheduleAction: Schedule Action
+    SubscribeAction: Subscribe Action
     ViewAction: View Action
     WatchAction: Watch Action

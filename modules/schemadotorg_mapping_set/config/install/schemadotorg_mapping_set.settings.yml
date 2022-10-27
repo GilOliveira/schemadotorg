@@ -28,12 +28,6 @@ sets:
       - 'node:MediaGallery'
       - 'node:ImageGallery'
       - 'node:VideoGallery'
-  web_content:
-    label: 'Web content'
-    types:
-      - 'block_content:Quotation'
-      - 'block_content:WebContent'
-      - 'block_content:ItemList'
   faq:
     label: FAQ
     types:

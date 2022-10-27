@@ -10,4 +10,5 @@ dependencies:
   - 'jsonapi_extras:jsonapi_extras'
   - 'layout_paragraphs:layout_paragraphs'
   - 'schemadotorg:schemadotorg'
+  - 'schemadotorg:schemadotorg_media'
   - 'schemadotorg:schemadotorg_paragraphs'

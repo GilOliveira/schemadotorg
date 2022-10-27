@@ -26,6 +26,7 @@ _Below are features and functionality within the demo, submodules and contribute
 - Hierarchical term selection
 - Inline entity form
 - Paragraph library
+- Layouts
 - Link management
 - Editorial information
 

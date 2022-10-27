@@ -8,9 +8,11 @@
 declare(strict_types = 1);
 
 use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\paragraphs\ParagraphInterface;
 
 /**
  * Implements hook_help().
@@ -97,4 +99,34 @@ function _schemadotorg_demo_standard_admin_field_widget_office_hours_default_pro
     }
   }
   return $element;
+}
+
+/**
+ * Implements hook_entity_view_alter().
+ */
+function schemadotorg_demo_standard_admin_paragraph_view_alter(array &$build, ParagraphInterface $paragraph, EntityViewDisplayInterface $display): void {
+  switch ($paragraph->bundle()) {
+    case 'quotation':
+      $build['schema_text'][0]['#prefix'] = '<blockquote>';
+      $build['schema_text'][0]['#suffix'] = '</blockquote>';
+      $build['schema_creator'][0]['#prefix'] = '<address>-- ';
+      $build['schema_creator'][0]['#suffix'] = '</address>';
+      break;
+
+    case 'item_list':
+      $items = [];
+      foreach (Element::children($build['schema_item_list_element']) as $key) {
+        $items[] = $build['schema_item_list_element'][$key];
+      }
+      $build['schema_item_list_element'] = [
+        '#theme' => 'item_list',
+        '#items' => $items,
+      ];
+      break;
+
+    case 'statement':
+      break;
+
+  }
+
 }

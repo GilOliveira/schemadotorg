@@ -4,6 +4,20 @@
  */
 
 /**
+ * Media image and remote video.
+ */
+.field--name-schema-main-entity-of-page .media--type-image img {
+  width: 100%;
+  height: auto;
+}
+
+iframe.media-oembed-content {
+  aspect-ratio: 16/9;
+  height: 100%;
+  width: 100%;
+}
+
+/**
  * Toolbar icons.
  */
 .toolbar .toolbar-bar .toolbar-icon.toolbar-icon-language:before {
@@ -87,14 +101,8 @@
 }
 
 /**
- * Layout paragraphs.
+ * Layout paragraphs builder.
  */
-.paragraph--type--cta {
-  border: 1px solid var(--colorGinBorder);
-  border-radius: var(--ginBorderDefault);
-  padding: 1.25rem;
-}
-
 .lpb-enable__empty-message__wrapper {
   border: 1px solid var(--colorGinBorder);
   padding: 1.25rem;
@@ -102,6 +110,20 @@
 
 .lpb-enable-button {
   margin-top: 1.25rem;
+}
+
+/**
+ * Layout paragraphs types.
+ */
+.paragraph--type--item-list,
+.paragraph--type--statement,
+.paragraph--type--quotation,
+.paragraph--type--cta {
+  border: 1px solid var(--colorGinBorder);
+  border-radius: var(--ginBorderDefault);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  background-color: #fff;
 }
 
 .paragraph--type--cta .field--name-schema-name {

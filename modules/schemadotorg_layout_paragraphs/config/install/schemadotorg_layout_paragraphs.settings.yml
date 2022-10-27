@@ -6,3 +6,6 @@ default_paragraph_types:
   - statement
   - quotation
   - item_list
+  - image
+  - remote_video
+  - audio

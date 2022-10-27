@@ -1,0 +1,3 @@
+config_rewrite:
+  replace: ['description']
+description: 'A paragraph that allows reusable paragraphs from the Paragraphs library to be referenced.'

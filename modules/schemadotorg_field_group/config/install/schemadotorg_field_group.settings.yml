@@ -271,8 +271,11 @@ default_form_type: details
 default_view_type: fieldset
 disable_field_groups:
   - 'node--view--teaser'
+  - 'node--mainEntity'
   - 'paragraph--view--default'
   - 'paragraph--Quotation'
   - 'paragraph--Statement'
   - 'paragraph--ItemList'
-  - 'mainEntity'
+  - 'paragraph--AudioObject'
+  - 'paragraph--VideoObject'
+  - 'paragraph--ImageObject'

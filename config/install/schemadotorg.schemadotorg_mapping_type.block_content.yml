@@ -8,11 +8,8 @@ recommended_schema_types:
   components:
     label: Common
     types:
-      - Quotation
       - WebContent
-  lists:
-    label: Lists
-    types:
+      - Quotation
       - ItemList
 default_schema_types:
   basic: WebContent

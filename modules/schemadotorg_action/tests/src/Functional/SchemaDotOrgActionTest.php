@@ -29,8 +29,6 @@ class SchemaDotOrgActionTest extends SchemaDotOrgBrowserTestBase {
    * @var array
    */
   protected static $modules = [
-    'node',
-    'media',
     'schemadotorg_jsonld',
     'schemadotorg_layout_paragraphs',
     'schemadotorg_ui',

@@ -7,7 +7,7 @@ id: layout
 label: Layout
 icon_uuid: null
 icon_default: null
-description: 'A paragraphs that uses Drupal’s Layout API for building layouts.'
+description: 'A paragraph that uses Drupal’s Layout API for building layouts.'
 behavior_plugins:
   layout_paragraphs:
     enabled: true

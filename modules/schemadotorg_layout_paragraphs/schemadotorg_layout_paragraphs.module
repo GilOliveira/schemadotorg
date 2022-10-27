@@ -7,11 +7,10 @@
 
 declare(strict_types = 1);
 
-use Drupal\Core\Entity\Display\EntityDisplayInterface;
+use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\file\Entity\File;
-use Drupal\paragraphs\Entity\ParagraphsType;
+use Drupal\entity_reference_revisions\Plugin\Field\FieldType\EntityReferenceRevisionsItem;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 
 /**
@@ -68,6 +67,31 @@ function schemadotorg_layout_paragraphs_schemadotorg_property_field_alter(
     $formatter_id,
     $formatter_settings
   );
+}
+
+/* ************************************************************************** */
+// Schema.org JSON-LD alterations.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_schemadotorg_jsonld_schema_property_alter().
+ */
+function schemadotorg_layout_paragraphs_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item): void {
+  if (!$item instanceof EntityReferenceRevisionsItem
+    || !is_array($value)
+    || (count($value) !== 2)
+    || !isset($value['@type'])
+    || !isset($value['mainEntityOfPage'])
+    || !isset($value['mainEntityOfPage']['@type'])
+  ) {
+    return;
+  }
+
+  // Remove the JSON-LD nesting because the media paragraph type
+  // is referencing and image.
+  if ($value['@type'] === $value['mainEntityOfPage']['@type']) {
+    $value = $value['mainEntityOfPage'];
+  }
 }
 
 /* ************************************************************************** */

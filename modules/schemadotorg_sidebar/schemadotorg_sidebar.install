@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for the Schema.org Blueprints Sidebar module.
+ */
+
+declare(strict_types = 1);
+
+use Drupal\file\Entity\File;
+use Drupal\paragraphs\Entity\ParagraphsType;
+
+/**
+ * Implements hook_install().
+ */
+function schemadotorg_sidebar_install(bool $is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  // Create file icons for paragraph types.
+  /** @var \Drupal\Core\File\FileSystemInterface $file_system */
+  $file_system = \Drupal::service('file_system');
+  /** @var \Drupal\Core\Extension\ModuleExtensionList $module_extension_list */
+  $module_extension_list = \Drupal::service("extension.list.module");
+
+  $path = $module_extension_list->getPath('schemadotorg_sidebar') . '/images/icons';
+  $files = $file_system->scanDirectory($path, '/\.svg$/');
+  foreach ($files as $file) {
+    $paragraph_type = ParagraphsType::load($file->name);
+    if ($paragraph_type) {
+      $file_entity = File::create(['uri' => $file->uri]);
+      $file_entity->save();
+      $paragraph_type
+        ->set('icon_uuid', $file_entity->uuid())
+        ->save();
+    }
+  }
+}

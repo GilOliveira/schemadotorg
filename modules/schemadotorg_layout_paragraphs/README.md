@@ -55,6 +55,8 @@ References
 Notes
 -----
 
+- Icons are from [Font Awesome](https://fontawesome.com/)
+
 - Other types of paragraphs
   - Headline
   - List
