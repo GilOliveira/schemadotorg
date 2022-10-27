@@ -21,20 +21,6 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
   use StringTranslationTrait;
 
   /**
-   * The file handler.
-   *
-   * @var \Drupal\Core\File\FileSystemInterface
-   */
-  protected $fileSystem;
-
-  /**
-   * The module extension list.
-   *
-   * @var \Drupal\Core\Extension\ModuleExtensionList
-   */
-  protected $extensionListModule;
-
-  /**
    * The entity type manager.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
@@ -65,10 +51,6 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
   /**
    * Constructs a SchemaDotOrgLayoutParagraphsInstaller object.
    *
-   * @param \Drupal\Core\File\FileSystemInterface $file_system
-   *   The file handler.
-   * @param \Drupal\Core\Extension\ModuleExtensionList $extension_list_module
-   *   The module extension list.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository
@@ -79,15 +61,11 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
    *   The Schema.org mapping manager.
    */
   public function __construct(
-    FileSystemInterface $file_system,
-    ModuleExtensionList $extension_list_module,
     EntityTypeManagerInterface $entity_type_manager,
     EntityDisplayRepositoryInterface $entity_display_repository,
     SchemaDotOrgNamesInterface $schema_names,
     SchemaDotOrgMappingManagerInterface $schema_mapping_manager
   ) {
-    $this->fileSystem = $file_system;
-    $this->extensionListModule = $extension_list_module;
     $this->entityTypeManager = $entity_type_manager;
     $this->entityDisplayRepository = $entity_display_repository;
     $this->schemaNames = $schema_names;
@@ -102,15 +80,14 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
     // are triggered after the Schema.org Paragraphs module.
     module_set_weight('schemadotorg_layout_paragraphs', 1);
 
-    $this->createDefaulParagraphTypes();
+    $this->createDefaultParagraphTypes();
     $this->createMediaParagraphTypes();
-    $this->createParagraphTypesIcons();
   }
 
   /**
    * Create default paragraph types.
    */
-  protected function createDefaulParagraphTypes(): void {
+  protected function createDefaultParagraphTypes(): void {
     $schema_types = [
       'quotation' => 'Quotation',
       'item_list' => 'ItemList',
@@ -209,24 +186,6 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
       $component['label'] = 'hidden';
       $display->setComponent($field_name, $component);
       $display->save();
-    }
-  }
-
-  /**
-   * Create paragraph type icons.
-   */
-  protected function createParagraphTypesIcons(): void {
-    $path = $this->extensionListModule->getPath('schemadotorg_layout_paragraphs') . '/images/icons';
-    $files = $this->fileSystem->scanDirectory($path, '/\.svg$/');
-    foreach ($files as $file) {
-      $paragraph_type = ParagraphsType::load($file->name);
-      if ($paragraph_type && !$paragraph_type->getIconFile()) {
-        $file_entity = File::create(['uri' => $file->uri]);
-        $file_entity->save();
-        $paragraph_type
-          ->set('icon_uuid', $file_entity->uuid())
-          ->save();
-      }
     }
   }
 

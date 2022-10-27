@@ -15,7 +15,11 @@ function schemadotorg_layout_paragraphs_install(bool $is_syncing): void {
     return;
   }
 
-  /** @var \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsInstallerInterface $installer */
-  $installer = \Drupal::service('schemadotorg_layout_paragraphs.installer');
-  $installer->install();
+  /** @var \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsInstallerInterface $layout_paragraphs_installer */
+  $layout_paragraphs_installer = \Drupal::service('schemadotorg_layout_paragraphs.installer');
+  $layout_paragraphs_installer->install();
+
+  /** @var \Drupal\schemadotorg_paragraphs\SchemaDotOrgParagraphsInstallerInterface $paragraphs_installer */
+  $paragraphs_installer = \Drupal::service('schemadotorg_paragraphs.installer');
+  $paragraphs_installer->createParagraphTypeIcons('schemadotorg_layout_paragraphs');
 }
