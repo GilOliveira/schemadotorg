@@ -81,10 +81,10 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertArrayHasKey('accessMode', $this->mappingManager->getIgnoredProperties());
 
     // Check getting Schema.org mapping default values.
-    $defaults = $this->mappingManager->getMappingDefaults('node', NULL, 'Event');
-    $this->assertEquals('Event', $defaults['entity']['label']);
-    $this->assertEquals('event', $defaults['entity']['id']);
-    $this->assertStringStartsWith('An event', $defaults['entity']['description']);
+    $mapping_defaults = $this->mappingManager->getMappingDefaults('node', NULL, 'Event');
+    $this->assertEquals('Event', $mapping_defaults['entity']['label']);
+    $this->assertEquals('event', $mapping_defaults['entity']['id']);
+    $this->assertStringStartsWith('An event', $mapping_defaults['entity']['description']);
     $expected = [
       'name' => 'title',
       'type' => 'string',
@@ -94,9 +94,11 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
       'required' => FALSE,
       'description' => 'The name of the item.',
     ];
-    $this->assertEquals($expected, $defaults['properties']['name']);
+    $this->assertEquals($expected, $mapping_defaults['properties']['name']);
+    $this->assertEquals(SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD, $mapping_defaults['properties']['description']['name']);
+    $this->assertEquals('', $mapping_defaults['properties']['alternateName']['name']);
 
-    $defaults = $this->mappingManager->getMappingDefaults('node', NULL, 'Person');
+    $mapping_defaults = $this->mappingManager->getMappingDefaults('node', NULL, 'Person');
     $expected = [
       'name' => SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD,
       'type' => 'string',
@@ -106,15 +108,35 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
       'required' => TRUE,
       'description' => 'Given name. In the U.S., the first name of a Person.',
     ];
-    $this->assertEquals($expected, $defaults['properties']['givenName']);
+    $this->assertEquals($expected, $mapping_defaults['properties']['givenName']);
+
+    // Check getting Schema.org mapping default values with custom defaults.
+    $mapping_defaults = $this->mappingManager->getMappingDefaults(
+      'node',
+      NULL,
+      'Event',
+      [
+        'entity' => ['label' => 'Custom event label'],
+        'properties' => [
+          'name' => ['label' => 'Custom name label'],
+          'description' => FALSE,
+          'alternateName' => TRUE,
+        ],
+      ]
+    );
+    $this->assertEquals('Custom event label', $mapping_defaults['entity']['label']);
+    $this->assertEquals('title', $mapping_defaults['properties']['name']['name']);
+    $this->assertEquals('Custom name label', $mapping_defaults['properties']['name']['label']);
+    $this->assertEquals('', $mapping_defaults['properties']['description']['name']);
+    $this->assertEquals(SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD, $mapping_defaults['properties']['alternateName']['name']);
 
     // Check getting Schema.org mapping default values with custom bundle.
-    $defaults = $this->mappingManager->getMappingDefaults('node', 'custom', 'Event');
-    $this->assertEquals('custom', $defaults['entity']['id']);
+    $mapping_defaults = $this->mappingManager->getMappingDefaults('node', 'custom', 'Event');
+    $this->assertEquals('custom', $mapping_defaults['entity']['id']);
 
     // Check saving a Schema.org mapping.
-    $defaults = $this->mappingManager->getMappingDefaults('node', NULL, 'Event');
-    $mapping = $this->mappingManager->saveMapping('node', 'Event', $defaults);
+    $mapping_defaults = $this->mappingManager->getMappingDefaults('node', NULL, 'Event');
+    $mapping = $this->mappingManager->saveMapping('node', 'Event', $mapping_defaults);
     $this->assertEquals('node', $mapping->getTargetEntityTypeId());
     $this->assertEquals('event', $mapping->getTargetBundle());
     $this->assertEquals('Event', $mapping->getSchemaType());

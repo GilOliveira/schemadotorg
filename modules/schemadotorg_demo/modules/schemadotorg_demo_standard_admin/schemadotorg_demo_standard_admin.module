@@ -148,6 +148,13 @@ function schemadotorg_demo_standard_admin_paragraph_view_alter(array &$build, Pa
       ];
       break;
 
+    case 'header':
+      if (isset($build['schema_header_text'][0])) {
+        $build['schema_header_text'][0]['#prefix'] = '<h2>';
+        $build['schema_header_text'][0]['#suffix'] = '</h2>';
+      }
+      break;
+
   }
 
 }

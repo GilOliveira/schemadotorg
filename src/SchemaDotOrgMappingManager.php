@@ -147,21 +147,48 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function getMappingDefaults(string $entity_type_id, ?string $bundle, string $schema_type): array {
-    $defaults = [];
+  public function getMappingDefaults(string $entity_type_id, ?string $bundle, string $schema_type, array $defaults = []): array {
+    $mapping_defaults = [];
 
-    $defaults['entity'] = $this->getMappingEntityDefaults($entity_type_id, $bundle, $schema_type);
-    $defaults['properties'] = $this->getMappingPropertiesFieldDefaults($entity_type_id, $bundle, $schema_type);
+    // Get entity and properties defaults.
+    $mapping_defaults['entity'] = $this->getMappingEntityDefaults($entity_type_id, $bundle, $schema_type);
+    $mapping_defaults['properties'] = $this->getMappingPropertiesFieldDefaults($entity_type_id, $bundle, $schema_type);
+
+    // Apply custom entity defaults.
+    if (isset($defaults['entity'])) {
+      $mapping_defaults['entity'] = $defaults['entity'] + $mapping_defaults['entity'];
+    }
+
+    // Apply custom properties defaults.
+    if (isset($defaults['properties'])) {
+      foreach ($defaults['properties'] as $property_name => $property) {
+        if ($property === FALSE) {
+          // Unset the name to not have the property added.
+          $mapping_defaults['properties'][$property_name]['name'] = '';
+        }
+        elseif ($property === TRUE) {
+          // Make sure the property is being added.
+          if (empty($mapping_defaults['properties'][$property_name]['name'])) {
+            $mapping_defaults['properties'][$property_name]['name'] = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
+          }
+        }
+        elseif (is_array($property)) {
+          // Merge the custom defaults with the property's defaults.
+          $mapping_defaults['properties'][$property_name] = $property
+            + $mapping_defaults['properties'][$property_name];
+        }
+      }
+    }
 
     // Allow modules to alter the mapping defaults via a hook.
     $this->moduleHandler->invokeAllWith(
       'schemadotorg_mapping_defaults_alter',
-      function (callable $hook) use ($entity_type_id, $bundle, $schema_type, &$defaults): void {
-        $hook($entity_type_id, $bundle, $schema_type, $defaults);
+      function (callable $hook) use ($entity_type_id, $bundle, $schema_type, &$mapping_defaults): void {
+        $hook($entity_type_id, $bundle, $schema_type, $mapping_defaults);
       }
     );
 
-    return $defaults;
+    return $mapping_defaults;
   }
 
   /**
@@ -412,13 +439,13 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   /**
    * {@inheritdoc}
    */
-  public function createType(string $entity_type_id, string $schema_type): void {
+  public function createType(string $entity_type_id, string $schema_type, array $defaults = []): void {
     $mapping_type = $this->loadMappingType($entity_type_id);
     $bundles = $mapping_type->getDefaultSchemaTypeBundles($schema_type);
     $bundles = $bundles ?: [$this->schemaNames->schemaIdToDrupalName('types', $schema_type)];
     foreach ($bundles as $bundle) {
-      $defaults = $this->getMappingDefaults($entity_type_id, $bundle, $schema_type);
-      $this->saveMapping($entity_type_id, $schema_type, $defaults);
+      $mapping_defaults = $this->getMappingDefaults($entity_type_id, $bundle, $schema_type, $defaults);
+      $this->saveMapping($entity_type_id, $schema_type, $mapping_defaults);
     }
   }
 

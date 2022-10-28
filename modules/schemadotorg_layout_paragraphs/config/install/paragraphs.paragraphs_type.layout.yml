@@ -1,11 +1,13 @@
 langcode: en
 status: true
 dependencies:
+  content:
+    - 'file:file:1fe1263f-3c82-4662-91ed-90376caacd95'
   module:
     - layout_paragraphs
 id: layout
 label: Layout
-icon_uuid: null
+icon_uuid: 1fe1263f-3c82-4662-91ed-90376caacd95
 icon_default: null
 description: 'A paragraph that uses Drupal’s Layout API for building layouts.'
 behavior_plugins:

@@ -11,6 +11,7 @@ use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\file\Entity\File;
 use Drupal\paragraphs\Entity\ParagraphsType;
+use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 
@@ -92,6 +93,7 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
       'quotation' => 'Quotation',
       'item_list' => 'ItemList',
       'statement' => 'Statement',
+      'header' => 'Statement',
       'media_gallery' => 'MediaGallery',
       'image_gallery' => 'ImageGallery',
       'video_gallery' => 'VideoGallery',
@@ -104,16 +106,47 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
         continue;
       }
 
+      switch ($paragraph_type_id) {
+        case 'media_gallery':
+        case 'image_gallery':
+        case 'video_gallery':
+          // For galleries, we only want to support media selection via hasPart.
+          $defaults = [
+            'properties' => [
+              'hasPart' => TRUE,
+              'name' => FALSE,
+              'text' => FALSE,
+            ],
+          ];
+          break;
+
+        case 'header':
+          // For header, we only want the name/title.
+          $defaults = [
+            'entity' => [
+              'id' => 'header',
+              'label' => (string) $this->t('Header'),
+              'description' => (string) $this->t('A heading.'),
+            ],
+            'properties' => [
+              'text' => [
+                'type' => 'string',
+                'name' => SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD,
+                'label' => (string) $this->t('Header text'),
+                'description' => (string) $this->t('A heading to be displayed on the page.'),
+                'machine_name' => 'header_text',
+              ],
+            ],
+          ];
+          break;
+
+        default:
+          $defaults = [];
+          break;
+      }
+
       // Create the paragraph type and Schema.org mapping.
-      if (str_ends_with($schema_type, 'Gallery')) {
-        // For galleries we only want to support media selection.
-        $defaults = $this->schemaMappingManager->getMappingDefaults('paragraph', NULL, $schema_type);
-        $defaults['properties'] = ['hasPart' => $defaults['properties']['hasPart']];
-        $this->schemaMappingManager->saveMapping('paragraph', $schema_type, $defaults);
-      }
-      else {
-        $this->schemaMappingManager->createType('paragraph', $schema_type);
-      }
+      $this->schemaMappingManager->createType('paragraph', $schema_type, $defaults);
 
       // Hide all component labels for schema_* fields.
       $display = $this->entityDisplayRepository->getViewDisplay('paragraph', $paragraph_type_id);

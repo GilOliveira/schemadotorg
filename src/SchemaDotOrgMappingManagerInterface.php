@@ -26,11 +26,13 @@ interface SchemaDotOrgMappingManagerInterface {
    *   The bundle.
    * @param string $schema_type
    *   The Schema.org type.
+   * @param array $defaults
+   *   Mapping defaults for the entity and properties.
    *
    * @return array
    *   Schema.org mapping default values.
    */
-  public function getMappingDefaults(string $entity_type_id, ?string $bundle, string $schema_type): array;
+  public function getMappingDefaults(string $entity_type_id, ?string $bundle, string $schema_type, array $defaults = []): array;
 
   /**
    * Save a Schema.org mapping and create associate entity type and fields.
@@ -64,8 +66,10 @@ interface SchemaDotOrgMappingManagerInterface {
    *   The entity type ID.
    * @param string $schema_type
    *   The Schema.org type.
+   * @param array $defaults
+   *   Mapping defaults for the entity and properties.
    */
-  public function createType(string $entity_type_id, string $schema_type): void;
+  public function createType(string $entity_type_id, string $schema_type, array $defaults = []): void;
 
   /**
    * Validate delete Schema.org type.

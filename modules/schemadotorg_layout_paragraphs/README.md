@@ -19,8 +19,7 @@ the Layout Paragraphs module.
 Features
 --------
 
-- Provides a 'Layout' paragraph.
-- Exposes the 'Layout' paragraph behavior settings to JSON:API.
+- Provides a 'Layout', 'block', and 'webform' paragraph type with JSON:API.
 - Automatically adds and configures layout paragraphs field storage,
   instance, form display, and view display.
 - Configure paragraph libraries support when the 'Layout Paragraphs Library'

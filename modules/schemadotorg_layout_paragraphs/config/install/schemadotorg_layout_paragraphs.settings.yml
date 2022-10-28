@@ -3,6 +3,7 @@ default_schema_types:
 default_paragraph_types:
   - layout
   - cta
+  - header
   - statement
   - quotation
   - item_list
@@ -12,3 +13,5 @@ default_paragraph_types:
   - media_gallery
   - image_gallery
   - video_gallery
+  - webform
+  - block

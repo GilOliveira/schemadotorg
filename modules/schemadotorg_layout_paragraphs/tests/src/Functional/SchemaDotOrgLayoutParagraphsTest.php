@@ -57,6 +57,7 @@ class SchemaDotOrgLayoutParagraphsTest extends SchemaDotOrgBrowserTestBase {
     $handler_settings = $field->getSetting('handler_settings');
     $this->assertEquals([
       'layout' => 'layout',
+      'header' => 'header',
       'statement' => 'statement',
       'quotation' => 'quotation',
       'item_list' => 'item_list',
