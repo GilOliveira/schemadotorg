@@ -7,6 +7,7 @@ dependencies:
     - entity_embed
     - linkit
     - media
+    - token_filter
 name: 'Full HTML'
 format: full_html
 weight: 2
@@ -66,3 +67,10 @@ filters:
     weight: 0
     settings:
       title: true
+  token_filter:
+    id: token_filter
+    provider: token_filter
+    status: true
+    weight: 0
+    settings:
+      replace_empty: '1'

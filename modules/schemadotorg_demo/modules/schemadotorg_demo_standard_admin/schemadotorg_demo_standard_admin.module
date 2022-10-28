@@ -8,6 +8,7 @@
 declare(strict_types = 1);
 
 use Drupal\Component\Utility\NestedArray;
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -154,7 +155,26 @@ function schemadotorg_demo_standard_admin_paragraph_view_alter(array &$build, Pa
         $build['schema_header_text'][0]['#suffix'] = '</h2>';
       }
       break;
-
   }
+}
 
+/**
+ * Implements hook_element_info_alter().
+ */
+function schemadotorg_demo_standard_admin_element_info_alter(array &$info): void {
+  if (isset($info['text_format'])) {
+    $info['text_format']['#process'][] = '_schemadotorg_demo_standard_admin_text_format_process';
+  }
+}
+
+/**
+ * Process the text_format element and open tips in a modal dialog.
+ */
+function _schemadotorg_demo_standard_admin_text_format_process(array &$element, FormStateInterface $form_state, array &$complete_form) {
+  $about =& $element['format']['help']['about'];
+  $about['#attributes']['class'][] = 'use-ajax';
+  $about['#attributes']['data-dialog-type'] = 'modal';
+  $about['#attributes']['data-dialog-options'] = Json::encode(['width' => 'auto']);
+  $element['#attached']['library'][] = 'core/drupal.dialog.ajax';
+  return $element;
 }

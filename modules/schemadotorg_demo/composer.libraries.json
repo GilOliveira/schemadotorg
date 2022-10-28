@@ -92,6 +92,7 @@
     "drupal/smart_date": "^3.7@beta",
     "drupal/time_field": "^2.0",
     "drupal/token": "^1.0",
+    "drupal/token_filter": "^1.0",
     "drupal/toolbar_language_switcher": "^2.0",
     "drupal/webform": "^6.0",
     "masonry/masonry": "*",
@@ -131,6 +132,9 @@
       },
       "drupal/metatag": {
         "Issue #2945817: Support JSON API, REST, GraphQL and custom normalizations": "https://www.drupal.org/files/issues/2022-10-13/metatag-data-type-support-2945817-154.patch"
+      },
+      "drupal/paragraphs": {
+        "Issue #3067265: Paragraph templates: unable to access parent-node tokens from child-paragraphs in the default installed setup": "https://git.drupalcode.org/project/paragraphs/-/merge_requests/28.diff"
       },
       "drupal/smart_date": {
         "Issue #3300768: Widget configuration for min and max date_year_range": "https://www.drupal.org/files/issues/2022-10-12/smart_date-3300768-14.patch"

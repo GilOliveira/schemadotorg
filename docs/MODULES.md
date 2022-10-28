@@ -191,6 +191,9 @@ _The below modules improve the Schema.org Blueprints module's user experience._
 - **[Node Edit Protection](https://www.drupal.org/project/node_edit_protection)**  
   Alerts a user if they are navigating away from a modified Node Edit form without saving.
 
+- **[Token Filter](https://www.drupal.org/project/token_filter)**  
+  Makes token values available as an input filter.
+
 ### Workflow/Moderation
 
 _The below modules improve the Schema.org Blueprints module's workflow and moderation experience._

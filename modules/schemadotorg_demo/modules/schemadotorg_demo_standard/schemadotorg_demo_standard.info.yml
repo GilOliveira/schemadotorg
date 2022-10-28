@@ -66,6 +66,8 @@ dependencies:
   - 'paragraphs:paragraphs_library'
   - 'pathauto:pathauto'
   - 'revision_log_default:revision_log_default'
+  - 'token:token'
+  - 'token_filter:token_filter'
   - 'time_field:time_field'
   - 'webform:webform'
   - 'webform:webform_ui'
