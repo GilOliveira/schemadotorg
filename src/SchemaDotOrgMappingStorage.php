@@ -124,11 +124,11 @@ class SchemaDotOrgMappingStorage extends ConfigEntityStorage implements SchemaDo
       return [];
     }
 
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $entities */
-    $entities = $this->loadMultiple($entity_ids);
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
+    $mappings = $this->loadMultiple($entity_ids);
     $target_bundles = [];
-    foreach ($entities as $entity) {
-      $target = $entity->getTargetBundle();
+    foreach ($mappings as $mapping) {
+      $target = $mapping->getTargetBundle();
       $target_bundles[$target] = $target;
     }
     return $target_bundles;

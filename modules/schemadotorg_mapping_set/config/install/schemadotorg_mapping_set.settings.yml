@@ -2,6 +2,8 @@ sets:
   required:
     label: Required
     types:
+      - 'media:AudioObject'
+      - 'media:DataDownload'
       - 'media:ImageObject'
       - 'media:VideoObject'
       - 'taxonomy_term:DefinedTerm'
@@ -9,11 +11,6 @@ sets:
   common:
     label: Common
     types:
-      - 'media:AudioObject'
-      - 'media:DataDownload'
-      - 'media:ImageObject'
-      - 'media:VideoObject'
-      - 'taxonomy_term:DefinedTerm'
       - 'node:Place'
       - 'node:Organization'
       - 'node:Person'
@@ -25,6 +22,9 @@ sets:
     types:
       - 'node:WebPage'
       - 'node:WebSite'
+  media:
+    label: 'Media'
+    types:
       - 'node:MediaGallery'
       - 'node:ImageGallery'
       - 'node:VideoGallery'

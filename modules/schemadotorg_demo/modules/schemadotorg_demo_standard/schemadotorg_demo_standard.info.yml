@@ -22,6 +22,7 @@ dependencies:
   - 'autosave_form:autosave_form'
   - 'chosen:chosen'
   - 'chosen:chosen_lib'
+  - 'ckeditor_paste_filter:ckeditor_paste_filter'
   - 'config_rewrite:config_rewrite'
   - 'content_browser:content_browser'
   - 'consumer_image_styles:consumer_image_styles'
