@@ -11,3 +11,6 @@ paragraphs_library:
   - Statement
   - Quotation
   - ItemList
+  - MediaGallery
+  - ImageGallery
+  - VideoGallery
