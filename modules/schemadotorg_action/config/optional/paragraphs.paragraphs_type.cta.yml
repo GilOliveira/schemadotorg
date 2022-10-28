@@ -10,5 +10,5 @@ id: cta
 label: 'Call to action'
 icon_uuid: null
 icon_default: null
-description: 'A call to action (CTA) is an element on a <a href="https://schema.org/WebPage">https://schema.org/WebPage</a> that results in a <a href="https://schema.org/ConsumeAction">https://schema.org/ConsumeAction</a>.'
+description: 'A call to action (CTA).'
 behavior_plugins: {  }

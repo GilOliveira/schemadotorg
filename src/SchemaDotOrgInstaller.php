@@ -453,6 +453,9 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
         $strings[] = '// ' . $record['id'];
         $strings[] = $this->formatStringTranslation($record['label']);
         $strings[] = $this->formatStringTranslation($record['comment']);
+        if (substr_count($record['comment'], '.') > 1) {
+          $strings[] = $this->formatStringTranslation(substr($record['comment'], 0, strpos($record['comment'], '.') + 1));
+        }
         $strings[] = '';
       }
       $filename = __DIR__ . '/../data/' . static::VERSION . '/schemaorgdotorg.translations.' . $table . '.inc';

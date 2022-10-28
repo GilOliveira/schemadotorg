@@ -170,7 +170,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
 
     // Check that the price and priceCurrency descriptions are trimmed.
     $this->drupalGet('/node/add/offer');
-    $assert_session->responseContains('The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes. <a href="https://schema.org/price">Learn more</a>');
+    $assert_session->responseContains('The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes.');
     $assert_session->responseNotContains('Usage guidelines:');
 
     // Disable trim descriptions.
@@ -180,7 +180,6 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
 
     // Check that the price and priceCurrency descriptions are NOT trimmed.
     $this->drupalGet('/node/add/offer');
-    $assert_session->responseNotContains('<a href="https://schema.org/price">Learn more</a>');
     $assert_session->responseContains('Usage guidelines:');
 
     /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */

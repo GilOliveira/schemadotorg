@@ -4,6 +4,9 @@ custom_descriptions:
   mainEntityOfPage: null
   subtype: 'A more specific subtype for the item. This is used to allow more specificity without having to create dedicated Schema.org entity types.'
   layoutParagraphs: 'A layout built using paragraphs. Layout paragraphs allows site builders to construct a multi-column landing page using Schema.org related paragraphs types.'
+  ImageGallery: 'An image gallery page.'
+  MediaGallery: 'A mixed-media page that can contain media such as images, videos, and other multimedia.'
+  VideoGallery:	'A video gallery page.'
   MenuItem--offers: 'The offer price of a product, or of a price component when attached to PriceSpecification and its subtypes.'
 trim_descriptions: true
 help_descriptions: true

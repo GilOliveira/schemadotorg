@@ -280,15 +280,12 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
         // Tidy <br/> tags.
         $comment = preg_replace('#<br[^>]*]>#', '<br/>', $comment);
 
-        // Set help.
-        $help = $this->schemaTypeBuilder->formatComment($comment, $options);
-
         // Trim description.
-        if ($trim_descriptions && $comment && str_contains($comment, '<br/><br/>')) {
-          [$comment] = explode('<br/><br/>', $comment);
-          $comment .= ' <a href="/' . $id . '">Learn more</a>';
+        if ($trim_descriptions && $comment && str_contains($comment, '.')) {
+          $comment = substr($comment, 0, strpos($comment, '.') + 1);
         }
         $description = $this->schemaTypeBuilder->formatComment($comment, $options);
+        $help = $description;
       }
       else {
         $description = '';

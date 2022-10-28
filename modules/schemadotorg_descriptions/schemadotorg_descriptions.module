@@ -74,9 +74,8 @@ function schemadotorg_descriptions_entity_load(array $entities, string $entity_t
       $type_definition = $schema_type_manager->getType($schema_type);
       $comment = $type_definition['comment'];
       // Trim description.
-      if ($trim_descriptions && $comment && str_contains($comment, '<br/><br/>')) {
-        [$comment] = explode('<br/><br/>', $comment);
-        $comment .= ' <a href="/' . $schema_type . '">Learn more</a>';
+      if ($trim_descriptions && $comment && str_contains($comment, '.')) {
+        $comment = substr($comment, 0, strpos($comment, '.') + 1);
       }
       $description = $schema_type_builder->formatComment($comment, $options);
     }
