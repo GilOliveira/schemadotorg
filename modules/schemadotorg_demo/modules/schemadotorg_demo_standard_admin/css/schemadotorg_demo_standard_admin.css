@@ -144,3 +144,28 @@ iframe.media-oembed-content {
 .paragraph--type--cta.shadow {
   box-shadow: 5px 10px 8px #888888;
 }
+
+/**
+ * Slick.
+ */
+.schemadotorg-demo-slick .slick-next,
+.schemadotorg-demo-slick .slick-prev {
+  width: 50px;
+  height: 50px;
+}
+
+.schemadotorg-demo-slick .slick-next:before,
+.schemadotorg-demo-slick .slick-prev:before {
+  font-size: 50px;
+  color: #333;
+}
+
+.gin--dark-mode .schemadotorg-demo-slick .slick-next:before,
+.gin--dark-mode .schemadotorg-demo-slick .slick-prev:before {
+  color: #ccc;
+}
+
+.schemadotorg-demo-slick .slick-dots li button:before {
+  font-size: 25px;
+  line-height: 25px;
+}

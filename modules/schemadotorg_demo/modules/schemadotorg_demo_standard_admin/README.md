@@ -3,6 +3,7 @@ Table of contents
 
 * Introduction
 * Features
+* Requirements
 * Notes
 
 
@@ -11,7 +12,7 @@ Introduction
 
 The **Schema.org Blueprint Demo Standard Admin module** provides admin UI
 enhancements for the Schema.org Blueprints demo built on top of Drupal's
-standard profile.
+standard profile and the Gin admin theme.
 
 
 Features
@@ -29,6 +30,14 @@ Features
 - Sets user name and password to demo/demo.
 - Closes the 'URL alias' details widget in the node edit form  sidebar.
 - Styles entity print links as buttons.
+- Customize Quotation and ItemList paragraph output.
+
+
+Requirements
+------------
+
+**[Gin](https://www.drupal.org/project/gin)**    
+Admin theme with a strong focus on improving the Editorial Experience
 
 
 Notes

@@ -105,7 +105,15 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
       }
 
       // Create the paragraph type and Schema.org mapping.
-      $this->schemaMappingManager->createType('paragraph', $schema_type);
+      if (str_ends_with($schema_type, 'Gallery')) {
+        // For galleries we only want to support media selection.
+        $defaults = $this->schemaMappingManager->getMappingDefaults('paragraph', NULL, $schema_type);
+        $defaults['properties'] = ['hasPart' => $defaults['properties']['hasPart']];
+        $this->schemaMappingManager->saveMapping('paragraph', $schema_type, $defaults);
+      }
+      else {
+        $this->schemaMappingManager->createType('paragraph', $schema_type);
+      }
 
       // Hide all component labels for schema_* fields.
       $display = $this->entityDisplayRepository->getViewDisplay('paragraph', $paragraph_type_id);

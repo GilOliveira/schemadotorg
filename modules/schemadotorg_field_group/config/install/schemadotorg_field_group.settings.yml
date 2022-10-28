@@ -272,6 +272,7 @@ default_view_type: fieldset
 disable_field_groups:
   - 'node--view--teaser'
   - 'node--mainEntity'
+  - 'node--hasPart'
   - 'paragraph--view--default'
   - 'paragraph--Quotation'
   - 'paragraph--Statement'

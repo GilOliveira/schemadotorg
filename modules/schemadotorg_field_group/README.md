@@ -23,6 +23,7 @@ Features
 - Deletes empty field groups created when a field is deleted.
 - Adds a field group around all displayed paragraphs.
 
+
 Requirements
 ------------
 

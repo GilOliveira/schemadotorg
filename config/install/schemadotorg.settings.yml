@@ -1289,4 +1289,5 @@ schema_properties:
     - usesDevice
     - significantLink
     - relatedLink
+    - hasPart
     - mainEntity

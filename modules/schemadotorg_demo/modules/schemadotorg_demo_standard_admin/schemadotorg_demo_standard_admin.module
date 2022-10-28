@@ -9,10 +9,12 @@ declare(strict_types = 1);
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\paragraphs\ParagraphInterface;
+use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
 /**
  * Implements hook_help().
@@ -102,6 +104,24 @@ function _schemadotorg_demo_standard_admin_field_widget_office_hours_default_pro
 }
 
 /**
+ * Implepents hook_entity_view_alter().
+ */
+function schemadotorg_demo_standard_admin_entity_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
+  if ($entity->getEntityTypeId() !== 'node'
+    && $entity->getEntityTypeId() !== 'paragraph') {
+    return;
+  }
+
+  $mapping = SchemaDotOrgMapping::loadByEntity($entity);
+  if (!$mapping || !str_ends_with($mapping->getSchemaType(), 'Gallery')) {
+    return;
+  }
+
+  $build['#attributes']['class'][] = 'schemadotorg-demo-slick';
+  $build['#attached']['library'][] = 'schemadotorg_demo_standard_admin/schemadotorg_demo_standard_admin.slick';
+}
+
+/**
  * Implements hook_entity_view_alter().
  */
 function schemadotorg_demo_standard_admin_paragraph_view_alter(array &$build, ParagraphInterface $paragraph, EntityViewDisplayInterface $display): void {
@@ -126,9 +146,6 @@ function schemadotorg_demo_standard_admin_paragraph_view_alter(array &$build, Pa
         '#theme' => 'item_list',
         '#items' => $items,
       ];
-      break;
-
-    case 'statement':
       break;
 
   }
