@@ -203,10 +203,11 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     $this->drupalGet('/admin/config/search/schemadotorg/sets/common/teardown');
     $assert_session->responseContains('Person (node:Person) - Used by <em class="placeholder">Required</em>');
     $assert_session->responseContains('Place (node:Place)');
+    $assert_session->responseContains('Yes, I want to teardown the <em class="placeholder">Common</em> mapping set and all associated content.');
 
     // Teardown common.
     $this->drupalGet('/admin/config/search/schemadotorg/sets/common/teardown');
-    $this->submitForm([], 'Confirm');
+    $this->submitForm(['confirm' => TRUE], 'Confirm');
 
     // Check node.place was removed.
     $this->assertEquals(['media.image', 'node.contact_point', 'node.person'], array_keys($mapping_storage->getQuery()->accessCheck(FALSE)->execute()));
@@ -216,7 +217,7 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
 
     // Teardown the required mapping set.
     $this->drupalGet('/admin/config/search/schemadotorg/sets/required/teardown');
-    $this->submitForm([], 'Confirm');
+    $this->submitForm(['confirm' => TRUE], 'Confirm');
 
     // Check media.image and node.contact_point were removed.
     $this->assertEmpty($mapping_storage->getQuery()->accessCheck(FALSE)->execute());

@@ -136,6 +136,18 @@ class SchemaDotOrgMappingSetConfirmForm extends ConfirmFormBase {
             $this->messenger()->addWarning($message);
           }
         }
+
+        // Check confirmation checkbox.
+        $t_args = [
+          '@action' => $this->getAction(),
+          '%name' => $this->getLabel(),
+        ];
+        $form['confirm'] = [
+          '#type' => 'checkbox',
+          '#title' => $this->t("Yes, I want to @action the %name mapping set and all associated content.", $t_args),
+          '#description' => '<strong>' . $this->t('This action cannot be undone.') . '</strong>',
+          '#required' => TRUE,
+        ];
         break;
 
     }
