@@ -92,6 +92,9 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
       'quotation' => 'Quotation',
       'item_list' => 'ItemList',
       'statement' => 'Statement',
+      'media_gallery' => 'MediaGallery',
+      'image_gallery' => 'ImageGallery',
+      'video_gallery' => 'VideoGallery',
     ];
     foreach ($schema_types as $paragraph_type_id => $schema_type) {
       $paragraph_type = $this->entityTypeManager

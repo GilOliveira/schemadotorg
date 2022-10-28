@@ -323,7 +323,7 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
 
     // Set widget to use layout paragraphs.
     $widget_id = 'layout_paragraphs';
-    $widget_settings['empty_message'] = $this->t('Click the [+] sign below to add your first component.');
+    $widget_settings['empty_message'] = $this->t('Click the [+] sign below to choose the first component.');
 
     // Set formatter to use layout paragraphs builder with no visible label.
     $formatter_id = 'layout_paragraphs_builder';

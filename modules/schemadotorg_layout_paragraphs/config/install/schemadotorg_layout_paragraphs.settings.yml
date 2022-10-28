@@ -9,3 +9,6 @@ default_paragraph_types:
   - image
   - remote_video
   - audio
+  - media_gallery
+  - image_gallery
+  - video_gallery

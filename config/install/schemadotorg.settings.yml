@@ -265,8 +265,12 @@ schema_types:
       - significantLink
       - relatedLink
     CollectionPage:
+      - '-primaryImageOfPage'
+      - '-significantLink'
+      - '-relatedLink'
+      - name
+      - text
       - hasPart
-      - mentions
     FAQPage:
       - mainEntity
     MedicalWebPage:

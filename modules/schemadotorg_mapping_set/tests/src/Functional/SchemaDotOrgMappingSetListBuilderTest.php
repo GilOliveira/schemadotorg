@@ -65,11 +65,11 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     // Check that the required and common mapping sets are displayed.
     $this->drupalGet('/admin/config/search/schemadotorg/sets');
     $assert_session->responseContains('Required');
-    $assert_session->responseContains('<td>media:ImageObject, media:VideoObject, taxonomy_term:DefinedTerm, node:Person</td>');
+    $assert_session->responseContains('<td>media:AudioObject, media:DataDownload, media:ImageObject, media:VideoObject, taxonomy_term:DefinedTerm, node:Person</td>');
     $assert_session->linkByHrefExists($base_path . 'admin/config/search/schemadotorg/sets/required/setup');
     $assert_session->responseContains('Common');
     $assert_session->linkByHrefExists($base_path . 'admin/config/search/schemadotorg/sets/common/setup');
-    $assert_session->responseContains('<td>media:AudioObject, media:DataDownload, media:ImageObject, media:VideoObject, taxonomy_term:DefinedTerm, node:Place, node:Organization, node:Person, node:Event, node:Article, node:WebPage</td>');
+    $assert_session->responseContains('<td>node:Place, node:Organization, node:Person, node:Event, node:Article, node:WebPage</td>');
 
     // Check access allowed to common setup confirm form.
     $this->drupalGet('/admin/config/search/schemadotorg/sets/common/setup');
@@ -85,7 +85,7 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     // Check that required and common mapping set types are displayed on the
     // confirm form.
     $this->drupalGet('/admin/config/search/schemadotorg/sets/common/setup');
-    $assert_session->responseContains('Audio Object (media:AudioObject) - <em>Creating</em>');
+    $assert_session->responseContains('Person (node:Person) - <em>Creating</em>');
     $assert_session->responseContains('Web Page (node:WebPage) - <em>Creating</em>');
 
     // Update mapping set to just create a Person with a ContactPoint.

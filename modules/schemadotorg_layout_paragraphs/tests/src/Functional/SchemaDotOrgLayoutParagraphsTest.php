@@ -60,6 +60,9 @@ class SchemaDotOrgLayoutParagraphsTest extends SchemaDotOrgBrowserTestBase {
       'statement' => 'statement',
       'quotation' => 'quotation',
       'item_list' => 'item_list',
+      'media_gallery' => 'media_gallery',
+      'image_gallery' => 'image_gallery',
+      'video_gallery' => 'video_gallery',
     ], $handler_settings['target_bundles']);
 
     // Check that the form display is set up.
