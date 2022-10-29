@@ -180,11 +180,6 @@ function schemadotorg_paragraphs_schemadotorg_jsonld_schema_property_alter(mixed
  * @see https://localhost/entity-embed/dialog/basic_html/paragraphs_library
  */
 function schemadotorg_paragraphs_form_entity_embed_dialog_alter(&$form, FormStateInterface $form_state) {
-  // We only need to alter the entity selection form.
-  if (!isset($form['entity_id'])) {
-    return;
-  }
-
   // Check that the paragraphs library module is enabled.
   if (!\Drupal::moduleHandler()->moduleExists('paragraphs_library')) {
     return;
@@ -200,6 +195,17 @@ function schemadotorg_paragraphs_form_entity_embed_dialog_alter(&$form, FormStat
   // Check that the entity embed button is for paragraphs.
   $configuration = $embed_button->getTypePlugin()->getConfiguration();
   if ($configuration['entity_type'] !== 'paragraph') {
+    return;
+  }
+
+  // Alter the 'selected entity' form.
+  if (!isset($form['entity_id'])) {
+    // Alter the 'Selected entity' markup to use the Paragraph's summary.
+    /** @var \Drupal\paragraphs\ParagraphInterface $paragraph */
+    $paragraph = $form_state->get('entity');
+    $summary = $paragraph->getSummaryItems(['show_behavior_summary' => FALSE]);
+    $summary = Unicode::truncate(implode(', ', $summary['content']), 120);
+    $form['entity']['#markup'] = $paragraph->getParagraphType()->label() . ': ' . $summary;
     return;
   }
 
