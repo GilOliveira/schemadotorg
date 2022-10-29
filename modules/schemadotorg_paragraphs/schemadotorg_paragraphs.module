@@ -7,6 +7,7 @@
 
 declare(strict_types = 1);
 
+use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -164,6 +165,113 @@ function schemadotorg_paragraphs_schemadotorg_jsonld_schema_property_alter(mixed
   // Build the paragraphs JSON-LD.
   $value = $jsonld_builder->buildEntity($paragraph, ['identifier' => FALSE]);
 }
+
+/* ************************************************************************** */
+// Entity embed for paragraphs library items.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Converts the broken entity embed paragraphs widget into a working select menu
+ * that displays paragraphs that have been promoted to the Paragraphs library.
+ *
+ * @see https://localhost/admin/content/paragraphs
+ * @see https://localhost/entity-embed/dialog/basic_html/paragraphs_library
+ */
+function schemadotorg_paragraphs_form_entity_embed_dialog_alter(&$form, FormStateInterface $form_state) {
+  // We only need to alter the entity selection form.
+  if (!isset($form['entity_id'])) {
+    return;
+  }
+
+  // Check that the paragraphs library module is enabled.
+  if (!\Drupal::moduleHandler()->moduleExists('paragraphs_library')) {
+    return;
+  }
+
+  // Check that the embed button is for entity embeds.
+  /** @var \Drupal\embed\EmbedButtonInterface $embed_button */
+  $embed_button = \Drupal::routeMatch()->getParameter('embed_button');
+  if ($embed_button->getTypeId() !== 'entity') {
+    return;
+  }
+
+  // Check that the entity embed button is for paragraphs.
+  $configuration = $embed_button->getTypePlugin()->getConfiguration();
+  if ($configuration['entity_type'] !== 'paragraph') {
+    return;
+  }
+
+  // Collect all the paragraphs ids from paragraphs library items.
+  /** @var \Drupal\paragraphs_library\Entity\LibraryItem[] $library_items */
+  $library_items = \Drupal::entityTypeManager()
+    ->getStorage('paragraphs_library_item')
+    ->loadMultiple();
+  $paragraph_ids = [];
+  foreach ($library_items as $library_item) {
+    if ($library_item->paragraphs->target_id) {
+      $paragraph_ids[] = $library_item->paragraphs->target_id;
+    }
+  }
+
+  // Load the paragraphs, filtered by bundle.
+  $paragraphs = [];
+  if ($paragraph_ids) {
+    $query = \Drupal::entityQuery('paragraph');
+    $query->condition('id', $paragraph_ids, 'IN');
+    if ($configuration['bundles']) {
+      $query->condition('type', $configuration['bundles'], 'IN');
+    }
+    $paragraph_ids = $query->execute();
+    if ($paragraph_ids) {
+      $paragraphs = \Drupal::entityTypeManager()
+        ->getStorage('paragraph')
+        ->loadMultiple($paragraph_ids);
+    }
+  }
+
+  // Build grouped paragraph reference items that display a paragraph's summary.
+  // @see \Drupal\paragraphs_library\Entity\LibraryItem::buildLabel
+  $options = [];
+  /** @var \Drupal\paragraphs\ParagraphInterface[] $paragraphs */
+  foreach ($paragraphs as $paragraph) {
+    $summary = $paragraph->getSummaryItems(['show_behavior_summary' => FALSE]);
+    $summary = Unicode::truncate(implode(', ', $summary['content']), 120);
+    $optgroup = $paragraph->getParagraphType()->label();
+    $options[$optgroup][$paragraph->id()] = $summary;
+  }
+
+  // If there are no paragraph library item, display a message.
+  if (empty($options)) {
+    $form['entity_id'] = ['#markup' => t('No library items available.')];
+    unset($form['actions']);
+    return;
+  }
+
+  // Sort option groups and options.
+  ksort($options);
+  foreach ($options as &$gptgroup) {
+    asort($gptgroup);
+  }
+
+  // Get the default value.
+  if ($form['entity_id']['#default_value'] instanceof ParagraphInterface) {
+    $default_value = $form['entity_id']['#default_value']->id();
+  }
+  else {
+    $default_value = $form['entity_id']['#default_value'];
+  }
+
+  $form['entity_id'] = [
+    '#type' => 'select',
+    '#title' => t('Title'),
+    '#required' => TRUE,
+    '#default_value' => $default_value,
+    '#options' => $options,
+  ];
+}
+
 
 /* ************************************************************************** */
 // Schema.org types settings form.

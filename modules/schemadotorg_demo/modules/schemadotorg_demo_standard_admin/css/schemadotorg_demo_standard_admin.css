@@ -169,3 +169,21 @@ iframe.media-oembed-content {
   font-size: 25px;
   line-height: 25px;
 }
+
+/**
+ * Entity embed.
+ */
+.align-left.embedded-entity {
+  margin: 0 1rem 1rem 0;
+  width: 40%;
+}
+
+.align-right.embedded-entity {
+  margin: 0 0 1rem 1rem;
+  width: 40%;
+}
+
+.align-center.embedded-entity {
+  margin: 1rem auto;
+  width: 60%;
+}

@@ -39,6 +39,7 @@ settings:
             - DrupalImage
             - DrupalMediaLibrary
             - content_browser
+            - paragraphs_library
             - Table
             - HorizontalRule
         -

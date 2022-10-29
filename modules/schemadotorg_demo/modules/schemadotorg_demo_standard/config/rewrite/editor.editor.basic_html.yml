@@ -34,6 +34,7 @@ settings:
             - DrupalImage
             - DrupalMediaLibrary
             - content_browser
+            - paragraphs_library
         -
           name: 'Block Formatting'
           items:
