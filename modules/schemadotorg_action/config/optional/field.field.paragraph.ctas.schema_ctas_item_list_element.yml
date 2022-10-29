@@ -7,8 +7,11 @@ dependencies:
     - paragraphs.paragraphs_type.ctas
   module:
     - entity_reference_revisions
+_core:
+  default_config_hash: 4EDLUx4Y_Hd7eu6n8uhxgUJHvY6WcJgWGgdSL6n6wJs
 id: paragraph.ctas.schema_ctas_item_list_element
 field_name: schema_ctas_item_list_element
+field_type: entity_reference_revisions
 entity_type: paragraph
 bundle: ctas
 label: 'Call to actions'
@@ -24,55 +27,54 @@ settings:
       cta: cta
     negate: 0
     target_bundles_drag_drop:
+      cta:
+        weight: 0
+        enabled: true
       audio:
         weight: 0
         enabled: false
       block:
-        weight: 19
+        weight: 0
         enabled: false
-      cta:
-        weight: 1
-        enabled: true
       ctas:
-        weight: 21
+        weight: 0
         enabled: false
       editorial:
-        weight: 22
+        weight: 0
         enabled: false
       from_library:
-        weight: 10
+        weight: 0
         enabled: false
       header:
-        weight: 2
+        weight: 0
         enabled: false
       image:
-        weight: 3
+        weight: 0
         enabled: false
       image_gallery:
-        weight: 4
+        weight: 0
         enabled: false
       item_list:
-        weight: 27
+        weight: 0
         enabled: false
       layout:
-        weight: 28
+        weight: 0
         enabled: false
       media_gallery:
-        weight: 5
+        weight: 0
         enabled: false
       quotation:
-        weight: 6
+        weight: 0
         enabled: false
       remote_video:
-        weight: 7
+        weight: 0
         enabled: false
       statement:
-        weight: 8
+        weight: 0
         enabled: false
       video_gallery:
-        weight: 9
+        weight: 0
         enabled: false
       webform:
-        weight: 34
+        weight: 0
         enabled: false
-field_type: entity_reference_revisions

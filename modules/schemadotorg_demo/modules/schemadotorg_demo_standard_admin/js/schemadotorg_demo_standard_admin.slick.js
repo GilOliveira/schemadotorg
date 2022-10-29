@@ -16,7 +16,7 @@
    */
   Drupal.behaviors.schemaDotOrgDemoSlick = {
     attach: function attach(context) {
-      once('schemadotorg-demo-slick', '.schemadotorg-demo-slick .field--name-schema-has-part.field__items, .schemadotorg-demo-slick .field--name-schema-has-part .field__items', context)
+      once('schemadotorg-demo-slick', '.schemadotorg-demo-slick', context)
         .forEach((element) => {
           $(element).slick({
             slidesToShow: 1,

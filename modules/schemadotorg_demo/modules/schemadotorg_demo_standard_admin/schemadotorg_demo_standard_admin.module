@@ -113,12 +113,20 @@ function schemadotorg_demo_standard_admin_entity_view_alter(array &$build, Entit
     return;
   }
 
-  $mapping = SchemaDotOrgMapping::loadByEntity($entity);
-  if (!$mapping || !str_ends_with($mapping->getSchemaType(), 'Gallery')) {
+  $types = [
+    'media_gallery' => 'schema_has_part',
+    'image_gallery' => 'schema_has_part',
+    'audio_gallery' => 'schema_has_part',
+    'ctas' => 'schema_ctas_item_list_element',
+  ];
+
+  $type = $entity->bundle();
+  $field_name = $types[$type] ?? NULL;
+  if (!$field_name || !isset($build[$field_name])) {
     return;
   }
 
-  $build['#attributes']['class'][] = 'schemadotorg-demo-slick';
+  $build[$field_name]['#attributes']['class'][] = 'schemadotorg-demo-slick';
   $build['#attached']['library'][] = 'schemadotorg_demo_standard_admin/schemadotorg_demo_standard_admin.slick';
 }
 

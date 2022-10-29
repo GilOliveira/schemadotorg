@@ -103,6 +103,10 @@ iframe.media-oembed-content {
 /**
  * Layout paragraphs builder.
  */
+.lpb-enable {
+  z-index: 100;
+}
+
 .lpb-enable__empty-message__wrapper {
   border: 1px solid var(--colorGinBorder);
   padding: 1.25rem;
@@ -150,14 +154,17 @@ iframe.media-oembed-content {
  */
 .schemadotorg-demo-slick .slick-next,
 .schemadotorg-demo-slick .slick-prev {
+  z-index: 100;
   width: 50px;
   height: 50px;
+  color: #fff;
 }
 
 .schemadotorg-demo-slick .slick-next:before,
 .schemadotorg-demo-slick .slick-prev:before {
   font-size: 50px;
   color: #333;
+  opacity: revert;
 }
 
 .gin--dark-mode .schemadotorg-demo-slick .slick-next:before,

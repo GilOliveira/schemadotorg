@@ -134,6 +134,12 @@ function schemadotorg_form_field_config_edit_form_alter(array &$form, FormStateI
     return;
   }
 
+  // Skip Schema.org property whose range include Schema.org Thing.
+  if (in_array($schema_property, ['mainEntity', 'itemListElement'])) {
+    return;
+  }
+
+
   // Get expected target bundles.
   $target_type = $field->getSetting('target_type');
   $expected_target_bundles = $mapping_storage->getSchemaPropertyTargetBundles($target_type, $schema_type, $schema_property);
