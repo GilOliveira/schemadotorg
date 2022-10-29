@@ -4,15 +4,11 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_paragraphs;
 
-use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleExtensionList;
 use Drupal\Core\File\FileSystemInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\file\Entity\File;
 use Drupal\paragraphs\Entity\ParagraphsType;
-use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
-use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 
 /**
  * Schema.org paragraphs installer.

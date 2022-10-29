@@ -7,10 +7,8 @@
 
 declare(strict_types = 1);
 
-use Drupal\Component\Utility\NestedArray;
 use Drupal\Component\Serialization\Json;
-use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
-use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -109,7 +107,7 @@ function _schemadotorg_demo_standard_admin_field_widget_office_hours_default_pro
 /**
  * Implepents hook_entity_view_alter().
  */
-function schemadotorg_demo_standard_admin_entity_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
+function schemadotorg_demo_standard_admin_entity_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display): void {
   if ($entity->getEntityTypeId() !== 'node'
     && $entity->getEntityTypeId() !== 'paragraph') {
     return;
@@ -176,7 +174,7 @@ function schemadotorg_demo_standard_admin_element_info_alter(array &$info): void
 /**
  * Process the text_format element and open tips in a modal dialog.
  */
-function _schemadotorg_demo_standard_admin_text_format_process(array &$element, FormStateInterface $form_state, array &$complete_form) {
+function _schemadotorg_demo_standard_admin_text_format_process(array &$element, FormStateInterface $form_state, array &$complete_form): array {
   // Open 'About text formats' in modal.
   $about =& $element['format']['help']['about'];
   $about['#attributes']['class'][] = 'use-ajax';
@@ -196,7 +194,7 @@ function _schemadotorg_demo_standard_admin_text_format_process(array &$element, 
 /**
  * Implements template_preprocess_filter_tips().
  */
-function schemadotorg_demo_standard_admin_preprocess_filter_tips(array &$variables) {
+function schemadotorg_demo_standard_admin_preprocess_filter_tips(array &$variables): void {
   // For token filter tips to include node and paragraph tokens.
   /** @var \Drupal\Core\Render\RendererInterface $renderer */
   $renderer = \Drupal::service('renderer');

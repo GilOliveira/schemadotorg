@@ -179,7 +179,7 @@ function schemadotorg_paragraphs_schemadotorg_jsonld_schema_property_alter(mixed
  * @see https://localhost/admin/content/paragraphs
  * @see https://localhost/entity-embed/dialog/basic_html/paragraphs_library
  */
-function schemadotorg_paragraphs_form_entity_embed_dialog_alter(&$form, FormStateInterface $form_state) {
+function schemadotorg_paragraphs_form_entity_embed_dialog_alter(array &$form, FormStateInterface $form_state): void {
   // Check that the paragraphs library module is enabled.
   if (!\Drupal::moduleHandler()->moduleExists('paragraphs_library')) {
     return;
@@ -277,7 +277,6 @@ function schemadotorg_paragraphs_form_entity_embed_dialog_alter(&$form, FormStat
     '#options' => $options,
   ];
 }
-
 
 /* ************************************************************************** */
 // Schema.org types settings form.
