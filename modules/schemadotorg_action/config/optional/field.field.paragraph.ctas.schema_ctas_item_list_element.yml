@@ -1,0 +1,78 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.schema_ctas_item_list_element
+    - paragraphs.paragraphs_type.cta
+    - paragraphs.paragraphs_type.ctas
+  module:
+    - entity_reference_revisions
+id: paragraph.ctas.schema_ctas_item_list_element
+field_name: schema_ctas_item_list_element
+entity_type: paragraph
+bundle: ctas
+label: 'Call to actions'
+description: 'A list of call to actions.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      cta: cta
+    negate: 0
+    target_bundles_drag_drop:
+      audio:
+        weight: 0
+        enabled: false
+      block:
+        weight: 19
+        enabled: false
+      cta:
+        weight: 1
+        enabled: true
+      ctas:
+        weight: 21
+        enabled: false
+      editorial:
+        weight: 22
+        enabled: false
+      from_library:
+        weight: 10
+        enabled: false
+      header:
+        weight: 2
+        enabled: false
+      image:
+        weight: 3
+        enabled: false
+      image_gallery:
+        weight: 4
+        enabled: false
+      item_list:
+        weight: 27
+        enabled: false
+      layout:
+        weight: 28
+        enabled: false
+      media_gallery:
+        weight: 5
+        enabled: false
+      quotation:
+        weight: 6
+        enabled: false
+      remote_video:
+        weight: 7
+        enabled: false
+      statement:
+        weight: 8
+        enabled: false
+      video_gallery:
+        weight: 9
+        enabled: false
+      webform:
+        weight: 34
+        enabled: false
+field_type: entity_reference_revisions

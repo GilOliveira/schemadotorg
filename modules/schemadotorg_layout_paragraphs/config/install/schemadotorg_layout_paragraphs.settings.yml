@@ -3,6 +3,7 @@ default_schema_types:
 default_paragraph_types:
   - layout
   - cta
+  - ctas
   - header
   - statement
   - quotation

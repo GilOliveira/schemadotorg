@@ -160,6 +160,9 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
 
     $schema_type = $mapping->getSchemaType();
     $schema_property = $this->getPropertyName();
+    if (!isset($mapping_defaults['properties'][$schema_property])) {
+      return;
+    }
 
     $entity_type_id = $mapping->getTargetEntityTypeId();
     $field_name = $this->getFieldName();
