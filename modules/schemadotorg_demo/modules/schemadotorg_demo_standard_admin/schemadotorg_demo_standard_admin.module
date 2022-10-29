@@ -9,6 +9,8 @@ declare(strict_types = 1);
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -158,6 +160,10 @@ function schemadotorg_demo_standard_admin_paragraph_view_alter(array &$build, Pa
   }
 }
 
+/* ************************************************************************** */
+// Token filter enhancements.
+/* ************************************************************************** */
+
 /**
  * Implements hook_element_info_alter().
  */
@@ -171,10 +177,42 @@ function schemadotorg_demo_standard_admin_element_info_alter(array &$info): void
  * Process the text_format element and open tips in a modal dialog.
  */
 function _schemadotorg_demo_standard_admin_text_format_process(array &$element, FormStateInterface $form_state, array &$complete_form) {
+  // Open 'About text formats' in modal.
   $about =& $element['format']['help']['about'];
   $about['#attributes']['class'][] = 'use-ajax';
   $about['#attributes']['data-dialog-type'] = 'modal';
   $about['#attributes']['data-dialog-options'] = Json::encode(['width' => 'auto']);
   $element['#attached']['library'][] = 'core/drupal.dialog.ajax';
+
+  // Append 'Browse available tokens'.
+  $element['format']['help']['token'] = [
+    '#prefix' => ' | ',
+    '#theme' => 'token_tree_link',
+    '#token_types' => ['node', 'paragraph'],
+  ];
   return $element;
+}
+
+/**
+ * Implements template_preprocess_filter_tips().
+ */
+function schemadotorg_demo_standard_admin_preprocess_filter_tips(array &$variables) {
+  // For token filter tips to include node and paragraph tokens.
+  /** @var \Drupal\Core\Render\RendererInterface $renderer */
+  $renderer = \Drupal::service('renderer');
+  foreach ($variables['tips'] as &$tips) {
+    if (isset($tips['list']['token_filter'])) {
+      $build = [
+        'content' => [
+          '#markup' => t('Global and entity tokens are replaced with their values.'),
+        ],
+        'link' => [
+          '#prefix' => ' ',
+          '#theme' => 'token_tree_link',
+          '#token_types' => ['node', 'paragraph'],
+        ],
+      ];
+      $tips['list']['token_filter']['tip'] = $renderer->render($build);
+    }
+  }
 }
