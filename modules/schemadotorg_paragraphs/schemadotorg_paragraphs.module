@@ -47,13 +47,15 @@ function schemadotorg_paragraphs_paragraphs_type_presave(ParagraphsTypeInterface
   unset($module_names['schemadotorg_paragraphs']);
   $module_names['schemadotorg_paragraphs'] = 'schemadotorg_paragraphs';
 
+
   foreach ($module_names as $module_name) {
     $icon_path = $module_extension_list->getPath($module_name) . '/images/schemadotorg_paragraphs/' . $paragraphs_type->id() . '.svg';
     if (file_exists($icon_path)) {
-      $file_uri = $file_system->copy($icon_path, 'public://paragraphs_type_icon/' . $file_system->basename($icon_path), $file_system::EXISTS_REPLACE);
-      $file_entity = File::create([
-        'uri' => $file_uri,
-      ]);
+      $icon_directory = 'public://paragraphs_type_icon';
+      $file_system->prepareDirectory($icon_directory, $file_system::CREATE_DIRECTORY || $file_system::MODIFY_PERMISSIONS);
+
+      $file_uri = $file_system->copy($icon_path, $icon_directory . '/' . $file_system->basename($icon_path), $file_system::EXISTS_REPLACE);
+      $file_entity = File::create(['uri' => $file_uri]);
       $file_entity->save();
       $paragraphs_type->set('icon_uuid', $file_entity->uuid());
     }
