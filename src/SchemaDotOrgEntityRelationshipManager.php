@@ -78,7 +78,7 @@ class SchemaDotOrgEntityRelationshipManager implements SchemaDotOrgEntityRelatio
       }
 
       // Skip Schema.org property whose range include Schema.org Thing.
-      if (in_array($schema_property, ['mainEntity', 'itemListElement'])) {
+      if (in_array($schema_property, ['itemListElement', 'mainEntity', 'mainEntityOfPage'])) {
         continue;
       }
 
