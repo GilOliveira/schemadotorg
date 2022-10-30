@@ -145,14 +145,19 @@ function schemadotorg_demo_standard_admin_paragraph_view_alter(array &$build, Pa
       }
       break;
 
-    case 'item_list':
+    case 'item_list_text':
+    case 'item_list_string':
+    case 'item_list_link':
+      $item_type = str_replace('item_list_', '', $paragraph->bundle());
+      $field_name = 'schema_item_list_element_' . $item_type;
       $items = [];
-      foreach (Element::children($build['schema_item_list_element']) as $key) {
-        $items[] = $build['schema_item_list_element'][$key];
+      foreach (Element::children($build[$field_name]) as $key) {
+        $items[] = $build[$field_name][$key];
       }
-      $build['schema_item_list_element'] = [
+      $build[$field_name] = [
         '#theme' => 'item_list',
         '#items' => $items,
+        '#weight' => $build[$field_name]['#weight'],
       ];
       break;
 

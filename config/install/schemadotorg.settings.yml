@@ -331,6 +331,8 @@ schema_types:
       - timeOfDay
       - timeToComplete
     ItemList:
+      - description
+      - name
       - itemListElement
     JobPosting:
       - applicationContact

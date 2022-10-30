@@ -88,7 +88,9 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
   protected function createDefaultParagraphTypes(): void {
     $schema_types = [
       'quotation' => 'Quotation',
-      'item_list' => 'ItemList',
+      'item_list_text' => 'ItemList',
+      'item_list_string' => 'ItemList',
+      'item_list_link' => 'ItemList',
       'statement' => 'Statement',
       'header' => 'Statement',
       'media_gallery' => 'MediaGallery',
@@ -113,6 +115,54 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
               'hasPart' => TRUE,
               'name' => FALSE,
               'text' => FALSE,
+            ],
+          ];
+          break;
+
+        case 'item_list_text':
+          $defaults = [
+            'entity' => [
+              'id' => $paragraph_type_id,
+              'label' => (string) $this->t('List (Rich text)'),
+              'description' => (string) $this->t('A list of rich text items.'),
+            ],
+            'properties' => [
+              'itemListElement' => [
+                'machine_name' => 'item_list_element_text',
+                'type' => 'text_long',
+              ],
+            ],
+          ];
+          break;
+
+        case 'item_list_string':
+          $defaults = [
+            'entity' => [
+              'id' => $paragraph_type_id,
+              'label' => (string) $this->t('List (Plain text)'),
+              'description' => (string) $this->t('A list of plain text items.'),
+            ],
+            'properties' => [
+              'itemListElement' => [
+                'machine_name' => 'item_list_element_string',
+                'type' => 'string',
+              ],
+            ],
+          ];
+          break;
+
+        case 'item_list_link':
+          $defaults = [
+            'entity' => [
+              'id' => $paragraph_type_id,
+              'label' => (string) $this->t('List (Links)'),
+              'description' => (string) $this->t('A list of links.'),
+            ],
+            'properties' => [
+              'itemListElement' => [
+                'machine_name' => 'item_list_element_link',
+                'type' => 'link',
+              ],
             ],
           ];
           break;

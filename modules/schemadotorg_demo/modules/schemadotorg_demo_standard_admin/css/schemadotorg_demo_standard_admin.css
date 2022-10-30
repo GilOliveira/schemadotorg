@@ -119,8 +119,16 @@ iframe.media-oembed-content {
 /**
  * Layout paragraphs types.
  */
-.paragraph--type--cta
-.paragraph--type--item-list,
+.paragraph .field--name-schema-name {
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.paragraph--type--cta,
+.paragraph--type--item-list-link,
+.paragraph--type--item-list-string,
+.paragraph--type--item-list-text,
 .paragraph--type--node,
 .paragraph--type--quotation,
 .paragraph--type--statement {
@@ -129,12 +137,6 @@ iframe.media-oembed-content {
   padding: 1.25rem;
   margin-bottom: 1.25rem;
   background-color: #fff;
-}
-
-.paragraph--type--cta .field--name-schema-name {
-  font-weight: bold;
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
 }
 
 .paragraph--type--cta.border {

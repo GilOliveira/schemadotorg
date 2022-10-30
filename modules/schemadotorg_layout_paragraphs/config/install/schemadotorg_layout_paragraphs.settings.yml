@@ -7,7 +7,9 @@ default_paragraph_types:
   - header
   - statement
   - quotation
-  - item_list
+  - item_list_string
+  - item_list_link
+  - item_list_text
   - image
   - remote_video
   - audio
