@@ -11,9 +11,12 @@ use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\file\Entity\File;
+use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
+use Drupal\paragraphs\ParagraphsTypeInterface;
 
 /**
  * Implements hook_help().
@@ -22,6 +25,39 @@ function schemadotorg_paragraphs_help(string $route_name, RouteMatchInterface $r
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function schemadotorg_paragraphs_paragraphs_type_presave(ParagraphsTypeInterface $paragraphs_type) {
+  if ($paragraphs_type->getIconFile()) {
+    return;
+  }
+
+  /** @var \Drupal\Core\Extension\ModuleExtensionList $module_extension_list */
+  $module_extension_list = \Drupal::service('extension.list.module');
+
+  /** @var \Drupal\Core\File\FileSystemInterface $file_system */
+  $file_system = \Drupal::service('file_system');
+
+  // Get installed module names with the 'schemadotorg_paragraphs' module last.
+  $module_names = array_keys(\Drupal::moduleHandler()->getModuleList());
+  $module_names = array_combine($module_names, $module_names);
+  unset($module_names['schemadotorg_paragraphs']);
+  $module_names['schemadotorg_paragraphs'] = 'schemadotorg_paragraphs';
+
+  foreach ($module_names as $module_name) {
+    $icon_path = $module_extension_list->getPath($module_name) . '/images/schemadotorg_paragraphs/' . $paragraphs_type->id() . '.svg';
+    if (file_exists($icon_path)) {
+      $file_uri = $file_system->copy($icon_path, 'public://paragraphs_type_icon/' . $file_system->basename($icon_path), $file_system::EXISTS_REPLACE);
+      $file_entity = File::create([
+        'uri' => $file_uri,
+      ]);
+      $file_entity->save();
+      $paragraphs_type->set('icon_uuid', $file_entity->uuid());
+    }
+  }
 }
 
 /**
