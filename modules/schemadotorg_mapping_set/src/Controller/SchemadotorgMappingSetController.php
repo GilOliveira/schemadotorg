@@ -430,7 +430,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
         $row['property'] = $property_name;
         $row['arrow'] = '→';
         if ($property_definition['name'] === SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD) {
-          $row['name'] = $field_prefix . '_' . $property_definition['machine_name'];
+          $row['name'] = $field_prefix . $property_definition['machine_name'];
           $row['existing'] = $this->t('No');
         }
         else {
