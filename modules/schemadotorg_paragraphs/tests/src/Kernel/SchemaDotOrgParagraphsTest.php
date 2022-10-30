@@ -85,20 +85,23 @@ class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
       ]),
     ]);
     $library_contact_point_item->save();
+    $paragraph_contact_point = Paragraph::create([
+      'type' => 'contact_point',
+      'schema_contact_type' => ['value' => 'Contact Point'],
+    ]);
+    $paragraph_from_library = Paragraph::create([
+      'type' => 'from_library',
+      'field_reusable_paragraph' => [
+        'target_id' => $library_contact_point_item->id(),
+      ],
+    ]);
+
     $person_node = Node::create([
       'type' => 'person',
       'title' => 'Person',
       'schema_contact_point' => [
-        Paragraph::create([
-          'type' => 'contact_point',
-          'schema_contact_type' => ['value' => 'Contact Point'],
-        ]),
-        Paragraph::create([
-          'type' => 'from_library',
-          'field_reusable_paragraph' => [
-            'target_id' => $library_contact_point_item->id(),
-          ],
-        ]),
+        $paragraph_contact_point,
+        $paragraph_from_library,
       ],
     ]);
     $person_node->save();
@@ -118,6 +121,13 @@ class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
       'contactPoint' => [
         [
           '@type' => 'ContactPoint',
+          'identifier' => [
+            [
+              '@type' => 'PropertyValue',
+              'propertyID' => 'uuid',
+              'value' => $paragraph_contact_point->uuid(),
+            ],
+          ],
           'contactType' => 'Contact Point',
         ],
         [

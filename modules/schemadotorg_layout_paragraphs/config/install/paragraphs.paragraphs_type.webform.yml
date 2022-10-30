@@ -1,9 +1,11 @@
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  content:
+    - 'file:file:075da80c-325a-437f-81d3-3dac15988c62'
 id: webform
 label: Webform
-icon_uuid: null
+icon_uuid: 075da80c-325a-437f-81d3-3dac15988c62
 icon_default: null
 description: 'A webform.'
 behavior_plugins: {  }

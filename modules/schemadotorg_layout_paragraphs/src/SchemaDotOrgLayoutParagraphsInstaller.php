@@ -79,6 +79,7 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
 
     $this->createDefaultParagraphTypes();
     $this->createMediaParagraphTypes();
+    $this->updateNodeParagraphTargetBundles();
   }
 
   /**
@@ -227,6 +228,25 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
       $display->setComponent($field_name, $component);
       $display->save();
     }
+  }
+
+  /**
+   * Update node paragraph target bundles.
+   */
+  protected function updateNodeParagraphTargetBundles(): void {
+    $node_types = $this->entityTypeManager
+      ->getStorage('node_type')
+      ->getQuery()
+      ->execute();
+
+    /** @var \Drupal\field\FieldConfigInterface $field_config */
+    $field_config = $this->entityTypeManager
+      ->getStorage('field_config')
+      ->load("paragraph.node.field_node");
+    $settings = $field_config->get('settings');
+    $settings['handler_settings']['target_bundles'] = $node_types;
+    $field_config->set('settings', $settings);
+    $field_config->save();
   }
 
 }

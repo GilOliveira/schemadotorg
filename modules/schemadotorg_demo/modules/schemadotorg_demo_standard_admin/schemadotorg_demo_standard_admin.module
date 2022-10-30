@@ -15,7 +15,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\paragraphs\ParagraphInterface;
-use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
 /**
  * Implements hook_help().

@@ -1,11 +1,16 @@
 required:
   - core.entity_form_display.paragraph.block.default
   - core.entity_form_display.paragraph.webform.default
+  - core.entity_form_display.paragraph.node.default
   - core.entity_view_display.paragraph.block.default
   - core.entity_view_display.paragraph.webform.default
+  - core.entity_view_display.paragraph.node.default
   - field.field.paragraph.block.field_block
   - field.field.paragraph.webform.field_webform
+  - field.field.paragraph.node.field_node
   - field.storage.paragraph.field_block
   - field.storage.paragraph.field_webform
+  - field.storage.paragraph.field_node
   - paragraphs.paragraphs_type.block
   - paragraphs.paragraphs_type.webform
+  - jsonapi_extras.jsonapi_resource_config.paragraph--node

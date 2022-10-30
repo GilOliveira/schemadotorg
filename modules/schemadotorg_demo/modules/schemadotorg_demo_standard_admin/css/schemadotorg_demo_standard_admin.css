@@ -119,10 +119,11 @@ iframe.media-oembed-content {
 /**
  * Layout paragraphs types.
  */
+.paragraph--type--cta
 .paragraph--type--item-list,
-.paragraph--type--statement,
+.paragraph--type--node,
 .paragraph--type--quotation,
-.paragraph--type--cta {
+.paragraph--type--statement {
   border: 1px solid var(--colorGinBorder);
   border-radius: var(--ginBorderDefault);
   padding: 1.25rem;

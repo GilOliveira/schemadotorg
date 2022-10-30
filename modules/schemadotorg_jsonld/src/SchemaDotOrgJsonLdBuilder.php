@@ -23,7 +23,6 @@ use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
  * - Alter all data based on the current route match.
  *
  * @see hook_schemadotorg_jsonld()
- * @see \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilder::buildMappedEntity
  * @see hook_schemadotorg_jsonld_schema_type_entity_load()
  * @see hook_schemadotorg_jsonld_schema_type_entity_alter()
  * @see hook_schemadotorg_jsonld_schema_type_field_alter()
@@ -143,10 +142,14 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
 
     // Set default options.
     $options += [
+      // Include indentifiers.
       'identifier' => TRUE,
+      // Mapping entity references.
+      // This helps prevent a mapping recursion.
+      'map_entities' => TRUE,
     ];
 
-    $data = $this->buildMappedEntity($entity);
+    $data = $this->buildMappedEntity($entity, $options);
 
     // Load Schema.org JSON-LD entity data.
     // @see schemadotorg_jsonld_schema_type_entity_load()
@@ -192,15 +195,14 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity.
-   * @param bool $map_entities
-   *   TRUE if the entity reference should be mapped.
-   *   This helps prevent a mapping recursion.
+   * @param array $options
+   *   The entity build options.
    *
    * @return array|bool
    *   The JSON-LD for an entity that is mapped to a Schema.org type
    *   or FALSE if the entity is not mapped to a Schema.org type.
    */
-  protected function buildMappedEntity(EntityInterface $entity, bool $map_entities = TRUE): array|bool {
+  protected function buildMappedEntity(EntityInterface $entity, array $options = []): array|bool {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
     if (!$mapping_storage->isEntityMapped($entity)) {
@@ -228,7 +230,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       $position = 1;
       $property_values = [];
       foreach ($items as $item) {
-        $property_value = $this->getSchemaPropertyFieldItem($schema_type, $schema_property, $item, $map_entities);
+        $property_value = $this->getSchemaPropertyFieldItem($schema_type, $schema_property, $item, $options);
 
         // Alter the Schema.org property's individual value.
         $this->moduleHandler->alter(
@@ -277,12 +279,6 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     // Prepend the @type to the returned data.
     $default_data = [];
     $default_data['@type'] = $mapping->getSchemaType();
-    // Allow subtype field to override the mapping Schema.org type.
-    // @see schemadotorg_subtype.module
-    $subtype_field_name = $mapping->getSchemaPropertyFieldName('subtype');
-    if ($subtype_field_name && $entity->hasField($subtype_field_name) && $entity->get($subtype_field_name)->value) {
-      $default_data['@type'] = $entity->get($subtype_field_name)->value;
-    }
 
     // Prepend the @url to the returned data.
     if ($entity->hasLinkTemplate('canonical') && $entity->access('view')) {
@@ -330,25 +326,28 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    *   The Schema.org property.
    * @param \Drupal\Core\Field\FieldItemInterface|null $item
    *   The field item.
-   * @param bool $map_entity
-   *   TRUE if entity should be mapped.
+   * @param array $options
+   *   The entity build options.
    *
    * @return mixed
    *   A data type.
    */
-  protected function getSchemaPropertyFieldItem(string $schema_type, string $schema_property, ?FieldItemInterface $item = NULL, bool $map_entity = TRUE): mixed {
+  protected function getSchemaPropertyFieldItem(string $schema_type, string $schema_property, ?FieldItemInterface $item = NULL, array $options = []): mixed {
     if ($item === NULL) {
       return NULL;
     }
 
     // Handle entity reference relationships.
     if ($item->entity && $item->entity instanceof EntityInterface) {
-      if (!$map_entity) {
+      if (!$options['map_entities']) {
         return NULL;
       }
 
-      $has_url = !$item->entity->hasLinkTemplate('canonical');
-      $entity_data = $this->buildMappedEntity($item->entity, $has_url);
+      $entity_options = [
+        // Only map entities that DO NOT have canonical URLs.
+        'map_entities' => empty($item->entity->hasLinkTemplate('canonical')),
+      ] + $options;
+      $entity_data = $this->buildEntity($item->entity, $entity_options);
       if ($entity_data) {
         return $entity_data;
       }

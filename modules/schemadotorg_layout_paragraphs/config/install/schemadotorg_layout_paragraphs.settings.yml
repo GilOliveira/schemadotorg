@@ -14,5 +14,6 @@ default_paragraph_types:
   - media_gallery
   - image_gallery
   - video_gallery
+  - node
   - webform
   - block

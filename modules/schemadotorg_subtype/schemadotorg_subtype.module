@@ -7,6 +7,7 @@
 
 declare(strict_types = 1);
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldFilteredMarkup;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -101,6 +102,25 @@ function schemadotorg_subtype_schemadotorg_mapping_defaults_alter(string $entity
   // Sets the Schema.org mapping defaults for creating a subtype property.
   $defaults['properties']['subtype'] = ['name' => $name]
     + $default_properties;
+}
+
+/**
+ * Alter the Schema.org JSON-LD data for an entity.
+ *
+ * Besides, altering an existing Schema.org mapping's JSON-LD data, modules can
+ * define custom JSON-LD data for any entity type.
+ *
+ * @param array $data
+ *   The Schema.org JSON-LD data for an entity.
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   The entity.
+ */
+function schemadotorg_subtype_schemadotorg_jsonld_schema_type_entity_alter(array &$data, EntityInterface $entity): void {
+  // Allow subtype property to override the mapping Schema.org type.
+  if (!empty($data['subtype'])) {
+    $data['@type'] = $data['subtype'];
+    unset($data['subtype']);
+  }
 }
 
 /* ************************************************************************** */

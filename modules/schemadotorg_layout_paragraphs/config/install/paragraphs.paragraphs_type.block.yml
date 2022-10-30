@@ -1,9 +1,11 @@
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  content:
+    - 'file:file:16eed4bd-98aa-4e28-8e56-7c9c0b6952ec'
 id: block
 label: Block
-icon_uuid: null
+icon_uuid: 16eed4bd-98aa-4e28-8e56-7c9c0b6952ec
 icon_default: null
 description: 'A configurable block.'
 behavior_plugins: {  }

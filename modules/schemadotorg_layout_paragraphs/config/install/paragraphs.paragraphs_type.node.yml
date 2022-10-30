@@ -1,0 +1,10 @@
+uuid: 9a6113e6-4420-476a-a31d-56b1a0d96ee8
+langcode: en
+status: true
+dependencies: {  }
+id: node
+label: Content
+icon_uuid: null
+icon_default: null
+description: 'Teaser for content.'
+behavior_plugins: {  }

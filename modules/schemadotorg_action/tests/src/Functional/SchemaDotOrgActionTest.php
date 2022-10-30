@@ -102,6 +102,13 @@ class SchemaDotOrgActionTest extends SchemaDotOrgBrowserTestBase {
     $expected_value = [
       [
         '@type' => 'WebPage',
+        'identifier' => [
+          [
+            '@type' => 'PropertyValue',
+            'propertyID' => 'uuid',
+            'value' => $node->schema_main_entity->entity->uuid(),
+          ],
+        ],
         'inLanguage' => 'en',
         'name' => 'Test call to action',
         'significantLink' => ['https://yahoo.com'],
