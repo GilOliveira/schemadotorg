@@ -1,9 +1,9 @@
 langcode: en
 status: true
 dependencies: {  }
-id: block
-label: Block
+id: view
+label: View
 icon_uuid: ''
 icon_default: null
-description: 'A configurable block.'
+description: 'A listing of information.'
 behavior_plugins: {  }

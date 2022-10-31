@@ -95,6 +95,7 @@
     "drupal/token_filter": "^1.0",
     "drupal/toolbar_language_switcher": "^2.0",
     "drupal/webform": "^6.0",
+    "drupal/viewsreference": "^2.0",
     "masonry/masonry": "*",
     "michelf/php-markdown": "^1.0"
   },

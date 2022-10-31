@@ -1,13 +1,11 @@
 langcode: en
 status: true
 dependencies:
-  content:
-    - 'file:file:e2491881-9da6-4761-b464-2201a01c38b4'
   module:
     - layout_paragraphs
 id: layout
 label: Layout
-icon_uuid: e2491881-9da6-4761-b464-2201a01c38b4
+icon_uuid: ''
 icon_default: null
 description: 'A multi-column layout.'
 behavior_plugins:
