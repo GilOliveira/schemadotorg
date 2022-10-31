@@ -143,23 +143,23 @@ Demo
 _Below are recommended Drupal core modules._
 
 - **[Datetime](https://www.drupal.org/docs/8/core/modules/datetime)**  
-  (Applies to: [Date](https://schema.org/Date), [DateTime](https://schema.org/DateTime))
+  (Applies to: [Date](https://schema.org/Date), [DateTime](https://schema.org/DateTime))  
   Defines datetime form elements and a datetime field type.
 
 - **[Link](https://www.drupal.org/docs/8/core/modules/link)**  
-  (Applies to: [URL](https://schema.org/URL))
+  (Applies to: [URL](https://schema.org/URL))  
   Provides a simple link field type.
 
 - **[Media](https://www.drupal.org/docs/8/core/modules/media)**  
-  (Applies to: [MediaObject](https://schema.org/MediaObject))
+  (Applies to: [MediaObject](https://schema.org/MediaObject))  
   Manages the creation, configuration, and display of media items.
 
 - **[Media Library](https://www.drupal.org/docs/8/core/modules/media_library)**  
-  (Applies to: [MediaObject](https://schema.org/MediaObject))
+  (Applies to: [MediaObject](https://schema.org/MediaObject))  
   Enhances the media list with additional features to more easily find and use existing media items.
 
 - **[Telephone](https://www.drupal.org/docs/8/core/modules/telephone)**  
-  (Applies to: [telephone](https://schema.org/telephone))
+  (Applies to: [telephone](https://schema.org/telephone))  
   Defines a field type for telephone numbers.
 
 ## Contribute Modules
@@ -215,23 +215,23 @@ _The below modules improve the Schema.org Blueprints module's workflow and moder
 _The below modules provide different ways to create and manage a collection of fields._
 
 - **[Paragraphs](https://www.drupal.org/project/paragraphs)**  
-  (Applies to: [Intangible](https://schema.org/Intangible))
+  (Applies to: [Intangible](https://schema.org/Intangible))  
   Enables the creation of paragraphs (i.e. component) entities.
 
 - **[Entity Construction Kit (ECK)](https://www.drupal.org/project/eck)**  
-  (Applies to: [Intangible](https://schema.org/Intangible))
+  (Applies to: [Intangible](https://schema.org/Intangible))  
   ECK (Entity Construction Kit) allows users to create and administer entity types, bundles and entities from UI.
 
 - **[Micro-content](https://www.drupal.org/project/microcontent)**  
-  (Applies to: [Intangible](https://schema.org/Intangible))
+  (Applies to: [Intangible](https://schema.org/Intangible))  
   Provides a lightweight reusable content-entity and type that supports fields, revisions and translation.
 
 - **[Storage](https://www.drupal.org/project/storage)**  
-  (Applies to: [Intangible](https://schema.org/Intangible))
+  (Applies to: [Intangible](https://schema.org/Intangible))  
   Lightweight, bundleable entities for storing structured data.
 
 - **[FlexField](https://www.drupal.org/project/flexfield)**  
-  (Applies to: [Intangible](https://schema.org/Intangible))
+  (Applies to: [Intangible](https://schema.org/Intangible))  
   Defines a new "FlexField" field type that lets you create simple inline multiple-value fields without having to use entity references.
 
 ### Entity
@@ -248,15 +248,15 @@ _The below modules provide more specific field types and behaviors._
 Date/time
 
 - **[Duration Field](https://www.drupal.org/project/duration_field)**  
-  (Applies to: [Duration](https://schema.org/Duration))
+  (Applies to: [Duration](https://schema.org/Duration))  
   Provides a duration field, that collects a period of time, whether that be hours, minutes, seconds, days, months, years, or any combination of those.
 
 - **[Time Field](https://www.drupal.org/project/time_field)**  
-  (Applies to: [Time](https://schema.org/Time))
+  (Applies to: [Time](https://schema.org/Time))  
   Provides "Time Field" and "Time Range Field".
 
 - **[SmartDate](https://www.drupal.org/project/smart_date)**  
-  (Applies to: [Date](https://schema.org/Date), [DateTime](https://schema.org/DateTime), [Schedule](https://schema.org/Schedule))
+  (Applies to: [Date](https://schema.org/Date), [DateTime](https://schema.org/DateTime), [Schedule](https://schema.org/Schedule))  
   Provides the ability to store start and end times, with duration. Also provides an intelligent admin UI, and a variety of formatting options.
 
 Link
@@ -272,47 +272,47 @@ Image
 Demographic
 
 - **[Gender](https://www.drupal.org/project/gender)**  
-  (Applies to: [GenderType](https://schema.org/GenderType), [gender](https://schema.org/gender))
+  (Applies to: [GenderType](https://schema.org/GenderType), [gender](https://schema.org/gender))  
   Provides inclusive options for collecting gender information of individuals.
 
 Location
 
 - **[Address](https://www.drupal.org/project/address)**  
-  (Applies to: [PostalAddress](https://schema.org/PostalAddress), [address](https://schema.org/address))
+  (Applies to: [PostalAddress](https://schema.org/PostalAddress), [address](https://schema.org/address))  
   Provides functionality for storing, validating and displaying international postal addresses.
 
 - **[Office hours](https://www.drupal.org/project/office_hours)**  
-  (Applies to: [OpeningHoursSpecification](https://schema.org/OpeningHoursSpecification))
+  (Applies to: [OpeningHoursSpecification](https://schema.org/OpeningHoursSpecification))  
   Defines a 'weekly office hours' field type, allowing you to specify when an Entity is open or closed.
 
 Telephone
 
 - **[Telephone Formatter](https://www.drupal.org/project/telephone_formatter)**  
-  (Applies to: [telephone](https://schema.org/telephone))
+  (Applies to: [telephone](https://schema.org/telephone))  
   Provides extra formatter to core's Telephone field
 
 Options
 
 - **[Select (or other)](https://www.drupal.org/project/select_or_other)**  
-  (Applies to: [Enumeration](https://schema.org/Enumeration))
+  (Applies to: [Enumeration](https://schema.org/Enumeration))  
   Provides a select box form element with additional option 'Other' to give a textfield.
 
 - **[Select Text Value](https://www.drupal.org/project/select_text_value)**  
-  (Applies to: [Enumeration](https://schema.org/Enumeration))
+  (Applies to: [Enumeration](https://schema.org/Enumeration))  
   Widget for text fields to offer pre-define values for selection.
 
 - **[Existing Values Autocomplete Widget](https://www.drupal.org/project/existing_values_autocomplete_widget)**  
-  (Applies to: [Text](https://schema.org/Text))
+  (Applies to: [Text](https://schema.org/Text))  
   Provides a widget for text fields that supplies an autocomplete callback with any previously entered (existing) values for the field.
 
 Composite
 
 - **[Double Field](https://www.drupal.org/project/double_field)**  
-  (Applies to: [Intangible](https://schema.org/Intangible), [identifier](https://schema.org/identifier))
+  (Applies to: [Intangible](https://schema.org/Intangible), [identifier](https://schema.org/identifier))  
   Provides a field type with two separate sub-fields.
 
 - **[Key value field](https://www.drupal.org/project/key_value_field)**  
-  (Applies to: [Intangible](https://schema.org/Intangible), [PropertyValue](https://schema.org/PropertyValue), [identifier](https://schema.org/identifier))
+  (Applies to: [Intangible](https://schema.org/Intangible), [PropertyValue](https://schema.org/PropertyValue), [identifier](https://schema.org/identifier))  
   Provides a field with a key, value pair along with a description.
 
 Calculation
