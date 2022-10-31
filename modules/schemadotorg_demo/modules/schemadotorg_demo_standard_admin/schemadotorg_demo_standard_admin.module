@@ -113,6 +113,7 @@ function schemadotorg_demo_standard_admin_entity_view_alter(array &$build, Entit
   }
 
   $types = [
+    'collection_page' => 'schema_has_part',
     'media_gallery' => 'schema_has_part',
     'image_gallery' => 'schema_has_part',
     'audio_gallery' => 'schema_has_part',
