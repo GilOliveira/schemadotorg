@@ -24,6 +24,7 @@ Features
   instance, form display, and view display.
 - Configure paragraph libraries support when the 'Layout Paragraphs Library'
   module is enabled.
+- Enable 'style_options' for paragraph types used in Layouts.
 
 
 Requirements
@@ -31,6 +32,9 @@ Requirements
 
 **[Layout Paragraphs](https://www.drupal.org/project/layout_paragraphs)**  
 Field widget and formatter for using layouts with paragraph fields.
+
+**[Style Options](https://www.drupal.org/project/style_options)**   
+Provides configurable styles management for attaching various style plugins to Layouts and Paragraphs.
 
 
 Configuration

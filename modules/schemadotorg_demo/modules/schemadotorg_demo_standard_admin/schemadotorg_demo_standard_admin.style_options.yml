@@ -1,0 +1,25 @@
+options:
+  layout_class:
+    plugin: css_class
+    label: 'Classes'
+    multiple: true
+    options:
+      - label: None
+        class: ''
+      - label: border
+        class: border
+      - label: highlight
+        class: highlight
+      - label: shadow
+        class: shadow
+contexts:
+  layout:
+    _defaults:
+      options:
+        layout_class:
+          layout: true
+          regions: true
+  paragraphs:
+    _defaults:
+      options:
+        layout_class: true

@@ -2,7 +2,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.cta.field_cta_class
     - field.field.paragraph.cta.schema_name
     - field.field.paragraph.cta.schema_primary_image
     - field.field.paragraph.cta.schema_significant_link
@@ -52,5 +51,4 @@ content:
     third_party_settings: {  }
     weight: 2
     region: content
-hidden:
-  field_cta_class: true
+hidden: {  }

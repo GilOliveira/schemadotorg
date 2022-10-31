@@ -84,33 +84,3 @@ function schemadotorg_action_link_alter(array &$variables): void {
   }
 }
 
-/**
- * Implements hook_entity_view_alter().
- *
- * Takes paragraph's field_PARAGRAPH_TYPE_class values and adds them to the
- * paragraph's attributes.
- *
- * @todo Replace custom 'class' field with Paragraphs Collection module.
- * @see https://www.drupal.org/project/paragraphs_collection
- */
-function schemadotorg_action_paragraph_view_alter(array &$build, ParagraphInterface $paragraph, EntityViewDisplayInterface $display): void {
-  $field_name = 'field_' . $paragraph->bundle() . '_class';
-  if (!$paragraph->hasField($field_name)) {
-    return;
-  }
-
-  $classses = [];
-  foreach ($paragraph->$field_name as $item) {
-    $classses[] = $item->value;
-  }
-  if (empty($classses)) {
-    return;
-  }
-
-  if (!empty($build['#attributes']['class'])) {
-    $build['#attributes']['class'] = array_merge($build['#attributes']['class'], $classses);
-  }
-  else {
-    $build['#attributes']['class'] = $classses;
-  }
-}

@@ -68,6 +68,7 @@ dependencies:
   - 'schemata:schemata'
   - 'schemata:schemata_json_schema'
   - 'scheduler_content_moderation_integration:scheduler_content_moderation_integration'
+  - 'style_options:style_options'
   - 'revision_log_default:revision_log_default'
   - 'token:token'
   - 'token_filter:token_filter'

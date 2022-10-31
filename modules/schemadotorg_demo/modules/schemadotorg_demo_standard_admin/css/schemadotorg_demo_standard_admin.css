@@ -139,16 +139,16 @@ iframe.media-oembed-content {
   background-color: #fff;
 }
 
-.paragraph--type--cta.border {
+.paragraph.border {
   border-width: 3px;
   border-color: #000;
 }
 
-.paragraph--type--cta.highlight {
+.paragraph.highlight {
   background-color: #ffe;
 }
 
-.paragraph--type--cta.shadow {
+.paragraph.shadow {
   box-shadow: 5px 10px 8px #888888;
 }
 

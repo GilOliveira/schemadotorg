@@ -21,8 +21,6 @@ Features
 
 - Creates a 'Call to action' paragraph type which is mapped to
   [Webpage](https://schema.org/WebPage).
-- Add class field to 'Call to actions' paragraph type which add custom class
-  to the render paragraph and JSON:API.
 - Sets JSON-LD https://schema.org/potentialAction property for links using the 
   custom 'schema_potential_action' link attribute.
 

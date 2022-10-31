@@ -79,6 +79,9 @@ Layout
 
 - **[Schema.org Layout Paragraphs](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_layout_paragraphs)**  
 
+- **[Style Options](https://www.drupal.org/project/style_options)**   
+  Provides configurable styles management for attaching various style plugins to Layouts and Paragraphs.
+
 SEO
 
 - **[Schema.org Blueprints Metatag](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_metatag)**  

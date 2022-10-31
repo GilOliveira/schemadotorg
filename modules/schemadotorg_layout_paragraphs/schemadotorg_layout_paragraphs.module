@@ -13,6 +13,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\entity_reference_revisions\Plugin\Field\FieldType\EntityReferenceRevisionsItem;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
+use Drupal\paragraphs\ParagraphsTypeInterface;
 
 /**
  * Implements hook_help().
@@ -161,4 +162,25 @@ function schemadotorg_layout_paragraphs_settings_form_submit(array &$form, FormS
     $config->set($key, $value);
   }
   $config->save();
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function schemadotorg_layout_paragraphs_paragraphs_type_presave(ParagraphsTypeInterface $paragraphs_type) {
+  if (!Drupal::moduleHandler()->moduleExists('style_options')) {
+    return;
+  }
+
+  $default_paragraph_types = \Drupal::config('schemadotorg_layout_paragraphs.settings')
+    ->get('default_paragraph_types');
+  if (empty($default_paragraph_types)) {
+    return;
+  }
+
+  if (in_array($paragraphs_type->id(), $default_paragraph_types)) {
+    $behavior_plugins = $paragraphs_type->get('behavior_plugins');
+    $behavior_plugins['style_options'] = ['enabled' => TRUE];
+    $paragraphs_type->set('behavior_plugins', $behavior_plugins);
+  }
 }

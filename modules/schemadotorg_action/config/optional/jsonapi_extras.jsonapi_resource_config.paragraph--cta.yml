@@ -26,12 +26,6 @@ resourceFields:
     publicName: default_langcode
     enhancer:
       id: ''
-  field_cta_class:
-    disabled: false
-    fieldName: field_cta_class
-    publicName: class
-    enhancer:
-      id: ''
   id:
     disabled: false
     fieldName: id

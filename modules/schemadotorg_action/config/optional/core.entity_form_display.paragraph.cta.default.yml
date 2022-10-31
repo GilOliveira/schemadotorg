@@ -2,7 +2,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.cta.field_cta_class
     - field.field.paragraph.cta.schema_name
     - field.field.paragraph.cta.schema_primary_image
     - field.field.paragraph.cta.schema_significant_link
@@ -17,12 +16,6 @@ targetEntityType: paragraph
 bundle: cta
 mode: default
 content:
-  field_cta_class:
-    type: options_select
-    weight: 4
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   schema_name:
     type: string_textfield
     weight: 0
