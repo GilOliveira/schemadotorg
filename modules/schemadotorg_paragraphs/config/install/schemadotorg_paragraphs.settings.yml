@@ -10,6 +10,7 @@ paragraphs_library:
   - MedicalSignOrSymptom
   - Statement
   - Quotation
+  - CollectionPage
   - ItemList
   - MediaGallery
   - ImageGallery

@@ -13,6 +13,7 @@ default_paragraph_types:
   - image
   - remote_video
   - audio
+  - collection_page
   - media_gallery
   - image_gallery
   - video_gallery

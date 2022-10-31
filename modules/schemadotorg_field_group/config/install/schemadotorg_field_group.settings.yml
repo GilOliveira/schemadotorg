@@ -280,6 +280,7 @@ disable_field_groups:
   - 'paragraph--AudioObject'
   - 'paragraph--VideoObject'
   - 'paragraph--ImageObject'
+  - 'paragraph--CollectionPage'
   - 'paragraph--MediaGallery'
   - 'paragraph--ImageGallery'
   - 'paragraph--VideoGallery'

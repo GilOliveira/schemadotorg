@@ -34,6 +34,7 @@ class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
    * @var array
    */
   protected static $modules = [
+    'file',
     'views',
     'paragraphs_library',
     'schemadotorg_jsonld',
@@ -46,6 +47,9 @@ class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
   protected function setUp(): void {
     parent::setUp();
 
+    $this->installSchema('file', ['file_usage']);
+
+    $this->installEntitySchema('file');
     $this->installEntitySchema('view');
     $this->installEntitySchema('paragraphs_library_item');
     $this->installConfig(['schemadotorg_paragraphs', 'schemadotorg_jsonld', 'paragraphs_library']);

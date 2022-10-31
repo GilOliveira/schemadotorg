@@ -63,6 +63,7 @@ class SchemaDotOrgLayoutParagraphsTest extends SchemaDotOrgBrowserTestBase {
       'item_list_string' => 'item_list_string',
       'item_list_link' => 'item_list_link',
       'item_list_text' => 'item_list_text',
+      'collection_page' => 'collection_page',
       'media_gallery' => 'media_gallery',
       'image_gallery' => 'image_gallery',
       'video_gallery' => 'video_gallery',

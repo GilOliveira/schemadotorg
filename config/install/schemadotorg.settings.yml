@@ -713,6 +713,14 @@ schema_properties:
     HowToStep--itemListElement:
       - HowToDirection
       - HowToTip
+    CollectionPage--hasPart:
+      - WebPage
+      - Statement
+      - Quotation
+      - ItemList
+      - AudioObject
+      - ImageObject
+      - VideoObject
     ImageGallery--hasPart:
       - ImageObject
     MediaGallery--hasPart:
@@ -829,12 +837,6 @@ schema_properties:
     FAQPage--mainEntity:
       label: Questions
       unlimited: true
-    ImageGallery--hasPart:
-      label: Images
-      unlimited: true
-    MediaGallery--hasPart:
-      label: Media
-      unlimited: true
     MenuItem--offers:
       type: decimal
       name: offers_price
@@ -856,9 +858,12 @@ schema_properties:
       label: Answer
     Question--name:
       label: Question
+    MediaGallery--hasPart:
+      label: Media
+    ImageGallery--hasPart:
+      label: Images
     VideoGallery--hasPart:
       label: Videos
-      unlimited: true
     about:
       type: text_long
     acceptedAnswer:
@@ -1018,6 +1023,9 @@ schema_properties:
       unlimited: true
     hasMenuSection:
       label: 'Menu sections'
+      unlimited: true
+    hasPart:
+      label: 'Items'
       unlimited: true
     healthCondition:
       label: 'Health conditions'

@@ -77,8 +77,8 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
     // are triggered after the Schema.org Paragraphs module.
     module_set_weight('schemadotorg_layout_paragraphs', 1);
 
-    $this->createDefaultParagraphTypes();
     $this->createMediaParagraphTypes();
+    $this->createDefaultParagraphTypes();
     $this->updateNodeParagraphTargetBundles();
   }
 
@@ -93,6 +93,7 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
       'item_list_link' => 'ItemList',
       'statement' => 'Statement',
       'header' => 'Statement',
+      'collection_page' => 'CollectionPage',
       'media_gallery' => 'MediaGallery',
       'image_gallery' => 'ImageGallery',
       'video_gallery' => 'VideoGallery',
@@ -106,13 +107,16 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
       }
 
       switch ($paragraph_type_id) {
+        case 'collection_page':
         case 'media_gallery':
         case 'image_gallery':
         case 'video_gallery':
           // For galleries, we only want to support media selection via hasPart.
           $defaults = [
             'properties' => [
-              'hasPart' => TRUE,
+              'hasPart' => [
+                'type' => 'field_ui:entity_reference_revisions:paragraph',
+              ],
               'name' => FALSE,
               'text' => FALSE,
             ],
@@ -206,6 +210,27 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
       }
       $display->save();
     }
+
+//    // Set 'collection_page' bundles.
+//    /** @var \Drupal\field\FieldConfigInterface $field */
+//    $field = FieldConfig::loadByName('paragraph', 'collection_page', 'schema_has_part');
+//    $settings = $field->getSettings();
+//    $settings['handler_settings']['target_bundles'] = [];
+//    $settings['handler_settings']['target_bundles_drag_drop'] = [];
+//    $target_bundles = [
+//      'node' => 'node',
+//    ];
+//    $weight = 10;
+//    foreach ($target_bundles as $target_bundle) {
+//      $settings['handler_settings']['target_bundles'][$target_bundle] = $target_bundle;
+//      $settings['handler_settings']['target_bundles_drag_drop'][$target_bundle] = [
+//        'weight' => $weight,
+//        'enabled' => TRUE,
+//      ];
+//      $weight++;
+//    }
+//    $field->setSettings($settings)
+//      ->save();
   }
 
   /**
