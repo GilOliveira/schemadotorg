@@ -17,6 +17,7 @@ use Drupal\Core\Config\StorageInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
+use Drupal\schemadotorg\Utility\SchemaDotOrgStringHelper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -279,10 +280,9 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
         $comment = $items[$id]['comment'];
         // Tidy <br/> tags.
         $comment = preg_replace('#<br[^>]*]>#', '<br/>', $comment);
-
         // Trim description.
-        if ($trim_descriptions && $comment && str_contains($comment, '.')) {
-          $comment = substr($comment, 0, strpos($comment, '.') + 1);
+        if ($trim_descriptions) {
+          $comment = SchemaDotOrgStringHelper::getFirstSentence($comment);
         }
         $description = $this->schemaTypeBuilder->formatComment($comment, $options);
         $help = $description;

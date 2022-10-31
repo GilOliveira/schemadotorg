@@ -13,6 +13,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\field\FieldConfigInterface;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
+use Drupal\schemadotorg\Utility\SchemaDotOrgStringHelper;
 use Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm;
 
 /**
@@ -74,8 +75,8 @@ function schemadotorg_descriptions_entity_load(array $entities, string $entity_t
       $type_definition = $schema_type_manager->getType($schema_type);
       $comment = $type_definition['comment'];
       // Trim description.
-      if ($trim_descriptions && $comment && str_contains($comment, '.')) {
-        $comment = substr($comment, 0, strpos($comment, '.') + 1);
+      if ($trim_descriptions) {
+        $comment = SchemaDotOrgStringHelper::getFirstSentence($comment);
       }
       $description = $schema_type_builder->formatComment($comment, $options);
     }
