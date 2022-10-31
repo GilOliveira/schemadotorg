@@ -216,6 +216,13 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
+  public function isPropertyMainEntity(string $id): bool {
+    return (in_array($id, ['itemListElement', 'hasPart', 'mainEntity', 'mainEntityOfPage']));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function parseIds(string $text): array {
     $text = trim($text);
     if (empty($text)) {

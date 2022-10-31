@@ -134,8 +134,10 @@ function schemadotorg_form_field_config_edit_form_alter(array &$form, FormStateI
     return;
   }
 
-  // Skip Schema.org property whose range include Schema.org Thing.
-  if (in_array($schema_property, ['itemListElement', 'hasPart', 'mainEntity', 'mainEntityOfPage'])) {
+  // Skip Schema.org property that used to store the main entity.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+  if ($schema_type_manager->isPropertyMainEntity($schema_property)) {
     return;
   }
 

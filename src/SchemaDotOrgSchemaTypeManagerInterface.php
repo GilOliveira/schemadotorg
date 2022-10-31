@@ -154,6 +154,17 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function isSuperseded(string $id): bool;
 
   /**
+   * Determine if Schema.org property is use at the main entity.
+   *
+   * @param string $id
+   *   The Schema.org property.
+   *
+   * @return bool
+   *   TRUE if Schema.org property is use at the main entity.
+   */
+  public function isPropertyMainEntity(string $id): bool;
+
+  /**
    * Parse Schema.org type or property IDs from a comma delimited list of URLs.
    *
    * @param string $text

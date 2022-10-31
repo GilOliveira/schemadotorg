@@ -348,13 +348,17 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     ?string &$formatter_id,
     array &$formatter_settings
   ): void {
-    $this->copyExistingFieldValues(
-      $field_values,
-      $widget_id,
-      $widget_settings,
-      $formatter_id,
-      $formatter_settings
-    );
+    // Don't copy existing field values for generic Schema.org properties used
+    // to manage different types of data.
+    if (!$this->schemaTypeManager->isPropertyMainEntity($schema_property)) {
+      $this->copyExistingFieldValues(
+        $field_values,
+        $widget_id,
+        $widget_settings,
+        $formatter_id,
+        $formatter_settings
+      );
+    }
 
     $this->setDefaultFieldValues(
       $schema_type,
