@@ -16,13 +16,6 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   use StringTranslationTrait;
 
   /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
    * The database connection.
    *
    * @var \Drupal\Core\Database\Connection
@@ -62,15 +55,12 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * Constructs a SchemaDotOrgTypeManger object.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The configuration object factory.
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
    * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
    *   The Schema.org names service.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, Connection $database, SchemaDotOrgNamesInterface $schema_names) {
-    $this->configFactory = $config_factory;
+  public function __construct(Connection $database, SchemaDotOrgNamesInterface $schema_names) {
     $this->database = $database;
     $this->schemaNames = $schema_names;
   }
