@@ -23,14 +23,20 @@ class SchemaDotOrgStringHelper {
       return $text;
     }
 
-    $escaped = [
-      'e.g.' => 'e_g_',
-      '...' => '|||',
-    ];
-    $original = array_keys($escaped);
-    $text = str_replace($original, $escaped, $text);
-    $text = substr($text, 0, strpos($text, '.') + 1);
-    $text = str_replace($escaped, $original, $text);
+    $text = preg_replace_callback(
+      '/(e\.g\.?|\.\.\.| vs\. |(\d*\.)?\d+)/',
+      function ($matches) {
+        return str_replace('.', '%2E', $matches[0]);
+      },
+      $text
+    );
+
+    if (str_contains($text, '.')) {
+      $text = substr($text, 0, strpos($text, '.') + 1);
+    }
+
+    $text = str_replace('%2E', '.', $text);
+
     return $text;
   }
 

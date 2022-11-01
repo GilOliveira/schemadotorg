@@ -49,7 +49,6 @@ t("The answer(s) that has been accepted as best, typically on a Question/Answer 
 // https://schema.org/acceptedOffer
 t("acceptedOffer");
 t("The offer(s) -- e.g., product, quantity and price combinations -- included in the order.");
-t("The offer(s) -- e.");
 
 // https://schema.org/acceptedPaymentMethod
 t("acceptedPaymentMethod");
@@ -63,7 +62,6 @@ t("Indicates whether a FoodEstablishment accepts reservations.");
 // https://schema.org/accessCode
 t("accessCode");
 t("Password, PIN, or access code needed for delivery (e.g. from a locker).");
-t("Password, PIN, or access code needed for delivery (e.");
 
 // https://schema.org/accessibilityAPI
 t("accessibilityAPI");
@@ -88,6 +86,7 @@ t("A characteristic of the described resource that is physiologically dangerous 
 // https://schema.org/accessibilitySummary
 t("accessibilitySummary");
 t('A human-readable summary of specific accessibility features or deficiencies, consistent with the other accessibility metadata but expressing subtleties such as "short descriptions are present but long descriptions will be needed for non-visual users" or "short descriptions are present and no long descriptions are needed."');
+t('A human-readable summary of specific accessibility features or deficiencies, consistent with the other accessibility metadata but expressing subtleties such as "short descriptions are present but long descriptions will be needed for non-visual users" or "short descriptions are present and no long descriptions are needed.');
 
 // https://schema.org/accessMode
 t("accessMode");
@@ -102,7 +101,7 @@ t("A list of single or combined accessModes that are sufficient to understand al
 // https://schema.org/accommodationCategory
 t("accommodationCategory");
 t('Category of an <a class="localLink" href="/Accommodation">Accommodation</a>, following real estate conventions e.g. RESO (see <a href="https://ddwiki.reso.org/display/DDW17/PropertySubType+Field">PropertySubType</a>, and <a href="https://ddwiki.reso.org/display/DDW17/PropertyType+Field">PropertyType</a> fields  for suggested values).');
-t('Category of an <a class="localLink" href="/Accommodation">Accommodation</a>, following real estate conventions e.');
+t('Category of an <a class="localLink" href="/Accommodation">Accommodation</a>, following real estate conventions e.g. RESO (see <a href="https://ddwiki.');
 
 // https://schema.org/accommodationFloorPlan
 t("accommodationFloorPlan");
@@ -180,12 +179,12 @@ t("How often one should engage in the activity.");
 // https://schema.org/actor
 t("actor");
 t("An actor, e.g. in tv, radio, movie, video games etc., or in an event. Actors can be associated with individual items or with a series, episode, clip.");
-t("An actor, e.");
+t("An actor, e.g. in tv, radio, movie, video games etc.");
 
 // https://schema.org/actors
 t("actors");
 t("An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.");
-t("An actor, e.");
+t("An actor, e.g. in tv, radio, movie, video games etc.");
 
 // https://schema.org/additionalName
 t("additionalName");
@@ -200,7 +199,7 @@ t("additionalProperty");
 t("A property-value pair representing an additional characteristics of the entitity, e.g. a product feature or another characteristic for which there is no matching property in schema.org.<br/><br/>
 
 Note: Publishers should be aware that applications designed to use specific schema.org properties (e.g. https://schema.org/width, https://schema.org/color, https://schema.org/gtin13, ...) will typically expect such data to be provided using those properties, rather than using the generic property/value mechanism.");
-t("A property-value pair representing an additional characteristics of the entitity, e.");
+t("A property-value pair representing an additional characteristics of the entitity, e.g. a product feature or another characteristic for which there is no matching property in schema.");
 
 // https://schema.org/additionalType
 t("additionalType");
@@ -215,7 +214,6 @@ t("Any additional component of the exercise prescription that may need to be art
 // https://schema.org/addOn
 t("addOn");
 t("An additional offer that can only be obtained in combination with the first base offer (e.g. supplements and extensions that are available for a surcharge).");
-t("An additional offer that can only be obtained in combination with the first base offer (e.");
 
 // https://schema.org/address
 t("address");
@@ -239,7 +237,6 @@ t("The region in which the locality is, and which is in the country.");
 // https://schema.org/administrationRoute
 t("administrationRoute");
 t("A route by which this drug may be administered, e.g. 'oral'.");
-t("A route by which this drug may be administered, e.");
 
 // https://schema.org/advanceBookingRequirement
 t("advanceBookingRequirement");
@@ -275,7 +272,6 @@ t("The overall rating, based on a collection of reviews or ratings, of the item.
 // https://schema.org/aircraft
 t("aircraft");
 t('The kind of aircraft (e.g., "Boeing 747").');
-t("The kind of aircraft (e.");
 
 // https://schema.org/album
 t("album");
@@ -334,7 +330,7 @@ t("An organization that the person is an alumni of.");
 // https://schema.org/amenityFeature
 t("amenityFeature");
 t("An amenity feature (e.g. a characteristic or service) of the Accommodation. This generic property does not make a statement about whether the feature is included in an offer for the main accommodation or available at extra costs.");
-t("An amenity feature (e.");
+t("An amenity feature (e.g. a characteristic or service) of the Accommodation.");
 
 // https://schema.org/amount
 t("amount");
@@ -391,7 +387,6 @@ t("An application that can complete the request.");
 // https://schema.org/applicationCategory
 t("applicationCategory");
 t("Type of software application, e.g. 'Game, Multimedia'.");
-t("Type of software application, e.");
 
 // https://schema.org/applicationContact
 t("applicationContact");
@@ -408,12 +403,10 @@ t("The date at which the program begins collecting applications for the next enr
 // https://schema.org/applicationSubCategory
 t("applicationSubCategory");
 t("Subcategory of the application, e.g. 'Arcade Game'.");
-t("Subcategory of the application, e.");
 
 // https://schema.org/applicationSuite
 t("applicationSuite");
 t("The name of the application suite to which the application belongs (e.g. Excel belongs to Office).");
-t("The name of the application suite to which the application belongs (e.");
 
 // https://schema.org/appliesToDeliveryMethod
 t("appliesToDeliveryMethod");
@@ -476,7 +469,6 @@ t("The expected arrival time.");
 // https://schema.org/artEdition
 t("artEdition");
 t('The number of copies when multiple copies of a piece of artwork are produced - e.g. for a limited edition of 20 prints, \'artEdition\' refers to the total number of copies (in this example "20").');
-t("The number of copies when multiple copies of a piece of artwork are produced - e.");
 
 // https://schema.org/arterialBranch
 t("arterialBranch");
@@ -485,7 +477,6 @@ t("The branches that comprise the arterial structure.");
 // https://schema.org/artform
 t("artform");
 t("e.g. Painting, Drawing, Sculpture, Print, Photograph, Assemblage, Collage, etc.");
-t("e.");
 
 // https://schema.org/articleBody
 t("articleBody");
@@ -509,7 +500,6 @@ t("The material used.");
 // https://schema.org/artworkSurface
 t("artworkSurface");
 t("The supporting materials for the artwork, e.g. Canvas, Paper, Wood, Board, etc.");
-t("The supporting materials for the artwork, e.");
 
 // https://schema.org/aspect
 t("aspect");
@@ -518,7 +508,7 @@ t("An aspect of medical practice that is considered on the page, such as 'diagno
 // https://schema.org/assembly
 t("assembly");
 t("Library file name e.g., mscorlib.dll, system.web.dll.");
-t("Library file name e.");
+t("Library file name e.g., mscorlib.");
 
 // https://schema.org/assemblyVersion
 t("assemblyVersion");
@@ -585,7 +575,7 @@ t("An intended audience, i.");
 // https://schema.org/audienceType
 t("audienceType");
 t("The target group associated with a given audience (e.g. veterans, car owners, musicians, etc.).");
-t("The target group associated with a given audience (e.");
+t("The target group associated with a given audience (e.g. veterans, car owners, musicians, etc.");
 
 // https://schema.org/audio
 t("audio");
@@ -616,12 +606,11 @@ t("The beginning of the availability of the product or service included in the o
 // https://schema.org/availableAtOrFrom
 t("availableAtOrFrom");
 t("The place(s) from which the offer can be obtained (e.g. store locations).");
-t("The place(s) from which the offer can be obtained (e.");
 
 // https://schema.org/availableChannel
 t("availableChannel");
 t("A means of accessing the service (e.g. a phone bank, a web site, a location, etc.).");
-t("A means of accessing the service (e.");
+t("A means of accessing the service (e.g. a phone bank, a web site, a location, etc.");
 
 // https://schema.org/availableDeliveryMethod
 t("availableDeliveryMethod");
@@ -748,7 +737,6 @@ t("A BioChemEntity that is known to interact with this item.");
 // https://schema.org/bioChemSimilarity
 t("bioChemSimilarity");
 t("A similar BioChemEntity, e.g., obtained by fingerprint similarity algorithms.");
-t("A similar BioChemEntity, e.");
 
 // https://schema.org/biologicalRole
 t("biologicalRole");
@@ -790,7 +778,6 @@ t("The airline-specific indicator of boarding order / preference.");
 // https://schema.org/boardingPolicy
 t("boardingPolicy");
 t("The type of boarding policy used by the airline (e.g. zone-based or group-based).");
-t("The type of boarding policy used by the airline (e.");
 
 // https://schema.org/bodyLocation
 t("bodyLocation");
@@ -799,7 +786,7 @@ t("Location in the body of the anatomical structure.");
 // https://schema.org/bodyType
 t("bodyType");
 t("Indicates the design and body style of the vehicle (e.g. station wagon, hatchback, etc.).");
-t("Indicates the design and body style of the vehicle (e.");
+t("Indicates the design and body style of the vehicle (e.g. station wagon, hatchback, etc.");
 
 // https://schema.org/bookEdition
 t("bookEdition");
@@ -891,12 +878,10 @@ t("The event being broadcast such as a sporting event or awards ceremony.");
 // https://schema.org/broadcastServiceTier
 t("broadcastServiceTier");
 t("The type of service required to have access to the channel (e.g. Standard or Premium).");
-t("The type of service required to have access to the channel (e.");
 
 // https://schema.org/broadcastSignalModulation
 t("broadcastSignalModulation");
 t("The modulation (e.g. FM, AM, etc) used by a particular broadcast service.");
-t("The modulation (e.");
 
 // https://schema.org/broadcastSubChannel
 t("broadcastSubChannel");
@@ -924,12 +909,11 @@ t("Days of the week when the merchant typically operates, indicated via opening 
 // https://schema.org/businessFunction
 t("businessFunction");
 t("The business function (e.g. sell, lease, repair, dispose) of the offer or component of a bundle (TypeAndQuantityNode). The default is http://purl.org/goodrelations/v1#Sell.");
-t("The business function (e.");
+t("The business function (e.g. sell, lease, repair, dispose) of the offer or component of a bundle (TypeAndQuantityNode).");
 
 // https://schema.org/busName
 t("busName");
 t("The name of the bus (e.g. Bolt Express).");
-t("The name of the bus (e.");
 
 // https://schema.org/busNumber
 t("busNumber");
@@ -1003,7 +987,6 @@ t("'carrier' is an out-dated term indicating the 'provider' for parcel delivery 
 // https://schema.org/carrierRequirements
 t("carrierRequirements");
 t("Specifies specific carrier(s) requirements for the application (e.g. an application may only work on a specific carrier network).");
-t("Specifies specific carrier(s) requirements for the application (e.");
 
 // https://schema.org/cashBack
 t("cashBack");
@@ -1142,7 +1125,6 @@ t("A short textual code that uniquely identifies the value.");
 // https://schema.org/codingSystem
 t("codingSystem");
 t("The coding system, e.g. 'ICD-10'.");
-t("The coding system, e.");
 
 // https://schema.org/colleague
 t("colleague");
@@ -1176,7 +1158,7 @@ t("Comments, typically from users.");
 // https://schema.org/commentCount
 t("commentCount");
 t("The number of comments this CreativeWork (e.g. Article, Question or Answer) has received. This is most applicable to works published in Web sites with commenting system; additional comments may exist elsewhere.");
-t("The number of comments this CreativeWork (e.");
+t("The number of comments this CreativeWork (e.g. Article, Question or Answer) has received.");
 
 // https://schema.org/commentText
 t("commentText");
@@ -1230,7 +1212,6 @@ t("A secure method for consumers to purchase products or services via debit, cre
 // https://schema.org/contactOption
 t("contactOption");
 t("An option available on this contact point (e.g. a toll-free number or support for hearing-impaired callers).");
-t("An option available on this contact point (e.");
 
 // https://schema.org/contactPoint
 t("contactPoint");
@@ -1273,7 +1254,7 @@ t("Official rating of a piece of content&#x2014;for example,'MPAA PG-13'.");
 // https://schema.org/contentReferenceTime
 t("contentReferenceTime");
 t("The specific time described by a creative work, for works (e.g. articles, video objects etc.) that emphasise a particular moment within an Event.");
-t("The specific time described by a creative work, for works (e.");
+t("The specific time described by a creative work, for works (e.g. articles, video objects etc.");
 
 // https://schema.org/contentSize
 t("contentSize");
@@ -1298,7 +1279,6 @@ t("A secondary contributor to the CreativeWork or Event.");
 // https://schema.org/cookingMethod
 t("cookingMethod");
 t("The method of cooking, such as Frying, Steaming, ...");
-t("The method of cooking, such as Frying, Steaming, .");
 
 // https://schema.org/cookTime
 t("cookTime");
@@ -1324,7 +1304,6 @@ t('Indicates a correction to a <a class="localLink" href="/CreativeWork">Creativ
 // https://schema.org/correctionsPolicy
 t("correctionsPolicy");
 t('For an <a class="localLink" href="/Organization">Organization</a> (e.g. <a class="localLink" href="/NewsMediaOrganization">NewsMediaOrganization</a>), a statement describing (in news media, the newsroom’s) disclosure and correction policy for errors.');
-t('For an <a class="localLink" href="/Organization">Organization</a> (e.');
 
 // https://schema.org/costCategory
 t("costCategory");
@@ -1379,12 +1358,11 @@ t("A sub property of location.");
 // https://schema.org/courseCode
 t("courseCode");
 t('The identifier for the <a class="localLink" href="/Course">Course</a> used by the course <a class="localLink" href="/provider">provider</a> (e.g. CS101 or 6.001).');
-t('The identifier for the <a class="localLink" href="/Course">Course</a> used by the course <a class="localLink" href="/provider">provider</a> (e.');
 
 // https://schema.org/courseMode
 t("courseMode");
 t('The medium or means of delivery of the course instance or the mode of study, either as a text label (e.g. "online", "onsite" or "blended"; "synchronous" or "asynchronous"; "full-time" or "part-time") or as a URL reference to a term from a controlled vocabulary (e.g. https://ceds.ed.gov/element/001311#Asynchronous ).');
-t("The medium or means of delivery of the course instance or the mode of study, either as a text label (e.");
+t('The medium or means of delivery of the course instance or the mode of study, either as a text label (e.g. "online", "onsite" or "blended"; "synchronous" or "asynchronous"; "full-time" or "part-time") or as a URL reference to a term from a controlled vocabulary (e.g. https://ceds.');
 
 // https://schema.org/coursePrerequisites
 t("coursePrerequisites");
@@ -1432,7 +1410,7 @@ t("Text that can be used to credit person(s) and/or organization(s) associated w
 // https://schema.org/cssSelector
 t("cssSelector");
 t('A CSS selector, e.g. of a <a class="localLink" href="/SpeakableSpecification">SpeakableSpecification</a> or <a class="localLink" href="/WebPageElement">WebPageElement</a>. In the latter case, multiple matches within a page can constitute a single conceptual "Web page element".');
-t("A CSS selector, e.");
+t('A CSS selector, e.g. of a <a class="localLink" href="/SpeakableSpecification">SpeakableSpecification</a> or <a class="localLink" href="/WebPageElement">WebPageElement</a>.');
 
 // https://schema.org/currenciesAccepted
 t("currenciesAccepted");
@@ -1552,7 +1530,6 @@ t("A dataset contained in this catalog.");
 // https://schema.org/datasetTimeInterval
 t("datasetTimeInterval");
 t("The range of temporal applicability of a dataset, e.g. for a 2011 census dataset, the year 2011 (in ISO 8601 time interval format).");
-t("The range of temporal applicability of a dataset, e.");
 
 // https://schema.org/dateCreated
 t("dateCreated");
@@ -1726,12 +1703,12 @@ t('Indicates whether an <a class="localLink" href="/url">url</a> that is associa
 // https://schema.org/director
 t("director");
 t("A director of e.g. tv, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.");
-t("A director of e.");
+t("A director of e.g. tv, radio, movie, video gaming etc.");
 
 // https://schema.org/directors
 t("directors");
 t("A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.");
-t("A director of e.");
+t("A director of e.g. tv, radio, movie, video games etc.");
 
 // https://schema.org/disambiguatingDescription
 t("disambiguatingDescription");
@@ -1780,7 +1757,6 @@ t("The date that this organization was dissolved.");
 // https://schema.org/distance
 t("distance");
 t("The distance travelled, e.g. exercising or travelling.");
-t("The distance travelled, e.");
 
 // https://schema.org/distinguishingSign
 t("distinguishingSign");
@@ -1793,7 +1769,7 @@ t("A downloadable form of this dataset, at a specific location, in a specific fo
 // https://schema.org/diversityPolicy
 t("diversityPolicy");
 t('Statement on diversity policy by an <a class="localLink" href="/Organization">Organization</a> e.g. a <a class="localLink" href="/NewsMediaOrganization">NewsMediaOrganization</a>. For a <a class="localLink" href="/NewsMediaOrganization">NewsMediaOrganization</a>, a statement describing the newsroom’s diversity policy on both staffing and sources, typically providing staffing data.');
-t('Statement on diversity policy by an <a class="localLink" href="/Organization">Organization</a> e.');
+t('Statement on diversity policy by an <a class="localLink" href="/Organization">Organization</a> e.g. a <a class="localLink" href="/NewsMediaOrganization">NewsMediaOrganization</a>.');
 
 // https://schema.org/diversityStaffingReport
 t("diversityStaffingReport");
@@ -1823,7 +1799,6 @@ t("The time admission will commence.");
 // https://schema.org/dosageForm
 t("dosageForm");
 t("A dosage form in which this drug/supplement is available, e.g. 'tablet', 'suspension', 'injection'.");
-t("A dosage form in which this drug/supplement is available, e.");
 
 // https://schema.org/doseSchedule
 t("doseSchedule");
@@ -1832,12 +1807,10 @@ t("A dosing schedule for the drug for a given population, either observed, recom
 // https://schema.org/doseUnit
 t("doseUnit");
 t("The unit of the dose, e.g. 'mg'.");
-t("The unit of the dose, e.");
 
 // https://schema.org/doseValue
 t("doseValue");
 t("The value of the dose, e.g. 500.");
-t("The value of the dose, e.");
 
 // https://schema.org/downloadUrl
 t("downloadUrl");
@@ -1876,12 +1849,10 @@ t("Specifying a drug or medicine used in a medication procedure.");
 // https://schema.org/drugClass
 t("drugClass");
 t("The class of drug this belongs to (e.g., statins).");
-t("The class of drug this belongs to (e.");
 
 // https://schema.org/drugUnit
 t("drugUnit");
 t("The unit in which the drug is measured, e.g. '5 mg tablet'.");
-t("The unit in which the drug is measured, e.");
 
 // https://schema.org/duns
 t("duns");
@@ -1962,7 +1933,7 @@ t("Educational background needed for the position or Occupation.");
 // https://schema.org/eduQuestionType
 t("eduQuestionType");
 t('For questions that are part of learning resources (e.g. Quiz), eduQuestionType indicates the format of question being given. Example: "Multiple choice", "Open ended", "Flashcard".');
-t("For questions that are part of learning resources (e.");
+t("For questions that are part of learning resources (e.g. Quiz), eduQuestionType indicates the format of question being given.");
 
 // https://schema.org/elevation
 t("elevation");
@@ -1996,7 +1967,6 @@ t("The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the Geo
 // https://schema.org/eligibleTransactionVolume
 t("eligibleTransactionVolume");
 t("The transaction volume, in a monetary unit, for which the offer or price specification is valid, e.g. for indicating a minimal purchasing volume, to express free shipping above a certain order volume, or to limit the acceptance of credit cards to purchases to a certain minimal amount.");
-t("The transaction volume, in a monetary unit, for which the offer or price specification is valid, e.");
 
 // https://schema.org/email
 t("email");
@@ -2005,7 +1975,6 @@ t("Email address.");
 // https://schema.org/embeddedTextCaption
 t("embeddedTextCaption");
 t('Represents textual captioning from a <a class="localLink" href="/MediaObject">MediaObject</a>, e.g. text of a \'meme\'.');
-t('Represents textual captioning from a <a class="localLink" href="/MediaObject">MediaObject</a>, e.');
 
 // https://schema.org/embedUrl
 t("embedUrl");
@@ -2032,7 +2001,6 @@ t("A description of the employer, career opportunities and work environment for 
 // https://schema.org/employmentType
 t("employmentType");
 t("Type of employment (e.g. full-time, part-time, contract, temporary, seasonal, internship).");
-t("Type of employment (e.");
 
 // https://schema.org/employmentUnit
 t("employmentUnit");
@@ -2177,7 +2145,7 @@ t("The condition, complication, or symptom whose risk is being estimated.");
 // https://schema.org/ethicsPolicy
 t("ethicsPolicy");
 t('Statement about ethics policy, e.g. of a <a class="localLink" href="/NewsMediaOrganization">NewsMediaOrganization</a> regarding journalistic and publishing practices, or of a <a class="localLink" href="/Restaurant">Restaurant</a>, a page describing food source policies. In the case of a <a class="localLink" href="/NewsMediaOrganization">NewsMediaOrganization</a>, an ethicsPolicy is typically a statement describing the personal, organizational, and corporate standards of behavior expected by the organization.');
-t("Statement about ethics policy, e.");
+t('Statement about ethics policy, e.g. of a <a class="localLink" href="/NewsMediaOrganization">NewsMediaOrganization</a> regarding journalistic and publishing practices, or of a <a class="localLink" href="/Restaurant">Restaurant</a>, a page describing food source policies.');
 
 // https://schema.org/event
 t("event");
@@ -2212,7 +2180,6 @@ t("Strength of evidence of the data used to formulate the guideline (enumerated)
 // https://schema.org/evidenceOrigin
 t("evidenceOrigin");
 t("Source of the data used to formulate the guidance, e.g. RCT, consensus opinion, etc.");
-t("Source of the data used to formulate the guidance, e.");
 
 // https://schema.org/exampleOfWork
 t("exampleOfWork");
@@ -2233,7 +2200,7 @@ t("The difference between the price at which a broker or other intermediary buys
 // https://schema.org/executableLibraryName
 t("executableLibraryName");
 t("Library file name e.g., mscorlib.dll, system.web.dll.");
-t("Library file name e.");
+t("Library file name e.g., mscorlib.");
 
 // https://schema.org/exerciseCourse
 t("exerciseCourse");
@@ -2331,7 +2298,7 @@ t('Media type, typically MIME format (see <a href="http://www.');
 // https://schema.org/fileSize
 t("fileSize");
 t("Size of the application / package (e.g. 18MB). In the absence of a unit (MB, KB etc.), KB will be assumed.");
-t("Size of the application / package (e.");
+t("Size of the application / package (e.g. 18MB).");
 
 // https://schema.org/financialAidEligible
 t("financialAidEligible");
@@ -2368,7 +2335,7 @@ t("A floor limit is the amount of money above which credit card transactions mus
 t("floorSize");
 t("The size of the accommodation, e.g. in square meter or squarefoot.
 Typical unit code(s): MTK for square meter, FTK for square foot, or YDK for square yard");
-t("The size of the accommodation, e.");
+t("The size of the accommodation, e.g. in square meter or squarefoot.");
 
 // https://schema.org/followee
 t("followee");
@@ -2426,7 +2393,6 @@ t("A monetary value above which (or equal to) the shipping rate becomes free.");
 // https://schema.org/frequency
 t("frequency");
 t("How often the dose is taken, e.g. 'daily'.");
-t("How often the dose is taken, e.");
 
 // https://schema.org/fromLocation
 t("fromLocation");
@@ -2449,7 +2415,7 @@ t('The amount of fuel consumed for traveling a particular distance or temporal d
 <li>Note 2: There are two ways of indicating the fuel consumption, <a class="localLink" href="/fuelConsumption">fuelConsumption</a> (e.g. 8 liters per 100 km) and <a class="localLink" href="/fuelEfficiency">fuelEfficiency</a> (e.g. 30 miles per gallon). They are reciprocal.</li>
 <li>Note 3: Often, the absolute value is useful only when related to driving speed ("at 80 km/h") or usage pattern ("city traffic"). You can use <a class="localLink" href="/valueReference">valueReference</a> to link the value for the fuel consumption to another value.</li>
 </ul>');
-t("The amount of fuel consumed for traveling a particular distance or temporal duration with the given vehicle (e.");
+t("The amount of fuel consumed for traveling a particular distance or temporal duration with the given vehicle (e.g. liters per 100 km).");
 
 // https://schema.org/fuelEfficiency
 t("fuelEfficiency");
@@ -2573,7 +2539,6 @@ t("Represents spatial relations in which two geometries (or the places they repr
 // https://schema.org/geoMidpoint
 t("geoMidpoint");
 t("Indicates the GeoCoordinates at the centre of a GeoShape e.g. GeoCircle.");
-t("Indicates the GeoCoordinates at the centre of a GeoShape e.");
 
 // https://schema.org/geoOverlaps
 t("geoOverlaps");
@@ -2597,7 +2562,6 @@ t("Represents a relationship between two geometries (or the places they represen
 // https://schema.org/gettingTestedInfo
 t("gettingTestedInfo");
 t('Information about getting tested (for a <a class="localLink" href="/MedicalCondition">MedicalCondition</a>), e.g. in the context of a pandemic.');
-t('Information about getting tested (for a <a class="localLink" href="/MedicalCondition">MedicalCondition</a>), e.');
 
 // https://schema.org/givenName
 t("givenName");
@@ -2717,12 +2681,12 @@ t("Method used for delivery or shipping.");
 // https://schema.org/hasDigitalDocumentPermission
 t("hasDigitalDocumentPermission");
 t('A permission related to the access to this document (e.g. permission to read or write an electronic document). For a public document, specify a grantee with an Audience with audienceType equal to "public".');
-t("A permission related to the access to this document (e.");
+t("A permission related to the access to this document (e.g. permission to read or write an electronic document).");
 
 // https://schema.org/hasDriveThroughService
 t("hasDriveThroughService");
 t('Indicates whether some facility (e.g. <a class="localLink" href="/FoodEstablishment">FoodEstablishment</a>, <a class="localLink" href="/CovidTestingFacility">CovidTestingFacility</a>) offers a service that can be used by driving through in a car. In the case of <a class="localLink" href="/CovidTestingFacility">CovidTestingFacility</a> such facilities could potentially help with social distancing from other potentially-infected users.');
-t("Indicates whether some facility (e.");
+t('Indicates whether some facility (e.g. <a class="localLink" href="/FoodEstablishment">FoodEstablishment</a>, <a class="localLink" href="/CovidTestingFacility">CovidTestingFacility</a>) offers a service that can be used by driving through in a car.');
 
 // https://schema.org/hasEnergyConsumptionDetails
 t("hasEnergyConsumptionDetails");
@@ -2804,7 +2768,6 @@ t("Headline of the article.");
 // https://schema.org/healthcareReportingData
 t("healthcareReportingData");
 t('Indicates data describing a hospital, e.g. a CDC <a class="localLink" href="/CDCPMDRecord">CDCPMDRecord</a> or as some kind of <a class="localLink" href="/Dataset">Dataset</a>.');
-t("Indicates data describing a hospital, e.");
 
 // https://schema.org/healthCondition
 t("healthCondition");
@@ -2813,11 +2776,11 @@ t("Specifying the health condition(s) of a patient, medical study, or other targ
 // https://schema.org/healthPlanCoinsuranceOption
 t("healthPlanCoinsuranceOption");
 t("Whether the coinsurance applies before or after deductible, etc. TODO: Is this a closed set?");
+t("Whether the coinsurance applies before or after deductible, etc.");
 
 // https://schema.org/healthPlanCoinsuranceRate
 t("healthPlanCoinsuranceRate");
 t("Whether The rate of coinsurance expressed as a number between 0.0 and 1.0.");
-t("Whether The rate of coinsurance expressed as a number between 0.");
 
 // https://schema.org/healthPlanCopay
 t("healthPlanCopay");
@@ -2826,6 +2789,7 @@ t("Whether The copay amount.");
 // https://schema.org/healthPlanCopayOption
 t("healthPlanCopayOption");
 t("Whether the copay is before or after deductible, etc. TODO: Is this a closed set?");
+t("Whether the copay is before or after deductible, etc.");
 
 // https://schema.org/healthPlanCostSharing
 t("healthPlanCostSharing");
@@ -2985,7 +2949,6 @@ t("InChIKey is a hashed version of the full InChI (using the SHA-256 algorithm).
 // https://schema.org/includedComposition
 t("includedComposition");
 t("Smaller compositions included in this work (e.g. a movement in a symphony).");
-t("Smaller compositions included in this work (e.");
 
 // https://schema.org/includedDataCatalog
 t("includedDataCatalog");
@@ -3002,7 +2965,6 @@ t("The insurance plans that cover this drug.");
 // https://schema.org/includedRiskFactor
 t("includedRiskFactor");
 t("A modifiable or non-modifiable risk factor included in the calculation, e.g. age, coexisting condition.");
-t("A modifiable or non-modifiable risk factor included in the calculation, e.");
 
 // https://schema.org/includesAttraction
 t("includesAttraction");
@@ -3042,7 +3004,7 @@ t("ineligibleRegion");
 t('The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is not valid, e.g. a region where the transaction is not allowed.<br/><br/>
 
 See also <a class="localLink" href="/eligibleRegion">eligibleRegion</a>.');
-t("The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is not valid, e.");
+t("The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is not valid, e.g. a region where the transaction is not allowed.");
 
 // https://schema.org/infectiousAgent
 t("infectiousAgent");
@@ -3056,7 +3018,6 @@ t("The class of infectious agent (bacteria, prion, etc.");
 // https://schema.org/ingredients
 t("ingredients");
 t("A single ingredient used in the recipe, e.g. sugar, flour or garlic.");
-t("A single ingredient used in the recipe, e.");
 
 // https://schema.org/inker
 t("inker");
@@ -3286,7 +3247,6 @@ t("The International Standard Musical Work Code for the composition.");
 // https://schema.org/item
 t("item");
 t("An entity represented by an entry in a list or data feed (e.g. an 'artist' in a list of 'artists')’.");
-t("An entity represented by an entry in a list or data feed (e.");
 
 // https://schema.org/itemCondition
 t("itemCondition");
@@ -3313,12 +3273,11 @@ t('For itemListElement values, you can use simple strings (e.g. "Peter", "Paul",
 Text values are best if the elements in the list are plain strings. Existing entities are best for a simple, unordered list of existing things in your data. ListItem is used with ordered lists when you want to provide additional context about the element in that list or when the same item might be in different places in different lists.<br/><br/>
 
 Note: The order of elements in your mark-up is not sufficient for indicating the order or elements.  Use ListItem with a \'position\' property in such cases.');
-t("For itemListElement values, you can use simple strings (e.");
+t('For itemListElement values, you can use simple strings (e.g. "Peter", "Paul", "Mary"), existing entities, or use ListItem.');
 
 // https://schema.org/itemListOrder
 t("itemListOrder");
 t("Type of ordering (e.g. Ascending, Descending, Unordered).");
-t("Type of ordering (e.");
 
 // https://schema.org/itemLocation
 t("itemLocation");
@@ -3361,7 +3320,6 @@ t("A (typically single) geographic location associated with the job position.");
 // https://schema.org/jobLocationType
 t("jobLocationType");
 t("A description of the job location (e.g TELECOMMUTE for telecommute jobs).");
-t("A description of the job location (e.");
 
 // https://schema.org/jobStartDate
 t("jobStartDate");
@@ -3375,7 +3333,6 @@ t("The job title of the person (for example, Financial Manager).");
 // https://schema.org/jurisdiction
 t("jurisdiction");
 t("Indicates a legal jurisdiction, e.g. of some legislation, or where some government service is based.");
-t("Indicates a legal jurisdiction, e.");
 
 // https://schema.org/keywords
 t("keywords");
@@ -3439,7 +3396,6 @@ t('Length of the lease for some <a class="localLink" href="/Accommodation">Accom
 // https://schema.org/legalName
 t("legalName");
 t("The official name of the organization, e.g. the registered company name.");
-t("The official name of the organization, e.");
 
 // https://schema.org/legalStatus
 t("legalStatus");
@@ -3468,7 +3424,6 @@ t("The date of adoption or signature of the legislation.");
 // https://schema.org/legislationDateVersion
 t("legislationDateVersion");
 t('The point-in-time at which the provided description of the legislation is valid (e.g. : when looking at the law on the 2016-04-07 (= dateVersion), I get the consolidation of 2015-04-12 of the "National Insurance Contributions Act 2015")');
-t("The point-in-time at which the provided description of the legislation is valid (e.");
 
 // https://schema.org/legislationIdentifier
 t("legislationIdentifier");
@@ -3587,7 +3542,7 @@ t("A full description of the lodging unit.");
 // https://schema.org/lodgingUnitType
 t("lodgingUnitType");
 t("Textual description of the unit type (including suite vs. room, size of bed, etc.).");
-t("Textual description of the unit type (including suite vs.");
+t("Textual description of the unit type (including suite vs. room, size of bed, etc.");
 
 // https://schema.org/logo
 t("logo");
@@ -3672,7 +3627,6 @@ t('For a <a class="localLink" href="/NewsMediaOrganization">NewsMediaOrganizatio
 // https://schema.org/material
 t("material");
 t("A material that something is made from, e.g. leather, wool, cotton, paper.");
-t("A material that something is made from, e.");
 
 // https://schema.org/materialExtent
 t("materialExtent");
@@ -3681,7 +3635,7 @@ t("The quantity of the materials being described or an expression of the physica
 // https://schema.org/mathExpression
 t("mathExpression");
 t("A mathematical expression (e.g. 'x^2-3x=0') that may be solved for a specific variable, simplified, or transformed. This can take many formats, e.g. LaTeX, Ascii-Math, or math as you would write with a keyboard.");
-t("A mathematical expression (e.");
+t("A mathematical expression (e.g. 'x^2-3x=0') that may be solved for a specific variable, simplified, or transformed.");
 
 // https://schema.org/maximumAttendeeCapacity
 t("maximumAttendeeCapacity");
@@ -3830,6 +3784,7 @@ t("mileageFromOdometer");
 t("The total distance travelled by the particular vehicle since its initial production, as read from its odometer.<br/><br/>
 
 Typical unit code(s): KMT for kilometers, SMI for statute miles");
+t("The total distance travelled by the particular vehicle since its initial production, as read from its odometer.");
 
 // https://schema.org/minimumPaymentDue
 t("minimumPaymentDue");
@@ -3910,7 +3865,7 @@ t("The composer of the soundtrack.");
 // https://schema.org/musicCompositionForm
 t("musicCompositionForm");
 t("The type of composition (e.g. overture, sonata, symphony, etc.).");
-t("The type of composition (e.");
+t("The type of composition (e.g. overture, sonata, symphony, etc.");
 
 // https://schema.org/musicGroupMember
 t("musicGroupMember");
@@ -3945,7 +3900,6 @@ t("The expected progression of the condition if it is not treated and allowed to
 // https://schema.org/negativeNotes
 t("negativeNotes");
 t('Indicates, in the context of a <a class="localLink" href="/Review">Review</a> (e.g. framed as \'pro\' vs \'con\' considerations), negative considerations - either as unstructured text, or a list.');
-t('Indicates, in the context of a <a class="localLink" href="/Review">Review</a> (e.');
 
 // https://schema.org/nerve
 t("nerve");
@@ -4020,6 +3974,7 @@ t("numberOfAxles");
 t("The number of axles.<br/><br/>
 
 Typical unit code(s): C62");
+t("The number of axles.");
 
 // https://schema.org/numberOfBathroomsTotal
 t("numberOfBathroomsTotal");
@@ -4043,11 +3998,11 @@ t("numberOfDoors");
 t("The number of doors.<br/><br/>
 
 Typical unit code(s): C62");
+t("The number of doors.");
 
 // https://schema.org/numberOfEmployees
 t("numberOfEmployees");
 t("The number of employees in an organization e.g. business.");
-t("The number of employees in an organization e.");
 
 // https://schema.org/numberOfEpisodes
 t("numberOfEpisodes");
@@ -4058,6 +4013,7 @@ t("numberOfForwardGears");
 t("The total number of forward gears available for the transmission system of the vehicle.<br/><br/>
 
 Typical unit code(s): C62");
+t("The total number of forward gears available for the transmission system of the vehicle.");
 
 // https://schema.org/numberOfFullBathrooms
 t("numberOfFullBathrooms");
@@ -4092,6 +4048,7 @@ t("numberOfPreviousOwners");
 t("The number of owners of the vehicle, including the current one.<br/><br/>
 
 Typical unit code(s): C62");
+t("The number of owners of the vehicle, including the current one.");
 
 // https://schema.org/numberOfRooms
 t("numberOfRooms");
@@ -4195,7 +4152,6 @@ t("The opening hour of the place or service on the given day(s) of the week.");
 // https://schema.org/operatingSystem
 t("operatingSystem");
 t("Operating systems supported (Windows 7, OSX 10.6, Android 1.6).");
-t("Operating systems supported (Windows 7, OSX 10.");
 
 // https://schema.org/opponent
 t("opponent");
@@ -4255,7 +4211,6 @@ t('Describes, in a <a class="localLink" href="/MediaReview">MediaReview</a> when
 // https://schema.org/originalMediaLink
 t("originalMediaLink");
 t('Link to the page containing an original version of the content, or directly to an online copy of the original <a class="localLink" href="/MediaObject">MediaObject</a> content, e.g. video file.');
-t('Link to the page containing an original version of the content, or directly to an online copy of the original <a class="localLink" href="/MediaObject">MediaObject</a> content, e.');
 
 // https://schema.org/originatesFrom
 t("originatesFrom");
@@ -4363,7 +4318,6 @@ t("Number of people the reservation should accommodate.");
 // https://schema.org/passengerPriorityStatus
 t("passengerPriorityStatus");
 t("The priority status assigned to a passenger for security or boarding (e.g. FastTrack or Priority).");
-t("The priority status assigned to a passenger for security or boarding (e.");
 
 // https://schema.org/passengerSequenceNumber
 t("passengerSequenceNumber");
@@ -4411,7 +4365,6 @@ t("The name of the credit card or other method of payment for the order.");
 // https://schema.org/paymentMethodId
 t("paymentMethodId");
 t("An identifier for the method of payment used (e.g. the last 4 digits of the credit card).");
-t("An identifier for the method of payment used (e.");
 
 // https://schema.org/paymentStatus
 t("paymentStatus");
@@ -4538,7 +4491,6 @@ t("The position of an item in a series or sequence of items.");
 // https://schema.org/positiveNotes
 t("positiveNotes");
 t('Indicates, in the context of a <a class="localLink" href="/Review">Review</a> (e.g. framed as \'pro\' vs \'con\' considerations), positive considerations - either as unstructured text, or a list.');
-t('Indicates, in the context of a <a class="localLink" href="/Review">Review</a> (e.');
 
 // https://schema.org/possibleComplication
 t("possibleComplication");
@@ -4718,17 +4670,15 @@ t("Estimated processing time for the service using this channel.");
 // https://schema.org/processorRequirements
 t("processorRequirements");
 t("Processor architecture required to run the application (e.g. IA64).");
-t("Processor architecture required to run the application (e.");
 
 // https://schema.org/producer
 t("producer");
 t("The person or organization who produced the work (e.g. music album, movie, tv/radio series etc.).");
-t("The person or organization who produced the work (e.");
+t("The person or organization who produced the work (e.g. music album, movie, tv/radio series etc.");
 
 // https://schema.org/produces
 t("produces");
 t("The tangible thing generated by the service, e.g. a passport, permit, etc.");
-t("The tangible thing generated by the service, e.");
 
 // https://schema.org/productGroupID
 t("productGroupID");
@@ -4742,12 +4692,10 @@ t("The product identifier, such as ISBN.");
 // https://schema.org/productionCompany
 t("productionCompany");
 t("The production company or studio responsible for the item e.g. series, video game, episode etc.");
-t("The production company or studio responsible for the item e.");
 
 // https://schema.org/productionDate
 t("productionDate");
 t("The date of production of the item, e.g. vehicle.");
-t("The date of production of the item, e.");
 
 // https://schema.org/productReturnDays
 t("productReturnDays");
@@ -4798,7 +4746,7 @@ t("A commonly used identifier for the characteristic represented by the property
 (1) a prefixed string, mainly meant to be used with standards for product properties; (2) a site-specific, non-prefixed string (e.g. the primary key of the property or the vendor-specific id of the property), or (3)
 a URL indicating the type of the property, either pointing to an external vocabulary, or a Web resource that describes the property (e.g. a glossary entry).
 Standards bodies should promote a standard prefix for the identifiers of properties from their standards.");
-t("A commonly used identifier for the characteristic represented by the property, e.");
+t("A commonly used identifier for the characteristic represented by the property, e.g. a manufacturer or a standard code for a property.");
 
 // https://schema.org/proprietaryName
 t("proprietaryName");
@@ -4816,7 +4764,6 @@ t("The service provider, service operator, or service performer; the goods produ
 // https://schema.org/providerMobility
 t("providerMobility");
 t("Indicates the mobility of a provided service (e.g. 'static', 'dynamic').");
-t("Indicates the mobility of a provided service (e.");
 
 // https://schema.org/providesBroadcastService
 t("providesBroadcastService");
@@ -4829,6 +4776,7 @@ t("The service provided by this channel.");
 // https://schema.org/publicAccess
 t("publicAccess");
 t('A flag to signal that the <a class="localLink" href="/Place">Place</a> is open to public visitors.  If this property is omitted there is no assumed default boolean value');
+t('A flag to signal that the <a class="localLink" href="/Place">Place</a> is open to public visitors.');
 
 // https://schema.org/publication
 t("publication");
@@ -4864,12 +4812,11 @@ t("publishingPrinciples");
 t('The publishingPrinciples property indicates (typically via <a class="localLink" href="/URL">URL</a>) a document describing the editorial principles of an <a class="localLink" href="/Organization">Organization</a> (or individual e.g. a <a class="localLink" href="/Person">Person</a> writing a blog) that relate to their activities as a publisher, e.g. ethics or diversity policies. When applied to a <a class="localLink" href="/CreativeWork">CreativeWork</a> (e.g. <a class="localLink" href="/NewsArticle">NewsArticle</a>) the principles are those of the party primarily responsible for the creation of the <a class="localLink" href="/CreativeWork">CreativeWork</a>.<br/><br/>
 
 While such policies are most typically expressed in natural language, sometimes related information (e.g. indicating a <a class="localLink" href="/funder">funder</a>) can be expressed using schema.org terminology.');
-t('The publishingPrinciples property indicates (typically via <a class="localLink" href="/URL">URL</a>) a document describing the editorial principles of an <a class="localLink" href="/Organization">Organization</a> (or individual e.');
+t('The publishingPrinciples property indicates (typically via <a class="localLink" href="/URL">URL</a>) a document describing the editorial principles of an <a class="localLink" href="/Organization">Organization</a> (or individual e.g. a <a class="localLink" href="/Person">Person</a> writing a blog) that relate to their activities as a publisher, e.g. ethics or diversity policies.');
 
 // https://schema.org/purchaseDate
 t("purchaseDate");
 t("The date the item e.g. vehicle was purchased by the current owner.");
-t("The date the item e.");
 
 // https://schema.org/qualifications
 t("qualifications");
@@ -4878,7 +4825,6 @@ t("Specific qualifications required for this role or Occupation.");
 // https://schema.org/quarantineGuidelines
 t("quarantineGuidelines");
 t("Guidelines about quarantine rules, e.g. in the context of a pandemic.");
-t("Guidelines about quarantine rules, e.");
 
 // https://schema.org/query
 t("query");
@@ -4905,7 +4851,7 @@ t("The count of total number of ratings.");
 // https://schema.org/ratingExplanation
 t("ratingExplanation");
 t('A short explanation (e.g. one to two sentences) providing background context and other information that led to the conclusion expressed in the rating. This is particularly applicable to ratings associated with "fact check" markup using <a class="localLink" href="/ClaimReview">ClaimReview</a>.');
-t("A short explanation (e.");
+t("A short explanation (e.g. one to two sentences) providing background context and other information that led to the conclusion expressed in the rating.");
 
 // https://schema.org/ratingValue
 t("ratingValue");
@@ -4949,7 +4895,6 @@ t("The cuisine of the recipe (for example, French or Ethiopian).");
 // https://schema.org/recipeIngredient
 t("recipeIngredient");
 t("A single ingredient used in the recipe, e.g. sugar, flour or garlic.");
-t("A single ingredient used in the recipe, e.");
 
 // https://schema.org/recipeInstructions
 t("recipeInstructions");
@@ -4977,7 +4922,6 @@ t("If applicable, the organization that officially recognizes this entity as par
 // https://schema.org/recommendationStrength
 t("recommendationStrength");
 t("Strength of the guideline's recommendation (e.g. 'class I').");
-t("Strength of the guideline's recommendation (e.");
 
 // https://schema.org/recommendedIntake
 t("recommendedIntake");
@@ -5012,7 +4956,7 @@ t("The only way you get the money back in the event of default is the security."
 // https://schema.org/referenceQuantity
 t("referenceQuantity");
 t("The reference quantity for which a certain price applies, e.g. 1 EUR per 4 kWh of electricity. This property is a replacement for unitOfMeasurement for the advanced cases where the price does not relate to a standard unit.");
-t("The reference quantity for which a certain price applies, e.");
+t("The reference quantity for which a certain price applies, e.g. 1 EUR per 4 kWh of electricity.");
 
 // https://schema.org/referencesOrder
 t("referencesOrder");
@@ -5266,7 +5210,6 @@ t("Review of the item.");
 // https://schema.org/riskFactor
 t("riskFactor");
 t("A modifiable or non-modifiable factor that increases the risk of a patient contracting this condition, e.g. age,  coexisting condition.");
-t("A modifiable or non-modifiable factor that increases the risk of a patient contracting this condition, e.");
 
 // https://schema.org/risks
 t("risks");
@@ -5288,7 +5231,7 @@ Typical unit code(s): KGM for kilogram, LBR for pound<br/><br/>
 <li>Note 2: You may also link to a <a class="localLink" href="/QualitativeValue">QualitativeValue</a> node that provides additional information using <a class="localLink" href="/valueReference">valueReference</a></li>
 <li>Note 3: Note that you can use <a class="localLink" href="/minValue">minValue</a> and <a class="localLink" href="/maxValue">maxValue</a> to indicate ranges.</li>
 </ul>');
-t("The permitted total weight of cargo and installations (e.");
+t("The permitted total weight of cargo and installations (e.g. a roof rack) on top of the vehicle.");
 
 // https://schema.org/rsvpResponse
 t("rsvpResponse");
@@ -5301,12 +5244,12 @@ t("The vasculature the lymphatic structure runs, or efferents, to.");
 // https://schema.org/runtime
 t("runtime");
 t("Runtime platform or script interpreter dependencies (Example - Java v1, Python2.3, .Net Framework 3.0).");
-t("Runtime platform or script interpreter dependencies (Example - Java v1, Python2.");
+t("Runtime platform or script interpreter dependencies (Example - Java v1, Python2.3, .");
 
 // https://schema.org/runtimePlatform
 t("runtimePlatform");
 t("Runtime platform or script interpreter dependencies (Example - Java v1, Python2.3, .Net Framework 3.0).");
-t("Runtime platform or script interpreter dependencies (Example - Java v1, Python2.");
+t("Runtime platform or script interpreter dependencies (Example - Java v1, Python2.3, .");
 
 // https://schema.org/rxcui
 t("rxcui");
@@ -5373,6 +5316,7 @@ t("A link to a screenshot image of the app.");
 // https://schema.org/sdDatePublished
 t("sdDatePublished");
 t('Indicates the date on which the current structured data was generated / published. Typically used alongside <a class="localLink" href="/sdPublisher">sdPublisher</a>');
+t("Indicates the date on which the current structured data was generated / published.");
 
 // https://schema.org/sdLicense
 t("sdLicense");
@@ -5401,7 +5345,7 @@ t("seatingCapacity");
 t("The number of persons that can be seated (e.g. in a vehicle), both in terms of the physical space available, and in terms of limitations set by law.<br/><br/>
 
 Typical unit code(s): C62 for persons");
-t("The number of persons that can be seated (e.");
+t("The number of persons that can be seated (e.g. in a vehicle), both in terms of the physical space available, and in terms of limitations set by law.");
 
 // https://schema.org/seatingType
 t("seatingType");
@@ -5410,17 +5354,14 @@ t("The type/class of the seat.");
 // https://schema.org/seatNumber
 t("seatNumber");
 t("The location of the reserved seat (e.g., 27).");
-t("The location of the reserved seat (e.");
 
 // https://schema.org/seatRow
 t("seatRow");
 t("The row location of the reserved seat (e.g., B).");
-t("The row location of the reserved seat (e.");
 
 // https://schema.org/seatSection
 t("seatSection");
 t("The section location of the reserved seat (e.g. Orchestra).");
-t("The section location of the reserved seat (e.");
 
 // https://schema.org/secondaryPrevention
 t("secondaryPrevention");
@@ -5486,7 +5427,7 @@ t("The audience eligible for this service.");
 // https://schema.org/serviceLocation
 t("serviceLocation");
 t("The location (e.g. civic structure, local business, etc.) where a person can go to access the service.");
-t("The location (e.");
+t("The location (e.g. civic structure, local business, etc.");
 
 // https://schema.org/serviceOperator
 t("serviceOperator");
@@ -5496,7 +5437,6 @@ t("The operating organization, if different from the provider.");
 // https://schema.org/serviceOutput
 t("serviceOutput");
 t("The tangible thing generated by the service, e.g. a passport, permit, etc.");
-t("The tangible thing generated by the service, e.");
 
 // https://schema.org/servicePhone
 t("servicePhone");
@@ -5513,7 +5453,6 @@ t("The number to access the service by text message.");
 // https://schema.org/serviceType
 t("serviceType");
 t("The type of service being offered, e.g. veterans' benefits, emergency relief, etc.");
-t("The type of service being offered, e.");
 
 // https://schema.org/serviceUrl
 t("serviceUrl");
@@ -5620,7 +5559,6 @@ t("A specification in form of a line notation for describing the structure of ch
 // https://schema.org/smokingAllowed
 t("smokingAllowed");
 t("Indicates whether it is allowed to smoke in the place, e.g. in the restaurant, hotel or hotel room.");
-t("Indicates whether it is allowed to smoke in the place, e.");
 
 // https://schema.org/sodiumContent
 t("sodiumContent");
@@ -5655,8 +5593,6 @@ t("The Organization on whose behalf the creator was working.");
 t("spatial");
 t('The "spatial" property can be used in cases when more specific properties
 (e.g. <a class="localLink" href="/locationCreated">locationCreated</a>, <a class="localLink" href="/spatialCoverage">spatialCoverage</a>, <a class="localLink" href="/contentLocation">contentLocation</a>) are not known to be appropriate.');
-t('The "spatial" property can be used in cases when more specific properties
-(e.');
 
 // https://schema.org/spatialCoverage
 t("spatialCoverage");
@@ -5715,7 +5651,6 @@ t("The speed range of the vehicle.");
 // https://schema.org/spokenByCharacter
 t("spokenByCharacter");
 t("The (e.g. fictional) character, Person or Organization to whom the quotation is attributed within the containing CreativeWork.");
-t("The (e.");
 
 // https://schema.org/sponsor
 t("sponsor");
@@ -5725,7 +5660,6 @@ t("A person or organization that supports a thing through a pledge, promise, or 
 // https://schema.org/sport
 t("sport");
 t("A type of sport (e.g. Baseball).");
-t("A type of sport (e.");
 
 // https://schema.org/sportsActivityLocation
 t("sportsActivityLocation");
@@ -5753,12 +5687,11 @@ t("The stage of the condition, if applicable.");
 // https://schema.org/stageAsNumber
 t("stageAsNumber");
 t("The stage represented as a number, e.g. 3.");
-t("The stage represented as a number, e.");
 
 // https://schema.org/starRating
 t("starRating");
 t("An official rating for a lodging business or food establishment, e.g. from national associations or standards bodies. Use the author property to indicate the rating organization, e.g. as an Organization with name such as (e.g. HOTREC, DEHOGA, WHR, or Hotelstars).");
-t("An official rating for a lodging business or food establishment, e.");
+t("An official rating for a lodging business or food establishment, e.g. from national associations or standards bodies.");
 
 // https://schema.org/startDate
 t("startDate");
@@ -5810,12 +5743,10 @@ t("The street address.");
 // https://schema.org/strengthUnit
 t("strengthUnit");
 t("The units of an active ingredient's strength, e.g. mg.");
-t("The units of an active ingredient's strength, e.");
 
 // https://schema.org/strengthValue
 t("strengthValue");
 t("The value of an active ingredient's strength, e.g. 325.");
-t("The value of an active ingredient's strength, e.");
 
 // https://schema.org/structuralClass
 t("structuralClass");
@@ -5859,7 +5790,7 @@ t("A CreativeWork or Event about this Thing.");
 // https://schema.org/subOrganization
 t("subOrganization");
 t("A relationship between two organizations where the first includes the second, e.g., as a subsidiary. See also: the more specific 'department' property.");
-t("A relationship between two organizations where the first includes the second, e.");
+t("A relationship between two organizations where the first includes the second, e.g., as a subsidiary.");
 
 // https://schema.org/subReservation
 t("subReservation");
@@ -5869,7 +5800,6 @@ t("The individual reservations included in the package.");
 // https://schema.org/subStageSuffix
 t("subStageSuffix");
 t("The substage, e.g. 'a' for Stage IIIa.");
-t("The substage, e.");
 
 // https://schema.org/subStructure
 t("subStructure");
@@ -5904,7 +5834,6 @@ t("The age or age range for the intended audience or person, for example 3-12 mo
 // https://schema.org/suggestedAnswer
 t("suggestedAnswer");
 t("An answer (possibly one of several, possibly incorrect) to a Question, e.g. on a Question/Answer site.");
-t("An answer (possibly one of several, possibly incorrect) to a Question, e.");
 
 // https://schema.org/suggestedGender
 t("suggestedGender");
@@ -5926,7 +5855,6 @@ t("Minimum recommended age in years for the audience or user.");
 // https://schema.org/suitableForDiet
 t("suitableForDiet");
 t("Indicates a dietary restriction or guideline for which this recipe or menu item is suitable, e.g. diabetic, halal etc.");
-t("Indicates a dietary restriction or guideline for which this recipe or menu item is suitable, e.");
 
 // https://schema.org/superEvent
 t("superEvent");
@@ -5954,7 +5882,6 @@ t("Supporting data for a SoftwareApplication.");
 // https://schema.org/surface
 t("surface");
 t("A material used as a surface in some artwork, e.g. Canvas, Paper, Wood, Board, etc.");
-t("A material used as a surface in some artwork, e.");
 
 // https://schema.org/target
 t("target");
@@ -5980,7 +5907,6 @@ t("Type of app development: phone, Metro style, desktop, XBox, etc.");
 // https://schema.org/targetPopulation
 t("targetPopulation");
 t("Characteristics of the population for which this is intended, or which typically uses it, e.g. 'adults'.");
-t("Characteristics of the population for which this is intended, or which typically uses it, e.");
 
 // https://schema.org/targetProduct
 t("targetProduct");
@@ -5994,7 +5920,6 @@ t("The URL of a node in an established educational framework.");
 // https://schema.org/taxID
 t("taxID");
 t("The Tax / Fiscal ID of the organization or person, e.g. the TIN in the US or the CIF/NIF in Spain.");
-t("The Tax / Fiscal ID of the organization or person, e.");
 
 // https://schema.org/taxonomicRange
 t("taxonomicRange");
@@ -6016,8 +5941,6 @@ t("The telephone number.");
 t("temporal");
 t('The "temporal" property can be used in cases where more specific properties
 (e.g. <a class="localLink" href="/temporalCoverage">temporalCoverage</a>, <a class="localLink" href="/dateCreated">dateCreated</a>, <a class="localLink" href="/dateModified">dateModified</a>, <a class="localLink" href="/datePublished">datePublished</a>) are not known to be appropriate.');
-t('The "temporal" property can be used in cases where more specific properties
-(e.');
 
 // https://schema.org/temporalCoverage
 t("temporalCoverage");
@@ -6078,7 +6001,6 @@ t("The unique identifier for the ticket.");
 // https://schema.org/ticketToken
 t("ticketToken");
 t("Reference to an asset (e.g., Barcode, QR code image or PDF) usable for entrance.");
-t("Reference to an asset (e.");
 
 // https://schema.org/timeOfDay
 t("timeOfDay");
@@ -6088,7 +6010,6 @@ t("The time of day the program normally runs.");
 // https://schema.org/timeRequired
 t("timeRequired");
 t("Approximate or typical time it takes to work with or through this learning resource for the typical intended target audience, e.g. 'PT30M', 'PT1H25M'.");
-t("Approximate or typical time it takes to work with or through this learning resource for the typical intended target audience, e.");
 
 // https://schema.org/timeToComplete
 t("timeToComplete");
@@ -6232,7 +6153,6 @@ t("The estimated salary earned while in the program.");
 // https://schema.org/trainName
 t("trainName");
 t("The name of the train (e.g. The Orient Express).");
-t("The name of the train (e.");
 
 // https://schema.org/trainNumber
 t("trainNumber");
@@ -6271,7 +6191,6 @@ t("How the disease spreads, either as a route or vector, for example 'direct con
 // https://schema.org/travelBans
 t("travelBans");
 t("Information about travel bans, e.g. in the context of a pandemic.");
-t("Information about travel bans, e.");
 
 // https://schema.org/trialDesign
 t("trialDesign");
@@ -6293,7 +6212,6 @@ t("The product that this structured value is referring to.");
 // https://schema.org/typicalAgeRange
 t("typicalAgeRange");
 t("The typical expected age range, e.g. '7-9', '11-'.");
-t("The typical expected age range, e.");
 
 // https://schema.org/typicalCreditsPerTerm
 t("typicalCreditsPerTerm");
@@ -6427,7 +6345,6 @@ t("Specifies a regular expression for testing literal values according to the HT
 // https://schema.org/valueReference
 t("valueReference");
 t("A secondary value that provides additional information on the original value, e.g. a reference temperature or a type of measurement.");
-t("A secondary value that provides additional information on the original value, e.");
 
 // https://schema.org/valueRequired
 t("valueRequired");
@@ -6453,7 +6370,7 @@ t("A description of the variant cover
 // https://schema.org/variesBy
 t("variesBy");
 t('Indicates the property or properties by which the variants in a <a class="localLink" href="/ProductGroup">ProductGroup</a> vary, e.g. their size, color etc. Schema.org properties can be referenced by their short name e.g. "color"; terms defined elsewhere can be referenced with their URIs.');
-t('Indicates the property or properties by which the variants in a <a class="localLink" href="/ProductGroup">ProductGroup</a> vary, e.');
+t('Indicates the property or properties by which the variants in a <a class="localLink" href="/ProductGroup">ProductGroup</a> vary, e.g. their size, color etc.');
 
 // https://schema.org/vatID
 t("vatID");
@@ -6462,7 +6379,6 @@ t("The Value-added Tax ID of the organization or person.");
 // https://schema.org/vehicleConfiguration
 t("vehicleConfiguration");
 t("A short text indicating the configuration of the vehicle, e.g. '5dr hatchback ST 2.5 MT 225 hp' or 'limited edition'.");
-t("A short text indicating the configuration of the vehicle, e.");
 
 // https://schema.org/vehicleEngine
 t("vehicleEngine");
@@ -6479,7 +6395,7 @@ t("The color or color combination of the interior of the vehicle.");
 // https://schema.org/vehicleInteriorType
 t("vehicleInteriorType");
 t("The type or material of the interior of the vehicle (e.g. synthetic fabric, leather, wood, etc.). While most interior types are characterized by the material used, an interior type can also be based on vehicle usage or target audience.");
-t("The type or material of the interior of the vehicle (e.");
+t("The type or material of the interior of the vehicle (e.g. synthetic fabric, leather, wood, etc.");
 
 // https://schema.org/vehicleModelDate
 t("vehicleModelDate");
@@ -6520,7 +6436,7 @@ t("An embedded video object.");
 // https://schema.org/videoFormat
 t("videoFormat");
 t("The type of screening or video broadcast used (e.g. IMAX, 3D, SD, HD, etc.).");
-t("The type of screening or video broadcast used (e.");
+t("The type of screening or video broadcast used (e.g. IMAX, 3D, SD, HD, etc.");
 
 // https://schema.org/videoFrameSize
 t("videoFrameSize");
@@ -6557,7 +6473,7 @@ t("The time when a passenger can check into the flight online.");
 // https://schema.org/webFeed
 t("webFeed");
 t("The URL for a feed, e.g. associated with a podcast series, blog, or series of date-stamped updates. This is usually RSS or Atom.");
-t("The URL for a feed, e.");
+t("The URL for a feed, e.g. associated with a podcast series, blog, or series of date-stamped updates.");
 
 // https://schema.org/weight
 t("weight");
@@ -6581,6 +6497,7 @@ t("wheelbase");
 t("The distance between the centers of the front and rear wheels.<br/><br/>
 
 Typical unit code(s): CMT for centimeters, MTR for meters, INH for inches, FOT for foot/feet");
+t("The distance between the centers of the front and rear wheels.");
 
 // https://schema.org/width
 t("width");
@@ -6604,12 +6521,11 @@ t("Example/instance/realization/derivation of the concept of this creative work.
 t("workFeatured");
 t("A work featured in some event, e.g. exhibited in an ExhibitionEvent.
        Specific subproperties are available for workPerformed (e.g. a play), or a workPresented (a Movie at a ScreeningEvent).");
-t("A work featured in some event, e.");
+t("A work featured in some event, e.g. exhibited in an ExhibitionEvent.");
 
 // https://schema.org/workHours
 t("workHours");
 t("The typical working hours for this job (e.g. 1st shift, night shift, 8am-5pm).");
-t("The typical working hours for this job (e.");
 
 // https://schema.org/workload
 t("workload");
@@ -6644,7 +6560,7 @@ t("The lowest value allowed in this rating system.");
 // https://schema.org/xpath
 t("xpath");
 t('An XPath, e.g. of a <a class="localLink" href="/SpeakableSpecification">SpeakableSpecification</a> or <a class="localLink" href="/WebPageElement">WebPageElement</a>. In the latter case, multiple matches within a page can constitute a single conceptual "Web page element".');
-t("An XPath, e.");
+t('An XPath, e.g. of a <a class="localLink" href="/SpeakableSpecification">SpeakableSpecification</a> or <a class="localLink" href="/WebPageElement">WebPageElement</a>.');
 
 // https://schema.org/yearBuilt
 t("yearBuilt");
@@ -6695,7 +6611,7 @@ t('An accommodation is a place that can accommodate human beings, e.g. a hotel r
 For more specific types of accommodations not defined in schema.org, one can use additionalType with external vocabularies.
 <br /><br />
 See also the <a href="/docs/hotels.html">dedicated document on the use of schema.org for marking up hotels and other forms of accommodations</a>.');
-t("An accommodation is a place that can accommodate human beings, e.");
+t("An accommodation is a place that can accommodate human beings, e.g. a hotel room, a camping pitch, or a meeting room.");
 
 // https://schema.org/AccountingService
 t("AccountingService");
@@ -6727,7 +6643,6 @@ t("The status of an Action.");
 // https://schema.org/ActivateAction
 t("ActivateAction");
 t("The act of starting or activating a device or application (e.g. starting a timer or turning on a flashlight).");
-t("The act of starting or activating a device or application (e.");
 
 // https://schema.org/ActivationFee
 t("ActivationFee");
@@ -6736,7 +6651,6 @@ t("Represents the activation fee part of the total price for an offered product,
 // https://schema.org/ActiveActionStatus
 t("ActiveActionStatus");
 t("An in-progress action (e.g, while watching the movie, or driving to a location).");
-t("An in-progress action (e.");
 
 // https://schema.org/ActiveNotRecruiting
 t("ActiveNotRecruiting");
@@ -7095,7 +7009,7 @@ t("Bed and breakfast.");
 // https://schema.org/BedDetails
 t("BedDetails");
 t('An entity holding detailed information about the available bed types, e.g. the quantity of twin beds for a hotel room. For the single case of just one bed of a certain type, you can use bed directly with a text. See also <a class="localLink" href="/BedType">BedType</a> (under development).');
-t("An entity holding detailed information about the available bed types, e.");
+t("An entity holding detailed information about the available bed types, e.g. the quantity of twin beds for a hotel room.");
 
 // https://schema.org/BedType
 t("BedType");
@@ -7329,7 +7243,6 @@ t("A Buddhist temple.");
 // https://schema.org/BusinessAudience
 t("BusinessAudience");
 t("A set of characteristics belonging to businesses, e.g. who compose an item's target audience.");
-t("A set of characteristics belonging to businesses, e.");
 
 // https://schema.org/BusinessEntityType
 t("BusinessEntityType");
@@ -7458,7 +7371,6 @@ t("Cardiovascular system assessment withclinical examination.");
 // https://schema.org/CarUsageType
 t("CarUsageType");
 t("A value indicating a special usage of a car, e.g. commercial rental, driving school, or as a taxi.");
-t("A value indicating a special usage of a car, e.");
 
 // https://schema.org/CaseSeries
 t("CaseSeries");
@@ -7529,7 +7441,7 @@ Related actions:<br/><br/>
 <li><a class="localLink" href="/ArriveAction">ArriveAction</a>: Unlike ArriveAction, CheckInAction implies that the agent is informing/confirming the start of a previously reserved service.</li>
 <li><a class="localLink" href="/ConfirmAction">ConfirmAction</a>: Unlike ConfirmAction, CheckInAction implies that the agent is informing/confirming the <em>start</em> of a previously reserved service rather than its validity/existence.</li>
 </ul>');
-t("The act of an agent communicating (service provider, social media, etc) their arrival by registering/confirming for a previously reserved service (e.");
+t("The act of an agent communicating (service provider, social media, etc) their arrival by registering/confirming for a previously reserved service (e.g. flight check in) or at a place (e.g. hotel), possibly resulting in a result (boarding pass, etc).");
 
 // https://schema.org/CheckOutAction
 t("CheckOutAction");
@@ -7542,7 +7454,7 @@ Related actions:<br/><br/>
 <li><a class="localLink" href="/DepartAction">DepartAction</a>: Unlike DepartAction, CheckOutAction implies that the agent is informing/confirming the end of a previously reserved service.</li>
 <li><a class="localLink" href="/CancelAction">CancelAction</a>: Unlike CancelAction, CheckOutAction implies that the agent is informing/confirming the end of a previously reserved service.</li>
 </ul>');
-t("The act of an agent communicating (service provider, social media, etc) their departure of a previously reserved service (e.");
+t("The act of an agent communicating (service provider, social media, etc) their departure of a previously reserved service (e.g. flight check in) or place (e.g. hotel).");
 
 // https://schema.org/CheckoutPage
 t("CheckoutPage");
@@ -7631,7 +7543,6 @@ t("Also known as a panel study.");
 // https://schema.org/Collection
 t("Collection");
 t("A collection of items e.g. creative works or products.");
-t("A collection of items e.");
 
 // https://schema.org/CollectionPage
 t("CollectionPage");
@@ -7842,7 +7753,6 @@ t("The most generic kind of creative work, including books, movies, photographs,
 // https://schema.org/CreativeWorkSeason
 t("CreativeWorkSeason");
 t("A media season e.g. tv, radio, video game etc.");
-t("A media season e.");
 
 // https://schema.org/CreativeWorkSeries
 t("CreativeWorkSeries");
@@ -7949,14 +7859,13 @@ t("A DatedMoneySpecification represents monetary values with optional start and 
 // https://schema.org/DateTime
 t("DateTime");
 t("A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm] (see Chapter 5.4 of ISO 8601).");
-t("A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm] (see Chapter 5.");
 
 // https://schema.org/DayOfWeek
 t("DayOfWeek");
 t('The day of the week, e.g. used to specify to which day the opening hours of an OpeningHoursSpecification refer.<br/><br/>
 
 Originally, URLs from <a href="http://purl.org/goodrelations/v1">GoodRelations</a> were used (for <a class="localLink" href="/Monday">Monday</a>, <a class="localLink" href="/Tuesday">Tuesday</a>, <a class="localLink" href="/Wednesday">Wednesday</a>, <a class="localLink" href="/Thursday">Thursday</a>, <a class="localLink" href="/Friday">Friday</a>, <a class="localLink" href="/Saturday">Saturday</a>, <a class="localLink" href="/Sunday">Sunday</a> plus a special entry for <a class="localLink" href="/PublicHolidays">PublicHolidays</a>); these have now been integrated directly into schema.org.');
-t("The day of the week, e.");
+t("The day of the week, e.g. used to specify to which day the opening hours of an OpeningHoursSpecification refer.");
 
 // https://schema.org/DaySpa
 t("DaySpa");
@@ -7969,7 +7878,6 @@ t("An alternative, closely-related condition typically considered later in the d
 // https://schema.org/DeactivateAction
 t("DeactivateAction");
 t("The act of stopping or deactivating a device or application (e.g. stopping a timer or turning off a flashlight).");
-t("The act of stopping or deactivating a device or application (e.");
 
 // https://schema.org/DecontextualizedContent
 t("DecontextualizedContent");
@@ -8190,7 +8098,6 @@ t("Properties that take Distances as values are of the form '&lt;Number&gt; &lt;
 // https://schema.org/DistanceFee
 t("DistanceFee");
 t("Represents the distance fee (e.g., price per km or mile) part of the total price for an offered product, for example a car rental.");
-t("Represents the distance fee (e.");
 
 // https://schema.org/Distillery
 t("Distillery");
@@ -8248,7 +8155,7 @@ t("A chemical or biologic substance, used as a medical therapy, that has a physi
 // https://schema.org/DrugClass
 t("DrugClass");
 t("A class of medical drugs, e.g., statins. Classes can represent general pharmacological class, common mechanisms of action, common physiological effects, etc.");
-t("A class of medical drugs, e.");
+t("A class of medical drugs, e.g., statins.");
 
 // https://schema.org/DrugCost
 t("DrugCost");
@@ -8447,7 +8354,6 @@ t("Lists or enumerations—for example, a list of cuisines or music genres, etc.
 // https://schema.org/Episode
 t("Episode");
 t("A media episode (e.g. TV, radio, video game) which can be part of a series or season.");
-t("A media episode (e.");
 
 // https://schema.org/EPRelease
 t("EPRelease");
@@ -8598,7 +8504,6 @@ t("Fitness-related activity designed for a specific health-related purpose, incl
 // https://schema.org/ExhibitionEvent
 t("ExhibitionEvent");
 t("Event type: Exhibition event, e.g. at a museum, library, archive, tradeshow, ...");
-t("Event type: Exhibition event, e.");
 
 // https://schema.org/Eye
 t("Eye");
@@ -8888,7 +8793,6 @@ t("A specific branch of medical science that is concerned with the diagnosis and
 // https://schema.org/GettingAccessHealthAspect
 t("GettingAccessHealthAspect");
 t("Content that discusses practical and policy aspects for getting access to specific kinds of healthcare (e.g. distribution mechanisms for vaccines).");
-t("Content that discusses practical and policy aspects for getting access to specific kinds of healthcare (e.");
 
 // https://schema.org/GiveAction
 t("GiveAction");
@@ -8934,7 +8838,6 @@ t("A permit issued by a government agency.");
 // https://schema.org/GovernmentService
 t("GovernmentService");
 t("A service provided by a government organization, e.g. food stamps, veterans benefits, etc.");
-t("A service provided by a government organization, e.");
 
 // https://schema.org/Grant
 t("Grant");
@@ -9008,7 +8911,6 @@ t("HealthCare: this is a benefit for health care.");
 // https://schema.org/HealthcareConsideration
 t("HealthcareConsideration");
 t("Item is a pharmaceutical (e.g., a prescription or OTC drug) or a restricted medical device.");
-t("Item is a pharmaceutical (e.");
 
 // https://schema.org/HealthClub
 t("HealthClub");
@@ -9033,7 +8935,7 @@ t("A US-style health insurance plan network.");
 // https://schema.org/HealthTopicContent
 t("HealthTopicContent");
 t('<a class="localLink" href="/HealthTopicContent">HealthTopicContent</a> is <a class="localLink" href="/WebContent">WebContent</a> that is about some aspect of a health topic, e.g. a condition, its symptoms or treatments. Such content may be comprised of several parts or sections and use different types of media. Multiple instances of <a class="localLink" href="/WebContent">WebContent</a> (and hence <a class="localLink" href="/HealthTopicContent">HealthTopicContent</a>) can be related using <a class="localLink" href="/hasPart">hasPart</a> / <a class="localLink" href="/isPartOf">isPartOf</a> where there is some kind of content hierarchy, and their content described with <a class="localLink" href="/about">about</a> and <a class="localLink" href="/mentions">mentions</a> e.g. building upon the existing <a class="localLink" href="/MedicalCondition">MedicalCondition</a> vocabulary.');
-t('<a class="localLink" href="/HealthTopicContent">HealthTopicContent</a> is <a class="localLink" href="/WebContent">WebContent</a> that is about some aspect of a health topic, e.');
+t('<a class="localLink" href="/HealthTopicContent">HealthTopicContent</a> is <a class="localLink" href="/WebContent">WebContent</a> that is about some aspect of a health topic, e.g. a condition, its symptoms or treatments.');
 
 // https://schema.org/HearingImpairedSupported
 t("HearingImpairedSupported");
@@ -9113,7 +9015,6 @@ t("A house painting service.");
 // https://schema.org/HowItWorksHealthAspect
 t("HowItWorksHealthAspect");
 t("Content that discusses and explains how a particular health-related topic works, e.g. in terms of mechanisms and underlying science.");
-t("Content that discusses and explains how a particular health-related topic works, e.");
 
 // https://schema.org/HowOrWhereHealthAspect
 t("HowOrWhereHealthAspect");
@@ -9135,7 +9036,6 @@ t("An item used as either a tool or supply when performing the instructions for 
 // https://schema.org/HowToSection
 t("HowToSection");
 t("A sub-grouping of steps in the instructions for how to achieve a result (e.g. steps for making a pie crust within a pie recipe).");
-t("A sub-grouping of steps in the instructions for how to achieve a result (e.");
 
 // https://schema.org/HowToStep
 t("HowToStep");
@@ -9198,7 +9098,6 @@ t("Any medical imaging modality typically used for diagnostic purposes.");
 // https://schema.org/IndividualProduct
 t("IndividualProduct");
 t("A single, identifiable product instance (e.g. a laptop with a particular serial number).");
-t("A single, identifiable product instance (e.");
 
 // https://schema.org/Infectious
 t("Infectious");
@@ -9419,7 +9318,7 @@ t("LegalService");
 t('A LegalService is a business that provides legally-oriented services, advice and representation, e.g. law firms.<br/><br/>
 
 As a <a class="localLink" href="/LocalBusiness">LocalBusiness</a> it can be described as a <a class="localLink" href="/provider">provider</a> of one or more <a class="localLink" href="/Service">Service</a>(s).');
-t("A LegalService is a business that provides legally-oriented services, advice and representation, e.");
+t("A LegalService is a business that provides legally-oriented services, advice and representation, e.g. law firms.");
 
 // https://schema.org/LegalValueLevel
 t("LegalValueLevel");
@@ -9487,7 +9386,7 @@ t("LimitedByGuaranteeCharity: Non-profit type referring to a charitable company 
 // https://schema.org/LinkRole
 t("LinkRole");
 t("A Role that represents a Web link e.g. as expressed via the 'url' property. Its linkRelationship property can indicate URL-based and plain textual link types e.g. those in IANA link registry or others such as 'amphtml'. This structure provides a placeholder where details from HTML's link element can be represented outside of HTML, e.g. in JSON-LD feeds.");
-t("A Role that represents a Web link e.");
+t("A Role that represents a Web link e.g. as expressed via the 'url' property.");
 
 // https://schema.org/LiquorStore
 t("LiquorStore");
@@ -9500,7 +9399,6 @@ t("The act of consuming audio content.");
 // https://schema.org/ListItem
 t("ListItem");
 t("An list item, e.g. a step in a checklist or how-to description.");
-t("An list item, e.");
 
 // https://schema.org/ListPrice
 t("ListPrice");
@@ -9727,7 +9625,7 @@ t("Level of evidence for a medical guideline.");
 // https://schema.org/MedicalGuideline
 t("MedicalGuideline");
 t("Any recommendation made by a standard society (e.g. ACC/AHA) or consensus statement that denotes how to diagnose and treat a particular condition. Note: this type should be used to tag the actual guideline recommendation; if the guideline recommendation occurs in a larger scholarly article, use MedicalScholarlyArticle to tag the overall article, not this type. Note also: the organization making the recommendation should be captured in the recognizingAuthority base property of MedicalEntity.");
-t("Any recommendation made by a standard society (e.");
+t("Any recommendation made by a standard society (e.g. ACC/AHA) or consensus statement that denotes how to diagnose and treat a particular condition.");
 
 // https://schema.org/MedicalGuidelineContraindication
 t("MedicalGuidelineContraindication");
@@ -9792,7 +9690,6 @@ t("A risk factor is anything that increases a person's likelihood of developing 
 // https://schema.org/MedicalRiskScore
 t("MedicalRiskScore");
 t("A simple system that adds up the number of risk factors to yield a score that is associated with prognosis, e.g. CHAD score, TIMI risk score.");
-t("A simple system that adds up the number of risk factors to yield a score that is associated with prognosis, e.");
 
 // https://schema.org/MedicalScholarlyArticle
 t("MedicalScholarlyArticle");
@@ -10422,7 +10319,6 @@ t("Any physical activity engaged in for job-related purposes.");
 // https://schema.org/OccupationalExperienceRequirements
 t("OccupationalExperienceRequirements");
 t('Indicates employment-related experience requirements, e.g. <a class="localLink" href="/monthsOfExperience">monthsOfExperience</a>.');
-t("Indicates employment-related experience requirements, e.");
 
 // https://schema.org/OccupationalTherapy
 t("OccupationalTherapy");
@@ -10509,7 +10405,6 @@ t("A specific branch of medical science that deals with benign and malignant tum
 // https://schema.org/OnDemandEvent
 t("OnDemandEvent");
 t("A publication event e.g. catch-up TV or radio podcast, during which a program is available on-demand.");
-t("A publication event e.");
 
 // https://schema.org/OneTimePayments
 t("OneTimePayments");
@@ -10545,7 +10440,6 @@ t("An eCommerce site.");
 // https://schema.org/OnSitePickup
 t("OnSitePickup");
 t("A DeliveryMethod in which an item is collected on site, e.g. in a store or at a box office.");
-t("A DeliveryMethod in which an item is collected on site, e.");
 
 // https://schema.org/OpeningHoursSpecification
 t("OpeningHoursSpecification");
@@ -10830,7 +10724,6 @@ t("A specific branch of medical science that specializes in the care of infants,
 // https://schema.org/PeopleAudience
 t("PeopleAudience");
 t("A set of characteristics belonging to people, e.g. who compose an item's target audience.");
-t("A set of characteristics belonging to people, e.");
 
 // https://schema.org/PercutaneousProcedure
 t("PercutaneousProcedure");
@@ -10844,7 +10737,6 @@ t("The act of participating in performance arts.");
 // https://schema.org/PerformanceRole
 t("PerformanceRole");
 t("A PerformanceRole is a Role that some entity places with regard to a theatrical performance, e.g. in a Movie, TVSeries etc.");
-t("A PerformanceRole is a Role that some entity places with regard to a theatrical performance, e.");
 
 // https://schema.org/PerformingArtsTheater
 t("PerformingArtsTheater");
@@ -10864,7 +10756,6 @@ t("A publication in any medium issued in successive parts bearing numerical or c
 // https://schema.org/Permit
 t("Permit");
 t("A permit issued by an organization, e.g. a parking pass.");
-t("A permit issued by an organization, e.");
 
 // https://schema.org/Person
 t("Person");
@@ -11083,7 +10974,6 @@ t("Any offered product or service.");
 // https://schema.org/ProductCollection
 t("ProductCollection");
 t('A set of products (either <a class="localLink" href="/ProductGroup">ProductGroup</a>s or specific variants) that are listed together e.g. in an <a class="localLink" href="/Offer">Offer</a>.');
-t('A set of products (either <a class="localLink" href="/ProductGroup">ProductGroup</a>s or specific variants) that are listed together e.');
 
 // https://schema.org/ProductGroup
 t("ProductGroup");
@@ -11141,7 +11031,6 @@ t("Typical progression and happenings of life course of the topic.");
 // https://schema.org/ProgramMembership
 t("ProgramMembership");
 t('Used to describe membership in a loyalty programs (e.g. "StarAliance"), traveler clubs (e.g. "AAA"), purchase clubs ("Safeway Club"), etc.');
-t("Used to describe membership in a loyalty programs (e.");
 
 // https://schema.org/Project
 t("Project");
@@ -11162,7 +11051,7 @@ t("PropertyValue");
 t("A property-value pair, e.g. representing a feature of a product or place. Use the 'name' property for the name of the property. If there is an additional human-readable version of the value, put that into the 'description' property.<br/><br/>
 
 Always use specific schema.org properties when a) they exist and b) you can populate them. Using PropertyValue as a substitute will typically not trigger the same effect as using the original, specific property.");
-t("A property-value pair, e.");
+t("A property-value pair, e.g. representing a feature of a product or place.");
 
 // https://schema.org/PropertyValueSpecification
 t("PropertyValueSpecification");
@@ -11188,7 +11077,6 @@ t("A process of care relying upon counseling, dialogue and communication  aimed 
 // https://schema.org/PublicationEvent
 t("PublicationEvent");
 t("A PublicationEvent corresponds indifferently to the event of publication for a CreativeWork of any type e.g. a broadcast event, an on-demand event, a book/journal publication via a variety of delivery media.");
-t("A PublicationEvent corresponds indifferently to the event of publication for a CreativeWork of any type e.");
 
 // https://schema.org/PublicationIssue
 t("PublicationIssue");
@@ -11228,12 +11116,10 @@ t("A specific branch of medical science that pertains to the study of the respir
 // https://schema.org/QAPage
 t("QAPage");
 t("A QAPage is a WebPage focussed on a specific Question and its Answer(s), e.g. in a question answering site or documenting Frequently Asked Questions (FAQs).");
-t("A QAPage is a WebPage focussed on a specific Question and its Answer(s), e.");
 
 // https://schema.org/QualitativeValue
 t("QualitativeValue");
 t("A predefined value for a product characteristic, e.g. the power cord plug type 'US' or the garment sizes 'S', 'M', 'L', and 'XL'.");
-t("A predefined value for a product characteristic, e.");
 
 // https://schema.org/QuantitativeValue
 t("QuantitativeValue");
@@ -11251,7 +11137,6 @@ t("Quantities such as distance, time, mass, weight, etc.");
 // https://schema.org/Question
 t("Question");
 t("A specific question - e.g. from a user seeking answers online, or collected in a Frequently Asked Questions (FAQ) document.");
-t("A specific question - e.");
 
 // https://schema.org/Quiz
 t("Quiz");
@@ -11374,7 +11259,6 @@ t("A recycling center.");
 // https://schema.org/ReducedRelevanceForChildrenConsideration
 t("ReducedRelevanceForChildrenConsideration");
 t("A general code for cases where relevance to children is reduced, e.g. adult education, mortgages, retirement-related products, etc.");
-t("A general code for cases where relevance to children is reduced, e.");
 
 // https://schema.org/RefundTypeEnumeration
 t("RefundTypeEnumeration");
@@ -11491,7 +11375,6 @@ t("Researchers.");
 // https://schema.org/ResearchOrganization
 t("ResearchOrganization");
 t("A Research Organization (e.g. scientific institute, research company).");
-t("A Research Organization (e.");
 
 // https://schema.org/ResearchProject
 t("ResearchProject");
@@ -11581,7 +11464,6 @@ t("Results are not available.");
 // https://schema.org/ResumeAction
 t("ResumeAction");
 t("The act of resuming a device or application which was formerly paused (e.g. resume music playback or resume a timer).");
-t("The act of resuming a device or application which was formerly paused (e.");
 
 // https://schema.org/Retail
 t("Retail");
@@ -11808,7 +11690,6 @@ t("Web page type: Search results page.");
 // https://schema.org/Season
 t("Season");
 t("A media season e.g. tv, radio, video game etc.");
-t("A media season e.");
 
 // https://schema.org/Seat
 t("Seat");
@@ -11858,12 +11739,10 @@ t("A Series in schema.");
 // https://schema.org/Service
 t("Service");
 t("A service provided by an organization, e.g. delivery service, print services, etc.");
-t("A service provided by an organization, e.");
 
 // https://schema.org/ServiceChannel
 t("ServiceChannel");
 t("A means for accessing a service, e.g. a government office location, web site, or phone number.");
-t("A means for accessing a service, e.");
 
 // https://schema.org/SexualContentConsideration
 t("SexualContentConsideration");
@@ -12201,7 +12080,6 @@ t("A medical procedure involving an incision with instruments; performed for dia
 // https://schema.org/SuspendAction
 t("SuspendAction");
 t("The act of momentarily pausing a device or application (e.g. pause music playback or pause a timer).");
-t("The act of momentarily pausing a device or application (e.");
 
 // https://schema.org/Suspended
 t("Suspended");
@@ -12527,7 +12405,6 @@ t("The price asked for a given offer by the respective organization or person.")
 // https://schema.org/UnofficialLegalValue
 t("UnofficialLegalValue");
 t("Indicates that a document has no particular or special standing (e.g. a republication of a law by a private publisher).");
-t("Indicates that a document has no particular or special standing (e.");
 
 // https://schema.org/UnRegisterAction
 t("UnRegisterAction");
@@ -12613,7 +12490,7 @@ t("UserInteraction and its subtypes is an old way of talking about users interac
 // https://schema.org/UserReview
 t("UserReview");
 t('A review created by an end-user (e.g. consumer, purchaser, attendee etc.), in contrast with <a class="localLink" href="/CriticReview">CriticReview</a>.');
-t("A review created by an end-user (e.");
+t("A review created by an end-user (e.g. consumer, purchaser, attendee etc.");
 
 // https://schema.org/UserTweets
 t("UserTweets");
@@ -12643,7 +12520,7 @@ t("A type of blood vessel that specifically carries blood to the heart.");
 // https://schema.org/VenueMap
 t("VenueMap");
 t("A venue map (e.g. for malls, auditoriums, museums, etc.).");
-t("A venue map (e.");
+t("A venue map (e.g. for malls, auditoriums, museums, etc.");
 
 // https://schema.org/Vessel
 t("Vessel");
@@ -13032,7 +12909,6 @@ t("Permission to write or edit the document.");
 // https://schema.org/XPathType
 t("XPathType");
 t("Text representing an XPath (typically but not necessarily version 1.0).");
-t("Text representing an XPath (typically but not necessarily version 1.");
 
 // https://schema.org/XRay
 t("XRay");

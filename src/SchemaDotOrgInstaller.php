@@ -10,6 +10,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
+use Drupal\schemadotorg\Utility\SchemaDotOrgStringHelper;
 
 /**
  * Schema.org installer service.
@@ -453,8 +454,9 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
         $strings[] = '// ' . $record['id'];
         $strings[] = $this->formatStringTranslation($record['label']);
         $strings[] = $this->formatStringTranslation($record['comment']);
-        if (substr_count($record['comment'], '.') > 1) {
-          $strings[] = $this->formatStringTranslation(substr($record['comment'], 0, strpos($record['comment'], '.') + 1));
+        $first_sentence = SchemaDotOrgStringHelper::getFirstSentence($record['comment']);
+        if ($record['comment'] !== $first_sentence) {
+          $strings[] = $this->formatStringTranslation($first_sentence);
         }
         $strings[] = '';
       }
