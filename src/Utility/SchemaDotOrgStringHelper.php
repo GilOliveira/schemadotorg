@@ -27,9 +27,10 @@ class SchemaDotOrgStringHelper {
       'e.g.' => 'e_g_',
       '...' => '|||',
     ];
-    $text = str_replace(array_keys($escaped), $escaped, $text);
+    $original = array_keys($escaped);
+    $text = str_replace($original, $escaped, $text);
     $text = substr($text, 0, strpos($text, '.') + 1);
-    $text = str_replace($escaped, array_keys($escaped), $text);
+    $text = str_replace($escaped, $original, $text);
     return $text;
   }
 
