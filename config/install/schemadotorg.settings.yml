@@ -637,6 +637,8 @@ schema_types:
       - vehicleModelDate
       - vehicleSeatingCapacity
   default_property_values:
+    MonetaryAmount:
+      currency: USD
     Offer:
       priceCurrency: USD
   default_field_types:
@@ -665,6 +667,13 @@ schema_types:
       - decimal
       - float
       - integer
+    MonetaryAmount:
+      - range_integer
+      - range_decimal
+      - range_float
+      - integer
+      - decimal
+      - float
     Mass:
       - decimal
       - float

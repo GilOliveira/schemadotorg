@@ -43,6 +43,7 @@
         "drupal/next": "~1.0",
         "drupal/office_hours": "^1.0",
         "drupal/paragraphs": "~1.0",
+        "drupal/range": "~1.0",
         "drupal/rdf": "~2.0",
         "drupal/scheduler": "~1.0",
         "drupal/simple_sitemap": "~4.0",

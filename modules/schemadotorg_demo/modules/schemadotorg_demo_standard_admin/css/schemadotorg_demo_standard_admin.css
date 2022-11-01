@@ -197,3 +197,10 @@ iframe.media-oembed-content {
   margin: 1rem auto;
   width: 60%;
 }
+
+/**
+ * Range.
+ */
+.field--widget-range-text-fields .fieldset__description {
+  clear: both;
+}

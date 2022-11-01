@@ -65,6 +65,7 @@ dependencies:
   - 'paragraphs:paragraphs'
   - 'paragraphs:paragraphs_library'
   - 'pathauto:pathauto'
+  - 'range:range'
   - 'schemata:schemata'
   - 'schemata:schemata_json_schema'
   - 'scheduler_content_moderation_integration:scheduler_content_moderation_integration'

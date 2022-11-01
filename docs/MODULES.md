@@ -262,6 +262,12 @@ Date/time
   (Applies to: [Date](https://schema.org/Date), [DateTime](https://schema.org/DateTime), [Schedule](https://schema.org/Schedule))  
   Provides the ability to store start and end times, with duration. Also provides an intelligent admin UI, and a variety of formatting options.
 
+Numeric
+
+- **[Range](https://www.drupal.org/project/range)**  
+  (Applies to: [MonetaryAmount](https://schema.org/MonetaryAmount))  
+  Defines a numeric range field type.
+
 Link
 
 **[Link Attributes](https://www.drupal.org/project/link_attributes)**    

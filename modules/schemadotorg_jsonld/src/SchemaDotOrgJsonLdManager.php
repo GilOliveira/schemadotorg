@@ -457,10 +457,10 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @param \Drupal\Core\Field\FieldItemInterface $item
    *   The field item.
    *
-   * @return string
+   * @return string|null
    *   The main property name for a field item.
    */
-  protected function getMainPropertyName(FieldItemInterface $item): string {
+  protected function getMainPropertyName(FieldItemInterface $item): ?string {
     return $item->getFieldDefinition()->getFieldStorageDefinition()->getMainPropertyName();
   }
 

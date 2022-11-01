@@ -2,19 +2,19 @@
 
 declare(strict_types = 1);
 
-namespace Drupal\Tests\schemadotorg_jsonld\Kernel;
+namespace Drupal\Tests\schemadotorg_jsonld\Kernel\Modules;
 
 use Drupal\node\Entity\Node;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 
 /**
- * Tests the functionality of the Schema.org JSON-LD date time range builder.
+ * Tests the functionality of the Schema.org JSON-LD datetime_range.module integration.
  *
  * @covers \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManager::getSchemaPropertyValue;
  * @covers datetime_range_schemadotorg_jsonld_schema_type_field_alter()
  * @group schemadotorg
  */
-class SchemaDotOrgJsonLdDateTimeRangeBuilderTest extends SchemaDotOrgKernelEntityTestBase {
+class SchemaDotOrgJsonLdDateTimeRangeTest extends SchemaDotOrgKernelEntityTestBase {
 
   /**
    * Modules to install.
@@ -22,7 +22,6 @@ class SchemaDotOrgJsonLdDateTimeRangeBuilderTest extends SchemaDotOrgKernelEntit
    * @var string[]
    */
   protected static $modules = [
-    'filter',
     'datetime_range',
     'schemadotorg_jsonld',
   ];
@@ -44,9 +43,9 @@ class SchemaDotOrgJsonLdDateTimeRangeBuilderTest extends SchemaDotOrgKernelEntit
   }
 
   /**
-   * Test Schema.org JSON-LD builder.
+   * Test Schema.org datetime range JSON-LD.
    */
-  public function testBuilder(): void {
+  public function testJsonLdDateTimeRange(): void {
     // Reset Event properties to use eventSchedule and startDate with daterange.
     $config = $this->config('schemadotorg.settings');
     $config
@@ -78,14 +77,13 @@ class SchemaDotOrgJsonLdDateTimeRangeBuilderTest extends SchemaDotOrgKernelEntit
     // Event schedule.
     $expected_value = [
       '@type' => 'Event',
-      'identifier' =>
+      'identifier' => [
         [
-          [
-            '@type' => 'PropertyValue',
-            'propertyID' => 'uuid',
-            'value' => $event_node->uuid(),
-          ],
+          '@type' => 'PropertyValue',
+          'propertyID' => 'uuid',
+          'value' => $event_node->uuid(),
         ],
+      ],
       'inLanguage' => 'en',
       'name' => 'Sometime',
       'eventSchedule' => [

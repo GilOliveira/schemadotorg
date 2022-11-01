@@ -12,6 +12,70 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
 /* ************************************************************************** */
+// Address.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_schemadotorg_jsonld_schema_property_alter() for the address.module.
+ */
+function address_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item): void {
+  $field_type = $item->getFieldDefinition()->getType();
+  if ($field_type !== 'address') {
+    return;
+  }
+
+  $mapping = [
+    'country_code' => 'addressCountry',
+    'administrative_area' => 'addressRegion',
+    'locality' => 'addressLocality',
+    'dependent_locality' => 'addressLocality',
+    'postal_code' => 'postalCode',
+    'sorting_code' => 'postOfficeBoxNumber',
+    'address_line1' => 'streetAddress',
+    'address_line2' => 'streetAddress',
+  ];
+  $values = $item->getValue();
+  // Set default values.
+  $values += [
+    'organization' => '',
+    'given_name' => '',
+    'additional_name' => '',
+    'family_name' => '',
+  ];
+  // Map organization and full name to Schema.org name and
+  // alternateName properties.
+  $values['organization'] = trim((string) $values['organization']);
+  $values['name'] = implode(' ', array_filter([
+    trim((string) $values['given_name']),
+    trim((string) $values['additional_name']),
+    trim((string) $values['family_name']),
+  ]));
+  if ($values['organization']) {
+    $mapping['organization'] = 'name';
+    $mapping['name'] = 'alternateName';
+  }
+  else {
+    $mapping['name'] = 'name';
+  }
+
+  $data = ['@type' => 'PostalAddress'];
+  foreach ($mapping as $source => $destination) {
+    if ($destination && !empty($values[$source])) {
+      if (isset($data[$destination])) {
+        $data[$destination] .= ', ' . $values[$source];
+      }
+      else {
+        $data[$destination] = $values[$source];
+      }
+    }
+  }
+
+  /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $jsonld_manager */
+  $jsonld_manager = \Drupal::service('schemadotorg_jsonld.manager');
+  $value = $jsonld_manager->sortProperties($data);
+}
+
+/* ************************************************************************** */
 // Datetime range.
 /* ************************************************************************** */
 
@@ -63,56 +127,49 @@ function datetime_range_schemadotorg_jsonld_schema_type_field_alter(array &$data
 // Address.
 /* ************************************************************************** */
 
+
+/* ************************************************************************** */
+// Range.
+/* ************************************************************************** */
+
 /**
- * Implements hook_schemadotorg_jsonld_schema_property_alter() for the address.module.
+ * Implements hook_schemadotorg_jsonld_schema_property_alter() for the range.module.
  */
-function address_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item): void {
-  $field_type = $item->getFieldDefinition()->getType();
-  if ($field_type !== 'address') {
+function range_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item): void {
+  $field_definition = $item->getFieldDefinition();
+
+  // Only alter the Schema.org type data that have a daterange field.
+  if (!in_array($field_definition->getType(), ['range_decimal', 'range_integer', 'range_float'])) {
     return;
   }
 
-  $mapping = [
-    'country_code' => 'addressCountry',
-    'administrative_area' => 'addressRegion',
-    'locality' => 'addressLocality',
-    'dependent_locality' => 'addressLocality',
-    'postal_code' => 'postalCode',
-    'sorting_code' => 'postOfficeBoxNumber',
-    'address_line1' => 'streetAddress',
-    'address_line2' => 'streetAddress',
-  ];
+  // Get Schema.org mapping.
+  $mapping = SchemaDotOrgMapping::loadByEntity($item->getEntity());
+  $schema_property = $mapping->getSchemaPropertyMapping($field_definition->getName());
 
-  // Map organization and full name to Schema.org name and
-  // alternateName properties.
-  $values = $item->getValue();
-  $values['organization'] = trim((string) $values['organization']);
-  $values['name'] = implode(' ', array_filter([
-    trim((string) $values['given_name']),
-    trim((string) $values['additional_name']),
-    trim((string) $values['family_name']),
-  ]));
-  if ($values['organization']) {
-    $mapping['organization'] = 'name';
-    $mapping['name'] = 'alternateName';
+  // Get the Schema.org type via the property's range includes.
+  // @see https://schema.org/minValue
+  // @see https://schema.org/maxValue
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+  $range_includes = $schema_type_manager->getPropertyRangeIncludes($schema_property);
+  $schema_types_with_min_max_value = ['MonetaryAmount'];
+  $found_schema_types = array_intersect($range_includes, $schema_types_with_min_max_value);
+  $schema_type = ($found_schema_types) ? reset($found_schema_types) : NULL;
+
+  if ($schema_type) {
+    $value = [
+      '@type' => $schema_type,
+      'minValue' => $item->from,
+      'maxValue' => $item->to,
+    ];
+    $value += \Drupal::config('schemadotorg.settings')
+      ->get("schema_types.default_property_values.$schema_type") ?? [];
+  }
+  elseif ($item->from === $item->to) {
+    $value = $item->from;
   }
   else {
-    $mapping['name'] = 'name';
+    $value = ($item->from + $item->to) / 2;
   }
-
-  $data = ['@type' => 'PostalAddress'];
-  foreach ($mapping as $source => $destination) {
-    if ($destination && !empty($values[$source])) {
-      if (isset($data[$destination])) {
-        $data[$destination] .= ', ' . $values[$source];
-      }
-      else {
-        $data[$destination] = $values[$source];
-      }
-    }
-  }
-
-  /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $jsonld_manager */
-  $jsonld_manager = \Drupal::service('schemadotorg_jsonld.manager');
-  $value = $jsonld_manager->sortProperties($data);
 }

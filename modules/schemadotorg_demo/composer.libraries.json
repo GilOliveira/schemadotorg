@@ -91,6 +91,7 @@
     "drupal/simple_sitemap": "^4.0",
     "drupal/smart_date": "^3.0",
     "drupal/style_options": "^1.0",
+    "drupal/range": "^1.0",
     "drupal/time_field": "^2.0",
     "drupal/token": "^1.0",
     "drupal/token_filter": "^1.0",
