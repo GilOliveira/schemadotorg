@@ -25,6 +25,7 @@ class SchemaDotOrgStringHelper {
 
     $escaped = [
       'e.g.' => 'e_g_',
+      '...' => '|||',
     ];
     $text = str_replace(array_keys($escaped), $escaped, $text);
     $text = substr($text, 0, strpos($text, '.') + 1);
