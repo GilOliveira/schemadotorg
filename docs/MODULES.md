@@ -280,21 +280,19 @@ Image
 
 Demographic
 
-- **[Gender](https://www.drupal.org/project/gender)**  
-  (Applies to: [GenderType](https://schema.org/GenderType), [gender](https://schema.org/gender))  
-  Provides inclusive options for collecting gender information of individuals.
-
-Location
-
 - **[Address](https://www.drupal.org/project/address)**  
   (Applies to: [PostalAddress](https://schema.org/PostalAddress), [address](https://schema.org/address))  
   Provides functionality for storing, validating and displaying international postal addresses.
 
+- **[Gender](https://www.drupal.org/project/gender)**  
+  (Applies to: [GenderType](https://schema.org/GenderType), [gender](https://schema.org/gender))  
+  Provides inclusive options for collecting gender information of individuals.
+
+Business
+
 - **[Office hours](https://www.drupal.org/project/office_hours)**  
   (Applies to: [OpeningHoursSpecification](https://schema.org/OpeningHoursSpecification))  
   Defines a 'weekly office hours' field type, allowing you to specify when an Entity is open or closed.
-
-Telephone
 
 - **[Telephone Formatter](https://www.drupal.org/project/telephone_formatter)**  
   (Applies to: [telephone](https://schema.org/telephone))  

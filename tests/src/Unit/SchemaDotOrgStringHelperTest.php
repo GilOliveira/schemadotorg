@@ -4,10 +4,8 @@ declare(strict_types = 1);
 
 namespace Drupal\Tests\schemadotorg\Unit\SchemaDotOrgSchemaTypeBuilderTest;
 
-use Drupal\schemadotorg\Utility\SchemaDotOrgElementHelper;
 use Drupal\schemadotorg\Utility\SchemaDotOrgStringHelper;
 use Drupal\Tests\UnitTestCase;
-use Drupal\webform\Utility\WebformElementHelper;
 
 /**
  * @coversDefaultClass \Drupal\schemadotorg\Utility\SchemaDotOrgStringHelper

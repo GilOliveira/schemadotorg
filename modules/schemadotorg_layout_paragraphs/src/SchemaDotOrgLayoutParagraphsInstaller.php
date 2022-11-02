@@ -210,27 +210,6 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
       }
       $display->save();
     }
-
-//    // Set 'collection_page' bundles.
-//    /** @var \Drupal\field\FieldConfigInterface $field */
-//    $field = FieldConfig::loadByName('paragraph', 'collection_page', 'schema_has_part');
-//    $settings = $field->getSettings();
-//    $settings['handler_settings']['target_bundles'] = [];
-//    $settings['handler_settings']['target_bundles_drag_drop'] = [];
-//    $target_bundles = [
-//      'node' => 'node',
-//    ];
-//    $weight = 10;
-//    foreach ($target_bundles as $target_bundle) {
-//      $settings['handler_settings']['target_bundles'][$target_bundle] = $target_bundle;
-//      $settings['handler_settings']['target_bundles_drag_drop'][$target_bundle] = [
-//        'weight' => $weight,
-//        'enabled' => TRUE,
-//      ];
-//      $weight++;
-//    }
-//    $field->setSettings($settings)
-//      ->save();
   }
 
   /**

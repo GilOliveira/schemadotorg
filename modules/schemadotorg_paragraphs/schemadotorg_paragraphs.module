@@ -12,11 +12,10 @@ use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\file\Entity\File;
-use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\paragraphs\ParagraphInterface;
+use Drupal\paragraphs\ParagraphsTypeInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
-use Drupal\paragraphs\ParagraphsTypeInterface;
 
 /**
  * Implements hook_help().
@@ -30,7 +29,7 @@ function schemadotorg_paragraphs_help(string $route_name, RouteMatchInterface $r
 /**
  * Implements hook_ENTITY_TYPE_presave().
  */
-function schemadotorg_paragraphs_paragraphs_type_presave(ParagraphsTypeInterface $paragraphs_type) {
+function schemadotorg_paragraphs_paragraphs_type_presave(ParagraphsTypeInterface $paragraphs_type): void {
   if ($paragraphs_type->getIconFile()) {
     return;
   }

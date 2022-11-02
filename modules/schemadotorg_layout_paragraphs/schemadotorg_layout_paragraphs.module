@@ -12,8 +12,8 @@ use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\entity_reference_revisions\Plugin\Field\FieldType\EntityReferenceRevisionsItem;
-use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Drupal\paragraphs\ParagraphsTypeInterface;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 
 /**
  * Implements hook_help().
@@ -167,7 +167,7 @@ function schemadotorg_layout_paragraphs_settings_form_submit(array &$form, FormS
 /**
  * Implements hook_ENTITY_TYPE_presave().
  */
-function schemadotorg_layout_paragraphs_paragraphs_type_presave(ParagraphsTypeInterface $paragraphs_type) {
+function schemadotorg_layout_paragraphs_paragraphs_type_presave(ParagraphsTypeInterface $paragraphs_type): void {
   if (!Drupal::moduleHandler()->moduleExists('style_options')) {
     return;
   }

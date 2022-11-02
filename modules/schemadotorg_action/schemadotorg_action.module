@@ -8,11 +8,9 @@
 declare(strict_types = 1);
 
 use Drupal\Component\Utility\NestedArray;
-use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\paragraphs\ParagraphInterface;
 
 /**
  * Implements hook_help().
@@ -83,4 +81,3 @@ function schemadotorg_action_link_alter(array &$variables): void {
     unset($variables['options']['attributes']['schema_potential_action']);
   }
 }
-
