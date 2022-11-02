@@ -34,6 +34,10 @@ function schemadotorg_demo_standard_admin_page_attachments(array &$page): void {
   $page['#attached']['library'][] = 'schemadotorg_demo_standard_admin/schemadotorg_demo_standard_admin';
 }
 
+/* ************************************************************************** */
+// Environment Indicator enhancements.
+/* ************************************************************************** */
+
 /**
  * Implements hook_toolbar_alter().
  */
@@ -49,6 +53,10 @@ function schemadotorg_demo_standard_admin_toolbar_alter(array &$items): void {
   }
 }
 
+/* ************************************************************************** */
+// Node edit form enhancements.
+/* ************************************************************************** */
+
 /**
  * Implements hook_form_BASE_FORM_ID_alter().
  */
@@ -57,6 +65,10 @@ function schemadotorg_demo_standard_admin_form_node_form_alter(array &$form, For
   $path_widget =& NestedArray::getValue($form, ['path', 'widget', '0']);
   $path_widget['#open'] = FALSE;
 }
+
+/* ************************************************************************** */
+// Entity print enhancements.
+/* ************************************************************************** */
 
 /**
  * Implements hook_link_alter().
@@ -77,31 +89,10 @@ function schemadotorg_demo_standard_admin_link_alter(array &$variables): void {
   }
 }
 
-/**
- * Implements hook_field_widget_WIDGET_TYPE_form_alter().
- */
-function schemadotorg_demo_standard_admin_field_widget_office_hours_default_form_alter(array &$element, FormStateInterface $form_state, array $context): void {
-  foreach (Element::children($element['value']) as $key) {
-    $element['value'][$key]['#process'] = [
-      // phpcs:ignore
-      [\Drupal\office_hours\Element\OfficeHoursWeekSlot::class, 'processOfficeHoursSlot'],
-      '_schemadotorg_demo_standard_admin_field_widget_office_hours_default_process',
-    ];
-  }
-}
-
-/**
- * Process office hours table row and convert links to extra small buttons.
- */
-function _schemadotorg_demo_standard_admin_field_widget_office_hours_default_process(array &$element, FormStateInterface $form_state, array $context): array {
-  foreach ($element['operations']['data'] as &$link) {
-    if (isset($link['#type'])) {
-      $link['#attributes']['class'][] = 'button';
-      $link['#attributes']['class'][] = 'button--extrasmall';
-    }
-  }
-  return $element;
-}
+/* ************************************************************************** */
+// Layout paragraphs enhancements.
+// @see schemadotorg_layout_paragraphs.module
+/* ************************************************************************** */
 
 /**
  * Implepents hook_entity_view_alter().
@@ -169,6 +160,36 @@ function schemadotorg_demo_standard_admin_paragraph_view_alter(array &$build, Pa
       }
       break;
   }
+}
+
+/* ************************************************************************** */
+// Office hours enhancements.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ */
+function schemadotorg_demo_standard_admin_field_widget_office_hours_default_form_alter(array &$element, FormStateInterface $form_state, array $context): void {
+  foreach (Element::children($element['value']) as $key) {
+    $element['value'][$key]['#process'] = [
+      // phpcs:ignore
+      [\Drupal\office_hours\Element\OfficeHoursWeekSlot::class, 'processOfficeHoursSlot'],
+      '_schemadotorg_demo_standard_admin_field_widget_office_hours_default_process',
+    ];
+  }
+}
+
+/**
+ * Process office hours table row and convert links to extra small buttons.
+ */
+function _schemadotorg_demo_standard_admin_field_widget_office_hours_default_process(array &$element, FormStateInterface $form_state, array $context): array {
+  foreach ($element['operations']['data'] as &$link) {
+    if (isset($link['#type'])) {
+      $link['#attributes']['class'][] = 'button';
+      $link['#attributes']['class'][] = 'button--extrasmall';
+    }
+  }
+  return $element;
 }
 
 /* ************************************************************************** */

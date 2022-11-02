@@ -119,7 +119,7 @@ Run PHPStan with level 2 to catch all deprecations.
 
 [Git Release Notes for Drush](https://www.drupal.org/project/grn)
 
-    drush release-notes --nouser 1.0.0-VERSION 6.x
+    drush release-notes --nouser 1.0.0-VERSION 1.0.x
 
 
 4. Tag and create a new release
@@ -127,7 +127,7 @@ Run PHPStan with level 2 to catch all deprecations.
 
 [Tag a release](https://www.drupal.org/node/1066342)
 
-    git checkout 6.x
+    git checkout 1.0.x
     git up
     git tag 1.0.0-VERSION
     git push --tags
@@ -155,7 +155,7 @@ Run PHPStan with level 2 to catch all deprecations.
     git push origin tag 1.0.NEXT-VERSION
 
     # Merge hotfix release with HEAD.
-    git checkout 6.x
+    git checkout 1.0.x
     git merge 1.0.NEXT-VERSION-hotfix
 
     # Delete hotfix release.

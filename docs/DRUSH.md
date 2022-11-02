@@ -68,7 +68,7 @@ drush schemadotorg:delete-type -y --delete-entity paragraph:ContactPoint paragra
 drush schemadotorg:delete-type -y --delete-entity node:Person node:Organization node:Place node:Event
 ```
 
-## Setup, generate, kill and teardown a set Schema.org types.
+## Setup, generate, ki``ll and teardown a set Schema.org types.
 
 ```
 # Setup Schema.org mapping set.

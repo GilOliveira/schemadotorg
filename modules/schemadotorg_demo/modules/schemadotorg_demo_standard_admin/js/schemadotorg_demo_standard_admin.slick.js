@@ -10,9 +10,11 @@
 ((Drupal, once) => {
 
   /**
-   * Enhances MediaGallery with Slick carousel.
+   * Enhances paragraph components with a basic Slick carousel.
    *
    * @type {Drupal~behavior}
+   *
+   * @see schemadotorg_demo_standard_admin_entity_view_alter()
    */
   Drupal.behaviors.schemaDotOrgDemoSlick = {
     attach: function attach(context) {
@@ -28,4 +30,5 @@
         });
     }
   };
+
 })(Drupal, once);

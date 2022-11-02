@@ -8,6 +8,7 @@
 "use strict";
 
 (($, Drupal, once) => {
+  // @see https://www.jstree.com/docs/config/
   const jsTreeConfig = {
     "core" : {
       "themes" : {

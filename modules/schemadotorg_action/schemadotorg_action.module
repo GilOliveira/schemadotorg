@@ -25,24 +25,32 @@ function schemadotorg_action_help(string $route_name, RouteMatchInterface $route
  * Implements hook_schemadotorg_jsonld_schema_type_entity_load().
  */
 function schemadotorg_action_schemadotorg_jsonld_schema_type_entity_load(array &$data, EntityInterface $entity): void {
-  if (empty($data['mainEntity'])) {
-    return;
-  }
-
-  // Move potentialAction from mainEntity to the main $data.
-  foreach ($data['mainEntity'] as &$main_entity) {
-    if (empty($main_entity['potentialAction'])) {
+  $property_names = [
+    // Used by 'cta' paragraph type.
+    'mainEntity',
+    // Used by 'ctas' paragraph type.
+    'itemListElement',
+  ];
+  foreach ($property_names as $property_name) {
+    if (empty($data[$property_name])) {
       continue;
     }
 
-    $data += ['potentialAction' => []];
-    if (isset($main_entity['potentialAction']['@type'])) {
-      $data['potentialAction'][] = $main_entity['potentialAction'];
+    // Move potentialAction from mainEntity to the main $data.
+    foreach ($data[$property_name] as &$main_entity) {
+      if (empty($main_entity['potentialAction'])) {
+        continue;
+      }
+
+      $data += ['potentialAction' => []];
+      if (isset($main_entity['potentialAction']['@type'])) {
+        $data['potentialAction'][] = $main_entity['potentialAction'];
+      }
+      else {
+        $data['potentialAction'] = array_merge($data['potentialAction'], $main_entity['potentialAction']);
+      }
+      unset($main_entity['potentialAction']);
     }
-    else {
-      $data['potentialAction'] = array_merge($data['potentialAction'], $main_entity['potentialAction']);
-    }
-    unset($main_entity['potentialAction']);
   }
 }
 

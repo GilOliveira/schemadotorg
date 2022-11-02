@@ -55,11 +55,12 @@ class SchemaDotOrgActionTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test Schema.org call to action.
    */
-  public function testCalltoAction(): void {
+  public function testCallToAction(): void {
     $assert_session = $this->assertSession();
 
-    // Check that the CTA paragraph type was installed.
+    // Check that the CTA and CTA's paragraph type was installed.
     $this->assertNotNull(ParagraphsType::load('cta'));
+    $this->assertNotNull(ParagraphsType::load('ctas'));
 
     // Create a page content type which use layout paragraphs.
     // @todo Determine why the below code is not working as expected.
@@ -86,6 +87,26 @@ class SchemaDotOrgActionTest extends SchemaDotOrgBrowserTestBase {
             ],
           ],
         ]),
+        Paragraph::create([
+          'type' => 'ctas',
+          'schema_name' => 'Test call to actions',
+          'schema_ctas_item_list_element' => [
+            Paragraph::create([
+              'type' => 'cta',
+              'schema_name' => 'Nested call to action',
+              'schema_significant_link' => [
+                'title' => 'Test paragraph link',
+                'uri' => 'https://microsoft.com',
+                'options' => [
+                  'attributes' => [
+                    'schema_potential_action' => 'ViewAction',
+                    'class' => ['button'],
+                  ],
+                ],
+              ],
+            ]),
+          ],
+        ]),
       ],
       'schema_significant_link' => [
         'title' => 'Test web page link',
@@ -100,27 +121,55 @@ class SchemaDotOrgActionTest extends SchemaDotOrgBrowserTestBase {
 
     // Check that the mainEntity does NOT include potentialAction.
     $expected_value = [
-      [
-        '@type' => 'WebPage',
-        'identifier' => [
-          [
-            '@type' => 'PropertyValue',
-            'propertyID' => 'uuid',
-            'value' => $node->schema_main_entity->entity->uuid(),
-          ],
+      '@type' => 'WebPage',
+      'identifier' => [
+        [
+          '@type' => 'PropertyValue',
+          'propertyID' => 'uuid',
+          'value' => $node->schema_main_entity->get(0)->entity->uuid(),
         ],
-        'inLanguage' => 'en',
-        'name' => 'Test call to action',
-        'significantLink' => ['https://yahoo.com'],
+      ],
+      'inLanguage' => 'en',
+      'name' => 'Test call to action',
+      'significantLink' => ['https://yahoo.com'],
+      'position' => 1,
+    ];
+    $this->assertEquals($expected_value, $data['mainEntity'][0]);
+    $expected_value = [
+      '@type' => 'ItemList',
+      'identifier' => [
+        [
+          '@type' => 'PropertyValue',
+          'propertyID' => 'uuid',
+          'value' => $node->schema_main_entity->get(1)->entity->uuid(),
+        ],
+      ],
+      'itemListElement' => [
+        [
+          '@type' => 'WebPage',
+          'identifier' => [
+            [
+              '@type' => 'PropertyValue',
+              'propertyID' => 'uuid',
+              'value' => $node->schema_main_entity->get(1)->entity->schema_ctas_item_list_element->get(0)->entity->uuid(),
+            ],
+          ],
+          'inLanguage' => 'en',
+          'name' => 'Nested call to action',
+          'significantLink' => ['https://microsoft.com'],
+        ],
       ],
     ];
-    $this->assertEquals($expected_value, $data['mainEntity']);
-
+    $this->assertEquals($expected_value, $data['mainEntity'][1]);
     // Check that the WebPage pull the potentialAction from the mainEntity.
     $expected_value = [
       [
         '@action' => 'ViewAction',
         'target' => 'https://yahoo.com',
+      ],
+      [
+        '@action' => 'ViewAction',
+        'target' => 'https://microsoft.com',
       ],
     ];
     $this->assertEquals($expected_value, $data['potentialAction']);

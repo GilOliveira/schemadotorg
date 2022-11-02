@@ -1,14 +1,16 @@
 Schema.org Blueprints Development
 ---------------------------------
 
-**TLDR;** The Schema.org Blueprints modules provides hooks and example module
-for integrating contributed modules into the Schema.org mapping UI and JSON-LD
-building workflow.
+**TLDR;** The Schema.org Blueprints modules provides hooks and several example
+modules for integrating contributed modules into the Schema.org mapping UI 
+and JSON-LD building workflow.
 
 
 # Notes
 
-- The Schema.org module relies more on configurable settings over plugins.
+- The Schema.org Blueprints module relies more on dedicated sub-modules with 
+  configurable settings over plugins.
+
   For example, determining what Schema.org types and properties are available
   and their default settings is handled using YAML configuration files.
   @see [schemadotorg.settings.yml](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/config/install/schemadotorg.settings.yml)
@@ -45,6 +47,8 @@ building workflow.
   Integrates the Paragraphs and Paragraphs Library module with the Schema.org
   Blueprints module.
 
+- **[Schema.org Blueprints Smart Date](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_smart_date)**  
+  Allows a Smart date field to be used to create date ranges and event schedules included in a site's Schema.org JSON-LD.
 
 # Integration process
 
@@ -53,7 +57,7 @@ building workflow.
     or field display?
 
 - Provide basic configuration integration.
-  - Can the contributed module be integrated using existing configuration settings.
+  - Can the contributed module be integrated using existing configuration settings?
 
 - Create a Schema.org Blueprints integration module.
   - Can you use schemadotorg_{module_name} as the integration module's
