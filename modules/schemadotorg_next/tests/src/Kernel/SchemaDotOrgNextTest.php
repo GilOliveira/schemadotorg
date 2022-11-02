@@ -18,7 +18,6 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
  */
 class SchemaDotOrgNextTest extends SchemaDotOrgKernelEntityTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -28,7 +27,6 @@ class SchemaDotOrgNextTest extends SchemaDotOrgKernelEntityTestBase {
     'next',
     'schemadotorg_next',
   ];
-  // phpcs:enable
 
   /**
    * Test Schema.org next.

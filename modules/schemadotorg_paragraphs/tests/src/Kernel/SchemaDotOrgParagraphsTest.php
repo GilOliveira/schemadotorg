@@ -27,7 +27,6 @@ class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
    */
   protected $builder;
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -39,7 +38,6 @@ class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
     'paragraphs_library',
     'schemadotorg_jsonld',
   ];
-  // phpcs:enable
 
   /**
    * {@inheritdoc}

@@ -14,14 +14,12 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgDescriptionsSettingsFormTest extends SchemaDotOrgBrowserTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['schemadotorg_descriptions'];
-  // phpcs:enable
 
   /**
    * {@inheritdoc}

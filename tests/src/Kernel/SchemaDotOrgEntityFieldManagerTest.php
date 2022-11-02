@@ -18,7 +18,6 @@ use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
  */
 class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -40,7 +39,6 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
     'schemadotorg_paragraphs',
     'schemadotorg_ui',
   ];
-  // phpcs:enable
 
   /**
    * The Schema.org entity field manager.

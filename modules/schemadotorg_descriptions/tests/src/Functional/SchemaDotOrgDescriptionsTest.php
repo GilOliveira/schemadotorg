@@ -13,7 +13,6 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
 
-  // phpcs:disable
   /**
    * Modules to install.
    *
@@ -29,7 +28,6 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     'schemadotorg_ui',
     'schemadotorg_subtype',
   ];
-  // phpcs:enable
 
   /**
    * {@inheritdoc}

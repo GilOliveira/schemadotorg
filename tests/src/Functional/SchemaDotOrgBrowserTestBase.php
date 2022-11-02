@@ -14,23 +14,19 @@ use Drupal\Tests\schemadotorg\Traits\SchemaDotOrgTestTrait;
 abstract class SchemaDotOrgBrowserTestBase extends BrowserTestBase {
   use SchemaDotOrgTestTrait;
 
-  // phpcs:disable
   /**
    * Set default theme to stable.
    *
    * @var string
    */
   protected $defaultTheme = 'stark';
-  // phpcs:enable
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['schemadotorg'];
-  // phpcs:enable
 
 
   /**

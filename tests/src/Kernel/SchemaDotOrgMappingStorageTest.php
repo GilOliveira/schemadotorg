@@ -18,7 +18,6 @@ use Drupal\Tests\schemadotorg_subtype\Traits\SchemaDotOrgTestSubtypeTrait;
 class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
   use SchemaDotOrgTestSubtypeTrait;
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -33,7 +32,6 @@ class SchemaDotOrgMappingStorageTest extends SchemaDotOrgKernelTestBase {
     'options',
     'schemadotorg_subtype',
   ];
-  // phpcs:enable
 
   /**
    * The Schema.org mapping storage.

@@ -14,7 +14,6 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
  */
 class SchemaDotOrgSimpleSitemapTest extends SchemaDotOrgKernelEntityTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -24,7 +23,6 @@ class SchemaDotOrgSimpleSitemapTest extends SchemaDotOrgKernelEntityTestBase {
     'simple_sitemap',
     'schemadotorg_simple_sitemap',
   ];
-  // phpcs:enable
 
   /**
    * The entity display repository.

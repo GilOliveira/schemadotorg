@@ -14,7 +14,6 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgLayoutParagraphsUiTest extends SchemaDotOrgBrowserTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *

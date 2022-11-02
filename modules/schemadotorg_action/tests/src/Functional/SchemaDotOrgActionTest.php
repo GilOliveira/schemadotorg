@@ -22,7 +22,6 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 class SchemaDotOrgActionTest extends SchemaDotOrgBrowserTestBase {
   use MediaTypeCreationTrait;
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -33,7 +32,6 @@ class SchemaDotOrgActionTest extends SchemaDotOrgBrowserTestBase {
     'schemadotorg_layout_paragraphs',
     'schemadotorg_ui',
   ];
-  // phpcs:enable
 
   /**
    * {@inheritdoc}

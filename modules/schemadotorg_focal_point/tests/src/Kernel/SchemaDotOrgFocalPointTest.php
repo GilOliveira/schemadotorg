@@ -15,7 +15,6 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
  */
 class SchemaDotOrgFocalPointTest extends SchemaDotOrgKernelEntityTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -26,7 +25,6 @@ class SchemaDotOrgFocalPointTest extends SchemaDotOrgKernelEntityTestBase {
     'focal_point',
     'schemadotorg_focal_point',
   ];
-  // phpcs:enable
 
   /**
    * The entity display repository.

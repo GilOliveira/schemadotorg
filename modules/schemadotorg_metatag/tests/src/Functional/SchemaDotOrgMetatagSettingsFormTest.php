@@ -13,14 +13,12 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgMetatagSettingsFormTest extends SchemaDotOrgBrowserTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['schemadotorg_metatag'];
-  // phpcs:enable
 
   /**
    * {@inheritdoc}

@@ -18,12 +18,14 @@ require_once __DIR__ . '/../../../schemadotorg_smart_date.install';
  */
 class SchemaDotOrgSmartDateJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
 
-  // phpcs:disable
+  // phpcs:disable DrupalPractice.Objects.StrictSchemaDisabled.StrictConfigSchema
   /**
    * Disabled config schema checking temporarily until smart date fixes missing schema.
+   *
+   * @var bool
    */
   protected $strictConfigSchema = FALSE;
-  // phpcs:enable
+  // phpcs:enable DrupalPractice.Objects.StrictSchemaDisabled.StrictConfigSchema
 
   /**
    * Modules to install.

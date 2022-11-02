@@ -13,14 +13,12 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgFieldGroupSettingsFormTest extends SchemaDotOrgBrowserTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['schemadotorg_field_group'];
-  // phpcs:enable
 
   /**
    * {@inheritdoc}

@@ -17,14 +17,12 @@ use Drupal\schemadotorg\Form\SchemaDotOrgMappingForm;
  */
 class SchemaDotOrgMappingFormTest extends SchemaDotOrgKernelTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['system', 'user', 'node', 'field'];
-  // phpcs:enable
 
   /**
    * A node type.

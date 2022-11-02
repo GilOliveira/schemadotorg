@@ -14,14 +14,12 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgJsonLdEndpointSettingsFormTest extends SchemaDotOrgBrowserTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['schemadotorg_jsonapi', 'schemadotorg_jsonld_endpoint'];
-  // phpcs:enable
 
   /**
    * {@inheritdoc}

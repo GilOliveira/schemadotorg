@@ -16,7 +16,6 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
  */
 class SchemaDotOrgMetatagTest extends SchemaDotOrgKernelEntityTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -27,7 +26,6 @@ class SchemaDotOrgMetatagTest extends SchemaDotOrgKernelEntityTestBase {
     'metatag',
     'schemadotorg_metatag',
   ];
-  // phpcs:enable
 
   /**
    * The entity display repository.

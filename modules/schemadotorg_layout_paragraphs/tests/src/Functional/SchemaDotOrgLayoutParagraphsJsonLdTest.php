@@ -20,7 +20,6 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 class SchemaDotOrgLayoutParagraphsJsonLdTest extends SchemaDotOrgBrowserTestBase {
   use MediaTypeCreationTrait;
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -32,7 +31,6 @@ class SchemaDotOrgLayoutParagraphsJsonLdTest extends SchemaDotOrgBrowserTestBase
     'schemadotorg_jsonld',
     'schemadotorg_layout_paragraphs',
   ];
-  // phpcs:enable
 
   /**
    * Test Schema.org layout paragraphs JSON-LD.

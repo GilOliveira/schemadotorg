@@ -13,7 +13,6 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgMetatagNodeEditFormTest extends SchemaDotOrgBrowserTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -23,7 +22,6 @@ class SchemaDotOrgMetatagNodeEditFormTest extends SchemaDotOrgBrowserTestBase {
     'node',
     'schemadotorg_metatag',
   ];
-  // phpcs:enable
 
   /**
    * Test Schema.org metatag node edit form.

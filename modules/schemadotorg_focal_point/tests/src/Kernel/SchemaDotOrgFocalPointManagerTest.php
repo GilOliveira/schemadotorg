@@ -14,7 +14,6 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
  */
 class SchemaDotOrgFocalPointManagerTest extends SchemaDotOrgKernelEntityTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -25,7 +24,6 @@ class SchemaDotOrgFocalPointManagerTest extends SchemaDotOrgKernelEntityTestBase
     'focal_point',
     'schemadotorg_focal_point',
   ];
-  // phpcs:enable
 
   /**
    * The Schema.org focal point manager.

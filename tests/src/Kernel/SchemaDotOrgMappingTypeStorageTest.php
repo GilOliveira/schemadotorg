@@ -15,7 +15,6 @@ use Drupal\Core\Entity\ContentEntityType;
  */
 class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -28,7 +27,6 @@ class SchemaDotOrgMappingTypeStorageTest extends SchemaDotOrgKernelTestBase {
     'file',
     'schemadotorg_paragraphs',
   ];
-  // phpcs:enable
 
   /**
    * The Schema.org mapping type storage.

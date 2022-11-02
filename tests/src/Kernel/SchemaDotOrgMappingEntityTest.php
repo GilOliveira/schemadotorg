@@ -20,7 +20,6 @@ use Drupal\Tests\schemadotorg_subtype\Traits\SchemaDotOrgTestSubtypeTrait;
 class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
   use SchemaDotOrgTestSubtypeTrait;
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -35,7 +34,6 @@ class SchemaDotOrgMappingEntityTest extends SchemaDotOrgKernelTestBase {
     'options',
     'schemadotorg_subtype',
   ];
-  // phpcs:enable
 
   /**
    * A node type.

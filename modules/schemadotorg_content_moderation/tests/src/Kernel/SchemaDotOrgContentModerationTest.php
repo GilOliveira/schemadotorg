@@ -17,7 +17,6 @@ use Drupal\workflows\Entity\Workflow;
 class SchemaDotOrgContentModerationTest extends SchemaDotOrgKernelEntityTestBase {
   use ContentModerationTestTrait;
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -31,7 +30,6 @@ class SchemaDotOrgContentModerationTest extends SchemaDotOrgKernelEntityTestBase
     'content_moderation',
     'schemadotorg_content_moderation',
   ];
-  // phpcs:enable
 
   /**
    * {@inheritdoc}

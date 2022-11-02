@@ -12,7 +12,6 @@ namespace Drupal\Tests\schemadotorg\Kernel;
  */
 class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -28,7 +27,6 @@ class SchemaDotOrgMappingTypeEntityTest extends SchemaDotOrgKernelTestBase {
     'schemadotorg_media',
     'schemadotorg_paragraphs',
   ];
-  // phpcs:enable
 
   /**
    * The Schema.org mapping storage.

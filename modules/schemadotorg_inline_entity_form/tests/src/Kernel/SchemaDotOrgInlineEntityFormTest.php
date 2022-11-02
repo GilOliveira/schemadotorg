@@ -15,7 +15,6 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
  */
 class SchemaDotOrgInlineEntityFormTest extends SchemaDotOrgKernelEntityTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -25,7 +24,6 @@ class SchemaDotOrgInlineEntityFormTest extends SchemaDotOrgKernelEntityTestBase 
     'inline_entity_form',
     'schemadotorg_inline_entity_form',
   ];
-  // phpcs:enable
 
   /**
    * The entity display repository.

@@ -15,7 +15,6 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgAutoEntityLabelSettingsFormTest extends SchemaDotOrgBrowserTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -24,7 +23,6 @@ class SchemaDotOrgAutoEntityLabelSettingsFormTest extends SchemaDotOrgBrowserTes
   protected static $modules = [
     'schemadotorg_auto_entitylabel',
   ];
-  // phpcs:enable
 
   /**
    * {@inheritdoc}

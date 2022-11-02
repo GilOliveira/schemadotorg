@@ -15,14 +15,12 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SchemaDotOrgAutocompleteControllerTest extends SchemaDotOrgKernelTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['user', 'field', 'text'];
-  // phpcs:enable
 
   /**
    * The Schema.org autocomplete controller.

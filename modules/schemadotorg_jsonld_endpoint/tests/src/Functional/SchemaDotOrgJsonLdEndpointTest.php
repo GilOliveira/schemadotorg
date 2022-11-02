@@ -18,7 +18,6 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgJsonLdEndpointTest extends SchemaDotOrgBrowserTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -30,7 +29,6 @@ class SchemaDotOrgJsonLdEndpointTest extends SchemaDotOrgBrowserTestBase {
     'schemadotorg_jsonapi',
     'schemadotorg_jsonld_endpoint',
   ];
-  // phpcs:enable
 
   /**
    * Test Schema.org JSON-LD endpoints.

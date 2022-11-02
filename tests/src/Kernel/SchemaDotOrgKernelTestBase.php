@@ -14,14 +14,12 @@ use Drupal\Tests\schemadotorg\Traits\SchemaDotOrgTestTrait;
 abstract class SchemaDotOrgKernelTestBase extends EntityKernelTestBase {
   use SchemaDotOrgTestTrait;
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['schemadotorg'];
-  // phpcs:enable
 
   /**
    * Convert all render(able) markup into strings.

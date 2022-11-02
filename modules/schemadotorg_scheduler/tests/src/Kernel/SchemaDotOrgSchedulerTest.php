@@ -15,7 +15,6 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
  */
 class SchemaDotOrgSchedulerTest extends SchemaDotOrgKernelEntityTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -30,7 +29,6 @@ class SchemaDotOrgSchedulerTest extends SchemaDotOrgKernelEntityTestBase {
     'scheduler',
     'schemadotorg_scheduler',
   ];
-  // phpcs:enable
 
   /**
    * {@inheritdoc}

@@ -16,7 +16,6 @@ use Drupal\Tests\schemadotorg_subtype\Traits\SchemaDotOrgTestSubtypeTrait;
 class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
   use SchemaDotOrgTestSubtypeTrait;
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -27,7 +26,6 @@ class SchemaDotOrgRdfTest extends SchemaDotOrgBrowserTestBase {
     'schemadotorg_subtype',
     'schemadotorg_rdf',
   ];
-  // phpcs:enable
 
   /**
    * A test node.

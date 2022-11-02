@@ -14,7 +14,6 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgMappingSetSettingsFormTest extends SchemaDotOrgBrowserTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -29,7 +28,6 @@ class SchemaDotOrgMappingSetSettingsFormTest extends SchemaDotOrgBrowserTestBase
     'block_content',
     'schemadotorg_mapping_set',
   ];
-  // phpcs:enable
 
   /**
    * {@inheritdoc}

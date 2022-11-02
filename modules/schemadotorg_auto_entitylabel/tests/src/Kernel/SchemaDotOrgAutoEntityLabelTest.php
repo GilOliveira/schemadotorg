@@ -15,7 +15,6 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
  */
 class SchemaDotOrgAutoEntityLabelTest extends SchemaDotOrgKernelEntityTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -30,7 +29,6 @@ class SchemaDotOrgAutoEntityLabelTest extends SchemaDotOrgKernelEntityTestBase {
     'auto_entitylabel',
     'schemadotorg_auto_entitylabel',
   ];
-  // phpcs:enable
 
   /**
    * {@inheritdoc}

@@ -18,7 +18,6 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgLayoutParagraphsTest extends SchemaDotOrgBrowserTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
@@ -26,7 +25,7 @@ class SchemaDotOrgLayoutParagraphsTest extends SchemaDotOrgBrowserTestBase {
    */
   protected static $modules = [
     'node',
-    'schemadotorg_layout_paragraphs'
+    'schemadotorg_layout_paragraphs',
   ];
 
   /**

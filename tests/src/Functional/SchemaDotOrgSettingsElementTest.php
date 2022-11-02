@@ -12,14 +12,12 @@ namespace Drupal\Tests\schemadotorg\Functional;
  */
 class SchemaDotOrgSettingsElementTest extends SchemaDotOrgBrowserTestBase {
 
-  // phpcs:disable
   /**
    * Modules to enable.
    *
    * @var array
    */
   protected static $modules = ['schemadotorg_settings_element_test'];
-  // phpcs:enable
 
   /**
    * Test Schema.org settings form.
