@@ -84,9 +84,10 @@ drush schemadotorg:set-kill common
 drush schemadotorg:set-teardown common
 ```
 
-# Download, install, and update Schema.org's CSV to the latest version.
+# Download, install, and update the Schema.org CSV files to the latest version.
 
 @see <https://schema.org/docs/releases.html>
+@see /admin/reports/schemadotorg/docs/names
 
 ```
 drush schemadotorg:download-schema
