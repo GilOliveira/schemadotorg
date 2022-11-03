@@ -71,8 +71,7 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
    * {@inheritdoc}
    */
   public function alterMappingDefaults(string $entity_type_id, ?string $bundle, string $schema_type, array &$defaults): void {
-    // Layout paragraphs are only applicable to nodes.
-    if ($entity_type_id !== 'node') {
+    if (!$this->isLayoutParagraphsEnabled($entity_type_id)) {
       return;
     }
 
@@ -165,6 +164,10 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
     }
 
     $entity_type_id = $mapping->getTargetEntityTypeId();
+    if (!$this->isLayoutParagraphsEnabled($entity_type_id)) {
+      return;
+    }
+
     $field_name = $this->getFieldName();
     $field_exists = (bool) $this->entityTypeManager
       ->getStorage('field_storage_config')
@@ -353,6 +356,21 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
    */
   public function getFieldName(): string {
     return $this->schemaNames->getFieldPrefix() . $this->getMachineName();
+  }
+
+  /**
+   * Determine if the entity type support layout paragraphs.
+   *
+   * Currently, layout paragraphs are only applicable to nodes.
+   *
+   * @param string $entity_type_id
+   *   The entity type.
+   *
+   * @return bool
+   *   TRUE if the entity type support layout paragraphs.
+   */
+  protected function isLayoutParagraphsEnabled(string $entity_type_id): bool {
+    return ($entity_type_id === 'node');
   }
 
 }

@@ -86,6 +86,8 @@ drush schemadotorg:set-teardown common
 
 # Download, install, and update Schema.org's CSV to the latest version.
 
+@see <https://schema.org/docs/releases.html>
+
 ```
 drush schemadotorg:download-schema
 drush schemadotorg:install-schema
