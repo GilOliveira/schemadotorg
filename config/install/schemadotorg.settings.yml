@@ -842,7 +842,6 @@ schema_properties:
     - unnamedSourcesPolicy
     - vatID
     - wordCount
-
   default_fields:
     FAQPage--mainEntity:
       label: Questions
