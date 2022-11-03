@@ -6,6 +6,7 @@ namespace Drupal\schemadotorg_layout_paragraphs;
 
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
@@ -16,6 +17,13 @@ use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
  */
 class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagraphsInstallerInterface {
   use StringTranslationTrait;
+
+  /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
 
   /**
    * The entity type manager.
@@ -48,6 +56,8 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
   /**
    * Constructs a SchemaDotOrgLayoutParagraphsInstaller object.
    *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository
@@ -58,11 +68,13 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
    *   The Schema.org mapping manager.
    */
   public function __construct(
+    ModuleHandlerInterface $module_handler,
     EntityTypeManagerInterface $entity_type_manager,
     EntityDisplayRepositoryInterface $entity_display_repository,
     SchemaDotOrgNamesInterface $schema_names,
     SchemaDotOrgMappingManagerInterface $schema_mapping_manager
   ) {
+    $this->moduleHandler = $module_handler;
     $this->entityTypeManager = $entity_type_manager;
     $this->entityDisplayRepository = $entity_display_repository;
     $this->schemaNames = $schema_names;
@@ -79,7 +91,7 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
 
     $this->createMediaParagraphTypes();
     $this->createDefaultParagraphTypes();
-    $this->updateNodeParagraphTargetBundles();
+    $this->updateNodeParagraph();
   }
 
   /**
@@ -285,9 +297,10 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
   }
 
   /**
-   * Update node paragraph target bundles.
+   * Update node paragraph target bundles and form display.
    */
-  protected function updateNodeParagraphTargetBundles(): void {
+  protected function updateNodeParagraph(): void {
+    // Update node paragraph target bundles.
     $node_types = $this->entityTypeManager
       ->getStorage('node_type')
       ->getQuery()
@@ -301,6 +314,25 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
     $settings['handler_settings']['target_bundles'] = $node_types;
     $field_config->set('settings', $settings);
     $field_config->save();
+
+    // Update node paragraph form display to use the content browser.
+    if ($this->moduleHandler->moduleExists('content_browser')) {
+      $form_display = $this->entityDisplayRepository->getFormDisplay('paragraph', 'node');
+      $form_component = $form_display->getComponent('field_node');
+      $form_component['type'] = 'entity_browser_entity_reference';
+      $form_component['settings'] = [
+        'entity_browser' => 'browse_content',
+        'field_widget_display' => 'label',
+        'field_widget_edit' => TRUE,
+        'field_widget_remove' => TRUE,
+        'field_widget_replace' => TRUE,
+        'open' => TRUE,
+        'field_widget_display_settings' => [],
+        'selection_mode' => 'selection_append',
+      ];
+      $form_display->setComponent('field_node', $form_component);
+      $form_display->save();
+    }
   }
 
 }
