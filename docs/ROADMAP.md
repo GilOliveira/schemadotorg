@@ -26,6 +26,7 @@ Schema.org Blueprints: Roadmap
 - Finalize core dependencies
 - Research and support contrib modules
 - Remove deprecated modules
+- Review and clean up code base as issues are reported. 
 
 
 # Beta

@@ -10,51 +10,106 @@ function help() {
   echo "Installs a demo of the Schema.org Blueprints module."
   echo;
   echo "This scripts assumes you are starting with a plain vanilla standard instance of Drupal."
-  echo;
-  echo "The below commands should be executed from the root of your Drupal installation."
-  echo;
-  echo "Usage:"
-  echo;
-  echo "./web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh help";
-  echo "./web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh install";
-  echo "./web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh demo";
-  echo "./web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh translate";
-  echo "./web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh next";
-}
-
-function status() {
-  drush status;
 }
 
 function install() {
-  echo "Installing Schema.org Standard Profile demo with core and contrib modules";
+  local profile=${1:-"standard"}
+  local email=`git config user.email`
 
-  EMAIL=`git config user.email`
-  drush -yv site-install --account-mail="$EMAIL"\
+  echo "Installing $profile profile";
+  drush -yv site-install --account-mail="$email"\
     --account-name="demo"\
     --account-pass="demo"\
-    --site-mail="$EMAIL"\
-    --site-name="Schema.org Blueprints Demo";
+    --site-mail="$email"\
+    --site-name="Schema.org Blueprints Demo"\
+    $profile;
 
   drush -y config-set system.site slogan 'A demo of the Schema.org Blueprints module for Drupal.'
+}
 
+function install_base() {
+  install
+
+  # Base.
+  drush -y pm:enable schemadotorg\
+    schemadotorg_descriptions\
+    schemadotorg_devel\
+    schemadotorg_export\
+    schemadotorg_mapping_set\
+    schemadotorg_media\
+    schemadotorg_paragraphs\
+    schemadotorg_report\
+    schemadotorg_subtype\
+    schemadotorg_taxonomy\
+    schemadotorg_ui;
+
+  # JSON:API/JSON-LD.
+  drush -y pm:enable schemadotorg_jsonapi\
+    schemadotorg_jsonapi_preview\
+    schemadotorg_jsonld\
+    schemadotorg_jsonld_breadcrumb\
+    schemadotorg_jsonld_embed\
+    schemadotorg_jsonld_endpoint\
+    schemadotorg_jsonld_preview;
+}
+
+function install_extras() {
+  install
+  drush -y pm:enable schemadotorg\
+    schemadotorg_action\
+    schemadotorg_auto_entitylabel\
+    schemadotorg_content_moderation\
+    schemadotorg_descriptions\
+    schemadotorg_devel\
+    schemadotorg_export\
+    schemadotorg_field_group\
+    schemadotorg_flexfield\
+    schemadotorg_focal_point\
+    schemadotorg_inline_entity_form\
+    schemadotorg_jsonapi\
+    schemadotorg_jsonapi_preview\
+    schemadotorg_jsonld\
+    schemadotorg_jsonld_breadcrumb\
+    schemadotorg_jsonld_embed\
+    schemadotorg_jsonld_endpoint\
+    schemadotorg_jsonld_preview\
+    schemadotorg_layout_paragraphs\
+    schemadotorg_mapping_set\
+    schemadotorg_media\
+    schemadotorg_metatag\
+    schemadotorg_office_hours\
+    schemadotorg_paragraphs\
+    schemadotorg_report\
+    schemadotorg_scheduler\
+    schemadotorg_sidebar\
+    schemadotorg_simple_sitemap\
+    schemadotorg_smart_date\
+    schemadotorg_subtype\
+    schemadotorg_taxonomy\
+    schemadotorg_ui;
+}
+
+function install_demo_standard() {
+  install
   drush -y pm:enable schemadotorg_demo_standard;
 }
 
-function demo() {
-  install
-  drush -y pm:enable schemadotorg_demo;
+function install_demo_standard_translation() {
+  install_demo_standard
+  drush -y pm:enable schemadotorg_demo_standard_translation;
 }
 
-function translate() {
-  drush -y pm:enable schemadotorg_demo_standard_translation;
+function install_demo_standard_next() {
+  install_demo_standard
+  drush -y pm:enable schemadotorg_demo_next;
+}
+
+function install_demo_standard_translation_umami() {
+  install_demo_standard_translation
+
   drush locale:check
   drush locale:update
   drush -y pm:enable schemadotorg_demo_umami_content;
-}
-
-function next() {
-  drush -y pm:enable schemadotorg_demo_next;
 }
 
 ################################################################################

@@ -648,7 +648,7 @@ schema_types:
       - 'field_ui:entity_reference:taxonomy_term'
     PostalAddress:
       - address
-      - text
+      - string_long
     AudioObject:
       - 'field_ui:entity_reference:media'
       - link
@@ -842,6 +842,7 @@ schema_properties:
     - unnamedSourcesPolicy
     - vatID
     - wordCount
+
   default_fields:
     FAQPage--mainEntity:
       label: Questions

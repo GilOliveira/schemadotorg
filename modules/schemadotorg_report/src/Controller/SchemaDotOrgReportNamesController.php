@@ -217,7 +217,7 @@ class SchemaDotOrgReportNamesController extends SchemaDotOrgReportControllerBase
         break;
 
       default:
-        throw new Exception("Word usage $type not supported");
+        throw new \Exception("Word usage $type not supported");
     }
 
     // Remove words that are less than 5 characters.

@@ -224,9 +224,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_works_for' => ['cardinality' => -1],
     ];
     $expected_field_settings = [
-      'schema_address' => [
-        'max_length' => 255,
-      ],
+      'schema_address' => [],
       'schema_contact_point' => [
         'handler' => 'default:paragraph',
         'handler_settings' => [
@@ -275,7 +273,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $person_form_display = $display_repository->getFormDisplay('user', 'user');
     $expected_form_components = [
       'schema_additional_name' => ['type' => 'string_textfield'],
-      'schema_address' => ['type' => 'text_textfield'],
+      'schema_address' => ['type' => 'string_textarea'],
       'schema_affiliation' => ['type' => 'string_textfield'],
       'schema_alumni_of' => ['type' => 'string_textfield'],
       'schema_award' => ['type' => 'string_textfield'],

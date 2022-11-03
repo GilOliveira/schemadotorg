@@ -379,8 +379,9 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
 
     // Set Schema.org property specific field types.
     $default_field = $this->getPropertyDefaultField($schema_type, $schema_property);
-    if (isset($default_field['type'])) {
-      $field_types[$default_field['type']] = $default_field['type'];
+    $default_field_type = $default_field['type'] ?? NULL;
+    if ($this->fieldTypeExists($default_field_type)) {
+      $field_types[$default_field_type] = $default_field_type;
     }
 
     // Check specific Schema.org type entity reference target bundles
@@ -406,9 +407,10 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
       }
     }
 
-    // Check Schema.org type mappings.
+    // Check Schema.org property and type specific field type from settings.
     if (empty($field_types)) {
-      $schema_type_field_types = $this->getSchemaTypeFieldTypes();
+      // Append range includes field types.
+      $schema_type_field_types = $this->getSchemaTypeDefaultFieldTypes();
       foreach ($schema_type_field_types as $type_name => $type_mapping) {
         if (isset($range_includes[$type_name])) {
           $field_types += $type_mapping;
@@ -441,29 +443,44 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
   }
 
   /**
-   * Get Schema.org type or property field type mapping.
+   * Get default Schema.org type field types.
    *
    * @return array
-   *   Schema.org type or property field type mapping.
+   *   Schema.org type field types.
    */
-  protected function getSchemaTypeFieldTypes(): array {
+  protected function getSchemaTypeDefaultFieldTypes(): array {
     $schema_field_types = &drupal_static(__METHOD__);
     if (!isset($schema_field_types)) {
       $schema_field_types = $this->configFactory
         ->get('schemadotorg.settings')
         ->get('schema_types.default_field_types');
-      // Make sure the field types exist, by checking the UI definitions.
-      $field_type_definitions = $this->fieldTypePluginManager->getUiDefinitions();
       foreach ($schema_field_types as $id => $field_types) {
         $schema_field_types[$id] = array_combine($field_types, $field_types);
         foreach ($schema_field_types[$id] as $field_type) {
-          if (!isset($field_type_definitions[$field_type])) {
+          if (!$this->fieldTypeExists($field_type)) {
             unset($schema_field_types[$id][$field_type]);
           }
         }
       }
     }
     return $schema_field_types;
+  }
+
+  /**
+   * Determine if a field type exists.
+   *
+   * @param string|null $type
+   *   The field type.
+   *
+   * @return bool
+   *   TRUE if the field type exists.
+   */
+  protected function fieldTypeExists(?string $type): bool {
+    $field_type_definitions = &drupal_static(__METHOD__);
+    if (!isset($field_type_definitions)) {
+      $field_type_definitions = $this->fieldTypePluginManager->getUiDefinitions();
+    }
+    return isset($field_type_definitions[$type]);
   }
 
   /**

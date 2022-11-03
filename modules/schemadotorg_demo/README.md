@@ -86,7 +86,6 @@ Sub-modules
   Provides a demo Schema.org Blueprints used Next.js for Drupal.
 
 
-
 Installation
 ------------
 

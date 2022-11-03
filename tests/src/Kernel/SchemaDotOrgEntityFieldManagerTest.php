@@ -266,9 +266,9 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
         'location',
         [
           'address' => 'address',
-          'text' => 'text',
-          'string' => 'string',
           'string_long' => 'string_long',
+          'string' => 'string',
+          'text' => 'text',
           'text_long' => 'text_long',
           'text_with_summary' => 'text_with_summary',
         ],
