@@ -83,3 +83,11 @@ drush schemadotorg:set-kill common
 # Teardown (delete) Schema.org mapping set content.
 drush schemadotorg:set-teardown common
 ```
+
+# Download, install, and update Schema.org's CSV to the latest version.
+
+```
+drush schemadotorg:download-schema
+drush schemadotorg:install-schema
+drush schemadotorg:translate-schema
+```

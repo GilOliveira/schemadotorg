@@ -21,7 +21,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   /**
    * Schema.org version.
    */
-  const VERSION = '14.0';
+  const VERSION = '15.0';
 
   /**
    * The database connection.
@@ -391,50 +391,16 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   public function downloadCsvData(): void {
     $version = static::VERSION;
 
-    $jsonld_uri = "https://github.com/schemaorg/schemaorg/blob/main/data/releases/$version/schemaorg-all-https.jsonld?raw=true";
-    $jsonld = Json::decode(file_get_contents($jsonld_uri));
-    $jsonld_data = [];
-    foreach ($jsonld['@graph'] as $item) {
-      if (isset($item['rdfs:label'])) {
-        $label = is_array($item['rdfs:label']) ? $item['rdfs:label']['@value'] : $item['rdfs:label'];
-        $jsonld_data[$label] = $item;
-      }
+    $directory = __DIR__ . "/../data/$version";
+    if (!file_exists($directory)) {
+      mkdir($directory);
     }
 
     $tables = ['properties', 'types'];
     foreach ($tables as $table) {
-      $uri = "https://github.com/schemaorg/schemaorg/blob/main/data/releases/$version/schemaorg-all-https-$table.csv?raw=true";
-      $filename = __DIR__ . "/../data/$version/schemaorg-current-https-$table.csv";
-
-      $source_handle = fopen($uri, 'r');
-      $destination_handle = fopen($filename, 'w');
-
-      // Get field names.
-      $fields = fgetcsv($source_handle);
-      fputcsv($destination_handle, array_values($fields));
-
-      // Insert multiple records.
-      while ($row = fgetcsv($source_handle)) {
-        $values = [];
-        foreach ($fields as $index => $field_name) {
-          $values[$field_name] = $row[$index] ?? '';
-        }
-
-        // The isPartOf column is empty in CSV downloads.
-        // @see https://github.com/schemaorg/schemaorg/issues/3180
-        // @todo Remove the below work-around once Schema.org 15.0 is released.
-        $label = $values['label'];
-        if (isset($values['isPartOf'])
-          && empty($values['isPartOf'])
-          && isset($jsonld_data[$label])
-          && isset($jsonld_data[$label]['schema:isPartOf'])) {
-          $values['isPartOf'] = $jsonld_data[$label]['schema:isPartOf']['@id'];
-        }
-        fputcsv($destination_handle, array_values($values));
-      }
-
-      fclose($source_handle);
-      fclose($destination_handle);
+      $source = "https://github.com/schemaorg/schemaorg/blob/main/data/releases/$version/schemaorg-all-https-$table.csv?raw=true";
+      $destination = "$directory/schemaorg-current-https-$table.csv";
+      copy($source, $destination);
     }
   }
 

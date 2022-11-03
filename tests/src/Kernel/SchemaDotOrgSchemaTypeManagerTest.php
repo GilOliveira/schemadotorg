@@ -299,6 +299,8 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
       'Car' => 'Car',
       'Motorcycle' => 'Motorcycle',
       'MotorizedBicycle' => 'MotorizedBicycle',
+      'DietarySupplement' => 'DietarySupplement',
+      'Drug' => 'Drug',
     ];
     $actual_all_sub_types = $this->schemaTypeManager->getAllSubTypes([
       'Person',
