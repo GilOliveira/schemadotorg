@@ -22,6 +22,8 @@ Features
 - Appends a suffix to field group labels.
 - Deletes empty field groups created when a field is deleted.
 - Adds a field group around all displayed paragraphs.
+- ALlows field groups to be disabled for selected entity type, display, 
+  Schema.org types, and properties. 
 
 
 Requirements
@@ -43,3 +45,4 @@ Configuration
   an entity type's default form.
 - Select the default field group type used when adding a field group to
   an entity type's default view display.
+- Enter the Schema.org types and properties that should NOT have field groups.

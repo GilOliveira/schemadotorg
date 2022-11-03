@@ -71,6 +71,7 @@ class SchemaDotOrgReportSettingsForm extends ConfigFormBase {
     foreach ($values as $key => $value) {
       $config->set($key, $value);
     }
+
     parent::submitForm($form, $form_state);
   }
 

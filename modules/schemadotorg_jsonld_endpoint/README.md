@@ -16,7 +16,7 @@ entity's Schema.org JSON-LD.
 Features
 --------
 
-- Provide dedicated Schema.org JSON-LD endpoints.
+- Provides dedicated Schema.org JSON-LD endpoints.
 - Adds Schema.org JSON-LD endpoints URIs to JSON:API resource metadata.
 - Allows Schema.org JSON-LD endpoint base paths to be customized.
 

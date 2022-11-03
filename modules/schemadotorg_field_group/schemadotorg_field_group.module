@@ -157,7 +157,7 @@ function schemadotorg_field_group_form_schemadotorg_properties_settings_form_alt
     '#settings_type' => SchemaDotOrgSettings::INDEXED,
     '#settings_format' => 'entity_type--display or entity_type--display--mode or entity_type--SchemaType or propertyName',
     '#title' => t('Disable field groups'),
-    '#description' => t('Enter the Schema.org types and properties that should NOT have field groups'),
+    '#description' => t('Enter the Schema.org types and properties that should NOT have field groups.'),
     '#default_value' => $config->get('disable_field_groups'),
   ];
 

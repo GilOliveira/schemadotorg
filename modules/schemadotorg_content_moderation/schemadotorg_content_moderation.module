@@ -31,11 +31,11 @@ function schemadotorg_content_moderation_schemadotorg_mapping_insert(SchemaDotOr
   $bundle = $mapping->getTargetBundle();
   $schema_type = $mapping->getSchemaType();
 
-  $config = \Drupal::config('schemadotorg_content_moderation.settings');
-  $default_workflow = $config->get("default_workflows.$entity_type_id--$schema_type");
-  if (is_null($default_workflow)) {
-    $default_workflow = $config->get("default_workflows.$entity_type_id");
-  }
+  $default_workflows = \Drupal::config('schemadotorg_content_moderation.settings')
+    ->get('default_workflows');
+  $default_workflow = $default_workflows["$entity_type_id--$schema_type"]
+    ?? $default_workflows[$entity_type_id]
+    ?? NULL;
   if (!$default_workflow) {
     return;
   }

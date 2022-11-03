@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Schema.org Blueprints JSON-LD hook implementations for contributed modules.
+ * Schema.org JSON-LD hook implementations for contributed modules.
  */
 
 declare(strict_types = 1);

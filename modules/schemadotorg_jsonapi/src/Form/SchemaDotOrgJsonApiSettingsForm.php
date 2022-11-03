@@ -87,6 +87,7 @@ class SchemaDotOrgJsonApiSettingsForm extends ConfigFormBase {
       $config->set($key, $value);
     }
     $config->save();
+
     parent::submitForm($form, $form_state);
   }
 

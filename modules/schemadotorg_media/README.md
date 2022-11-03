@@ -21,7 +21,6 @@ Features
   [MediaObject](https://schema.org/MediaObject) types.
 - Adds 'Media source' select element to the 'Add Schema.org media type' form.
 - Sets the default entity form display component for media to the media library.
-- Adjust media component weights. TBD
 
 
 Configuration

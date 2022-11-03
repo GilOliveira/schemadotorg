@@ -316,16 +316,18 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     $default_property_values = $this->configFactory
       ->get('schemadotorg.settings')
       ->get('schema_types.default_property_values');
-
     if (is_array($value)) {
       $value_type = $value['@type'] ?? '';
       $default_values = $default_property_values[$value_type] ?? [];
       return $value + $default_values;
     }
 
-    $range_includes = $this->configFactory
+    $schema_properties_range_includes = $this->configFactory
       ->get('schemadotorg.settings')
-      ->get("schema_properties.range_includes.$type--$property");
+      ->get("schema_properties.range_includes");
+    $range_includes = $schema_properties_range_includes["$type--$property"]
+      ?? $schema_properties_range_includes[$property]
+      ?? NULL;
     if ($range_includes) {
       $property_type = reset($range_includes);
     }
