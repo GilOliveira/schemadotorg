@@ -3,7 +3,6 @@ type: module
 description: 'Enables focal point for Schema.org images and generates default image styles for decoupled front-ends.'
 package: Schema.org Blueprints Extras
 core_version_requirement: '^9.4 || ^10.0'
-lifecycle: experimental
 configure: schemadotorg.settings.types
 dependencies:
   - 'focal_point:focal_point'

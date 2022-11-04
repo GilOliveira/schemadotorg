@@ -3,7 +3,6 @@ type: module
 description: 'Provides a report for browsing Schema.org types, properties, and naming conventions.'
 package: Schema.org Blueprints
 core_version_requirement: '^9.4 || ^10.0'
-lifecycle: experimental
 configure: schemadotorg_report
 dependencies:
   - 'schemadotorg:schemadotorg'

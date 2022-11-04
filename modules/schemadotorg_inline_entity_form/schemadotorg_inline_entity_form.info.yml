@@ -3,7 +3,6 @@ type: module
 description: 'Allows an inline entity form to be automatically added to Schema.org properties within an entity type/bundle Schema.org mapping.'
 package: Schema.org Blueprints Extras
 core_version_requirement: '^9.4 || ^10.0'
-lifecycle: experimental
 configure: schemadotorg.settings.properties
 dependencies:
   - 'inline_entity_form:inline_entity_form'

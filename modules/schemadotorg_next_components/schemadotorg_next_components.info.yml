@@ -3,7 +3,6 @@ type: module
 description: 'Generates and previews Next.js React components to assist with the integration of Schema.org Blueprints with Next.js'
 package: Schema.org Blueprints Decoupled
 core_version_requirement: '^9.4 || ^10.0'
-lifecycle: experimental
 dependencies:
   - 'schemadotorg:schemadotorg_jsonapi'
   - 'schemadotorg:schemadotorg_next'

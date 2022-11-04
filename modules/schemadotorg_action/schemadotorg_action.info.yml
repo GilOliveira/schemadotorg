@@ -3,7 +3,6 @@ type: module
 description: 'Provides support for https:://schema.org/Action using a call to action paragraph type.'
 package: 'Schema.org Blueprints'
 core_version_requirement: '^8.9 || ^9'
-lifecycle: experimental
 configure: schemadotorg.settings.types
 dependencies:
   - 'drupal:field'

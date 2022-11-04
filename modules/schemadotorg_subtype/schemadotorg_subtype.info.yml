@@ -3,7 +3,6 @@ type: module
 description: 'Subtypes allow more specificity without having to create dedicated entity types for every appropriate Schema.type.'
 package: Schema.org Blueprints
 core_version_requirement: '^9.4 || ^10.0'
-lifecycle: experimental
 configure: schemadotorg.settings
 dependencies:
   - 'schemadotorg:schemadotorg'

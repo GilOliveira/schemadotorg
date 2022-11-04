@@ -3,7 +3,6 @@ type: module
 description: 'Automatically adds a metatag field to Schema.org types.'
 package: 'Schema.org Blueprints Extras'
 core_version_requirement: '^8.9 || ^9'
-lifecycle: experimental
 dependencies:
   - 'metatag:metatag'
   - 'schemadotorg:schemadotorg'

@@ -3,6 +3,5 @@ type: module
 description: Provides a CSV export of Schema.org type mappings and mapping sets.
 package: Schema.org Blueprints
 core_version_requirement: '^9.4 || ^10.0'
-lifecycle: experimental
 dependencies:
   - 'schemadotorg:schemadotorg'
