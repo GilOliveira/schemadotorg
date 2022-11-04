@@ -71,7 +71,6 @@ function install_extras() {
     schemadotorg_auto_entitylabel\
     schemadotorg_content_moderation\
     schemadotorg_field_group\
-    schemadotorg_flexfield\
     schemadotorg_focal_point\
     schemadotorg_inline_entity_form\
     schemadotorg_layout_paragraphs\
@@ -81,6 +80,11 @@ function install_extras() {
     schemadotorg_sidebar\
     schemadotorg_simple_sitemap\
     schemadotorg_smart_date;
+}
+
+function install_experimental() {
+  drush -y pm:enable
+    schemadotorg_flexfield;
 }
 
 function install_next() {

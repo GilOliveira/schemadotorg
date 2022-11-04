@@ -6,7 +6,7 @@ Table of contents
 * Requirements
 * Configuration
 * References
-* Issues
+
 
 Introduction
 ------------
@@ -20,8 +20,9 @@ Features
 
 - Automatically creates a corresponding Next.js entity type for 
   Schema.org types.
-- Next.js entity type is deleted when its note type dependency is deleted.
-- Move Next.js preview to a dedicated details widget.
+- When a Next.js entity type is deleted when its corresponding node type 
+  dependency is deleted.
+- Moves Next.js preview to a dedicated details widget.
 
 
 Requirements
@@ -61,10 +62,3 @@ Pantheon decoupled architecture
 - [Pantheon Front-End Sites](https://pantheon.io/docs/guides/decoupled-sites/)
 - [Pantheon Decoupled Kit Next Drupal Starter](https://github.com/pantheon-systems/next-drupal-starter )   
 - [Decoupled Architectures on Pantheon with Front-End Sites](https://pantheon.io/features/decoupled-cms)
-
-
-Issues
-------
-
-- Preview is returns "Invalid preview secret." error.
-  @see schemadotorg_next_next_site_preview_alter() 

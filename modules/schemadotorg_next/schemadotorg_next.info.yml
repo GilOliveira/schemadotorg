@@ -4,6 +4,7 @@ description: 'Assists with the integration of Schema.org Blueprints with Next.js
 package: Schema.org Blueprints Decoupled
 core_version_requirement: '^9.4 || ^10.0'
 configure: schemadotorg_next.settings
+lifecycle: experimental
 dependencies:
   - 'next:next'
   - 'schemadotorg:schemadotorg'
