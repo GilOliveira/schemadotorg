@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg;
 
-use Drupal\Component\Serialization\Json;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;

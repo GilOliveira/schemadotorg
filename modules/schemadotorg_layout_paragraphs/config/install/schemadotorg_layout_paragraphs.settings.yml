@@ -21,3 +21,9 @@ default_paragraph_types:
   - block
   - view
   - webform
+themes:
+  - bartik
+  - claro
+  - gin
+  - olivero
+  - seven

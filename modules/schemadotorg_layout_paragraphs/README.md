@@ -24,7 +24,8 @@ Features
   instance, form display, and view display.
 - Configure paragraph libraries support when the 'Layout Paragraphs Library'
   module is enabled.
-- Enable 'style_options' for paragraph types used in Layouts.
+- Enables 'style_options' for all paragraph types used in layout paragraphs.
+- Customizes Quotation, Statement, Header, and ItemList paragraph output.
 
 
 Requirements
@@ -44,6 +45,8 @@ Configuration
   (/admin/config/search/schemadotorg/settings/types)
 - Enter Schema.org types that default to using layout paragraphs.
 - Enter the default paragraph types to be using with in layout paragraphs.
+- Enter the themes that should enhance the layout paragraph component markup
+  for Quotation, Statement, Header, and ItemList.
 
 
 References
@@ -59,10 +62,3 @@ Notes
 -----
 
 - Icons are from [Font Awesome](https://fontawesome.com/)
-
-- Other types of paragraphs
-  - Headline
-  - List
-  - Table
-  - Group
-  - Embed (Block, Custom block, View, Webform)

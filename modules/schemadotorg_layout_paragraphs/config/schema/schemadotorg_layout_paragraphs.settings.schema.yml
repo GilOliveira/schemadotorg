@@ -14,3 +14,9 @@ schemadotorg_layout_paragraphs.settings:
       sequence:
         type: string
         label: 'Paragraph type'
+    themes:
+      type: sequence
+      label: 'Default themes'
+      sequence:
+        type: string
+        label: 'Default theme'

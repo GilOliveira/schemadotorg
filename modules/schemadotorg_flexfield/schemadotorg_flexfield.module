@@ -45,7 +45,7 @@ function schemadotorg_flexfield_schemadotorg_property_field_alter(
   array &$field_values,
   ?string &$widget_id,
   array|null &$widget_settings,
-  string &$formatter_id,
+  ?string &$formatter_id,
   array &$formatter_settings
 ): void {
   // Make sure the field type is set to 'flex' (field).

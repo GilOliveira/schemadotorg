@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_report\Controller;
 
-use _PHPStan_52b7bec27\Nette\Neon\Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

@@ -135,6 +135,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
             '#type' => 'operations',
             '#links' => $operations,
           ],
+          'style' => 'white-space: nowrap',
         ];
       }
       else {
@@ -261,6 +262,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
             'class' => ['button', 'button--extrasmall'],
           ],
         ],
+        'style' => 'white-space: nowrap',
       ];
 
       $rows[] = [
@@ -279,6 +281,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
           '#type' => 'operations',
           '#links' => $this->getOperations($name, ['query' => $this->redirectDestination->getAsArray()]),
         ],
+        'style' => 'white-space: nowrap',
       ],
     ];
 

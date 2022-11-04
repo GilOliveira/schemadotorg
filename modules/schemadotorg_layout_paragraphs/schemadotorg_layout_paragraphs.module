@@ -7,11 +7,14 @@
 
 declare(strict_types = 1);
 
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\entity_reference_revisions\Plugin\Field\FieldType\EntityReferenceRevisionsItem;
+use Drupal\paragraphs\ParagraphInterface;
 use Drupal\paragraphs\ParagraphsTypeInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 
@@ -113,6 +116,81 @@ function schemadotorg_layout_paragraphs_schemadotorg_jsonld_schema_property_alte
 }
 
 /* ************************************************************************** */
+// Entity hooks.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function schemadotorg_layout_paragraphs_paragraphs_type_presave(ParagraphsTypeInterface $paragraphs_type): void {
+  if (!Drupal::moduleHandler()->moduleExists('style_options')) {
+    return;
+  }
+
+  $default_paragraph_types = \Drupal::config('schemadotorg_layout_paragraphs.settings')
+    ->get('default_paragraph_types');
+  if (empty($default_paragraph_types)) {
+    return;
+  }
+
+  if (in_array($paragraphs_type->id(), $default_paragraph_types)) {
+    $behavior_plugins = $paragraphs_type->get('behavior_plugins');
+    $behavior_plugins['style_options'] = ['enabled' => TRUE];
+    $paragraphs_type->set('behavior_plugins', $behavior_plugins);
+  }
+}
+
+/**
+ * Implements hook_entity_view_alter().
+ */
+function schemadotorg_layout_paragraphs_paragraph_view_alter(array &$build, ParagraphInterface $paragraph, EntityViewDisplayInterface $display): void {
+  $themes = \Drupal::config('schemadotorg_layout_paragraphs.settings')
+    ->get('themes');
+  $active_theme_name = \Drupal::service('theme.manager')
+    ->getActiveTheme()
+    ->getName();
+  if (empty($themes) || !in_array($active_theme_name, $themes)) {
+    return;
+  }
+
+  switch ($paragraph->bundle()) {
+    case 'quotation':
+      if (isset($build['schema_text'][0])) {
+        $build['schema_text'][0]['#prefix'] = '<blockquote>';
+        $build['schema_text'][0]['#suffix'] = '</blockquote>';
+      }
+      if (isset($build['schema_creator'][0])) {
+        $build['schema_creator'][0]['#prefix'] = '<address>-- ';
+        $build['schema_creator'][0]['#suffix'] = '</address>';
+      }
+      break;
+
+    case 'item_list_text':
+    case 'item_list_string':
+    case 'item_list_link':
+      $item_type = str_replace('item_list_', '', $paragraph->bundle());
+      $field_name = 'schema_item_list_element_' . $item_type;
+      $items = [];
+      foreach (Element::children($build[$field_name]) as $key) {
+        $items[] = $build[$field_name][$key];
+      }
+      $build[$field_name] = [
+        '#theme' => 'item_list',
+        '#items' => $items,
+        '#weight' => $build[$field_name]['#weight'],
+      ];
+      break;
+
+    case 'header':
+      if (isset($build['schema_header_text'][0])) {
+        $build['schema_header_text'][0]['#prefix'] = '<h2>';
+        $build['schema_header_text'][0]['#suffix'] = '</h2>';
+      }
+      break;
+  }
+}
+
+/* ************************************************************************** */
 // Schema.org types settings form.
 /* ************************************************************************** */
 
@@ -145,6 +223,14 @@ function schemadotorg_layout_paragraphs_form_schemadotorg_types_settings_form_al
     '#description' => t('Enter the default paragraph types to be using with in layout paragraphs.'),
     '#default_value' => $config->get('default_paragraph_types'),
   ];
+  $form['schemadotorg_layout_paragraphs']['themes'] = [
+    '#type' => 'schemadotorg_settings',
+    '#settings_type' => SchemaDotOrgSettings::INDEXED,
+    '#settings_format' => 'theme_name',
+    '#title' => t('Default themes'),
+    '#description' => t('Enter the themes that should enhance the layout paragraph component markup for Quotation, Statement, Header, and ItemList.'),
+    '#default_value' => $config->get('themes'),
+  ];
 
   // Add submit callback.
   $form['#submit'][] = 'schemadotorg_layout_paragraphs_settings_form_submit';
@@ -162,25 +248,4 @@ function schemadotorg_layout_paragraphs_settings_form_submit(array &$form, FormS
     $config->set($key, $value);
   }
   $config->save();
-}
-
-/**
- * Implements hook_ENTITY_TYPE_presave().
- */
-function schemadotorg_layout_paragraphs_paragraphs_type_presave(ParagraphsTypeInterface $paragraphs_type): void {
-  if (!Drupal::moduleHandler()->moduleExists('style_options')) {
-    return;
-  }
-
-  $default_paragraph_types = \Drupal::config('schemadotorg_layout_paragraphs.settings')
-    ->get('default_paragraph_types');
-  if (empty($default_paragraph_types)) {
-    return;
-  }
-
-  if (in_array($paragraphs_type->id(), $default_paragraph_types)) {
-    $behavior_plugins = $paragraphs_type->get('behavior_plugins');
-    $behavior_plugins['style_options'] = ['enabled' => TRUE];
-    $paragraphs_type->set('behavior_plugins', $behavior_plugins);
-  }
 }

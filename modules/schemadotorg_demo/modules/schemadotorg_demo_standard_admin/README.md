@@ -30,7 +30,6 @@ Features
 - Sets user name and password to demo/demo.
 - Closes the 'URL alias' details widget in the node edit form  sidebar.
 - Styles entity print links as buttons.
-- Customize Quotation and ItemList paragraph output.
 - Open text format tips in a modal dialog.
 
 

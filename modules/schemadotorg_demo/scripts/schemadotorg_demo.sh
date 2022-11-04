@@ -42,16 +42,16 @@ function install() {
 function install_base() {
   install;
   drush -y pm:enable schemadotorg\
+    schemadotorg_ui\
     schemadotorg_descriptions\
-    schemadotorg_devel\
-    schemadotorg_export\
     schemadotorg_mapping_set\
-    schemadotorg_media\
-    schemadotorg_paragraphs\
     schemadotorg_report\
     schemadotorg_subtype\
+    schemadotorg_export\
+    schemadotorg_media\
+    schemadotorg_paragraphs\
     schemadotorg_taxonomy\
-    schemadotorg_ui;
+    schemadotorg_devel;
 }
 
 function install_apis() {
