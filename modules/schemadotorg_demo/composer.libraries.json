@@ -47,7 +47,7 @@
     "drupal/config_rewrite": "^1.0",
     "drupal/consumer_image_styles": "^4.0",
     "drupal/content_browser": "^1.0",
-    "drupal/dashboards": "^2.0",
+    "drupal/dashboards": "^2.1",
     "drupal/default_content": "^2.0",
     "drupal/devel": "^5.0",
     "drupal/diff": "^1.0",
@@ -55,7 +55,7 @@
     "drupal/duration_field": "^2.0",
     "drupal/embed": "^1.0",
     "drupal/entity_browser": "^2.0",
-    "drupal/entity_clone": "^1.0",
+    "drupal/entity_clone": "^2.0",
     "drupal/entity_embed": "^1.0",
     "drupal/entity_print": "^2.0",
     "drupal/entity_usage": "^2.0",
@@ -67,7 +67,7 @@
     "drupal/gin_lb": "^1.0",
     "drupal/gin_login": "^1.0",
     "drupal/entity_reference_tree": "^2.0",
-    "drupal/focal_point": "^1.0",
+    "drupal/focal_point": "^2.0",
     "drupal/inline_entity_form": "^1.0",
     "drupal/jsonapi_extras": "^3.0",
     "drupal/layout_paragraphs": "^2.0",
@@ -86,17 +86,17 @@
     "drupal/paragraphs": "^1.0",
     "drupal/pathauto": "^1.0",
     "drupal/revision_log_default": "^1.0",
-    "drupal/scheduler": "^1.0",
-    "drupal/scheduler_content_moderation_integration": "^1.0",
+    "drupal/scheduler": "^2.0",
+    "drupal/scheduler_content_moderation_integration": "^2.0",
     "drupal/simple_sitemap": "^4.0",
-    "drupal/smart_date": "^3.0",
+    "drupal/smart_date": "^3.7",
     "drupal/style_options": "^1.0",
     "drupal/range": "^1.0",
     "drupal/time_field": "^2.0",
     "drupal/token": "^1.0",
     "drupal/token_filter": "^1.0",
     "drupal/toolbar_language_switcher": "^2.0",
-    "drupal/webform": "^6.0",
+    "drupal/webform": "^6.2",
     "drupal/viewsreference": "^2.0",
     "masonry/masonry": "*",
     "michelf/php-markdown": "^1.0"
@@ -140,7 +140,7 @@
         "Issue #3067265: Paragraph templates: unable to access parent-node tokens from child-paragraphs in the default installed setup": "https://git.drupalcode.org/project/paragraphs/-/merge_requests/28.diff"
       },
       "drupal/smart_date": {
-        "Issue #3300768: Widget configuration for min and max date_year_range": "https://www.drupal.org/files/issues/2022-10-12/smart_date-3300768-14.patch"
+        "Issue #3300768: Widget configuration for min and max date_year_range": "https://git.drupalcode.org/project/smart_date/-/merge_requests/37.diff"
       },
       "drupal/subrequests": {
         "Get same results on different request": "https://www.drupal.org/files/issues/2019-07-18/change_request_type-63049395-09.patch"
