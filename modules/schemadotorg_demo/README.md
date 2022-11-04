@@ -16,8 +16,8 @@ Schema.org Blueprints built on top of Drupal's standard profile with default
 content and translations.
 
 This module provides a composer.libraries.json file that allows sites to
-download and install contributed modules which are used to set up a full demo
-of the Schema.org Blueprints module within a progressively decoupled
+download and install contributed modules with patches which are used to set up 
+a full demo of the Schema.org Blueprints module within a progressively decoupled
 Drupal instance.
 
 **THIS MODULE SHOULD ONLY BE INSTALLED ON A PLAIN VANILLA STANDARD
@@ -104,11 +104,11 @@ Installation
     - Install the Schema.org Blueprints Demo
       - Run `drush en schemadotorg_demo`
   - **OPTIONS 2**
-    - From the root run the below scripts.
-      - Run `web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh install`
-      - Run `web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh demo`
-      - Run `web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh translate`
-      - Run `web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh next`
+    - From the root run one of the below scripts.
+      - `web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh install_demo_standard`
+      - `web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh install_demo_standard_next`
+      - `web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh install_demo_standard_translation`
+      - `web/modules/contrib/schemadotorg_demo/scripts/schemadotorg_demo.sh install_demo_standard_translation_umami`
 
 Example of the Schema.org Blueprints Demo's composer.libraries.json added to composer.json
 

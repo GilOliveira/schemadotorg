@@ -1,7 +1,9 @@
 Schema.org Blueprints: Testing
 ------------------------------
 
-# Manual UI/UX tests
+# Manual UI/UX tests 
+
+(Requires the schemadotorg_demo.module)
 
 ```
 # Install standard profile.
