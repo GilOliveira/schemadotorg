@@ -17,10 +17,23 @@
     attach: function attach(context) {
       once('.schemadotorg-next-components-preview-code', '.schemadotorg-next-components-preview-code', context)
         .forEach((element) => {
+
+          // If the details wrapper is closed, it needs to be opened before it
+          // is reformatted via prettier.
+          const details = element.closest('details');
+          const isOpen = (details.getAttribute('open') === 'open');
+          if (!isOpen) {
+            details.setAttribute('open', 'open');
+          }
+
           element.innerText = prettier.format(element.innerText, {
             parser: 'typescript',
             plugins: prettierPlugins,
           });
+
+          if (!isOpen) {
+            details.removeAttribute('open');
+          }
         });
     }
   }
