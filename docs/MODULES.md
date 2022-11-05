@@ -138,7 +138,7 @@ Development
 
 Demo
 
-- **[Schema.org Blueprints Demo](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_demo)**  
+- **[Schema.org Blueprints Demo](https://git.drupalcode.org/project/schemadotorg_demo/-/tree/1.0.x/README.md)**  
   Provides an opinionated demo of the Schema.org Blueprints built on top of Drupal's standard profile with default content and translations.
 
 ## Core Modules

@@ -1,9 +1,0 @@
-name: 'Schema.org Blueprints Default Content'
-type: module
-description: Provides default Schema.org types and mappings with default content.
-package: Schema.org Blueprints Demo
-core_version_requirement: '^9.4 || ^10.0'
-lifecycle: experimental
-dependencies:
-  - 'default_content:default_content'
-  - 'schemadotorg:schemadotorg'

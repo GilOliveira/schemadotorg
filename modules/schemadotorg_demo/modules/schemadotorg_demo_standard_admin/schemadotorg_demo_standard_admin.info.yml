@@ -1,6 +1,0 @@
-name: 'Schema.org Blueprints Demo Standard Profile Admin'
-type: module
-description: Provides admin UI enhancements for the Schema.org Blueprints demo built on top of Drupal's standard profile and the Gin admin theme.
-package: Schema.org Blueprints Demo
-core_version_requirement: '^9.4 || ^10.0'
-lifecycle: experimental

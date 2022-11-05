@@ -1,8 +1,0 @@
-class:
-  title: Class
-  type: select
-  multiple: true
-  options:
-    'button': Button
-    'button button--small': 'Button small'
-    'button button--primary': 'Button primary'
