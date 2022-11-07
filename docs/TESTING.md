@@ -85,6 +85,15 @@ _The below manual JavaScript tests should be moved to automated tests._
 
 - Check that adding new field changes to row's status color to warning.
 
+**schemadotorg_ui.field_prefix.js**
+
+@see /admin/structure/types/manage/page/fields/add-field
+
+- Allow the Schema.org field prefix to be selected via the field UI.
+  @see /admin/config/search/schemadotorg/settings/properties
+
+- Check that the machine name is updated for field_ and schema_ field prefixes.
+
 **schemadotorg_jsonld_preview.js**
 
 @see /node/add/person

@@ -133,6 +133,8 @@ function schemadotorg_ui_form_field_ui_field_storage_add_form_alter(array &$form
   ];
 
   $form['#validate'][] = 'schemadotorg_ui_form_field_ui_field_storage_add_form_validate';
+
+  $form['#attached']['library'][] = 'schemadotorg_ui/schemadotorg_ui.field_prefix';
 }
 
 /**
