@@ -1,4 +1,5 @@
 field_prefix: schema_
+field_prefix_ui: false
 schema_types:
   main_properties:
     AudioObject: null

@@ -21,3 +21,4 @@ Features
 - Provides a Schema.org recommended types pages.
 - Provides a Schema.org mapping user interface with the ability to filter and 
   toggle mapped properties.
+- Allows site builders to use the 'schema_' field prefix outside the Schema.org Blueprints UI.

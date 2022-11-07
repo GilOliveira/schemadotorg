@@ -69,6 +69,18 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
       $form['schema_properties']['field_prefix']['#disabled'] = TRUE;
       $form['schema_properties']['field_prefix']['#value'] = $config->get('field_prefix');
     }
+    $t_args = [
+      '%drupal_field_prefix' => $this->configFactory()->get('field_ui.settings')->get('field_prefix'),
+      '%schemadotorg_field_prefix' => $this->configFactory()->get('schemadotorg.settings')->get('field_prefix'),
+    ];
+    $form['schema_properties']['field_prefix_ui'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Allow the Schema.org field prefix to be selected via the field UI.'),
+      '#description' => $this->t("If checked, site builders will be able to select between the Drupal's field prefix (%drupal_field_prefix) or the Schema.org Blueprints' field prefix (%schemadotorg_field_prefix) when adding new fields.", $t_args),
+      '#default_value' => $config->get('field_prefix_ui'),
+      '#return_value' => TRUE,
+      '#parents' => ['field_prefix_ui'],
+    ];
     $form['schema_properties']['default_fields'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
@@ -112,6 +124,7 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $this->config('schemadotorg.settings')
       ->set('field_prefix', $form_state->getValue('field_prefix'))
+      ->set('field_prefix_ui', $form_state->getValue('field_prefix_ui'))
       ->set('schema_properties', $form_state->getValue('schema_properties'))
       ->save();
     parent::submitForm($form, $form_state);

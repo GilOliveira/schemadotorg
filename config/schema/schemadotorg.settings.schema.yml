@@ -5,6 +5,9 @@ schemadotorg.settings:
     field_prefix:
       type: string
       label: 'Field prefix'
+    field_prefix_ui:
+      type: boolean
+      label: 'Allow the Schema.org field prefix to be selected via the field UI.'
     schema_types:
       type: mapping
       label: 'Schema.org types'
