@@ -70,7 +70,7 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
       $form['schema_properties']['field_prefix']['#value'] = $config->get('field_prefix');
     }
     $t_args = [
-      '%drupal_field_prefix' => $this->configFactory()->get('field_ui.settings')->get('field_prefix'),
+      '%drupal_field_prefix' => $this->configFactory()->get('field_ui.settings')->get('field_prefix') ?? 'field_',
       '%schemadotorg_field_prefix' => $this->configFactory()->get('schemadotorg.settings')->get('field_prefix'),
     ];
     $form['schema_properties']['field_prefix_ui'] = [
