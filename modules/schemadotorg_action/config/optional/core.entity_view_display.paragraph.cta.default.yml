@@ -3,7 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.cta.schema_name
-    - field.field.paragraph.cta.schema_primary_image
+    - field.field.paragraph.cta.schema_image
     - field.field.paragraph.cta.schema_significant_link
     - field.field.paragraph.cta.schema_text
     - paragraphs.paragraphs_type.cta
@@ -23,7 +23,7 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-  schema_primary_image:
+  schema_image:
     type: entity_reference_entity_view
     label: hidden
     settings:

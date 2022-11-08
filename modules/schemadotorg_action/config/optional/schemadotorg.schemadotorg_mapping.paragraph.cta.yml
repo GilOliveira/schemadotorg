@@ -3,7 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.cta.schema_name
-    - field.field.paragraph.cta.schema_primary_image
+    - field.field.paragraph.cta.schema_image
     - field.field.paragraph.cta.schema_significant_link
     - field.field.paragraph.cta.schema_text
     - paragraphs.paragraphs_type.cta
@@ -14,6 +14,6 @@ schema_type: WebPage
 schema_properties:
   langcode: inLanguage
   schema_name: name
-  schema_primary_image: primaryImageOfPage
+  schema_image: image
   schema_significant_link: significantLink
   schema_text: text

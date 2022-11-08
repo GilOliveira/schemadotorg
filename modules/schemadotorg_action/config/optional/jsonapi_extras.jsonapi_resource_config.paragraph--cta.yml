@@ -80,10 +80,10 @@ resourceFields:
     publicName: name
     enhancer:
       id: ''
-  schema_primary_image:
+  schema_image:
     disabled: false
-    fieldName: schema_primary_image
-    publicName: primary_image_of_page
+    fieldName: schema_image
+    publicName: image
     enhancer:
       id: ''
   schema_significant_link:

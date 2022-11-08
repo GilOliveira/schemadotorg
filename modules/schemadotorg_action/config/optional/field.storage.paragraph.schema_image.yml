@@ -4,8 +4,8 @@ dependencies:
   module:
     - media
     - paragraphs
-id: paragraph.schema_primary_image
-field_name: schema_primary_image
+id: paragraph.schema_image
+field_name: schema_image
 entity_type: paragraph
 type: entity_reference
 settings:
