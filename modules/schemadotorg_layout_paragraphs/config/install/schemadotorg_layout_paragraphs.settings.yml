@@ -8,8 +8,8 @@ default_paragraph_types:
   - statement
   - quotation
   - item_list_string
-  - item_list_link
   - item_list_text
+  - item_list_link
   - image
   - remote_video
   - audio
