@@ -1,5 +1,0 @@
-schemadotorg_next.settings:
-  title: Next.js
-  route_name: schemadotorg_next.settings
-  parent_id: schemadotorg.settings
-  weight: 80

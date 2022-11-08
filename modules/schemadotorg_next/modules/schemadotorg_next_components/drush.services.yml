@@ -1,6 +1,0 @@
-services:
-  schemadotorg_next_components.commands:
-    class: Drupal\schemadotorg_next_components\Commands\SchemaDotOrgNextComponentsCommands
-    arguments: ['@entity_type.manager', '@schemadotorg_next_components.builder']
-    tags:
-      - { name: drush.command }

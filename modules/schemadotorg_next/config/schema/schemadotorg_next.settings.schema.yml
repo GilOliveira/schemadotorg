@@ -1,7 +1,0 @@
-schemadotorg_next.settings:
-  type: config_entity
-  label: Schema.org Next.js settings
-  mapping:
-    preview:
-      type: boolean
-      label: 'Next.js preview enhancements'

@@ -125,10 +125,10 @@ API
 
 Next.js
 
-- **[Schema.org Blueprints Next.js](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_next)**  
+- **[Schema.org Blueprints Next.js](https://git.drupalcode.org/project/schemadotorg_next/-/tree/1.0.x)**  
   Assists with the integration of Schema.org Blueprints with Next.js.
 
-- **[Schema.org Blueprints Next.js Components](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_next_components)**  
+- **[Schema.org Blueprints Next.js Components](https://git.drupalcode.org/project/schemadotorg_next/-/tree/1.0.x/modules/schemadotorg_next_components)**  
   Generates and previews Next.js React components to assist with the integration of Schema.org Blueprints with Next.js
 
 Development
@@ -334,4 +334,3 @@ Calculation
 
 - **[Next.js](https://www.drupal.org/project/next)**  
   Next.js + Drupal for Incremental Static Regeneration and Preview mode.
-
