@@ -28,6 +28,7 @@ function schemadotorg_scheduler_schemadotorg_mapping_insert(SchemaDotOrgMappingI
   // Make sure we are adding scheduling to nodes.
   $entity_type_id = $mapping->getTargetEntityTypeId();
   if ($entity_type_id !== 'node') {
+    _schemadotorg_scheduler_set_form_display($mapping);
     return;
   }
 
@@ -35,6 +36,7 @@ function schemadotorg_scheduler_schemadotorg_mapping_insert(SchemaDotOrgMappingI
   $schema_type = $mapping->getSchemaType();
   $third_party_settings = _schemadotorg_scheduler_get_third_party_settings($schema_type);
   if (!$third_party_settings) {
+    _schemadotorg_scheduler_set_form_display($mapping);
     return;
   }
 
@@ -44,6 +46,54 @@ function schemadotorg_scheduler_schemadotorg_mapping_insert(SchemaDotOrgMappingI
     $node_type->setThirdPartySetting('scheduler', $key, $value);
   }
   $node_type->save();
+  _schemadotorg_scheduler_set_form_display($mapping);
+}
+
+/**
+ * Hide scheduler publish and unpublish components from form display.
+ *
+ * Issue #3317999: It is impossible to add media for node via media library
+ * if Scheduler content moderation integration module is enabled.
+ *
+ * @param \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping
+ *   A Schema.org mapping.
+ *
+ * @see https://www.drupal.org/project/scheduler_content_moderation_integration/issues/3317999
+ */
+function _schemadotorg_scheduler_set_form_display(SchemaDotOrgMappingInterface $mapping): void {
+  $entity_type_id = $mapping->getTargetEntityTypeId();
+  $bundle = $mapping->getTargetBundle();
+  // Set scheduler third party settings for the node type.
+  $entity_type = $mapping->getTargetEntityBundleEntity();
+  $publish_enable = $entity_type->getThirdPartySetting('scheduler', 'publish_enable');
+  $unpublish_enable = $entity_type->getThirdPartySetting('scheduler', 'unpublish_enable');
+  if ($publish_enable || $unpublish_enable) {
+    return;
+  }
+
+  /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */
+  $entity_display_repository = \Drupal::service('entity_display.repository');
+  $form_modes = array_merge(['default'], array_keys($entity_display_repository->getFormModes($entity_type_id)));
+  foreach ($form_modes as $form_mode) {
+    $form_display = $entity_display_repository->getFormDisplay($entity_type_id, $bundle, $form_mode);
+    if (!$publish_enable) {
+      if ($form_display->getComponent('publish_on')) {
+        $form_display->removeComponent('publish_on');
+      }
+      if ($form_display->getComponent('publish_state')) {
+        $form_display->removeComponent('publish_state');
+      }
+    }
+    if (!$unpublish_enable) {
+      if ($form_display->getComponent('unpublish_on')) {
+        $form_display->removeComponent('unpublish_on');
+      }
+      if ($form_display->getComponent('unpublish_state')) {
+        $form_display->removeComponent('unpublish_state');
+      }
+    }
+    $form_display->save();
+  }
 }
 
 /**

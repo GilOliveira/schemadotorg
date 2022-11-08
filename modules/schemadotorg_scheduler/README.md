@@ -5,7 +5,7 @@ Table of contents
 * Features
 * Requirements
 * Configuration
-
+* Issues
 
 Introduction
 ------------
@@ -35,3 +35,7 @@ Configuration
 - Enter the Schema.org types that support scheduling.
 
 
+Issues
+------
+
+- [Issue #3317999: It is impossible to add media for node via media library if Scheduler content moderation integration module is enabled](https://www.drupal.org/project/scheduler_content_moderation_integration/issues/3317999)
