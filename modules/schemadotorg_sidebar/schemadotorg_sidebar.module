@@ -7,6 +7,7 @@
 
 declare(strict_types = 1);
 
+use Drupal\Component\Utility\Random;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -131,13 +132,29 @@ function schemadotorg_sidebar_field_widget_inline_entity_form_simple_form_alter(
  * Implements hook_ENTITY_TYPE_presave().
  */
 function schemadotorg_sidebar_node_presave(NodeInterface $node): void {
-  // Do not generate the editorial message, which would be displayed on
-  // every node edit form.
-  if (!empty($node->devel_generate)
-    && $node->hasField('field_editorial')
-    && !empty($node->field_editorial->entity)
-    && $node->field_editorial->entity->hasField('field_editorial_message')
+  if (empty($node->devel_generate)
+    || !$node->hasField('field_editorial')
+    || empty($node->field_editorial->entity)
   ) {
+    return;
+  }
+  // Limit editorial notes to one paragraph.
+  if ($node->field_editorial->entity->hasField('field_editorial_notes')) {
+    $random = new Random();
+    $node->field_editorial->entity->field_editorial_notes->value = $random->paragraphs(1);
+  }
+  // Set editorial status to reasonable value.
+  if ($node->field_editorial->entity->hasField('field_editorial_status')) {
+    $node->field_editorial->entity->field_editorial_status->value = array_rand([
+      t('Needs info'),
+      t('Needs review'),
+      t('Changes pending'),
+      t('Legal review'),
+    ]);
+  }
+  // Clear editorial message to prevent it from displaying a warning on every
+  // node edit form.
+  if ($node->field_editorial->entity->hasField('field_editorial_message')) {
     $node->field_editorial->entity->field_editorial_message->value = '';
   }
 }
