@@ -14,16 +14,16 @@ interface SchemaDotOrgLayoutParagraphsManagerInterface {
   /**
    * Alter Schema.org mapping defaults to support layout paragraphs.
    *
+   * @param array &$defaults
+   *   The Schema.org mapping entity default values.
    * @param string $entity_type_id
    *   The entity type ID.
    * @param string|null $bundle
    *   The bundle.
    * @param string $schema_type
    *   The Schema.org type.
-   * @param array $defaults
-   *   The Schema.org mapping entity default values.
    */
-  public function alterMappingDefaults(string $entity_type_id, ?string $bundle, string $schema_type, array &$defaults): void;
+  public function alterMappingDefaults(array &$defaults, string $entity_type_id, ?string $bundle, string $schema_type): void;
 
   /**
    * Alter the Schema.org UI mapping form.

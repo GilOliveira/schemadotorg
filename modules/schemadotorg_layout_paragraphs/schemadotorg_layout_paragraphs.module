@@ -30,10 +30,10 @@ function schemadotorg_layout_paragraphs_help(string $route_name, RouteMatchInter
 /**
  * Implements hook_schemadotorg_mapping_defaults_alter().
  */
-function schemadotorg_layout_paragraphs_schemadotorg_mapping_defaults_alter(string $entity_type_id, ?string $bundle, string $schema_type, array &$defaults): void {
+function schemadotorg_layout_paragraphs_schemadotorg_mapping_defaults_alter(array &$defaults, string $entity_type_id, ?string $bundle, string $schema_type): void {
   /** @var \Drupal\schemadotorg_layout_paragraphs\SchemaDotOrgLayoutParagraphsManagerInterface $layout_pragraphs_mananger */
   $layout_pragraphs_mananger = \Drupal::service('schemadotorg_layout_paragraphs.manager');
-  $layout_pragraphs_mananger->alterMappingDefaults($entity_type_id, $bundle, $schema_type, $defaults);
+  $layout_pragraphs_mananger->alterMappingDefaults($defaults, $entity_type_id, $bundle, $schema_type);
 }
 
 /**

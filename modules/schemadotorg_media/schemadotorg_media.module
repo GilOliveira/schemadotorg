@@ -29,7 +29,7 @@ function schemadotorg_media_help(string $route_name, RouteMatchInterface $route_
 /**
  * Implements hook_schemadotorg_mapping_defaults_alter().
  */
-function schemadotorg_media_schemadotorg_mapping_defaults_alter(string $entity_type_id, ?string $bundle, string $schema_type, array &$defaults): void {
+function schemadotorg_media_schemadotorg_mapping_defaults_alter(array &$defaults, string $entity_type_id, ?string $bundle, string $schema_type): void {
   if ($entity_type_id !== 'media') {
     return;
   }
@@ -113,7 +113,7 @@ function schemadotorg_media_form_schemadotorg_mapping_form_alter(array &$form, F
  * @see \Drupal\Tests\media\Traits\MediaTypeCreationTrait::createMediaType
  * @see \Drupal\media\MediaTypeForm::save()
  */
-function schemadotorg_media_schemadotorg_bundle_entity_alter(string $schema_type, string $entity_type_id, array &$values): void {
+function schemadotorg_media_schemadotorg_bundle_entity_alter(array &$values, string $schema_type, string $entity_type_id): void {
   if ($entity_type_id !== 'media_type') {
     return;
   }

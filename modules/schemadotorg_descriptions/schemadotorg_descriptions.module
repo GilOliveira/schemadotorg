@@ -173,7 +173,7 @@ function schemadotorg_descriptions_form_alter(array &$form, FormStateInterface $
 /**
  * Implements hook_schemadotorg_bundle_entity_alter().
  */
-function schemadotorg_descriptions_schemadotorg_bundle_entity_alter(string $schema_type, string $entity_type_id, array &$values): void {
+function schemadotorg_descriptions_schemadotorg_bundle_entity_alter(array &$values, string $schema_type, string $entity_type_id): void {
   $entity_values =& $values['entity'];
 
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */

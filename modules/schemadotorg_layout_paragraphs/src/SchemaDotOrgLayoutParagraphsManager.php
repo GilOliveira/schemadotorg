@@ -70,7 +70,7 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
   /**
    * {@inheritdoc}
    */
-  public function alterMappingDefaults(string $entity_type_id, ?string $bundle, string $schema_type, array &$defaults): void {
+  public function alterMappingDefaults(array &$defaults, string $entity_type_id, ?string $bundle, string $schema_type): void {
     if (!$this->isLayoutParagraphsEnabled($entity_type_id)) {
       return;
     }

@@ -35,14 +35,14 @@ function hook_schemadotorg_property_field_type_alter(array &$field_types, string
 /**
  * Prepare a property's field data before the Schema.org mapping form.
  *
+ * @param array &$default_field
+ *   The default values used in the Schema.org mapping form.
  * @param string $schema_type
  *   The Schema.org type.
  * @param string $schema_property
  *   The Schema.org property.
- * @param array $default_field
- *   The default values used in the Schema.org mapping form.
  */
-function hook_schemadotorg_property_field_prepare(string $schema_type, string $schema_property, array &$default_field): void {
+function hook_schemadotorg_property_field_prepare(array &$default_field, string $schema_type, string $schema_property): void {
   // Programmatically update the name field for an Event Schema.org type.
   if ($schema_type === 'Event' && $schema_property === 'name') {
     $default_field['name']['label'] = t('Event title');
@@ -52,14 +52,14 @@ function hook_schemadotorg_property_field_prepare(string $schema_type, string $s
 /**
  * Alter bundle entity type before it is created.
  *
+ * @param array &$values
+ *   The bundle entity type values.
  * @param string $schema_type
  *   The Schema.org type.
  * @param string $entity_type_id
  *   The entity type ID.
- * @param array &$values
- *   The bundle entity type values.
  */
-function hook_schemadotorg_bundle_entity_alter(string $schema_type, string $entity_type_id, array &$values): void {
+function hook_schemadotorg_bundle_entity_alter(array &$values, string $schema_type, string $entity_type_id): void {
   $entity_values =& $values['entity'];
 
   // Remove the description from the bundle entity before it is created.
@@ -136,16 +136,16 @@ function hook_schemadotorg_property_field_alter(
 /**
  * Alter Schema.org mapping entity default values.
  *
+ * @param array $defaults
+ *   The Schema.org mapping entity default values.
  * @param string $entity_type_id
  *   The entity type ID.
  * @param string|null $bundle
  *   The bundle.
  * @param string $schema_type
  *   The Schema.org type.
- * @param array $defaults
- *   The Schema.org mapping entity default values.
  */
-function hook_schemadotorg_mapping_defaults_alter(string $entity_type_id, ?string $bundle, string $schema_type, array &$defaults): void {
+function hook_schemadotorg_mapping_defaults_alter(array &$defaults, string $entity_type_id, ?string $bundle, string $schema_type): void {
   // Add custom subtype property to a Schema.org mapping defaults.
   // @see schemadotorg_subtype_schemadotorg_mapping_defaults_alter()
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */

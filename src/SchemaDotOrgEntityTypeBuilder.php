@@ -110,7 +110,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     }
 
     // Alter Schema.org bundle entity values.
-    $this->moduleHandler->invokeAll('schemadotorg_bundle_entity_alter', [$schema_type, $entity_type_id, &$values]);
+    $this->moduleHandler->invokeAll('schemadotorg_bundle_entity_alter', [&$values, $schema_type, $entity_type_id]);
 
     /** @var \Drupal\Core\Entity\Sql\SqlContentEntityStorage $bundle_entity_storage */
     $bundle_entity_storage = $this->entityTypeManager->getStorage($entity_type_id);

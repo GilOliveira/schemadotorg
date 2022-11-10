@@ -183,8 +183,8 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     // Allow modules to alter the mapping defaults via a hook.
     $this->moduleHandler->invokeAllWith(
       'schemadotorg_mapping_defaults_alter',
-      function (callable $hook) use ($entity_type_id, $bundle, $schema_type, &$mapping_defaults): void {
-        $hook($entity_type_id, $bundle, $schema_type, $mapping_defaults);
+      function (callable $hook) use (&$mapping_defaults, $entity_type_id, $bundle, $schema_type): void {
+        $hook($mapping_defaults, $entity_type_id, $bundle, $schema_type);
       }
     );
 

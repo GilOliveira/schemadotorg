@@ -168,7 +168,7 @@ class SchemaDotOrgSubtypeTest extends SchemaDotOrgBrowserTestBase {
    */
   protected function getMappingDefaults(string $entity_type_id, ?string $bundle, string $schema_type): array {
     $defaults = [];
-    schemadotorg_subtype_schemadotorg_mapping_defaults_alter($entity_type_id, $bundle, $schema_type, $defaults);
+    schemadotorg_subtype_schemadotorg_mapping_defaults_alter($defaults, $entity_type_id, $bundle, $schema_type);
     return $defaults;
   }
 
