@@ -224,8 +224,25 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
     $this->convertMarkupToStrings($actual_field_options);
     $this->assertEquals($expected_field_options, $actual_field_options);
 
+    // Add link as the default field type to alternateName.
+    $this->config('schemadotorg.settings')
+      ->set('schema_properties.default_field_types', ['alternateName' => ['link']])
+      ->save();
+    drupal_static_reset();
+
     // Check getting field types for Schema.org property.
     $tests = [
+      [
+        'alternateName',
+        [
+          'link' => 'link',
+          'string' => 'string',
+          'string_long' => 'string_long',
+          'text' => 'text',
+          'text_long' => 'text_long',
+          'text_with_summary' => 'text_with_summary',
+        ],
+      ],
       [
         'name',
         [

@@ -409,6 +409,12 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
 
     // Check Schema.org property and type specific field type from settings.
     if (empty($field_types)) {
+      // Append property includes field types.
+      $schema_property_field_types = $this->getSchemaPropertyDefaultFieldTypes();
+      $field_types += $schema_property_field_types["$schema_type--$schema_property"]
+        ?? $schema_property_field_types[$schema_property]
+        ?? [];
+
       // Append range includes field types.
       $schema_type_field_types = $this->getSchemaTypeDefaultFieldTypes();
       foreach ($schema_type_field_types as $type_name => $type_mapping) {
@@ -454,6 +460,30 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
       $schema_field_types = $this->configFactory
         ->get('schemadotorg.settings')
         ->get('schema_types.default_field_types');
+      foreach ($schema_field_types as $id => $field_types) {
+        $schema_field_types[$id] = array_combine($field_types, $field_types);
+        foreach ($schema_field_types[$id] as $field_type) {
+          if (!$this->fieldTypeExists($field_type)) {
+            unset($schema_field_types[$id][$field_type]);
+          }
+        }
+      }
+    }
+    return $schema_field_types;
+  }
+
+  /**
+   * Get default Schema.org property field types.
+   *
+   * @return array
+   *   Schema.org property field types.
+   */
+  protected function getSchemaPropertyDefaultFieldTypes(): array {
+    $schema_field_types = &drupal_static(__METHOD__);
+    if (!isset($schema_field_types)) {
+      $schema_field_types = $this->configFactory
+        ->get('schemadotorg.settings')
+        ->get('schema_properties.default_field_types');
       foreach ($schema_field_types as $id => $field_types) {
         $schema_field_types[$id] = array_combine($field_types, $field_types);
         foreach ($schema_field_types[$id] as $field_type) {

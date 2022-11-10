@@ -91,6 +91,15 @@ class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
       '#description_link' => 'properties',
       '#default_value' => $config->get('schema_properties.default_fields'),
     ];
+    $form['schema_properties']['default_field_types'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
+      '#settings_format' => 'schemaProperty|field_type_01,field_type_02,field_type_03 or SchemaType--schemaProperty|field_type_01,field_type_02,field_type_03',
+      '#title' => $this->t('Default Schema.org property field types'),
+      '#description' => $this->t('Enter the field types applied to a Schema.org property when the property is added to an entity type.'),
+      '#description_link' => 'properties',
+      '#default_value' => $config->get('schema_properties.default_field_types'),
+    ];
     $form['schema_properties']['default_field_weights'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED,
