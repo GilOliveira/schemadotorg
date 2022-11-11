@@ -8,6 +8,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
+use Drupal\schemadotorg\Utility\SchemaDotOrgStringHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -251,7 +252,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
             '#suffix' => '</strong> (' . $entity_type_id . ')<br/>',
           ],
           'comment' => [
-            '#markup' => $mapping_defaults['entity']['description'],
+            '#markup' => SchemaDotOrgStringHelper::getFirstSentence($mapping_defaults['entity']['description']),
           ],
         ],
       ];
