@@ -145,12 +145,13 @@ function schemadotorg_sidebar_node_presave(NodeInterface $node): void {
   }
   // Set editorial status to reasonable value.
   if ($node->field_editorial->entity->hasField('field_editorial_status')) {
-    $node->field_editorial->entity->field_editorial_status->value = array_rand([
+    $statuses = [
       t('Needs info'),
       t('Needs review'),
       t('Changes pending'),
       t('Legal review'),
-    ]);
+    ];
+    $node->field_editorial->entity->field_editorial_status->value = $statuses[array_rand($statuses)];
   }
   // Clear editorial message to prevent it from displaying a warning on every
   // node edit form.
