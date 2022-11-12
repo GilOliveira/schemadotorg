@@ -61,6 +61,10 @@ function schemadotorg_scheduler_schemadotorg_mapping_insert(SchemaDotOrgMappingI
  * @see https://www.drupal.org/project/scheduler_content_moderation_integration/issues/3317999
  */
 function _schemadotorg_scheduler_set_form_display(SchemaDotOrgMappingInterface $mapping): void {
+  if (!\Drupal::moduleHandler()->moduleExists('scheduler_content_moderation_integration')) {
+    return;
+  }
+
   $entity_type_id = $mapping->getTargetEntityTypeId();
   $bundle = $mapping->getTargetBundle();
   // Set scheduler third party settings for the node type.

@@ -1,6 +1,8 @@
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - webform
 id: webform
 label: Webform
 icon_uuid: ''

@@ -1,6 +1,8 @@
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - block_field
 id: block
 label: Block
 icon_uuid: ''
