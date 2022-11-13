@@ -778,7 +778,6 @@ schema_properties:
     - contentReferenceTime
     - correction
     - creditText
-    - deathDate
     - deathPlace
     - diversityStaffingReport
     - downvoteCount

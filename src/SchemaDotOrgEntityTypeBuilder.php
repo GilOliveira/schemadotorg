@@ -490,6 +490,21 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     array &$formatter_settings
   ): void {
     switch ($field_storage_values['type']) {
+      case 'datetime':
+        switch ($schema_property) {
+          case 'startDate':
+          case 'endDate':
+            $is_date = (!$this->schemaTypeManager->isSubTypeOf($schema_type, ['Event', 'Schedule']));
+            break;
+
+          default:
+            $range_includes = $this->schemaTypeManager->getPropertyRangeIncludes($schema_property);
+            $is_date = (in_array('Date', $range_includes) && !in_array('DateTime', $range_includes));
+            break;
+        }
+        $field_storage_values['settings']['datetime_type'] = $is_date ? 'date' : 'datetime';
+        break;
+
       case 'entity_reference':
       case 'entity_reference_revisions':
         /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
@@ -573,8 +588,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
             // Copy enumeration values into allowed values.
             if ($this->schemaTypeManager->isEnumerationType($range_include)) {
               $allowed_values = $this->schemaTypeManager->getTypeChildrenAsOptions($range_include);
-              // Append 'Other' to GenderType, which is Male or Female, to be
-              // more inclusive.
+              // Append 'Unspecified' to GenderType, which is only Male
+              // or Female, to be more inclusive.
               if ($range_include === 'GenderType') {
                 $allowed_values['Unspecified'] = 'Unspecified';
               }
