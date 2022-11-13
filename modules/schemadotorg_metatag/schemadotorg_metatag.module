@@ -176,6 +176,7 @@ function schemadotorg_metatag_form_schemadotorg_types_settings_form_alter(array 
     '#description' => t('Identify which metatag groups should be available on which entity type / bundle combination. Unselected groups will not appear on the configuration form for that entity type, reducing the size of the form and increasing performance. If no groups are selected for a type, all groups will appear.'),
     '#default_value' => $config->get('default_groups'),
     '#options' => $metatag_group_options,
+    '#element_validate' => [['\Drupal\schemadotorg\Utility\SchemaDotOrgElementHelper', 'validateMultipleOptions']],
   ];
   $form['schemadotorg_metatag']['hide_groups_details'] = [
     '#type' => 'checkbox',
@@ -209,6 +210,7 @@ function schemadotorg_metatag_form_schemadotorg_types_settings_form_alter(array 
       'notranslate' => t('notranslate - Prevent search engines from offering to translate this page in search results.'),
     ],
     '#default_value' => $config->get('allowed_robots'),
+    '#element_validate' => [['\Drupal\schemadotorg\Utility\SchemaDotOrgElementHelper', 'validateMultipleOptions']],
   ];
 
   // Add submit callback.
@@ -223,8 +225,6 @@ function schemadotorg_metatag_form_schemadotorg_types_settings_form_alter(array 
 function schemadotorg_metatag_settings_form_submit(array &$form, FormStateInterface $form_state): void {
   $config = \Drupal::configFactory()->getEditable('schemadotorg_metatag.settings');
   $values = $form_state->getValue('schemadotorg_metatag');
-  $values['default_groups'] = array_values(array_filter($values['default_groups']));
-  $values['allowed_robots'] = array_values(array_filter($values['allowed_robots']));
   foreach ($values as $key => $value) {
     $config->set($key, $value);
   }

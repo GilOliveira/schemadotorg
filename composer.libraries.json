@@ -19,6 +19,7 @@
   },
   "require": {
     "drupal/address": "^1.0",
+    "drupal/allowed_formats": "^1.0",
     "drupal/auto_entitylabel": "^3.0",
     "drupal/content_browser": "^1.0",
     "drupal/embed": "^1.0",

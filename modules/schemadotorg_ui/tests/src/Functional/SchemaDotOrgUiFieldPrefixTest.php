@@ -49,7 +49,6 @@ class SchemaDotOrgUiFieldPrefixTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet('/admin/structure/types/manage/page/fields/add-field');
     $assert_session->fieldExists('field_prefix');
 
-
     // Check missing label validation.
     $edit = [
       'new_storage_type' => 'text',

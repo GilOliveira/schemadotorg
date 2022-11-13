@@ -154,19 +154,22 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
     }
 
     $options = [];
+
+    // Set custom component type.
     if ($type) {
       $options['type'] = $type;
-      if (!empty($settings)) {
-        // Converted some $settings to $options.
-        $option_names = ['label', 'third_party_settings'];
-        foreach ($option_names as $option_name) {
-          if (isset($settings[$option_name])) {
-            $options[$option_name] = $settings[$option_name];
-            unset($settings[$option_name]);
-          }
+    }
+
+    // Converted some $settings to $options.
+    if (!empty($settings)) {
+      $option_names = ['label', 'third_party_settings'];
+      foreach ($option_names as $option_name) {
+        if (isset($settings[$option_name])) {
+          $options[$option_name] = $settings[$option_name];
+          unset($settings[$option_name]);
         }
-        $options['settings'] = $settings;
       }
+      $options['settings'] = $settings;
     }
 
     $display->setComponent($field_name, $options);
