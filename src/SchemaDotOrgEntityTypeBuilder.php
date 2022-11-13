@@ -492,6 +492,18 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     switch ($field_storage_values['type']) {
       case 'datetime':
         switch ($schema_property) {
+          case 'dateCreated':
+          case 'dateDeleted':
+          case 'dateIssued':
+          case 'dateModified':
+          case 'datePosted':
+          case 'datePublished':
+          case 'dateVehicleFirstRegistered':
+          case 'dissolutionDate':
+          case 'paymentDueDate':
+            $is_date = TRUE;
+            break;
+
           case 'startDate':
           case 'endDate':
             $is_date = (!$this->schemaTypeManager->isSubTypeOf($schema_type, ['Event', 'Schedule']));

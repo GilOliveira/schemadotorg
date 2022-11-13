@@ -81,6 +81,7 @@ schema_types:
     Drawing:
       - name
     Episode:
+      - datePublished
       - description
       - duration
       - episodeNumber
