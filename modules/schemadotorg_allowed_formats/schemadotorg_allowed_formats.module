@@ -108,7 +108,7 @@ function schemadotorg_allowed_formats_form_schemadotorg_properties_settings_form
     '#element_validate' => [['\Drupal\schemadotorg\Utility\SchemaDotOrgElementHelper', 'validateMultipleOptions']],
   ];
   $form['schemadotorg_allowed_formats']['property_allowed_formats'] = [
-    '#type' => 'checkboxes',
+    '#type' => 'schemadotorg_settings',
     '#title' => t('Property allowed formats'),
     '#description' => t('Enter allowed formats for specific Schema.org properties.'),
     '#description_link' => 'properties',
