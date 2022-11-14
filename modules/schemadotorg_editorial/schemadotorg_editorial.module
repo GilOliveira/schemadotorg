@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Manages node edit form's sidebar.
+ * Adds an 'Editorial information' paragraph to the sidebar on every node edit form.
  */
 
 declare(strict_types = 1);
@@ -19,7 +19,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 /**
  * Implements hook_help().
  */
-function schemadotorg_sidebar_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
+function schemadotorg_editorial_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
@@ -28,11 +28,11 @@ function schemadotorg_sidebar_help(string $route_name, RouteMatchInterface $rout
 /**
  * Implements hook_schemadotorg_mapping_insert().
  */
-function schemadotorg_sidebar_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+function schemadotorg_editorial_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
   $entity_type = $mapping->getTargetEntityTypeId();
   $bundle = $mapping->getTargetBundle();
   $field_name = 'field_editorial';
-  $group_name = 'group_sidebar_editorial';
+  $group_name = 'group_editorial';
   $target_paragraph_type = 'editorial';
 
   // Make sure we are adding sidebars to nodes.
@@ -119,7 +119,7 @@ function schemadotorg_sidebar_schemadotorg_mapping_insert(SchemaDotOrgMappingInt
 /**
  * Implements hook_field_widget_WIDGET_TYPE_form_alter().
  */
-function schemadotorg_sidebar_field_widget_inline_entity_form_simple_form_alter(array &$element, FormStateInterface $form_state, array $context): void {
+function schemadotorg_editorial_field_widget_inline_entity_form_simple_form_alter(array &$element, FormStateInterface $form_state, array $context): void {
   // Remove the nested fieldset from the inline entity form.
   /** @var \Drupal\entity_reference_revisions\EntityReferenceRevisionsFieldItemList $items */
   $items = $context['items'];
@@ -131,7 +131,7 @@ function schemadotorg_sidebar_field_widget_inline_entity_form_simple_form_alter(
 /**
  * Implements hook_ENTITY_TYPE_presave().
  */
-function schemadotorg_sidebar_node_presave(NodeInterface $node): void {
+function schemadotorg_editorial_node_presave(NodeInterface $node): void {
   if (empty($node->devel_generate)
     || !$node->hasField('field_editorial')
     || empty($node->field_editorial->entity)
@@ -163,7 +163,7 @@ function schemadotorg_sidebar_node_presave(NodeInterface $node): void {
 /**
  * Implements hook_ENTITY_TYPE_prepare_form().
  */
-function schemadotorg_sidebar_node_prepare_form(NodeInterface $node, string $operation, FormStateInterface $form_state): void {
+function schemadotorg_editorial_node_prepare_form(NodeInterface $node, string $operation, FormStateInterface $form_state): void {
   // Only display message when the node edit for is loaded via a GET request.
   if (\Drupal::request()->getMethod() !== 'GET') {
     return;
@@ -196,7 +196,7 @@ function schemadotorg_sidebar_node_prepare_form(NodeInterface $node, string $ope
 /**
  * Implements hook_ENTITY_TYPE_view_alter().
  */
-function schemadotorg_sidebar_node_view_alter(array &$build, NodeInterface $node, EntityViewDisplayInterface $display): void {
+function schemadotorg_editorial_node_view_alter(array &$build, NodeInterface $node, EntityViewDisplayInterface $display): void {
   $field_name = 'field_editorial';
   if (empty($build[$field_name])
     || empty($build[$field_name][0])) {

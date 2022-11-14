@@ -1,6 +1,6 @@
-name: 'Schema.org Blueprints Sidebar'
+name: 'Schema.org Blueprints Editorial'
 type: module
-description: 'Creates and manages paragraph types that are displayed in the node edit form''s sidebar on every content type.'
+description: 'Adds an ''Editorial information'' paragraph to the sidebar on every node edit form.'
 package: Schema.org Blueprints Extras
 core_version_requirement: '^9.4 || ^10.0'
 dependencies:

@@ -38,8 +38,8 @@ function _schemadotorg_allowed_formats_modules_installed(array $modules): void {
     _schemadotorg_allowed_formats_apply('paragraph', 'cta', 'schema_text', 'WebPage', 'text');
   }
 
-  // Schema.org Sidebar: Editorial message and notes.
-  if (in_array('schemadotorg_sidebar', $modules)) {
+  // Schema.org Editorial: Message and notes.
+  if (in_array('schemadotorg_editorial', $modules)) {
     _schemadotorg_allowed_formats_apply('paragraph', 'editorial', 'field_editorial_message');
     _schemadotorg_allowed_formats_apply('paragraph', 'editorial', 'field_editorial_notes');
   }

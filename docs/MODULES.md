@@ -58,8 +58,8 @@ Fields
 - **[Schema.org Blueprints Office Hours](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_office_hours)**
   Allows an Office hours field to be used to create https://schema.org/OpeningHoursSpecification.
 
-- **[Schema.org Blueprints Sidebar](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_sidebar)**
-  Creates and manages paragraph types that are displayed in the node edit form''s sidebar on every content type.
+- **[Schema.org Blueprints Editorial](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_editorial)**
+  Adds an 'Editorial information' paragraph to the sidebar on every node edit form.
 
 - **[Schema.org Blueprints Smart Date](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_smart_date)**
   Allows a Smart date field to be used to create date ranges and event schedules included in a site's Schema.org JSON-LD.
