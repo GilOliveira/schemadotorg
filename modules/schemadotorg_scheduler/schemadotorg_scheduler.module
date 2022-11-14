@@ -69,6 +69,10 @@ function _schemadotorg_scheduler_set_form_display(SchemaDotOrgMappingInterface $
   $bundle = $mapping->getTargetBundle();
   // Set scheduler third party settings for the node type.
   $entity_type = $mapping->getTargetEntityBundleEntity();
+  if (!$entity_type) {
+    return;
+  }
+
   $publish_enable = $entity_type->getThirdPartySetting('scheduler', 'publish_enable');
   $unpublish_enable = $entity_type->getThirdPartySetting('scheduler', 'unpublish_enable');
   if ($publish_enable || $unpublish_enable) {
