@@ -114,6 +114,18 @@ Run PHPStan with level 2 to catch all deprecations.
     ./vendor/bin/phpstan --level=2 analyse web/modules/sandbox/schemadotorg > ~/schemadotorg-deprecated.txt
     cat ~/schemadotorg-deprecated.txt
 
+[Drupal Rector](https://github.com/palantirnet/drupal-rector)
+
+    # One-time
+    cd ~/Sites/drupal_next
+    composer require palantirnet/drupal-rector --dev
+    cp vendor/palantirnet/drupal-rector/rector.php .
+
+    cd ~/Sites/drupal_next
+    ./vendor/bin/rector process web/modules/sandbox/schemadotorg --dry-run    
+    ./vendor/bin/rector process web/modules/sandbox/schemadotorg
+
+
 3. Generate release notes
 -------------------------
 
