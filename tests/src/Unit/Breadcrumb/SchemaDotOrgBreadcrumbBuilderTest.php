@@ -26,9 +26,7 @@ class SchemaDotOrgBreadcrumbBuilderTest extends UnitTestCase {
     // @see \Drupal\Core\Breadcrumb\Breadcrumb
     // @see \Drupal\Core\Cache\RefinableCacheableDependencyTrait
     // @see \Drupal\Core\Cache\Cache
-    $cache_contexts_manager = $this->getMockBuilder('Drupal\Core\Cache\Context\CacheContextsManager')
-      ->disableOriginalConstructor()
-      ->getMock();
+    $cache_contexts_manager = $this->createMock('Drupal\Core\Cache\Context\CacheContextsManager');
     // Always return TRUE for ::assertValidTokens so that any cache context
     // will be accepted.
     $cache_contexts_manager->method('assertValidTokens')->willReturn(TRUE);
@@ -51,9 +49,7 @@ class SchemaDotOrgBreadcrumbBuilderTest extends UnitTestCase {
    * @covers ::applies
    */
   public function testApplies(bool $expected, ?string $route_name = NULL): void {
-    $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder')
-      ->onlyMethods([])
-      ->getMock();
+    $breadcrumb_builder = $this->createPartialMock('\Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder', []);
 
     $route_match = $this->createMock('Drupal\Core\Routing\RouteMatchInterface');
     $route_match->expects($this->once())
@@ -90,9 +86,7 @@ class SchemaDotOrgBreadcrumbBuilderTest extends UnitTestCase {
    */
   public function testBuild(): void {
     // Build a breadcrumb builder to test.
-    $breadcrumb_builder = $this->getMockBuilder('\Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder')
-      ->onlyMethods([])
-      ->getMock();
+    $breadcrumb_builder = $this->createPartialMock('\Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder', []);
 
     // Add a translation manager for t().
     $translation_manager = $this->getStringTranslationStub();

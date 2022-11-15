@@ -51,9 +51,7 @@ class SchemaDotOrgSchemaTypeBuilderTest extends UnitTestCase {
 
     $this->currentUser = $this->createMock('Drupal\Core\Session\AccountInterface');
 
-    $this->schemaTypeManager = $this->getMockBuilder('\Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager')
-      ->disableOriginalConstructor()
-      ->getMock();
+    $this->schemaTypeManager = $this->createMock('\Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager');
 
     $this->schemaTypeBuilder = new SchemaDotOrgSchemaTypeBuilder(
       $this->moduleHandler,

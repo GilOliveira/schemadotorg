@@ -37,16 +37,12 @@ class SchemaDotOrgReportFilterFormTest extends UnitTestCase {
     $container->set('string_translation', $this->getStringTranslationStub());
 
     // Mock URL generator.
-    $url_generator = $this->getMockBuilder('Drupal\Core\Routing\UrlGenerator')
-      ->disableOriginalConstructor()
-      ->getMock();
+    $url_generator = $this->createMock('Drupal\Core\Routing\UrlGenerator');
     $container->set('url_generator', $url_generator);
 
     // Mock Schema.org type manager which is only used to validate
     // type and property ids.
-    $schema_type_manager = $this->getMockBuilder('\Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager')
-      ->disableOriginalConstructor()
-      ->getMock();
+    $schema_type_manager = $this->createMock('\Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager');
     $schema_type_manager->method('isId')->willReturnMap([
       ['types', 'Thing', TRUE],
       ['types', 'Th', FALSE],
