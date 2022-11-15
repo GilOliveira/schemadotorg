@@ -71,18 +71,7 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
    * {@inheritdoc}
    */
   public function alterMappingDefaults(array &$defaults, string $entity_type_id, ?string $bundle, string $schema_type): void {
-    if (!$this->isLayoutParagraphsEnabled($entity_type_id)) {
-      return;
-    }
-
-    // Make sure the Schema.org type is not already using mainEntity.
-    // This only applies to FAQPage and QAPAge.
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
-    $mapping_type = $this->entityTypeManager
-      ->getStorage('schemadotorg_mapping_type')
-      ->load($entity_type_id);
-    $property_defaults = $mapping_type->getDefaultSchemaTypeProperties($schema_type);
-    if (in_array('mainEntity', $property_defaults)) {
+    if (!$this->isLayoutParagraphsEnabled($entity_type_id, $schema_type)) {
       return;
     }
 
@@ -159,12 +148,13 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
 
     $schema_type = $mapping->getSchemaType();
     $schema_property = $this->getPropertyName();
-    if (!isset($mapping_defaults['properties'][$schema_property])) {
+    $defaults = $mapping_defaults['properties'][$schema_property] ?? NULL;
+    if (empty($defaults)) {
       return;
     }
 
     $entity_type_id = $mapping->getTargetEntityTypeId();
-    if (!$this->isLayoutParagraphsEnabled($entity_type_id)) {
+    if (!$this->isLayoutParagraphsEnabled($entity_type_id, $schema_type)) {
       return;
     }
 
@@ -172,19 +162,6 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
     $field_exists = (bool) $this->entityTypeManager
       ->getStorage('field_storage_config')
       ->load($entity_type_id . '.' . $field_name);
-
-    $defaults = $mapping_defaults['properties'][$schema_property];
-
-    // Make sure the Schema.org type is not already using mainEntity.
-    // This only applies to FAQPage and QAPAge.
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
-    $mapping_type = $this->entityTypeManager
-      ->getStorage('schemadotorg_mapping_type')
-      ->load($entity_type_id);
-    $property_defaults = $mapping_type->getDefaultSchemaTypeProperties($schema_type);
-    if (in_array('mainEntity', $property_defaults)) {
-      return;
-    }
 
     // Store reference to ADD_FIELD.
     $add_field = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
@@ -203,7 +180,7 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
       ];
       $form['mapping'][$schema_property]['name'] = [
         '#type' => 'value',
-        '#parents' => ['mapping', 'properties', 'mainEntity', 'field', 'name'],
+        '#parents' => ['mapping', 'properties', $schema_property, 'field', 'name'],
         '#default_value' => $defaults['name'],
       ];
       return;
@@ -222,7 +199,7 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
       '#title' => $this->t('Enable Schema.org layout paragraphs'),
       '#description' => $this->t("If checked, a 'Layout' field is added to the content type which allows content authors to build layouts using paragraphs."),
       '#return_value' => $field_exists ? $field_name : $add_field,
-      '#parents' => ['mapping', 'properties', 'mainEntity', 'field', 'name'],
+      '#parents' => ['mapping', 'properties', $schema_property, 'field', 'name'],
       '#default_value' => $defaults['name'],
     ];
     $form['mapping'][$schema_property][$add_field] = [
@@ -232,7 +209,7 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
       '#access' => !$field_exists,
       '#states' => [
         'visible' => [
-          ':input[name="mapping[properties][mainEntity][field][name]"]' => ['checked' => TRUE],
+          ':input[name="mapping[properties][' . $schema_property . '][field][name]"]' => ['checked' => TRUE],
         ],
       ],
     ];
@@ -266,7 +243,7 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
     ];
     SchemaDotOrgElementHelper::setElementParents(
       $form['mapping'][$schema_property][$add_field],
-      ['mapping', 'properties', 'mainEntity', 'field', $add_field]
+      ['mapping', 'properties', $schema_property, 'field', $add_field]
     );
   }
 
@@ -287,7 +264,13 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
     // targeting layout paragraphs.
     if ($field_storage_values['type'] !== 'entity_reference_revisions'
       || $field_storage_values['settings']['target_type'] !== 'paragraph'
-      || $schema_property !== 'mainEntity') {
+      || $schema_property !== $this->getPropertyName()) {
+      return;
+    }
+
+    // Make sure the entity type and Schema.org type supports layout paragraphs.
+    $entity_type_id = $field_storage_values['entity_type'];
+    if (!$this->isLayoutParagraphsEnabled($entity_type_id, $schema_type)) {
       return;
     }
 
@@ -359,18 +342,32 @@ class SchemaDotOrgLayoutParagraphsManager implements SchemaDotOrgLayoutParagraph
   }
 
   /**
-   * Determine if the entity type support layout paragraphs.
+   * Determine if the entity type and Schema.org type support layout paragraphs.
    *
-   * Currently, layout paragraphs are only applicable to nodes.
+   * Currently, layout paragraphs are only applicable to nodes and Schema.org
+   * types without a mainEntity property. This only applies to
+   * FAQPage and QAPAge.
    *
    * @param string $entity_type_id
    *   The entity type.
+   * @param string $schema_type
+   *   The Schema.org type.
    *
    * @return bool
    *   TRUE if the entity type support layout paragraphs.
    */
-  protected function isLayoutParagraphsEnabled(string $entity_type_id): bool {
-    return ($entity_type_id === 'node');
+  protected function isLayoutParagraphsEnabled(string $entity_type_id, string $schema_type): bool {
+    if ($entity_type_id !== 'node') {
+      return FALSE;
+    }
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
+    $mapping_type = $this->entityTypeManager
+      ->getStorage('schemadotorg_mapping_type')
+      ->load($entity_type_id);
+    $schema_property = $this->getPropertyName();
+    $property_defaults = $mapping_type->getDefaultSchemaTypeProperties($schema_type);
+    return !in_array($schema_property, $property_defaults);
   }
 
 }
