@@ -14,6 +14,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\entity_reference_revisions\Plugin\Field\FieldType\EntityReferenceRevisionsItem;
+use Drupal\node\NodeTypeInterface;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\paragraphs\ParagraphsTypeInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
@@ -118,6 +119,24 @@ function schemadotorg_layout_paragraphs_schemadotorg_jsonld_schema_property_alte
 /* ************************************************************************** */
 // Entity hooks.
 /* ************************************************************************** */
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ *
+ * Automatically adds types to the paragraph node's target bundles.
+ */
+function schemadotorg_layout_paragraphs_node_type_insert(NodeTypeInterface $node_type) {
+  /** @var \Drupal\field\FieldConfigInterface $field_config */
+  $field_config = \Drupal::entityTypeManager()
+    ->getStorage('field_config')
+    ->load("paragraph.node.field_node");
+  if ($field_config) {
+    $settings = $field_config->get('settings');
+    $settings['handler_settings']['target_bundles'][$node_type->id()] = $node_type->id();
+    $field_config->set('settings', $settings);
+    $field_config->save();
+  }
+}
 
 /**
  * Implements hook_ENTITY_TYPE_presave().

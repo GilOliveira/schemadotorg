@@ -26,7 +26,7 @@ Features
   module is enabled.
 - Enables 'style_options' for all paragraph types used in layout paragraphs.
 - Customizes Quotation, Statement, Header, and ItemList paragraph output.
-
+- Automatically adds types to the paragraph node's target bundles.
 
 Requirements
 ------------
