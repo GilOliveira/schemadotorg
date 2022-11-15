@@ -15,7 +15,7 @@ class SchemaDotOrgInstallerTest extends SchemaDotOrgKernelTestBase {
   /**
    * The Schema.org installer service.
    *
-   * @var \Drupal\schemadotorg\SchemaDotOrginstallerInterface
+   * @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface
    */
   protected $installer;
 

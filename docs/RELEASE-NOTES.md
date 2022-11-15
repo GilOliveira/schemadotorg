@@ -116,10 +116,13 @@ Run PHPStan with level 2 to catch all deprecations.
 
 [Drupal Rector](https://github.com/palantirnet/drupal-rector)
 
-    # One-time
+Install Drupal Rector
+
     cd ~/Sites/drupal_next
     composer require palantirnet/drupal-rector --dev
     cp vendor/palantirnet/drupal-rector/rector.php .
+
+Run Drupal Rector
 
     cd ~/Sites/drupal_next
     ./vendor/bin/rector process web/modules/sandbox/schemadotorg --dry-run    
