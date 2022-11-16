@@ -24,7 +24,7 @@ class SchemaDotOrgStringHelper {
     }
 
     $text = preg_replace_callback(
-      '/(e\.g\.?|\.\.\.| vs\. |(\d*\.)?\d+)/',
+      '#(e\.g\.?|\.\.\.| vs\. |(\d*\.)?\d+|https?://[^"]+)#',
       function ($matches) {
         return str_replace('.', '%2E', $matches[0]);
       },
