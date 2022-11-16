@@ -9,6 +9,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
@@ -16,6 +17,13 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
  */
 class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInterface {
   use StringTranslationTrait;
+
+  /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
 
   /**
    * The module handler.
@@ -62,6 +70,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * Constructs a SchemaDotOrgBuilder object.
    *
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -76,6 +86,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *   The Schema.org entity display builder.
    */
   public function __construct(
+    MessengerInterface $messenger,
     ModuleHandlerInterface $module_handler,
     EntityTypeManagerInterface $entity_type_manager,
     EntityDisplayRepositoryInterface $display_repository,
@@ -83,6 +94,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
     SchemaDotOrgEntityDisplayBuilderInterface $schema_entity_display_builder
   ) {
+    $this->messenger = $messenger;
     $this->moduleHandler = $module_handler;
     $this->entityTypeManager = $entity_type_manager;
     $this->entityDisplayRepository = $display_repository;
@@ -281,7 +293,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         );
       }
       catch (\Exception $e) {
-        \Drupal::messenger()->addError($this->t('There was a problem creating field %label: @message', ['%label' => $field_label, '@message' => $e->getMessage()]));
+        $this->messenger->addError($this->t('There was a problem creating field %label: @message', ['%label' => $field_label, '@message' => $e->getMessage()]));
       }
     }
 

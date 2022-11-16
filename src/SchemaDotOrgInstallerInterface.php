@@ -47,6 +47,11 @@ interface SchemaDotOrgInstallerInterface {
   public function downloadCsvData(): void;
 
   /**
+   * Extract translatable strings Schema.org CSV data.
+   */
+  public function translateCsvData(): void;
+
+  /**
    * Import Schema.org types and properties tables.
    */
   public function importTables(): void;

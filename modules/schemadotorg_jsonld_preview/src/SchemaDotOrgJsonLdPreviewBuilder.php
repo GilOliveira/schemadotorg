@@ -86,7 +86,6 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
    */
   public function build(): array {
     // Build the entity's Schema.org data.
-    /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface $builder */
     $data = $this->schemaJsonLdBuilder->build();
     if (!$data) {
       return [];

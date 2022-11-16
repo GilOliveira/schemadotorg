@@ -385,7 +385,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   }
 
   /**
-   * Download and cleanup Schema.org CSV data.
+   * {@inheritdoc}
    */
   public function downloadCsvData(): void {
     $version = static::VERSION;
@@ -404,7 +404,7 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   }
 
   /**
-   * Extract translatable strings Schema.org CSV data.
+   * {@inheritdoc}
    */
   public function translateCsvData(): void {
     $tables = ['properties', 'types'];

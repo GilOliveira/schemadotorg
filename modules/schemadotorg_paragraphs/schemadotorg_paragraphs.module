@@ -179,7 +179,7 @@ function schemadotorg_paragraphs_schemadotorg_jsonld_schema_property_alter(mixed
     return;
   }
 
-  /** @var \Drupal\paragraphs\ParagraphInterface $paragraph */
+  /** @var \Drupal\paragraphs\ParagraphInterface $from_library_paragraph */
   $from_library_paragraph = $item->entity;
   if (!$from_library_paragraph->hasField('field_reusable_paragraph')
     || empty($from_library_paragraph->field_reusable_paragraph->entity)) {
