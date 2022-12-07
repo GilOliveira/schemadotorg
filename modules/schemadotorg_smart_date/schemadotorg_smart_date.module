@@ -74,6 +74,10 @@ function schemadotorg_smart_date_schemadotorg_property_field_alter(
   }
 }
 
+/* ************************************************************************** */
+// Schema.org JSON-LD alterations.
+/* ************************************************************************** */
+
 /**
  * Implements hook_schemadotorg_jsonld_schema_type_field_alter().
  */

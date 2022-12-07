@@ -22,7 +22,7 @@ Features
 - Appends a suffix to field group labels.
 - Deletes empty field groups created when a field is deleted.
 - Adds a field group around all displayed paragraphs.
-- ALlows field groups to be disabled for selected entity type, display, 
+- Allows field groups to be disabled for selected entity type, display, 
   Schema.org types, and properties. 
 
 

@@ -25,7 +25,7 @@ function schemadotorg_taxonomy_help(string $route_name, RouteMatchInterface $rou
 }
 
 /* ************************************************************************** */
-// JSON-LD.
+// Schema.org JSON-LD alterations.
 /* ************************************************************************** */
 
 /**

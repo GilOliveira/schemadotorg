@@ -21,6 +21,10 @@ function schemadotorg_action_help(string $route_name, RouteMatchInterface $route
   return $help_manager->buildHelpPage($route_name, $route_match);
 }
 
+/* ************************************************************************** */
+// Schema.org JSON-LD alterations.
+/* ************************************************************************** */
+
 /**
  * Implements hook_schemadotorg_jsonld_schema_type_entity_load().
  */

@@ -23,7 +23,7 @@ Features
   select menu.
 - Add paragraph type icons from provided this and other modules. 
   {module_name}/image/schemadotorg_paragraphs/{paragrap_type}.svg
-
+- Adds paragraph from paragraphs library to JSON-LD.
 
 Configuration
 -------------

@@ -10,6 +10,7 @@ schema_potential_action:
     RegisterAction: Register Action
     ReserveAction: Reserve Action
     ScheduleAction: Schedule Action
+    SearchAction: Search Action
     SubscribeAction: Subscribe Action
     ViewAction: View Action
     WatchAction: Watch Action

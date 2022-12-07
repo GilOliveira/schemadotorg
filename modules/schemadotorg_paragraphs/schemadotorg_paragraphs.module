@@ -149,8 +149,14 @@ function schemadotorg_paragraphs_schemadotorg_property_field_alter(
   $widget_settings['default_paragraph_type'] = '_none';
 }
 
+/* ************************************************************************** */
+// Schema.org JSON-LD alterations.
+/* ************************************************************************** */
+
 /**
  * Implements hook_schemadotorg_jsonld_schema_property_alter().
+ *
+ * Adds paragraph from paragraphs library to JSON-LD.
  */
 function schemadotorg_paragraphs_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item): void {
   // Make sure the Paragraphs Library module is enabled.
@@ -293,8 +299,8 @@ function schemadotorg_paragraphs_form_entity_embed_dialog_alter(array &$form, Fo
 
   // Sort option groups and options.
   ksort($options);
-  foreach ($options as &$gptgroup) {
-    asort($gptgroup);
+  foreach ($options as &$optgroup) {
+    asort($optgroup);
   }
 
   // Get the default value.
