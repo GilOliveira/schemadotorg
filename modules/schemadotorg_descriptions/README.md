@@ -35,6 +35,7 @@ Configuration
 - Enable/disable setting explanation or submission guidelines to the Schema.org 
   type descriptions.
 
+
 Todo
 ----
 

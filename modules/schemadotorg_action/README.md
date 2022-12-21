@@ -21,8 +21,8 @@ Features
 
 - Creates a 'Call to action' paragraph type which is mapped to
   [Webpage](https://schema.org/WebPage).
-- Sets JSON-LD https://schema.org/potentialAction property for links using the 
-  custom 'schema_potential_action' link attribute.
+- Sets JSON-LD <https://schema.org/potentialAction> property for links using 
+  the custom 'schema_potential_action' link attribute.
 
 
 Requirements
@@ -42,6 +42,15 @@ References
 - [What is an “Action” in Schema?](https://ondyr.com/what-is-action-schema/)
 - [How to add article schema markup to blog posts](https://www.hallaminternet.com/introducing-schema-org-action-markups/?amp)
 
+I am interested in:
+    '#options':
+      Preparing for an appointment: Preparing for an appointment
+      Seeking general one-on-one support: Seeking general one-on-one support
+      Seeking Resources: Seeking Resources
+      Support on how to cope with cancer and having to parent young children: Support on how to cope with cancer and having to parent young children
+      Quality of life after cancer: Quality of life after cancer
+      Speaking with someone about Progression of disease: Speaking with someone about Progression of disease
+    
 
 Notes
 -----
