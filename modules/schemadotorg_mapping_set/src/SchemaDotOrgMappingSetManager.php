@@ -399,6 +399,7 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
           'bundles' => $bundle,
           'media-types' => $bundles,
           // Setting the below options to NULL prevents PHP warnings.
+          'base-fields' => NULL,
           'skip-fields' => NULL,
           'authors' => NULL,
           'feedback' => NULL,

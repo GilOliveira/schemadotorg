@@ -22,11 +22,17 @@
           // Track which button is clicked.
           submit.addEventListener('click', () => submit.classList.add('js-schemadotorg-submit-clicked'));
 
-          // Disable the submit button and disable the progress throbber.
+          // Disable the submit button, remove the cancel link,
+          // and display a progress throbber.
           form.addEventListener('submit', () => {
             submit.disabled = true;
+
+            const cancelLink = submit.parentNode.querySelector('#edit-cancel');
+            cancelLink && cancelLink.remove();
+
             const throbber = Drupal.theme.ajaxProgressThrobber();
             submit.insertAdjacentHTML('afterend', throbber);
+
           });
         });
     }
