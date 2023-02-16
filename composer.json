@@ -46,7 +46,8 @@
         "drupal/range": "~1.0",
         "drupal/rdf": "~2.0",
         "drupal/scheduler": "~1.0",
-        "drupal/simple_sitemap": "~4.0"
+        "drupal/simple_sitemap": "~4.0",
+        "drupal/smart_date": "~3.0"
     },
     "suggest": {
         "drupal/field_group": "Provides the ability to group your fields on both form and display.",
