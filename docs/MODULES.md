@@ -9,6 +9,9 @@ _Below modules are included with the Schema.org Blueprints module/package._
 
 Base
 
+The below base modules are required to understand and build entity types based
+on Schema.org types.
+
 - **[Schema.org Blueprints](https://git.drupalcode.org/project/schemadotorg)**  
   Uses Schema.org as the blueprint for the content architecture and structured data in a Drupal website.
 
@@ -19,6 +22,9 @@ Base
   Provides a report for browsing Schema.org types, properties, and naming conventions.
 
 UI/UX
+
+The below UI/UX modules help enhance the creation and management 
+Schema.org types.
 
 - **[Schema.org Blueprints Descriptions](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_descriptions)**  
   Sets entity type and field descriptions to their corresponding Schema.org type and property comments.
@@ -36,6 +42,10 @@ UI/UX
   Manages translations for Schema.org types and properties as they are created.
 
 Fields
+
+The below field related modules help configure entity edit forms 
+and field configuration settings.
+
 
 - **[Schema.org Blueprints Allowed Formats](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_allowed_formats)**  
   Sets allowed format for Schema.org properties within an entity type/bundle Schema.org mapping.
@@ -66,6 +76,9 @@ Fields
 
 Entities
 
+The below entity type related module provide support and mappings for 
+common entity types. 
+
 - **[Schema.org Blueprints Media](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_media)**  
   Integrates the Media and Media Library module with the Schema.org Blueprints module.
 
@@ -76,6 +89,9 @@ Entities
   Assists with creating and mapping taxonomy vocabularies and terms.
 
 Layout
+
+The below layout related modules provide support for building layouts using 
+Layout Paragraphs based on Schema.org types.
 
 - **[Schema.org Blueprints Action](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_action)**  
   Provides support for https:://schema.org/Action using a call to action paragraph type.
@@ -88,6 +104,9 @@ Layout
 
 SEO
 
+The below SEO related modules help support common and popular Drupal 
+SEO modules.
+
 - **[Schema.org Blueprints Metatag](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_metatag)**  
   Automatically adds a metatag field to Schema.org types.
 
@@ -96,6 +115,9 @@ SEO
 
 Workflow
 
+The below workflow related modules help support common and popular Drupal
+workflow modules.
+
 - **[Schema.org Blueprints Content Moderation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_content_moderation)**  
   Automatically enables content moderation for Schema.org types as they are created.
 
@@ -103,6 +125,10 @@ Workflow
   Automatically enables scheduling for Schema.org types as they are created.
 
 JSON-LD
+
+The below JSON-LD related modules generates Schema.org JSON-LD 
+for search engines.
+
 
 - **[Schema.org Blueprints JSON-LD](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld)**  
   Adds Schema.org structured data as JSON-LD in the head of web pages.
@@ -121,6 +147,9 @@ JSON-LD
 
 API
 
+The below API related modules creates APIs based on Schema.org types 
+and properties.
+
 - **[Schema.org Blueprints JSON:API](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonapi)**  
   Builds on top of the JSON:API and JSON:API extras modules to apply Schema.org type and property mappings to JSON:API resources.
 
@@ -128,6 +157,9 @@ API
   Allows users to preview a web page's Schema.org JSON:API.
 
 Next.js
+
+The below Next.js related modules helps front-end developers build and maintain
+a Next.js front-end.
 
 - **[Schema.org Blueprints Next.js](https://git.drupalcode.org/project/schemadotorg_next/-/tree/1.0.x)**  
   Assists with the integration of Schema.org Blueprints with Next.js.
