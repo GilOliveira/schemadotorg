@@ -10,6 +10,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\file\FileInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 
 /**
@@ -338,7 +339,9 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     }
 
     // Handle entity reference relationships.
-    if ($item->entity && $item->entity instanceof EntityInterface) {
+    if ($item->entity
+      && $item->entity instanceof EntityInterface
+      && !$item->entity instanceof FileInterface) {
       if (!$options['map_entities']) {
         return NULL;
       }

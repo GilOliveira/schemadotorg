@@ -116,6 +116,13 @@ class SchemaDotOrgJsonLdEmbedTest extends SchemaDotOrgKernelEntityTestBase {
     /* ********************************************************************** */
 
     // Check building JSON-LD while include embedded media (and content).
+    $image_style_storage = \Drupal::entityTypeManager()->getStorage('image_style');
+
+    /** @var \Drupal\image\ImageStyleInterface $thumbnail_image_style */
+    $large_image_style = $image_style_storage->load('large');
+    /** @var \Drupal\image\ImageStyleInterface $thumbnail_image_style */
+    $thumbnail_image_style = $image_style_storage->load('thumbnail');
+
     $expected_result = [
       0 => [
         '@context' => 'https://schema.org',
@@ -132,6 +139,8 @@ class SchemaDotOrgJsonLdEmbedTest extends SchemaDotOrgKernelEntityTestBase {
         'name' => 'Some image',
         'dateCreated' => $this->dateFormatter->format($media->getCreatedTime(), 'custom', 'Y-m-d H:i:s P'),
         'dateModified' => $this->dateFormatter->format($media->getChangedTime(), 'custom', 'Y-m-d H:i:s P'),
+        'image' => $large_image_style->buildUrl($media->field_media_image->entity->getFileUri()),
+        'thumbnail' => $thumbnail_image_style->buildUrl($media->thumbnail->entity->getFileUri()),
       ],
       [
         '@context' => 'https://schema.org',
