@@ -110,7 +110,7 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
    * {@inheritdoc}
    */
   public function id(): string {
-    return $this->target_entity_type_id;
+    return $this->target_entity_type_id ?? '';
   }
 
   /**
