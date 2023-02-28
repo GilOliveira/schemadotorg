@@ -25,8 +25,7 @@
     },
     "require": {
         "drupal/core": "^9.4 || ^10.0",
-        "php": "^8.0",
-        "michelf/php-markdown": "^1.0"
+        "php": "^8.0"
     },
     "require-dev": {
         "drupal/address": "~1.0",
@@ -47,14 +46,16 @@
         "drupal/rdf": "~2.0",
         "drupal/scheduler": "~1.0",
         "drupal/simple_sitemap": "~4.0",
-        "drupal/smart_date": "~3.0"
+        "drupal/smart_date": "~3.0",
+        "michelf/php-markdown": "^1.0"
     },
     "suggest": {
         "drupal/field_group": "Provides the ability to group your fields on both form and display.",
         "drupal/address": "Provides functionality for storing, validating and displaying international postal addresses.",
         "drupal/paragraphs": "Enables the creation of paragraphs (i.e. component) entities.",
         "drupal/inline_entity_form": "Provides a widget for inline management (creation, modification, removal) of referenced entities.",
-        "drupal/jsonapi_extras": "Builds on top of JSON:API to deliver extra functionality."
+        "drupal/jsonapi_extras": "Builds on top of JSON:API to deliver extra functionality.",
+        "michelf/php-markdown": "Improve display of Markdown-format text in the help system."
     }
 }
 
