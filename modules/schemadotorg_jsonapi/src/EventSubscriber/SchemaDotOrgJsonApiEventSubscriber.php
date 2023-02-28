@@ -126,7 +126,9 @@ class SchemaDotOrgJsonApiEventSubscriber extends ServiceProviderBase implements 
       $resource_id = "$entity_type_id--$bundle";
 
       $resource_config = $this->entityTypeManager->getStorage('jsonapi_resource_config')->load($resource_id);
-      $resource_type_name = $resource_config->get('resourceType') ?: $resource_id;
+      $resource_type_name = ($resource_config && $resource_config->get('resourceType'))
+        ? $resource_config->get('resourceType')
+        : $resource_id;
       $resource_type = $this->resourceTypeRepository->getByTypeName($resource_type_name);
 
       $resource_path = sprintf('/%s%s', $path_prefix, $resource_type->getPath());
