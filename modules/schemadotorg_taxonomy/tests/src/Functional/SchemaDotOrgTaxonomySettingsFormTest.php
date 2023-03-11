@@ -7,7 +7,7 @@ namespace Drupal\Tests\schemadotorg_taxonomy\Functional;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 
 /**
- * Tests the functionality of the Schema.org taxnomy settings form.
+ * Tests the functionality of the Schema.org taxonomy settings form.
  *
  * @group schemadotorg
  */
