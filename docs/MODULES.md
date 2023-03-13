@@ -129,9 +129,11 @@ JSON-LD
 The below JSON-LD related modules generates Schema.org JSON-LD
 for search engines.
 
-
 - **[Schema.org Blueprints JSON-LD](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld)**
   Adds Schema.org structured data as JSON-LD in the head of web pages.
+
+- **[Schema.org Blueprints JSON-LD Custom](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_custom)**  
+  Allows custom JSON-LD to be added to Schema.org mapping.
 
 - **[Schema.org Blueprints JSON-LD Breadcrumb](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_breadcrumb)**
   Add Drupal's breadcrumb to Schema.org JSON-LD for the current route.
@@ -144,8 +146,6 @@ for search engines.
 
 - **[Schema.org Blueprints JSON-LD Preview](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_preview)**
   Allows users to preview a web page's Schema.org JSON-LD.
-
-API
 
 The below API related modules creates APIs based on Schema.org types
 and properties.

@@ -125,7 +125,7 @@ function schemadotorg_layout_paragraphs_schemadotorg_jsonld_schema_property_alte
  *
  * Automatically adds types to the paragraph node's target bundles.
  */
-function schemadotorg_layout_paragraphs_node_type_insert(NodeTypeInterface $node_type) {
+function schemadotorg_layout_paragraphs_node_type_insert(NodeTypeInterface $node_type): void {
   /** @var \Drupal\field\FieldConfigInterface $field_config */
   $field_config = \Drupal::entityTypeManager()
     ->getStorage('field_config')

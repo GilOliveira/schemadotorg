@@ -379,6 +379,9 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       }
     }
 
+    // Third party settings.
+    $mapping_values['third_party_settings'] = $mapping_values['third_party_settings'] ?? [];
+
     return $mapping_values;
   }
 
@@ -415,6 +418,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $form['mapping'] = ['#tree' => TRUE];
     $this->buildAddEntityForm($form['mapping'], $defaults['entity']);
     $this->buildSchemaPropertiesForm($form['mapping'], $defaults['properties']);
+    $this->buildThirdPartySettingsForm($form['mapping'], $defaults['third_party_settings']);
 
     // Load the jsTree before the Schema.org UI library to ensure that
     // jsTree loads and works inside modal dialogs.
@@ -871,6 +875,18 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         '#url' => Url::fromRoute('<current>', [], ['query' => ['type' => $type]]),
       ];
     }
+  }
+
+  /**
+   * Build Schema.org third party settings form.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param array $defaults
+   *   The Schema.org properties default values.
+   */
+  protected function buildThirdPartySettingsForm(array &$form, array $defaults): void {
+    $form['third_party_settings'] = ['#weight' => -1];
   }
 
   /* ************************************************************************ */

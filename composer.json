@@ -47,6 +47,7 @@
         "drupal/scheduler": "~1.0",
         "drupal/simple_sitemap": "~4.0",
         "drupal/smart_date": "~3.0",
+        "drupal/token": "~1.0",
         "michelf/php-markdown": "^1.0"
     },
     "suggest": {

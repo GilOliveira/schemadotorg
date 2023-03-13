@@ -29,5 +29,5 @@ Configuration
 - Configure 'Schema.org Blueprints JSON-LD Preview' permission.
   (/admin/people/permissions/module/schemadotorg_jsonapi_preview)
 - Go to the Schema.org JSON-LD configuration page.
-  (/admin/config/search/schemadotorg/settings/jsonapi)
+  (/admin/config/search/schemadotorg/settings/jsonld)
 - Enter JSON-LD preview visibility settings.

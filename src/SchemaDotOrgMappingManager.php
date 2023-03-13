@@ -150,9 +150,10 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   public function getMappingDefaults(string $entity_type_id, ?string $bundle, string $schema_type, array $defaults = []): array {
     $mapping_defaults = [];
 
-    // Get entity and properties defaults.
+    // Get entity, properties, third_party_settings defaults.
     $mapping_defaults['entity'] = $this->getMappingEntityDefaults($entity_type_id, $bundle, $schema_type);
     $mapping_defaults['properties'] = $this->getMappingPropertiesFieldDefaults($entity_type_id, $bundle, $schema_type);
+    $mapping_defaults['third_party_settings'] = $this->getMappingThirdPartySettingsDefaults($entity_type_id, $bundle, $schema_type);
 
     // Apply custom entity defaults.
     if (isset($defaults['entity'])) {
@@ -257,6 +258,26 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
     }
 
     return $defaults;
+  }
+
+  /**
+   * Get Schema.org mapping third party settings default values.
+   *
+   * @param string $entity_type_id
+   *   The entity type ID.
+   * @param string|null $bundle
+   *   The bundle.
+   * @param string $schema_type
+   *   The Schema.org type.
+   *
+   * @return array
+   *   Schema.org mapping third party settings default values.
+   */
+  protected function getMappingThirdPartySettingsDefaults(string $entity_type_id, ?string $bundle, string $schema_type): array {
+    $mapping = $this->loadMapping($entity_type_id, $bundle);
+    return ($mapping)
+      ? $mapping->get('third_party_settings')
+      : [];
   }
 
   /**
@@ -403,6 +424,11 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
         $bundle,
         $mapping->getNewSchemaProperties()
       );
+    }
+
+    // Set third party settings.
+    if (isset($values['third_party_settings'])) {
+      $mapping->set('third_party_settings', array_filter($values['third_party_settings']));
     }
 
     // Save the mapping entity.
