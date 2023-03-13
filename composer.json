@@ -30,7 +30,7 @@
     "require-dev": {
         "drupal/address": "~1.0",
         "drupal/auto_entitylabel": "~3.0",
-        "drupal/allowed_formats": "~1.0",
+        "drupal/allowed_formats": "~2.0",
         "drupal/ckeditor": "~1.0",
         "drupal/entity_usage": "~2.0",
         "drupal/field_group": "~3.0",
