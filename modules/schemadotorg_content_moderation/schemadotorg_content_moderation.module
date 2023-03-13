@@ -27,6 +27,10 @@ function schemadotorg_content_moderation_help(string $route_name, RouteMatchInte
  * Implements hook_schemadotorg_mapping_insert().
  */
 function schemadotorg_content_moderation_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if (\Drupal::isConfigSyncing()) {
+    return;
+  }
+
   $entity_type_id = $mapping->getTargetEntityTypeId();
   $bundle = $mapping->getTargetBundle();
   $schema_type = $mapping->getSchemaType();

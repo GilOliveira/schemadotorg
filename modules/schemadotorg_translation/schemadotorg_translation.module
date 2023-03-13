@@ -28,6 +28,10 @@ function schemadotorg_translation_help(string $route_name, RouteMatchInterface $
  * Implements hook_schemadotorg_mapping_insert().
  */
 function schemadotorg_translation_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if (\Drupal::isConfigSyncing()) {
+    return;
+  }
+
   /** @var \Drupal\schemadotorg_translation\SchemaDotOrgTranslationManagerInterface $manager */
   $manager = \Drupal::service('schemadotorg_translation.manager');
   $manager->enableMapping($mapping);

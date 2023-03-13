@@ -30,6 +30,10 @@ function schemadotorg_jsonapi_help(string $route_name, RouteMatchInterface $rout
  * Implements hook_schemadotorg_mapping_insert().
  */
 function schemadotorg_jsonapi_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if (\Drupal::isConfigSyncing()) {
+    return;
+  }
+
   /** @var \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface $manager */
   $manager = \Drupal::service('schemadotorg_jsonapi.manager');
   $manager->insertMappingResourceConfig($mapping);

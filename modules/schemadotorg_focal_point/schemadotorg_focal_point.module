@@ -29,6 +29,10 @@ function schemadotorg_focal_point_help(string $route_name, RouteMatchInterface $
  * (i.e. media:image and node:article)
  */
 function schemadotorg_focal_point_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if (\Drupal::isConfigSyncing()) {
+    return;
+  }
+
   /** @var \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager */
   $entity_field_manager = \Drupal::service('entity_field.manager');
   /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */

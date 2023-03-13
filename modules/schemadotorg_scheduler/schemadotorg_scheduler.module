@@ -25,6 +25,10 @@ function schemadotorg_scheduler_help(string $route_name, RouteMatchInterface $ro
  * Implements hook_schemadotorg_mapping_insert().
  */
 function schemadotorg_scheduler_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if (\Drupal::isConfigSyncing()) {
+    return;
+  }
+
   // Make sure we are adding scheduling to nodes.
   $entity_type_id = $mapping->getTargetEntityTypeId();
   if ($entity_type_id !== 'node') {

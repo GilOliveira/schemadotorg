@@ -29,6 +29,10 @@ function schemadotorg_editorial_help(string $route_name, RouteMatchInterface $ro
  * Implements hook_schemadotorg_mapping_insert().
  */
 function schemadotorg_editorial_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if (\Drupal::isConfigSyncing()) {
+    return;
+  }
+
   $entity_type = $mapping->getTargetEntityTypeId();
   $bundle = $mapping->getTargetBundle();
   $field_name = 'field_editorial';

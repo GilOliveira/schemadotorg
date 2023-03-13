@@ -30,6 +30,10 @@ function schemadotorg_metatag_help(string $route_name, RouteMatchInterface $rout
  * Implements hook_schemadotorg_mapping_insert().
  */
 function schemadotorg_metatag_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if (\Drupal::isConfigSyncing()) {
+    return;
+  }
+
   $entity_type_id = $mapping->getTargetEntityTypeId();
   $bundle = $mapping->getTargetBundle();
   $field_name = 'field_metatag';

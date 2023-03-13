@@ -82,6 +82,10 @@ function schemadotorg_taxonomy_preprocess_html(array &$variables): void {
  * Implements hook_schemadotorg_mapping_insert().
  */
 function schemadotorg_taxonomy_schemadotorg_mapping_insert(SchemaDotOrgMappingInterface $mapping): void {
+  if (\Drupal::isConfigSyncing()) {
+    return;
+  }
+
   /** @var \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyDefaultVocabularyManagerInterface $taxonomy_default_vocabulary_manager */
   $taxonomy_default_vocabulary_manager = \Drupal::service('schemadotorg_taxonomy.default_vocabulary_manager');
   $taxonomy_default_vocabulary_manager->mappingInsert($mapping);
