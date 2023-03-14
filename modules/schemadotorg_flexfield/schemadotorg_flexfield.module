@@ -104,7 +104,7 @@ function schemadotorg_flexfield_schemadotorg_property_field_alter(
 }
 
 /**
- * Implements hook_schemadotorg_jsonld_field_item_alter().
+ * Implements hook_schemadotorg_jsonld_schema_property_alter().
  */
 function schemadotorg_flexfield_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item): void {
   $mapping = _schemadotorg_flexfield_get_mapping($item);

@@ -28,7 +28,7 @@ Features
 Requirements
 ------------
 
-**[FlexField](https://www.drupal.org/project/flexfield)**    
+**[FlexField](https://www.drupal.org/project/flexfield)**  
 Defines a new "FlexField" field type that lets you create simple inline multiple-value fields without having to use entity references.
 
 
