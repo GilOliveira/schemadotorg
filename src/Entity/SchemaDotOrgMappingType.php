@@ -27,7 +27,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *     "form" = {
  *       "add" = "Drupal\schemadotorg\Form\SchemaDotOrgMappingTypeForm",
  *       "edit" = "Drupal\schemadotorg\Form\SchemaDotOrgMappingTypeForm",
- *       "delete" = "Drupal\Core\Entity\EntityDeleteForm"
+ *       "delete" = "Drupal\schemadotorg\Form\SchemaDotOrgMappingTypeDeleteForm"
  *     }
  *   },
  *   config_prefix = "schemadotorg_mapping_type",

@@ -57,6 +57,13 @@ class SchemaDotOrgMappingTypeFormTest extends SchemaDotOrgBrowserTestBase {
     $this->storage->resetCache();
     $mapping_type = $this->storage->load('node');
     $this->assertEquals($mapping_type_value, $mapping_type->toArray());
+
+    // Create a node:Thing Schema.org mapping.
+    $this->createSchemaEntity('node', 'Thing');
+
+    // Check deleting a Schema.org type that has mappings assigned to it.
+    $this->drupalGet('/admin/config/search/schemadotorg/types/node/delete');
+    $assert_session->responseContains('The <em class="placeholder">Content</em> Schema.org mapping type is used by 1 Schema.org mapping on your site. You can not remove this Schema.org mapping type until you have removed all of the <em class="placeholder">Content</em> Schema.org mappings.');
   }
 
 }

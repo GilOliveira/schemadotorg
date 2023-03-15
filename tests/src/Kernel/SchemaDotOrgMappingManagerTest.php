@@ -28,6 +28,7 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
     'file',
     'datetime',
     'image',
+    'paragraphs',
     'system',
     'telephone',
     'text',
@@ -155,6 +156,14 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
     }
     catch (\Exception $exception) {
       $this->assertEquals($exception->getMessage(), "The Schema.org type 'not_schema' is not valid.");
+    }
+
+    // Check create schema mapping validation.
+    try {
+      $this->mappingManager->createType('paragraph', 'Thing');
+    }
+    catch (\Exception $exception) {
+      $this->assertEquals($exception->getMessage(), "Mapping type 'paragraph' does not exist and is required to create a Schema.org 'Thing'.");
     }
 
     // Check creating user:Person type.

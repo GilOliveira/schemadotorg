@@ -466,8 +466,12 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
    * {@inheritdoc}
    */
   public function createType(string $entity_type_id, string $schema_type, array $defaults = []): void {
-    $bundles = $this->loadMappingType($entity_type_id)
-      ->getDefaultSchemaTypeBundles($schema_type);
+    $mapping_type = $this->loadMappingType($entity_type_id);
+    if (!$mapping_type) {
+      throw new \Exception(sprintf("Mapping type '%s' does not exist and is required to create a Schema.org '%s'.", $entity_type_id, $schema_type));
+    }
+
+    $bundles = $mapping_type->getDefaultSchemaTypeBundles($schema_type);
     if ($bundles) {
       foreach ($bundles as $bundle) {
         $mapping_defaults = $this->getMappingDefaults($entity_type_id, $bundle, $schema_type, $defaults);
