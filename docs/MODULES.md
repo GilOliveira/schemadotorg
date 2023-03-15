@@ -7,7 +7,7 @@ Below are recommended core and contributed modules that can be used with the Sch
 
 _Below modules are included with the Schema.org Blueprints module/package._
 
-Base
+### Base
 
 The below base modules are required to understand and build entity types based
 on Schema.org types.
@@ -21,7 +21,7 @@ on Schema.org types.
 - **[Schema.org Blueprints Report](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_report)**
   Provides a report for browsing Schema.org types, properties, and naming conventions.
 
-UI/UX
+### UI/UX
 
 The below UI/UX modules help enhance the creation and management
 Schema.org types.
@@ -41,11 +41,10 @@ Schema.org types.
 - **[Schema.org Blueprints Translation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_translation)**
   Manages translations for Schema.org types and properties as they are created.
 
-Fields
+### Fields
 
 The below field related modules help configure entity edit forms
 and field configuration settings.
-
 
 - **[Schema.org Blueprints Allowed Formats](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_allowed_formats)**
   Sets allowed format for Schema.org properties within an entity type/bundle Schema.org mapping.
@@ -74,7 +73,7 @@ and field configuration settings.
 - **[Schema.org Blueprints Smart Date](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_smart_date)**
   Allows a Smart date field to be used to create date ranges and event schedules included in a site's Schema.org JSON-LD.
 
-Entities
+### Entities
 
 The below entity type related module provide support and mappings for
 common entity types.
@@ -88,7 +87,7 @@ common entity types.
 - **[Schema.org Blueprints Taxonomy](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_taxonomy)**
   Assists with creating and mapping taxonomy vocabularies and terms.
 
-Layout
+### Layout
 
 The below layout related modules provide support for building layouts using
 Layout Paragraphs based on Schema.org types.
@@ -102,7 +101,7 @@ Layout Paragraphs based on Schema.org types.
 - **[Style Options](https://www.drupal.org/project/style_options)**
   Provides configurable styles management for attaching various style plugins to Layouts and Paragraphs.
 
-SEO
+### SEO
 
 The below SEO related modules help support common and popular Drupal
 SEO modules.
@@ -113,7 +112,7 @@ SEO modules.
 - **[Schema.org Blueprints Simple Sitemap](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_simple_sitemap)**
   Automatically adds Schema.org types to sitemap.xml.
 
-Workflow
+### Workflow
 
 The below workflow related modules help support common and popular Drupal
 workflow modules.
@@ -124,11 +123,10 @@ workflow modules.
 - **[Schema.org Blueprints Scheduler](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_scheduler)**
   Automatically enables scheduling for Schema.org types as they are created.
 
-JSON-LD
+### JSON-LD
 
 The below JSON-LD related modules generates Schema.org JSON-LD
 for search engines.
-
 
 - **[Schema.org Blueprints JSON-LD](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld)**
   Adds Schema.org structured data as JSON-LD in the head of web pages.
@@ -139,7 +137,7 @@ for search engines.
 - **[Schema.org Blueprints JSON-LD Breadcrumb](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_breadcrumb)**
   Add Drupal's breadcrumb to Schema.org JSON-LD for the current route.
 
-- **[Schema.org Blueprints JSON-LD Embed](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_embed)**  
+- **[Schema.org Blueprints JSON-LD Embed](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_embed)**
   Extracts embedded media and content from an entity and includes the associated Schema.org type in JSON-LD.
 
 - **[Schema.org Blueprints JSON-LD Endpoint](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_endpoint)**
@@ -148,14 +146,9 @@ for search engines.
 - **[Schema.org Blueprints JSON-LD Preview](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_preview)**
   Allows users to preview a web page's Schema.org JSON-LD.
 
-<<<<<<< HEAD
-API
+### API
 
 The below API related modules creates APIs based on Schema.org types
-=======
-The below API related modules creates APIs based on Schema.org types
->>>>>>> 1.0.x
-and properties.
 
 - **[Schema.org Blueprints JSON:API](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonapi)**
   Builds on top of the JSON:API and JSON:API extras modules to apply Schema.org type and property mappings to JSON:API resources.
@@ -163,7 +156,7 @@ and properties.
 - **[Schema.org Blueprints JSON:API Preview](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonapi_preivew)**
   Allows users to preview a web page's Schema.org JSON:API.
 
-Next.js
+### Next.js
 
 The below Next.js related modules helps front-end developers build and maintain
 a Next.js front-end.
@@ -174,12 +167,12 @@ a Next.js front-end.
 - **[Schema.org Blueprints Next.js Components](https://git.drupalcode.org/project/schemadotorg_next/-/tree/1.0.x/modules/schemadotorg_next_components)**
   Generates and previews Next.js React components to assist with the integration of Schema.org Blueprints with Next.js
 
-Development
+### Development
 
 - **[Schema.org Blueprints Devel](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_devel)**
   Provides development tools for the Schema.org Blueprints module.
 
-Demo
+### Demo
 
 - **[Schema.org Blueprints Demo](https://git.drupalcode.org/project/schemadotorg_demo/-/tree/1.0.x/README.md)**
   Provides an opinionated demo of the Schema.org Blueprints built on top of Drupal's standard profile with default content and translations.
