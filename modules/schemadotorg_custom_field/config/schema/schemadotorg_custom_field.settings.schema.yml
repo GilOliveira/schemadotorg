@@ -1,6 +1,6 @@
-schemadotorg_flexfield.settings:
+schemadotorg_custom_field.settings:
   type: config_entity
-  label: Schema.org FlexField settings
+  label: Schema.org Custom Field settings
   mapping:
     default_properties:
       type: sequence
@@ -18,3 +18,6 @@ schemadotorg_flexfield.settings:
             sequence:
               type: string
               label: Property
+    default_format:
+      type: string
+      label: Default format

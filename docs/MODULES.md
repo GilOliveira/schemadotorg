@@ -1,4 +1,4 @@
- Schema.org Blueprints: Recommended core and contributed modules
+Schema.org Blueprints: Recommended core and contributed modules
 ---------------------------------------------------------------
 
 Below are recommended core and contributed modules that can be used with the Schema.org Blueprints module.
@@ -36,7 +36,7 @@ Schema.org types.
   Provides the ability to create a set of related Schema.org types via Drush.
 
 - **[Schema.org Blueprints Subtype](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_subtype)**
-  Subtypes allow more specificity without having to create dedicated entity types for every appropriate Schema.org type.
+  Subtypes allow more specificity without having to create dedicated entity types for every appropriate Schema.type.
 
 - **[Schema.org Blueprints Translation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_translation)**
   Manages translations for Schema.org types and properties as they are created.
@@ -129,16 +129,17 @@ JSON-LD
 The below JSON-LD related modules generates Schema.org JSON-LD
 for search engines.
 
+
 - **[Schema.org Blueprints JSON-LD](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld)**
   Adds Schema.org structured data as JSON-LD in the head of web pages.
 
-- **[Schema.org Blueprints JSON-LD Custom](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_custom)**  
+- **[Schema.org Blueprints JSON-LD Custom](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_custom)**
   Allows custom JSON-LD to be added to Schema.org mapping.
 
 - **[Schema.org Blueprints JSON-LD Breadcrumb](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_breadcrumb)**
   Add Drupal's breadcrumb to Schema.org JSON-LD for the current route.
 
-- **[Schema.org Blueprints JSON-LD Embed](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_embed)**
+- **[Schema.org Blueprints JSON-LD Embed](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_embed)**  
   Extracts embedded media and content from an entity and includes the associated Schema.org type in JSON-LD.
 
 - **[Schema.org Blueprints JSON-LD Endpoint](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_endpoint)**
@@ -147,7 +148,13 @@ for search engines.
 - **[Schema.org Blueprints JSON-LD Preview](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonld_preview)**
   Allows users to preview a web page's Schema.org JSON-LD.
 
+<<<<<<< HEAD
+API
+
 The below API related modules creates APIs based on Schema.org types
+=======
+The below API related modules creates APIs based on Schema.org types
+>>>>>>> 1.0.x
 and properties.
 
 - **[Schema.org Blueprints JSON:API](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_jsonapi)**
@@ -275,6 +282,10 @@ _The below modules provide different ways to create and manage a collection of f
 - **[FlexField](https://www.drupal.org/project/flexfield)**
   (Applies to: [Intangible](https://schema.org/Intangible))
   Defines a new "FlexField" field type that lets you create simple inline multiple-value fields without having to use entity references.
+
+- **[Custom Field](https://www.drupal.org/project/custom_field)**
+  (Applies to: [Intangible](https://schema.org/Intangible))
+  Create simple, but flexible, multi-value fields without the hassle of entity references.
 
 ### Entity
 
