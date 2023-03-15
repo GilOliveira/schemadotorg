@@ -1,7 +1,7 @@
 name: Schema.org Blueprints Custom Field
 type: module
 description: Allows a Custom field to be used to create Schema.org relationships within an entity type/bundle Schema.org mapping.
-package: Schema.org Blueprints [DEPRECATED]
+package: Schema.org Blueprints [EXPERIMENTAL]
 core_version_requirement: '^9.4 || ^10.0'
 lifecycle: experimental
 dependencies:
