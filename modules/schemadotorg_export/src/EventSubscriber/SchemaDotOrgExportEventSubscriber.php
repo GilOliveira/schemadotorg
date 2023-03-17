@@ -8,6 +8,7 @@ use Drupal\Core\DependencyInjection\ServiceProviderBase;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
+use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -28,13 +29,24 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
   protected $routeMatch;
 
   /**
+   * The Schema.org schema type manager.
+   *
+   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
+   */
+  protected $schemaTypeManager;
+
+
+  /**
    * Constructs a SchemaDotOrgJsonApiExtrasEventSubscriber object.
    *
    * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
    *   The current route match.
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   *   The Schema.org schema type manager.
    */
-  public function __construct(RouteMatchInterface $route_match) {
+  public function __construct(RouteMatchInterface $route_match, SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager) {
     $this->routeMatch = $route_match;
+    $this->schemaTypeManager = $schema_type_manager;
   }
 
   /**
@@ -44,12 +56,17 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
    *   The event to process.
    */
   public function onView(ViewEvent $event): void {
+    $route_name = $this->routeMatch->getRouteName();
     $route = [
       'entity.schemadotorg_mapping.collection' => 'entity.schemadotorg_mapping.export',
       'schemadotorg_mapping_set.overview' => 'schemadotorg_mapping_set.overview.export',
       'schemadotorg_mapping_set.details' => 'schemadotorg_mapping_set.details.export',
     ];
-    $route_name = $this->routeMatch->getRouteName();
+
+    if ($route_name === 'schemadotorg_report'
+      && $this->schemaTypeManager->isType($this->routeMatch->getParameter('id'))) {
+      $route['schemadotorg_report'] = 'schemadotorg_report.type.export';
+    }
     if (isset($route[$route_name])) {
       $route_parameters = $this->routeMatch->getRawParameters()->all();
       $result = $event->getControllerResult();
