@@ -93,6 +93,19 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       return NULL;
     }
 
+    $requirements = [];
+    $this->checkRecommendedRequirements($requirements);
+    $this->checkIntegrationRequirements($requirements);
+    return $requirements;
+  }
+
+  /**
+   * Check for recommended modules.
+   *
+   * @param array &$requirements
+   *   An associative array of requirements for status reporting.
+   */
+  protected function checkRecommendedRequirements(array &$requirements): void {
     // NOTE: Suggestions are also included the Schema.org Blueprints
     // composer.json file.
     $recommended_modules = [
@@ -130,8 +143,8 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
 
     $installed_modules = $this->moduleHandler->getModuleList();
     $missing_modules = array_diff_key($recommended_modules, $installed_modules);
-    if (empty($missing_modules)) {
-      return [];
+    if (!$missing_modules) {
+      return;
     }
 
     $module_names = [];
@@ -150,15 +163,12 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
         ],
       ];
     }
-
-    $requirements = [];
-
-    $requirements['schemadotorg_modules'] = [
+    $requirements['schemadotorg_recommended_modules'] = [
       'title' => $this->t('Schema.org Blueprints: Recommended modules missing'),
       'value' => $this->t('Recommended modules missing: %module_list.', ['%module_list' => implode(', ', $module_names)]),
       'description' => [
         'content' => [
-          '#markup' => $this->t('The below recommend help intergrate and support Schema.org mappings, entities, and fields.'),
+          '#markup' => $this->t('The below recommended modules help integrate and support Schema.org mappings, entities, and fields.'),
         ],
         'items' => [
           '#theme' => 'item_list',
@@ -167,8 +177,72 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
       ],
       'severity' => REQUIREMENT_WARNING,
     ];
+  }
 
-    return $requirements;
+  /**
+   * Check for integration modules requirements.
+   *
+   * @param array &$requirements
+   *   An associative array of requirements for status reporting.
+   */
+  protected function checkIntegrationRequirements(array &$requirements): void {
+    $integration_modules = [
+      'media' => [
+        'title' => $this->t('Schema.org Blueprints Media'),
+        'description' => $this->t('Integrates the Media and Media Library module with the Schema.org Blueprints module.'),
+        'uri' => 'https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_media',
+      ],
+      'paragraphs' => [
+        'title' => $this->t('Schema.org Blueprints Paragraphs'),
+        'description' => $this->t('Integrates the Paragraphs and Paragraphs Library module with the Schema.org Blueprints module.'),
+        'uri' => 'https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_paragraphs',
+      ],
+      'taxonomy' => [
+        'title' => $this->t('Schema.org Blueprints Taxonomy'),
+        'description' => $this->t('Assists with creating and mapping taxonomy vocabularies and terms.'),
+        'uri' => 'https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_taxonomy)**',
+      ],
+    ];
+    foreach ($integration_modules as $module_name => $intergration_module) {
+      if (!$this->moduleHandler->moduleExists($module_name)
+        || $this->moduleHandler->moduleExists('schemadotorg_' . $module_name)) {
+        unset($integration_modules[$module_name]);
+      }
+    }
+    if (!$integration_modules) {
+      return;
+    }
+
+    $module_names = [];
+    $module_items = [];
+    foreach ($integration_modules as $integration_module) {
+      $module_names[] = $integration_module['title'];
+      $module_items[] = [
+        'title' => [
+          '#type' => 'link',
+          '#title' => $integration_module['title'],
+          '#url' => Url::fromUri($integration_module['uri']),
+          '#suffix' => '</br>',
+        ],
+        'description' => [
+          '#markup' => $integration_module['description'],
+        ],
+      ];
+    }
+    $requirements['schemadotorg_integration_modules'] = [
+      'title' => $this->t('Schema.org Blueprints: Integration modules missing'),
+      'value' => $this->t('Integration modules missing: %module_list.', ['%module_list' => implode(', ', $module_names)]),
+      'description' => [
+        'content' => [
+          '#markup' => $this->t('The below modules are required to support Schema.org mappings and entities.'),
+        ],
+        'items' => [
+          '#theme' => 'item_list',
+          '#items' => $module_items,
+        ],
+      ],
+      'severity' => REQUIREMENT_ERROR,
+    ];
   }
 
   /**
