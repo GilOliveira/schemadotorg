@@ -162,7 +162,12 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
 
     // Converted some $settings to $options.
     if (!empty($settings)) {
-      $option_names = ['label', 'third_party_settings'];
+      if ($display instanceof EntityViewDisplayInterface) {
+        $option_names = ['label', 'third_party_settings'];
+      }
+      else {
+        $option_names = ['third_party_settings'];
+      }
       foreach ($option_names as $option_name) {
         if (isset($settings[$option_name])) {
           $options[$option_name] = $settings[$option_name];

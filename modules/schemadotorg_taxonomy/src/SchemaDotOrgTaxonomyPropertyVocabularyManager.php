@@ -8,6 +8,7 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\content_translation\ContentTranslationManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -19,6 +20,13 @@ use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxonomyPropertyVocabularyManagerInterface {
   use StringTranslationTrait;
   use SchemaDotOrgTaxonomyTrait;
+
+  /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
 
   /**
    * The messenger service.
@@ -65,6 +73,8 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
   /**
    * Constructs a SchemaDotOrgTaxonomyPropertyVocabularyManager object.
    *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler service.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger
@@ -79,6 +89,7 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
    *   The content translation manager.
    */
   public function __construct(
+    ModuleHandlerInterface $module_handler,
     MessengerInterface $messenger,
     LoggerChannelFactoryInterface $logger,
     ConfigFactoryInterface $config_factory,
@@ -86,6 +97,7 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
     SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
     ?ContentTranslationManagerInterface $content_translation_manager = NULL
   ) {
+    $this->moduleHandler = $module_handler;
     $this->messenger = $messenger;
     $this->logger = $logger;
     $this->configFactory = $config_factory;
@@ -155,8 +167,23 @@ class SchemaDotOrgTaxonomyPropertyVocabularyManager implements SchemaDotOrgTaxon
       ],
     ];
 
-    // Use the tags widget.
-    $widget_id = 'entity_reference_autocomplete_tags';
+    // Use the entity reference tree and tags widget.
+    if ($this->moduleHandler->moduleExists('entity_reference_tree')) {
+      $widget_id = 'entity_reference_tree';
+      $widget_settings = [
+        'theme' => 'default',
+        'dots' => 0,
+        'size' => 60,
+        'placeholder' => '',
+        'match_operator' => 'CONTAINS',
+        'match_limit' => 10,
+        'dialog_title' => (string) $this->t('Select items'),
+        'label' => (string) $this->t('Select items'),
+      ];
+    }
+    else {
+      $widget_id = 'entity_reference_autocomplete_tags';
+    }
   }
 
   /**
