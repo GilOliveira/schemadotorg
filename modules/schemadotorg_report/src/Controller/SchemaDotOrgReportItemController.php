@@ -18,7 +18,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    * Builds the Schema.org type or property item.
    *
    * @param string $id
-   *   The Schema.org type of property ID.
+   *   The Schema.org type or property ID.
    *
    * @return array
    *   A renderable array containing a Schema.org type or property item.
@@ -42,7 +42,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
    * Route title callback.
    *
    * @param string $id
-   *   The Schema.org type of property ID.
+   *   The Schema.org type or property ID.
    *
    * @return \Drupal\Core\StringTranslation\TranslatableMarkup
    *   The title.
