@@ -53,13 +53,26 @@ function schemadotorg_taxonomy_modules_uninstalled(array $modules): void {
 /**
  * Implements hook_install().
  */
-function schemadotorg_taxonomy_install(): void {
+function schemadotorg_taxonomy_install($is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
+  // Create taxonomy term to Schema.org DefinedTerm mapping.
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $mapping_manager */
+  $mapping_manager = \Drupal::service('schemadotorg.mapping_manager');
+  $mapping_manager->createType('taxonomy_term', 'DefinedTerm');
+
   schemadotorg_taxonomy_modules_installed(['schemadotorg_jsonapi', 'schemadotorg_jsonld_endpoint']);
 }
 
 /**
  * Implements hook_install().
  */
-function schemadotorg_taxonomy_uninstall(): void {
+function schemadotorg_taxonomy_uninstall($is_syncing): void {
+  if ($is_syncing) {
+    return;
+  }
+
   schemadotorg_taxonomy_modules_uninstalled(['schemadotorg_jsonapi', 'schemadotorg_jsonld_endpoint']);
 }
