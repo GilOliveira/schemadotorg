@@ -23,7 +23,7 @@
   }());
 
   /**
-   * Tracks Schema.org JSON-LD details open/close state.
+   * Tracks Schema.org details open/close state.
    *
    * @type {Drupal~behavior}
    */
@@ -46,6 +46,9 @@
           const open = localStorage.getItem(key);
           if (open === '1') {
             element.setAttribute('open', 'open');
+          }
+          else if (open === '0') {
+            element.removeAttribute('open');
           }
         });
     }

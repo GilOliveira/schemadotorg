@@ -4,14 +4,14 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_report\Form;
 
-use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
+use Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase;
 
 /**
  * Configure Schema.org report settings.
  */
-class SchemaDotOrgReportSettingsForm extends ConfigFormBase {
+class SchemaDotOrgReportSettingsForm extends SchemaDotOrgSettingsFormBase {
 
   /**
    * {@inheritdoc}

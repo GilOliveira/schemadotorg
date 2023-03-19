@@ -4,14 +4,13 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg\Form;
 
-use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 
 /**
  * Configure Schema.org types settings for types.
  */
-class SchemaDotOrgSettingsTypesForm extends ConfigFormBase {
+class SchemaDotOrgSettingsTypesForm extends SchemaDotOrgSettingsFormBase {
 
   /**
    * {@inheritdoc}

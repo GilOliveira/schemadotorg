@@ -4,14 +4,14 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_jsonld\Form;
 
-use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
+use Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase;
 
 /**
  * Configure Schema.org JSON-LD settings.
  */
-class SchemaDotOrgJsonLdSettingsForm extends ConfigFormBase {
+class SchemaDotOrgJsonLdSettingsForm extends SchemaDotOrgSettingsFormBase {
 
   /**
    * {@inheritdoc}

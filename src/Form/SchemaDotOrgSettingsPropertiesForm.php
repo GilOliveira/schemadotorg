@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg\Form;
 
-use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -12,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Configure Schema.org properties settings for properties.
  */
-class SchemaDotOrgSettingsPropertiesForm extends ConfigFormBase {
+class SchemaDotOrgSettingsPropertiesForm extends SchemaDotOrgSettingsFormBase {
 
   /**
    * The entity type manager.

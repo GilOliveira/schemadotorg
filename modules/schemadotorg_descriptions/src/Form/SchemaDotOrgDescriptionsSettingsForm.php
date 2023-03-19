@@ -5,14 +5,14 @@ declare(strict_types = 1);
 namespace Drupal\schemadotorg_descriptions\Form;
 
 use Drupal\Core\Cache\Cache;
-use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
+use Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase;
 
 /**
  * Configure Schema.org Descriptions settings.
  */
-class SchemaDotOrgDescriptionsSettingsForm extends ConfigFormBase {
+class SchemaDotOrgDescriptionsSettingsForm extends SchemaDotOrgSettingsFormBase {
 
   /**
    * {@inheritdoc}
