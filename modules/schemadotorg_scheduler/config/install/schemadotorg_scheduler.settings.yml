@@ -4,3 +4,5 @@ scheduled_types:
   Event:
     - publish
     - unpublish
+  Episode:
+    - publish
