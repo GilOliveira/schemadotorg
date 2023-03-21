@@ -7,6 +7,8 @@
 
 declare(strict_types = 1);
 
+use Drupal\taxonomy\Entity\Vocabulary;
+
 /**
  * Implements hook_modules_installed().
  */
@@ -58,10 +60,12 @@ function schemadotorg_taxonomy_install($is_syncing): void {
     return;
   }
 
-  // Create taxonomy term to Schema.org DefinedTerm mapping.
-  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $mapping_manager */
-  $mapping_manager = \Drupal::service('schemadotorg.mapping_manager');
-  $mapping_manager->createType('taxonomy_term', 'DefinedTerm');
+  // Create tags vocabulary to Schema.org DefinedTerm mapping.
+  if (Vocabulary::load('tags')) {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $mapping_manager */
+    $mapping_manager = \Drupal::service('schemadotorg.mapping_manager');
+    $mapping_manager->createType('taxonomy_term', 'DefinedTerm');
+  }
 
   schemadotorg_taxonomy_modules_installed(['schemadotorg_jsonapi', 'schemadotorg_jsonld_endpoint']);
 }
