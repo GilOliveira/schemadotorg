@@ -70,6 +70,9 @@ class SchemaDotOrgCustomFieldBuilder implements SchemaDotOrgCustomFieldBuilderIn
     $field_name = $items->getFieldDefinition()->getName();
     $schema_type = $mapping->getSchemaType();
     $schema_property = $mapping->getSchemaPropertyMapping($field_name);
+    if (!$schema_property) {
+      return;
+    }
 
     // Check to see if the property has custom field settings.
     if (!$this->schemaCustomFieldManager->getDefaultProperties($schema_type, $schema_property)) {
