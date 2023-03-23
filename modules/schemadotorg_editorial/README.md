@@ -28,11 +28,11 @@ Features
 Requirements
 ------------
 
-**[Paragraphs](https://www.drupal.org/project/paragraphs)**
+**[Paragraphs](https://www.drupal.org/project/paragraphs)**  
 Enables the creation of paragraphs entities.
 
-**[Field Group](https://www.drupal.org/project/field_group)**
+**[Field Group](https://www.drupal.org/project/field_group)**  
 Provides the ability to group your fields on both form and display.
 
-**[Inline Entity Form](https://www.drupal.org/project/inline_entity_form)**
+**[Inline Entity Form](https://www.drupal.org/project/inline_entity_form)**  
 Provides a widget for inline management (creation, modification, removal) of referenced entities.

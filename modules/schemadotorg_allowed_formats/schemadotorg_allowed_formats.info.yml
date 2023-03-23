@@ -1,7 +1,7 @@
 name: 'Schema.org Blueprints Allowed Formats'
 type: module
 description: 'Sets allowed format for Schema.org properties within an entity type/bundle Schema.org mapping.'
-package: Schema.org Blueprints Extras
+package: Schema.org Blueprints Fields
 core_version_requirement: '^9.4 || ^10.0'
 configure: schemadotorg.settings.properties
 dependencies:

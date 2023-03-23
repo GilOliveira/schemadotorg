@@ -23,7 +23,7 @@ Features
 Requirements
 ------------
 
-**[Allowed Formats](https://www.drupal.org/project/allowed_formats)**
+**[Allowed Formats](https://www.drupal.org/project/allowed_formats)**  
 Limit which text formats are available for each field instance.
 
 

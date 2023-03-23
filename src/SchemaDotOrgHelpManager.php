@@ -275,6 +275,8 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
     $modules = array_filter($this->moduleExtensionList->getAllAvailableInfo(), function (array $info): bool {
       return str_starts_with($info['package'], 'Schema.org Blueprints');
     });
+    ksort($modules);
+
     $packages = [];
     foreach ($modules as $module_name => $module_info) {
       $package = $module_info['package'];
@@ -312,6 +314,7 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
       ];
     }
     ksort($packages);
+    $packages = ['Schema.org Blueprints Core' => $packages['Schema.org Blueprints Core']] + $packages;
 
     return [
       '#type' => 'details',

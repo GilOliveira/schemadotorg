@@ -1,7 +1,7 @@
 name: 'Schema.org Blueprints Taxonomy'
 type: module
 description: 'Assists with creating and mapping taxonomy vocabularies and terms.'
-package: Schema.org Blueprints
+package: Schema.org Blueprints Entities
 core_version_requirement: '^9.4 || ^10.0'
 configure: schemadotorg.settings.properties
 dependencies:
