@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\Tests\schemadotorg_taxonomy\Kernel;
 
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
+use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 
 /**
@@ -34,6 +35,8 @@ class SchemaDotOrgTaxonomyInstallTest extends SchemaDotOrgKernelEntityTestBase {
     $this->installEntitySchema('taxonomy_vocabulary');
     $this->installEntitySchema('taxonomy_term');
     $this->installConfig(['schemadotorg_taxonomy']);
+
+    Vocabulary::create(['name' => 'Tags', 'vid' => 'tags'])->save();
   }
 
   /**
