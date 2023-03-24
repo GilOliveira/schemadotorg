@@ -8,13 +8,11 @@
 declare(strict_types = 1);
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
-use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /**
@@ -87,67 +85,6 @@ function schemadotorg_metatag_schemadotorg_mapping_insert(SchemaDotOrgMappingInt
   }
 }
 
-/**
- * Implements hook_field_widget_WIDGET_TYPE_form_alter().
- */
-function schemadotorg_metatag_field_widget_metatag_firehose_form_alter(array &$element, FormStateInterface $form_state, array $context): void {
-  // @see https://www.drupal.org/project/metatag/issues/3108108
-  /** @var \Drupal\metatag\Plugin\Field\FieldType\MetatagFieldItemList $items */
-  $items = $context['items'];
-  $entity = $items->getEntity();
-  if (!SchemaDotOrgMapping::loadByEntity($entity)) {
-    return;
-  }
-
-  // Move meta tag markup elements in the meta tag detail description.
-  $active_theme_name = \Drupal::service('theme.manager')->getActiveTheme()->getName();
-  if ($active_theme_name === 'gin') {
-    $description_keys = [
-      'preamble' => 'preamble',
-      'intro_text' => 'intro_text',
-      'tokens' => 'tokens',
-    ];
-    $element['#description'] = array_intersect_key($element, $description_keys);
-    $element = array_diff_key($element, $description_keys);
-  }
-
-  $config = \Drupal::config('schemadotorg_metatag.settings');
-  $allowed_metatags = $config->get('allowed_metatags');
-  $allowed_robots = $config->get('allowed_robots');
-  _schemadotorg_metatag_field_widget_metatag_firehose_form_alter_recursive($element, $allowed_metatags, $allowed_robots);
-}
-
-/**
- * Recurse through the metatag widget and only display allowed metatags.
- */
-function _schemadotorg_metatag_field_widget_metatag_firehose_form_alter_recursive(array &$elements, array $allowed_metatags, array $allowed_robots): void {
-  foreach (Element::children($elements) as $key) {
-    $element =& $elements[$key];
-    $type = $element['#type'] ?? '';
-
-    if (!in_array($key, $allowed_metatags)
-      && $type !== 'details') {
-      $element['#access'] = FALSE;
-    }
-    elseif ($key === 'robots') {
-      if ($allowed_robots) {
-        $allowed_robots = array_combine($allowed_robots, $allowed_robots);
-        $element['#options'] = array_intersect_key($element['#options'], $allowed_robots);
-        foreach (Element::children($element) as $robots_key) {
-          unset($element[$robots_key]);
-        }
-      }
-    }
-    else {
-      if ($type === 'details'
-        && \Drupal::config('schemadotorg_metatag.settings')->get('hide_groups_details')) {
-        $element['#type'] = 'container';
-      }
-      _schemadotorg_metatag_field_widget_metatag_firehose_form_alter_recursive($element, $allowed_metatags, $allowed_robots);
-    }
-  }
-}
-
 /* ************************************************************************** */
 // Schema.org types settings form.
 /* ************************************************************************** */
@@ -180,40 +117,6 @@ function schemadotorg_metatag_form_schemadotorg_types_settings_form_alter(array 
     '#description' => t('Identify which metatag groups should be available on which entity type / bundle combination. Unselected groups will not appear on the configuration form for that entity type, reducing the size of the form and increasing performance. If no groups are selected for a type, all groups will appear.'),
     '#default_value' => $config->get('default_groups'),
     '#options' => $metatag_group_options,
-    '#element_validate' => [['\Drupal\schemadotorg\Utility\SchemaDotOrgElementHelper', 'validateMultipleOptions']],
-  ];
-  $form['schemadotorg_metatag']['hide_groups_details'] = [
-    '#type' => 'checkbox',
-    '#title' => t('Hide metatag group details wrapper'),
-    '#description' => t('If checked, metatag grouping will not be displayed.'),
-    '#default_value' => $config->get('hide_groups_details'),
-    '#return_value' => TRUE,
-  ];
-  $form['schemadotorg_metatag']['allowed_metatags'] = [
-    '#type' => 'schemadotorg_settings',
-    '#settings_type' => SchemaDotOrgSettings::INDEXED,
-    '#settings_format' => 'metatag',
-    '#title' => t('Allowed meta tags'),
-    '#description' => t('Enter allowed <a href=":href">meta tags by name</a> to be displayed on node edit forms. Leave blank to allow all meta tags to be display.', $t_args),
-    '#default_value' => $config->get('allowed_metatags'),
-  ];
-  $form['schemadotorg_metatag']['allowed_robots'] = [
-    '#type' => 'checkboxes',
-    '#title' => t('Allowed robots directives'),
-    '#description' => t('Check robots directives to be displayed on node edit forms. Leave unchecked to display all robots directives.'),
-    '#options' => [
-      'index' => t('index - Allow search engines to index this page (assumed).'),
-      'follow' => t('follow - Allow search engines to follow links on this page (assumed).'),
-      'noindex' => t('noindex - Prevents search engines from indexing this page.'),
-      'nofollow' => t('nofollow - Prevents search engines from following links on this page.'),
-      'noarchive' => t('noarchive - Prevents cached copies of this page from appearing in search results.'),
-      'nosnippet' => t('nosnippet - Prevents descriptions from appearing in search results, and prevents page caching.'),
-      'noodp' => t('noodp - Blocks the <a href=":opendirectory">Open Directory Project</a> description from appearing in search results.', [':opendirectory' => 'http://www.dmoz.org/']),
-      'noydir' => t('noydir - Prevents Yahoo! from listing this page in the <a href=":ydir">Yahoo! Directory</a>.', [':ydir' => 'http://dir.yahoo.com/']),
-      'noimageindex' => t('noimageindex - Prevent search engines from indexing images on this page.'),
-      'notranslate' => t('notranslate - Prevent search engines from offering to translate this page in search results.'),
-    ],
-    '#default_value' => $config->get('allowed_robots'),
     '#element_validate' => [['\Drupal\schemadotorg\Utility\SchemaDotOrgElementHelper', 'validateMultipleOptions']],
   ];
 
