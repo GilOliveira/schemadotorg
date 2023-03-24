@@ -79,15 +79,14 @@ function _schemadotorg_scheduler_set_form_display(SchemaDotOrgMappingInterface $
 
   $publish_enable = $entity_type->getThirdPartySetting('scheduler', 'publish_enable');
   $unpublish_enable = $entity_type->getThirdPartySetting('scheduler', 'unpublish_enable');
-  if ($publish_enable || $unpublish_enable) {
-    return;
-  }
-
+  $scheduler_moderation_installed = \Drupal::moduleHandler()->moduleExists('scheduler_moderation');
   /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository */
   $entity_display_repository = \Drupal::service('entity_display.repository');
   $form_modes = array_merge(['default'], array_keys($entity_display_repository->getFormModes($entity_type_id)));
   foreach ($form_modes as $form_mode) {
     $form_display = $entity_display_repository->getFormDisplay($entity_type_id, $bundle, $form_mode);
+    $form_display->setComponent('scheduler_settings', ['weight' => 50]);
+
     if (!$publish_enable) {
       if ($form_display->getComponent('publish_on')) {
         $form_display->removeComponent('publish_on');
@@ -96,12 +95,25 @@ function _schemadotorg_scheduler_set_form_display(SchemaDotOrgMappingInterface $
         $form_display->removeComponent('publish_state');
       }
     }
+    else {
+      $form_display->setComponent('publish_on', ['type' => 'datetime_timestamp_no_default', 'weight' => 52]);
+      if ($scheduler_moderation_installed) {
+        $form_display->setComponent('publish_state', ['type' => 'scheduler_moderation', 'weight' => 55]);
+      }
+    }
+
     if (!$unpublish_enable) {
       if ($form_display->getComponent('unpublish_on')) {
         $form_display->removeComponent('unpublish_on');
       }
       if ($form_display->getComponent('unpublish_state')) {
         $form_display->removeComponent('unpublish_state');
+      }
+    }
+    else {
+      $form_display->setComponent('unpublish_on', ['type' => 'datetime_timestamp_no_default', 'weight' => 52]);
+      if ($scheduler_moderation_installed) {
+        $form_display->setComponent('unpublish_state', ['type' => 'scheduler_moderation', 'weight' => 55]);
       }
     }
     $form_display->save();
