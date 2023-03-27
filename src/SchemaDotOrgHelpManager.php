@@ -290,6 +290,7 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
           'modules' => [],
         ];
       }
+
       if ($this->moduleHandler->moduleExists($module_name)) {
         $name = [
           '#type' => 'link',
@@ -306,12 +307,24 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
           '#suffix' => '</strong><br/>',
         ];
       }
+
       $packages[$package]['modules'][$module_name] = [
         '#prefix' => '<p>',
         '#suffix' => '</p>',
         'name' => $name,
         'description' => ['#markup' => $module_info['description']],
       ];
+
+      $path = $this->moduleExtensionList->getPath($module_name);
+      if (!str_contains($module_name, '_jsonld')
+        && file_exists("$path/$module_name.module")
+        && str_contains(file_get_contents("$path/$module_name.module"), '_schemadotorg_jsonld_')) {
+        $packages[$package]['modules'][$module_name]['jsonld'] = [
+          '#markup' => $this->t('Provides Schema.org JSON-LD integration.'),
+          '#prefix' => '<br/><em>',
+          '#suffix' => '</em>',
+        ];
+      }
     }
     ksort($packages);
     $packages = ['Schema.org Blueprints Core' => $packages['Schema.org Blueprints Core']] + $packages;
