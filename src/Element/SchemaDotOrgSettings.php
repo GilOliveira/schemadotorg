@@ -129,6 +129,7 @@ class SchemaDotOrgSettings extends Textarea {
             '#parents' => ['schemadotorg_settings_toggle', 'link'],
           ],
           '#parents' => ['schemadotorg_settings_toggle'],
+          '#weight' => -100,
         ],
       ] + $complete_form;
     }

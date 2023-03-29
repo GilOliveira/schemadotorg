@@ -1,5 +1,0 @@
-schemadotorg_descriptions.settings:
-  title: Descriptions
-  route_name: schemadotorg_descriptions.settings
-  parent_id: schemadotorg.settings
-  weight: 50

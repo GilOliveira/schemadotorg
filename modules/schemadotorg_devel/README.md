@@ -31,6 +31,6 @@ Various blocks, pages, and functions for developers.
 Configuration
 -------------
 
-- Go to /admin/config/search/schemadotorg/settings/devel
+- Go to /admin/config/search/schemadotorg/settings/general
 - Enter Schema.org property values to be used when generating content using
   the Devel Generate module.

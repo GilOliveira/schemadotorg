@@ -59,6 +59,9 @@ function schemadotorg_help(string $route_name, RouteMatchInterface $route_match)
     case 'entity.schemadotorg_mapping_type.collection':
       return '<p>' . t('The <em>Schema.org mapping types</em> page lists all available mapping types with default settings for available Drupal entity types.') . '</p>';
 
+    case 'schemadotorg.settings.general':
+      return '<p>' . t('The <em>Schema.org general settings</em> page allows administrators to configure the default general settings for the Schema.org Blueprints module.') . '</p>';
+
     case 'schemadotorg.settings.types':
       return '<p>' . t('The <em>Schema.org types settings</em> page allows administrators to configure the default settings for Schema.org types.') . '</p>';
 

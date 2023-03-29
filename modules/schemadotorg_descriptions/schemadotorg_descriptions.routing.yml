@@ -1,7 +1,0 @@
-schemadotorg_descriptions.settings:
-  path: '/admin/config/search/schemadotorg/settings/descriptions'
-  defaults:
-    _title: 'Schema.org descriptions settings'
-    _form: 'Drupal\schemadotorg_descriptions\Form\SchemaDotOrgDescriptionsSettingsForm'
-  requirements:
-    _permission: 'administer schemadotorg'

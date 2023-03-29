@@ -1,5 +1,0 @@
-schemadotorg_devel.settings:
-  title: Development
-  route_name: schemadotorg_devel.settings
-  parent_id: schemadotorg.settings
-  weight: 100

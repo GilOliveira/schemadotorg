@@ -6,6 +6,14 @@ schemadotorg.settings:
   requirements:
     _permission: 'administer schemadotorg'
 
+schemadotorg.settings.general:
+  path: '/admin/config/search/schemadotorg/settings/general'
+  defaults:
+    _title: 'Schema.org general settings'
+    _form: 'Drupal\schemadotorg\Form\SchemaDotOrgSettingsGeneralForm'
+  requirements:
+    _permission: 'administer schemadotorg'
+
 schemadotorg.settings.types:
   path: '/admin/config/search/schemadotorg/settings/types'
   defaults:

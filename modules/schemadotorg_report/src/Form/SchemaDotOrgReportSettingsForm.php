@@ -62,17 +62,4 @@ class SchemaDotOrgReportSettingsForm extends SchemaDotOrgSettingsFormBase {
     return parent::buildForm($form, $form_state);
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function submitForm(array &$form, FormStateInterface $form_state): void {
-    $config = $this->config('schemadotorg_report.settings');
-    $values = $form_state->getValue('schemadotorg_report');
-    foreach ($values as $key => $value) {
-      $config->set($key, $value);
-    }
-
-    parent::submitForm($form, $form_state);
-  }
-
 }

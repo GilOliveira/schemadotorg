@@ -35,7 +35,7 @@ class SchemaDotOrgDescriptionsSettingsFormTest extends SchemaDotOrgBrowserTestBa
    * Test Schema.org Descriptions settings form.
    */
   public function testSettingsForm(): void {
-    $this->assertSaveSettingsConfigForm('schemadotorg_descriptions.settings', '/admin/config/search/schemadotorg/settings/descriptions');
+    $this->assertSaveSettingsConfigForm('schemadotorg_descriptions.settings', '/admin/config/search/schemadotorg/settings/general');
   }
 
 }

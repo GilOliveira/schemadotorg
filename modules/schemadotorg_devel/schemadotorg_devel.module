@@ -10,19 +10,17 @@ declare(strict_types = 1);
 use Drupal\Component\Utility\Random;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\node\Entity\NodeType;
 use Drupal\node\NodeInterface;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 
 /**
  * Implements hook_help().
  */
 function schemadotorg_devel_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
-  if ($route_name === 'schemadotorg_devel.settings') {
-    return '<p>' . t('The <em>Schema.org development settings</em> page allows administrators to configure content generation settings.') . '<p>';
-  }
-
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
@@ -98,4 +96,27 @@ function schemadotorg_devel_entity_presave(EntityInterface $entity): void {
       }
     }
   }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function schemadotorg_devel_form_schemadotorg_general_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_devel'] = [
+    '#type' => 'details',
+    '#title' => t('Development settings'),
+    '#open' => TRUE,
+    '#tree' => TRUE,
+    '#weight' => 10,
+  ];
+  $form['schemadotorg_devel']['generate_property_values'] = [
+    '#title' => t('Schema.org devel generate property values'),
+    '#type' => 'schemadotorg_settings',
+    '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
+    '#settings_format' => 'propertyName|value01,value02,value03 or propertyName| or SchemaType--propertyName|value01,value02,value03 or SchemaType--propertyName|',
+    '#description' => t('Enter Schema.org property values to be used when generating content using the Devel generate module.')
+    . ' '
+    . t('Leave blank to disable the generation of property values.'),
+    '#description_link' => 'types',
+  ];
 }

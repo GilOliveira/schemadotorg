@@ -47,15 +47,21 @@ abstract class SchemaDotOrgSettingsFormBase extends ConfigFormBase {
 
     // Only open the first details element.
     $is_first = TRUE;
+    $has_details = FALSE;
     foreach (Element::children($form) as $child_key) {
       if (NestedArray::getValue($form, [$child_key, '#type']) === 'details') {
         $form[$child_key]['#open'] = $is_first;
         $is_first = FALSE;
-
+        $has_details = TRUE;
         $form[$child_key]['#attributes']['data-schemadotorg-details-key'] = "details-$form_id-$child_key";
       }
     }
     $form['#attached']['library'][] = 'schemadotorg/schemadotorg.details';
+
+    // Hide the submit button if the form has no details elements.
+    if (!$has_details) {
+      $form['actions']['#access'] = FALSE;
+    }
 
     return $form;
   }

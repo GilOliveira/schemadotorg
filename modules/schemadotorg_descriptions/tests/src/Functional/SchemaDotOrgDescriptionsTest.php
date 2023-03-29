@@ -98,7 +98,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     $assert_session->responseContains('An alias for the item.');
 
     // Add custom descriptions for Thing and alternateName.
-    $this->drupalGet('/admin/config/search/schemadotorg/settings/descriptions');
+    $this->drupalGet('/admin/config/search/schemadotorg/settings/general');
     $edit = [
       'schemadotorg_descriptions[custom_descriptions]' => 'Thing|This is a custom description for a Thing.'
       . PHP_EOL . 'alternateName|This is a custom description for an alternateName',
@@ -125,7 +125,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     $assert_session->responseContains('This is a custom description for an alternateName');
 
     // Add custom descriptions for Thing and alternateName.
-    $this->drupalGet('/admin/config/search/schemadotorg/settings/descriptions');
+    $this->drupalGet('/admin/config/search/schemadotorg/settings/general');
     $edit = [
       'schemadotorg_descriptions[custom_descriptions]' => 'Thing|This is a custom description for a Thing.'
       . PHP_EOL . 'alternateName|This is a custom description for an alternateName'
@@ -140,7 +140,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     $assert_session->responseContains('This is a custom description for an Thing--alternateName');
 
     // Remove custom descriptions for Thing and alternateName.
-    $this->drupalGet('/admin/config/search/schemadotorg/settings/descriptions');
+    $this->drupalGet('/admin/config/search/schemadotorg/settings/general');
     $edit = [
       'schemadotorg_descriptions[custom_descriptions]' => 'Thing' . PHP_EOL . 'alternateName',
     ];
@@ -172,7 +172,7 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
     $assert_session->responseNotContains('Usage guidelines:');
 
     // Disable trim descriptions.
-    $this->drupalGet('/admin/config/search/schemadotorg/settings/descriptions');
+    $this->drupalGet('/admin/config/search/schemadotorg/settings/general');
     $edit = ['schemadotorg_descriptions[trim_descriptions]' => FALSE];
     $this->submitForm($edit, 'Save configuration');
 

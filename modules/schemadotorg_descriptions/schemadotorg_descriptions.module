@@ -7,11 +7,13 @@
 
 declare(strict_types = 1);
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\field\FieldConfigInterface;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\Utility\SchemaDotOrgStringHelper;
 use Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm;
@@ -20,10 +22,6 @@ use Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm;
  * Implements hook_help().
  */
 function schemadotorg_descriptions_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
-  if ($route_name === 'schemadotorg_descriptions.settings') {
-    return '<p>' . t('The <em>Schema.org descriptions settings</em> page allows administrators to configure the descriptions for Schema.org types and properties.') . '<p>';
-  }
-
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
@@ -223,5 +221,61 @@ function schemadotorg_descriptions_schemadotorg_property_field_alter(
   // Unset the field's description if it has not been altered.
   if ($field_values['description'] === $description) {
     $field_values['description'] = '';
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function schemadotorg_descriptions_form_schemadotorg_general_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $config = \Drupal::config('schemadotorg_descriptions.settings');
+
+  $form['schemadotorg_descriptions'] = [
+    '#type' => 'details',
+    '#title' => t('Description settings'),
+    '#open' => TRUE,
+    '#tree' => TRUE,
+    '#weight' => -10,
+  ];
+  $form['schemadotorg_descriptions']['custom_descriptions'] = [
+    '#title' => t('Custom Schema.org type and property descriptions'),
+    '#type' => 'schemadotorg_settings',
+    '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+    '#settings_format' => 'SchemeType or SchemeType|description or propertyName or propertyName|description',
+    '#description' => t('Enter custom Schema.org type and property descriptions. Leave the description blank to remove the default description provided by Schema.org.'),
+    '#description_link' => 'types',
+    '#default_value' => $config->get('custom_descriptions'),
+  ];
+  $form['schemadotorg_descriptions']['trim_descriptions'] = [
+    '#title' => t('Trim long Schema.org type and property descriptions'),
+    '#type' => 'checkbox',
+    '#description' => t("If checked, long Schema.org type and property descriptions will be truncated to the first paragraphs and a 'learn more' link will be appended to the description."),
+    '#default_value' => $config->get('trim_descriptions'),
+    '#return_value' => TRUE,
+  ];
+  $form['schemadotorg_descriptions']['help_descriptions'] = [
+    '#title' => t('Set explanation or submission guidelines to the Schema.org type descriptions'),
+    '#type' => 'checkbox',
+    '#description' => t("If checked, Schema.org type descriptions will also be displayed as the explanation/submission guidelines. Explanation/submission guidelines are only applicable to content types."),
+    '#default_value' => $config->get('help_descriptions'),
+    '#return_value' => TRUE,
+  ];
+
+  $form['#submit'][] = 'schemadotorg_descriptions_general_settings_submit';
+}
+
+/**
+ * Form submission handler for schemadotorg_description_settings_form().
+ *
+ * @see schemadotorg_descriptions_form_schemadotorg_general_settings_form_alter()
+ */
+function schemadotorg_descriptions_general_settings_submit(array &$form, FormStateInterface $form_state): void {
+  // Clear cache bins to make sure descriptions are updated.
+  $cache_backends = Cache::getBins();
+  $service_ids = ['data', 'discovery', 'dynamic_page_cache'];
+  foreach ($service_ids as $service_id) {
+    if (isset($cache_backends[$service_id])) {
+      $cache_backends[$service_id]->deleteAll();
+    }
   }
 }
