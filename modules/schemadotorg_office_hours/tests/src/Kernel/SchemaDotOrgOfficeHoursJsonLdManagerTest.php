@@ -99,6 +99,9 @@ class SchemaDotOrgOfficeHoursJsonLdManagerTest extends SchemaDotOrgKernelEntityT
       'comment' => 1,
       'valhrs' => FALSE,
       'cardinality_per_day' => 2,
+      'all_day' => FALSE,
+      'exceptions' => TRUE,
+      'seasons' => FALSE,
     ], $field_storage_config->getSettings());
 
     // Check Place openingHoursSpecification JSON-LD value.
