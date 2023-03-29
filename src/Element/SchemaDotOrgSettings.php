@@ -11,6 +11,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Render\Element\Textarea;
 use Drupal\Core\Render\Markup;
+use Drupal\Core\Serialization\Yaml;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 
 /**
@@ -78,9 +80,9 @@ class SchemaDotOrgSettings extends Textarea {
       '#settings_format' => '',
       '#description' => '',
       '#description_link' => '',
-      '#attributes' => [
-        'wrap' => 'off',
-      ],
+      '#config_name' => '',
+      '#config_key' => '',
+      '#attributes' => ['wrap' => 'off'],
     ] + parent::getInfo();
   }
 
@@ -97,6 +99,40 @@ class SchemaDotOrgSettings extends Textarea {
    * Processes a 'schemadotorg_settings' element.
    */
   public static function processSchemaDotOrgSettings(&$element, FormStateInterface $form_state, &$complete_form) {
+    $config_name = static::getConfigName($element);
+    $config_key = static::getConfigKey($element);
+    if (!isset($complete_form['schemadotorg_settings_toggle'])
+      && $config_name
+      && $config_key) {
+      $edit_yaml = static::editYaml($element);
+
+      $title = $edit_yaml
+        ? t('Hide YAML')
+        : t('Show YAML');
+      $url = Url::fromRoute('<current>', [], ['query' => ['yaml' => (int) !$edit_yaml]]);
+      $complete_form = [
+        'schemadotorg_settings_toggle' => [
+          '#type' => 'container',
+          '#attributes' => ['class' => ['compact-link', 'schemadotorg-settings-element-toggle']],
+          'link' => [
+            '#type' => 'link',
+            '#title' => $title,
+            '#url' => $url,
+            '#attributes' => [
+              'title' => $title,
+              'class' => [
+                'action-link',
+                'action-link--extrasmall',
+                'action-link--icon-' . ($edit_yaml ? 'hide' : 'show'),
+              ],
+            ],
+            '#parents' => ['schemadotorg_settings_toggle', 'link'],
+          ],
+          '#parents' => ['schemadotorg_settings_toggle'],
+        ],
+      ] + $complete_form;
+    }
+
     // Append Schema.org browse types or properties link to the description.
     $link_table = $element['#description_link'];
     if (in_array($link_table, ['types', 'properties'])
@@ -111,7 +147,7 @@ class SchemaDotOrgSettings extends Textarea {
     }
 
     // Append settings description with or without settings format.
-    if ($element['#settings_description']) {
+    if ($element['#settings_description'] && !static::editYaml($element)) {
       $element['#description'] .= (!empty($element['#description'])) ? '<br/><br/>' : '';
       $format = static::getSettingsFormat($element);
       if ($format) {
@@ -129,9 +165,16 @@ class SchemaDotOrgSettings extends Textarea {
       }
     }
 
+    $element['#attached']['library'][] = 'schemadotorg/schemadotorg.settings.element';
+
+    // Set attributes and classes.
+    if (static::editYaml($element)) {
+      $element['#attributes']['class'][] = 'schemadotorg-settings-element-yaml';
+    }
+
     // Set validation.
     $element += ['#element_validate' => []];
-    array_unshift($element['#element_validate'], [get_called_class(), 'validateSchemaDotOrgSettings']);
+    array_unshift($element['#element_validate'], [static::class, 'validateSchemaDotOrgSettings']);
     return $element;
   }
 
@@ -139,12 +182,36 @@ class SchemaDotOrgSettings extends Textarea {
    * Form element validation handler for #type 'schemadotorg_settings'.
    */
   public static function validateSchemaDotOrgSettings(array &$element, FormStateInterface $form_state, array &$complete_form): void {
+    // Convert element value to settings and catch any errors.
     try {
       $settings = static::convertElementValueToSettings($element, $form_state);
       $form_state->setValueForElement($element, $settings);
     }
     catch (\Exception $exception) {
+      $settings = NULL;
       $form_state->setError($element, $exception->getMessage());
+    }
+
+    // Validate the settings against the config's schema.
+    $config_name = static::getConfigName($element);
+    $config_key = static::getConfigKey($element);
+    if ($settings && $config_name && $config_key) {
+      /** @var \Drupal\schemadotorg\SchemaDotOrgConfigSchemaCheckManagerInterface $config_schema_check_manager */
+      $config_schema_check_manager = \Drupal::service('schemadotorg.config_schema_check_manager');
+      $t_args = ['@name' => $element['#title']];
+      try {
+        $errors = $config_schema_check_manager->checkConfigValue($config_name, $config_key, $settings);
+        if (is_array($errors)) {
+          // Prefix the error with the exact config key triggering the error.
+          [, $error_config_key] = explode(':', array_key_first($errors));
+          $t_args['%error'] = $error_config_key . ' - ' . reset($errors);
+          $form_state->setError($element, new TranslatableMarkup('@name field is invalid.<br/>%error', $t_args));
+        }
+      }
+      catch (\Exception $exception) {
+        $t_args['%error'] = $exception->getMessage();
+        $form_state->setError($element, new TranslatableMarkup('@name field is invalid.<br/>%error', $t_args));
+      }
     }
   }
 
@@ -174,14 +241,27 @@ class SchemaDotOrgSettings extends Textarea {
   /**
    * Converted Schema.org settings to an element's default value string.
    *
-   * @param array $element
+   * @param array &$element
    *   The Schema.org settings form element.
    *
    * @return array|mixed|string
    *   An element's default value string.
    */
-  protected static function convertSettingsToElementDefaultValue(array $element): mixed {
-    $settings = $element['#default_value'] ?? NULL;
+  protected static function convertSettingsToElementDefaultValue(array &$element): mixed {
+    // Set default value from configuration settings.
+    $config_name = static::getConfigName($element);
+    $config_key = static::getConfigKey($element);
+    $settings = \Drupal::config($config_name)->get($config_key)
+      ?: $element['#default_value']
+      ?? NULL;
+
+    if (static::editYaml($element)) {
+      $yaml = $settings ? Yaml::encode($settings) : '';
+      // Remove return after array delimiter.
+      $yaml = preg_replace('#((?:\n|^)[ ]*-)\n[ ]+(\w|[\'"])#', '\1 \2', $yaml);
+      return $yaml;
+    }
+
     if (!is_array($settings)) {
       return $settings;
     }
@@ -260,14 +340,19 @@ class SchemaDotOrgSettings extends Textarea {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    *
-   * @return array
+   * @return array|null
    *   An array of setting.
    *
    * @throws \Exception
    *   Throw an exception when there is a validation error.
    */
-  protected static function convertElementValueToSettings(array $element, FormStateInterface $form_state): array {
+  protected static function convertElementValueToSettings(array $element, FormStateInterface $form_state): ?array {
     $value = $element['#value'];
+
+    if (static::editYaml($element)) {
+      return Yaml::decode($element['#value']);
+    }
+
     switch ($element['#settings_type']) {
       case static::INDEXED:
         return static::convertStringToIndexedArray($value);
@@ -310,7 +395,15 @@ class SchemaDotOrgSettings extends Textarea {
         return $settings;
 
       case static::ASSOCIATIVE:
-        return static::convertStringToAssociativeArray($value);
+        $settings = static::convertStringToAssociativeArray($value);
+        // Cast associative array values to integers.
+        // @todo This is a very dirty casting hack that should be removed.
+        switch ($element['#name']) {
+          case 'default_component_weights';
+            $settings = array_map('intval', $settings);
+            break;
+        }
+        return $settings;
 
       case static::ASSOCIATIVE_GROUPED:
         $settings = [];
@@ -355,8 +448,8 @@ class SchemaDotOrgSettings extends Textarea {
         $array = static::convertStringToAssociativeArray($value);
         foreach ($array as $key => $value) {
           $settings[] = [
-            'uri' => $key,
             'title' => $value ?? static::getLinkTitle($value),
+            'uri' => $key,
           ];
         }
         return $settings;
@@ -374,7 +467,7 @@ class SchemaDotOrgSettings extends Textarea {
             $items = preg_split('/\s*\|\s*/', $item);
             $uri = $items[0];
             $title = $items[1] ?? static::getLinkTitle($uri);
-            $settings[$group][] = ['uri' => $uri, 'title' => $title];
+            $settings[$group][] = ['title' => $title, 'uri' => $uri];
           }
           else {
             $group = $item;
@@ -458,9 +551,27 @@ class SchemaDotOrgSettings extends Textarea {
     $array = [];
     foreach ($items as $item) {
       $parts = explode($assoc_delimiter, $item);
-      $key = $parts[0];
+      $key = trim($parts[0]);
       $value = $parts[1] ?? NULL;
-      $array[trim($key)] = (!is_null($value)) ? trim($value) : $value;
+      $value = (!is_null($value)) ? trim($value) : $value;
+
+      // @todo This is a very dirty casting hack that should be removed.
+      switch ($key) {
+        case 'auto_create':
+        case 'unlimited':
+        case 'required':
+          $value = (boolean) $value;
+          break;
+
+        case 'height':
+        case 'width':
+          if (is_numeric($value)) {
+            $value = (int) $value;
+          }
+          break;
+      }
+
+      $array[$key] = $value;
     }
     return $array;
   }
@@ -482,6 +593,118 @@ class SchemaDotOrgSettings extends Textarea {
     $title = $title_node->item(0)->nodeValue;
     [$title] = preg_split('/\s*\|\s*/', $title);
     return $title;
+  }
+
+  /**
+   * Determine if user wants to edit YAML.
+   *
+   * @param array $element
+   *   The Schema.org settings form element.
+   *
+   * @return bool
+   *   TRUE if user wants to edit YAML.
+   */
+  protected static function editYaml(array $element): bool {
+    $config_name = static::getConfigName($element);
+    $config_key = static::getConfigKey($element);
+    if (!$config_name || !$config_key) {
+      return FALSE;
+    }
+
+    if (\Drupal::currentUser()->isAnonymous()) {
+      return FALSE;
+    }
+
+    /** @var \Drupal\user\UserDataInterface $user_data */
+    $user_data = \Drupal::service('user.data');
+    $uid = \Drupal::currentUser()->id();
+    if (\Drupal::request()->query->has('yaml')) {
+      $edit_yaml = (bool) \Drupal::request()->query->get('yaml');
+      $user_data->set('schemadotorg', $uid, 'yaml', $edit_yaml);
+      return $edit_yaml;
+    }
+    else {
+      return (bool) ($user_data->get('schemadotorg', $uid, 'yaml') ?? FALSE);
+    }
+  }
+
+  /**
+   * Get the config key.
+   *
+   * @param array $element
+   *   The Schema.org settings form element.
+   *
+   * @return string
+   *   The config key.
+   */
+  protected static function getConfigName(array $element) {
+    static::setConfigKeyProperty($element);
+    return $element['#config_name'];
+  }
+
+  /**
+   * Get the config key.
+   *
+   * @param array $element
+   *   The Schema.org settings form element.
+   *
+   * @return string
+   *   The config key.
+   */
+  protected static function getConfigKey(array $element): string {
+    static::setConfigKeyProperty($element);
+    return $element['#config_key'];
+  }
+
+  /**
+   * Set config name and key from the element's parents.
+   *
+   * This assumes the element has two parents which are the module name
+   * and the config key.
+   *
+   * @param array &$element
+   *   The Schema.org settings form element.
+   *
+   * @see MODULE_form_schemadotorg_types_settings_form_alter
+   * @see MODULE_form_schemadotorg_properties_settings_form_alter
+   */
+  protected static function setConfigKeyProperty(array &$element): void {
+    if ($element['#config_name'] || $element['#config_key']) {
+      return;
+    }
+
+    $configs = [];
+
+    // Get config name/key via [MODULE_NAME][KEY][KEY].
+    $parents = $element['#parents'];
+    $module_name = array_shift($parents);
+    $config_key = implode('.', $parents);
+    $config_name = $module_name . '.settings';
+    $configs[] = [$config_name, $config_key];
+
+    // Get config name/key via [CONFIG_NAME][CONFIG_KEY][CONFIG_KEY].
+    $parents = $element['#parents'];
+    $settings_name = array_shift($parents);
+    $config_key = implode('.', $parents);
+    $config_name = 'schemadotorg.' . $settings_name;
+    $configs[] = [$config_name, $config_key];
+
+    // Get config name/key via [CONFIG_KEY][CONFIG_KEY][CONFIG_KEY].
+    $config_key = implode('.', $element['#parents']);
+    $config_names = ['schemadotorg.settings', 'schemadotorg.names'];
+    foreach ($config_names as $config_name) {
+      $configs[] = [$config_name, $config_key];
+    }
+
+    foreach ($configs as $config) {
+      [$config_name, $config_key] = $config;
+      if ($config_key
+        && !is_null(\Drupal::config($config_name)->get($config_key))) {
+        $element['#config_name'] = $config_name;
+        $element['#config_key'] = $config_key;
+        return;
+      }
+    }
   }
 
 }

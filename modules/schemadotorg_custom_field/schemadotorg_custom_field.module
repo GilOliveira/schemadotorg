@@ -127,7 +127,7 @@ function schemadotorg_custom_field_form_schemadotorg_properties_settings_form_al
   });
 
   $formats = filter_formats();
-  $format_options = ['' => t('- Default - ')];
+  $format_options = ['' => t('- Default -')];
   foreach ($formats as $format) {
     $format_options[$format->id()] = $format->label();
   }
@@ -164,21 +164,4 @@ function schemadotorg_custom_field_form_schemadotorg_properties_settings_form_al
     '#options' => $format_options,
     '#default_value' => $config->get('default_format'),
   ];
-
-  // Add submit callback.
-  $form['#submit'][] = 'schemadotorg_custom_field_settings_form_submit';
-}
-
-/**
- * Form submission handler for schemadotorg_properties_settings_form.
- *
- * @see schemadotorg_custom_field_form_schemadotorg_properties_settings_form_alter()
- */
-function schemadotorg_custom_field_settings_form_submit(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_custom_field.settings');
-  $values = $form_state->getValue('schemadotorg_custom_field');
-  foreach ($values as $key => $value) {
-    $config->set($key, $value);
-  }
-  $config->save();
 }

@@ -141,9 +141,6 @@ function schemadotorg_jsonld_custom_form_schemadotorg_jsonld_settings_form_alter
     '#default_value' => $config->get('default_schema_mapping_json'),
     '#element_validate' => ['_schemadotorg_jsonld_custom_json_settings_validate'],
   ];
-
-  // Add submit callback.
-  $form['#submit'][] = 'schemadotorg_jsonld_custom_settings_form_submit';
 }
 
 /**
@@ -163,18 +160,4 @@ function _schemadotorg_jsonld_custom_json_settings_validate(array &$element, For
       $form_state->setError($element, t('The JSON is not valid for %key. %error', $t_args));
     }
   }
-}
-
-/**
- * Form submission handler for schemadotorg_jsonld_settings_form().
- *
- * @see schemadotorg_jsonld_custom_form_schemadotorg_jsonld_settings_form_alter()
- */
-function schemadotorg_jsonld_custom_settings_form_submit(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonld_custom.settings');
-  $values = $form_state->getValue('schemadotorg_jsonld_custom');
-  foreach ($values as $key => $value) {
-    $config->set($key, $value);
-  }
-  $config->save();
 }

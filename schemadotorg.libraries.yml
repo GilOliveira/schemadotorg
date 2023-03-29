@@ -37,17 +37,41 @@ schemadotorg.jstree:
     - core/drupal
     - schemadotorg/jstree
 
+schemadotorg.settings.element:
+  css:
+    component:
+      css/schemadotorg.settings.element.css: {}
+  js:
+    js/schemadotorg.settings.element.js: {}
+  dependencies:
+    - schemadotorg/codemirror
+
 jstree:
-  remote: https://www.jstree.com/
-  version: 3.3.12
+  remote: https://www.jstree.com
+  version: '3.3.12'
   license:
     name: MIT
     url: https://github.com/vakata/jstree/blob/master/LICENSE-MIT
     gpl-compatible: true
-  js:
-    https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js: { type: external, minified: true }
   css:
     component:
       https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css: { type: external, minified: true }
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js: { type: external, minified: true }
   dependencies:
     - core/jquery
+
+codemirror:
+  remote: http://codemirror.net
+  version: '5.65.3'
+  license:
+    name: MIT
+    url: http://codemirror.net/LICENSE
+    gpl-compatible: true
+  css:
+    component:
+      https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/codemirror.css: {}
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/codemirror.js: { weight: -1 }
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/addon/runmode/runmode.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/mode/yaml/yaml.js: {}

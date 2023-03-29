@@ -56,7 +56,6 @@ class SchemaDotOrgMappingSetSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
-    $config = $this->config('schemadotorg_mapping_set.settings');
     $form['sets'] = [
       '#type' => 'schemadotorg_settings',
       '#rows' => 12,
@@ -66,7 +65,8 @@ class SchemaDotOrgMappingSetSettingsForm extends ConfigFormBase {
       '#title' => $this->t('Mapping sets'),
       '#description' => $this->t('Enter Schema.org mapping sets by name, label, and entity type to Schema.org type.'),
       '#description_link' => 'types',
-      '#default_value' => $config->get('sets'),
+      '#config_name' => 'schemadotorg_mapping_set.settings',
+      '#config_key' => 'sets',
     ];
     return parent::buildForm($form, $form_state);
   }

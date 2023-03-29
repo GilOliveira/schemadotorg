@@ -157,23 +157,6 @@ function schemadotorg_inline_entity_form_form_schemadotorg_properties_settings_f
     '#description' => t('Enter component field and property names that should be included in the default inline entity form display.'),
     '#default_value' => $config->get('default_form_display_components'),
   ];
-
-  // Add submit callback.
-  $form['#submit'][] = 'schemadotorg_inline_entity_form_settings_form_submit';
-}
-
-/**
- * Form submission handler for schemadotorg_properties_settings_form.
- *
- * @see schemadotorg_inline_entity_form_form_schemadotorg_properties_settings_form_alter()
- */
-function schemadotorg_inline_entity_form_settings_form_submit(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_inline_entity_form.settings');
-  $values = $form_state->getValue('schemadotorg_inline_entity_form');
-  foreach ($values as $key => $value) {
-    $config->set($key, $value);
-  }
-  $config->save();
 }
 
 /**

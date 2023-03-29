@@ -137,10 +137,6 @@ function schemadotorg_focal_point_settings_form_validate(array &$form, FormState
     if (!isset($settings['data']['width']) || !isset($settings['data']['height'])) {
       $form_state->setError($element, t('A width and height is required for the %label image style.', $t_args));
     }
-    // Validate that width and height are integers.
-    elseif (!is_numeric($settings['data']['width']) || !is_numeric($settings['data']['height'])) {
-      $form_state->setError($element, t('The width and height must be numbers for the %label image style.', $t_args));
-    }
   }
 }
 

@@ -178,21 +178,4 @@ function schemadotorg_scheduler_form_schemadotorg_types_settings_form_alter(arra
     . t('Scheduled Schema.org type settings will be applied to all subtypes. For example, entering <code>Thing|publish,unpublish</code> will enable scheduling for all content types.'),
     '#default_value' => $config->get('scheduled_types'),
   ];
-
-  // Add submit callback.
-  $form['#submit'][] = 'schemadotorg_scheduler_settings_form_submit';
-}
-
-/**
- * Form submission handler for schemadotorg_properties_settings_form.
- *
- * @see schemadotorg_scheduler_form_schemadotorg_properties_settings_form_alter()
- */
-function schemadotorg_scheduler_settings_form_submit(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_scheduler.settings');
-  $values = $form_state->getValue('schemadotorg_scheduler');
-  foreach ($values as $key => $value) {
-    $config->set($key, $value);
-  }
-  $config->save();
 }

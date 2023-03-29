@@ -36,3 +36,6 @@ services:
     class: Drupal\schemadotorg\Breadcrumb\SchemaDotOrgBreadcrumbBuilder
     tags:
       - { name: breadcrumb_builder, priority: 1000 }
+  schemadotorg.config_schema_check_manager:
+    class: Drupal\schemadotorg\SchemaDotOrgConfigSchemaCheckManager
+    arguments: ['@config.factory', '@config.typed']

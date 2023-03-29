@@ -78,21 +78,4 @@ function schemadotorg_content_moderation_form_schemadotorg_types_settings_form_a
     '#description' => t('Enter the default content moderation workflow per entity type and Schema.org type. Leave the blank to not set a workflow for a Schema.org type.'),
     '#default_value' => $config->get('default_workflows'),
   ];
-
-  // Add submit callback.
-  $form['#submit'][] = 'schemadotorg_content_moderation_settings_form_submit';
-}
-
-/**
- * Form submission handler for schemadotorg_properties_settings_form.
- *
- * @see schemadotorg_content_moderation_form_schemadotorg_properties_settings_form_alter()
- */
-function schemadotorg_content_moderation_settings_form_submit(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_content_moderation.settings');
-  $values = $form_state->getValue('schemadotorg_content_moderation');
-  foreach ($values as $key => $value) {
-    $config->set($key, $value);
-  }
-  $config->save();
 }

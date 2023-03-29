@@ -77,4 +77,5 @@ class SchemaDotOrgInstallerTest extends SchemaDotOrgKernelTestBase {
     $this->installer->installModules(['storage']);
     $this->assertNotNull($this->mappingTypeStorage->load('storage'));
   }
+
 }

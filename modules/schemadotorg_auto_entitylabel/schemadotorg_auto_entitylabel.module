@@ -164,21 +164,4 @@ function schemadotorg_auto_entitylabel_form_schemadotorg_types_settings_form_alt
     '#title' => t('Automatic label generation statuses'),
     'items' => $items,
   ];
-
-  // Add submit callback.
-  $form['#submit'][] = 'schemadotorg_auto_entitylabel_settings_form_submit';
-}
-
-/**
- * Form submission handler for schemadotorg_properties_settings_form.
- *
- * @see schemadotorg_auto_entitylabel_form_schemadotorg_properties_settings_form_alter()
- */
-function schemadotorg_auto_entitylabel_settings_form_submit(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_auto_entitylabel.settings');
-  $values = $form_state->getValue('schemadotorg_auto_entitylabel');
-  foreach ($values as $key => $value) {
-    $config->set($key, $value);
-  }
-  $config->save();
 }

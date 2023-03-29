@@ -58,11 +58,4 @@ function schemadotorg_jsonld_endpoint_settings_form_submit(array &$form, FormSta
   /** @var \Drupal\Core\Routing\RouteBuilderInterface $router_builder */
   $router_builder = \Drupal::service('router.builder');
   $router_builder->setRebuildNeeded();
-
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonld_endpoint.settings');
-  $values = $form_state->getValue('schemadotorg_jsonld_endpoint');
-  foreach ($values as $key => $value) {
-    $config->set($key, $value);
-  }
-  $config->save();
 }

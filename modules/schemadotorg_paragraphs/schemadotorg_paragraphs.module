@@ -349,23 +349,6 @@ function schemadotorg_paragraphs_form_schemadotorg_types_settings_form_alter(arr
     '#description_link' => 'types',
     '#default_value' => $config->get('paragraphs_library'),
   ];
-
-  // Add submit callback.
-  $form['#submit'][] = 'schemadotorg_paragraphs_settings_form_submit';
-}
-
-/**
- * Form submission handler for schemadotorg_properties_settings_form.
- *
- * @see schemadotorg_paragraphs_form_schemadotorg_properties_settings_form_alter()
- */
-function schemadotorg_paragraphs_settings_form_submit(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_paragraphs.settings');
-  $values = $form_state->getValue('schemadotorg_paragraphs');
-  foreach ($values as $key => $value) {
-    $config->set($key, $value);
-  }
-  $config->save();
 }
 
 /**

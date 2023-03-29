@@ -104,7 +104,7 @@ class SchemaDotOrgMappingTypeListBuilder extends SchemaDotOrgConfigEntityListBui
     $row['default_schema_types'] = $this->buildAssociationItems($entity->get('default_schema_types'));
 
     // Recommended Schema.org types.
-    $recommended_schema_types = $entity->get('recommended_schema_types');
+    $recommended_schema_types = $entity->get('recommended_schema_types') ?? [];
     $recommended_schema_type_labels = [];
     foreach ($recommended_schema_types as $recommended_schema_type) {
       $recommended_schema_type_labels[$recommended_schema_type['label']] = $recommended_schema_type['label'];

@@ -53,8 +53,7 @@ class SchemaDotOrgFocalPointSettingsFormTest extends SchemaDotOrgBrowserTestBase
       'schemadotorg_focal_point[image_styles]' => '4x3|4:3|width:1200,height:A',
     ];
     $this->submitForm($edit, 'Save configuration');
-    $session->responseContains('The width and height must be numbers for the <em class="placeholder">4x3</em> image style.');
-
+    $session->responseContains('Image styles field is invalid.');
   }
 
 }

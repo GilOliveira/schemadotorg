@@ -117,14 +117,18 @@ abstract class SchemaDotOrgConfigEntityListBuilderBase extends ConfigEntityListB
   /**
    * Build a source to destination association.
    *
-   * @param array $items
+   * @param array|null $items
    *   An associative array with the source as the key and destination
    *   as the value.
    *
    * @return array
    *   A renderable array containing a source to destination association.
    */
-  protected function buildAssociationItems(array $items): array {
+  protected function buildAssociationItems(?array $items): array {
+    if (!$items) {
+      return [];
+    }
+
     $data = [];
     foreach ($items as $source => $destination) {
       $prefix = $data ? '<br/>' : '';
@@ -149,13 +153,17 @@ abstract class SchemaDotOrgConfigEntityListBuilderBase extends ConfigEntityListB
   /**
    * Build key/value paids.
    *
-   * @param array $items
+   * @param array|null $items
    *   An associative array.
    *
    * @return array
    *   A renderable array containing key/value pairs.
    */
-  protected function buildKeyValuePairs(array $items): array {
+  protected function buildKeyValuePairs(?array $items): array {
+    if (!$items) {
+      return [];
+    }
+
     $data = [];
     foreach ($items as $source => $destination) {
       $data[] = [

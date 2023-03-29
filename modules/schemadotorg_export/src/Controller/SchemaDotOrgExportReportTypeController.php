@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 /**
  * Returns responses for Schema.org report about and item routes.
  */
-class SchemaDotOrgExportReportTypeController extends ControllerBase{
+class SchemaDotOrgExportReportTypeController extends ControllerBase {
 
   /**
    * The Schema.org schema type manager.

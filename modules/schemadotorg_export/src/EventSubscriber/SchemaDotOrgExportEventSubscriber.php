@@ -35,7 +35,6 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
    */
   protected $schemaTypeManager;
 
-
   /**
    * Constructs a SchemaDotOrgJsonApiExtrasEventSubscriber object.
    *

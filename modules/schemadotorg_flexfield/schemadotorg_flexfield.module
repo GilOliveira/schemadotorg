@@ -172,23 +172,6 @@ function schemadotorg_flexfield_form_schemadotorg_properties_settings_form_alter
     '#description_link' => 'types',
     '#default_value' => $config->get('default_properties'),
   ];
-
-  // Add submit callback.
-  $form['#submit'][] = 'schemadotorg_flexfield_settings_form_submit';
-}
-
-/**
- * Form submission handler for schemadotorg_properties_settings_form.
- *
- * @see schemadotorg_flexfield_form_schemadotorg_properties_settings_form_alter()
- */
-function schemadotorg_flexfield_settings_form_submit(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_flexfield.settings');
-  $values = $form_state->getValue('schemadotorg_flexfield');
-  foreach ($values as $key => $value) {
-    $config->set($key, $value);
-  }
-  $config->save();
 }
 
 /**

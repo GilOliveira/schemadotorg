@@ -55,7 +55,7 @@ function schemadotorg_taxonomy_modules_uninstalled(array $modules): void {
 /**
  * Implements hook_install().
  */
-function schemadotorg_taxonomy_install($is_syncing): void {
+function schemadotorg_taxonomy_install(bool $is_syncing): void {
   if ($is_syncing) {
     return;
   }
@@ -73,7 +73,7 @@ function schemadotorg_taxonomy_install($is_syncing): void {
 /**
  * Implements hook_install().
  */
-function schemadotorg_taxonomy_uninstall($is_syncing): void {
+function schemadotorg_taxonomy_uninstall(bool $is_syncing): void {
   if ($is_syncing) {
     return;
   }

@@ -24,6 +24,7 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $entity */
     $entity = $this->getEntity();
+    $config_name = 'schemadotorg.schemadotorg_mapping_type.' . ($entity->id() ?? '_na_');
 
     // Type settings.
     $form['types'] = [
@@ -68,7 +69,8 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#title' => $this->t('Recommended Schema.org types'),
       '#description' => $this->t('Enter recommended Schema.org types to be displayed when creating a new Schema.org type. Recommended Schema.org types will only be displayed on entity types that support adding new Schema.org types.'),
       '#description_link' => 'types',
-      '#default_value' => $entity->get('recommended_schema_types'),
+      '#config_name' => $config_name,
+      '#config_key' => 'recommended_schema_types',
     ];
     $form['types']['default_schema_types'] = [
       '#type' => 'schemadotorg_settings',
@@ -77,7 +79,8 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#title' => $this->t('Default Schema.org types'),
       '#description' => $this->t('Enter default Schema.org types that will automatically be assigned to an existing entity type/bundle.'),
       '#description_link' => 'types',
-      '#default_value' => $entity->get('default_schema_types'),
+      '#config_name' => $config_name,
+      '#config_key' => 'default_schema_types',
     ];
 
     // Property settings.
@@ -97,7 +100,8 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       . ' '
       . $this->t('Prepend a minus to a property to explicitly remove the property from the specific type.'),
       '#description_link' => 'types',
-      '#default_value' => $entity->get('default_schema_type_properties'),
+      '#config_name' => $config_name,
+      '#config_key' => 'default_schema_type_properties',
     ];
     $form['properties']['default_base_fields'] = [
       '#type' => 'schemadotorg_settings',
@@ -107,7 +111,8 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#description' => $this->t('Enter default base field mappings from existing entity properties and fields to Schema.org properties.')
       . ' ' . $this->t('Leave the property_name value blank to allow the base field to be available but not mapped to a Schema.org property.'),
       '#description_link' => 'properties',
-      '#default_value' => $entity->get('default_base_fields'),
+      '#config_name' => $config_name,
+      '#config_key' => 'default_base_fields',
     ];
     $form['properties']['default_component_weights'] = [
       '#type' => 'schemadotorg_settings',
@@ -116,7 +121,8 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#title' => $this->t('Default component display weights'),
       '#description' => $this->t('Enter default display component weights.')
       . ' ' . $this->t('Generally, existing component weights should come after Schema.org fields and their weighting should start at 200.'),
-      '#default_value' => $entity->get('default_component_weights'),
+      '#config_name' => $config_name,
+      '#config_key' => 'default_component_weights',
     ];
 
     return $form;

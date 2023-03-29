@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_settings_element_test\Form;
 
-use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Serialization\Yaml;
@@ -13,7 +13,14 @@ use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 /**
  * Provides a Scheme.org Blueprint Settings Element test form.
  */
-class SchemaDotOrgSettingsElementTestForm extends FormBase {
+class SchemaDotOrgSettingsElementTestForm extends ConfigFormBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getEditableConfigNames() {
+    return ['schemadotorg_settings_element_test.settings'];
+  }
 
   /**
    * {@inheritdoc}
@@ -26,141 +33,39 @@ class SchemaDotOrgSettingsElementTestForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
-    $form['settings'] = [
+    $form['schemadotorg_settings_element_test'] = [
       '#tree' => TRUE,
     ];
-    // Indexed.
-    $form['settings'][SchemaDotOrgSettings::INDEXED] = [
-      '#type' => 'schemadotorg_settings',
-      '#title' => SchemaDotOrgSettings::INDEXED,
-      '#description_link' => 'types',
-      '#settings_type' => SchemaDotOrgSettings::INDEXED,
-      '#default_value' => [
-        'one',
-        'two',
-        'three',
-      ],
+
+    // Create examples of all settings types.
+    $settings_types = [
+      SchemaDotOrgSettings::INDEXED,
+      SchemaDotOrgSettings::INDEXED_GROUPED,
+      SchemaDotOrgSettings::INDEXED_GROUPED_NAMED,
+      SchemaDotOrgSettings::ASSOCIATIVE,
+      SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
+      SchemaDotOrgSettings::ASSOCIATIVE_GROUPED_NAMED,
+      SchemaDotOrgSettings::LINKS,
+      SchemaDotOrgSettings::LINKS_GROUPED,
     ];
-    // Indexed Grouped.
-    $form['settings'][SchemaDotOrgSettings::INDEXED_GROUPED] = [
+    foreach ($settings_types as $settings_type) {
+      $form['schemadotorg_settings_element_test'][$settings_type] = [
+        '#type' => 'schemadotorg_settings',
+        '#title' => $settings_type,
+        '#settings_type' => $settings_type,
+      ];
+    }
+
+    // Add 'Browse Schema.org types.' to the first element.
+    $form['schemadotorg_settings_element_test'][SchemaDotOrgSettings::INDEXED]['#description_link'] = 'types';
+
+    // Add advanced associate settings with mapping.
+    $form['schemadotorg_settings_element_test']['associative_advanced'] = [
       '#type' => 'schemadotorg_settings',
-      '#title' => SchemaDotOrgSettings::INDEXED_GROUPED,
-      '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
-      '#default_value' => [
-        'A' => [
-          'one',
-          'two',
-          'three',
-        ],
-        'B' => [
-          'four',
-          'five',
-          'six',
-        ],
-      ],
-    ];
-    // Indexed Grouped Named.
-    $form['settings'][SchemaDotOrgSettings::INDEXED_GROUPED_NAMED] = [
-      '#type' => 'schemadotorg_settings',
-      '#title' => SchemaDotOrgSettings::INDEXED_GROUPED_NAMED,
-      '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED_NAMED,
-      '#default_value' => [
-        'A' => [
-          'label' => 'Group A',
-          'items' => [
-            'one',
-            'two',
-            'three',
-          ],
-        ],
-        'B' => [
-          'label' => 'Group B',
-          'items' => [
-            'four',
-            'five',
-            'six',
-          ],
-        ],
-      ],
-    ];
-    // Associative.
-    $form['settings'][SchemaDotOrgSettings::ASSOCIATIVE] = [
-      '#type' => 'schemadotorg_settings',
-      '#title' => SchemaDotOrgSettings::ASSOCIATIVE,
+      '#title' => 'associative_advanced',
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#associative' => TRUE,
-      '#default_value' => [
-        'one' => 'One',
-        'two' => 'Two',
-        'three' => 'Three',
-      ],
     ];
-    // Associative Grouped.
-    $form['settings'][SchemaDotOrgSettings::ASSOCIATIVE_GROUPED] = [
-      '#type' => 'schemadotorg_settings',
-      '#title' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
-      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
-      '#default_value' => [
-        'A' => [
-          'one' => 'One',
-          'two' => 'Two',
-          'three' => 'Three',
-        ],
-        'B' => [
-          'four' => 'Four',
-          'five' => 'Five',
-          'six' => 'Six',
-        ],
-      ],
-    ];
-    // Associative Grouped Names.
-    $form['settings'][SchemaDotOrgSettings::ASSOCIATIVE_GROUPED_NAMED] = [
-      '#type' => 'schemadotorg_settings',
-      '#title' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED_NAMED,
-      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED_NAMED,
-      '#default_value' => [
-        'A' => [
-          'label' => 'Group A',
-          'items' => [
-            'one' => 'One',
-            'two' => 'Two',
-            'three' => 'Three',
-          ],
-        ],
-        'B' => [
-          'label' => 'Group B',
-          'items' => [
-            'four' => 'Four',
-            'five' => 'Five',
-            'six' => 'Six',
-          ],
-        ],
-      ],
-    ];
-    // Links.
-    $form['settings'][SchemaDotOrgSettings::LINKS] = [
-      '#type' => 'schemadotorg_settings',
-      '#title' => SchemaDotOrgSettings::LINKS,
-      '#settings_type' => SchemaDotOrgSettings::LINKS,
-      '#default_value' => [
-        ['uri' => 'https://yahoo.com', 'title' => 'Yahoo!!!'],
-        ['uri' => 'https://google.com', 'title' => 'Google'],
-      ],
-    ];
-    // Links grouped.
-    $form['settings'][SchemaDotOrgSettings::LINKS_GROUPED] = [
-      '#type' => 'schemadotorg_settings',
-      '#title' => SchemaDotOrgSettings::LINKS_GROUPED,
-      '#settings_type' => SchemaDotOrgSettings::LINKS_GROUPED,
-      '#default_value' => [
-        'A' => [
-          ['uri' => 'https://yahoo.com', 'title' => 'Yahoo!!!'],
-        ],
-        'B' => [
-          ['uri' => 'https://google.com', 'title' => 'Google'],
-        ],
-      ],
-    ];
+
     $form['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Submit'),
@@ -173,7 +78,13 @@ class SchemaDotOrgSettingsElementTestForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
-    $settings = $form_state->getValue('settings');
+    // Save settings.
+    $settings = $form_state->getValue('schemadotorg_settings_element_test');
+    $this->config('schemadotorg_settings_element_test.settings')
+      ->setData($settings)
+      ->save();
+
+    // Display the updated settings.
     $this->messenger()->addStatus(Markup::create('<pre>' . Yaml::encode($settings) . '</pre>'));
   }
 
