@@ -64,15 +64,14 @@ jstree:
 
 codemirror:
   remote: http://codemirror.net
-  version: '5.65.3'
+  version: '5.65.12'
   license:
     name: MIT
     url: http://codemirror.net/LICENSE
     gpl-compatible: true
   css:
     component:
-      https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/codemirror.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.css: {}
   js:
-    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/codemirror.js: { weight: -1 }
-    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/addon/runmode/runmode.js: {}
-    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/mode/yaml/yaml.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/yaml/yaml.js: {}
