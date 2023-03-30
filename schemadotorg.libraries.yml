@@ -44,6 +44,7 @@ schemadotorg.settings.element:
   js:
     js/schemadotorg.settings.element.js: {}
   dependencies:
+    - core/tabbable
     - schemadotorg/codemirror
 
 jstree:

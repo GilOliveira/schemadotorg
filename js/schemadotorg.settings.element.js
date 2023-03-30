@@ -6,7 +6,7 @@
 
 "use strict";
 
-((Drupal, once) => {
+((Drupal, once, tabbable) => {
 
   /**
    * CodeMirror options.
@@ -22,6 +22,21 @@
       Tab: function (cm) {
         const spaces = Array(cm.getOption('indentUnit') + 1).join(' ');
         cm.replaceSelection(spaces, 'end', '+element');
+      },
+      // On 'Escape' move to the next tabbable input.
+      // @see http://bgrins.github.io/codemirror-accessible/
+      Esc: function (cm) {
+        const textarea = cm.getTextArea();
+        // Must show and then textarea so that we can determine
+        // its tabindex.
+        textarea.classList.add('visually-hidden');
+        textarea.setAttribute('style', 'display: block');
+        const tabbableElements = tabbable.tabbable(document);
+        const tabindex = tabbableElements.indexOf(textarea);
+        textarea.setAttribute('style', 'display: none');
+        textarea.classList.remove('visually-hidden');
+        // Tabindex + 2 accounts for the CodeMirror's iframe.
+        tabbableElements[tabindex + 2].focus();
       },
     },
   };
@@ -62,4 +77,4 @@
         });
     }
   };
-})(Drupal, once);
+})(Drupal, once, tabbable);

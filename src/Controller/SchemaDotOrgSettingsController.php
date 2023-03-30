@@ -63,9 +63,6 @@ class SchemaDotOrgSettingsController extends ControllerBase {
     uasort($content, [SortArray::class, 'sortByWeightElement']);
 
     return [
-      'system_compact_link' => [
-        '#type' => 'system_compact_link',
-      ],
       'admin_block_content' => [
         '#theme' => 'admin_block_content',
         '#content' => $content,
