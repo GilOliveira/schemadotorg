@@ -351,7 +351,7 @@ class SchemaDotOrgSettings extends Textarea {
     $value = $element['#value'];
 
     if (static::editYaml($element)) {
-      return Yaml::decode($element['#value']);
+      return Yaml::decode($element['#value']) ?: [];
     }
 
     switch ($element['#settings_type']) {
