@@ -14,7 +14,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
-use Drupal\Component\Serialization\Yaml;
 
 // Load all MODULE.schemadotorg.inc files.
 \Drupal::moduleHandler()->loadAllIncludes('schemadotorg.inc');
@@ -83,45 +82,6 @@ function schemadotorg_help(string $route_name, RouteMatchInterface $route_match)
   /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
-}
-
-/**
- * Implements hook_module_preinstall().
- */
-function schemadotorg_module_preinstall(string $module): void {
-  /** @var \Drupal\Core\Extension\ModuleExtensionList $extension_list_module */
-  $extension_list_module = \Drupal::service('extension.list.module');
-  $module_path = $extension_list_module->getPath($module);
-  $module_schemadotorg_path = "$module_path/$module.schemadotorg.yml";
-  if (!file_exists($module_schemadotorg_path)) {
-    return;
-  }
-
-  $data = Yaml::decode(
-    file_get_contents($module_schemadotorg_path)
-  );
-
-  // Create Schema.org type mapping specified by the module
-  // that is being installed.
-  if (isset($data['types'])) {
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $mapping_manager */
-    $mapping_manager = \Drupal::service('schemadotorg.mapping_manager');
-    foreach ($data['types'] as $type) {
-      [$entity_type, $schema_type] = explode(':', $type);
-      $mappings = \Drupal::entityTypeManager()
-        ->getStorage('schemadotorg_mapping')
-        ->loadByProperties([
-          'target_entity_type_id' => $entity_type,
-          'schema_type' => $schema_type,
-        ]);
-      $existing_mapping = $mappings ? reset($mappings) : NULL;
-      if (!$existing_mapping) {
-        $mapping_manager->createType($entity_type, $schema_type);
-        $t_args = ['@type' => $schema_type];
-        \Drupal::messenger()->addStatus(t("Schema.org type '@type' created.", $t_args));
-      }
-    }
-  }
 }
 
 /**
