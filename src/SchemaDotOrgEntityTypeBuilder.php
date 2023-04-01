@@ -285,6 +285,9 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         $field->save();
 
         $this->schemaEntityDisplayBuilder->setFieldDisplays(
+          $schema_type,
+          $schema_property,
+          $field_storage_values,
           $field_values,
           $widget_id,
           $widget_settings,
@@ -317,11 +320,15 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         $field->save();
 
         $this->schemaEntityDisplayBuilder->setFieldDisplays(
+          $schema_type,
+          $schema_property,
+          $field_storage_values,
           $field_values,
           $widget_id,
           $widget_settings,
           $formatter_id,
           $formatter_settings
+
         );
       }
       catch (\Exception $e) {

@@ -638,7 +638,7 @@ class SchemaDotOrgSettings extends Textarea {
    * @return string
    *   The config key.
    */
-  protected static function getConfigName(array $element) {
+  protected static function getConfigName(array $element): string {
     static::setConfigKeyProperty($element);
     return $element['#config_name'];
   }

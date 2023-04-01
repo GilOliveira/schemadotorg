@@ -104,10 +104,23 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
   /**
    * {@inheritdoc}
    */
-  public function setFieldDisplays(array $field_values, ?string $widget_id, array $widget_settings, ?string $formatter_id, array $formatter_settings): void {
+  public function setFieldDisplays(
+    string $schema_type,
+    string $schema_property,
+    array $field_storage_values,
+    array $field_values,
+    ?string $widget_id,
+    array $widget_settings,
+    ?string $formatter_id,
+    array $formatter_settings
+  ): void {
     $entity_type_id = $field_values['entity_type'];
     $bundle = $field_values['bundle'];
     $field_name = $field_values['field_name'];
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
+    $mapping_type = $this->entityTypeManager->getStorage('schemadotorg_mapping_type')
+      ->load($entity_type_id);
 
     // Form display.
     $form_modes = $this->getFormModes($entity_type_id, $bundle);
@@ -121,6 +134,21 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
     $view_modes = $this->getViewModes($entity_type_id, $bundle);
     foreach ($view_modes as $view_mode) {
       $view_display = $this->entityDisplayRepository->getViewDisplay($entity_type_id, $bundle, $view_mode);
+
+      $display_properties = $mapping_type->getSchemaTypeViewDisplayProperties($schema_type, $view_mode);
+      if ($display_properties) {
+        if (!isset($display_properties[$schema_property])) {
+          continue;
+        }
+
+        // Alter text with summary field to show trimmed summary.
+        $type = $field_storage_values['type'] ?? NULL;
+        if ($type === 'text_with_summary') {
+          $formatter_id = 'text_summary_or_trimmed';
+          $formatter_settings = ['label' => 'hidden'];
+        }
+      }
+
       $this->setComponent($view_display, $field_name, $formatter_id, $formatter_settings);
       $view_display->save();
     }
@@ -139,20 +167,6 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
    *   The component's plugin settings.
    */
   protected function setComponent(EntityDisplayInterface $display, string $field_name, ?string $type, array $settings): void {
-    // Only add the 'body' to 'teaser' and 'content_browser' view modes
-    // for node types. This mirrors the default behavior for
-    // adding new node types.
-    // @see \Drupal\node\NodeTypeForm::save
-    // @see node_add_body_field()
-    if ($this->isNodeTeaserDisplay($display)) {
-      if ($field_name !== 'body') {
-        $display->removeComponent($field_name);
-        return;
-      }
-      $type = 'text_summary_or_trimmed';
-      $settings = ['label' => 'hidden'];
-    }
-
     $options = [];
 
     // Set custom component type.
@@ -294,23 +308,6 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
       if ($is_updated) {
         $display->save();
       }
-    }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function isNodeTeaserDisplay(EntityDisplayInterface $display): bool {
-    $entity_type_id = $display->getTargetEntityTypeId();
-    $mode = $display->getMode();
-    if ($mode !== EntityDisplayRepositoryInterface::DEFAULT_DISPLAY_MODE
-      && $display instanceof EntityViewDisplayInterface
-      && $entity_type_id === 'node'
-      && in_array($mode, ['teaser', 'content_browser'])) {
-      return TRUE;
-    }
-    else {
-      return FALSE;
     }
   }
 

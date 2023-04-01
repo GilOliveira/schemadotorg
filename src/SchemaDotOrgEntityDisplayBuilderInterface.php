@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg;
 
-use Drupal\Core\Entity\Display\EntityDisplayInterface;
-
 /**
  * Schema.org entity display builder interface.
  */
@@ -22,6 +20,12 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
   /**
    * Set entity displays for a field.
    *
+   * @param string $schema_type
+   *   The Schema.org type.
+   * @param string $schema_property
+   *   The Schema.org property.
+   * @param array $field_storage_values
+   *   Field storage config values.
    * @param array $field_values
    *   Field config values.
    * @param string|null $widget_id
@@ -33,7 +37,16 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
    * @param array $formatter_settings
    *   An array of formatter settings.
    */
-  public function setFieldDisplays(array $field_values, ?string $widget_id, array $widget_settings, ?string $formatter_id, array $formatter_settings): void;
+  public function setFieldDisplays(
+    string $schema_type,
+    string $schema_property,
+    array $field_storage_values,
+    array $field_values,
+    ?string $widget_id,
+    array $widget_settings,
+    ?string $formatter_id,
+    array $formatter_settings
+  ): void;
 
   /**
    * Set entity display field weights for Schema.org properties.
@@ -56,19 +69,6 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
    *   The entity bundle.
    */
   public function setComponentWeights(string $entity_type_id, string $bundle): void;
-
-  /**
-   * Determine if a display is node teaser view display.
-   *
-   * @param \Drupal\Core\Entity\Display\EntityDisplayInterface $display
-   *   The entity display.
-   *
-   * @return bool
-   *   TRUE if the display is node teaser view display.
-   *
-   * @see node_add_body_field()
-   */
-  public function isNodeTeaserDisplay(EntityDisplayInterface $display): bool;
 
   /**
    * Get display form modes for a specific entity type.

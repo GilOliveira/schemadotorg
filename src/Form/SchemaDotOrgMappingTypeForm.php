@@ -8,6 +8,7 @@ use Drupal\Core\Entity\ContentEntityTypeInterface;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Schema.org mapping type form.
@@ -15,6 +16,22 @@ use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
  * @property \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $entity
  */
 class SchemaDotOrgMappingTypeForm extends EntityForm {
+
+  /**
+   * The entity display repository.
+   *
+   * @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface
+   */
+  protected $entityDisplayRepository;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $instance = parent::create($container);
+    $instance->entityDisplayRepository = $container->get('entity_display.repository');
+    return $instance;
+  }
 
   /**
    * {@inheritdoc}
@@ -82,6 +99,26 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#config_name' => $config_name,
       '#config_key' => 'default_schema_types',
     ];
+    $view_modes = $this->entityDisplayRepository->getViewModes($entity->id());
+    $view_modes = array_intersect_key($view_modes, ['teaser' => 'teaser']);
+    if ($view_modes) {
+      $form['types']['default_schema_type_view_displays'] = [
+        '#type' => 'details',
+        '#title' => $this->t('Default Schema.org type view displays'),
+        '#open' => TRUE,
+      ];
+      foreach ($view_modes as $view_mode_id => $view_mode) {
+        $form['types']['default_schema_type_view_displays'][$view_mode_id] = [
+          '#type' => 'schemadotorg_settings',
+          '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
+          '#settings_format' => 'SchemaType|property_name_01,property_name_02',
+          '#title' => $view_mode['label'],
+          '#description' => $this->t('Enter Schema.org types default view display for @display.', ['@display' => $view_mode['label']]),
+          '#config_name' => $config_name,
+          '#config_key' => 'default_schema_type_view_displays.' . $view_mode_id,
+        ];
+      }
+    }
 
     // Property settings.
     $form['properties'] = [
@@ -124,7 +161,6 @@ class SchemaDotOrgMappingTypeForm extends EntityForm {
       '#config_name' => $config_name,
       '#config_key' => 'default_component_weights',
     ];
-
     return $form;
   }
 

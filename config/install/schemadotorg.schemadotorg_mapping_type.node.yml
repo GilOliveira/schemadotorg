@@ -99,6 +99,25 @@ default_schema_type_properties:
   Article:
     - '-text'
     - articleBody
+default_schema_type_view_displays:
+  teaser:
+    Thing:
+      - description
+    Event:
+      - eventSchedule
+      - startDate
+      - endDate
+    Person:
+      - image
+    Place:
+      - address
+    LocalBusiness:
+      - openingHours
+    Episode:
+      - duration
+      - episodeNumber
+    JobPosting:
+      - datePosted
 default_base_fields:
   uuid: {  }
   revision_uid: {  }

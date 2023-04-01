@@ -113,12 +113,13 @@ n   */
     // Add body field to node.thing.
     // @see node_add_body_field()
     $field_storage = FieldStorageConfig::loadByName('node', 'body');
-    $field = FieldConfig::create([
+    $field_storage_values = [
       'field_storage' => $field_storage,
       'bundle' => 'thing',
       'label' => 'Body',
       'settings' => ['display_summary' => TRUE],
-    ]);
+    ];
+    $field = FieldConfig::create($field_storage_values);
     $field->save();
     $mapping
       ->setSchemaPropertyMapping('body', 'description')
@@ -138,7 +139,16 @@ n   */
     ];
     $formatter_id = 'text_default';
     $formatter_settings = [];
-    $this->schemaEntityDisplayBuilder->setFieldDisplays($field_values, $widget_id, $widget_settings, $formatter_id, $formatter_settings);
+    $this->schemaEntityDisplayBuilder->setFieldDisplays(
+      'Thing',
+      'description',
+      $field_storage_values,
+      $field_values,
+      $widget_id,
+      $widget_settings,
+      $formatter_id,
+      $formatter_settings
+    );
 
     $view_display = $this->entityDisplayRepository->getViewDisplay('node', 'thing', 'default');
     $component = $view_display->getComponent('body');

@@ -48,6 +48,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface;
  *     "recommended_schema_types",
  *     "default_schema_types",
  *     "default_schema_type_properties",
+ *     "default_schema_type_view_displays",
  *     "default_base_fields",
  *     "default_component_weights",
  *   }
@@ -98,6 +99,13 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
   protected $default_component_weights = [
     'langcode' => 100,
   ];
+
+  /**
+   * An associative array of grouped view display for Schema.org types.
+   *
+   * @var array
+   */
+  protected $default_schema_type_view_displays = [];
 
   /**
    * An associative array of grouped recommended Schema.org types.
@@ -186,6 +194,34 @@ class SchemaDotOrgMappingType extends ConfigEntityBase implements SchemaDotOrgMa
 
     ksort($default_properties);
     return $default_properties;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSchemaTypeViewDisplayProperties(string $schema_type, string $display_id): array {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+    $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+
+    $default_schema_type_view_displays = $this->get('default_schema_type_view_displays');
+    $view_display_properties = $default_schema_type_view_displays[$display_id] ?? [];
+    // Allow content browser view mode to default to the teaser view mode.
+    if (empty($view_display_properties) && $display_id === 'content_browser') {
+      $view_display_properties = $default_schema_type_view_displays['teaser'] ?? [];
+    }
+
+    if (empty($view_display_properties)) {
+      return [];
+    }
+
+    $properties = [];
+    $breadcrumbs = $schema_type_manager->getTypeBreadcrumbs($schema_type);
+    foreach ($breadcrumbs as $breadcrumb) {
+      foreach ($breadcrumb as $breadcrumb_type) {
+        $this->setSchemaTypeDefaultProperties($properties, $view_display_properties, $breadcrumb_type);
+      }
+    }
+    return $properties;
   }
 
   /**

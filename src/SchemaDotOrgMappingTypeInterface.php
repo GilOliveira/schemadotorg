@@ -47,6 +47,19 @@ interface SchemaDotOrgMappingTypeInterface extends ConfigEntityInterface {
   public function getDefaultSchemaTypeProperties(string $schema_type): array;
 
   /**
+   * Gets default Schema.org type's view display properties.
+   *
+   * @param string $schema_type
+   *   The Schema.org type.
+   * @param string $display_id
+   *   The view display id.
+   *
+   * @return array
+   *   The Schema.org type's view display properties.
+   */
+  public function getSchemaTypeViewDisplayProperties(string $schema_type, string $display_id): array;
+
+  /**
    * Determine if the mapping type supports multiple Schema.org type mappings.
    *
    * @return bool

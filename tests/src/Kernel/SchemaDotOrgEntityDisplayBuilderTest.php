@@ -46,6 +46,9 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
 
     // Check setting entity displays for a field.
     $this->schemaEntityDisplayBuilder->setFieldDisplays(
+      '',
+      '',
+      [],
       [
         'entity_type' => 'node',
         'bundle' => 'thing',
@@ -88,26 +91,26 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
     $this->assertEquals(200, $components['uid']['weight']);
     $this->assertEquals(210, $components['promote']['weight']);
 
-    // Check determining if a display is node teaser view display.
-    $entity_view_display = EntityViewDisplay::create([
-      'targetEntityType' => 'node',
-      'bundle' => 'page',
-      'mode' => 'teaser',
-    ]);
-    $this->assertTrue($this->schemaEntityDisplayBuilder->isNodeTeaserDisplay($entity_view_display));
-
-    $entity_view_display = EntityViewDisplay::create([
-      'targetEntityType' => 'node',
-      'bundle' => 'page',
-      'mode' => 'not_teaser',
-    ]);
-    $this->assertFalse($this->schemaEntityDisplayBuilder->isNodeTeaserDisplay($entity_view_display));
-
     // Check getting display form modes for a specific entity type.
     $this->assertEquals(['default' => 'default'], $this->schemaEntityDisplayBuilder->getFormModes('node', 'page'));
 
     // Check getting display view modes for a specific entity type.
     $this->assertEquals(['default' => 'default'], $this->schemaEntityDisplayBuilder->getViewModes('node', 'page'));
+
+    // Check Schema.org types default view display properties for Event.
+    $this->createSchemaEntity('node', 'Event');
+    /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $entity_view_display */
+    $entity_view_display = EntityViewDisplay::load('node.event.teaser');
+    $expected_components = [
+      'body',
+      'links',
+      'schema_end_date',
+      'schema_start_date',
+      'uid',
+      'title',
+      'created',
+    ];
+    $this->assertEquals($expected_components, array_keys($entity_view_display->getComponents()));
   }
 
 }
