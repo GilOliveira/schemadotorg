@@ -140,7 +140,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getEntityRouteMatch(EntityInterface $entity, string $rel = 'canonical'): RouteMatchInterface|null {
+  public function getEntityRouteMatch(EntityInterface $entity, string $rel = 'canonical'): RouteMatchInterface|NULL {
     if (!$entity->hasLinkTemplate($rel)) {
       return NULL;
     }
@@ -164,7 +164,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getRouteMatchEntity(?RouteMatchInterface $route_match = NULL): EntityInterface|null {
+  public function getRouteMatchEntity(?RouteMatchInterface $route_match = NULL): EntityInterface|NULL {
     $route_match = $route_match ?: $this->routeMatch;
     $route_name = $route_match->getRouteName();
     if (preg_match('/entity\.(.*)\.(latest[_-]version|canonical)/', $route_name, $matches)) {
@@ -312,7 +312,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyValueDefaultType(string $type, string $property, mixed $value): array|string|null {
+  public function getSchemaPropertyValueDefaultType(string $type, string $property, mixed $value): array|string|NULL {
     $default_property_values = $this->configFactory
       ->get('schemadotorg.settings')
       ->get('schema_types.default_property_values');
@@ -537,7 +537,7 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
    * @return \Drupal\image\ImageStyleInterface|null
    *   The selected image style for a field item.
    */
-  protected function getImageStyle(FieldItemInterface $item): ImageStyleInterface|null {
+  protected function getImageStyle(FieldItemInterface $item): ImageStyleInterface|NULL {
     $schema_property = $this->getSchemaProperty($item);
     $style = $this->getConfig()->get('property_image_styles.' . $schema_property);
     if (!$style) {

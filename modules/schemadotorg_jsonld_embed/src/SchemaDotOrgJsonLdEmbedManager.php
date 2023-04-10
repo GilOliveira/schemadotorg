@@ -43,7 +43,7 @@ class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface
    * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface|null $schema_jsonld_builder
    *   The Schema.org JSON-LD builder service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgJsonLdBuilderInterface|null $schema_jsonld_builder = NULL) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgJsonLdBuilderInterface|NULL $schema_jsonld_builder = NULL) {
     $this->entityTypeManager = $entity_type_manager;
     $this->schemaJsonLdBuilder = $schema_jsonld_builder;
   }

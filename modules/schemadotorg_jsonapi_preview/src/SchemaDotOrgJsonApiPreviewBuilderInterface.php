@@ -15,6 +15,6 @@ interface SchemaDotOrgJsonApiPreviewBuilderInterface {
    * @return array|null
    *   The JSON:API preview for the current route.
    */
-  public function build(): array|null;
+  public function build(): array|NULL;
 
 }

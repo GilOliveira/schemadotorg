@@ -909,7 +909,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
    * @return array|false
    *   The Schema.org type definition.
    */
-  protected function getSchemaTypeDefinition(): array|false {
+  protected function getSchemaTypeDefinition(): array|FALSE {
     return $this->schemaTypeManager->getType($this->getSchemaType());
   }
 

@@ -25,7 +25,7 @@ interface SchemaDotOrgJsonLdManagerInterface {
    * @return \Drupal\Core\Routing\RouteMatchInterface|null
    *   An entity's canonical route match.
    */
-  public function getEntityRouteMatch(EntityInterface $entity, string $rel = 'canonical'): RouteMatchInterface|null;
+  public function getEntityRouteMatch(EntityInterface $entity, string $rel = 'canonical'): RouteMatchInterface|NULL;
 
   /**
    * Returns the entity of the current route.
@@ -38,7 +38,7 @@ interface SchemaDotOrgJsonLdManagerInterface {
    *
    * @see metatag_get_route_entity()
    */
-  public function getRouteMatchEntity(?RouteMatchInterface $route_match = NULL): EntityInterface|null;
+  public function getRouteMatchEntity(?RouteMatchInterface $route_match = NULL): EntityInterface|NULL;
 
   /**
    * Sort Schema.org properties in specified order and then alphabetically.
@@ -86,7 +86,7 @@ interface SchemaDotOrgJsonLdManagerInterface {
    * @return array|string
    *   The Schema.org property's value converted to the default Schema.org type.
    */
-  public function getSchemaPropertyValueDefaultType(string $type, string $property, mixed $value): array|string|null;
+  public function getSchemaPropertyValueDefaultType(string $type, string $property, mixed $value): array|string|NULL;
 
   /**
    * Get Schema.org identifiers for an entity.

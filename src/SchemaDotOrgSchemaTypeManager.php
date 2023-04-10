@@ -225,7 +225,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getItem(string $table, string $id, array $fields = []): array|false {
+  public function getItem(string $table, string $id, array $fields = []): array|FALSE {
     $table_name = 'schemadotorg_' . $table;
     if (empty($fields)) {
       if (!isset($this->itemsCache[$table][$id])) {
@@ -249,14 +249,14 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getType(string $type, array $fields = []): array|false {
+  public function getType(string $type, array $fields = []): array|FALSE {
     return $this->getItem('types', $type, $fields);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getProperty(string $property, array $fields = []): array|false {
+  public function getProperty(string $property, array $fields = []): array|FALSE {
     return $this->getItem('properties', $property, $fields);
   }
 
@@ -318,7 +318,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getPropertyUnit(string $property, $value = 0): string|TranslatableMarkup|null {
+  public function getPropertyUnit(string $property, $value = 0): string|TranslatableMarkup|NULL {
     if ($value === NULL) {
       return NULL;
     }
@@ -724,7 +724,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    *   The Schema.org type or property item with a 'drupal_name' and
    *   'drupal_label', if the Schema.org label is included with the item.
    */
-  protected function setItemDrupalFields(string $table, array|false|null $item): array|false|null {
+  protected function setItemDrupalFields(string $table, array|FALSE|NULL $item): array|FALSE|NULL {
     if (empty($item) || !isset($item['label'])) {
       return $item;
     }

@@ -41,7 +41,7 @@ class SchemaDotOrgConfigManager implements SchemaDotOrgConfigManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function setSchemaTypeDefaultProperties(string $schema_type, array|string|null $add = NULL, array|string|null $remove = NULL): void {
+  public function setSchemaTypeDefaultProperties(string $schema_type, array|string|NULL $add = NULL, array|string|NULL $remove = NULL): void {
     $config = $this->configFactory->getEditable('schemadotorg.settings');
 
     // Get or create default properties.

@@ -19,7 +19,7 @@ use Drupal\schemadotorg\Utility\SchemaDotOrgElementHelper;
 /**
  * Implements hook_help().
  */
-function schemadotorg_subtype_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
+function schemadotorg_subtype_help(string $route_name, RouteMatchInterface $route_match): string|array|NULL {
   if ($route_name === 'schemadotorg_subtype.settings') {
     return '<p>' . t('The <em>Schema.org subtype settings</em> page allows administrators to configure default setting for subtyping.') . '<p>';
   }

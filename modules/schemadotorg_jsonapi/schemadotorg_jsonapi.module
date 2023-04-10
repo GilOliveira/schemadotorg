@@ -16,7 +16,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 /**
  * Implements hook_help().
  */
-function schemadotorg_jsonapi_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
+function schemadotorg_jsonapi_help(string $route_name, RouteMatchInterface $route_match): string|array|NULL {
   if ($route_name === 'schemadotorg_jsonapi.settings') {
     return '<p>' . t('The <em>Schema.org JSON:API settings</em> page allows administrators to configure the default settings for the JSON:API resource overrides managed by the JSON:API extras module.') . '<p>';
   }

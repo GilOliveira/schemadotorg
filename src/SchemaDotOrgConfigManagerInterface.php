@@ -19,7 +19,7 @@ interface SchemaDotOrgConfigManagerInterface {
    * @param array|string|null $remove
    *   Schema.org properties to be added.
    */
-  public function setSchemaTypeDefaultProperties(string $schema_type, array|string|null $add = NULL, array|string|null $remove = NULL): void;
+  public function setSchemaTypeDefaultProperties(string $schema_type, array|string|NULL $add = NULL, array|string|NULL $remove = NULL): void;
 
   /**
    * Repair configuration.

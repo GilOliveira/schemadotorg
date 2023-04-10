@@ -13,7 +13,7 @@ use Drupal\Core\Url;
 /**
  * Implements hook_help().
  */
-function schemadotorg_report_help(string $route_name, RouteMatchInterface $route_match): string|array|null {
+function schemadotorg_report_help(string $route_name, RouteMatchInterface $route_match): string|array|NULL {
   switch ($route_name) {
     case 'schemadotorg_report':
       /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */

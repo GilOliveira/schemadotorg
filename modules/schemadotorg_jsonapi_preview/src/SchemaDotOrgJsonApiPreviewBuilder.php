@@ -200,7 +200,7 @@ class SchemaDotOrgJsonApiPreviewBuilder implements SchemaDotOrgJsonApiPreviewBui
    *
    * @see metatag_get_route_entity()
    */
-  protected function getRouteMatchEntity(): EntityInterface|null {
+  protected function getRouteMatchEntity(): EntityInterface|NULL {
     $route_name = $this->routeMatch->getRouteName();
     if (preg_match('/entity\.(.*)\.(latest[_-]version|canonical)/', $route_name, $matches)) {
       return $this->routeMatch->getParameter($matches[1]);

@@ -189,7 +189,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    *   An associative array containing Schema.org type or property item.
    *   or FALSE if there is no type found.
    */
-  public function getItem(string $table, string $id, array $fields = []): array|false;
+  public function getItem(string $table, string $id, array $fields = []): array|FALSE;
 
   /**
    * Gets Schema.org type.
@@ -203,7 +203,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    *   An associative array containing Schema.org type definition,
    *   or FALSE if there is no type found.
    */
-  public function getType(string $type, array $fields = []): array|false;
+  public function getType(string $type, array $fields = []): array|FALSE;
 
   /**
    * Gets Schema.org property.
@@ -217,7 +217,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    *   An associative array containing Schema.org property definition,
    *   or FALSE if there is no property found.
    */
-  public function getProperty(string $property, array $fields = []): array|false;
+  public function getProperty(string $property, array $fields = []): array|FALSE;
 
   /**
    * Get a Schema.org property's range includes.
@@ -228,7 +228,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * @return array|false
    *   The Schema.org property's range includes.
    */
-  public function getPropertyRangeIncludes(string $property): array|false;
+  public function getPropertyRangeIncludes(string $property): array|FALSE;
 
   /**
    * Get a Schema.org property's default Schema.org type from range_includes.
@@ -252,7 +252,7 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
    * @return string|\Drupal\Core\StringTranslation\TranslatableMarkup|null
    *   The Schema.org property's unit.
    */
-  public function getPropertyUnit(string $property, int $value = 0): string|TranslatableMarkup|null;
+  public function getPropertyUnit(string $property, int $value = 0): string|TranslatableMarkup|NULL;
 
   /**
    * Gets Schema.org type or property items.
