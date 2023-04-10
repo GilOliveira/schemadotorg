@@ -15,41 +15,20 @@ use Drupal\Core\Url;
 class SchemaDotOrgSchemaTypeBuilder implements SchemaDotOrgSchemaTypeBuilderInterface {
 
   /**
-   * The module handler.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  protected $moduleHandler;
-
-  /**
-   * The current user.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  protected $currentUser;
-
-  /**
-   * The Schema.org schema type manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
-   */
-  protected $schemaTypeManager;
-
-  /**
    * Constructs a SchemaDotOrgSchemaTypeBuilder object.
    *
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The module handler service.
-   * @param \Drupal\Core\Session\AccountInterface $current_user
+   * @param \Drupal\Core\Session\AccountInterface $currentUser
    *   The current user.
-   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
    *   The Schema.org schema type manager.
    */
-  public function __construct(ModuleHandlerInterface $module_handler, AccountInterface $current_user, SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager) {
-    $this->moduleHandler = $module_handler;
-    $this->currentUser = $current_user;
-    $this->schemaTypeManager = $schema_type_manager;
-  }
+  public function __construct(
+    protected ModuleHandlerInterface $moduleHandler,
+    protected AccountInterface $currentUser,
+    protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
+  ) {}
 
   /**
    * {@inheritdoc}

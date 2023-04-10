@@ -37,67 +37,26 @@ class SchemaDotOrgDescriptionsConfigFactoryOverride extends ConfigFactoryOverrid
   const CACHE_ID = 'schemadotorg_descriptions.override';
 
   /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
-   * Default cache backend instance.
-   *
-   * @var \Drupal\Core\Cache\CacheBackendInterface
-   */
-  protected $defaultCacheBackend;
-
-  /**
-   * Discovery cache backend instance.
-   *
-   * @var \Drupal\Core\Cache\CacheBackendInterface
-   */
-  protected $discoveryCacheBackend;
-
-  /**
-   * The Schema.org schema type manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
-   */
-  protected $schemaTypeManager;
-
-  /**
-   * The Schema.org schema type builder.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface
-   */
-  protected $schemaTypeBuilder;
-
-  /**
    * Constructs a SchemaDotOrgDescriptionsConfigFactoryOverride object.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The configuration object factory.
-   * @param \Drupal\Core\Cache\CacheBackendInterface $default_cache_backend
+   * @param \Drupal\Core\Cache\CacheBackendInterface $defaultCacheBackend
    *   The default cache backend.
-   * @param \Drupal\Core\Cache\CacheBackendInterface $discovery_cache_backend
+   * @param \Drupal\Core\Cache\CacheBackendInterface $discoveryCacheBackend
    *   The discovery cache backend.
-   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
    *   The Schema.org schema type manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface $schema_type_builder
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface $schemaTypeBuilder
    *   The Schema.org schema type builder.
    */
   public function __construct(
-    ConfigFactoryInterface $config_factory,
-    CacheBackendInterface $default_cache_backend,
-    CacheBackendInterface $discovery_cache_backend,
-    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
-    SchemaDotOrgSchemaTypeBuilderInterface $schema_type_builder
-  ) {
-    $this->configFactory = $config_factory;
-    $this->defaultCacheBackend = $default_cache_backend;
-    $this->discoveryCacheBackend = $discovery_cache_backend;
-    $this->schemaTypeManager = $schema_type_manager;
-    $this->schemaTypeBuilder = $schema_type_builder;
-  }
+    protected ConfigFactoryInterface $configFactory,
+    protected CacheBackendInterface $defaultCacheBackend,
+    protected CacheBackendInterface $discoveryCacheBackend,
+    protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
+    protected SchemaDotOrgSchemaTypeBuilderInterface $schemaTypeBuilder
+  ) {}
 
   /**
    * {@inheritdoc}

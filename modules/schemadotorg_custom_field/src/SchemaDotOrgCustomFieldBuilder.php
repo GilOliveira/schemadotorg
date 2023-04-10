@@ -15,45 +15,20 @@ use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 class SchemaDotOrgCustomFieldBuilder implements SchemaDotOrgCustomFieldBuilderInterface {
 
   /**
-   * The Schema.org schema type manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
-   */
-  protected $schemaTypeManager;
-
-  /**
-   * The Schema.org names service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
-   */
-  protected $schemaNames;
-
-  /**
-   * The Schema.org Custom Field manager.
-   *
-   * @var \Drupal\schemadotorg_custom_field\SchemaDotOrgCustomFieldManagerInterface
-   */
-  protected $schemaCustomFieldManager;
-
-  /**
    * Constructs a SchemaDotOrgCustomFieldBuilder object.
    *
-   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
    *   The Schema.org schema type manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
+   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schemaNames
    *   The Schema.org names service.
-   * @param \Drupal\schemadotorg_custom_field\SchemaDotOrgCustomFieldManagerInterface $schema_custom_field_manager
+   * @param \Drupal\schemadotorg_custom_field\SchemaDotOrgCustomFieldManagerInterface $schemaCustomFieldManager
    *   The Schema.org Custom Field manager.
    */
   public function __construct(
-    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
-    SchemaDotOrgNamesInterface $schema_names,
-    SchemaDotOrgCustomFieldManagerInterface $schema_custom_field_manager,
-  ) {
-    $this->schemaTypeManager = $schema_type_manager;
-    $this->schemaNames = $schema_names;
-    $this->schemaCustomFieldManager = $schema_custom_field_manager;
-  }
+    protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
+    protected SchemaDotOrgNamesInterface $schemaNames,
+    protected SchemaDotOrgCustomFieldManagerInterface $schemaCustomFieldManager
+  ) {}
 
   /**
    * {@inheritdoc}

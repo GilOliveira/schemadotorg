@@ -15,21 +15,14 @@ use Drupal\Core\Config\ImmutableConfig;
 class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
 
   /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
    * Constructs a SchemaDotOrgNames object.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The configuration object factory.
    */
-  public function __construct(ConfigFactoryInterface $config_factory) {
-    $this->configFactory = $config_factory;
-  }
+  public function __construct(
+    protected ConfigFactoryInterface $configFactory
+  ) {}
 
   /**
    * {@inheritdoc}

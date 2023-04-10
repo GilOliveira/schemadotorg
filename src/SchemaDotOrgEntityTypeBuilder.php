@@ -19,89 +19,32 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   use StringTranslationTrait;
 
   /**
-   * The messenger service.
-   *
-   * @var \Drupal\Core\Messenger\MessengerInterface
-   */
-  protected $messenger;
-
-  /**
-   * The module handler.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  protected $moduleHandler;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The entity display repository.
-   *
-   * @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface
-   */
-  protected $entityDisplayRepository;
-
-  /**
-   * The field type plugin manager.
-   *
-   * @var \Drupal\Core\Field\FieldTypePluginManagerInterface
-   */
-  protected $fieldTypePluginManager;
-
-  /**
-   * The Schema.org schema type manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
-   */
-  protected $schemaTypeManager;
-
-  /**
-   * The Schema.org entity display builder.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface
-   */
-  protected $schemaEntityDisplayBuilder;
-
-  /**
    * Constructs a SchemaDotOrgBuilder object.
    *
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The module handler service.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository
+   * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entityDisplayRepository
    *   The entity display repository.
-   * @param \Drupal\Core\Field\FieldTypePluginManagerInterface $field_type_plugin_manager
+   * @param \Drupal\Core\Field\FieldTypePluginManagerInterface $fieldTypePluginManager
    *   The field type plugin manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
    *   The Schema.org schema type manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface $schema_entity_display_builder
+   * @param \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface $schemaEntityDisplayBuilder
    *   The Schema.org entity display builder.
    */
   public function __construct(
-    MessengerInterface $messenger,
-    ModuleHandlerInterface $module_handler,
-    EntityTypeManagerInterface $entity_type_manager,
-    EntityDisplayRepositoryInterface $display_repository,
-    FieldTypePluginManagerInterface $field_type_plugin_manager,
-    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
-    SchemaDotOrgEntityDisplayBuilderInterface $schema_entity_display_builder
-  ) {
-    $this->messenger = $messenger;
-    $this->moduleHandler = $module_handler;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->entityDisplayRepository = $display_repository;
-    $this->fieldTypePluginManager = $field_type_plugin_manager;
-    $this->schemaTypeManager = $schema_type_manager;
-    $this->schemaEntityDisplayBuilder = $schema_entity_display_builder;
-  }
+    protected MessengerInterface $messenger,
+    protected ModuleHandlerInterface $moduleHandler,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected EntityDisplayRepositoryInterface $entityDisplayRepository,
+    protected FieldTypePluginManagerInterface $fieldTypePluginManager,
+    protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
+    protected SchemaDotOrgEntityDisplayBuilderInterface $schemaEntityDisplayBuilder
+  ) {}
 
   /**
    * {@inheritdoc}

@@ -19,67 +19,26 @@ class SchemaDotOrgLayoutParagraphsInstaller implements SchemaDotOrgLayoutParagra
   use StringTranslationTrait;
 
   /**
-   * The module handler.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  protected $moduleHandler;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The entity display repository.
-   *
-   * @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface
-   */
-  protected $entityDisplayRepository;
-
-  /**
-   * The Schema.org names service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
-   */
-  protected $schemaNames;
-
-  /**
-   * The Schema.org mapping manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface
-   */
-  protected $schemaMappingManager;
-
-  /**
    * Constructs a SchemaDotOrgLayoutParagraphsInstaller object.
    *
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The module handler.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository
+   * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entityDisplayRepository
    *   The entity display repository.
-   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
+   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schemaNames
    *   The Schema.org names service.
-   * @param \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $schema_mapping_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $schemaMappingManager
    *   The Schema.org mapping manager.
    */
   public function __construct(
-    ModuleHandlerInterface $module_handler,
-    EntityTypeManagerInterface $entity_type_manager,
-    EntityDisplayRepositoryInterface $entity_display_repository,
-    SchemaDotOrgNamesInterface $schema_names,
-    SchemaDotOrgMappingManagerInterface $schema_mapping_manager
-  ) {
-    $this->moduleHandler = $module_handler;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->entityDisplayRepository = $entity_display_repository;
-    $this->schemaNames = $schema_names;
-    $this->schemaMappingManager = $schema_mapping_manager;
-  }
+    protected ModuleHandlerInterface $moduleHandler,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected EntityDisplayRepositoryInterface $entityDisplayRepository,
+    protected SchemaDotOrgNamesInterface $schemaNames,
+    protected SchemaDotOrgMappingManagerInterface $schemaMappingManager
+  ) {}
 
   /**
    * {@inheritdoc}

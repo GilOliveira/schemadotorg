@@ -25,67 +25,26 @@ class SchemaDotOrgJsonApiEventSubscriber extends ServiceProviderBase implements 
   use StringTranslationTrait;
 
   /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
-   * The current route match.
-   *
-   * @var \Drupal\Core\Routing\RouteMatchInterface
-   */
-  protected $routeMatch;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The JSON:API configurable resource type repository.
-   *
-   * @var \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository
-   */
-  protected $resourceTypeRepository;
-
-  /**
-   * The Schema.org JSON:API manager.
-   *
-   * @var \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface
-   */
-  protected $schemaJsonApiManager;
-
-  /**
    * Constructs a SchemaDotOrgJsonApiEventSubscriber object.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The configuration object factory.
-   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
    *   The current route match.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository $resource_type_repository
+   * @param \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository $resourceTypeRepository
    *   The JSON:API configurable resource type repository.
-   * @param \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface $schema_jsonapi_manager
+   * @param \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface $schemaJsonApiManager
    *   The Schema.org JSON:API manager.
    */
   public function __construct(
-    ConfigFactoryInterface $config_factory,
-    RouteMatchInterface $route_match,
-    EntityTypeManagerInterface $entity_type_manager,
-    ConfigurableResourceTypeRepository $resource_type_repository,
-    SchemaDotOrgJsonApiManagerInterface $schema_jsonapi_manager
-  ) {
-    $this->configFactory = $config_factory;
-    $this->routeMatch = $route_match;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->resourceTypeRepository = $resource_type_repository;
-    $this->schemaJsonApiManager = $schema_jsonapi_manager;
-  }
+    protected ConfigFactoryInterface $configFactory,
+    protected RouteMatchInterface $routeMatch,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected ConfigurableResourceTypeRepository $resourceTypeRepository,
+    protected SchemaDotOrgJsonApiManagerInterface $schemaJsonApiManager
+  ) {}
 
   /**
    * Alters Schema.org mapping list builder and adds a 'JSON:API' column.

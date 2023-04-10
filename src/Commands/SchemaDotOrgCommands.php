@@ -19,68 +19,27 @@ use Drush\Exceptions\UserAbortException;
 class SchemaDotOrgCommands extends DrushCommands {
 
   /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The Schema.org installer service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface
-   */
-  protected $schemaInstaller;
-
-  /**
-   * The Schema.org config manager service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface
-   */
-  protected $schemaConfigManager;
-
-  /**
-   * The Schema.org entity relationship manager service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface
-   */
-  protected $schemaEntityRelationshipManager;
-
-
-  /**
-   * The Schema.org mapping manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface
-   */
-  protected $schemaMappingManager;
-
-  /**
    * Constructs a SchemaDotOrgCommands object.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $schema_installer
+   * @param \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $schemaInstaller
    *   The Schema.org installer service.
-   * @param \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schema_config_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schemaConfigManager
    *   The Schema.org schema config manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface $schema_entity_relationship_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface $schemaEntityRelationshipManager
    *   The Schema.org schema entity relationship manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $schema_mapping_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $schemaMappingManager
    *   The Schema.org mapping manager.
    */
   public function __construct(
-    EntityTypeManagerInterface $entity_type_manager,
-    SchemaDotOrgInstallerInterface $schema_installer,
-    SchemaDotOrgConfigManagerInterface $schema_config_manager,
-    SchemaDotOrgEntityRelationshipManagerInterface $schema_entity_relationship_manager,
-    SchemaDotOrgMappingManagerInterface $schema_mapping_manager
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected SchemaDotOrgInstallerInterface $schemaInstaller,
+    protected SchemaDotOrgConfigManagerInterface $schemaConfigManager,
+    protected SchemaDotOrgEntityRelationshipManagerInterface $schemaEntityRelationshipManager,
+    protected SchemaDotOrgMappingManagerInterface $schemaMappingManager
   ) {
     parent::__construct();
-    $this->entityTypeManager = $entity_type_manager;
-    $this->schemaInstaller = $schema_installer;
-    $this->schemaConfigManager = $schema_config_manager;
-    $this->schemaEntityRelationshipManager = $schema_entity_relationship_manager;
-    $this->schemaMappingManager = $schema_mapping_manager;
   }
 
   /**

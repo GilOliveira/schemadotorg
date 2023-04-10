@@ -17,21 +17,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class SchemaDotOrgJsonLdEndpointEventSubscriber extends ServiceProviderBase implements EventSubscriberInterface {
 
   /**
-   * The route provider.
-   *
-   * @var \Drupal\Core\Routing\AccessAwareRouterInterface
-   */
-  protected $routeProvider;
-
-  /**
    * Constructs a SchemaDotOrgJsonLdEndpointEventSubscriber object.
    *
-   * @param \Drupal\Core\Routing\AccessAwareRouterInterface $route_provider
+   * @param \Drupal\Core\Routing\AccessAwareRouterInterface $routeProvider
    *   The route provider.
    */
-  public function __construct(AccessAwareRouterInterface $route_provider) {
-    $this->routeProvider = $route_provider;
-  }
+  public function __construct(
+    protected AccessAwareRouterInterface $routeProvider
+  ) {}
 
   /**
    * Add JSON-LD URI to JSON:API resource object meta data.

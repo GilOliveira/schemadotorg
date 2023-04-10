@@ -23,44 +23,19 @@ class SchemaDotOrgTaxonomyJsonLdManager implements SchemaDotOrgTaxonomyJsonLdMan
   use StringTranslationTrait;
 
   /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The Schema.org JSON-LD manager.
-   *
-   * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface
-   */
-  protected $schemaJsonLdManager;
-
-  /**
-   * The Schema.org JSON-LD builder.
-   *
-   * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface
-   */
-  protected $schemaJsonLdBuilder;
-
-  /**
    * Constructs a SchemaDotOrgTaxonomyJsonLdManager object.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface|null $schema_jsonld_manager
+   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface|null $schemaJsonLdManager
    *   The Schema.org JSON-LD manager service.
-   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface|null $schema_jsonld_builder
+   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface|null $schemaJsonLdBuilder
    *   The Schema.org JSON-LD builder service.
    */
   public function __construct(
-    EntityTypeManagerInterface $entity_type_manager,
-    ?SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager = NULL,
-    ?SchemaDotOrgJsonLdBuilderInterface $schema_jsonld_builder = NULL) {
-    $this->entityTypeManager = $entity_type_manager;
-    $this->schemaJsonLdManager = $schema_jsonld_manager;
-    $this->schemaJsonLdBuilder = $schema_jsonld_builder;
-  }
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected ?SchemaDotOrgJsonLdManagerInterface $schemaJsonLdManager = NULL,
+    protected ?SchemaDotOrgJsonLdBuilderInterface $schemaJsonLdBuilder = NULL) {}
 
   /**
    * {@inheritdoc}

@@ -19,56 +19,23 @@ use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 class SchemaDotOrgCustomFieldManager implements SchemaDotOrgCustomFieldManagerInterface {
 
   /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
-   * The Schema.org schema type manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
-   */
-  protected $schemaTypeManager;
-
-  /**
-   * The Schema.org entity field manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface
-   */
-  protected $schemaEntityFieldManager;
-
-  /**
-   * The custom field type manager.
-   *
-   * @var \Drupal\custom_field\Plugin\CustomFieldTypeManagerInterface
-   */
-  protected $customFieldTypeManager;
-
-  /**
    * Constructs a SchemaDotOrgCustomFieldManager object.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The configuration object factory.
-   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
    *   The Schema.org schema type manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface $schema_field_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface $schemaEntityFieldManager
    *   The Schema.org entity field manager.
-   * @param \Drupal\custom_field\Plugin\CustomFieldTypeManagerInterface $custom_field_type_manager
+   * @param \Drupal\custom_field\Plugin\CustomFieldTypeManagerInterface $customFieldTypeManager
    *   The custom field type manager.
    */
   public function __construct(
-    ConfigFactoryInterface $config_factory,
-    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
-    SchemaDotOrgEntityFieldManagerInterface $schema_field_manager,
-    CustomFieldTypeManagerInterface $custom_field_type_manager
-  ) {
-    $this->configFactory = $config_factory;
-    $this->schemaTypeManager = $schema_type_manager;
-    $this->schemaEntityFieldManager = $schema_field_manager;
-    $this->customFieldTypeManager = $custom_field_type_manager;
-  }
+    protected ConfigFactoryInterface $configFactory,
+    protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
+    protected SchemaDotOrgEntityFieldManagerInterface $schemaEntityFieldManager,
+    protected CustomFieldTypeManagerInterface $customFieldTypeManager
+  ) {}
 
   /**
    * {@inheritdoc}

@@ -21,31 +21,17 @@ class SchemaDotOrgSubtypeEventSubscriber extends ServiceProviderBase implements 
   use StringTranslationTrait;
 
   /**
-   * The current route match.
-   *
-   * @var \Drupal\Core\Routing\RouteMatchInterface
-   */
-  protected $routeMatch;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
    * Constructs a SchemaDotOrgSubtypeEventSubscriber object.
    *
-   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
    *   The current route match.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
    */
-  public function __construct(RouteMatchInterface $route_match, EntityTypeManagerInterface $entity_type_manager) {
-    $this->routeMatch = $route_match;
-    $this->entityTypeManager = $entity_type_manager;
-  }
+  public function __construct(
+    protected RouteMatchInterface $routeMatch,
+    protected EntityTypeManagerInterface $entityTypeManager
+  ) {}
 
   /**
    * Alters Schema.org mapping list builder and adds a 'Subtyping' column.

@@ -19,67 +19,26 @@ use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGroupEntityDisplayBuilderInterface {
 
   /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The entity display repository.
-   *
-   * @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface
-   */
-  protected $entityDisplayRepository;
-
-  /**
-   * The Schema.org names service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
-   */
-  protected $schemaNames;
-
-  /**
-   * The Schema.org entity display builder service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface
-   */
-  protected $schemaEntityDisplayBuilder;
-
-  /**
    * Constructs a SchemaDotOrgFieldGroupEntityDisplayBuilder object.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The configuration object factory.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository
+   * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entityDisplayRepository
    *   The entity display repository.
-   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
+   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schemaNames
    *   The Schema.org names service.
-   * @param \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface $schema_entity_display_builder
+   * @param \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface $schemaEntityDisplayBuilder
    *   The Schema.org entity display builder service.
    */
   public function __construct(
-    ConfigFactoryInterface $config_factory,
-    EntityTypeManagerInterface $entity_type_manager,
-    EntityDisplayRepositoryInterface $display_repository,
-    SchemaDotOrgNamesInterface $schema_names,
-    SchemaDotOrgEntityDisplayBuilderInterface $schema_entity_display_builder
-  ) {
-    $this->configFactory = $config_factory;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->entityDisplayRepository = $display_repository;
-    $this->schemaNames = $schema_names;
-    $this->schemaEntityDisplayBuilder = $schema_entity_display_builder;
-  }
+    protected ConfigFactoryInterface $configFactory,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected EntityDisplayRepositoryInterface $entityDisplayRepository,
+    protected SchemaDotOrgNamesInterface $schemaNames,
+    protected SchemaDotOrgEntityDisplayBuilderInterface $schemaEntityDisplayBuilder
+  ) {}
 
   /**
    * {@inheritdoc}

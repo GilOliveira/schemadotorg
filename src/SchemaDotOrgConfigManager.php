@@ -12,31 +12,17 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 class SchemaDotOrgConfigManager implements SchemaDotOrgConfigManagerInterface {
 
   /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
-   * The Schema.org schema type manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
-   */
-  protected $schemaTypeManager;
-
-  /**
    * Constructs a SchemaDotOrgConfigManager object.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The configuration object factory.
-   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
    *   The Schema.org schema type manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager) {
-    $this->configFactory = $config_factory;
-    $this->schemaTypeManager = $schema_type_manager;
-  }
+  public function __construct(
+    protected ConfigFactoryInterface $configFactory,
+    protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
+  ) {}
 
   /**
    * {@inheritdoc}

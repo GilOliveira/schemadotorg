@@ -15,20 +15,6 @@ use Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface;
 class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface {
 
   /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The Schema.org JSON-LD builder.
-   *
-   * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface
-   */
-  protected $schemaJsonLdBuilder;
-
-  /**
    * Xpath selector for finding embedded media.
    *
    * @var string
@@ -38,15 +24,15 @@ class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface
   /**
    * Constructs a SchemaDotOrgJsonLdEmbedManager object.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface|null $schema_jsonld_builder
+   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface|null $schemaJsonLdBuilder
    *   The Schema.org JSON-LD builder service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, SchemaDotOrgJsonLdBuilderInterface|NULL $schema_jsonld_builder = NULL) {
-    $this->entityTypeManager = $entity_type_manager;
-    $this->schemaJsonLdBuilder = $schema_jsonld_builder;
-  }
+  public function __construct(
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected SchemaDotOrgJsonLdBuilderInterface|NULL $schemaJsonLdBuilder = NULL
+  ) {}
 
   /**
    * {@inheritdoc}

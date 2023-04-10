@@ -23,67 +23,26 @@ class SchemaDotOrgInstaller implements SchemaDotOrgInstallerInterface {
   const VERSION = '15.0';
 
   /**
-   * The database connection.
-   *
-   * @var \Drupal\Core\Database\Connection
-   */
-  protected $database;
-
-  /**
-   * The module handler.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  protected $moduleHandler;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The Schema.org names service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
-   */
-  protected $schemaNames;
-
-  /**
-   * The Schema.org schema type manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
-   */
-  protected $schemaTypeManager;
-
-  /**
    * Constructs a SchemaDotOrgInstaller object.
    *
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The module handler.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
+   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schemaNames
    *   The Schema.org names service.
-   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
    *   The Schema.org schema type manager.
    */
   public function __construct(
-    Connection $database,
-    ModuleHandlerInterface $module_handler,
-    EntityTypeManagerInterface $entity_type_manager,
-    SchemaDotOrgNamesInterface $schema_names,
-    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
-  ) {
-    $this->database = $database;
-    $this->moduleHandler = $module_handler;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->schemaNames = $schema_names;
-    $this->schemaTypeManager = $schema_type_manager;
-  }
+    protected Connection $database,
+    protected ModuleHandlerInterface $moduleHandler,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected SchemaDotOrgNamesInterface $schemaNames,
+    protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
+  ) {}
 
   /**
    * {@inheritdoc}

@@ -22,67 +22,26 @@ class SchemaDotOrgJsonApiPreviewBuilder implements SchemaDotOrgJsonApiPreviewBui
   use StringTranslationTrait;
 
   /**
-   * The current route match.
-   *
-   * @var \Drupal\Core\Routing\RouteMatchInterface
-   */
-  protected $routeMatch;
-
-  /**
-   * The renderer.
-   *
-   * @var \Drupal\Core\Render\RendererInterface
-   */
-  protected $renderer;
-
-  /**
-   * The JSON:API Resource Type Repository.
-   *
-   * @var \Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface
-   */
-  protected $resourceTypeRepository;
-
-  /**
-   * The entity to JSON:API service.
-   *
-   * @var \Drupal\jsonapi_extras\EntityToJsonApi
-   */
-  protected $entityToJsonApi;
-
-  /**
-   * The Schema.org JSON:API manager.
-   *
-   * @var \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface
-   */
-  protected $schemaJsonApiManager;
-
-  /**
    * Constructs a SchemaDotOrgJsonApiPreviewBuilder object.
    *
-   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
    *   The current route match.
    * @param \Drupal\Core\Render\RendererInterface $renderer
    *   The renderer.
-   * @param \Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface $resource_type_repository
+   * @param \Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface $resourceTypeRepository
    *   The resource type repository.
-   * @param \Drupal\jsonapi_extras\EntityToJsonApi $entity_to_jsonapi
+   * @param \Drupal\jsonapi_extras\EntityToJsonApi $entityToJsonApi
    *   The entity to JSON:API service.
-   * @param \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface $schema_jsonapi_manager
+   * @param \Drupal\schemadotorg_jsonapi\SchemaDotOrgJsonApiManagerInterface $schemaJsonApiManager
    *   The Schema.org JSON:API manager.
    */
   public function __construct(
-    RouteMatchInterface $route_match,
-    RendererInterface $renderer,
-    ResourceTypeRepositoryInterface $resource_type_repository,
-    EntityToJsonApi $entity_to_jsonapi,
-    SchemaDotOrgJsonApiManagerInterface $schema_jsonapi_manager
-  ) {
-    $this->routeMatch = $route_match;
-    $this->renderer = $renderer;
-    $this->resourceTypeRepository = $resource_type_repository;
-    $this->entityToJsonApi = $entity_to_jsonapi;
-    $this->schemaJsonApiManager = $schema_jsonapi_manager;
-  }
+    protected RouteMatchInterface $routeMatch,
+    protected RendererInterface $renderer,
+    protected ResourceTypeRepositoryInterface $resourceTypeRepository,
+    protected EntityToJsonApi $entityToJsonApi,
+    protected SchemaDotOrgJsonApiManagerInterface $schemaJsonApiManager
+  ) {}
 
   /**
    * {@inheritdoc}

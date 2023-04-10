@@ -15,56 +15,23 @@ use Drupal\Core\Session\AccountInterface;
 class SchemaDotOrgJsonApiPreviewAccessChecker implements SchemaDotOrgJsonApiPreviewAccessCheckerInterface {
 
   /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
-   * The current user.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  protected $currentUser;
-
-  /**
-   * The route admin context to determine whether a route is an admin one.
-   *
-   * @var \Drupal\Core\Routing\AdminContext
-   */
-  protected $adminContext;
-
-  /**
-   * The condition plugin manager.
-   *
-   * @var \Drupal\Core\Condition\ConditionManager
-   */
-  protected $conditionManager;
-
-  /**
    * Constructs a SchemaDotOrgJsonApiPreviewAccessChecker object.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The configuration object factory.
-   * @param \Drupal\Core\Session\AccountInterface $current_user
+   * @param \Drupal\Core\Session\AccountInterface $currentUser
    *   The current user.
-   * @param \Drupal\Core\Routing\AdminContext $admin_context
+   * @param \Drupal\Core\Routing\AdminContext $adminContext
    *   The route admin context to determine whether the route is an admin one.
-   * @param \Drupal\Core\Condition\ConditionManager $condition_manager
+   * @param \Drupal\Core\Condition\ConditionManager $conditionManager
    *   The ConditionManager for building the visibility UI.
    */
   public function __construct(
-    ConfigFactoryInterface $config_factory,
-    AccountInterface $current_user,
-    AdminContext $admin_context,
-    ConditionManager $condition_manager
-  ) {
-    $this->configFactory = $config_factory;
-    $this->currentUser = $current_user;
-    $this->adminContext = $admin_context;
-    $this->conditionManager = $condition_manager;
-  }
+    protected ConfigFactoryInterface $configFactory,
+    protected AccountInterface $currentUser,
+    protected AdminContext $adminContext,
+    protected ConditionManager $conditionManager
+  ) {}
 
   /**
    * {@inheritdoc}

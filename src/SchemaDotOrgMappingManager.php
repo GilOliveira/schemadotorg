@@ -17,122 +17,41 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
   use StringTranslationTrait;
 
   /**
-   * The module handler.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  protected $moduleHandler;
-
-  /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The entity field manager.
-   *
-   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
-   */
-  protected $entityFieldManager;
-
-  /**
-   * The Schema.org names service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
-   */
-  protected $schemaNames;
-
-  /**
-   * The Schema.org schema type manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
-   */
-  protected $schemaTypeManager;
-
-  /**
-   * The Schema.org schema type builder service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface
-   */
-  protected $schemaTypeBuilder;
-
-  /**
-   * The Schema.org entity field manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface
-   */
-  protected $schemaEntityFieldManager;
-
-  /**
-   * The Schema.org schema type builder service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface
-   */
-  protected $schemaEntityTypeBuilder;
-
-  /**
-   * The Schema.org entity display builder.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface
-   */
-  protected $schemaEntityDisplayBuilder;
-
-  /**
    * Constructs a SchemaDotOrgBuilder object.
    *
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The module handler.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The configuration object factory.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
+   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entityFieldManager
    *   The entity field manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
+   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schemaNames
    *   The Schema.org names service.
-   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
    *   The Schema.org schema type manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface $schema_type_builder
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface $schemaTypeBuilder
    *   The Schema.org schema type builder.
-   * @param \Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface $schema_field_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface $schemaEntityFieldManager
    *   The Schema.org entity field manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilderInterface $schema_entity_type_builder
+   * @param \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilderInterface $schemaEntityTypeBuilder
    *   The Schema.org entity type builder.
-   * @param \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface $schema_entity_display_builder
+   * @param \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface $schemaEntityDisplayBuilder
    *   The Schema.org entity display builder.
    */
   public function __construct(
-    ModuleHandlerInterface $module_handler,
-    ConfigFactoryInterface $config_factory,
-    EntityTypeManagerInterface $entity_type_manager,
-    EntityFieldManagerInterface $entity_field_manager,
-    SchemaDotOrgNamesInterface $schema_names,
-    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
-    SchemaDotOrgSchemaTypeBuilderInterface $schema_type_builder,
-    SchemaDotOrgEntityFieldManagerInterface $schema_field_manager,
-    SchemaDotOrgEntityTypeBuilderInterface $schema_entity_type_builder,
-    SchemaDotOrgEntityDisplayBuilderInterface $schema_entity_display_builder
-  ) {
-    $this->moduleHandler = $module_handler;
-    $this->configFactory = $config_factory;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->entityFieldManager = $entity_field_manager;
-    $this->schemaNames = $schema_names;
-    $this->schemaTypeManager = $schema_type_manager;
-    $this->schemaTypeBuilder = $schema_type_builder;
-    $this->schemaEntityFieldManager = $schema_field_manager;
-    $this->schemaEntityTypeBuilder = $schema_entity_type_builder;
-    $this->schemaEntityDisplayBuilder = $schema_entity_display_builder;
-  }
+    protected ModuleHandlerInterface $moduleHandler,
+    protected ConfigFactoryInterface $configFactory,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected EntityFieldManagerInterface $entityFieldManager,
+    protected SchemaDotOrgNamesInterface $schemaNames,
+    protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
+    protected SchemaDotOrgSchemaTypeBuilderInterface $schemaTypeBuilder,
+    protected SchemaDotOrgEntityFieldManagerInterface $schemaEntityFieldManager,
+    protected SchemaDotOrgEntityTypeBuilderInterface $schemaEntityTypeBuilder,
+    protected SchemaDotOrgEntityDisplayBuilderInterface $schemaEntityDisplayBuilder
+  ) {}
 
   /**
    * {@inheritdoc}

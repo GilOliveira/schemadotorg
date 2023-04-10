@@ -23,78 +23,29 @@ use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 class SchemaDotOrgJsonApiManager implements SchemaDotOrgJsonApiManagerInterface {
 
   /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
-   * The redirect destination service.
-   *
-   * @var \Drupal\Core\Routing\RedirectDestinationInterface
-   */
-  protected $redirectDestination;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The entity field manager.
-   *
-   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
-   */
-  protected $fieldManager;
-
-  /**
-   * The JSON:API configurable resource type repository.
-   *
-   * @var \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository
-   */
-  protected $resourceTypeRepository;
-
-  /**
-   * The Schema.org names service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
-   */
-  protected $schemaNames;
-
-  /**
    * Constructs a SchemaDotOrgJsonApiManager object.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The configuration object factory.
-   * @param \Drupal\Core\Routing\RedirectDestinationInterface $redirect_destination
+   * @param \Drupal\Core\Routing\RedirectDestinationInterface $redirectDestination
    *   The redirect destination service.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager
+   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $fieldManager
    *   The entity field manager.
-   * @param \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository $resource_type_respository
+   * @param \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceTypeRepository $resourceTypeRepository
    *   The JSON:API configurable resource type repository.
-   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
+   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schemaNames
    *   The Schema.org names service.
    */
   public function __construct(
-    ConfigFactoryInterface $config_factory,
-    RedirectDestinationInterface $redirect_destination,
-    EntityTypeManagerInterface $entity_type_manager,
-    EntityFieldManagerInterface $field_manager,
-    ConfigurableResourceTypeRepository $resource_type_respository,
-    SchemaDotOrgNamesInterface $schema_names
-  ) {
-    $this->configFactory = $config_factory;
-    $this->redirectDestination = $redirect_destination;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->fieldManager = $field_manager;
-    $this->resourceTypeRepository = $resource_type_respository;
-    $this->schemaNames = $schema_names;
-  }
+    protected ConfigFactoryInterface $configFactory,
+    protected RedirectDestinationInterface $redirectDestination,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected EntityFieldManagerInterface $fieldManager,
+    protected ConfigurableResourceTypeRepository $resourceTypeRepository,
+    protected SchemaDotOrgNamesInterface $schemaNames
+  ) {}
 
   /* ************************************************************************ */
   // Resource includes methods.

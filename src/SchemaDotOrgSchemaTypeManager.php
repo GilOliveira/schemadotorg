@@ -15,54 +15,40 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   use StringTranslationTrait;
 
   /**
-   * The database connection.
-   *
-   * @var \Drupal\Core\Database\Connection
-   */
-  protected $database;
-
-  /**
-   * The Schema.org names service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface
-   */
-  protected $schemaNames;
-
-  /**
    * Cache of Schema.org tree data.
    *
    * @var array
    *
    * @see \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManager::getAllSubTypes
    */
-  protected $tree;
+  protected array $tree;
 
   /**
    * Schema.org items cache.
    *
    * @var array
    */
-  protected $itemsCache = [];
+  protected array $itemsCache = [];
 
   /**
    * Schema.org superseded cache.
    *
    * @var array
    */
-  protected $supersededCache;
+  protected array $supersededCache;
 
   /**
    * Constructs a SchemaDotOrgTypeManger object.
    *
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
-   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names
+   * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schemaNames
    *   The Schema.org names service.
    */
-  public function __construct(Connection $database, SchemaDotOrgNamesInterface $schema_names) {
-    $this->database = $database;
-    $this->schemaNames = $schema_names;
-  }
+  public function __construct(
+    protected Connection $database,
+    protected SchemaDotOrgNamesInterface $schemaNames
+  ) {}
 
   /**
    * {@inheritdoc}

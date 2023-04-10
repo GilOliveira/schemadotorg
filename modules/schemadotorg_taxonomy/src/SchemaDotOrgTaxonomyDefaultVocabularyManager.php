@@ -24,89 +24,32 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManager implements SchemaDotOrgTaxono
   use SchemaDotOrgTaxonomyTrait;
 
   /**
-   * The module handler.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  protected $moduleHandler;
-
-  /**
-   * The messenger service.
-   *
-   * @var \Drupal\Core\Messenger\MessengerInterface
-   */
-  protected $messenger;
-
-  /**
-   * The logger channel factory.
-   *
-   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
-   */
-  protected $logger;
-
-  /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The entity display repository.
-   *
-   * @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface
-   */
-  protected $entityDisplayRepository;
-
-  /**
-   * The content translation manager.
-   *
-   * @var \Drupal\content_translation\ContentTranslationManagerInterface
-   */
-  protected $contentTranslationManager;
-
-  /**
    * Constructs a SchemaDotOrgTaxonomyDefaultVocabularyManager object.
    *
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The module handler service.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger
    *   The logger channel factory.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The configuration object factory.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository
+   * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entityDisplayRepository
    *   The entity display repository.
-   * @param \Drupal\content_translation\ContentTranslationManagerInterface|null $content_translation_manager
+   * @param \Drupal\content_translation\ContentTranslationManagerInterface|null $contentTranslationManager
    *   The content translation manager.
    */
   public function __construct(
-    ModuleHandlerInterface $module_handler,
-    MessengerInterface $messenger,
-    LoggerChannelFactoryInterface $logger,
-    ConfigFactoryInterface $config_factory,
-    EntityTypeManagerInterface $entity_type_manager,
-    EntityDisplayRepositoryInterface $display_repository,
-    ?ContentTranslationManagerInterface $content_translation_manager = NULL
-  ) {
-    $this->moduleHandler = $module_handler;
-    $this->messenger = $messenger;
-    $this->logger = $logger;
-    $this->configFactory = $config_factory;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->entityDisplayRepository = $display_repository;
-    $this->contentTranslationManager = $content_translation_manager;
-  }
+    protected ModuleHandlerInterface $moduleHandler,
+    protected MessengerInterface $messenger,
+    protected LoggerChannelFactoryInterface $logger,
+    protected ConfigFactoryInterface $configFactory,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected EntityDisplayRepositoryInterface $entityDisplayRepository,
+    protected ?ContentTranslationManagerInterface $contentTranslationManager = NULL
+  ) {}
 
   /**
    * Add default vocabulary to content types when a mapping is inserted.

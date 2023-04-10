@@ -19,67 +19,26 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
   use StringTranslationTrait;
 
   /**
-   * The route provider.
-   *
-   * @var \Drupal\Core\Routing\AccessAwareRouterInterface
-   */
-  protected $routeProvider;
-
-  /**
-   * The module handler.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  protected $moduleHandler;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The Schema.org JSON-LD manager.
-   *
-   * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface
-   */
-  protected $schemaJsonLdManager;
-
-  /**
-   * The Schema.org JSON-LD builder.
-   *
-   * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface
-   */
-  protected $schemaJsonLdBuilder;
-
-  /**
    * Constructs a SchemaDotOrgJsonLdPreviewBuilder object.
    *
-   * @param \Drupal\Core\Routing\AccessAwareRouterInterface $route_provider
+   * @param \Drupal\Core\Routing\AccessAwareRouterInterface $routeProvider
    *   The route provider.
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The module handler.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager
+   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $schemaJsonLdManager
    *   The Schema.org JSON-LD manager service.
-   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface $schema_jsonld_builder
+   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface $schemaJsonLdBuilder
    *   The Schema.org JSON-LD builder service.
    */
   public function __construct(
-    AccessAwareRouterInterface $route_provider,
-    ModuleHandlerInterface $module_handler,
-    EntityTypeManagerInterface $entity_type_manager,
-    SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager,
-    SchemaDotOrgJsonLdBuilderInterface $schema_jsonld_builder
-  ) {
-    $this->routeProvider = $route_provider;
-    $this->moduleHandler = $module_handler;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->schemaJsonLdManager = $schema_jsonld_manager;
-    $this->schemaJsonLdBuilder = $schema_jsonld_builder;
-  }
+    protected AccessAwareRouterInterface $routeProvider,
+    protected ModuleHandlerInterface $moduleHandler,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected SchemaDotOrgJsonLdManagerInterface $schemaJsonLdManager,
+    protected SchemaDotOrgJsonLdBuilderInterface $schemaJsonLdBuilder
+  ) {}
 
   /**
    * {@inheritdoc}

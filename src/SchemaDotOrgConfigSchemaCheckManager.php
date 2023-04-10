@@ -12,35 +12,20 @@ use Drupal\Core\Config\TypedConfigManagerInterface;
  * Schema.org config schema check manager.
  */
 class SchemaDotOrgConfigSchemaCheckManager implements SchemaDotOrgConfigSchemaCheckManagerInterface {
-
   use SchemaCheckTrait;
-
-  /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
-   * The typed configuration manager.
-   *
-   * @var \Drupal\Core\Config\TypedConfigManagerInterface
-   */
-  protected $typedConfigManager;
 
   /**
    * Constructs a SchemaDotOrgConfigSchemaCheckManager object.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The configuration factory.
-   * @param \Drupal\Core\Config\TypedConfigManagerInterface $typed_config_manager
+   * @param \Drupal\Core\Config\TypedConfigManagerInterface $typedConfigManager
    *   The typed configuration manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, TypedConfigManagerInterface $typed_config_manager) {
-    $this->configFactory = $config_factory;
-    $this->typedConfigManager = $typed_config_manager;
-  }
+  public function __construct(
+    protected ConfigFactoryInterface $configFactory,
+    protected TypedConfigManagerInterface $typedConfigManager
+  ) {}
 
   /**
    * {@inheritdoc}

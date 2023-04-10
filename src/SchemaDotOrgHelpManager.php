@@ -20,56 +20,23 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
   use StringTranslationTrait;
 
   /**
-   * The module handler service.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  protected $moduleHandler;
-
-  /**
-   * The module extension list.
-   *
-   * @var \Drupal\Core\Extension\ModuleExtensionList
-   */
-  protected $moduleExtensionList;
-
-  /**
-   * The extension path resolver.
-   *
-   * @var \Drupal\Core\Extension\ExtensionPathResolver
-   */
-  protected $extensionPathResolver;
-
-  /**
-   * The help section plugin manager.
-   *
-   * @var \Drupal\help\HelpSectionManager
-   */
-  protected $helpManager;
-
-  /**
    * Constructs a SchemaDotOrgMappingManager object.
    *
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The module handler.
-   * @param \Drupal\Core\Extension\ModuleExtensionList $module_extension_list
+   * @param \Drupal\Core\Extension\ModuleExtensionList $moduleExtensionList
    *   The module extension list.
-   * @param \Drupal\Core\Extension\ExtensionPathResolver $extension_path_resolver
+   * @param \Drupal\Core\Extension\ExtensionPathResolver $extensionPathResolver
    *   The extension path resolver.
-   * @param \Drupal\help\HelpSectionManager|null $help_manager
+   * @param \Drupal\help\HelpSectionManager|null $helpManager
    *   The help section manager.
    */
   public function __construct(
-    ModuleHandlerInterface $module_handler,
-    ModuleExtensionList $module_extension_list,
-    ExtensionPathResolver $extension_path_resolver,
-    ?HelpSectionManager $help_manager = NULL
-  ) {
-    $this->moduleExtensionList = $module_extension_list;
-    $this->moduleHandler = $module_handler;
-    $this->extensionPathResolver = $extension_path_resolver;
-    $this->helpManager = $help_manager;
-  }
+    protected ModuleHandlerInterface $moduleHandler,
+    protected ModuleExtensionList $moduleExtensionList,
+    protected ExtensionPathResolver $extensionPathResolver,
+    protected ?HelpSectionManager $helpManager = NULL
+  ) {}
 
   /**
    * {@inheritdoc}

@@ -21,89 +21,32 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
   use StringTranslationTrait;
 
   /**
-   * The state service.
-   *
-   * @var \Drupal\Core\State\StateInterface
-   */
-  protected $state;
-
-  /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The Schema.org schema type manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
-   */
-  protected $schemaTypeManager;
-
-  /**
-   * The Schema.org entity relationship manager service.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface
-   */
-  protected $schemaEntityRelationshipManager;
-
-  /**
-   * The Schema.org mapping manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface
-   */
-  protected $schemaMappingManager;
-
-  /**
-   * The devel generate plugin manager.
-   *
-   * @var \Drupal\devel_generate\DevelGeneratePluginManager|null
-   */
-  protected $develGenerateManager;
-
-  /**
    * Constructs a SchemaDotOrgMappingSetCommands object.
    *
    * @param \Drupal\Core\State\StateInterface $state
    *   The state service.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The configuration object factory.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
    *   The Schema.org schema type manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface $schema_entity_relationship_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface $schemaEntityRelationshipManager
    *   The Schema.org schema entity relationship manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $schema_mapping_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $schemaMappingManager
    *   The Schema.org mapping manager.
-   * @param \Drupal\devel_generate\DevelGeneratePluginManager|null $devel_generate_manager
+   * @param \Drupal\devel_generate\DevelGeneratePluginManager|null $develGenerateManager
    *   The Devel generate manager.
    */
   public function __construct(
-    StateInterface $state,
-    ConfigFactoryInterface $config_factory,
-    EntityTypeManagerInterface $entity_type_manager,
-    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
-    SchemaDotOrgEntityRelationshipManagerInterface $schema_entity_relationship_manager,
-    SchemaDotOrgMappingManagerInterface $schema_mapping_manager,
-    ?DevelGeneratePluginManager $devel_generate_manager = NULL
-  ) {
-    $this->state = $state;
-    $this->configFactory = $config_factory;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->schemaTypeManager = $schema_type_manager;
-    $this->schemaEntityRelationshipManager = $schema_entity_relationship_manager;
-    $this->schemaMappingManager = $schema_mapping_manager;
-    $this->develGenerateManager = $devel_generate_manager;
-  }
+    protected StateInterface $state,
+    protected ConfigFactoryInterface $configFactory,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
+    protected SchemaDotOrgEntityRelationshipManagerInterface $schemaEntityRelationshipManager,
+    protected SchemaDotOrgMappingManagerInterface $schemaMappingManager,
+    protected ?DevelGeneratePluginManager $develGenerateManager = NULL
+  ) {}
 
   /**
    * {@inheritdoc}

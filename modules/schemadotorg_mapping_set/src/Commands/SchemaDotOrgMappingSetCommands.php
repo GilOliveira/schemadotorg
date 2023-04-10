@@ -17,31 +17,18 @@ use Symfony\Component\Console\Input\InputInterface;
 class SchemaDotOrgMappingSetCommands extends DrushCommands {
 
   /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
-   * The Schema.org mapping set manager.
-   *
-   * @var \Drupal\schemadotorg_mapping_set\SchemaDotOrgMappingSetManagerInterface
-   */
-  protected $schemaMappingSetManager;
-
-  /**
    * Constructs a SchemaDotOrgMappingSetCommands object.
    *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The configuration object factory.
-   * @param \Drupal\schemadotorg_mapping_set\SchemaDotOrgMappingSetManagerInterface $schema_mapping_set_manager
+   * @param \Drupal\schemadotorg_mapping_set\SchemaDotOrgMappingSetManagerInterface $schemaMappingSetManager
    *   The Schema.org mapping set manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, SchemaDotOrgMappingSetManagerInterface $schema_mapping_set_manager) {
+  public function __construct(
+    protected ConfigFactoryInterface $configFactory,
+    protected SchemaDotOrgMappingSetManagerInterface $schemaMappingSetManager
+  ) {
     parent::__construct();
-    $this->configFactory = $config_factory;
-    $this->schemaMappingSetManager = $schema_mapping_set_manager;
   }
 
   /* ************************************************************************ */

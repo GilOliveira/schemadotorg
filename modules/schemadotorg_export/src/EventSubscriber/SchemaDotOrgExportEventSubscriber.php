@@ -22,31 +22,16 @@ class SchemaDotOrgExportEventSubscriber extends ServiceProviderBase implements E
   use StringTranslationTrait;
 
   /**
-   * The current route match.
-   *
-   * @var \Drupal\Core\Routing\RouteMatchInterface
-   */
-  protected $routeMatch;
-
-  /**
-   * The Schema.org schema type manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
-   */
-  protected $schemaTypeManager;
-
-  /**
    * Constructs a SchemaDotOrgJsonApiExtrasEventSubscriber object.
    *
-   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
    *   The current route match.
-   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
    *   The Schema.org schema type manager.
    */
-  public function __construct(RouteMatchInterface $route_match, SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager) {
-    $this->routeMatch = $route_match;
-    $this->schemaTypeManager = $schema_type_manager;
-  }
+  public function __construct(
+    protected RouteMatchInterface $routeMatch,
+    protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager) {}
 
   /**
    * Alters Schema.org mapping list builder and adds a 'Download CSV' link.

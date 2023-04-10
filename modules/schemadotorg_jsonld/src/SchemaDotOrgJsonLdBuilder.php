@@ -34,67 +34,26 @@ use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
 
   /**
-   * The module handler to invoke the alter hook.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  protected $moduleHandler;
-
-  /**
-   * The current route match.
-   *
-   * @var \Drupal\Core\Routing\RouteMatchInterface
-   */
-  protected $routeMatch;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The Schema.org schema type manager.
-   *
-   * @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface
-   */
-  protected $schemaTypeManager;
-
-  /**
-   * The Schema.org JSON-LD manager.
-   *
-   * @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface
-   */
-  protected $schemaJsonLdManager;
-
-  /**
    * Constructs a SchemaDotOrgJsonLdBuilder object.
    *
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The module handler.
-   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
    *   The current route match.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
    *   The Schema.org schema type manager.
-   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager
+   * @param \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdManagerInterface $schemaJsonLdManager
    *   The Schema.org JSON-LD manager.
    */
   public function __construct(
-    ModuleHandlerInterface $module_handler,
-    RouteMatchInterface $route_match,
-    EntityTypeManagerInterface $entity_type_manager,
-    SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager,
-    SchemaDotOrgJsonLdManagerInterface $schema_jsonld_manager
-  ) {
-    $this->moduleHandler = $module_handler;
-    $this->routeMatch = $route_match;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->schemaTypeManager = $schema_type_manager;
-    $this->schemaJsonLdManager = $schema_jsonld_manager;
-  }
+    protected ModuleHandlerInterface $moduleHandler,
+    protected RouteMatchInterface $routeMatch,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
+    protected SchemaDotOrgJsonLdManagerInterface $schemaJsonLdManager
+  ) {}
 
   /**
    * {@inheritdoc}
