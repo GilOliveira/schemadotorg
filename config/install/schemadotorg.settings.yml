@@ -1212,6 +1212,9 @@ schema_properties:
     - image
     - logo
     - primaryImageOfPage
+    - eventSchedule
+    - startDate
+    - endDate
     - slogan
     - description
     - text
@@ -1227,9 +1230,6 @@ schema_properties:
     - addressRegion
     - addressCountry
     - postalCode
-    - eventSchedule
-    - startDate
-    - endDate
     - dayOfWeek
     - opens
     - hoursAvailable

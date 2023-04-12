@@ -42,7 +42,7 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
     $this->assertEquals(2, $default_field_weights['name']);
     $this->assertEquals(3, $default_field_weights['title']);
     $this->assertEquals(4, $default_field_weights['alternateName']);
-    $this->assertEquals(9, $default_field_weights['description']);
+    $this->assertEquals(12, $default_field_weights['description']);
 
     // Check setting entity displays for a field.
     $this->schemaEntityDisplayBuilder->setFieldDisplays(
