@@ -114,16 +114,15 @@ schema_types:
       - image
       - keywords
       - name
-      - performTime
-      - prepTime
       - step
       - supply
       - text
       - tool
-      - totalTime
-      - yield
     Recipe:
+      - '-educationalLevel'
       - '-step'
+      - '-supply'
+      - '-tool'
       - cookTime
       - cookingMethod
       - nationality

@@ -9,3 +9,10 @@ property_vocabularies:
   recipeCategory:
     id: recipe_category
     label: 'Recipe category'
+  recipeCuisine:
+    id: recipe_cuisine
+    label: 'Recipe cuisine'
+  cookingMethod:
+    id: cooking_method
+    label: 'Cooking method'
+

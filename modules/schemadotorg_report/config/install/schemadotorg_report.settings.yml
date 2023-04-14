@@ -18,6 +18,9 @@ about:
     title: 'Semantic SEO explained: Why connected schema is the missing piece in your SEO strategy'
     uri: 'https://www.danielkcheung.com.au/how-to-implement-semantic-seo/'
   -
+    title: 'Yoast SEO features: Schema.org markup'
+    uri: 'https://developer.yoast.com/features/schema/'
+  -
     title: 'Schema.org - What, How, Why? [VIDEO]'
     uri: 'https://www.youtube.com/watch?v=hcahQfN5u9Y'
   -
@@ -231,6 +234,12 @@ types:
     -
       title: Recipe
       uri: 'https://jsonld.com/recipe/'
+    -
+      title: 'Schema piece - Recipe'
+      uri: 'https://developer.yoast.com/features/schema/pieces/recipe/'
+    -
+      title: 'Baking a Recipe using the Schema.org Blueprints module for Drupal'
+      uri: 'https://www.jrockowitz.com/blog/schemadotorg-recipe'
   Review:
     -
       title: 'Review Snippet'

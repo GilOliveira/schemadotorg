@@ -246,14 +246,14 @@ default_field_groups:
     recipe:
       label: 'Recipe information'
       properties:
+        - recipeIngredient
+        - recipeInstructions
+        - recipeYield
+        - cookTime
+        - suitableForDiet
+        - cookingMethod
         - recipeCategory
         - recipeCuisine
-        - recipeIngredient
-        - suitableForDiet
-        - recipeYield
-        - cookingMethod
-        - cookTime
-        - recipeInstructions
         - nutrition
     links:
       label: Links
