@@ -2,9 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Drupal\Tests\schemadotorg_ui\Functional;
-
-use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
+namespace Drupal\Tests\schemadotorg\Functional;
 
 /**
  * Tests the functionality of the Schema.org mapping type form.

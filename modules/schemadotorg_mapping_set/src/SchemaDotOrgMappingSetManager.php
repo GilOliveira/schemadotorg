@@ -295,11 +295,9 @@ class SchemaDotOrgMappingSetManager implements SchemaDotOrgMappingSetManagerInte
    *   A Schema.org mapping.
    */
   protected function loadMappingByType(string $entity_type, string $schema_type): ?SchemaDotOrgMappingInterface {
-    $mappings = $this->entityTypeManager->getStorage('schemadotorg_mapping')->loadByProperties([
-      'target_entity_type_id' => $entity_type,
-      'schema_type' => $schema_type,
-    ]);
-    return $mappings ? reset($mappings) : NULL;
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+    $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+    return $mapping_storage->loadBySchemaType($entity_type, $schema_type);
   }
 
   /**

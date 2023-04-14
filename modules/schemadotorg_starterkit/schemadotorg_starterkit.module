@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * Provides an API for starter kits to create Schema.org types.
+ */
+
+declare(strict_types = 1);
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Component\Serialization\Yaml;
+
+/**
+ * Implements hook_help().
+ */
+function schemadotorg_starterkit_help(string $route_name, RouteMatchInterface $route_match): array|null {
+  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
+  $help_manager = \Drupal::service('schemadotorg.help_manager');
+  return $help_manager->buildHelpPage($route_name, $route_match);
+}
+
+
+/**
+ * Implements hook_module_preinstall().
+ */
+function schemadotorg_starterkit_module_preinstall(string $module): void {
+  if (\Drupal::isConfigSyncing()) {
+    return;
+  }
+
+  /** @var \Drupal\Core\Extension\ModuleExtensionList $extension_list_module */
+  $extension_list_module = \Drupal::service('extension.list.module');
+  $module_path = $extension_list_module->getPath($module);
+  $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
+  if (!file_exists($module_schemadotorg_path)) {
+    return;
+  }
+
+  $settings = Yaml::decode(file_get_contents($module_schemadotorg_path));
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+  $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $mapping_manager */
+  $mapping_manager = \Drupal::service('schemadotorg.mapping_manager');
+
+  // Create Schema.org type mapping specified by the module
+  // that is being installed.
+  $types = $settings['types'] ?? [];
+  foreach ($types as $type => $defaults) {
+    [$entity_type, $schema_type] = explode(':', $type);
+    if (!$mapping_storage->loadBySchemaType($entity_type, $schema_type)) {
+      $mapping_manager->createType($entity_type, $schema_type, $defaults);
+    }
+  }
+}

@@ -1,0 +1,7 @@
+name: Schema.org Blueprints Starterkit (API)
+type: module
+description: Provides an API for starter kits to create Schema.org types.
+package: Schema.org Blueprints Starterkits
+core_version_requirement: '^9.4 || ^10.0'
+dependencies:
+  - 'schemadotorg:schemadotorg'
