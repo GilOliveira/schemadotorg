@@ -19,6 +19,9 @@ Features
 
 - Allows a starter kit or module to declare what Schema.org types are require
   preinstallation.
+- Post module installation, re-imports optional configuration and rewrites 
+  configuration via via the config_rewrite.module, this allows hook_install 
+  to create additional configuration settings.
 
 
 Usage
