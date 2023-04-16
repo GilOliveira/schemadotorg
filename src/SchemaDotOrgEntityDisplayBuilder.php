@@ -248,8 +248,8 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
     $modes = $this->$modes_method($entity_type_id, $bundle);
     foreach ($modes as $mode) {
       $display = $this->entityDisplayRepository->$display_method($entity_type_id, $bundle, $mode);
+      $is_updated = FALSE;
       foreach ($component_weights as $component_name => $component_weight) {
-        $is_updated = FALSE;
         $component = $display->getComponent($component_name);
         if ($component && isset($component['region'])) {
           $component['weight'] = $component_weight;
