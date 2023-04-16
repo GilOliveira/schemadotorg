@@ -118,6 +118,9 @@ default_schema_type_view_displays:
       - episodeNumber
     JobPosting:
       - datePosted
+    Recipe:
+      - image
+      - cookTime
 default_base_fields:
   uuid: {  }
   revision_uid: {  }

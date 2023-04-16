@@ -7,9 +7,7 @@
 
 declare(strict_types = 1);
 
-use Drupal\Core\Config\FileStorage;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Component\Serialization\Yaml;
 
 /**
  * Implements hook_help().
@@ -28,77 +26,7 @@ function schemadotorg_starterkit_module_preinstall(string $module): void {
     return;
   }
 
-  $settings = _schemadotorg_starterkit_get_settings($module);
-  if ($settings === FALSE) {
-    return;
-  }
-
-  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-  $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
-  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $mapping_manager */
-  $mapping_manager = \Drupal::service('schemadotorg.mapping_manager');
-
-  // Create Schema.org type mapping specified by the module
-  // that is being installed.
-  $types = $settings['types'] ?? [];
-  foreach ($types as $type => $defaults) {
-    [$entity_type, $schema_type] = explode(':', $type);
-    if (!$mapping_storage->loadBySchemaType($entity_type, $schema_type)) {
-      $mapping_manager->createType($entity_type, $schema_type, $defaults);
-    }
-  }
-}
-
-/**
- * Implements hook_modules_installed().
- */
-function schemadotorg_starterkit_modules_installed(array $modules, bool $is_syncing) {
-  if ($is_syncing) {
-    return;
-  }
-
-  foreach ($modules as $module) {
-    $settings = _schemadotorg_starterkit_get_settings($module);
-    if ($settings === FALSE) {
-      continue;
-    }
-
-    // Install remaining optional configuration.
-    /** @var \Drupal\Core\Extension\ModuleExtensionList $extension_list_module */
-    $extension_list_module = \Drupal::service('extension.list.module');
-    $module_path = $extension_list_module->getPath('schemadotorg_demo_starterkit');
-    $config_path = $module_path . '/config/optional';
-
-    /** @var \Drupal\Core\Config\ConfigInstallerInterface $config_installer */
-    $config_installer = \Drupal::service('config.installer');
-    $config_installer->installOptionalConfig(
-      new FileStorage($config_path)
-    );
-
-    // Trigger configuration rewriting to allow generate configuration
-    // settings to be rewritten.
-    if (\Drupal::moduleHandler()->moduleExists('config_rewrite')) {
-      config_rewrite_module_preinstall($module);
-    }
-  }
-}
-
-/**
- * Get a module's Schema.org Blueprints starter kit settings.
- *
- * @param string $module
- *   A module.
- *
- * @return FALSE|array
- *   A module's Schema.org Blueprints starter kit settings.
- *   FALSE if the module is not a Schema.org Blueprints starter kit
- */
-function _schemadotorg_starterkit_get_settings(string $module):FALSE|array {
-  /** @var \Drupal\Core\Extension\ModuleExtensionList $extension_list_module */
-  $extension_list_module = \Drupal::service('extension.list.module');
-  $module_path = $extension_list_module->getPath($module);
-  $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
-  return (file_exists($module_schemadotorg_path))
-    ? Yaml::decode(file_get_contents($module_schemadotorg_path))
-    : FALSE;
+  /** @var \Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitManagerInterface $starterkit_manager */
+  $starterkit_manager = \Drupal::service('schemadotorg_starterkit.manager');
+  $starterkit_manager->preinstall($module);
 }

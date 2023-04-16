@@ -1,0 +1,8 @@
+services:
+  schemadotorg_starterkit.manager:
+    class: Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitManager
+    arguments: ['@file_system', '@extension.list.module', '@config.factory', '@?config_rewrite.config_rewriter', '@entity_type.manager', '@schemadotorg.mapping_manager']
+  schemadotorg_starterkit.generate:
+    class: Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitGenerate
+    arguments: ['@?plugin.manager.develgenerate']
+

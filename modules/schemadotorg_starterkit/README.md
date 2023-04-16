@@ -3,6 +3,7 @@ Table of contents
 
 * Introduction
 * Features
+* Notes
 * Usage
 * Todo
 
@@ -24,6 +25,25 @@ Features
   to create additional configuration settings.
 
 
+Notes
+-----
+
+## Starterkit module phases
+
+### Pre-install
+
+- Rewrites any schemadotorg configuration.   
+  _This allows starter kits to change how a Schema.org will be created._
+- Creates Schema.org types via *.schemadotorg_starterkit.yml
+- Rewrites existing and newly created configuration.
+- Imports starterkits configuration.  
+
+### Install
+
+- Generates content
+- Programmatic tweaks
+
+  
 Usage
 -----
 
