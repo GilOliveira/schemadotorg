@@ -51,7 +51,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
     }
 
     $this->rewriteSchemaConfig($module);
-    $this->setup($module);
+    $this->setupSchemaTypes($module);
   }
 
   /**
@@ -128,7 +128,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    * @param string $module
    *   A module.
    */
-  protected function setup(string $module): void {
+  protected function setupSchemaTypes(string $module): void {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
 

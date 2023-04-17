@@ -28,6 +28,15 @@ Features
 Notes
 -----
 
+## Startkit setup
+
+- Any exported configuration that relies on generated Schema.org configuration
+  should be stored in /config/optional.
+- When possible use export optional ( /config/optional) 
+  or rewrite ( /config/rewrite) configuration.
+- Use hook_install to generate content entities.
+- Use hook_install to do advanced configuration customization.
+
 ## Starterkit module phases
 
 ### Pre-install
