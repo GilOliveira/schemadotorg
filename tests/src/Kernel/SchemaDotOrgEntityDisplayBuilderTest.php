@@ -64,7 +64,7 @@ class SchemaDotOrgEntityDisplayBuilderTest extends SchemaDotOrgKernelEntityTestB
     $expected_value = [
       'settings' => [],
       'third_party_settings' => [],
-      'weight' => 101,
+      'weight' => 201,
       'region' => 'content',
     ];
     $this->assertEquals($expected_value, $entity_view_display->getComponent('name'));
