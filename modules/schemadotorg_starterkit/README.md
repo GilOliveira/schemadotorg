@@ -18,11 +18,11 @@ starter kits to create Schema.org types.
 Features
 --------
 
-- Allows a starter kit or module to declare what Schema.org types are require
+- Allows a starter kit/module to declare what Schema.org types are required
   preinstallation.
 - Post module installation, re-imports optional configuration and rewrites 
-  configuration via via the config_rewrite.module, this allows hook_install 
-  to create additional configuration settings.
+  configuration via via the config_rewrite.module. This allows a starter kit
+  via `hook_install()` to create additional configuration settings.
 
 
 Notes
@@ -32,25 +32,26 @@ Notes
 
 - Any exported configuration that relies on generated Schema.org configuration
   should be stored in /config/optional.
-- When possible use export optional ( /config/optional) 
-  or rewrite ( /config/rewrite) configuration.
-- Use hook_install to generate content entities.
-- Use hook_install to do advanced configuration customization.
+- When possible use export optional (`/config/optional`) 
+  or rewrite (`/config/rewrite`) configuration.
+- Use `hook_install()` to generate content entities.
+- Use `hook_install()` to do advanced configuration customization.
 
 ## Starterkit module phases
 
 ### Pre-install
 
-- Rewrites any schemadotorg configuration.   
-  _This allows starter kits to change how a Schema.org will be created._
+- Rewrites any schemadotorg* configuration in `/config/rewrite`.   
+  _This allows starter kits to adjust the 
+   Schema.org Blueprints module configuration._
 - Creates Schema.org types via *.schemadotorg_starterkit.yml
 - Rewrites existing and newly created configuration.
-- Imports starterkits configuration.  
+- Imports starter kit's optional configuration.  
 
 ### Install
 
-- Generates content
-- Programmatic tweaks
+- Allows start kits to use `hook_install()` to generate content and make
+  programmatic tweaks.
 
   
 Usage
@@ -79,11 +80,8 @@ types:
 TODO
 ----
 
-- Determine what other pre-installation configuration and behaviors 
-  starter kits require.
-
 - Possibly create an admin page, similar to the Features UI, that tracks 
-  which starter kits are available and installed.  
+  which starter kits are available and installed.
 
 - Potential starter kits
   - events
