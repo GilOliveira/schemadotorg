@@ -50,6 +50,11 @@ class SchemaDotOrgFocalPointTest extends SchemaDotOrgKernelEntityTestBase {
    * Test Schema.org focal point.
    */
   public function testFocalPoint(): void {
+    // Add primaryImageOfPage to WebPage.
+    \Drupal::configFactory()->getEditable('schemadotorg.settings')
+      ->set('schema_types.default_properties.WebPage', ['name', 'primaryImageOfPage', 'text'])
+      ->save();
+
     // Check that existing image fields use focal point.
     // @see schemadotorg_focal_point_schemadotorg_mapping_insert()
     $this->createSchemaEntity('media', 'ImageObject');

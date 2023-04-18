@@ -93,7 +93,7 @@ n   */
     $this->assertEquals(4, $component['weight']);
 
     $component = $view_display->getComponent('links');
-    $this->assertEquals(100, $component['weight']);
+    $this->assertEquals(200, $component['weight']);
 
     // Check that default form display is created for Thing.
     $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'thing', 'default');
@@ -156,7 +156,7 @@ n   */
     // Check that fields added to an existing view display is appended last
     // (after the links component).
     // @see \Drupal\schemadotorg\SchemaDotOrgMappingManager::saveMapping
-    $this->assertEquals(101, $component['weight']);
+    $this->assertEquals(201, $component['weight']);
 
     $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'thing', 'default');
     $component = $form_display->getComponent('body');
@@ -176,10 +176,10 @@ n   */
     );
     $view_display = $this->entityDisplayRepository->getViewDisplay('node', 'thing', 'default');
     $this->assertEquals(4, $view_display->getComponent('schema_alternate_name')['weight']);
-    $this->assertEquals(9, $view_display->getComponent('body')['weight']);
+    $this->assertEquals(12, $view_display->getComponent('body')['weight']);
     $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'thing', 'default');
     $this->assertEquals(4, $form_display->getComponent('schema_alternate_name')['weight']);
-    $this->assertEquals(9, $form_display->getComponent('body')['weight']);
+    $this->assertEquals(12, $form_display->getComponent('body')['weight']);
 
     // Check settings entity display field groups for Schema.org properties.
     $this->config('schemadotorg_field_group.settings')

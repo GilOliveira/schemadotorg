@@ -30,3 +30,16 @@ function schemadotorg_starterkit_module_preinstall(string $module): void {
   $starterkit_manager = \Drupal::service('schemadotorg_starterkit.manager');
   $starterkit_manager->preinstall($module);
 }
+
+/**
+ * Implements hook_modules_installed()
+ */
+function schemadotorg_starterkit_modules_installed(array $modules, bool $is_syncing) {
+  if ($is_syncing) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitManagerInterface $starterkit_manager */
+  $starterkit_manager = \Drupal::service('schemadotorg_starterkit.manager');
+  $starterkit_manager->installed($modules);
+}

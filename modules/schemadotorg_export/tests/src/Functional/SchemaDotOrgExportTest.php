@@ -33,7 +33,8 @@ class SchemaDotOrgExportTest extends SchemaDotOrgBrowserTestBase {
   /**
    * Test Schema.org descriptions.
    */
-  public function testDescriptions(): void {
+  public function testDescriptions(): void
+  {
     $assert_session = $this->assertSession();
 
     $account = $this->drupalCreateUser([
@@ -74,7 +75,6 @@ class SchemaDotOrgExportTest extends SchemaDotOrgBrowserTestBase {
     // Check Schema.org type CSV export.
     $this->drupalGet('/admin/reports/schemadotorg/Article/export');
     $assert_session->responseContains('id,label,comment,sub_property_of,equivalent_property,subproperties,domain_includes,range_includes,inverse_of,supersedes,superseded_by,is_part_of,drupal_name,drupal_label,status');
-    $assert_session->responseContains('https://schema.org/author,author,"The author of this content or rating. Please note that author is special in that HTML 5 provides a special mechanism for indicating authorship via the rel tag. That is equivalent to this and may be used interchangeably.",,,,"https://schema.org/CreativeWork, https://schema.org/Rating","https://schema.org/Organization, https://schema.org/Person",,,,,author,Author,default');
+    $assert_session->responseContains('https://schema.org/author,author,"The author of this content or rating. Please note that author is special in that HTML 5 provides a special mechanism for indicating authorship via the rel tag. That is equivalent to this and may be used interchangeably.",,,,"https://schema.org/CreativeWork, https://schema.org/Rating","https://schema.org/Organization, https://schema.org/Person",,,,,author,Author');
   }
-
 }

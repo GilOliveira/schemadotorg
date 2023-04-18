@@ -20,18 +20,8 @@ schema_types:
       - inLanguage
     Article:
       - articleBody
-      - author
       - headline
       - keywords
-    NewsArticle:
-      - dateline
-      - printColumn
-      - printEdition
-      - printPage
-      - printSection
-    TechArticle:
-      - dependencies
-      - proficiencyLevel
     Atlas:
       - name
     Blog:
@@ -43,11 +33,6 @@ schema_types:
     Question:
       - acceptedAnswer
       - name
-    Course:
-      - courseCode
-      - coursePrerequisites
-      - hasCourseInstance
-      - numberOfCredits
     CreativeWorkSeason:
       - description
       - endDate
@@ -56,7 +41,6 @@ schema_types:
       - name
       - seasonNumber
       - startDate
-      - trailer
     CreativeWorkSeries:
       - description
       - endDate
@@ -70,9 +54,7 @@ schema_types:
       - actor
       - containsSeason
       - director
-      - musicBy
       - productionCompany
-      - trailer
     Diet:
       - dietFeatures
       - expertConsiderations
@@ -93,16 +75,10 @@ schema_types:
     TVEpisode:
       - actor
       - director
-      - image
-      - musicBy
-      - trailer
     ExercisePlan:
       - name
     Game:
-      - characterAttribute
-      - gameItem
       - name
-      - quest
     VideoGame:
       - gamePlatform
       - musicBy
@@ -110,7 +86,6 @@ schema_types:
     Guide:
       - name
     HowTo:
-      - educationalLevel
       - image
       - keywords
       - name
@@ -262,10 +237,7 @@ schema_types:
       - hasHealthAspect
     WebPage:
       - name
-      - primaryImageOfPage
       - text
-      - significantLink
-      - relatedLink
     CollectionPage:
       - '-primaryImageOfPage'
       - '-significantLink'
@@ -286,17 +258,10 @@ schema_types:
       - description
       - duration
       - endDate
-      - eventStatus
-      - image
       - inLanguage
-      - location
       - name
-      - organizer
-      - performer
       - startDate
     CourseInstance:
-      - '-organizer'
-      - '-performer'
       - courseMode
       - courseWorkload
       - instructor
@@ -306,7 +271,6 @@ schema_types:
     BroadcastEvent:
       - broadcastOfEvent
       - isLiveBroadcast
-      - subtitleLanguage
       - videoFormat
     MedicalAudience:
       - audienceType
@@ -328,7 +292,6 @@ schema_types:
       - occupationalCategory
       - programPrerequisites
       - programType
-      - provider
       - startDate
       - timeOfDay
       - timeToComplete
@@ -394,7 +357,6 @@ schema_types:
       - serviceUrl
     ContactPoint:
       - contactType
-      - email
       - telephone
     PostalAddress:
       - addressCountry
@@ -534,10 +496,8 @@ schema_types:
       - alumni
       - nonprofitStatus
     LocalBusiness:
-      - employee
       - openingHours
     Hospital:
-      - '-employee'
       - availableService
       - medicalSpecialty
     MovieTheater:
@@ -588,15 +548,10 @@ schema_types:
       - description
       - email
       - familyName
-      - gender
       - givenName
-      - honorificPrefix
-      - honorificSuffix
       - image
       - knowsLanguage
       - name
-      - sameAs
-      - telephone
     Place:
       - address
       - description

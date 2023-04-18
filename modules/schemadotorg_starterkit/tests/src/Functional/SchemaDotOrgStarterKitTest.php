@@ -13,6 +13,15 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
  */
 class SchemaDotOrgStarterKitTest extends SchemaDotOrgBrowserTestBase {
 
+  // phpcs:disable DrupalPractice.Objects.StrictSchemaDisabled.StrictConfigSchema
+  /**
+   * Disabled config schema checking temporarily until smart date fixes missing schema.
+   *
+   * @var bool
+   */
+  protected $strictConfigSchema = FALSE;
+  // phpcs:enable DrupalPractice.Objects.StrictSchemaDisabled.StrictConfigSchema
+
   /**
    * Modules to install.
    *
@@ -26,6 +35,14 @@ class SchemaDotOrgStarterKitTest extends SchemaDotOrgBrowserTestBase {
    * @covers schemadotorg_starterkit_module_preinstall()
    */
   public function testPreInstall(): void {
+    // Check that rewritten schema_types.default_properties in
+    // schemadotorg.settings.yml are unique and sorted.
+    // @see https://www.drupal.org/project/config_rewrite/issues/3152228
+    $this->assertEquals(
+      ['articleBody', 'author', 'headline', 'keywords'],
+      \Drupal::config('schemadotorg.settings')->get('schema_types.default_properties.Article'),
+    );
+
     // Check that node types were created.
     /** @var \Drupal\Core\Config\Entity\ConfigEntityStorageInterface $node_type_storage */
     $node_type_storage = \Drupal::entityTypeManager()->getStorage('node_type');

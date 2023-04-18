@@ -31,6 +31,7 @@
         "drupal/address": "~1.0",
         "drupal/auto_entitylabel": "~3.0",
         "drupal/allowed_formats": "~2.0",
+        "drupal/config_rewrite": "^1.0",
         "drupal/ckeditor": "~1.0",
         "drupal/custom_field": "~1.0",
         "drupal/entity_usage": "~2.0",

@@ -72,9 +72,9 @@ class SchemaDotOrgConfigManager implements SchemaDotOrgConfigManagerInterface {
     ksort($paths);
     $sorted_default_properties = [];
     foreach ($paths as $type) {
-      $properties = $default_properties[$type];
+      $properties = array_unique($default_properties[$type]);
       sort($properties);
-      $sorted_default_properties[$type] = $properties;
+      $sorted_default_properties[$type] = array_unique($properties);
     }
     $config->set('schema_types.default_properties', $sorted_default_properties);
     $config->save();

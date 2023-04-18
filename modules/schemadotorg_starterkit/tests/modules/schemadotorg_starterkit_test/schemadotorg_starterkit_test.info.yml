@@ -7,5 +7,6 @@ dependencies:
   - 'drupal:user'
   - 'drupal:node'
   - 'drupal:views'
+  - 'config_rewrite:config_rewrite'
   - 'schemadotorg:schemadotorg'
   - 'schemadotorg:schemadotorg_starterkit'

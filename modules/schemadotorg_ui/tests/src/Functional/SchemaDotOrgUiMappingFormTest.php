@@ -55,8 +55,13 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'award',
       'birthDate',
       'contactPoint',
+      'gender',
+      'honorificPrefix',
+      'honorificSuffix',
       'jobTitle',
       'nationality',
+      'sameAs',
+      'telephone',
       'worksFor',
     ]);
 
@@ -137,7 +142,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet('/admin/structure/paragraphs_type/schemadotorg', ['query' => ['type' => 'ContactPoint']]);
     $this->submitForm([], 'Save');
     $assert_session->responseContains('The Paragraphs type <em class="placeholder">Contact Point</em> has been added.');
-    $assert_session->responseContains('Added <em class="placeholder">Contact type; Email; Telephone</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Contact type; Telephone</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">Contact Point</em> mapping.');
 
     // Check display warning that new Schema.org type is mapped.
@@ -170,7 +175,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $contact_point_form_display = $display_repository->getFormDisplay('paragraph', 'contact_point');
     $expected_form_components = [
       'schema_contact_type' => ['type' => 'string_textfield'],
-      'schema_email' => ['type' => 'email_default'],
       'schema_telephone' => ['type' => 'telephone_default'],
     ];
     $actual_form_components = $contact_point_form_display->getComponents();
@@ -183,7 +187,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->assertEquals('contact_point', $contact_point_mapping->getTargetBundle());
     $expected_schema_properties = [
       'schema_contact_type' => 'contactType',
-      'schema_email' => 'email',
       'schema_telephone' => 'telephone',
     ];
     $actual_schema_properties = $contact_point_mapping->getSchemaProperties();

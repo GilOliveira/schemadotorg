@@ -10,6 +10,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleExtensionList;
 use Drupal\Core\File\FileSystemInterface;
+use Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
 
 /**
@@ -39,7 +40,8 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
     protected ConfigFactoryInterface $configFactory,
     protected ?ConfigRewriter $configRewriter,
     protected EntityTypeManagerInterface $entityTypeManager,
-    protected SchemaDotOrgMappingManagerInterface $schemaMappingManager
+    protected SchemaDotOrgMappingManagerInterface $schemaMappingManager,
+    protected SchemaDotOrgConfigManagerInterface $schemaConfigManager
   ) {}
 
   /**
@@ -52,6 +54,36 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
 
     $this->rewriteSchemaConfig($module);
     $this->setupSchemaTypes($module);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function installed(array $modules): void {
+    if (!$this->configRewriter) {
+      return;
+    }
+
+    $has_schema_config_rewrite = FALSE;
+    foreach ($modules as $module) {
+      if (!$this->isStarterkit($module)) {
+        continue;
+      }
+      $module_path = $this->extensionListModule->getPath($module);
+      $rewrite_dir = "$module_path/config/rewrite";
+      $has_schema_config_rewrite = file_exists($rewrite_dir)
+        && $this->fileSystem->scanDirectory($rewrite_dir, '/^schemadotorg.*\.yml$/i', ['recurse' => FALSE]);
+      if ($has_schema_config_rewrite) {
+        break;
+      }
+    }
+
+    // Repair configuration if the starter kit has written any
+    // schemadotorg* configuration.
+    // @see https://www.drupal.org/project/config_rewrite/issues/3152228
+    if ($has_schema_config_rewrite) {
+      $this->schemaConfigManager->repair();
+    }
   }
 
   /**

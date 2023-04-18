@@ -47,7 +47,6 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
     $this->assertEquals('ContactPoint', $mapping->getSchemaType());
     $this->assertEquals($mapping->getSchemaProperties(), [
       'schema_contact_type' => 'contactType',
-      'schema_email' => 'email',
       'schema_telephone' => 'telephone',
     ]);
 
@@ -77,13 +76,8 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
       'schema_additional_name' => 'additionalName',
       'schema_description' => 'description',
       'schema_family_name' => 'familyName',
-      'schema_gender' => 'gender',
       'schema_given_name' => 'givenName',
-      'schema_honorific_prefix' => 'honorificPrefix',
-      'schema_honorific_suffix' => 'honorificSuffix',
       'schema_knows_language' => 'knowsLanguage',
-      'schema_same_as' => 'sameAs',
-      'schema_telephone' => 'telephone',
       'schema_image' => 'image',
     ]);
 
@@ -126,11 +120,6 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
       'langcode' => 'inLanguage',
       'schema_duration' => 'duration',
       'schema_end_date' => 'endDate',
-      'schema_event_status' => 'eventStatus',
-      'schema_image' => 'image',
-      'schema_location' => 'location',
-      'schema_organizer' => 'organizer',
-      'schema_performer' => 'performer',
       'schema_start_date' => 'startDate',
       'title' => 'name',
       'schema_event_subtype' => 'subtype',
