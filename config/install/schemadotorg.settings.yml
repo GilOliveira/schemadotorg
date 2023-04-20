@@ -1015,6 +1015,10 @@ schema_properties:
     learningResourceType:
       label: 'Learning resource types'
       unlimited: true
+    longitude:
+      type: decimal
+    latitude:
+      type: decimal
     manufacturer:
       type: string
     material:
