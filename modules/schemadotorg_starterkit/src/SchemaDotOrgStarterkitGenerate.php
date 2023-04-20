@@ -24,7 +24,7 @@ class SchemaDotOrgStarterkitGenerate implements SchemaDotOrgStarterkitGeneralInt
   /**
    * {@inheritdoc}
    */
-  public function generate(array $entity_types):void {
+  public function generate(array $entity_types): void {
     if (is_null($this->develGenerateManager)) {
       return;
     }

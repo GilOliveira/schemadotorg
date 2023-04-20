@@ -15,6 +15,6 @@ function schemadotorg_starterkit_install(bool $is_syncing): void {
     return;
   }
 
-  // Set the weight to -1 before the config_rewrite.module
+  // Set the weight to -1 before the config_rewrite.module.
   module_set_weight('schemadotorg_starterkit', -1);
 }

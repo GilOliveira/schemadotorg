@@ -33,6 +33,8 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    *   The entity type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $schemaMappingManager
    *   The Schema.org mapping manager.
+   * @param \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schemaConfigManager
+   *   The Schema.org config manager.
    */
   public function __construct(
     protected FileSystemInterface $fileSystem,
@@ -95,7 +97,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    * @return bool
    *   TRUE if a module is Schema.org Blueprints Starterkit.
    */
-  protected function isStarterkit(string $module):bool {
+  protected function isStarterkit(string $module): bool {
     $module_path = $this->extensionListModule->getPath($module);
     $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
     return file_exists($module_schemadotorg_path);
@@ -111,7 +113,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    *   A module's Schema.org Blueprints starter kit settings.
    *   FALSE if the module is not a Schema.org Blueprints starter kit
    */
-  protected function getSettings(string $module):FALSE|array {
+  protected function getSettings(string $module): FALSE|array {
     $module_path = $this->extensionListModule->getPath($module);
     $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
     return (file_exists($module_schemadotorg_path))

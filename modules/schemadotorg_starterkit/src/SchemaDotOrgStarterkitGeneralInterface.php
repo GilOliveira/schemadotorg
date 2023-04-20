@@ -15,6 +15,6 @@ interface SchemaDotOrgStarterkitGeneralInterface {
    * @param array $entity_types
    *   An associative array onf entity types and bundles.
    */
-  function generate(array $entity_types):void;
+  public function generate(array $entity_types): void;
 
 }
