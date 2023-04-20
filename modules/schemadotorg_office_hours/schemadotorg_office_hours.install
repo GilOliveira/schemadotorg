@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Installation hooks for the Schema.org Blueprints Smart Date module.
+ * Installation hooks for the Schema.org Blueprints Office Hours module.
  */
 
 declare(strict_types = 1);

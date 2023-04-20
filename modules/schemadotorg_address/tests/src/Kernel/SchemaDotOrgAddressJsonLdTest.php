@@ -2,18 +2,18 @@
 
 declare(strict_types = 1);
 
-namespace Drupal\Tests\schemadotorg_jsonld\Kernel\Modules;
+namespace Drupal\Tests\schemadotorg_address\Kernel;
 
 use Drupal\node\Entity\Node;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 
 /**
- * Tests the functionality of the Schema.org JSON-LD address.module integration.
+ * Tests the functionality of the Schema.org address module JSON-LD integration.
  *
  * @covers address_schemadotorg_jsonld_schema_property_alter(()
  * @group schemadotorg
  */
-class SchemaDotOrgJsonLdAddressTest extends SchemaDotOrgKernelEntityTestBase {
+class SchemaDotOrgAddressJsonLdTest extends SchemaDotOrgKernelEntityTestBase {
 
   /**
    * Modules to install.
@@ -22,6 +22,7 @@ class SchemaDotOrgJsonLdAddressTest extends SchemaDotOrgKernelEntityTestBase {
    */
   protected static $modules = [
     'address',
+    'schemadotorg_address',
     'schemadotorg_jsonld',
   ];
 
@@ -37,7 +38,12 @@ class SchemaDotOrgJsonLdAddressTest extends SchemaDotOrgKernelEntityTestBase {
    */
   protected function setUp(): void {
     parent::setUp();
-    $this->installConfig(['schemadotorg_jsonld']);
+
+    $this->installConfig(['schemadotorg_address', 'schemadotorg_jsonld']);
+
+    \Drupal::moduleHandler()->loadInclude('schemadotorg_address', 'install');
+    schemadotorg_address_install(FALSE);
+
     $this->builder = $this->container->get('schemadotorg_jsonld.builder');
   }
 

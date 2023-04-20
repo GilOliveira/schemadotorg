@@ -46,6 +46,9 @@ Schema.org types.
 The below field related modules help configure entity edit forms
 and field configuration settings.
 
+- **[Schema.org Blueprints Address](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_address)**  
+  Allows an address field to be used to create a http://schema.org/PostalAddress.
+
 - **[Schema.org Blueprints Allowed Formats](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_allowed_formats)**  
   Sets allowed format for Schema.org properties within an entity type/bundle Schema.org mapping.
 

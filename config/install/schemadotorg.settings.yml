@@ -604,7 +604,6 @@ schema_types:
       - list_string
       - 'field_ui:entity_reference:taxonomy_term'
     PostalAddress:
-      - address
       - string_long
     AudioObject:
       - 'field_ui:entity_reference:media'
