@@ -31,7 +31,7 @@ class SchemaDotOrgJsonLdEmbedManager implements SchemaDotOrgJsonLdEmbedInterface
    */
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
-    protected SchemaDotOrgJsonLdBuilderInterface|NULL $schemaJsonLdBuilder = NULL
+    protected ?SchemaDotOrgJsonLdBuilderInterface $schemaJsonLdBuilder = NULL
   ) {}
 
   /**

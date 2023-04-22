@@ -19,9 +19,9 @@ interface SchemaDotOrgJsonLdBuilderInterface {
    *   A route match.
    *
    * @return array|bool
-   *   The JSON-LD for a route.
+   *   The JSON-LD for a route or NULL if the route does not return JSON-LD.
    */
-  public function build(?RouteMatchInterface $route_match = NULL): array|bool;
+  public function build(?RouteMatchInterface $route_match = NULL): ?array;
 
   /**
    * Build JSON-LD for an entity that is mapped to a Schema.org type.
@@ -33,8 +33,8 @@ interface SchemaDotOrgJsonLdBuilderInterface {
    *
    * @return array|bool
    *   The JSON-LD for an entity that is mapped to a Schema.org type
-   *   or FALSE if the entity is not mapped to a Schema.org type.
+   *   or NULL if the entity is not mapped to a Schema.org type.
    */
-  public function buildEntity(EntityInterface $entity, array $options = []): array|bool;
+  public function buildEntity(EntityInterface $entity, array $options = []): ?array;
 
 }

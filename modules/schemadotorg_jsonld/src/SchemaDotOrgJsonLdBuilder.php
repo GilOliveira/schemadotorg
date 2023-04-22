@@ -58,7 +58,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   /**
    * {@inheritdoc}
    */
-  public function build(?RouteMatchInterface $route_match = NULL): array|bool {
+  public function build(?RouteMatchInterface $route_match = NULL): ?array {
     $route_match = $route_match ?: $this->routeMatch;
 
     $data = [];
@@ -83,9 +83,9 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     // @see hook_schemadotorg_jsonld_alter()
     $this->moduleHandler->alter('schemadotorg_jsonld', $data, $route_match);
 
-    // Return FALSE if the data is empty.
+    // Return NULL if the data is empty.
     if (empty($data)) {
-      return FALSE;
+      return NULL;
     }
 
     $types = $this->getSchemaTypesFromData($data);
@@ -95,7 +95,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   /**
    * {@inheritdoc}
    */
-  public function buildEntity(?EntityInterface $entity = NULL, array $options = []): array|bool {
+  public function buildEntity(?EntityInterface $entity = NULL, array $options = []): ?array {
     if (!$entity) {
       return [];
     }
@@ -147,7 +147,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     // Return data if a Schema.org @type is defined.
     return (isset($data['@type']))
       ? $data
-      : FALSE;
+      : NULL;
   }
 
   /**
@@ -159,10 +159,9 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    *   The entity build options.
    *
    * @return array|bool
-   *   The JSON-LD for an entity that is mapped to a Schema.org type
-   *   or FALSE if the entity is not mapped to a Schema.org type.
+   *   The JSON-LD for an entity that is mapped to a Schema.org type.
    */
-  protected function buildMappedEntity(EntityInterface $entity, array $options = []): array|bool {
+  protected function buildMappedEntity(EntityInterface $entity, array $options = []): array {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
     if (!$mapping_storage->isEntityMapped($entity)) {
