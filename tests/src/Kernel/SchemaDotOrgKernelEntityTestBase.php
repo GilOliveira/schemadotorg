@@ -33,7 +33,6 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
     'field',
     'field_ui',
     'entity_reference_revisions',
-    'address',
     'file',
     'datetime',
     'image',

@@ -82,38 +82,6 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
     ]);
     $media->save();
 
-    // Node.
-    $place_node = Node::create([
-      'type' => 'place',
-      'title' => 'Somewhere',
-      'langcode' => 'es',
-      'body' => [
-        'value' => 'Some description',
-        'format' => 'empty_format',
-      ],
-      'schema_image' => [
-        'target_id' => $media->id(),
-      ],
-      'schema_address' => [
-        'country_code' => 'CC',
-        'administrative_area' => '{area}',
-        'locality' => '{locality}',
-        'dependent_locality' => '{dependent_locality}',
-        'postal_code' => '{postal_code}',
-        'sorting_code' => '{sorting_code}',
-        'address_line1' => '{address_line1}',
-        'address_line2' => '{address_line2}',
-        'organization' => '{organization}',
-        'given_name' => '{given_name}',
-        'additional_name' => '{additional_name}',
-        'family_name' => '{family_name}',
-      ],
-      'schema_telephone' => [
-        'value' => '123456789',
-      ],
-    ]);
-    $place_node->save();
-
     // Place node.
     $place_node = Node::create([
       'type' => 'place',
@@ -126,20 +94,7 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
       'schema_image' => [
         'target_id' => $media->id(),
       ],
-      'schema_address' => [
-        'country_code' => 'CC',
-        'administrative_area' => '{area}',
-        'locality' => '{locality}',
-        'dependent_locality' => '{dependent_locality}',
-        'postal_code' => '{postal_code}',
-        'sorting_code' => '{sorting_code}',
-        'address_line1' => '{address_line1}',
-        'address_line2' => '{address_line2}',
-        'organization' => '{organization}',
-        'given_name' => '{given_name}',
-        'additional_name' => '{additional_name}',
-        'family_name' => '{family_name}',
-      ],
+      'schema_address' => '{Somewhere}',
       'schema_telephone' => [
         'value' => '123456789',
       ],
@@ -165,24 +120,6 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
     $this->assertEquals('name', $sort_keys[0]);
     $this->assertEquals('aaa', $sort_keys[1]);
     $this->assertEquals('zzz', $sort_keys[2]);
-
-    // Check getting a Schema.org property's value for a field item.
-    // Address.
-    \Drupal::moduleHandler()->loadInclude('schemadotorg_jsonld', 'inc', 'schemadotorg_jsonld.schemadotorg');
-    $expected_value = [
-      '@type' => 'PostalAddress',
-      'name' => '{organization}',
-      'alternateName' => '{given_name} {additional_name} {family_name}',
-      'addressCountry' => 'CC',
-      'addressRegion' => '{area}',
-      'addressLocality' => '{locality}, {dependent_locality}',
-      'postalCode' => '{postal_code}',
-      'postOfficeBoxNumber' => '{sorting_code}',
-      'streetAddress' => '{address_line1}, {address_line2}',
-    ];
-    $actual_value = NULL;
-    address_schemadotorg_jsonld_schema_property_alter($actual_value, $place_node->schema_address->get(0));
-    $this->assertEquals($expected_value, $actual_value);
 
     // Language.
     $actual_value = $this->manager->getSchemaPropertyValue($place_node->langcode->get(0));

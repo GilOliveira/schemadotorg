@@ -28,6 +28,7 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
     'user',
     'node',
     'paragraphs',
+    'address',
     'file',
     'field',
     'field_ui',
@@ -36,6 +37,7 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
     'link',
     'media',
     'text',
+    'schemadotorg_address',
     'schemadotorg_paragraphs',
     'schemadotorg_ui',
   ];
@@ -70,9 +72,14 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
     $this->installEntitySchema('paragraphs_type');
 
     // Install the Schema.org configuration settings.
-    $this->installConfig(['schemadotorg']);
+    $this->installConfig(['schemadotorg', 'schemadotorg_address']);
     // Install the Schema.org type and properties tables.
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
+
+    // Install the Schema.org Blueprints Address module, which alters the
+    // 'schema_types.default_field_types.PostalAddress' settings.
+    \Drupal::moduleHandler()->loadInclude('schemadotorg_address', 'install');
+    schemadotorg_address_install(FALSE);
 
     // Import CSV data into the Schema.org type and properties tables.
     /** @var \Drupal\schemadotorg\SchemaDotOrgInstallerInterface $installer */
