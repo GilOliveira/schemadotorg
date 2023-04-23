@@ -75,7 +75,7 @@ class SchemaDotOrgTaxonomyJsonLdTest extends SchemaDotOrgBrowserTestBase {
 
     $vocabulary = Vocabulary::load('tags');
 
-    // Check term JSON-LD..
+    // Check term JSON-LD.
     $expected_result = [
       '@type' => 'DefinedTerm',
       '@url' => $term->toUrl()->setAbsolute()->toString(),

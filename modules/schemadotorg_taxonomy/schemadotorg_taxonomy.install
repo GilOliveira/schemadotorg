@@ -60,8 +60,19 @@ function schemadotorg_taxonomy_install(bool $is_syncing): void {
     return;
   }
 
-  // Create tags vocabulary to Schema.org DefinedTerm mapping.
+  // If that tags vocabulary exists.
   if (Vocabulary::load('tags')) {
+    // Add tags to all content types.
+    \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings')
+      ->set('default_vocabularies.tags', [
+        'id' => 'tags',
+        'label' => (string) t('Tags'),
+        'description' => (string) t('Use tags to group articles on similar topics into categories.'),
+        'auto_create' => TRUE,
+      ])
+      ->save();
+
+    // Create tags vocabulary to Schema.org DefinedTerm mapping.
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface $mapping_manager */
     $mapping_manager = \Drupal::service('schemadotorg.mapping_manager');
     $mapping_manager->createType('taxonomy_term', 'DefinedTerm');

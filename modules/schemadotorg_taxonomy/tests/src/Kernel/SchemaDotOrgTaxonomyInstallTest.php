@@ -49,6 +49,17 @@ class SchemaDotOrgTaxonomyInstallTest extends SchemaDotOrgKernelEntityTestBase {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
     $mapping = SchemaDotOrgMapping::load('taxonomy_term.tags');
 
+    // Confirm that Add tags to all content types.
+    $this->assertEquals(
+      [
+        'id' => 'tags',
+        'label' => 'Tags',
+        'description' => 'Use tags to group articles on similar topics into categories.',
+        'auto_create' => TRUE,
+      ],
+      $this->config('schemadotorg_taxonomy.settings')->get('default_vocabularies.tags')
+    );
+
     // Confirm taxonomy term mapping is created and mapped to DefinedTerm.
     $this->assertEquals('DefinedTerm', $mapping->getSchemaType());
   }
