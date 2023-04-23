@@ -58,6 +58,14 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManagerTest extends SchemaDotOrgKerne
     // Check that the tags vocabulary does not exist.
     $this->assertNull(Vocabulary::load('tags'));
 
+    // Add tags to all content types.
+    \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings')
+      ->set('default_vocabularies.tags', [
+        'id' => 'tags',
+        'label' => 'Tags',
+      ])
+      ->save();
+
     // Create an Article.
     $this->createSchemaEntity('node', 'Article');
 

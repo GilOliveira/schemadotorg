@@ -36,7 +36,7 @@ trait SchemaDotOrgTaxonomyTrait {
     $vocabulary = $vocabulary_storage->create([
       'vid' => $vocabulary_id,
       'name' => $settings['label'],
-      'description' => $settings['description'],
+      'description' => $settings['description'] ?? '',
     ]);
     $vocabulary->save();
 
