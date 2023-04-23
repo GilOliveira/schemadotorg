@@ -21,7 +21,6 @@ schema_types:
     Article:
       - articleBody
       - headline
-      - keywords
     Atlas:
       - name
     Blog:
