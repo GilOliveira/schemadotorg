@@ -93,7 +93,6 @@ schema_types:
       - text
       - tool
     Recipe:
-      - '-educationalLevel'
       - '-step'
       - '-supply'
       - '-tool'
@@ -101,12 +100,14 @@ schema_types:
       - cookingMethod
       - nationality
       - nutrition
+      - prepTime
       - recipeCategory
       - recipeCuisine
       - recipeIngredient
       - recipeInstructions
       - recipeYield
       - suitableForDiet
+      - totalTime
     HowToDirection:
       - text
     HowToSection:
