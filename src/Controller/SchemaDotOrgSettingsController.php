@@ -76,10 +76,10 @@ class SchemaDotOrgSettingsController extends ControllerBase {
    * @param string $route_name
    *   The route name.
    *
-   * @return \Drupal\Component\Render\MarkupInterface
+   * @return string|\Drupal\Component\Render\MarkupInterface
    *   The route's description from help.
    */
-  protected function getDescriptionFromHelp(string $route_name): MarkupInterface {
+  protected function getDescriptionFromHelp(string $route_name): string|MarkupInterface {
     $route = new Route(Url::fromRoute($route_name)->toString());
     $route_match = new RouteMatch($route_name, $route);
 
