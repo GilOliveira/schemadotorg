@@ -320,6 +320,19 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       $field['schema_type'] = $schema_type;
       $field['schema_property'] = $property_name;
 
+      // Update title field definition for new mappings.
+      // @see \Drupal\node\NodeTypeForm::save
+      if ($mapping->isNew() && $entity_type_id === 'node' && $field_name === 'title') {
+        $field_definitions = $this->entityFieldManager->getFieldDefinitions('node', $bundle);
+        /** @var \Drupal\Core\Field\BaseFieldDefinition $title_field */
+        $title_field = $field_definitions['title'];
+        $title_label = $field['label'];
+        if ($title_field->getLabel() != $title_label) {
+          $title_field->getConfig($bundle)->setLabel($title_label)->save();
+        }
+      }
+
+      // If field does not exist create it.
       $field_exists = $this->schemaEntityFieldManager->fieldExists(
         $entity_type_id,
         $bundle,

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Drupal\Tests\schemadotorg\Kernel;
 
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 
@@ -44,6 +45,13 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
   protected $entityTypeManager;
 
   /**
+   * The entity field manager.
+   *
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
+   */
+  protected $entityFieldManager;
+
+  /**
    * The Schema.org mapping manager.
    *
    * @var \Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface
@@ -69,6 +77,7 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
     $installer->importTables();
 
     $this->entityTypeManager = $this->container->get('entity_type.manager');
+    $this->entityFieldManager = $this->container->get('entity_field.manager');
 
     // Get the Schema.org mapping manager.
     $this->mappingManager = $this->container->get('schemadotorg.mapping_manager');
@@ -171,6 +180,13 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
     $mapping = SchemaDotOrgMapping::load('user.user');
     $this->assertEquals('user', $mapping->getTargetEntityTypeId());
     $this->assertEquals('user', $mapping->getTargetBundle());
+
+    // Check create node:Article and check that the title label is set to 'Headline'.
+    $this->mappingManager->createType('node', 'Article');
+    $field_definitions = $this->entityFieldManager->getFieldDefinitions('node', 'article');
+    /** @var \Drupal\Core\Field\BaseFieldDefinition $title_field */
+    $title_field = $field_definitions['title'];
+    $this->assertEquals('Headline', $title_field->getConfig('article')->getLabel());
 
     /* ********************************************************************** */
     // Delete.

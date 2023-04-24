@@ -23,6 +23,8 @@ Features
 - Sets Schema.org type descriptions as the explanation/submission guidelines.
   (For content types only)
 - Sets entity type and field descriptions and help via configuration overrides.
+- Sets the node title field's description to the coresponding
+  Schema.org property's comment.
 
 
 Configuration

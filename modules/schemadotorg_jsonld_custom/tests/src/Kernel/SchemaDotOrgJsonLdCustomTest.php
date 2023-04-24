@@ -105,7 +105,7 @@ class SchemaDotOrgJsonLdCustomTest extends SchemaDotOrgKernelEntityTestBase {
           ],
         ],
         'inLanguage' => 'en',
-        'name' => 'Something',
+        'headline' => 'Something',
         'dateCreated' => $this->dateFormatter->format($node->getCreatedTime(), 'custom', 'Y-m-d H:i:s P'),
         'dateModified' => $this->dateFormatter->format($node->getChangedTime(), 'custom', 'Y-m-d H:i:s P'),
         // Check Schema.org type custom JSON-LD is added.

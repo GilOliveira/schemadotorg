@@ -86,6 +86,40 @@ function schemadotorg_descriptions_entity_load(array $entities, string $entity_t
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Sets the node title field's description to the coresponding
+ * Schema.org property's comment.
+ */
+function schemadotorg_descriptions_form_node_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  if (!empty($form['title']['widget'][0]['value']['#description'])) {
+    return;
+  }
+
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $form_state->getFormObject()->getEntity();
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
+  $mapping = SchemaDotOrgMapping::loadByEntity($node);
+  if (!$mapping) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+  $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+  $schema_type = $mapping->getSchemaType();
+  $schema_property = $mapping->getSchemaPropertyMapping('title');
+  if (!$schema_property) {
+    return;
+  }
+  $config = \Drupal::config('schemadotorg_descriptions.settings');
+  $description = $config->get("custom_descriptions.$schema_type--$schema_property")
+    ?? $config->get("custom_descriptions.$schema_property")
+    ?? t($schema_type_manager->getProperty($schema_property)['comment']);
+  $form['title']['widget'][0]['value']['#description'] = $description;
+}
+
+/**
  * Implements hook_form_BASE_FORM_ID_alter().
  */
 function schemadotorg_descriptions_form_schemadotorg_mapping_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {

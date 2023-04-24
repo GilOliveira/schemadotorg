@@ -244,22 +244,48 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
             ->get('schema_types.default_properties');
           $breadcrumbs = $this->schemaTypeManager->getTypeBreadcrumbs($id);
           $default_properties = [];
+          $default_properties_breadcrumb = [];
           foreach ($breadcrumbs as $breadcrumb) {
             foreach ($breadcrumb as $breadcrumb_type) {
               if (isset($schema_types_default_properties[$breadcrumb_type])) {
-                $default_properties[$breadcrumb_type] = $this->schemaTypeBuilder->buildItemsLinks($schema_types_default_properties[$breadcrumb_type]) + [
+                $default_properties += array_combine($schema_types_default_properties[$breadcrumb_type], $schema_types_default_properties[$breadcrumb_type]);
+                $default_properties_breadcrumb[$breadcrumb_type] = $this->schemaTypeBuilder->buildItemsLinks($schema_types_default_properties[$breadcrumb_type]) + [
                   '#prefix' => $breadcrumb_type . ' | ',
                   '#suffix' => '<br/>',
                 ];
               }
             }
           }
-          if ($default_properties) {
-            $build[$name]['default_properties'] = [
+          if ($default_properties_breadcrumb) {
+            $build[$name]['default_properties'] = [];
+            $build[$name]['default_properties']['default'] = [
               '#type' => 'item',
               '#title' => $this->t('Default properties'),
-              'links' => $default_properties,
+              'links' => $default_properties_breadcrumb,
             ];
+
+            // Display all entity types that have differing default properties.
+            // This generally only applies to nodes.
+            $mapping_type_storage = $this->entityTypeManager()->getStorage('schemadotorg_mapping_type');
+            /** @var \Drupal\Core\Config\Entity\ConfigEntityType[] $entity_type_definitions */
+            $entity_type_definitions = $mapping_type_storage->getEntityTypeBundleDefinitions();
+            foreach ($entity_type_definitions as $entity_type_id => $entity_type_definition) {
+              $bundle_entity_type_id = $entity_type_definition->id();
+              $mapping_type = $mapping_type_storage->load($entity_type_id);
+              $bundle_entity_type_label = ($entity_type_id === 'paragraph')
+                ? 'paragraph type'
+                : $this->entityTypeManager()->getDefinition($bundle_entity_type_id)->getSingularLabel();
+              $mapping_default_properties = $mapping_type->getDefaultSchemaTypeProperties($id);
+
+              if ($mapping_default_properties != $default_properties) {
+                $t_args = ['@type' => $bundle_entity_type_label];
+                $build[$name]['default_properties'][$entity_type_id] = [
+                  '#type' => 'item',
+                  '#title' => $this->t('Default @type properties', $t_args),
+                  'links' => $this->schemaTypeBuilder->buildItemsLinks($mapping_default_properties),
+                ];
+              }
+            }
           }
 
           // Get all properties, excluding superseded properties.
