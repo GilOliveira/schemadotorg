@@ -58,6 +58,7 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManager implements SchemaDotOrgTaxono
    *   The Schema.org mapping.
    */
   public function mappingInsert(SchemaDotOrgMappingInterface $mapping): void {
+    $schema_type = $mapping->getSchemaType();
     $entity_type = $mapping->getTargetEntityTypeId();
     $bundle = $mapping->getTargetBundle();
     $group_name = 'group_taxonomy';
@@ -72,6 +73,17 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManager implements SchemaDotOrgTaxono
     $default_vocabularies = $this->configFactory->get('schemadotorg_taxonomy.settings')
       ->get('default_vocabularies');
     foreach ($default_vocabularies as $vocabulary_id => $vocabulary_settings) {
+      // Check if the default vocabulary is for a specific Schema.org type.
+      if (str_contains($vocabulary_id, '--')) {
+        [$vocabulary_schema_type, $vocabulary_id] = explode('--', $vocabulary_id);
+        if ($vocabulary_schema_type !== $schema_type) {
+          continue;
+        }
+      }
+
+      // Make sure the vocabulary ID is a machine name.
+      $vocabulary_id = preg_replace('/[^a-z0-9_]+/', '_', $vocabulary_id);
+
       $field_name = 'field_' . $vocabulary_id;
 
       // Create vocabulary.

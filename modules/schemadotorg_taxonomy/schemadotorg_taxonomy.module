@@ -158,7 +158,7 @@ function schemadotorg_taxonomy_form_schemadotorg_types_settings_form_alter(array
   $form['schemadotorg_taxonomy']['default_vocabularies'] = [
     '#type' => 'schemadotorg_settings',
     '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
-    '#settings_format' => 'propertyName|id:vocabulary_id,label:Vocabulary name,description: Vocabulary description goes here',
+    '#settings_format' => 'propertyName|id:vocabulary_id,label:Vocabulary name,description: Vocabulary description goes here or SchemaType--propertyName|id:vocabulary_id,label:Vocabulary name',
     '#title' => t('Default vocabularies'),
     '#description' => t('Enter default vocabularies that will be added to every Schema.org content type.'),
     '#default_value' => $config->get('default_vocabularies'),

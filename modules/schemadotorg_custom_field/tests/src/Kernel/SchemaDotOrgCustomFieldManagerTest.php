@@ -199,6 +199,8 @@ class SchemaDotOrgCustomFieldManagerTest extends SchemaDotOrgKernelEntityTestBas
           'maxlength_js' => FALSE,
           'description_display' => 'after',
           'required' => FALSE,
+          'prefix' => '',
+          'suffix' => '',
         ],
       ],
       'check_empty' => '1',
