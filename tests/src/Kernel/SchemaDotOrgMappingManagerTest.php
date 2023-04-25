@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\Tests\schemadotorg\Kernel;
 
-use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 

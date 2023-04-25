@@ -91,7 +91,7 @@ function schemadotorg_descriptions_entity_load(array $entities, string $entity_t
  * Sets the node title field's description to the coresponding
  * Schema.org property's comment.
  */
-function schemadotorg_descriptions_form_node_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+function schemadotorg_descriptions_form_node_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
   if (!empty($form['title']['widget'][0]['value']['#description'])) {
     return;
   }

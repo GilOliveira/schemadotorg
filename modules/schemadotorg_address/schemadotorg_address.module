@@ -64,7 +64,7 @@ function schemadotorg_address_schemadotorg_property_field_alter(
 /**
  * Implements hook_schemadotorg_jsonld_schema_property_alter() for the address.module.
  */
-function address_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item): void {
+function schemadotorg_address_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item): void {
   $field_type = $item->getFieldDefinition()->getType();
   if ($field_type !== 'address') {
     return;
