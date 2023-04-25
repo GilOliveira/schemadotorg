@@ -216,6 +216,7 @@ class SchemaDotOrgCustomFieldManagerTest extends SchemaDotOrgKernelEntityTestBas
           'scale' => '',
           'description_display' => 'after',
           'required' => FALSE,
+          'suffix' => 'calories',
         ],
       ],
       'check_empty' => '1',

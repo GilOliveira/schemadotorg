@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_custom_field;
 
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\Element;
 use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 
@@ -29,40 +27,6 @@ class SchemaDotOrgCustomFieldBuilder implements SchemaDotOrgCustomFieldBuilderIn
     protected SchemaDotOrgNamesInterface $schemaNames,
     protected SchemaDotOrgCustomFieldManagerInterface $schemaCustomFieldManager
   ) {}
-
-  /**
-   * {@inheritdoc}
-   */
-  public function fieldWidgetFormAlter(array &$element, FormStateInterface $form_state, array $context): void {
-    /** @var \Drupal\Core\Field\FieldItemListInterface $items */
-    $items = $context['items'];
-
-    $mapping = $this->schemaCustomFieldManager->getFieldItemSchemaMapping($items);
-    if (!$mapping) {
-      return;
-    }
-
-    $field_name = $items->getFieldDefinition()->getName();
-    $schema_type = $mapping->getSchemaType();
-    $schema_property = $mapping->getSchemaPropertyMapping($field_name);
-    if (!$schema_property) {
-      return;
-    }
-
-    // Check to see if the property has custom field settings.
-    if (!$this->schemaCustomFieldManager->getDefaultProperties($schema_type, $schema_property)) {
-      return;
-    }
-
-    $children = Element::children($element);
-    foreach ($children as $child_key) {
-      $property = $this->schemaNames->snakeCaseToCamelCase($child_key);
-      $unit = $this->schemaTypeManager->getPropertyUnit($property);
-      if ($unit) {
-        $element[$child_key]['#field_suffix'] = $unit;
-      }
-    }
-  }
 
   /**
    * {@inheritdoc}

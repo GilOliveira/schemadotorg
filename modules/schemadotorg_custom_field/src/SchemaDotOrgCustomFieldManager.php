@@ -128,6 +128,11 @@ class SchemaDotOrgCustomFieldManager implements SchemaDotOrgCustomFieldManagerIn
         'check_empty' => '1',
         'weight' => $weight,
       ];
+      $unit = $this->schemaTypeManager->getPropertyUnit($schema_property);
+      if ($unit) {
+        $field_settings[$name]['widget_settings']['settings']['suffix'] = $unit;
+      }
+
       $weight++;
     }
 
