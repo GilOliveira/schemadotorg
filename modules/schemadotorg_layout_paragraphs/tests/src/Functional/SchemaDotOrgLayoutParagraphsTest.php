@@ -24,7 +24,6 @@ class SchemaDotOrgLayoutParagraphsTest extends SchemaDotOrgBrowserTestBase {
    * @var array
    */
   protected static $modules = [
-    'node',
     'schemadotorg_layout_paragraphs',
   ];
 

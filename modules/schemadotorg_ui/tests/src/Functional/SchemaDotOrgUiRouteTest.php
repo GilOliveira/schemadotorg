@@ -27,8 +27,6 @@ class SchemaDotOrgUiRouteTest extends SchemaDotOrgBrowserTestBase {
    */
   protected static $modules = [
     'block',
-    'user',
-    'node',
     'media',
     'field',
     'field_ui',

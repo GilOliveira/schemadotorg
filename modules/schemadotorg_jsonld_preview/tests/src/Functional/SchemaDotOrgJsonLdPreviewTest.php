@@ -19,7 +19,7 @@ class SchemaDotOrgJsonLdPreviewTest extends SchemaDotOrgBrowserTestBase {
    *
    * @var string[]
    */
-  protected static $modules = ['user', 'node', 'schemadotorg_jsonld', 'schemadotorg_jsonld_preview'];
+  protected static $modules = ['schemadotorg_jsonld', 'schemadotorg_jsonld_preview'];
 
   /**
    * Test Schema.org list builder enhancements.

@@ -20,7 +20,6 @@ class SchemaDotOrgJsonLdCustomValidationTest extends SchemaDotOrgBrowserTestBase
    * @var array
    */
   protected static $modules = [
-    'node',
     'field_ui',
     'schemadotorg_ui',
     'schemadotorg_jsonld_custom',

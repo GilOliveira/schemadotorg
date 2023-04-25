@@ -22,7 +22,7 @@ class SchemaDotOrgSubtypeListBuilderTest extends SchemaDotOrgBrowserTestBase {
    *
    * @var string[]
    */
-  protected static $modules = ['user', 'node', 'schemadotorg_subtype'];
+  protected static $modules = ['schemadotorg_subtype'];
 
   /**
    * Test Schema.org list builder enhancements.

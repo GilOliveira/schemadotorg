@@ -19,9 +19,6 @@ class SchemaDotOrgExportTest extends SchemaDotOrgBrowserTestBase {
    * @var string[]
    */
   protected static $modules = [
-    'user',
-    'node',
-    'field',
     'field_ui',
     'schemadotorg_ui',
     'schemadotorg_mapping_set',

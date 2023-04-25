@@ -20,8 +20,6 @@ class SchemaDotOrgDescriptionsNodeTitleTest extends SchemaDotOrgBrowserTestBase 
    * @var string[]
    */
   protected static $modules = [
-    'user',
-    'node',
     'schemadotorg_ui',
     'schemadotorg_descriptions',
   ];

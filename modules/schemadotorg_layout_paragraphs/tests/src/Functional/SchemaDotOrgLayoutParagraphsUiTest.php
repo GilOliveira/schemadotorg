@@ -20,7 +20,6 @@ class SchemaDotOrgLayoutParagraphsUiTest extends SchemaDotOrgBrowserTestBase {
    * @var array
    */
   protected static $modules = [
-    'node',
     'schemadotorg_layout_paragraphs',
     'schemadotorg_ui',
   ];

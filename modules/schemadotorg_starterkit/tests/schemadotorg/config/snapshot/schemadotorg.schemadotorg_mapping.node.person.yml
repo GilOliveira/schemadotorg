@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.person.body
+    - field.field.node.person.schema_additional_name
+    - field.field.node.person.schema_email
+    - field.field.node.person.schema_family_name
+    - field.field.node.person.schema_given_name
+    - field.field.node.person.schema_image
+    - field.field.node.person.schema_knows_language
+    - node.type.person
+id: node.person
+target_entity_type_id: node
+target_bundle: person
+schema_type: Person
+schema_properties:
+  schema_additional_name: additionalName
+  body: description
+  schema_email: email
+  schema_family_name: familyName
+  schema_given_name: givenName
+  schema_image: image
+  schema_knows_language: knowsLanguage
+  title: name

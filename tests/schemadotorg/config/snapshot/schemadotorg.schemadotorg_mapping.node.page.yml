@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.page.body
+    - node.type.page
+id: node.page
+target_entity_type_id: node
+target_bundle: page
+schema_type: WebPage
+schema_properties:
+  created: dateCreated
+  changed: dateModified
+  langcode: inLanguage
+  title: name
+  body: text

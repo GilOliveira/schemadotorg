@@ -22,8 +22,6 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
    * @var string[]
    */
   protected static $modules = [
-    'user',
-    'node',
     'media',
     'paragraphs',
     'taxonomy',

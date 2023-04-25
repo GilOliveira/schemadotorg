@@ -1,0 +1,53 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.schema_suitable_for_diet
+field_name: schema_suitable_for_diet
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: DiabeticDiet
+      label: 'Diabetic Diet'
+    -
+      value: GlutenFreeDiet
+      label: 'Gluten Free Diet'
+    -
+      value: HalalDiet
+      label: 'Halal Diet'
+    -
+      value: HinduDiet
+      label: 'Hindu Diet'
+    -
+      value: KosherDiet
+      label: 'Kosher Diet'
+    -
+      value: LowCalorieDiet
+      label: 'Low Calorie Diet'
+    -
+      value: LowFatDiet
+      label: 'Low Fat Diet'
+    -
+      value: LowLactoseDiet
+      label: 'Low Lactose Diet'
+    -
+      value: LowSaltDiet
+      label: 'Low Salt Diet'
+    -
+      value: VeganDiet
+      label: 'Vegan Diet'
+    -
+      value: VegetarianDiet
+      label: 'Vegetarian Diet'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

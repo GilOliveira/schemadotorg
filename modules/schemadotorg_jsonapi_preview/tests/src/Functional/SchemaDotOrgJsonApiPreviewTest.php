@@ -18,7 +18,7 @@ class SchemaDotOrgJsonApiPreviewTest extends SchemaDotOrgBrowserTestBase {
    *
    * @var string[]
    */
-  protected static $modules = ['user', 'node', 'schemadotorg_jsonapi', 'schemadotorg_jsonapi_preview'];
+  protected static $modules = ['schemadotorg_jsonapi', 'schemadotorg_jsonapi_preview'];
 
   /**
    * Test Schema.org list builder enhancements.

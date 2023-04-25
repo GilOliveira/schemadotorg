@@ -22,8 +22,6 @@ class SchemaDotOrgUiFieldPrefixTest extends SchemaDotOrgBrowserTestBase {
    * @var string[]
    */
   protected static $modules = [
-    'user',
-    'node',
     'schemadotorg_ui',
   ];
 

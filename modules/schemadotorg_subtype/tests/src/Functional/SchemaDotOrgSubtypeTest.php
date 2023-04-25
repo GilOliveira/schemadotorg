@@ -19,8 +19,6 @@ class SchemaDotOrgSubtypeTest extends SchemaDotOrgBrowserTestBase {
    * @var string[]
    */
   protected static $modules = [
-    'user',
-    'node',
     'schemadotorg_ui',
     'schemadotorg_subtype',
   ];

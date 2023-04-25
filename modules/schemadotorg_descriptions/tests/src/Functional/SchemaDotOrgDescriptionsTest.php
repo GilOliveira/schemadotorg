@@ -19,9 +19,6 @@ class SchemaDotOrgDescriptionsTest extends SchemaDotOrgBrowserTestBase {
    * @var string[]
    */
   protected static $modules = [
-    'user',
-    'node',
-    'field',
     'field_ui',
     'block',
     'help',

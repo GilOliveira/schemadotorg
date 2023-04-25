@@ -20,8 +20,6 @@ class SchemaDotOrgMappingSetSettingsFormTest extends SchemaDotOrgBrowserTestBase
    * @var array
    */
   protected static $modules = [
-    'user',
-    'node',
     'media',
     'paragraphs',
     'taxonomy',

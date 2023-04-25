@@ -24,8 +24,6 @@ class SchemaDotOrgJsonLdEndpointTest extends SchemaDotOrgBrowserTestBase {
    * @var array
    */
   protected static $modules = [
-    'user',
-    'node',
     'schemadotorg_jsonapi',
     'schemadotorg_jsonld_endpoint',
   ];

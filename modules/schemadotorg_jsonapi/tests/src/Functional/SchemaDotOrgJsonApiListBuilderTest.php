@@ -20,7 +20,7 @@ class SchemaDotOrgJsonApiListBuilderTest extends SchemaDotOrgBrowserTestBase {
    *
    * @var string[]
    */
-  protected static $modules = ['user', 'node', 'schemadotorg_jsonapi'];
+  protected static $modules = ['schemadotorg_jsonapi'];
 
   /**
    * {@inheritdoc}
