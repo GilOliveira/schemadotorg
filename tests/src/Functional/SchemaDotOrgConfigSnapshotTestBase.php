@@ -11,7 +11,7 @@ use Drupal\Component\Serialization\Yaml;
  *
  * For working instance of this base test see SchemaDotOrgConfigSnapshotTest.
  *
- * To create a config snapshot (../..//schemadorg/config/snapshot).
+ * To create a config snapshot (../../schemadorg/config/snapshot).
  *
  * - Create a config snapshot test by copying and adjusting
  *   SchemaDotOrgConfigSnapshotTest.php.

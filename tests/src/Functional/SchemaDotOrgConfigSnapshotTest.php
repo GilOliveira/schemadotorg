@@ -14,6 +14,11 @@ class SchemaDotOrgConfigSnapshotTest extends SchemaDotOrgConfigSnapshotTestBase 
   /**
    * {@inheritdoc}
    */
+  protected static $modules = ['schemadotorg'];
+
+  /**
+   * {@inheritdoc}
+   */
   protected $snapshotDirectory = __DIR__ . '/../../schemadotorg/config/snapshot';
 
   /**
