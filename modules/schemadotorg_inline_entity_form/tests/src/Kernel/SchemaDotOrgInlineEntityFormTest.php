@@ -42,6 +42,11 @@ class SchemaDotOrgInlineEntityFormTest extends SchemaDotOrgKernelEntityTestBase 
 
     $this->appendSchemaTypeDefaultProperties('Person', 'alumniOf');
 
+    // Clear the default type for alumniOf.
+    $this->config('schemadotorg.settings')
+      ->clear('schema_properties.default_fields.alumniOf.type')
+      ->save();
+
     $this->entityDisplayRepository = $this->container->get('entity_display.repository');
   }
 
