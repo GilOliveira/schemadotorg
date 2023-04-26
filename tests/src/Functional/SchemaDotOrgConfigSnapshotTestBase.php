@@ -11,6 +11,15 @@ use Drupal\Component\Serialization\Yaml;
  *
  * For working instance of this base test see SchemaDotOrgConfigSnapshotTest.
  *
+ * To create a config snapshot (../..//schemadorg/config/snapshot).
+ *
+ * - Create a config snapshot test by copying and adjusting
+ *   SchemaDotOrgConfigSnapshotTest.php.
+ * - Run the test to creates the initial snapshot.
+ *   This test will fail because snapshot files are being generated
+ * - Re-run the test and confirm that config snapshot passes as expected.
+ * - Commit the test and the config snapshot.
+ *
  * @see \Drupal\Tests\schemadotorg\Functional\SchemaDotOrgConfigSnapshotTest
  */
 abstract class SchemaDotOrgConfigSnapshotTestBase extends SchemaDotOrgBrowserTestBase {
