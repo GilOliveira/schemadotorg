@@ -219,17 +219,20 @@
             .trigger('summaryUpdated');
         });
 
-      // Set detail summary from the 'Add new field' elements.
+      // Set details summary from the 'Add new field' elements.
+      const eventTypes = {
+        'checkbox': 'click',
+        'text': 'keydown',
+        'select': 'change',
+      };
       once('schemadotorg-ui-property-summary', 'table.schemadotorg-ui-properties details.schemadotorg-ui--add-field', context)
         .forEach((details) => {
-          details.querySelectorAll('select, input[type="checkbox"]')
+          details.querySelectorAll('select[name$="[type]"], input[name$="[label]"], input[type="checkbox"]')
             .forEach((element) => {
-              if (element.tagName === 'SELECT') {
-                element.addEventListener('change', () => setPropertyAddFieldSummary(details));
-              }
-              else {
-                element.addEventListener('click', () => setPropertyAddFieldSummary(details));
-              }
+              const type = (element.tagName === 'INPUT')
+                ? element.getAttribute('type')
+                : element.tagName.toLowerCase();
+              element.addEventListener(eventTypes[type], () => setPropertyAddFieldSummary(details));
             });
           setPropertyAddFieldSummary(details);
         });
@@ -239,9 +242,13 @@
   function setPropertyAddFieldSummary(details) {
     let summary = '';
 
+    // Add field label to details summary.
+    const labelText = details.querySelector('input[name$="[label]"]');
+    summary = `${labelText.value}: `;
+
     // Add field type to details summary.
-    const select = details.querySelector('select');
-    summary += select.options[select.selectedIndex].text;
+    const typeSelect = details.querySelector('select[name$="[type]"]');
+    summary += typeSelect.options[typeSelect.selectedIndex].text;
 
     // Add field unlimited to details summary.
     const unlimitedCheckbox = details.querySelector('input[name$="[unlimited]"]');
