@@ -519,6 +519,7 @@ schema_types:
       - starRating
     MedicalBusiness:
       - availableService
+      - amenityFeature
       - department
       - email
       - faxNumber
@@ -850,6 +851,7 @@ schema_properties:
       label: Alumni
       unlimited: true
     alumniOf:
+      type: string
       unlimited: true
     amenityFeature:
       label: 'Amenity features'

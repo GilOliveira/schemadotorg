@@ -134,6 +134,7 @@ default_field_groups:
         - servesCuisine
         - hasMenu
         - availableService
+        - amenityFeature
     service:
       label: 'Service information'
       properties:
@@ -148,7 +149,6 @@ default_field_groups:
       label: 'Lodging information'
       properties:
         - starRating
-        - amenityFeature
         - numberOfRooms
         - checkinTime
         - checkoutTime
