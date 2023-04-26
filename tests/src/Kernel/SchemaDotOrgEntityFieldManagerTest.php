@@ -270,7 +270,6 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
         'worksFor',
         [
           'string' => 'string',
-          'field_ui:entity_reference:node' => 'field_ui:entity_reference:node',
         ],
       ],
       [

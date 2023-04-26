@@ -55,6 +55,9 @@ and field configuration settings.
 - **[Schema.org Blueprints Automatic Entity Labels](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_auto_entitylabel)**  
   Creates automatic entity label settings for Schema.org types.
 
+- **[Schema.org Blueprints Existing Values Autocomplete Widget](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_existing_values_autocomplete_widget)**  
+  Allows an autocomplete widget to be automatically added to Schema.org properties within an entity type/bundle Schema.org mapping.
+
 - **[Schema.org Blueprints Field Group](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_field_group)**  
   Creates field groups in entity view and form displays when Schema.org properties are mapping to a field.
 
@@ -294,7 +297,10 @@ _The below modules provide additional features to entity types._
 
 _The below modules provide more specific field types and behaviors._
 
-Date/time
+Text
+
+- **[Existing Values Autocomplete Widget](https://www.drupal.org/project/existing_values_autocomplete_widget)**  
+  Provides an autocomplete widget for text fields that suggests all existing (previously entered) values for that field.
 
 - **[Duration Field](https://www.drupal.org/project/duration_field)**  
   (Applies to: [Duration](https://schema.org/Duration))  
