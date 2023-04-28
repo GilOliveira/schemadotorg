@@ -113,6 +113,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       'description' => '',
       'unlimited' => NULL,
       'required' => NULL,
+      'max_length' => NULL,
       'allowed_values' => [],
       'schema_type' => NULL,
       'schema_property' => NULL,
@@ -129,6 +130,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $field_description = $field['description'];
     $field_unlimited = $field['unlimited'];
     $field_required = $field['required'];
+    $field_max_length = $field['max_length'];
     $field_allowed_values = $field['allowed_values'];
     $schema_type = $field['schema_type'];
     $schema_property = $field['schema_property'];
@@ -153,6 +155,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         'type' => $field_type,
         'cardinality' => $field_unlimited ? -1 : 1,
         'allowed_values' => $field_allowed_values,
+        'max_length' => $field_max_length,
       ];
     }
 
@@ -530,6 +533,15 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
           else {
             $field_values['settings']['suffix'] = ' ' . $unit_singular;
           }
+        }
+        break;
+
+      case 'string':
+        if (!empty($field_storage_values['max_length'])) {
+          $field_storage_values['settings'] = [
+            'max_length' => $field_storage_values['max_length'],
+          ];
+          unset($field_storage_values['max_length']);
         }
         break;
 

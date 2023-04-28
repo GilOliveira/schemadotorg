@@ -60,13 +60,6 @@ class SchemaDotOrgJsonLdRangeTest extends SchemaDotOrgKernelEntityTestBase {
 
     $expected_value = [
       '@type' => 'JobPosting',
-      'identifier' => [
-        [
-          '@type' => 'PropertyValue',
-          'propertyID' => 'uuid',
-          'value' => $job_node->uuid(),
-        ],
-      ],
       'title' => 'Some job',
       'estimatedSalary' => [
         '@type' => 'MonetaryAmount',

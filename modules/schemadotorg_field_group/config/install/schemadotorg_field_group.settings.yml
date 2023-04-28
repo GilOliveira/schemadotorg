@@ -262,6 +262,34 @@ default_field_groups:
         - mentions
         - relatedLink
         - significantLink
+    identifier:
+      label: Identifiers
+      properties:
+        - identifier
+        - accountId
+        - asin
+        - callSign
+        - confirmationNumber
+        - duns
+        - editEIDR
+        - flightNumber
+        - globalLocationNumber
+        - gtin
+        - gtin12
+        - gtin13
+        - gtin14
+        - gtin8
+        - isbn
+        - issn
+        - legislationIdentifier
+        - leiCode
+        - nsn
+        - orderNumber
+        - productID
+        - serialNumber
+        - sku
+        - taxID
+        - titleEIDR
     taxonomy:
       label: 'Tags/Categories'
       properties:

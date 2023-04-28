@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Allows Inline Entity Forms to be used to create Schema.org relationships.
+ * Creates automatic entity label settings for Schema.org types.
  */
 
 declare(strict_types = 1);

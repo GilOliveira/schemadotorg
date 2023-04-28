@@ -1,0 +1,18 @@
+field_prefix: schema_identifier_
+field_definitions:
+  uuid:
+    field_name: uuid
+    property_id: UUID
+  npi:
+    property_id: NPI
+    label: National Provider Identifier (NPI)
+    description: A unique identification number for covered health care providers.
+    required: true
+    max_length: 10
+schema_types:
+  Thing:
+    - uuid
+  MedicalBusiness:
+    - npi
+  MedicalOrganization:
+    - npi

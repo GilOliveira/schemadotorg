@@ -101,7 +101,7 @@ function schemadotorg_layout_paragraphs_schemadotorg_jsonld_schema_type_entity_a
 function schemadotorg_layout_paragraphs_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item): void {
   if (!$item instanceof EntityReferenceRevisionsItem
     || !is_array($value)
-    || (count($value) !== 3)
+    || (count($value) !== 2)
     || !isset($value['@type'])
     || !isset($value['mainEntityOfPage'])
     || !isset($value['mainEntityOfPage']['@type'])

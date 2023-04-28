@@ -205,7 +205,7 @@ function schemadotorg_paragraphs_schemadotorg_jsonld_schema_property_alter(mixed
   $jsonld_builder = \Drupal::service('schemadotorg_jsonld.builder');
 
   // Build the paragraphs JSON-LD.
-  $value = $jsonld_builder->buildEntity($paragraph, ['identifier' => FALSE]);
+  $value = $jsonld_builder->buildEntity($paragraph);
 }
 
 /* ************************************************************************** */

@@ -105,17 +105,14 @@ function hook_schemadotorg_jsonld_schema_type_entity_load(array &$data, \Drupal\
 
   // Alter a vocabulary's Schema.org type data to use DefinedTermSet @type.
   // @see \Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyManager::load
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
   $mapping_storage = \Drupal::entityTypeManager()->getStorage('schemadotorg_mapping');
   /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface[] $mappings */
-  $mappings = $mapping_storage->loadByProperties([
-    'target_entity_type_id' => 'taxonomy_term',
-    'target_bundle' => $entity->id(),
-  ]);
-  if (!$mappings) {
+  $mapping = $mapping_storage->loadByEntity($entity);
+  if (!$mapping) {
     return;
   }
 
-  $mapping = reset($mappings);
   $schema_type = $mapping->getSchemaType();
   $data['@type'] = "{$schema_type}Set";
   $data['name'] = $entity->label();

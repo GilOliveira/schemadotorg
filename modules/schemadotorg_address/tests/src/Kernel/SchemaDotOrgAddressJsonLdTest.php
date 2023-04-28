@@ -68,13 +68,6 @@ class SchemaDotOrgAddressJsonLdTest extends SchemaDotOrgKernelEntityTestBase {
 
     $expected_value = [
       '@type' => 'Place',
-      'identifier' => [
-        [
-          '@type' => 'PropertyValue',
-          'propertyID' => 'uuid',
-          'value' => $place_node->uuid(),
-        ],
-      ],
       'name' => 'Some place',
       'address' => [
         '@type' => 'PostalAddress',

@@ -95,14 +95,6 @@ class SchemaDotOrgJsonLdBreadcrumbTest extends SchemaDotOrgKernelEntityTestBase 
       [
         '@context' => 'https://schema.org',
         '@type' => 'Thing',
-        'identifier' =>
-          [
-            [
-              '@type' => 'PropertyValue',
-              'propertyID' => 'uuid',
-              'value' => $node->uuid(),
-            ],
-          ],
         'name' => 'Something',
       ],
     ];

@@ -97,13 +97,6 @@ class SchemaDotOrgJsonLdCustomTest extends SchemaDotOrgKernelEntityTestBase {
       [
         '@context' => 'https://schema.org',
         '@type' => 'Article',
-        'identifier' => [
-          [
-            '@type' => 'PropertyValue',
-            'propertyID' => 'uuid',
-            'value' => $node->uuid(),
-          ],
-        ],
         'inLanguage' => 'en',
         'headline' => 'Something',
         'dateCreated' => $this->dateFormatter->format($node->getCreatedTime(), 'custom', 'Y-m-d H:i:s P'),

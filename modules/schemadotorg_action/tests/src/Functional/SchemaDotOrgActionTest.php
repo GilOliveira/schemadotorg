@@ -120,13 +120,6 @@ class SchemaDotOrgActionTest extends SchemaDotOrgBrowserTestBase {
     // Check that the mainEntity does NOT include potentialAction.
     $expected_value = [
       '@type' => 'WebPage',
-      'identifier' => [
-        [
-          '@type' => 'PropertyValue',
-          'propertyID' => 'uuid',
-          'value' => $node->schema_main_entity->get(0)->entity->uuid(),
-        ],
-      ],
       'inLanguage' => 'en',
       'name' => 'Test call to action',
       'significantLink' => ['https://yahoo.com'],
@@ -135,23 +128,9 @@ class SchemaDotOrgActionTest extends SchemaDotOrgBrowserTestBase {
     $this->assertEquals($expected_value, $data['mainEntity'][0]);
     $expected_value = [
       '@type' => 'ItemList',
-      'identifier' => [
-        [
-          '@type' => 'PropertyValue',
-          'propertyID' => 'uuid',
-          'value' => $node->schema_main_entity->get(1)->entity->uuid(),
-        ],
-      ],
       'itemListElement' => [
         [
           '@type' => 'WebPage',
-          'identifier' => [
-            [
-              '@type' => 'PropertyValue',
-              'propertyID' => 'uuid',
-              'value' => $node->schema_main_entity->get(1)->entity->schema_ctas_item_list_element->get(0)->entity->uuid(),
-            ],
-          ],
           'inLanguage' => 'en',
           'name' => 'Nested call to action',
           'significantLink' => ['https://microsoft.com'],

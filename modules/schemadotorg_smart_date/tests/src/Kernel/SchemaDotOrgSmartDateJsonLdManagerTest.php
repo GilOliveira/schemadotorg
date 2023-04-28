@@ -168,13 +168,6 @@ class SchemaDotOrgSmartDateJsonLdManagerTest extends SchemaDotOrgKernelEntityTes
     // Check Event eventSchedule JSON-LD data.
     $expected_value = [
       '@type' => 'Event',
-      'identifier' => [
-        [
-          '@type' => 'PropertyValue',
-          'propertyID' => 'uuid',
-          'value' => $event_node->uuid(),
-        ],
-      ],
       'inLanguage' => 'en',
       'name' => 'Sometime',
       'startDate' => '2001-01-01T11:00:00+11:00',

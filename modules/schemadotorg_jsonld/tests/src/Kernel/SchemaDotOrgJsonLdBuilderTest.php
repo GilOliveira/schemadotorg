@@ -86,13 +86,6 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
     // Check building JSON-LD for an entity that is mapped to a Schema.org type.
     $expected_result = [
       '@type' => 'CreativeWork',
-      'identifier' => [
-          [
-            '@type' => 'PropertyValue',
-            'propertyID' => 'uuid',
-            'value' => $node->uuid(),
-          ],
-      ],
       'name' => 'Something',
       'alternateName' => [
         'Something else',
@@ -108,11 +101,6 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
       'dateModified' => $data_formatter->format($now, 'custom', 'Y-m-d H:i:s P'),
     ];
     $this->assertEquals($expected_result, $this->builder->buildEntity($node));
-
-    // Check building JSON-LD for an entity without an identifier property.
-    $json_ld = $this->builder->buildEntity($node, ['identifier' => FALSE]);
-    $this->assertArrayHasKey('@type', $json_ld);
-    $this->assertArrayNotHasKey('identifier', $json_ld);
   }
 
 }

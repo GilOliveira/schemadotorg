@@ -112,24 +112,10 @@ class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
     // the ContactPoint paragraph and paragraph library item..
     $expected = [
       '@type' => 'Person',
-      'identifier' => [
-        [
-          '@type' => 'PropertyValue',
-          'propertyID' => 'uuid',
-          'value' => $person_node->uuid(),
-        ],
-      ],
       'name' => 'Person',
       'contactPoint' => [
         [
           '@type' => 'ContactPoint',
-          'identifier' => [
-            [
-              '@type' => 'PropertyValue',
-              'propertyID' => 'uuid',
-              'value' => $paragraph_contact_point->uuid(),
-            ],
-          ],
           'contactType' => 'Contact Point',
         ],
         [

@@ -128,13 +128,6 @@ class SchemaDotOrgJsonLdEmbedTest extends SchemaDotOrgKernelEntityTestBase {
         '@context' => 'https://schema.org',
         '@type' => 'ImageObject',
         '@url' => $media->toUrl()->setAbsolute()->toString(),
-        'identifier' => [
-          [
-            '@type' => 'PropertyValue',
-            'propertyID' => 'uuid',
-            'value' => $media->uuid(),
-          ],
-        ],
         'inLanguage' => 'en',
         'name' => 'Some image',
         'dateCreated' => $this->dateFormatter->format($media->getCreatedTime(), 'custom', 'Y-m-d H:i:s P'),
@@ -146,13 +139,6 @@ class SchemaDotOrgJsonLdEmbedTest extends SchemaDotOrgKernelEntityTestBase {
         '@context' => 'https://schema.org',
         '@type' => 'Thing',
         '@url' => $node->toUrl()->setAbsolute()->toString(),
-        'identifier' => [
-          [
-            '@type' => 'PropertyValue',
-            'propertyID' => 'uuid',
-            'value' => $node->uuid(),
-          ],
-        ],
         'name' => 'Some thing',
         'description' => '<p>Some description</p><drupal-media data-entity-type="media" data-entity-uuid="' . $media->uuid() . '"></drupal-media>',
       ],

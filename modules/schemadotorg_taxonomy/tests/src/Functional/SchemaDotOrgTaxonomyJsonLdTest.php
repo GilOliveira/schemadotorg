@@ -79,24 +79,10 @@ class SchemaDotOrgTaxonomyJsonLdTest extends SchemaDotOrgBrowserTestBase {
     $expected_result = [
       '@type' => 'DefinedTerm',
       '@url' => $term->toUrl()->setAbsolute()->toString(),
-      'identifier' => [
-          [
-            '@type' => 'PropertyValue',
-            'propertyID' => 'uuid',
-            'value' => $term->uuid(),
-          ],
-      ],
       'name' => 'Some term',
       'inDefinedTermSet' => [
         '@type' => 'DefinedTermSet',
         'name' => 'tags',
-        'identifier' => [
-          [
-            '@type' => 'PropertyValue',
-            'propertyID' => 'uuid',
-            'value' => $vocabulary->uuid(),
-          ],
-        ],
       ],
     ];
     $actual_result = $this->builder->buildEntity($term);
@@ -105,13 +91,6 @@ class SchemaDotOrgTaxonomyJsonLdTest extends SchemaDotOrgBrowserTestBase {
     // Check term JSON-LD..
     $expected_result = [
       '@type' => 'DefinedTermSet',
-      'identifier' => [
-        [
-          '@type' => 'PropertyValue',
-          'propertyID' => 'uuid',
-          'value' => $vocabulary->uuid(),
-        ],
-      ],
       'name' => 'tags',
     ];
     $actual_result = $this->builder->buildEntity($vocabulary);

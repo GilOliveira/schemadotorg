@@ -39,14 +39,6 @@ class SchemaDotOrgJsonLdSettingsForm extends SchemaDotOrgSettingsFormBase {
       '#open' => TRUE,
       '#tree' => TRUE,
     ];
-    $form['schemadotorg_jsonld']['identifiers'] = [
-      '#type' => 'schemadotorg_settings',
-      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
-      '#settings_format' => 'field_name|identifier',
-      '#title' => $this->t('Schema.org identifiers'),
-      '#description' => $this->t('Enter the field names to be used to <a href=":href">Schema.org identifier</a>.', [':href' => 'https://schema.org/docs/datamodel.html#identifierBg']),
-      '#default_value' => $config->get('identifiers'),
-    ];
     $form['schemadotorg_jsonld']['property_order'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED,

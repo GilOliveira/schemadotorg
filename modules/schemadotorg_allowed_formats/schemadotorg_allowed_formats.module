@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Allows Allowed Formatss to be used to create Schema.org relationships.
+ * Allows Allowed Formats to be used to create Schema.org relationships.
  */
 
 declare(strict_types = 1);

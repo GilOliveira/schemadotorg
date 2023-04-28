@@ -566,6 +566,7 @@ class SchemaDotOrgSettings extends Textarea {
 
         case 'height':
         case 'width':
+        case 'max_length':
           if (is_numeric($value)) {
             $value = (int) $value;
           }

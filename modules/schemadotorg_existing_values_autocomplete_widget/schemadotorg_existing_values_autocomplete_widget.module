@@ -7,10 +7,8 @@
 
 declare(strict_types = 1);
 
-use Drupal\Core\Entity\Entity\EntityFormMode;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\node\NodeTypeInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 
 /**
@@ -21,7 +19,6 @@ function schemadotorg_existing_values_autocomplete_widget_help(string $route_nam
   $help_manager = \Drupal::service('schemadotorg.help_manager');
   return $help_manager->buildHelpPage($route_name, $route_match);
 }
-
 
 /**
  * Implements hook_schemadotorg_property_field_alter().

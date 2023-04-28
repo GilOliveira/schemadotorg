@@ -77,13 +77,6 @@ class SchemaDotOrgJsonLdDateTimeRangeTest extends SchemaDotOrgKernelEntityTestBa
     // Event schedule.
     $expected_value = [
       '@type' => 'Event',
-      'identifier' => [
-        [
-          '@type' => 'PropertyValue',
-          'propertyID' => 'uuid',
-          'value' => $event_node->uuid(),
-        ],
-      ],
       'inLanguage' => 'en',
       'name' => 'Sometime',
       'eventSchedule' => [

@@ -102,8 +102,6 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
 
     // Set default options.
     $options += [
-      // Include indentifiers.
-      'identifier' => TRUE,
       // Mapping entity references.
       // This helps prevent a mapping recursion.
       'map_entities' => TRUE,
@@ -119,23 +117,6 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
         $hook($data, $entity);
       }
     );
-
-    // Add Schema.org identifiers. (Defaults to UUID)
-    if ($options['identifier']) {
-      $identifiers = $this->schemaJsonLdManager->getSchemaIdentifiers($entity);
-      if ($identifiers) {
-        // Make sure existing identifier data is an indexed array.
-        if (isset($data['identifier']) && is_array($data['identifier'])) {
-          if (!isset($data['identifier'][0])) {
-            $data['identifier'] = [$data['identifier']];
-          }
-        }
-        else {
-          $data['identifier'] = [];
-        }
-        $data['identifier'] = array_merge($data['identifier'], $identifiers);
-      }
-    }
 
     // Alter Schema.org type JSON-LD using the entity.
     // @see schemadotorg_jsonld_schema_type_entity_alter()

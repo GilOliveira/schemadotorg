@@ -174,17 +174,6 @@ class SchemaDotOrgJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
       ['@type' => 'Offer', 'price' => 100.00, 'priceCurrency' => 'USD'],
       $this->manager->getSchemaPropertyValueDefaultType('MenuItem', 'offers', ['@type' => 'Offer', 'price' => 100.00])
     );
-
-    // Check getting a Schema.org identifiers for an entity.
-    $actual_value = $this->manager->getSchemaIdentifiers($place_node);
-    $expected_value = [
-        [
-          '@type' => 'PropertyValue',
-          'propertyID' => 'uuid',
-          'value' => $place_node->uuid(),
-        ],
-    ];
-    $this->assertEquals($expected_value, $actual_value);
   }
 
 }

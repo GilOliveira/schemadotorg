@@ -32,6 +32,9 @@ Schema.org types.
 - **[Schema.org Blueprints Export](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_export)**  
   Provides a CSV export of Schema.org type mappings.
 
+- **[Schema.org Blueprints Identifier](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_identifier)**  
+  Manages identifiers (https://schema.org/identifier) for Schema.org types.
+
 - **[Schema.org Blueprints Mapping Set](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_mapping_set)**  
   Provides the ability to create a set of related Schema.org types via Drush.
 

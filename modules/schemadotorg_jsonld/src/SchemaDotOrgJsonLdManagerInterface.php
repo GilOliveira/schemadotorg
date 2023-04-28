@@ -88,15 +88,4 @@ interface SchemaDotOrgJsonLdManagerInterface {
    */
   public function getSchemaPropertyValueDefaultType(string $type, string $property, mixed $value): array|string|NULL;
 
-  /**
-   * Get Schema.org identifiers for an entity.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity.
-   *
-   * @return array
-   *   An array of identifiers containing Schema.org PropertyValue types.
-   */
-  public function getSchemaIdentifiers(EntityInterface $entity): array;
-
 }

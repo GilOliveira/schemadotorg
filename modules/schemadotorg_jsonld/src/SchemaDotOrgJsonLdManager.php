@@ -5,10 +5,8 @@ declare(strict_types = 1);
 namespace Drupal\schemadotorg_jsonld;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Config\Entity\ConfigEntityInterface;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Datetime\DateFormatterInterface;
-use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldItemInterface;
@@ -305,56 +303,6 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
     }
 
     return 'name';
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getSchemaIdentifiers(EntityInterface $entity): array {
-    $identifiers = $this->getConfig()->get('identifiers');
-
-    $entity_data = [];
-    if ($entity instanceof ContentEntityInterface) {
-      foreach ($identifiers as $field_name => $identifier) {
-        // Make sure the entity has the field and the current user has
-        // access to the field.
-        if (!$entity->hasField($field_name)
-          || !$entity->get($field_name)->access('view')) {
-          continue;
-        }
-
-        /** @var \Drupal\Core\Field\FieldItemListInterface $items */
-        $items = $entity->get($field_name);
-        foreach ($items as $item) {
-          $value = $this->getSchemaPropertyValue($item);
-          if ($value) {
-            $entity_data += [$identifier => []];
-            $entity_data[$identifier][] = $value;
-          }
-        }
-      }
-    }
-    elseif ($entity instanceof ConfigEntityInterface) {
-      foreach ($identifiers as $field_name => $identifier) {
-        $value = $entity->get($field_name);
-        if ($value) {
-          $entity_data += [$identifier => []];
-          $entity_data[$identifier][] = $value;
-        }
-      }
-    }
-
-    $schema_data = [];
-    foreach ($entity_data as $identifier => $items) {
-      foreach ($items as $item) {
-        $schema_data[] = [
-          '@type' => 'PropertyValue',
-          'propertyID' => $identifier,
-          'value' => $item,
-        ];
-      }
-    }
-    return $schema_data;
   }
 
   /**
