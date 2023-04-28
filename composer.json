@@ -33,7 +33,7 @@
         "drupal/allowed_formats": "~2.0",
         "drupal/config_rewrite": "^1.0",
         "drupal/ckeditor": "~1.0",
-        "drupal/custom_field": "~1.0",
+        "drupal/custom_field": "1.0.0-beta7",
         "drupal/entity_usage": "~2.0",
         "drupal/existing_values_autocomplete_widget": "~2.0",
         "drupal/field_group": "~3.0",
