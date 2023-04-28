@@ -74,15 +74,6 @@ function schemadotorg_custom_field_schemadotorg_property_field_alter(
 }
 
 /**
- * Preprocess variables for customfield.html.twig.
- */
-function schemadotorg_custom_field_preprocess_customfield(array &$variables): void {
-  /** @var \Drupal\schemadotorg_custom_field\SchemaDotOrgCustomFieldBuilderInterface $custom_field_builder */
-  $custom_field_builder = \Drupal::service('schemadotorg_custom_field.builder');
-  $custom_field_builder->preprocessCustomField($variables);
-}
-
-/**
  * Implements hook_schemadotorg_jsonld_schema_property_alter().
  */
 function schemadotorg_custom_field_schemadotorg_jsonld_schema_property_alter(mixed &$value, FieldItemInterface $item): void {

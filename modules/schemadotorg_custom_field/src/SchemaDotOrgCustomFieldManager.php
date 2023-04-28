@@ -130,7 +130,8 @@ class SchemaDotOrgCustomFieldManager implements SchemaDotOrgCustomFieldManagerIn
       ];
       $unit = $this->schemaTypeManager->getPropertyUnit($schema_property);
       if ($unit) {
-        $field_settings[$name]['widget_settings']['settings']['suffix'] = $unit;
+        $field_settings[$name]['widget_settings']['settings']['suffix'] = ' ' . $unit;
+        $field_settings[$name]['formatter_settings']['prefix_suffix'] = TRUE;
       }
 
       $weight++;
@@ -204,6 +205,11 @@ class SchemaDotOrgCustomFieldManager implements SchemaDotOrgCustomFieldManagerIn
     $default_widget_settings = $custom_field_type::defaultWidgetSettings();
 
     switch ($widget_type) {
+      case 'decimal':
+      case 'float':
+        $default_widget_settings['settings']['scale'] = 2;
+        break;
+
       case 'text':
         $default_widget_settings['settings']['maxlength'] = 255;
         break;
