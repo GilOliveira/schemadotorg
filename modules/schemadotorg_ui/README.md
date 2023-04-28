@@ -3,7 +3,6 @@ Table of contents
 
 * Introduction
 * Features
-* Configuration
 
 
 Introduction

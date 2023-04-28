@@ -27,6 +27,7 @@ Configuration
 
 - Go to the Schema.org properties configuration page.
   (/admin/config/search/schemadotorg/settings/properties)
+- Go to the 'Identifier settings' details.
 - Enter the field prefix to be prepended to a Schema.org identifiers, without a 
   field name, when added to an entity type.
 - Enter identifier field definitions which will be available to 

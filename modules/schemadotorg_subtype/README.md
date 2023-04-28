@@ -30,7 +30,9 @@ Features
 Configuration
 -------------
 
-- Go to /admin/config/search/schemadotorg/settings/subtype
+- Go to the Schema.org types settings page
+  (/admin/config/search/schemadotorg/settings/subtype)
+- Go to the 'Schema.org subtyping' details.
 - Enter default field suffix used for subtype field machine names.
 - Enter default label used for subtype fields.
 - Enter the default description used for subtype fields.

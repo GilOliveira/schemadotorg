@@ -43,6 +43,7 @@ Configuration
 
 - Go to the Schema.org types configuration page.
   (/admin/config/search/schemadotorg/settings/types)
+- Go to the 'Layout Paragraphs settings' details.
 - Enter Schema.org types that default to using layout paragraphs.
 - Enter the default paragraph types to be using with in layout paragraphs.
 - Enter the themes that should enhance the layout paragraph component markup

@@ -31,6 +31,8 @@ Various blocks, pages, and functions for developers.
 Configuration
 -------------
 
-- Go to /admin/config/search/schemadotorg/settings/general
+- Go to the Schema.org general configuration page.
+  (/admin/config/search/schemadotorg/settings/general)
+- Go to the 'Devel settings' details.
 - Enter Schema.org property values to be used when generating content using
   the Devel Generate module.

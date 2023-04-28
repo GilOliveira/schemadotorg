@@ -35,6 +35,7 @@ Configuration
 
 - Go to the Schema.org properties configuration page.
   (/admin/config/search/schemadotorg/settings/properties)
+- Go to the 'Focal point settings' details.
 - Enter focal point images styles for decoupled front-ends.
 
 

@@ -37,6 +37,7 @@ Configuration
 
 - Go to the Schema.org properties configuration page.
   (/admin/config/search/schemadotorg/settings/properties)
+- Go to the 'Flex Field settings' details.
 - Set Schema.org properties that should use flexfields and define the
   flexfield item data types.
 

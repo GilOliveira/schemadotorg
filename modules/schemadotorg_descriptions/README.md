@@ -30,7 +30,9 @@ Features
 Configuration
 -------------
 
-- Go to /admin/config/search/schemadotorg/settings/general
+- Go to the Schema.org general configuration page.
+  (/admin/config/search/schemadotorg/settings/general)
+- Go to the 'Description settings' details.
 - Enter custom descriptions or suppress the default Schema.org type 
   and property descriptions.
 - Enable/disable the trimming of Schema.org type and property descriptions.

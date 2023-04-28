@@ -29,5 +29,6 @@ Configuration
 
 - Go to the Schema.org JSON:LD configuration page.
   (/admin/config/search/schemadotorg/settings/jsonld)
+- Go to the 'JSON-LD settings' details.
 - Enter the default Schema.org property order.
 - Enter the Schema.org property image styles.

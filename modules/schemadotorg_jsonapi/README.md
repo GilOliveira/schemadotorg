@@ -40,6 +40,7 @@ Configuration
 
 - Go to the Schema.org JSON:API configuration page.
   (/admin/config/search/schemadotorg/settings/jsonapi)
+- Go to the 'JSON:API settings' details.
 - Enter base fields that should default be enabled.
 - Check/uncheck use Schema.org types as the JSON:API resource's type
   and path names.

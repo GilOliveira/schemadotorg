@@ -1,10 +1,10 @@
 Table of contents
 -----------------
 
-- Introduction
-- Requirements
-- Installation
-- Configuration
+* Introduction
+* Requirements
+* Installation
+* Configuration
 
 
 Introduction

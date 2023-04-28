@@ -32,4 +32,5 @@ Configuration
 
 - Go to the Schema.org properties configuration page.
   (/admin/config/search/schemadotorg/settings/properties)
+- Go to the 'Address settings' details.
 - Set field override for address fields.
