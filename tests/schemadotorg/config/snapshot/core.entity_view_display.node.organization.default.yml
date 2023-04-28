@@ -40,7 +40,7 @@ content:
     weight: 109
     region: content
   schema_email:
-    type: basic_string
+    type: email_mailto
     label: above
     settings: {  }
     third_party_settings: {  }

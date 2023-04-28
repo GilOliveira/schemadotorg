@@ -536,6 +536,10 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         }
         break;
 
+      case 'email':
+        $formatter_id = 'email_mailto';
+        break;
+
       case 'string':
         if (!empty($field_storage_values['max_length'])) {
           $field_storage_values['settings'] = [
