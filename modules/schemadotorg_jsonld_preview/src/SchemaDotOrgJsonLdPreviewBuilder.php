@@ -63,8 +63,11 @@ class SchemaDotOrgJsonLdPreviewBuilder implements SchemaDotOrgJsonLdPreviewBuild
     ];
 
     // Make it easy for someone to copy the JSON.
-    $t_args = [':href' => 'https://validator.schema.org/'];
-    $description = $this->t('Please copy-n-paste the below JSON-LD into the <a href=":href">Schema Markup Validator</a>.', $t_args);
+    $t_args = [
+      ':schema_href' => 'https://validator.schema.org/',
+      ':google_href' => 'https://search.google.com/test/rich-results',
+    ];
+    $description = $this->t('Please copy-n-paste the below JSON-LD into the <a href=":schema_href">Schema Markup Validator</a> or  <a href=":google_href">Google\'s Rich Results Test</a>.', $t_args);
     $build['copy'] = [
       '#type' => 'container',
       '#attributes' => ['class' => ['schemadotorg-jsonld-preview-copy']],
