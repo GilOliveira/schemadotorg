@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\schemadotorg\Form;
 
 use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Config\Config;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
@@ -35,6 +36,19 @@ abstract class SchemaDotOrgSettingsFormBase extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
+    $config_names = $this->getEditableConfigNames();
+    $config_name = reset($config_names);
+    $config = $this->config($config_name);
+
+    $settings_name = explode('.', $config_name)[1];
+    if (isset($form[$settings_name])) {
+      $elements = $form[$settings_name];
+    }
+    else {
+      $elements = $form;
+    }
+    static::setDefaultValuesRecursive($elements, $config);
+
     $form['#after_build'][] = [get_class($this), 'afterBuildDetails'];
     return parent::buildForm($form, $form_state);
   }
@@ -85,6 +99,56 @@ abstract class SchemaDotOrgSettingsFormBase extends ConfigFormBase {
     }
 
     parent::submitForm($form, $form_state);
+  }
+
+  /**
+   * Alter Schema.org settings forms.
+   *
+   * Automatically set the default values for Schema.org settings forms that
+   * are altered by sub-modules.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   */
+  public static function formAlter(array &$form, FormStateInterface $form_state) {
+    if (!$form_state->getFormObject() instanceof SchemaDotOrgSettingsFormBase) {
+      return;
+    }
+
+    foreach (Element::children($form) as $module_name) {
+      $config = \Drupal::configFactory()->getEditable("$module_name.settings");
+      if (!$config->isNew()) {
+        static::setDefaultValuesRecursive($form[$module_name], $config);
+      }
+    }
+  }
+
+  /**
+   * Set Schema.org settings form element default values.
+   *
+   * @param array $element
+   *   A form element.
+   * @param \Drupal\Core\Config\Config $config
+   *   The form elements associated module config.
+   * @param array $parents
+   *   The form element's parent and config key path.
+   */
+  protected static function setDefaultValuesRecursive(array &$element, Config $config, array $parents = []) {
+    $children = Element::children($element);
+    if ($children) {
+      foreach ($children as $child) {
+        static::setDefaultValuesRecursive($element[$child], $config, array_merge($parents, [$child]));
+      }
+    }
+    else {
+      $config_key = implode('.', $element['#parents'] ?? $parents);
+      $config_value = $config->get($config_key);
+      if (!isset($element['#default_value']) && !is_null($config_value)) {
+        $element['#default_value'] = $config_value;
+      }
+    }
   }
 
 }

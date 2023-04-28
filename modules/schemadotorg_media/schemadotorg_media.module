@@ -250,8 +250,6 @@ function schemadotorg_media_form_schemadotorg_types_settings_form_alter(array &$
   /** @var \Drupal\media\MediaSourceManager $source_manager */
   $source_manager = \Drupal::service('plugin.manager.media.source');
 
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_media.settings');
-
   $form['schemadotorg_media'] = [
     '#type' => 'details',
     '#title' => t('Media settings'),
@@ -269,7 +267,6 @@ function schemadotorg_media_form_schemadotorg_types_settings_form_alter(array &$
     '#title' => t('Default media sources'),
     '#description' => t('Enter the default media source plugin ids (i.e. %plugins) used when creating Schema.org <a href=":href">MediaObject</a> types.', $t_args),
     '#description_link' => 'types',
-    '#default_value' => $config->get('default_sources'),
   ];
 }
 
@@ -277,8 +274,6 @@ function schemadotorg_media_form_schemadotorg_types_settings_form_alter(array &$
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_media_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_media.settings');
-
   $form['schemadotorg_media'] = [
     '#type' => 'details',
     '#title' => t('Media settings'),
@@ -292,6 +287,5 @@ function schemadotorg_media_form_schemadotorg_properties_settings_form_alter(arr
     '#title' => t('Source field mappings'),
     '#description' => t('Enter the media type source field to Schema.org property mapping.'),
     '#description_link' => 'properties',
-    '#default_value' => $config->get('source_field_mappings'),
   ];
 }

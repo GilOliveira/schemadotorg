@@ -217,8 +217,6 @@ function schemadotorg_layout_paragraphs_paragraph_view_alter(array &$build, Para
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_layout_paragraphs_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_layout_paragraphs.settings');
-
   $form['schemadotorg_layout_paragraphs'] = [
     '#type' => 'details',
     '#title' => t('Layout Paragraphs settings'),
@@ -232,7 +230,6 @@ function schemadotorg_layout_paragraphs_form_schemadotorg_types_settings_form_al
     '#title' => t('Default Schema.org types'),
     '#description' => t('Enter Schema.org types that default to using layout paragraphs.'),
     '#description_link' => 'types',
-    '#default_value' => $config->get('default_schema_types'),
   ];
   $form['schemadotorg_layout_paragraphs']['default_paragraph_types'] = [
     '#type' => 'schemadotorg_settings',
@@ -240,7 +237,6 @@ function schemadotorg_layout_paragraphs_form_schemadotorg_types_settings_form_al
     '#settings_format' => 'paragraph_type',
     '#title' => t('Default paragraph types'),
     '#description' => t('Enter the default paragraph types to be using with in layout paragraphs.'),
-    '#default_value' => $config->get('default_paragraph_types'),
   ];
   $form['schemadotorg_layout_paragraphs']['themes'] = [
     '#type' => 'schemadotorg_settings',
@@ -248,7 +244,6 @@ function schemadotorg_layout_paragraphs_form_schemadotorg_types_settings_form_al
     '#settings_format' => 'theme_name',
     '#title' => t('Default themes'),
     '#description' => t('Enter the themes that should enhance the layout paragraph component markup for Quotation, Statement, Header, and ItemList.'),
-    '#default_value' => $config->get('themes'),
   ];
 
 }

@@ -24,8 +24,6 @@ function schemadotorg_jsonld_endpoint_help(string $route_name, RouteMatchInterfa
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_jsonld_endpoint_form_schemadotorg_jsonld_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonld_endpoint.settings');
-
   $form['schemadotorg_jsonld_endpoint'] = [
     '#type' => 'details',
     '#title' => t('JSON-LD endpoint settings'),
@@ -40,7 +38,6 @@ function schemadotorg_jsonld_endpoint_form_schemadotorg_jsonld_settings_form_alt
     '#description' => t('Enter the entity type and the desired endpoint path.')
     . '<br/>'
     . t('Please note, it is possible to create custom endpoints for unmapped entity types by adding the custom entity_type_id.'),
-    '#default_value' => $config->get('entity_type_endpoints'),
   ];
 
   // Add submit callback.

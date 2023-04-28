@@ -123,8 +123,6 @@ function schemadotorg_inline_entity_form_schemadotorg_property_field_alter(
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_inline_entity_form_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_inline_entity_form.settings');
-
   $form['schemadotorg_inline_entity_form'] = [
     '#type' => 'details',
     '#title' => t('Inline entity form settings'),
@@ -138,7 +136,6 @@ function schemadotorg_inline_entity_form_form_schemadotorg_properties_settings_f
     '#title' => t('Default inline entity form properties'),
     '#description' => t('Enter Schema.org properties that should use the inline entity form.'),
     '#description_link' => 'properties',
-    '#default_value' => $config->get('default_properties'),
   ];
   $form['schemadotorg_inline_entity_form']['default_form_displays'] = [
     '#type' => 'schemadotorg_settings',
@@ -147,7 +144,6 @@ function schemadotorg_inline_entity_form_form_schemadotorg_properties_settings_f
     '#title' => t('Default Schema.org type form displays'),
     '#description' => t('Enter Schema.org type that should have the inline entity form display enabled by default.'),
     '#description_link' => 'types',
-    '#default_value' => $config->get('default_form_displays'),
   ];
   $form['schemadotorg_inline_entity_form']['default_form_display_components'] = [
     '#type' => 'schemadotorg_settings',
@@ -155,7 +151,6 @@ function schemadotorg_inline_entity_form_form_schemadotorg_properties_settings_f
     '#settings_format' => 'field_name or propertyName',
     '#title' => t('Default form display components'),
     '#description' => t('Enter component field and property names that should be included in the default inline entity form display.'),
-    '#default_value' => $config->get('default_form_display_components'),
   ];
 }
 

@@ -91,8 +91,6 @@ function schemadotorg_metatag_schemadotorg_mapping_insert(SchemaDotOrgMappingInt
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_metatag_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_metatag.settings');
-
   /** @var \Drupal\metatag\MetatagManagerInterface $metatag_manager */
   $metatag_manager = \Drupal::service('metatag.manager');
   $metatag_groups = $metatag_manager->sortedGroups();
@@ -111,7 +109,6 @@ function schemadotorg_metatag_form_schemadotorg_types_settings_form_alter(array 
     '#type' => 'checkboxes',
     '#title' => t('Default metatag groups'),
     '#description' => t('Identify which metatag groups should be available on which entity type / bundle combination. Unselected groups will not appear on the configuration form for that entity type, reducing the size of the form and increasing performance. If no groups are selected for a type, all groups will appear.'),
-    '#default_value' => $config->get('default_groups'),
     '#options' => $metatag_group_options,
     '#element_validate' => [['\Drupal\schemadotorg\Utility\SchemaDotOrgElementHelper', 'validateMultipleOptions']],
   ];

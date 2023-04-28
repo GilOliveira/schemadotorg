@@ -160,8 +160,6 @@ function _schemadotorg_scheduler_get_third_party_settings(string $schema_type): 
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_scheduler_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_scheduler.settings');
-
   $form['schemadotorg_scheduler'] = [
     '#type' => 'details',
     '#title' => t('Scheduler settings'),
@@ -176,6 +174,5 @@ function schemadotorg_scheduler_form_schemadotorg_types_settings_form_alter(arra
     '#description' => t('Enter the Schema.org types that support scheduling and whether the Schema.org types should publish, unpublish or both.')
     . ' '
     . t('Scheduled Schema.org type settings will be applied to all subtypes. For example, entering <code>Thing|publish,unpublish</code> will enable scheduling for all content types.'),
-    '#default_value' => $config->get('scheduled_types'),
   ];
 }

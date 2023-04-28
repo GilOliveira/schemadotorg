@@ -95,8 +95,6 @@ function schemadotorg_custom_field_schemadotorg_jsonld_schema_property_alter(mix
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_custom_field_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_custom_field.settings');
-
   // Custom field data types.
   // @see \Drupal\custom_field\Plugin\Field\FieldType\CustomItem::storageSettingsForm
   $date_types = [
@@ -138,7 +136,6 @@ function schemadotorg_custom_field_form_schemadotorg_properties_settings_form_al
     '#title' => t('Default custom field properties'),
     '#description' => t('Enter Schema.org properties that should be mapped to a Schema.org type using a Custom field.'),
     '#description_link' => 'types',
-    '#default_value' => $config->get('default_properties'),
   ];
   $form['schemadotorg_custom_field']['data_types'] = [
     '#type' => 'details',
@@ -153,6 +150,5 @@ function schemadotorg_custom_field_form_schemadotorg_properties_settings_form_al
     '#title' => t('Default custom field format'),
     '#description' => t('Select the default format used by text (plain, long) custom fields. Leave blank to not enable the Wysiwyg editor.'),
     '#options' => $format_options,
-    '#default_value' => $config->get('default_format'),
   ];
 }

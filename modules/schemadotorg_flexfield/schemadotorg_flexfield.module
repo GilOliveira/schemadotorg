@@ -153,8 +153,6 @@ function schemadotorg_flexfield_schemadotorg_jsonld_schema_property_alter(mixed 
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_flexfield_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_flexfield.settings');
-
   $form['schemadotorg_flexfield'] = [
     '#type' => 'details',
     '#title' => t('Flexfield settings'),
@@ -170,7 +168,6 @@ function schemadotorg_flexfield_form_schemadotorg_properties_settings_form_alter
     '#title' => t('Default flex field properties'),
     '#description' => t('Enter Schema.org properties that should be mapped to a Schema.org type using a Flex field.'),
     '#description_link' => 'types',
-    '#default_value' => $config->get('default_properties'),
   ];
 }
 

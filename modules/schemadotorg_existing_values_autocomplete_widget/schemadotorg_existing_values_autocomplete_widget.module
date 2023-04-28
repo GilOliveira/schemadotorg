@@ -48,8 +48,6 @@ function schemadotorg_existing_values_autocomplete_widget_schemadotorg_property_
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_existing_values_autocomplete_widget_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_existing_values_autocomplete_widget.settings');
-
   $form['schemadotorg_existing_values_autocomplete_widget'] = [
     '#type' => 'details',
     '#title' => t('Existing Values Autocomplete Widget settings'),
@@ -63,6 +61,5 @@ function schemadotorg_existing_values_autocomplete_widget_form_schemadotorg_prop
     '#title' => t('Default Existing Values Autocomplete Widget properties'),
     '#description' => t('Enter Schema.org properties that should use the Existing Values Autocomplete Widget.'),
     '#description_link' => 'properties',
-    '#default_value' => $config->get('default_properties'),
   ];
 }

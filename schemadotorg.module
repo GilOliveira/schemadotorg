@@ -14,6 +14,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
+use Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase;
 
 // Load all MODULE.schemadotorg.inc files.
 \Drupal::moduleHandler()->loadAllIncludes('schemadotorg.inc');
@@ -95,6 +96,25 @@ function schemadotorg_modules_installed(array $modules): void {
     $installer = \Drupal::service('schemadotorg.installer');
     $installer->installModules($modules);
   }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function schemadotorg_module_implements_alter(array &$implementations, string $hook) {
+  if ($hook === 'form_alter') {
+    $implementation = $implementations['schemadotorg'];
+    unset($implementations['schemadotorg']);
+    $implementations['schemadotorg'] = $implementation;
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function schemadotorg_form_alter(array &$form, FormStateInterface $form_state) {
+  // Set the default values for sub-module settings form.
+  SchemaDotOrgSettingsFormBase::formAlter($form, $form_state);
 }
 
 /**

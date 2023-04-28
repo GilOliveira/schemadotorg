@@ -106,8 +106,6 @@ function _schemadotorg_jsonld_custom_json_element_validate(array &$element, Form
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_jsonld_custom_form_schemadotorg_jsonld_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_jsonld_custom.settings');
-
   $form['schemadotorg_jsonld_custom'] = [
     '#type' => 'details',
     '#title' => t('JSON-LD custom settings'),
@@ -120,7 +118,6 @@ function schemadotorg_jsonld_custom_form_schemadotorg_jsonld_settings_form_alter
     '#settings_format' => '/some/path|JSON',
     '#title' => t('Path custom JSON-LD'),
     '#description' => t('Enter the custom JSON-LD for a path.'),
-    '#default_value' => $config->get('path_json'),
     '#element_validate' => ['_schemadotorg_jsonld_custom_json_settings_validate'],
   ];
   $form['schemadotorg_jsonld_custom']['default_schema_type_json'] = [
@@ -129,7 +126,6 @@ function schemadotorg_jsonld_custom_form_schemadotorg_jsonld_settings_form_alter
     '#settings_format' => 'entity_type--SchemaType|JSON or SchemaType|JSON',
     '#title' => t('Default Schema.org type custom JSON-LD'),
     '#description' => t('Enter the default JSON-LD for Schema.org types.'),
-    '#default_value' => $config->get('default_schema_type_json'),
     '#element_validate' => ['_schemadotorg_jsonld_custom_json_settings_validate'],
   ];
   $form['schemadotorg_jsonld_custom']['default_schema_mapping_json'] = [
@@ -138,7 +134,6 @@ function schemadotorg_jsonld_custom_form_schemadotorg_jsonld_settings_form_alter
     '#settings_format' => 'entity_type--SchemaType|JSON or SchemaType|JSON',
     '#title' => t('Default Schema.org mapping custom JSON-LD'),
     '#description' => t('Enter the default JSON-LD for new Schema.org mappings.'),
-    '#default_value' => $config->get('default_schema_mapping_json'),
     '#element_validate' => ['_schemadotorg_jsonld_custom_json_settings_validate'],
   ];
 }

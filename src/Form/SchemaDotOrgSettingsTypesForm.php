@@ -30,8 +30,6 @@ class SchemaDotOrgSettingsTypesForm extends SchemaDotOrgSettingsFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
-    $config = $this->config('schemadotorg.settings');
-
     $form['schema_types'] = [
       '#type' => 'details',
       '#title' => $this->t('Type settings'),
@@ -50,7 +48,6 @@ class SchemaDotOrgSettingsTypesForm extends SchemaDotOrgSettingsFormBase {
       . ' '
       . $this->t('Prepend a minus to a property to explicitly remove the property from the specific Schema.org type.'),
       '#description_link' => 'types',
-      '#default_value' => $config->get('schema_types.default_properties'),
     ];
     $form['schema_types']['default_property_values'] = [
       '#type' => 'schemadotorg_settings',
@@ -59,7 +56,6 @@ class SchemaDotOrgSettingsTypesForm extends SchemaDotOrgSettingsFormBase {
       '#title' => $this->t('Default Schema.org type property values'),
       '#description' => $this->t('Enter default Schema.org type property value.'),
       '#description_link' => 'types',
-      '#default_value' => $config->get('schema_types.default_property_values'),
     ];
     $form['schema_types']['default_field_types'] = [
       '#type' => 'schemadotorg_settings',
@@ -70,7 +66,6 @@ class SchemaDotOrgSettingsTypesForm extends SchemaDotOrgSettingsFormBase {
       . ' '
       . $this->t('Field types are applied in the order that they are entered.'),
       '#description_link' => 'types',
-      '#default_value' => $config->get('schema_types.default_field_types'),
     ];
     $form['schema_types']['main_properties'] = [
       '#type' => 'schemadotorg_settings',
@@ -79,7 +74,6 @@ class SchemaDotOrgSettingsTypesForm extends SchemaDotOrgSettingsFormBase {
       '#title' => $this->t('Schema.org type main properties'),
       '#description' => $this->t('Enter the main property for a Schema.org type. Defaults to <em>name</em> for unspecified Schema.org types. Leave the main property blank when there is no applicable main property for the Schema.org type.'),
       '#description_link' => 'types',
-      '#default_value' => $config->get('schema_types.main_properties'),
     ];
     return parent::buildForm($form, $form_state);
   }

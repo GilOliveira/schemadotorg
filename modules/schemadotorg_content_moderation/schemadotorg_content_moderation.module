@@ -62,8 +62,6 @@ function schemadotorg_content_moderation_schemadotorg_mapping_insert(SchemaDotOr
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_content_moderation_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_content_moderation.settings');
-
   $form['schemadotorg_content_moderation'] = [
     '#type' => 'details',
     '#title' => t('Content moderation settings'),
@@ -76,6 +74,5 @@ function schemadotorg_content_moderation_form_schemadotorg_types_settings_form_a
     '#settings_format' => 'entity_type|workflow_id or entity_type--SchemaType|workflow_id or entity_type--SchemaType|',
     '#title' => t('Default content moderation workflows'),
     '#description' => t('Enter the default content moderation workflow per entity type and Schema.org type. Leave the blank to not set a workflow for a Schema.org type.'),
-    '#default_value' => $config->get('default_workflows'),
   ];
 }

@@ -139,8 +139,6 @@ function schemadotorg_taxonomy_schemadotorg_property_field_alter(
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_taxonomy_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings');
-
   $form['schemadotorg_taxonomy'] = [
     '#type' => 'details',
     '#title' => t('Taxonomy settings'),
@@ -151,7 +149,6 @@ function schemadotorg_taxonomy_form_schemadotorg_types_settings_form_alter(array
     '#type' => 'textfield',
     '#title' => t('Default vocabularies group label'),
     '#description' => t('Enter the field group label for default vocabularies.'),
-    '#default_value' => $config->get('default_vocabularies_group_label'),
     '#required' => TRUE,
     '#access' => \Drupal::moduleHandler()->moduleExists('field_group'),
   ];
@@ -161,7 +158,6 @@ function schemadotorg_taxonomy_form_schemadotorg_types_settings_form_alter(array
     '#settings_format' => 'propertyName|id:vocabulary_id,label:Vocabulary name,description: Vocabulary description goes here or SchemaType--propertyName|id:vocabulary_id,label:Vocabulary name',
     '#title' => t('Default vocabularies'),
     '#description' => t('Enter default vocabularies that will be added to every Schema.org content type.'),
-    '#default_value' => $config->get('default_vocabularies'),
   ];
 
   // Add submit callback.
@@ -172,8 +168,6 @@ function schemadotorg_taxonomy_form_schemadotorg_types_settings_form_alter(array
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings');
-
   $form['schemadotorg_taxonomy'] = [
     '#type' => 'details',
     '#title' => t('Taxonomy settings'),
@@ -189,7 +183,6 @@ function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter(
     . '<br/>'
     . t('If the mapped vocabulary does exist it will be created when the Schema.org property mapping is created.'),
     '#description_link' => 'properties',
-    '#default_value' => $config->get('property_vocabularies'),
   ];
 
   // Add submit callback.

@@ -332,8 +332,6 @@ function schemadotorg_paragraphs_form_schemadotorg_types_settings_form_alter(arr
     return;
   }
 
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_paragraphs.settings');
-
   $form['schemadotorg_paragraphs'] = [
     '#type' => 'details',
     '#title' => t('Paragraphs settings'),
@@ -347,7 +345,6 @@ function schemadotorg_paragraphs_form_schemadotorg_types_settings_form_alter(arr
     '#title' => t('Schema.org types that default to using the Paragraphs library'),
     '#description' => t('Enter Schema.org types that default to using the Paragraphs library.'),
     '#description_link' => 'types',
-    '#default_value' => $config->get('paragraphs_library'),
   ];
 }
 

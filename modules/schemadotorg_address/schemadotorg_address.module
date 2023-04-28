@@ -125,8 +125,6 @@ function schemadotorg_address_schemadotorg_jsonld_schema_property_alter(mixed &$
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_address_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_address.settings');
-
   $form['schemadotorg_address'] = [
     '#type' => 'details',
     '#title' => t('Address settings'),
@@ -142,6 +140,5 @@ function schemadotorg_address_form_schemadotorg_properties_settings_form_alter(a
     '#title' => t('Field overrides'),
     '#description' => t('Enter Schema.org properties with address field properties that should be overridden.'),
     '#description_link' => 'types',
-    '#default_value' => $config->get('field_overrides'),
   ];
 }

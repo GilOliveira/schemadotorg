@@ -31,8 +31,6 @@ class SchemaDotOrgJsonLdSettingsForm extends SchemaDotOrgSettingsFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
-    $config = $this->config('schemadotorg_jsonld.settings');
-
     $form['schemadotorg_jsonld'] = [
       '#type' => 'details',
       '#title' => $this->t('JSON-LD settings'),
@@ -46,7 +44,6 @@ class SchemaDotOrgJsonLdSettingsForm extends SchemaDotOrgSettingsFormBase {
       '#title' => $this->t('Schema.org property order'),
       '#description' => $this->t('Enter the default Schema.org property order.'),
       '#description_link' => 'properties',
-      '#default_value' => $config->get('property_order'),
     ];
     $form['schemadotorg_jsonld']['property_image_styles'] = [
       '#type' => 'schemadotorg_settings',
@@ -55,9 +52,7 @@ class SchemaDotOrgJsonLdSettingsForm extends SchemaDotOrgSettingsFormBase {
       '#title' => $this->t('Schema.org property image styles'),
       '#description' => $this->t('Enter the Schema.org property and the desired image style.'),
       '#description_link' => 'properties',
-      '#default_value' => $config->get('property_image_styles'),
     ];
-
     return parent::buildForm($form, $form_state);
   }
 

@@ -264,8 +264,6 @@ function schemadotorg_subtype_form_schemadotorg_mapping_form_alter(array &$form,
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_subtype_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_subtype.settings');
-
   $form['schemadotorg_subtype'] = [
     '#type' => 'details',
     '#title' => t('Subtype settings'),
@@ -276,20 +274,17 @@ function schemadotorg_subtype_form_schemadotorg_types_settings_form_alter(array 
     '#type' => 'textfield',
     '#title' => t('Default subtype field suffix'),
     '#description' => t('Enter default field suffix used for subtype field machine names.'),
-    '#default_value' => $config->get('default_field_suffix'),
   ];
   $form['schemadotorg_subtype']['default_field_label'] = [
     '#type' => 'textfield',
     '#title' => t('Default subtype field label'),
     '#description' => t('Enter default label used for subtype fields.'),
     '#required' => TRUE,
-    '#default_value' => $config->get('default_field_label'),
   ];
   $form['schemadotorg_subtype']['default_field_description'] = [
     '#type' => 'textarea',
     '#title' => t('Default subtype field description'),
     '#description' => t('Enter the default description used for subtype fields.'),
-    '#default_value' => $config->get('default_field_description'),
   ];
   $form['schemadotorg_subtype']['default_subtypes'] = [
     '#type' => 'schemadotorg_settings',

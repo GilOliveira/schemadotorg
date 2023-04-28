@@ -76,7 +76,6 @@ class SchemaDotOrgSettingsPropertiesForm extends SchemaDotOrgSettingsFormBase {
       '#type' => 'checkbox',
       '#title' => $this->t('Allow the Schema.org field prefix to be selected via the field UI.'),
       '#description' => $this->t("If checked, site builders will be able to select between the Drupal's field prefix (%drupal_field_prefix) or the Schema.org Blueprints' field prefix (%schemadotorg_field_prefix) when adding new fields.", $t_args),
-      '#default_value' => $config->get('field_prefix_ui'),
       '#return_value' => TRUE,
       '#parents' => ['field_prefix_ui'],
     ];
@@ -88,7 +87,6 @@ class SchemaDotOrgSettingsPropertiesForm extends SchemaDotOrgSettingsFormBase {
       '#rows' => 20,
       '#description' => $this->t('Enter default Schema.org property field definition used when adding a Schema.org property to an entity type.'),
       '#description_link' => 'properties',
-      '#default_value' => $config->get('schema_properties.default_fields'),
     ];
     $form['schema_properties']['default_field_types'] = [
       '#type' => 'schemadotorg_settings',
@@ -97,14 +95,12 @@ class SchemaDotOrgSettingsPropertiesForm extends SchemaDotOrgSettingsFormBase {
       '#title' => $this->t('Default Schema.org property field types'),
       '#description' => $this->t('Enter the field types applied to a Schema.org property when the property is added to an entity type.'),
       '#description_link' => 'properties',
-      '#default_value' => $config->get('schema_properties.default_field_types'),
     ];
     $form['schema_properties']['default_field_weights'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED,
       '#title' => $this->t('Default Schema.org property field weights'),
       '#description' => $this->t('Enter Schema.org property default field weights to help organize fields as they are added to entity types.'),
-      '#default_value' => $config->get('schema_properties.default_field_weights'),
     ];
     $form['schema_properties']['range_includes'] = [
       '#type' => 'schemadotorg_settings',
@@ -113,7 +109,6 @@ class SchemaDotOrgSettingsPropertiesForm extends SchemaDotOrgSettingsFormBase {
       '#title' => $this->t('Schema.org type/property custom range includes'),
       '#description' => $this->t('Enter custom range includes for Schema.org types/properties.'),
       '#description_link' => 'types',
-      '#default_value' => $config->get('schema_properties.range_includes'),
     ];
     $form['schema_properties']['ignored_properties'] = [
       '#type' => 'schemadotorg_settings',
@@ -121,7 +116,6 @@ class SchemaDotOrgSettingsPropertiesForm extends SchemaDotOrgSettingsFormBase {
       '#title' => $this->t('Ignored Schema.org properties'),
       '#description' => $this->t('Enter Schema.org properties that should ignored and not displayed on the Schema.org mapping form and simplifies the user experience.'),
       '#description_link' => 'properties',
-      '#default_value' => $config->get('schema_properties.ignored_properties'),
     ];
     return parent::buildForm($form, $form_state);
   }

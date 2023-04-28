@@ -101,8 +101,6 @@ function schemadotorg_auto_entitylabel_schemadotorg_mapping_insert(SchemaDotOrgM
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_auto_entitylabel_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  $config = \Drupal::configFactory()->getEditable('schemadotorg_auto_entitylabel.settings');
-
   $form['schemadotorg_auto_entitylabel'] = [
     '#type' => 'details',
     '#title' => t('Automatic entity labels settings'),
@@ -116,7 +114,6 @@ function schemadotorg_auto_entitylabel_form_schemadotorg_types_settings_form_alt
     '#title' => t('Default Schema.org type auto entity labels'),
     '#description' => t('Enter default Schema.org type auto entity label settings.'),
     '#description_link' => 'types',
-    '#default_value' => $config->get('default_types'),
   ];
 
   // Automatic label generation statuses.
