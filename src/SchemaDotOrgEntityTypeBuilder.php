@@ -132,33 +132,24 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     $field_required = $field['required'];
     $field_max_length = $field['max_length'];
     $field_allowed_values = $field['allowed_values'];
+
     $schema_type = $field['schema_type'];
     $schema_property = $field['schema_property'];
-    $new_storage_type = !$field_storage_config;
-    $existing_storage = !!$field_storage_config;
 
-    if ($field_storage_config) {
-      $field_storage_values = array_intersect_key(
-        $field_storage_config->toArray(),
-        [
-          'field_name' => 'field_name',
-          'entity_type' => 'entity_type',
-          'type' => 'type',
-          'cardinality' => 'cardinality',
-          'settings' => 'settings',
-        ]);
-    }
-    else {
-      $field_storage_values = [
-        'field_name' => $field_name,
-        'entity_type' => $entity_type_id,
-        'type' => $field_type,
-        'cardinality' => $field_unlimited ? -1 : 1,
-        'allowed_values' => $field_allowed_values,
-        'max_length' => $field_max_length,
-      ];
-    }
+    // Set field storage values.
+    $field_storage_values = ($field_storage_config)
+      ? $field_storage_config->toArray()
+      : [];
+    $field_storage_values += [
+      'field_name' => $field_name,
+      'entity_type' => $entity_type_id,
+      'type' => $field_type,
+      'cardinality' => $field_unlimited ? -1 : 1,
+      'allowed_values' => $field_allowed_values,
+      'max_length' => $field_max_length,
+    ];
 
+    // Set field instance values.
     $field_values = [
       'field_name' => $field_name,
       'entity_type' => $entity_type_id,
@@ -168,118 +159,92 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       'required' => $field_required,
     ];
 
-    $widget_id = $formatter_id = NULL;
-    $widget_settings = $formatter_settings = [];
+    // Initialize widget and formatter id and settings.
+    $widget_id = NULL;
+    $widget_settings = [];
+    $formatter_id = NULL;
+    $formatter_settings = [];
 
-    // Create new field.
-    if ($new_storage_type) {
-      // Check if we're dealing with a preconfigured field.
-      $field_type = $field_storage_values['type'] ?? '';
-      if (str_contains($field_type, 'field_ui:')) {
+    // If new field UI field we need to get the preconfigured field.
+    // These preconfigured field are typically used for entity references.
+    $is_field_ui = str_contains((string) $field_storage_values['type'], 'field_ui:');
+    if (!$field_storage_config && $is_field_ui) {
+      [, $field_type, $option_key] = explode(':', $field_storage_values['type'], 3);
+      $field_storage_values['type'] = $field_type;
 
-        [, $field_type, $option_key] = explode(':', $field_storage_values['type'], 3);
-        $field_storage_values['type'] = $field_type;
-
-        $field_definition = $this->fieldTypePluginManager->getDefinition($field_type);
-        $options = $this->fieldTypePluginManager->getPreconfiguredOptions($field_definition['id']);
-        $field_options = $options[$option_key];
-        // Merge in preconfigured field storage options.
-        if (isset($field_options['field_storage_config'])) {
-          foreach (['settings'] as $key) {
-            if (isset($field_options['field_storage_config'][$key])) {
-              $field_storage_values[$key] = $field_options['field_storage_config'][$key];
-            }
+      $field_definition = $this->fieldTypePluginManager->getDefinition($field_type);
+      $options = $this->fieldTypePluginManager->getPreconfiguredOptions($field_definition['id']);
+      $field_options = $options[$option_key];
+      // Merge in preconfigured field storage options.
+      if (isset($field_options['field_storage_config'])) {
+        foreach (['settings'] as $key) {
+          if (isset($field_options['field_storage_config'][$key])) {
+            $field_storage_values[$key] = $field_options['field_storage_config'][$key];
           }
         }
+      }
 
-        // Merge in preconfigured field options.
-        if (isset($field_options['field_config'])) {
-          foreach (['required', 'settings'] as $key) {
-            if (isset($field_options['field_config'][$key])) {
-              $field_values[$key] = $field_options['field_config'][$key];
-            }
+      // Merge in preconfigured field options.
+      if (isset($field_options['field_config'])) {
+        foreach (['required', 'settings'] as $key) {
+          if (isset($field_options['field_config'][$key])) {
+            $field_values[$key] = $field_options['field_config'][$key];
           }
         }
-
-        $widget_id = $field_options['entity_form_display']['type'] ?? NULL;
-        $widget_settings = $field_options['entity_form_display']['settings'] ?? [];
-        $formatter_id = $field_options['entity_view_display']['type'] ?? NULL;
-        $formatter_settings = $field_options['entity_view_display']['settings'] ?? [];
       }
 
-      // Create the field storage and field.
-      try {
-        $this->alterFieldValues(
-          $schema_type,
-          $schema_property,
-          $field_storage_values,
-          $field_values,
-          $widget_id,
-          $widget_settings,
-            $formatter_id,
-            $formatter_settings
-        );
-
-        $field_storage_config = $this->entityTypeManager->getStorage('field_storage_config')->create($field_storage_values);
-        $field_storage_config->schemaType = $schema_type;
-        $field_storage_config->schemaProperty = $schema_property;
-        $field_storage_config->save();
-
-        $field = $this->entityTypeManager->getStorage('field_config')->create($field_values);
-        $field->schemaDotOrgType = $schema_type;
-        $field->schemaDotOrgProperty = $schema_property;
-        $field->save();
-
-        $this->schemaEntityDisplayBuilder->setFieldDisplays(
-          $schema_type,
-          $schema_property,
-          $field_storage_values,
-          $field_values,
-          $widget_id,
-          $widget_settings,
-          $formatter_id,
-          $formatter_settings
-        );
-      }
-      catch (\Exception $e) {
-        $this->messenger->addError($this->t('There was a problem creating field %label: @message', ['%label' => $field_label, '@message' => $e->getMessage()]));
-      }
+      // Get widget and format id and settings.
+      $widget_id = $field_options['entity_form_display']['type'] ?? NULL;
+      $widget_settings = $field_options['entity_form_display']['settings'] ?? [];
+      $formatter_id = $field_options['entity_view_display']['type'] ?? NULL;
+      $formatter_settings = $field_options['entity_view_display']['settings'] ?? [];
     }
 
-    // Re-use existing field.
-    if ($existing_storage) {
-      try {
-        $this->alterFieldValues(
-          $schema_type,
-          $schema_property,
-          $field_storage_values,
-          $field_values,
-          $widget_id,
-          $widget_settings,
-          $formatter_id,
-          $formatter_settings
-        );
+    // Alter field values.
+    $this->alterFieldValues(
+      $schema_type,
+      $schema_property,
+      $field_storage_values,
+      $field_values,
+      $widget_id,
+      $widget_settings,
+      $formatter_id,
+      $formatter_settings
+    );
 
-        $field = $this->entityTypeManager->getStorage('field_config')->create($field_values);
-        $field->schemaDotOrgType = $schema_type;
-        $field->schemaDotOrgProperty = $schema_property;
-        $field->save();
-
-        $this->schemaEntityDisplayBuilder->setFieldDisplays(
-          $schema_type,
-          $schema_property,
-          $field_storage_values,
-          $field_values,
-          $widget_id,
-          $widget_settings,
-          $formatter_id,
-          $formatter_settings
-
-        );
+    try {
+      // Create new field storage.
+      if (!$field_storage_config) {
+        $field_storage_config = $this->entityTypeManager
+          ->getStorage('field_storage_config')
+          ->create($field_storage_values);
+        $field_storage_config->schemaDotOrgType = $schema_type;
+        $field_storage_config->schemaDotOrgProperty = $schema_property;
+        $field_storage_config->save();
       }
-      catch (\Exception $e) {
-        \Drupal::messenger()->addError($this->t('There was a problem creating field %label: @message', ['%label' => $field_label, '@message' => $e->getMessage()]));
-      }
+
+      // Create new field instance storage.
+      $field = $this->entityTypeManager
+        ->getStorage('field_config')
+        ->create($field_values);
+      $field->schemaDotOrgType = $schema_type;
+      $field->schemaDotOrgProperty = $schema_property;
+      $field->save();
+
+      // Set new field's form and view displays.
+      $this->schemaEntityDisplayBuilder->setFieldDisplays(
+        $schema_type,
+        $schema_property,
+        $field_storage_values,
+        $field_values,
+        $widget_id,
+        $widget_settings,
+        $formatter_id,
+        $formatter_settings
+      );
+    }
+    catch (\Exception $e) {
+      $this->messenger->addError($this->t('There was a problem creating field %label: @message', ['%label' => $field_label, '@message' => $e->getMessage()]));
     }
   }
 
