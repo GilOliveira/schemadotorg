@@ -127,15 +127,17 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       ->getStorage('field_storage_config')
       ->load($entity_type_id . '.' . $field['machine_name']);
 
+    // Default field settings.
     $field_name = $field['machine_name'];
     $field_type = ($field_storage_config) ? $field_storage_config->getType() : $field['type'];
     $field_label = $field['label'];
     $field_description = $field['description'];
     $field_unlimited = $field['unlimited'];
     $field_required = $field['required'];
+    // Extra field settings.
     $field_max_length = $field['max_length'];
     $field_allowed_values = $field['allowed_values'];
-
+    // Schema.org type and property.
     $schema_type = $field['schema_type'];
     $schema_property = $field['schema_property'];
 
