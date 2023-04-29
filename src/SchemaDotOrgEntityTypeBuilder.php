@@ -104,17 +104,20 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    * {@inheritdoc}
    */
   public function addFieldToEntity(string $entity_type_id, string $bundle, array $field): void {
-    // Define and document expected default field settings.
-    // @see \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildSchemaPropertyFieldForm
+    // Set field defaults.
     $field += [
+      // Default field settings.
+      // @see \Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm::buildSchemaPropertyFieldForm
       'machine_name' => NULL,
       'type' => NULL,
       'label' => NULL,
       'description' => '',
       'unlimited' => NULL,
       'required' => NULL,
+      // Extra field settings.
       'max_length' => NULL,
       'allowed_values' => [],
+      // Schema.org type and property.
       'schema_type' => NULL,
       'schema_property' => NULL,
     ];
