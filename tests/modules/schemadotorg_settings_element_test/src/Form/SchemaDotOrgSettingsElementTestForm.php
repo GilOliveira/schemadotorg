@@ -47,6 +47,7 @@ class SchemaDotOrgSettingsElementTestForm extends ConfigFormBase {
       SchemaDotOrgSettings::ASSOCIATIVE_GROUPED_NAMED,
       SchemaDotOrgSettings::LINKS,
       SchemaDotOrgSettings::LINKS_GROUPED,
+      SchemaDotOrgSettings::YAML,
     ];
     foreach ($settings_types as $settings_type) {
       $form['schemadotorg_settings_element_test'][$settings_type] = [

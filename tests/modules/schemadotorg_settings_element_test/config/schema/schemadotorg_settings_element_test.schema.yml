@@ -109,3 +109,10 @@ schemadotorg_settings_element_test.settings:
         width:
           type: integer
           label: width
+    yaml:
+      type: mapping
+      label: yaml
+      mapping:
+        title:
+          type: string
+          label: title

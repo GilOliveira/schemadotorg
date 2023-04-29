@@ -95,25 +95,29 @@ links_grouped:
     -
       title: Google
       uri: 'https://google.com'
+yaml:
+  title: YAML
 associative_advanced:
   title: Title
   required: true
   height: 100
   width: 100";
 
-    // Check expected values when submitting the form vai text format.
+    // Check expected values when submitting the form via text format.
     $this->drupalGet('/schemadotorg-settings-element-test');
     $assert_session->fieldValueEquals('schemadotorg_settings_element_test[indexed]', 'one
 two
 three');
+    $assert_session->fieldValueEquals('schemadotorg_settings_element_test[yaml]', 'title: YAML');
     $this->submitForm([], 'Submit');
     $assert_session->responseContains($expected_data);
 
-    // Check expected values when submitting the form vai text format.
+    // Check expected values when submitting the form via text format.
     $this->drupalGet('/schemadotorg-settings-element-test', ['query' => ['yaml' => 1]]);
     $assert_session->fieldValueEquals('schemadotorg_settings_element_test[indexed]', '- one
 - two
 - three');
+    $assert_session->fieldValueEquals('schemadotorg_settings_element_test[yaml]', 'title: YAML');
     $this->submitForm([], 'Submit');
     $assert_session->responseContains($expected_data);
 

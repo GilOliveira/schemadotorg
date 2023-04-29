@@ -63,6 +63,11 @@ class SchemaDotOrgSettings extends Textarea {
   const LINKS_GROUPED = 'links_grouped';
 
   /**
+   * YAML.
+   */
+  const YAML = 'yaml';
+
+  /**
    * {@inheritdoc}
    */
   public function getInfo() {
@@ -102,8 +107,10 @@ class SchemaDotOrgSettings extends Textarea {
     $config_name = static::getConfigName($element);
     $config_key = static::getConfigKey($element);
     if (!isset($complete_form['schemadotorg_settings_toggle'])
+      && $element['#settings_type'] !== static::YAML
       && $config_name
-      && $config_key) {
+      && $config_key
+    ) {
       $edit_yaml = static::editYaml($element);
 
       $title = $edit_yaml
@@ -607,6 +614,10 @@ class SchemaDotOrgSettings extends Textarea {
    *   TRUE if user wants to edit YAML.
    */
   protected static function editYaml(array $element): bool {
+    if ($element['#settings_type'] === static::YAML) {
+      return TRUE;
+    }
+
     $config_name = static::getConfigName($element);
     $config_key = static::getConfigKey($element);
     if (!$config_name || !$config_key) {

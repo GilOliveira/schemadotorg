@@ -71,3 +71,5 @@ associative_advanced:
   required: true
   height: 100
   width: 100
+yaml:
+  title: YAML
