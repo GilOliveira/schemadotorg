@@ -63,7 +63,7 @@ class SchemaDotOrgIdentifierJsonLdTest extends SchemaDotOrgKernelEntityTestBase 
     $expected_identifier = [
       [
         '@type' => 'PropertyValue',
-        'propertyID' => 'UUID',
+        'propertyID' => 'uuid',
         'value' => $node->uuid(),
       ],
       [

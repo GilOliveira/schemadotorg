@@ -127,16 +127,13 @@ function schemadotorg_identifier_jsonapi_resource_config_presave(EntityInterface
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_identifier_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $config = \Drupal::config('schemadotorg_identifier.settings');
+
   $form['schemadotorg_identifier'] = [
     '#type' => 'details',
     '#title' => t('Identifier settings'),
     '#open' => TRUE,
     '#tree' => TRUE,
-  ];
-  $form['schemadotorg_identifier']['field_prefix'] = [
-    '#type' => 'textfield',
-    '#title' => t('Identifier field prefix'),
-    '#description' => t('Enter the field prefix to be prepended to a Schema.org identifiers, without a field name, when added to an entity type.'),
   ];
   $form['schemadotorg_identifier']['field_definitions'] = [
     '#type' => 'schemadotorg_settings',
@@ -151,7 +148,7 @@ function schemadotorg_identifier_form_schemadotorg_properties_settings_form_alte
     '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,
     '#settings_format' => "SchemaType|field_name01,field_name02",
     '#array_name' => 'definition',
-    '#title' => t('Identifier Schema.org types'),
+    '#title' => t('Schema.org types identifiers'),
     '#description' => t('Enter Schema.org types and their identifiers.'),
   ];
 }

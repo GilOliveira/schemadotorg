@@ -92,7 +92,7 @@ class SchemaDotOrgIdentifierManagerTest extends SchemaDotOrgKernelEntityTestBase
     $expected_field_definitions = [
       'uuid' => [
         'field_name' => 'uuid',
-        'property_id' => 'UUID',
+        'property_id' => 'uuid',
         'base_field' => TRUE,
       ],
       'npi' => [

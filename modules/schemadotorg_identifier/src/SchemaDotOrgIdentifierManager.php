@@ -98,12 +98,12 @@ class SchemaDotOrgIdentifierManager implements SchemaDotOrgIdentifierManagerInte
       return [];
     }
 
-    // Add field name to the field definitions.
+    // Add defaults to the field definitions.
     $base_field_definitions = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
-    $field_prefix = $config->get('field_prefix');
     foreach ($field_definitions as $field_name => &$field_definition) {
       $field_definition += [
-        'field_name' => $field_prefix . $field_name,
+        'field_name' => $field_name,
+        'property_id' => $field_name,
         'base_field' => isset($base_field_definitions[$field_name]),
       ];
     }
