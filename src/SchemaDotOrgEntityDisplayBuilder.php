@@ -79,6 +79,8 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
     foreach ($form_modes as $form_mode) {
       $form_display = $this->entityDisplayRepository->getFormDisplay($entity_type_id, $bundle, $form_mode);
       $this->setComponent($form_display, $field_name, $widget_id, $widget_settings);
+      $form_display->schemaDotOrgType = $schema_type;
+      $form_display->schemaDotOrgProperty = $schema_property;
       $form_display->save();
     }
 
@@ -102,6 +104,8 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
       }
 
       $this->setComponent($view_display, $field_name, $formatter_id, $formatter_settings);
+      $view_display->schemaDotOrgType = $schema_type;
+      $view_display->schemaDotOrgProperty = $schema_property;
       $view_display->save();
     }
   }

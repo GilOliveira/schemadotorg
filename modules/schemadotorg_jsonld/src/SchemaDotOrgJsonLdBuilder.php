@@ -156,58 +156,23 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     $schema_type = $mapping->getSchemaType();
     $schema_properties = $mapping->getSchemaProperties();
     foreach ($schema_properties as $field_name => $schema_property) {
-      // Make sure the entity has the field and the current user has
-      // access to the field.
-      if (!$entity->hasField($field_name) || !$entity->get($field_name)->access('view')) {
+      // Make sure the entity has the field
+      // and the current user has access to the field.
+      if (!$entity->hasField($field_name)
+        || !$entity->get($field_name)->access('view')) {
         continue;
       }
 
-      /** @var \Drupal\Core\Field\FieldItemListInterface $items */
-      $items = $entity->get($field_name);
+      // Get property values from field items.
+      /** @var \Drupal\Core\Field\FieldItemListInterface $field_items */
+      $field_items = $entity->get($field_name);
+      $property_values = $this->getSchemaPropertyFieldItems($schema_type, $schema_property, $field_items, $options);
 
-      // Get the Schema.org properties.
-      $total_items = $items->count();
-      $position = 1;
-      $property_values = [];
-      foreach ($items as $item) {
-        $property_value = $this->getSchemaPropertyFieldItem($schema_type, $schema_property, $item, $options);
-
-        // Alter the Schema.org property's individual value.
-        $this->moduleHandler->alter(
-          'schemadotorg_jsonld_schema_property',
-          $property_value,
-          $item
-        );
-
-        // If there is more than 1 item, see if we need to its position.
-        if ($total_items > 1) {
-          $property_type = (is_array($property_value))
-            ? $property_value['@type'] ?? NULL
-            : NULL;
-          if ($property_type
-            && $this->schemaTypeManager->hasProperty($property_type, 'position')) {
-            $property_value['position'] = $position;
-            $position++;
-          }
-        }
-
-        if ($property_value !== NULL) {
-          $property_values[] = $property_value;
-        }
-      }
-
-      // Alter the Schema.org property's values.
-      $this->moduleHandler->alter(
-        'schemadotorg_jsonld_schema_properties',
-        $property_values,
-        $items
-      );
-
-      // If the cardinality is 1, return the first property data item.
-      $cardinality = $items->getFieldDefinition()
-        ->getFieldStorageDefinition()
-        ->getCardinality();
       if ($property_values) {
+        // If the cardinality is 1, return the first property data item.
+        $cardinality = $field_items->getFieldDefinition()
+          ->getFieldStorageDefinition()
+          ->getCardinality();
         $type_data[$schema_property] = ($cardinality === 1) ? reset($property_values) : $property_values;
       }
     }
@@ -237,8 +202,8 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       }
 
       /** @var \Drupal\Core\Field\FieldItemListInterface $items */
-      $items = $entity->get($field_name);
-      $this->alterSchemaTypeFieldItems($data, $items);
+      $field_items = $entity->get($field_name);
+      $this->alterSchemaTypeFieldItems($data, $field_items);
     }
 
     return $data;
@@ -255,6 +220,63 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   protected function alterSchemaTypeFieldItems(array &$data, FieldItemListInterface $items): void {
     $data += $this->schemaJsonLdManager->getSchemaTypeProperties($items);
     $this->moduleHandler->alter('schemadotorg_jsonld_schema_type_field', $data, $items);
+  }
+
+  /**
+   * Get Schema.org property values from field items.
+   *
+   * @param string $schema_type
+   *   The Schema.org type.
+   * @param string $schema_property
+   *   The Schema.org property.
+   * @param \Drupal\Core\Field\FieldItemListInterface $items
+   *   The field items.
+   * @param array $options
+   *   The entity build options.
+   *
+   * @return array
+   *   An array of Schema.org property values.
+   */
+  protected function getSchemaPropertyFieldItems(string $schema_type, string $schema_property, FieldItemListInterface $items, array $options = []): mixed {
+    $total_items = $items->count();
+
+    $position = 1;
+    $property_values = [];
+    foreach ($items as $item) {
+      $property_value = $this->getSchemaPropertyFieldItem($schema_type, $schema_property, $item, $options);
+
+      // Alter the Schema.org property's individual value.
+      $this->moduleHandler->alter(
+        'schemadotorg_jsonld_schema_property',
+        $property_value,
+        $item
+      );
+
+      // If there is more than 1 item, see if we need to its position.
+      if ($total_items > 1) {
+        $property_type = (is_array($property_value))
+          ? $property_value['@type'] ?? NULL
+          : NULL;
+        if ($property_type
+          && $this->schemaTypeManager->hasProperty($property_type, 'position')) {
+          $property_value['position'] = $position;
+          $position++;
+        }
+      }
+
+      if ($property_value !== NULL) {
+        $property_values[] = $property_value;
+      }
+    }
+
+    // Alter the Schema.org property's values.
+    $this->moduleHandler->alter(
+      'schemadotorg_jsonld_schema_properties',
+      $property_values,
+      $items
+    );
+
+    return $property_values;
   }
 
   /**
