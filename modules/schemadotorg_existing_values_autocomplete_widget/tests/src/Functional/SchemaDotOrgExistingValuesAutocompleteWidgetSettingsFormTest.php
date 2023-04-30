@@ -7,7 +7,7 @@ namespace Drupal\Tests\schemadotorg_existing_values_autocomplete_widget\Function
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 
 /**
- * Tests the functionality of the Schema.org Existing Values Autocomplete Widget settings form.
+ * Tests the functionality of the Schema.org Existing vlues autocomplete widget settings form.
  *
  * @group schemadotorg
  */
@@ -31,7 +31,7 @@ class SchemaDotOrgExistingValuesAutocompleteWidgetSettingsFormTest extends Schem
   }
 
   /**
-   * Test Schema.org Existing Values Autocomplete Widget settings form.
+   * Test Schema.org Existing vlues autocomplete widget settings form.
    */
   public function testSettingsForm(): void {
     $this->assertSaveSettingsConfigForm('schemadotorg_existing_values_autocomplete_widget.settings', '/admin/config/search/schemadotorg/settings/properties');

@@ -114,7 +114,7 @@ function schemadotorg_custom_field_form_schemadotorg_properties_settings_form_al
 
   $form['schemadotorg_custom_field'] = [
     '#type' => 'details',
-    '#title' => t('Custom Field settings'),
+    '#title' => t('Custom field settings'),
     '#open' => TRUE,
     '#tree' => TRUE,
   ];

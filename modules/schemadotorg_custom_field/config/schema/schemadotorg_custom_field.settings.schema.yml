@@ -1,6 +1,6 @@
 schemadotorg_custom_field.settings:
   type: config_entity
-  label: Schema.org Custom Field settings
+  label: Schema.org Custom field settings
   mapping:
     default_properties:
       type: sequence
