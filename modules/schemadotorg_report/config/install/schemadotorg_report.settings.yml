@@ -257,6 +257,16 @@ types:
     -
       title: 'Restaurants Schema and Structured Data Markup'
       uri: 'https://onlineownership.com/restaurants-schema-structured-data-markup/'
+  Role:
+    -
+      title: 'Introducing ''Role'''
+      uri: 'http://blog.schema.org/2014/06/introducing-role.html'
+    -
+      title: 'The role of Role in Schema.org'
+      uri: 'https://www.dataliberate.com/2015/04/15/the-role-of-role-in-schema-org/'
+    -
+      title: 'Roles in Schema.org - final draft'
+      uri: 'https://www.w3.org/wiki/images/c/c8/RolesinSchema.orgMay8.pdf'
   SoftwareApplication:
     -
       title: 'Software Application Schema'

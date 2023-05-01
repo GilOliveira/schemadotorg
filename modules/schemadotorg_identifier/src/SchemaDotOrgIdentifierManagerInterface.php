@@ -28,6 +28,6 @@ interface SchemaDotOrgIdentifierManagerInterface {
    * @return array
    *   The identifier field definitions for a Schema.org mapping.
    */
-  public function getMappingFieldDefinitions(SchemaDotOrgMappingInterface $mapping);
+  public function getMappingFieldDefinitions(SchemaDotOrgMappingInterface $mapping): array;
 
 }

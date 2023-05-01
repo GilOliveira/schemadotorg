@@ -76,7 +76,7 @@ class SchemaDotOrgIdentifierManager implements SchemaDotOrgIdentifierManagerInte
   /**
    * {@inheritdoc}
    */
-  public function getMappingFieldDefinitions(SchemaDotOrgMappingInterface $mapping) {
+  public function getMappingFieldDefinitions(SchemaDotOrgMappingInterface $mapping): array {
     $config = $this->configFactory->get('schemadotorg_identifier.settings');
 
     $entity_type_id = $mapping->getTargetEntityTypeId();

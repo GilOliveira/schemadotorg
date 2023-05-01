@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\schemadotorg_jsonld;
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
@@ -36,5 +37,22 @@ interface SchemaDotOrgJsonLdBuilderInterface {
    *   or NULL if the entity is not mapped to a Schema.org type.
    */
   public function buildEntity(EntityInterface $entity, array $options = []): ?array;
+
+  /**
+   * Get Schema.org property values from field items.
+   *
+   * @param string $schema_type
+   *   The Schema.org type.
+   * @param string $schema_property
+   *   The Schema.org property.
+   * @param \Drupal\Core\Field\FieldItemListInterface $items
+   *   The field items.
+   * @param array $options
+   *   The entity build options.
+   *
+   * @return array
+   *   An array of Schema.org property values.
+   */
+  public function getSchemaPropertyFieldItems(string $schema_type, string $schema_property, FieldItemListInterface $items, array $options = []): array;
 
 }

@@ -223,21 +223,9 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   }
 
   /**
-   * Get Schema.org property values from field items.
-   *
-   * @param string $schema_type
-   *   The Schema.org type.
-   * @param string $schema_property
-   *   The Schema.org property.
-   * @param \Drupal\Core\Field\FieldItemListInterface $items
-   *   The field items.
-   * @param array $options
-   *   The entity build options.
-   *
-   * @return array
-   *   An array of Schema.org property values.
+   * {@inheritdoc}
    */
-  protected function getSchemaPropertyFieldItems(string $schema_type, string $schema_property, FieldItemListInterface $items, array $options = []): mixed {
+  public function getSchemaPropertyFieldItems(string $schema_type, string $schema_property, FieldItemListInterface $items, array $options = []): array {
     $total_items = $items->count();
 
     $position = 1;
@@ -303,7 +291,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     if ($item->entity
       && $item->entity instanceof EntityInterface
       && !$item->entity instanceof FileInterface) {
-      if (!$options['map_entities']) {
+      if (empty($options['map_entities'])) {
         return NULL;
       }
 

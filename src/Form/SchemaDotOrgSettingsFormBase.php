@@ -112,7 +112,7 @@ abstract class SchemaDotOrgSettingsFormBase extends ConfigFormBase {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    */
-  public static function formAlter(array &$form, FormStateInterface $form_state) {
+  public static function formAlter(array &$form, FormStateInterface $form_state): void {
     if (!$form_state->getFormObject() instanceof SchemaDotOrgSettingsFormBase) {
       return;
     }
@@ -135,7 +135,7 @@ abstract class SchemaDotOrgSettingsFormBase extends ConfigFormBase {
    * @param array $parents
    *   The form element's parent and config key path.
    */
-  protected static function setDefaultValuesRecursive(array &$element, Config $config, array $parents = []) {
+  protected static function setDefaultValuesRecursive(array &$element, Config $config, array $parents = []): void {
     $children = Element::children($element);
     if ($children) {
       foreach ($children as $child) {

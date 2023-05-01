@@ -38,6 +38,9 @@ Schema.org types.
 - **[Schema.org Blueprints Mapping Set](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_mapping_set)**  
   Provides the ability to create a set of related Schema.org types via Drush.
 
+- **[Schema.org Blueprints Role](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_role)**    
+  Manages roles (https://schema.org/Role) for Schema.org properties.
+
 - **[Schema.org Blueprints Subtype](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_subtype)**  
   Subtypes allow more specificity without having to create dedicated entity types for every appropriate Schema.type.
 

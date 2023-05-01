@@ -101,7 +101,7 @@ function schemadotorg_modules_installed(array $modules): void {
 /**
  * Implements hook_module_implements_alter().
  */
-function schemadotorg_module_implements_alter(array &$implementations, string $hook) {
+function schemadotorg_module_implements_alter(array &$implementations, string $hook): void {
   if ($hook === 'form_alter') {
     $implementation = $implementations['schemadotorg'];
     unset($implementations['schemadotorg']);
@@ -112,7 +112,7 @@ function schemadotorg_module_implements_alter(array &$implementations, string $h
 /**
  * Implements hook_form_alter().
  */
-function schemadotorg_form_alter(array &$form, FormStateInterface $form_state) {
+function schemadotorg_form_alter(array &$form, FormStateInterface $form_state): void {
   // Set the default values for sub-module settings form.
   SchemaDotOrgSettingsFormBase::formAlter($form, $form_state);
 }
