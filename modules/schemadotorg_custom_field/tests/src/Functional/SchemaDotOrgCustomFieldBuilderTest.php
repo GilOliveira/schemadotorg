@@ -37,9 +37,6 @@ class SchemaDotOrgCustomFieldBuilderTest extends SchemaDotOrgBrowserTestBase {
    * Test Schema.org custom field builder.
    */
   public function testBuilder(): void {
-    $this->assertTrue(TRUE);
-    return;
-
     $assert_session = $this->assertSession();
 
     // Create a page content type which use layout paragraphs.
@@ -53,8 +50,8 @@ class SchemaDotOrgCustomFieldBuilderTest extends SchemaDotOrgBrowserTestBase {
     // Check node edit form include units.
     // @see \Drupal\schemadotorg_custom_field\SchemaDotOrgCustomFieldBuilder::fieldWidgetFormAlter
     $this->drupalGet('/node/add/recipe');
-    $assert_session->responseContains('<span class="field-suffix">calories</span>');
-    $assert_session->responseContains('<span class="field-suffix">grams</span>');
+    $assert_session->responseContains('<span class="field-suffix"> calories</span>');
+    $assert_session->responseContains('<span class="field-suffix"> grams</span>');
 
     // Check node view includes units.
     // @see \Drupal\schemadotorg_custom_field\SchemaDotOrgCustomFieldBuilder::preprocessCustomField

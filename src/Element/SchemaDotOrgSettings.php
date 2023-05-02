@@ -716,7 +716,7 @@ class SchemaDotOrgSettings extends Textarea {
   /**
    * Encodes data into YAML.
    *
-   * @param mixed $data
+   * @param array|null $data
    *   The data to encode.
    *
    * @return string

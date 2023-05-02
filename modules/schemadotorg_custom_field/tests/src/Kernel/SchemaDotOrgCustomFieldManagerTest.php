@@ -47,9 +47,6 @@ class SchemaDotOrgCustomFieldManagerTest extends SchemaDotOrgKernelEntityTestBas
    * Test Schema.org custom field manager.
    */
   public function testManager(): void {
-    $this->assertTrue(TRUE);
-    return;
-
     // Create a Recipe and FAQPage.
     $this->createSchemaEntity('node', 'Recipe');
     $this->createSchemaEntity('node', 'FAQPage');
@@ -216,12 +213,15 @@ class SchemaDotOrgCustomFieldManagerTest extends SchemaDotOrgKernelEntityTestBas
         'label' => 'Calories',
         'settings' => [
           'description' => 'The number of calories.',
-          'scale' => '',
+          'scale' => 2,
           'description_display' => 'after',
           'required' => FALSE,
-          'suffix' => 'calories',
+          'suffix' => ' calories',
+          'decimal_separator' => '.',
+          'thousand_separator' => '',
         ],
       ],
+      'formatter_settings' => ['prefix_suffix' => TRUE],
       'check_empty' => '1',
       'weight' => 1,
     ];
