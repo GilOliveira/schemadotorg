@@ -75,6 +75,11 @@ class SchemaDotOrgRoleManager implements SchemaDotOrgRoleManagerInterface {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
     $mapping = $form_object->getEntity();
 
+    // Exit if no Schema.org type has been selected.
+    if (!$mapping->getSchemaType()) {
+      return;
+    }
+
     $field_definitions = $this->getMappingFieldDefinitions($mapping);
     if (!$field_definitions) {
       return;
