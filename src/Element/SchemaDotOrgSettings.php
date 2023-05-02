@@ -154,22 +154,13 @@ class SchemaDotOrgSettings extends Textarea {
       $element['#attached']['library'][] = 'schemadotorg/schemadotorg.dialog';
     }
 
-    // Append settings description with or without settings format.
-    if ($element['#settings_description'] && !static::editYaml($element)) {
-      $element['#description'] .= (!empty($element['#description'])) ? '<br/><br/>' : '';
-      $format = static::getSettingsFormat($element);
-      if ($format) {
-        // Format and emphasize each format example.
-        $code_examples = explode(' or ', $format);
-        $code_prefix = '<code><strong>';
-        $code_separator = '</strong></code> ' . t('or') . ' <code><strong>';
-        $code_suffix = '</strong></code>';
-        $code_example = Markup::create($code_prefix . implode($code_separator, $code_examples) . $code_suffix);
-
-        $element['#description'] .= t('Enter one value per line, in the format @code.', ['@code' => $code_example]);
+    // Append settings example to the element's description.
+    if ($element['#settings_description']) {
+      if (static::editYaml($element)) {
+        static::appendYamlExampleToElementDescription($element);
       }
       else {
-        $element['#description'] .= t('Enter one value per line.');
+        static::appendStringExampleToElementDescription($element);
       }
     }
 
@@ -184,6 +175,68 @@ class SchemaDotOrgSettings extends Textarea {
     $element += ['#element_validate' => []];
     array_unshift($element['#element_validate'], [static::class, 'validateSchemaDotOrgSettings']);
     return $element;
+  }
+
+  /**
+   * Append YAML example to an element's description.
+   *
+   * @param array &$element
+   *   The element.
+   */
+  protected static function appendYamlExampleToElementDescription(array &$element): void {
+    $format = static::getSettingsFormat($element);
+    if (!$format) {
+      return;
+    }
+
+    $code_examples = explode(' or ', $format);
+    $data = [];
+    foreach ($code_examples as $code_example) {
+      try {
+        $settings = static::convertValueToSettings($element, $code_example);
+        $data += $settings;
+      }
+      catch (\Exception $exception) {
+        \Drupal::messenger()->addError(t('Unable parse <code>@code</code> settings.', ['@code' => $code_example]));
+      }
+    }
+    if ($data) {
+      $element['#description'] = [
+        'content' => ['#markup' => $element['#description']],
+        'example' => [
+          '#type' => 'details',
+          '#title' => t('Example'),
+          '#open' => (\Drupal::routeMatch()->getRouteName() === 'schemadotorg_settings_element_test.form'),
+          'yaml' => [
+            '#plain_text' => static::encodeYaml($data),
+            '#prefix' => '<pre>',
+            '#suffix' => '</pre>',
+          ],
+        ],
+      ];
+    }
+  }
+
+  /**
+   * Append string example to an element's description.
+   *
+   * @param array &$element
+   *   The element.
+   */
+  protected static function appendStringExampleToElementDescription(array &$element): void {
+    $format = static::getSettingsFormat($element);
+    $element['#description'] .= (!empty($element['#description'])) ? '<br/><br/>' : '';
+    if ($format) {
+      $code_examples = explode(' or ', $format);
+      $code_prefix = '<code><strong>';
+      $code_separator = '</strong></code> ' . t('or') . ' <code><strong>';
+      $code_suffix = '</strong></code>';
+      $code_example = Markup::create($code_prefix . implode($code_separator, $code_examples) . $code_suffix);
+      $element['#description'] .= t('Enter one value per line, in the format @code.', ['@code' => $code_example]);
+    }
+    else {
+      $element['#description'] .= t('Enter one value per line.');
+    }
   }
 
   /**
@@ -233,29 +286,34 @@ class SchemaDotOrgSettings extends Textarea {
    *   The array item format for the Schema.org settings form element.
    */
   protected static function getSettingsFormat(array $element): string {
+    $edit_yaml = static::editYaml($element);
     $formats = [
-      static::INDEXED => '',
+      static::INDEXED => ($edit_yaml)
+        ? implode(PHP_EOL, ['item_1', 'item_2', 'item_3'])
+        : '',
       static::INDEXED_GROUPED => 'name|item_1,item_2,item_3',
       static::INDEXED_GROUPED_NAMED => 'name|label|item_1,item_2,item_3',
       static::ASSOCIATIVE => 'key|value',
       static::ASSOCIATIVE_GROUPED => 'name|key_1:value_1,key_2:value_2,key_3:value_3',
       static::ASSOCIATIVE_GROUPED_NAMED => 'name|label|key_1:value_1,key_2:value_2,key_3:value_3',
-      static::LINKS => 'url|title',
-      static::LINKS_GROUPED => 'group or url|title',
+      static::LINKS => 'https://somewhere.com|Page Title',
+      static::LINKS_GROUPED => ($edit_yaml)
+        ? 'group' . PHP_EOL . 'http://somewhere.com|Page Title'
+        : 'group or https://somewhere.com|Page Title',
     ];
-    return $element['#settings_format'] ?: $formats[$element['#settings_type']];
+    return $element['#settings_format'] ?: $formats[$element['#settings_type']] ?? '';
   }
 
   /**
    * Converted Schema.org settings to an element's default value string.
    *
-   * @param array &$element
+   * @param array $element
    *   The Schema.org settings form element.
    *
    * @return array|mixed|string
    *   An element's default value string.
    */
-  protected static function convertSettingsToElementDefaultValue(array &$element): mixed {
+  protected static function convertSettingsToElementDefaultValue(array $element): mixed {
     // Set default value from configuration settings.
     $config_name = static::getConfigName($element);
     $config_key = static::getConfigKey($element);
@@ -264,10 +322,7 @@ class SchemaDotOrgSettings extends Textarea {
       ?? NULL;
 
     if (static::editYaml($element)) {
-      $yaml = $settings ? Yaml::encode($settings) : '';
-      // Remove return after array delimiter.
-      $yaml = preg_replace('#((?:\n|^)[ ]*-)\n[ ]+(\w|[\'"])#', '\1 \2', $yaml);
-      return $yaml;
+      return static::encodeYaml($settings);
     }
 
     if (!is_array($settings)) {
@@ -355,12 +410,29 @@ class SchemaDotOrgSettings extends Textarea {
    *   Throw an exception when there is a validation error.
    */
   protected static function convertElementValueToSettings(array $element, FormStateInterface $form_state): ?array {
-    $value = $element['#value'];
-
     if (static::editYaml($element)) {
       return Yaml::decode($element['#value']) ?: [];
     }
+    else {
+      return static::convertValueToSettings($element, $element['#value']);
+    }
+  }
 
+  /**
+   * Convert a Schema.org settings form element's value to an array of settings.
+   *
+   * @param array $element
+   *   The Schema.org settings form element.
+   * @param string $value
+   *   The value being converted to an array of settings.
+   *
+   * @return array|null
+   *   An array of setting.
+   *
+   * @throws \Exception
+   *   Throw an exception when there is a validation error.
+   */
+  protected static function convertValueToSettings(array $element, string $value): ?array {
     switch ($element['#settings_type']) {
       case static::INDEXED:
         return static::convertStringToIndexedArray($value);
@@ -639,6 +711,22 @@ class SchemaDotOrgSettings extends Textarea {
     else {
       return (bool) ($user_data->get('schemadotorg', $uid, 'yaml') ?? FALSE);
     }
+  }
+
+  /**
+   * Encodes data into YAML.
+   *
+   * @param mixed $data
+   *   The data to encode.
+   *
+   * @return string
+   *   The data encoded into YAML.
+   */
+  protected static function encodeYaml(?array $data): string {
+    $yaml = $data ? Yaml::encode($data) : '';
+    // Remove return after array delimiter.
+    $yaml = preg_replace('#((?:\n|^)[ ]*-)\n[ ]+(\w|[\'"])#', '\1 \2', $yaml);
+    return $yaml;
   }
 
   /**
