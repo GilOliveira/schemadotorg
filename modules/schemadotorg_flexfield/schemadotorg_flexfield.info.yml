@@ -4,6 +4,7 @@ description: Allows a Flex field to be used to create Schema.org relationships w
 package: Schema.org Blueprints [DEPRECATED]
 core_version_requirement: '^9.4 || ^10.0'
 lifecycle: experimental
+configure: schemadotorg.settings.properties
 dependencies:
   - 'schemadotorg:schemadotorg'
   - 'flexfield:flexfield'

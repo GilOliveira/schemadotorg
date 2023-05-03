@@ -4,6 +4,7 @@ description: Allows a Custom field to be used to create Schema.org relationships
 package: Schema.org Blueprints Fields
 core_version_requirement: '^9.4 || ^10.0'
 lifecycle: experimental
+configure: schemadotorg.settings.properties
 dependencies:
   - 'schemadotorg:schemadotorg'
   - 'custom_field:custom_field'

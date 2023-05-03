@@ -3,7 +3,7 @@ type: module
 description: Allows an address field to be used to create a http://schema.org/PostalAddress.
 package: Schema.org Blueprints Fields
 core_version_requirement: '^9.4 || ^10.0'
-lifecycle: experimental
+configure: schemadotorg.settings.properties
 dependencies:
   - 'schemadotorg:schemadotorg'
   - 'address:address'

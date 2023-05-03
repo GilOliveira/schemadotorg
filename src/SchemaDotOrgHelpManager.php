@@ -250,7 +250,7 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
 
     $header = [
       'title' => [
-        'data' => $this->t('Title/Description'),
+        'data' => $this->t('Title / Description'),
         'width' => '55%',
       ],
       'status' => [
@@ -259,7 +259,7 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
         'width' => '15%',
       ],
       'jsonld' => [
-        'data' => $this->t('JSON-LD'),
+        'data' => $this->t('JSON-LD integration'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
         'width' => '15%',
       ],
@@ -354,8 +354,11 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
     ksort($rows);
 
     return [
-      '#type' => 'details',
-      '#title' => $this->t('Learn more about the Schema.org Blueprints modules'),
+      'header' => [
+        '#markup' => $this->t('Schema.org Blueprints modules'),
+        '#prefix' => '<h2>',
+        '#suffix' => '</h2>',
+      ],
       'packages' => [
         '#type' => 'table',
         '#header' => $header,

@@ -3,6 +3,7 @@ type: module
 description: 'Automatically adds a metatag field to Schema.org types.'
 package: Schema.org Blueprints SEO
 core_version_requirement: '^9.4 || ^10.0'
+configure: schemadotorg.settings.types
 dependencies:
   - 'metatag:metatag'
   - 'schemadotorg:schemadotorg'

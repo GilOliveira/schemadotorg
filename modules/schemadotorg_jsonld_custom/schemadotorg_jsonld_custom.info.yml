@@ -3,5 +3,6 @@ type: module
 description: Allows custom JSON-LD to be added to Schema.org mapping.
 package: Schema.org Blueprints JSON-LD
 core_version_requirement: '^9.4 || ^10.0'
+configure: schemadotorg_jsonld.settings
 dependencies:
   - 'schemadotorg:schemadotorg_jsonld'
