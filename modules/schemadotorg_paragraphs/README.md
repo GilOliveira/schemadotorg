@@ -28,7 +28,7 @@ Features
 Configuration
 -------------
 
-- Go to the Schema.org types configuration page.
+- Go to the Schema.org types configuration page.  
   (/admin/config/search/schemadotorg/settings/types)
 - Enter Schema.org types that default to using the Paragraphs library.
 

@@ -23,7 +23,7 @@ Features
 - Automatically enable Schema.org properties for JSON:API endpoints.
 - Automatically rename JSON:API entity and field names to use corresponding
   Schema.org types and properties.
-- Add JSON:API column with links to the Schema.org mappings admin page.
+- Adds a JSON:API column with links to the Schema.org mappings admin page.  
   (/admin/config/search/schemadotorg)
 
 
@@ -38,7 +38,7 @@ zero-configuration implementation provided by the JSON:API in Core.
 Configuration
 -------------
 
-- Go to the Schema.org JSON:API configuration page.
+- Go to the Schema.org JSON:API configuration page.  
   (/admin/config/search/schemadotorg/settings/jsonapi)
 - Go to the 'JSON:API settings' details.
 - Enter base fields that should default be enabled.

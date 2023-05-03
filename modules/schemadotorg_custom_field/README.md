@@ -34,7 +34,7 @@ Defines a new "Custom Field" field type that lets you create simple inline multi
 Configuration
 -------------
 
-- Go to the Schema.org properties configuration page.
+- Go to the Schema.org properties configuration page.  
   (/admin/config/search/schemadotorg/settings/properties)
 - Go to the 'Custom field settings' details.
 - Set Schema.org properties that should use custom_fields and define the

@@ -42,7 +42,7 @@ Provides an entity relationship hierarchy tree widget for an entity reference fi
 Configuration
 -------------
 
-- Go to the Schema.org properties configuration page.
+- Go to the Schema.org properties configuration page.  
   (/admin/config/search/schemadotorg/settings/properties)
 - Go to the 'Taxonomy settings' details.
 - Enter Schema.org properties that should be mapped to a vocabulary.

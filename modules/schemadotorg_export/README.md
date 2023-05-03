@@ -16,9 +16,9 @@ Schema.org type mappings and mapping sets.
 Features
 --------
 
-- Adds '⇩ Download CSV' button to Schema.org mapping overview.
+- Adds '⇩ Download CSV' button to Schema.org mapping overview.  
   (/admin/config/search/schemadotorg)
-- Adds '⇩ Download CSV' button to Schema.org mapping sets overview.
+- Adds '⇩ Download CSV' button to Schema.org mapping sets overview.  
   (/admin/config/search/schemadotorg/sets)
 
 

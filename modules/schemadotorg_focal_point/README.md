@@ -33,7 +33,7 @@ Allows users to specify the focal point of an image for use during cropping.
 Configuration
 -------------
 
-- Go to the Schema.org properties configuration page.
+- Go to the Schema.org properties configuration page.  
   (/admin/config/search/schemadotorg/settings/properties)
 - Go to the 'Focal point settings' details.
 - Enter focal point images styles for decoupled front-ends.

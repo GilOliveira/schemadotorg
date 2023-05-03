@@ -29,7 +29,7 @@ Features
 Configuration
 -------------
 
-- Go to the Schema.org report references settings page.
+- Go to the Schema.org report references settings page.  
   (/admin/config/search/schemadotorg/settings/references)
 - Enter links to general information about Schema.org.
 - Enter links to specific issues/discussions about Schema.org types.

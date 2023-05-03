@@ -24,7 +24,7 @@ Features
 Configuration
 -------------
 
-- Go to the Schema.org JSON-LD configuration page.
+- Go to the Schema.org JSON-LD configuration page.  
   (/admin/config/search/schemadotorg/settings/jsonld)
 - Go to the 'JSON-LD endpoint settings' details.
 - Enter the entity types JSON-LD endpoint paths.

@@ -36,7 +36,7 @@ Provides the ability to group your fields on both form and display.
 Configuration
 -------------
 
-- Go to the Schema.org properties configuration page.
+- Go to the Schema.org properties configuration page.  
   (/admin/config/search/schemadotorg/settings/properties)
 - Go to the 'Field group settings' details.
 - Enter the default field groups and field order used to group Schema.org

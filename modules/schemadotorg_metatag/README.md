@@ -31,7 +31,7 @@ Manages meta tags for all entities.
 Configuration
 -------------
 
-- Go to the Schema.org properties configuration page.
+- Go to the Schema.org properties configuration page.  
   (/admin/config/search/schemadotorg/settings/properties)
 - Go to the 'Metatag settings' details.
 - Enter allowed meta tag groups to be displayed on node edit forms.

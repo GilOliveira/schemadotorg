@@ -30,7 +30,7 @@ Limit which text formats are available for each field instance.
 Configuration
 -------------
 
-- Go to the Schema.org properties configuration page.
+- Go to the Schema.org properties configuration page.  
   (/admin/config/search/schemadotorg/settings/properties)
 - Go to the 'Allowed formats settings' details.
 - Hide the help link /About text formats/.

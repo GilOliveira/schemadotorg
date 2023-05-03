@@ -26,7 +26,7 @@ Features
 Configuration
 -------------
 
-- Go to the Schema.org types configuration page.
+- Go to the Schema.org types configuration page.  
   (/admin/config/search/schemadotorg/settings/types)
 - Enter default sources for Schema.org MediaObject types.
 

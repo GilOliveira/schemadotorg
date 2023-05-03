@@ -31,7 +31,7 @@ Allows hiding of entity label fields and automatic label creation.
 Configuration
 -------------
 
-- Go to the Schema.org types configuration page.
+- Go to the Schema.org types configuration page.  
   (/admin/config/search/schemadotorg/settings/types)
 - Go to the 'Automatic entity labels settings' details.
 - Enter default Schema.org type auto entity label settings.

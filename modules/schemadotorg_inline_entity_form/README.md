@@ -33,7 +33,7 @@ Provides a widget for inline management (creation, modification, removal) of ref
 Configuration
 -------------
 
-- Go to the Schema.org properties configuration page.
+- Go to the Schema.org properties configuration page.  
   (/admin/config/search/schemadotorg/settings/properties)
 - Go to the 'Inline entity form settings' details.
 - Enter Schema.org properties that should use the inline entity form.

@@ -42,6 +42,8 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
    * {@inheritdoc}
    */
   public function buildHelpPage(string $route_name, RouteMatchInterface $route_match): ?array {
+    global $base_path;
+
     if (!str_starts_with($route_name, 'help.page.schemadotorg')) {
       return NULL;
     }
@@ -89,9 +91,11 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
     $contents = preg_replace('/^.*?(Introduction\s+------------)/s', '$1', $contents);
 
     if (class_exists('\Michelf\Markdown')) {
+      // phpcs:ignore Drupal.Classes.FullyQualifiedNamespace.UseStatementMissing
+      $markup = \Michelf\Markdown::defaultTransform($contents);
+      $markup = preg_replace('#\(/(admin/.*?)\)#', '(<a href="' . $base_path . '$1">/$1</a>)', $markup);
       $build['readme'] = [
-        // phpcs:ignore Drupal.Classes.FullyQualifiedNamespace.UseStatementMissing
-        '#markup' => \Michelf\Markdown::defaultTransform($contents),
+        '#markup' => $markup,
       ];
     }
     else {
@@ -244,62 +248,120 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
     });
     ksort($modules);
 
-    $packages = [];
+    $header = [
+      'title' => [
+        'data' => $this->t('Title/Description'),
+        'width' => '55%',
+      ],
+      'status' => [
+        'data' => $this->t('Status'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+        'width' => '15%',
+      ],
+      'jsonld' => [
+        'data' => $this->t('JSON-LD'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+        'width' => '15%',
+      ],
+      'configuration' => [
+        'data' => $this->t('Configuration'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+        'width' => '15%',
+      ],
+    ];
+
+    $rows = [];
     foreach ($modules as $module_name => $module_info) {
       $package = $module_info['package'];
-      if (!isset($packages[$package])) {
-        $packages[$package] = [
-          'title' => [
-            '#markup' => $package,
-            '#prefix' => '<h3>',
-            '#suffix' => '</h3>',
-          ],
-          'modules' => [],
+      if (!isset($rows[$package])) {
+        $rows[$package][] = [
+          'data' => ['#markup' => $package],
+          'colspan' => 4,
+          'header' => TRUE,
         ];
       }
+
+      $row = [];
 
       if ($this->moduleHandler->moduleExists($module_name)) {
-        $name = [
-          '#type' => 'link',
-          '#url' => Url::fromRoute('help.page', ['name' => $module_name]),
-          '#title' => $module_info['name'],
-          '#prefix' => '<strong>',
-          '#suffix' => '</strong><br/>',
+        $row['title'] = [
+          'data' => [
+            'name' => [
+              '#type' => 'link',
+              '#url' => Url::fromRoute('help.page', ['name' => $module_name]),
+              '#title' => $module_info['name'],
+              '#prefix' => '<strong>',
+              '#suffix' => '</strong><br/>',
+            ],
+            'description' => ['#markup' => $module_info['description']],
+          ],
         ];
+        $row['status'] = $this->t('Installed');
       }
       else {
-        $name = [
-          '#markup' => $module_info['name'],
-          '#prefix' => '<strong>',
-          '#suffix' => '</strong><br/>',
+        $row['title'] = [
+          'data' => [
+            'name' => [
+              '#markup' => $module_info['name'],
+              '#prefix' => '<strong>',
+              '#suffix' => '</strong><br/>',
+            ],
+            'description' => ['#markup' => $module_info['description']],
+          ],
         ];
+        $row['status'] = '';
       }
-
-      $packages[$package]['modules'][$module_name] = [
-        '#prefix' => '<p>',
-        '#suffix' => '</p>',
-        'name' => $name,
-        'description' => ['#markup' => $module_info['description']],
-      ];
 
       $path = $this->moduleExtensionList->getPath($module_name);
       if (!str_contains($module_name, '_jsonld')
         && file_exists("$path/$module_name.module")
         && str_contains(file_get_contents("$path/$module_name.module"), '_schemadotorg_jsonld_')) {
-        $packages[$package]['modules'][$module_name]['jsonld'] = [
-          '#markup' => $this->t('Provides Schema.org JSON-LD integration.'),
-          '#prefix' => '<br/><em>',
-          '#suffix' => '</em>',
+        $row['jsonld'] = $this->t('Yes');
+      }
+      else {
+        $row['jsonld'] = '';
+      }
+
+      if ($this->moduleHandler->moduleExists($module_name)
+        && !empty($module_info['configure'])) {
+        $row['configuration'] = [
+          'data' => [
+            '#type' => 'link',
+            '#url' => Url::fromRoute($module_info['configure']),
+            '#title' => $this->t('Configure'),
+            '#attributes' => [
+              'style' => 'min-width:5rem',
+              'class' => ['button', 'button--small', 'button--extrasmall'],
+            ],
+          ],
         ];
       }
+      elseif (!$this->moduleHandler->moduleExists($module_name)) {
+        $row['install'] = [
+          'data' => [
+            '#type' => 'link',
+            '#url' => Url::fromRoute('system.modules_list'),
+            '#title' => $this->t('Install'),
+            '#attributes' => [
+              'style' => 'min-width:5rem',
+              'class' => ['button', 'button--small', 'button--extrasmall'],
+            ],
+          ],
+        ];
+      }
+      $rows["$package-$module_name"] = $row;
     }
-    ksort($packages);
-    $packages = ['Schema.org Blueprints Core' => $packages['Schema.org Blueprints Core']] + $packages;
+    ksort($rows);
 
     return [
       '#type' => 'details',
       '#title' => $this->t('Learn more about the Schema.org Blueprints modules'),
-      'packages' => $packages,
+      'packages' => [
+        '#type' => 'table',
+        '#header' => $header,
+        '#rows' => $rows,
+        '#sticky' => TRUE,
+      ],
     ];
   }
 

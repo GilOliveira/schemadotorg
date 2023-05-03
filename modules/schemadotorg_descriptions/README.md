@@ -20,7 +20,7 @@ Features
 - Alters entity type and field edit forms to remove the default description and 
   update the help text to notify site builders that the entity type and field
   descriptions are automatically set.
-- Sets Schema.org type descriptions as the explanation/submission guidelines.
+- Sets Schema.org type descriptions as the explanation/submission guidelines.  
   (For content types only)
 - Sets entity type and field descriptions and help via configuration overrides.
 - Sets the node title field's description to the coresponding
@@ -30,7 +30,7 @@ Features
 Configuration
 -------------
 
-- Go to the Schema.org general configuration page.
+- Go to the Schema.org general configuration page.  
   (/admin/config/search/schemadotorg/settings/general)
 - Go to the 'Description settings' details.
 - Enter custom descriptions or suppress the default Schema.org type 
