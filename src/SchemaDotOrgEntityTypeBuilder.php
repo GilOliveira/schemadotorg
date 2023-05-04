@@ -466,25 +466,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
 
         $handler_settings = [];
         $handler_settings['target_bundles'] = $target_bundles;
-        switch ($target_type) {
-          case 'node':
-            // Widget.
-            if ($this->moduleHandler->moduleExists('content_browser')) {
-              $widget_id = 'entity_browser_entity_reference';
-              $widget_settings = [
-                'entity_browser' => 'browse_content',
-                'field_widget_display' => 'label',
-                'field_widget_edit' => TRUE,
-                'field_widget_remove' => TRUE,
-                'field_widget_replace' => TRUE,
-                'open' => FALSE,
-                'field_widget_display_settings' => [],
-                'selection_mode' => 'selection_append',
-              ];
-            }
-            break;
 
-        }
         $field_values['settings'] = [
           'handler' => 'default:' . $target_type,
           'handler_settings' => $handler_settings,
