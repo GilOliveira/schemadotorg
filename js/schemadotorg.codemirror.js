@@ -16,6 +16,7 @@
   const options = {
     mode: 'yaml',
     lineNumbers: true,
+    matchBrackets: true,
     extraKeys: {
       // Setting for using spaces instead of tabs.
       // @see https://github.com/codemirror/CodeMirror/issues/988
@@ -52,7 +53,7 @@
         return;
       }
 
-      once('schemadotorg-settings-element-yaml', '.schemadotorg-settings-element-yaml', context)
+      once('schemadotorg-codemirror', '.schemadotorg-codemirror', context)
         .forEach((element) => {
           // Track closed details and open them to initialize CodeMirror.
           // @see https://github.com/codemirror/codemirror5/issues/61
@@ -66,6 +67,9 @@
             }
             parentElement = parentElement.parentNode
           }
+
+          // Set mode from data attribute.
+          options.mode = element.getAttribute('data-mode') || options.mode;
 
           // Initialize CodeMirror.
           const editor = CodeMirror.fromTextArea(element, options);

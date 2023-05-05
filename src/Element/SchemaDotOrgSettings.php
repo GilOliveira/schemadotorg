@@ -166,9 +166,11 @@ class SchemaDotOrgSettings extends Textarea {
 
     $element['#attached']['library'][] = 'schemadotorg/schemadotorg.settings.element';
 
-    // Set attributes and classes.
+    // Set CodeMirror YAML mode attributes and classes.
     if (static::editYaml($element)) {
-      $element['#attributes']['class'][] = 'schemadotorg-settings-element-yaml';
+      $element['#attached']['library'][] = 'schemadotorg/codemirror.yaml';
+      $element['#attributes']['class'][] = 'schemadotorg-codemirror';
+      $element['#attributes']['data-mode'] = 'yaml';
     }
 
     // Set validation.

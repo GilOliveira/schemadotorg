@@ -41,11 +41,6 @@ schemadotorg.settings.element:
   css:
     component:
       css/schemadotorg.settings.element.css: {}
-  js:
-    js/schemadotorg.settings.element.js: {}
-  dependencies:
-    - core/tabbable
-    - schemadotorg/codemirror
 
 jstree:
   remote: https://www.jstree.com
@@ -64,14 +59,37 @@ jstree:
 
 codemirror:
   remote: http://codemirror.net
-  version: '5.65.12'
-  license:
+  version: &webform_codemirror_version '5.65.12'
+  license: &webform_codemirror_license
     name: MIT
     url: http://codemirror.net/LICENSE
     gpl-compatible: true
   css:
     component:
       https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.css: {}
+      css/schemadotorg.codemirror.css: {}
   js:
     https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.js: {}
+    js/schemadotorg.codemirror.js: {}
+  dependencies:
+    - core/tabbable
+
+codemirror.yaml:
+  remote: http://codemirror.net
+  version: *webform_codemirror_version
+  license: *webform_codemirror_license
+  js:
     https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/yaml/yaml.js: {}
+  dependencies:
+    - schemadotorg/codemirror
+
+codemirror.javascript:
+  remote: http://codemirror.net
+  version: *webform_codemirror_version
+  license: *webform_codemirror_license
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/javascript/javascript.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/matchbrackets.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/comment/continuecomment.js: {}
+  dependencies:
+    - schemadotorg/codemirror

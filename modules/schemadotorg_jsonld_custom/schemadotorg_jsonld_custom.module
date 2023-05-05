@@ -80,6 +80,11 @@ function schemadotorg_jsonld_custom_form_schemadotorg_mapping_form_alter(array &
     '#description' => t('Enter valid JSON to be added to this Schema.org mappings JSON-LD.'),
     '#default_value' => $json,
     '#element_validate' => ['_schemadotorg_jsonld_custom_json_element_validate'],
+    '#attributes' => [
+      'class' => ['schemadotorg-codemirror'],
+      'data-mode' => 'application/ld+json',
+    ],
+    '#attached' => ['library' => ['schemadotorg/codemirror.javascript']],
   ];
 }
 
