@@ -1,6 +1,9 @@
 default_vocabularies_group_label: 'Tags / Categories'
 default_vocabularies: {  }
 property_vocabularies:
+  keywords:
+    id: keywords
+    label: Keywords
   recipeCategory:
     id: recipe_category
     label: 'Recipe category'
