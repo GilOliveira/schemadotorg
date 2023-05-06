@@ -71,5 +71,11 @@ associative_advanced:
   required: true
   height: 100
   width: 100
+associative_grouped_invalid:
+  A:
+    one: 'One,comma'
+    two: Two
+    three: Three
 yaml:
   title: YAML
+

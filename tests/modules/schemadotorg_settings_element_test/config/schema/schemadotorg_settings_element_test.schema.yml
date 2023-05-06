@@ -109,6 +109,15 @@ schemadotorg_settings_element_test.settings:
         width:
           type: integer
           label: width
+    associative_grouped_invalid:
+      type: sequence
+      label: associative_group_invalid
+      sequence:
+        type: sequence
+        label: associative_group_invalid_group
+        sequence:
+          type: string
+          label: associative_group_invalid_items
     yaml:
       type: mapping
       label: yaml

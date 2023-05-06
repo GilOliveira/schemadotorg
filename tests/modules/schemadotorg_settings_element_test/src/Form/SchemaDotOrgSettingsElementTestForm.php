@@ -67,6 +67,13 @@ class SchemaDotOrgSettingsElementTestForm extends ConfigFormBase {
       '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
     ];
 
+    // Add advanced associate settings with mapping.
+    $form['schemadotorg_settings_element_test']['associative_grouped_invalid'] = [
+      '#type' => 'schemadotorg_settings',
+      '#title' => 'associative_grouped_invalid',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
+    ];
+
     $form['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Submit'),

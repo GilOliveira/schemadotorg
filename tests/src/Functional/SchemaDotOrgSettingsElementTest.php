@@ -27,6 +27,18 @@ class SchemaDotOrgSettingsElementTest extends SchemaDotOrgBrowserTestBase {
 
     $this->drupalLogin($this->rootUser);
 
+    $this->drupalGet('/schemadotorg-settings-element-test');
+
+    // Check that invalid settings render as YAML and display a warning message.
+    $assert_session->responseContains('<textarea wrap="off" data-drupal-selector="edit-schemadotorg-settings-element-test-associative-grouped-invalid" class="schemadotorg-codemirror form-textarea" data-mode="yaml" id="edit-schemadotorg-settings-element-test-associative-grouped-invalid" name="schemadotorg_settings_element_test[associative_grouped_invalid]" rows="5" cols="60">');
+    $assert_session->responseContains('<strong>Unable parse <em class="placeholder">associative_grouped_invalid</em> settings.</strong>');
+
+    // Check expected values when submitting the form via text format.
+    $assert_session->fieldValueEquals('schemadotorg_settings_element_test[indexed]', 'one
+two
+three');
+    $assert_session->fieldValueEquals('schemadotorg_settings_element_test[yaml]', 'title: YAML');
+    $this->submitForm([], 'Submit');
     $expected_data = "indexed:
   - one
   - two
@@ -101,15 +113,12 @@ associative_advanced:
   title: Title
   required: true
   height: 100
-  width: 100";
-
-    // Check expected values when submitting the form via text format.
-    $this->drupalGet('/schemadotorg-settings-element-test');
-    $assert_session->fieldValueEquals('schemadotorg_settings_element_test[indexed]', 'one
-two
-three');
-    $assert_session->fieldValueEquals('schemadotorg_settings_element_test[yaml]', 'title: YAML');
-    $this->submitForm([], 'Submit');
+  width: 100
+associative_grouped_invalid:
+  A:
+    one: 'One,comma'
+    two: Two
+    three: Three";
     $assert_session->responseContains($expected_data);
 
     // Check expected values when submitting the form via text format.

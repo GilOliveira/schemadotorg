@@ -95,6 +95,19 @@ class SchemaDotOrgSettings extends Textarea {
    * {@inheritdoc}
    */
   public static function valueCallback(&$element, $input, FormStateInterface $form_state) {
+    // Validate the #default_value by converting it to settings string
+    // and parsing settings string.
+    if ($element['#settings_type'] !== static::YAML) {
+      $default_value = static::getDefaultValue($element);
+      $string_value = static::convertSettingsToValue($element, $default_value);
+      $settings_value = static::convertValueToSettings($element, $string_value);
+      if ($default_value !== $settings_value) {
+        $element['#settings_type'] = static::YAML;
+        $element += ['#description' => ''];
+        $element['#description'] .= ' <strong>' . t('Unable parse %title settings.', ['%title' => $element['#title']]) . '</strong>';
+      }
+    }
+
     return ($input === FALSE)
     ? static::convertSettingsToElementDefaultValue($element)
     : NULL;
@@ -317,20 +330,30 @@ class SchemaDotOrgSettings extends Textarea {
    */
   protected static function convertSettingsToElementDefaultValue(array $element): mixed {
     // Set default value from configuration settings.
-    $config_name = static::getConfigName($element);
-    $config_key = static::getConfigKey($element);
-    $settings = \Drupal::config($config_name)->get($config_key)
-      ?: $element['#default_value']
-      ?? NULL;
-
+    $settings = static::getDefaultValue($element);
     if (static::editYaml($element)) {
       return static::encodeYaml($settings);
     }
-
-    if (!is_array($settings)) {
+    elseif (!is_array($settings)) {
       return $settings;
     }
+    else {
+      return static::convertSettingsToValue($element, $settings);
+    }
+  }
 
+  /**
+   * Convert a Schema.org settings array to settings value.
+   *
+   * @param array $element
+   *   The Schema.org settings form element.
+   * @param array|null $settings
+   *   A Schema.org settings array.
+   *
+   * @return string|array
+   *   The Schema.org settings array to settings value.
+   */
+  protected static function convertSettingsToValue(array $element, ?array $settings): string|array {
     switch ($element['#settings_type']) {
       case static::INDEXED:
         return static::convertIndexedArrayToString($settings);
@@ -678,6 +701,10 @@ class SchemaDotOrgSettings extends Textarea {
     return $title;
   }
 
+  /* ************************************************************************ */
+  // YAML methods.
+  /* ************************************************************************ */
+
   /**
    * Determine if user wants to edit YAML.
    *
@@ -730,6 +757,32 @@ class SchemaDotOrgSettings extends Textarea {
     $yaml = preg_replace('#((?:\n|^)[ ]*-)\n[ ]+(\w|[\'"])#', '\1 \2', $yaml);
     return $yaml;
   }
+
+  /* ************************************************************************ */
+  // Default value methods.
+  /* ************************************************************************ */
+
+  /**
+   * Get a settings element's default value.
+   *
+   * @param array $element
+   *   A settings element.
+   *
+   * @return array|null
+   *   A settings element's default value.
+   */
+  protected static function getDefaultValue(array $element): ?array {
+    // Set default value from configuration settings.
+    $config_name = static::getConfigName($element);
+    $config_key = static::getConfigKey($element);
+    return \Drupal::config($config_name)->get($config_key)
+      ?: $element['#default_value']
+      ?? NULL;
+  }
+
+  /* ************************************************************************ */
+  // Config methods.
+  /* ************************************************************************ */
 
   /**
    * Get the config key.
