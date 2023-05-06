@@ -62,8 +62,14 @@ class SchemaDotOrgCustomFieldManager implements SchemaDotOrgCustomFieldManagerIn
     // the bundle name.
     $default_properties = $this->getDefaultProperties($schema_type, $schema_property);
     if ($default_properties && $schema_property === 'mainEntity') {
+      $default_type = $this->configFactory
+        ->get('schemadotorg.settings')
+        ->get("schema_types.default_types.$schema_type") ?? [];
       $type_definition = $this->schemaTypeManager->getType($schema_type);
-      $default_field['name'] = $type_definition['drupal_name'] . '_' . $default_field['name'];
+
+      $type_name = $default_type['name'] ?? $type_definition['drupal_name'];
+      $field_name = $default_field['name'];
+      $default_field['name'] = $type_name . '_' . $field_name;
     }
   }
 

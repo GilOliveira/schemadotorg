@@ -12,6 +12,22 @@ schemadotorg.settings:
       type: mapping
       label: 'Schema.org types'
       mapping:
+        default_types:
+          type: sequence
+          label: 'Default types'
+          sequence:
+            type: mapping
+            label: 'Default types'
+            mapping:
+              name:
+                type: string
+                label: Machine name
+              label:
+                type: text
+                label: Label
+              description:
+                type: text
+                label: Description
         main_properties:
           type: sequence
           label: 'Schema.org types main properties'

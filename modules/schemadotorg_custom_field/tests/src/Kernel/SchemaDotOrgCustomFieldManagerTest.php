@@ -160,7 +160,7 @@ class SchemaDotOrgCustomFieldManagerTest extends SchemaDotOrgKernelEntityTestBas
 
     // Check FAQ page main entity custom field storage columns.
     /** @var \Drupal\field\FieldStorageConfigInterface $field_storage_config */
-    $field_storage_config = FieldStorageConfig::loadByName('node', 'schema_faq_page_main_entity');
+    $field_storage_config = FieldStorageConfig::loadByName('node', 'schema_faq_main_entity');
     $expected_settings = [
       'columns' => [
         'name' => [
@@ -229,7 +229,7 @@ class SchemaDotOrgCustomFieldManagerTest extends SchemaDotOrgKernelEntityTestBas
 
     // Check faq page main entity custom field column widget settings.
     /** @var \Drupal\Core\Field\FieldConfigInterface $field_config */
-    $field_config = FieldConfig::loadByName('node', 'faq_page', 'schema_faq_page_main_entity');
+    $field_config = FieldConfig::loadByName('node', 'faq', 'schema_faq_main_entity');
     $settings = $field_config->getSettings();
     $expected_settings_serving_size = [
       'type' => 'textarea',

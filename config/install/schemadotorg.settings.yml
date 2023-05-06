@@ -1,6 +1,13 @@
 field_prefix: schema_
 field_prefix_ui: false
 schema_types:
+  default_types:
+    FAQPage:
+      name: faq
+      label: FAQ
+    QAPage:
+      name: qa
+      label: 'Q&A'
   main_properties:
     AudioObject: null
     Comment: text

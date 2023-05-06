@@ -36,6 +36,15 @@ class SchemaDotOrgSettingsTypesForm extends SchemaDotOrgSettingsFormBase {
       '#open' => TRUE,
       '#tree' => TRUE,
     ];
+    $form['schema_types']['default_types'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
+      '#settings_format' => 'SchemaType|name:entity_name,label:Entity Title,description:A description of the entity type.',
+      '#title' => $this->t('Default Schema.org entity type'),
+      '#rows' => 20,
+      '#description' => $this->t('Enter default Schema.org entity type definition used when adding a Schema.org entity type.'),
+      '#description_link' => 'types',
+    ];
     $form['schema_types']['default_properties'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,

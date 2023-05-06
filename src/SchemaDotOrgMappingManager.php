@@ -134,12 +134,15 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       return $defaults;
     }
     else {
+      $default_type = $this->configFactory
+        ->get('schemadotorg.settings')
+        ->get("schema_types.default_types.$schema_type") ?? [];
       $type_definition = $this->schemaTypeManager->getType($schema_type);
 
       $defaults = [];
-      $defaults['label'] = $type_definition['drupal_label'];
-      $defaults['id'] = $bundle ?: $type_definition['drupal_name'];
-      $defaults['description'] = $this->schemaTypeBuilder->formatComment($type_definition['comment'], ['base_path' => 'https://schema.org/']);
+      $defaults['label'] = $default_type['label'] ?? $type_definition['drupal_label'];
+      $defaults['id'] = $bundle ?: $default_type['name'] ?? $type_definition['drupal_name'];
+      $defaults['description'] = $default_type['description'] ?? $this->schemaTypeBuilder->formatComment($type_definition['comment'], ['base_path' => 'https://schema.org/']);
       return $defaults;
     }
   }
