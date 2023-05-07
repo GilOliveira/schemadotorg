@@ -97,7 +97,12 @@ class SchemaDotOrgReportFilterForm extends FormBase {
       $form_state->setRedirect('schemadotorg_report', ['id' => $id]);
     }
     else {
-      $form_state->setRedirect('schemadotorg_report.' . $this->table, [], ['query' => ['id' => $id]]);
+      $route_name = $this->getRouteMatch()->getRouteName();
+      $redirect_route_name = 'schemadotorg_report.' . $this->table;
+      if (str_contains($route_name, $redirect_route_name)) {
+        $redirect_route_name = $route_name;
+      }
+      $form_state->setRedirect($redirect_route_name, [], ['query' => ['id' => $id]]);
     }
   }
 

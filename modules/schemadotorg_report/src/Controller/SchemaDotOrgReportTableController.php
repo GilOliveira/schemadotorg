@@ -59,7 +59,8 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
         ->condition('comment', '%' . $id . '%', 'LIKE');
       $base_query->condition($or);
     }
-    // Add conditions based on route name,
+
+    // Add conditions based on route name.
     switch ($this->routeMatch->getRouteName()) {
       case 'schemadotorg_report.properties.inverse_of':
         $base_query->condition('inverse_of', '', '<>');
