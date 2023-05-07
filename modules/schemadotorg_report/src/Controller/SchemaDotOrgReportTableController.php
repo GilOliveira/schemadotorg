@@ -5,12 +5,29 @@ declare(strict_types = 1);
 namespace Drupal\schemadotorg_report\Controller;
 
 use Drupal\Core\Database\Query\PagerSelectExtender;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Returns responses for Schema.org report table routes.
  */
 class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase {
+
+  /**
+   * The route match.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $routeMatch;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $instance = parent::create($container);
+    $instance->routeMatch = $container->get('current_route_match');
+    return $instance;
+  }
 
   /**
    * Builds the Schema.org types or properties documentation.
@@ -41,6 +58,12 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
         ->condition('label', '%' . $id . '%', 'LIKE')
         ->condition('comment', '%' . $id . '%', 'LIKE');
       $base_query->condition($or);
+    }
+    // Add conditions based on route name,
+    switch ($this->routeMatch->getRouteName()) {
+      case 'schemadotorg_report.properties.inverse_of':
+        $base_query->condition('inverse_of', '', '<>');
+        break;
     }
 
     // Total.
@@ -127,6 +150,10 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
       ],
       'comment' => [
         'data' => $this->t('Comment'),
+      ],
+      'inverse_of' => [
+        'data' => $this->t('Inverse of'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
       'domain_includes' => [
         'data' => $this->t('Domain includes'),

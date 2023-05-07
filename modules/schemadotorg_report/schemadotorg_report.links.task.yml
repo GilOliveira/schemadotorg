@@ -42,6 +42,14 @@ schemadotorg_report.properties:
   title: Properties
   route_name: schemadotorg_report.properties
   base_route: schemadotorg_report
+schemadotorg_report.properties.table:
+  title: All
+  route_name: schemadotorg_report.properties
+  parent_id: schemadotorg_report.properties
+schemadotorg_report.properties.inverse_of:
+  title: Inverse of
+  route_name: schemadotorg_report.properties.inverse_of
+  parent_id: schemadotorg_report.properties
 
 # Mappings
 
