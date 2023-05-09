@@ -99,7 +99,7 @@ class SchemaDotOrgReportFilterForm extends FormBase {
     else {
       $route_name = $this->getRouteMatch()->getRouteName();
       $redirect_route_name = 'schemadotorg_report.' . $this->table;
-      if (str_contains($route_name, $redirect_route_name)) {
+      if ($route_name && str_contains($route_name, $redirect_route_name)) {
         $redirect_route_name = $route_name;
       }
       $form_state->setRedirect($redirect_route_name, [], ['query' => ['id' => $id]]);
