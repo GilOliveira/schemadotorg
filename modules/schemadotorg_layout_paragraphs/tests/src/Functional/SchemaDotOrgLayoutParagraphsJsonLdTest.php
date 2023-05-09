@@ -56,13 +56,13 @@ class SchemaDotOrgLayoutParagraphsJsonLdTest extends SchemaDotOrgBrowserTestBase
     $media->save();
 
     $teaser_node = Node::create([
-      'type' => 'web_page',
+      'type' => 'page',
       'title' => 'Test teaser',
     ]);
     $teaser_node->save();
 
     $node = Node::create([
-      'type' => 'web_page',
+      'type' => 'page',
       'title' => 'Test page',
       'schema_main_entity' => [
         Paragraph::create([

@@ -107,7 +107,7 @@ function hook_schemadotorg_property_field_alter(
   array &$formatter_settings
 ): void {
   // Remove the description from the field before it is created.
-  // @see schemadotorg_descriptions_schemadotorg_property_field_alte()
+  // @see schemadotorg_descriptions_schemadotorg_property_field_alter()
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
   $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
   /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeBuilderInterface $schema_type_builder */

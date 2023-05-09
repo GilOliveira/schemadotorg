@@ -40,7 +40,6 @@ default_field_groups:
         - headline
         - alternativeHeadline
         - description
-        - about
         - articleBody
         - text
         - author
@@ -104,6 +103,7 @@ default_field_groups:
         - member
         - memberOf
         - department
+        - subOrganization
         - parentOrganization
         - alumni
     education:
@@ -262,6 +262,13 @@ default_field_groups:
         - mentions
         - relatedLink
         - significantLink
+    references:
+      label: References
+      properties:
+        - containedInPlace
+        - containsPlace
+        - subjectOf
+        - about
     identifier:
       label: Identifiers
       properties:

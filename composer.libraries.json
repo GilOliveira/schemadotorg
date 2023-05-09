@@ -21,6 +21,7 @@
     "drupal/address": "^1.0",
     "drupal/allowed_formats": "^2.0",
     "drupal/auto_entitylabel": "^3.0",
+    "drupal/cer": "^5.0",
     "drupal/content_browser": "^1.0",
     "drupal/custom_field": "^1.0",
     "drupal/embed": "^1.0",

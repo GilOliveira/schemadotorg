@@ -61,6 +61,9 @@ and field configuration settings.
 - **[Schema.org Blueprints Automatic Entity Labels](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_auto_entitylabel)**  
   Creates automatic entity label settings for Schema.org types.
 
+- **[Schema.org Blueprints Corresponding Entity References](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/cer)**
+  Improves https://inverseOf support using the Corresponding Entity References module.
+
 - **[Schema.org Blueprints Existing Values Autocomplete Widget](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_existing_values_autocomplete_widget)**  
   Allows an autocomplete widget to be automatically added to Schema.org properties within an entity type/bundle Schema.org mapping.
 
@@ -335,6 +338,11 @@ Image
 
 - **[Focal Point](https://www.drupal.org/project/focal_point)**  
   Allows users to specify the focal point of an image for use during cropping.
+
+References
+
+- **[Corresponding Entity References](https://www.drupal.org/project/cer)**        
+  Allows users to create two-way references between entities.
 
 Demographic
 

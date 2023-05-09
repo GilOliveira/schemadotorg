@@ -68,7 +68,7 @@ class SchemaDotOrgActionTest extends SchemaDotOrgBrowserTestBase {
     $this->submitForm([], 'Save');
 
     $node = Node::create([
-      'type' => 'web_page',
+      'type' => 'page',
       'title' => 'Test page',
       'schema_main_entity' => [
         Paragraph::create([

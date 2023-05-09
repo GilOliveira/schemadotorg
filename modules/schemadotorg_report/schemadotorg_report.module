@@ -53,6 +53,9 @@ function schemadotorg_report_help(string $route_name, RouteMatchInterface $route
     case 'schemadotorg_report.properties':
       return '<p>' . t('The <strong>Schema.org: Properties</strong> report lists all available Schema.org properties.') . '</p>';
 
+    case 'schemadotorg_report.properties.inverse_of':
+      return '<p>' . t('The <strong>Schema.org: Inverse of</strong> report lists all Schema.org properties that have inverse relationships.') . '</p>';
+
     case 'schemadotorg_report.mappings.recommendations':
       return '<p>' . t('The <strong>Schema.org: Mappings recommendations</strong> report lists recommended types and default properties for Drupal entity type to Schema.org type mapping.') . '</p>';
 

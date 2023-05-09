@@ -1,0 +1,5 @@
+default_properties:
+  containedInPlace: containsPlace
+  memberOf: member
+  subOrganization: parentOrganization
+  subjectOf: about

@@ -9,7 +9,7 @@ use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Drupal\schemadotorg\Form\SchemaDotOrgSettingsFormBase;
 
 /**
- * Configure Schema.org Translate settings.
+ * Configure Schema.org Translation settings.
  */
 class SchemaDotOrgTranslationSettingsForm extends SchemaDotOrgSettingsFormBase {
 

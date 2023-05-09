@@ -126,6 +126,15 @@ function schemadotorg_descriptions_form_schemadotorg_mapping_form_alter(array &$
   if (!\Drupal::moduleHandler()->moduleExists('schemadotorg_ui')) {
     return;
   }
+  /** @var \Drupal\schemadotorg\Form\SchemaDotOrgMappingForm $form_object */
+  $form_object = $form_state->getFormObject();
+  /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
+  $mapping = $form_object->getEntity();
+
+  // Exit if no Schema.org type has been selected.
+  if (!$mapping->getSchemaType()) {
+    return;
+  }
 
   $add_field = SchemaDotOrgUiMappingForm::ADD_FIELD;
 

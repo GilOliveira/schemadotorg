@@ -84,7 +84,7 @@ class SchemaDotOrgMappingSetListBuilderTest extends SchemaDotOrgBrowserTestBase 
     // confirm form.
     $this->drupalGet('/admin/config/search/schemadotorg/sets/common/setup');
     $assert_session->responseContains('Person (node:Person) - <em>Creating</em>');
-    $assert_session->responseContains('Web Page (node:WebPage) - <em>Creating</em>');
+    $assert_session->responseContains('Page (node:WebPage) - <em>Creating</em>');
 
     // Update mapping set to just create a Person with a ContactPoint.
     $config = $this->config('schemadotorg_mapping_set.settings');
