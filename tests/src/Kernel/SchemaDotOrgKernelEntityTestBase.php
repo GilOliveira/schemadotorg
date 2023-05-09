@@ -73,6 +73,10 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
    * @var array
    */
   protected $installedSchemas = [
+    'node' => [
+      'module' => 'node',
+      'schemas' => ['node_access'],
+    ],
     'file' => [
       'module' => 'file',
       'schemas' => ['file_usage'],
@@ -145,7 +149,7 @@ abstract class SchemaDotOrgKernelEntityTestBase extends SchemaDotOrgKernelTestBa
       && $this->installedSchemas[$entity_type_id] !== TRUE) {
       $schema = $this->installedSchemas[$entity_type_id];
       $this->installSchema($schema['module'], $schema['schemas']);
-      $this->installedConfig[$entity_type_id] = TRUE;
+      $this->installedSchemas[$entity_type_id] = TRUE;
     }
   }
 

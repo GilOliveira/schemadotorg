@@ -179,7 +179,9 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
 
       case 'text_long':
       case 'text_with_summary':
-        return (string) check_markup($item->value, $item->format);
+        return $item->value
+          ? (string) check_markup($item->value, $item->format)
+          : '';
 
       case 'image':
       case 'file':

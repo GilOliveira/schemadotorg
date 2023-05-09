@@ -25,6 +25,10 @@ Features
 - Automatically enables translation for Schema.org mapping entity types 
   and fields.
 
+- Adds JSON-LD properties for https://schema.org/workTranslation 
+  and https://schema.org/translationOfWork to translated nodes 
+  mapped to CreativeWork.
+
 
 Configuration
 -------------

@@ -37,7 +37,6 @@ class SchemaDotOrgAutoEntityLabelTest extends SchemaDotOrgKernelEntityTestBase {
     parent::setUp();
 
     $this->installEntitySchema('node');
-    $this->installSchema('node', ['node_access']);
     $this->installConfig(self::$modules);
   }
 

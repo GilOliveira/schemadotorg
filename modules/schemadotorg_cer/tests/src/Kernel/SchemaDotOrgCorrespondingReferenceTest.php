@@ -48,7 +48,6 @@ class SchemaDotOrgCorrespondingReferenceTest extends SchemaDotOrgKernelEntityTes
     parent::setUp();
 
     $this->installEntitySchema('node');
-    $this->installSchema('node', ['node_access']);
     $this->installConfig(self::$modules);
   }
 
