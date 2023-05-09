@@ -72,7 +72,7 @@
           options.mode = element.getAttribute('data-mode') || options.mode;
 
           // Initialize CodeMirror.
-          const editor = CodeMirror.fromTextArea(element, options);
+          CodeMirror.fromTextArea(element, options);
 
           // Close opened details.
           if (closedDetails) {

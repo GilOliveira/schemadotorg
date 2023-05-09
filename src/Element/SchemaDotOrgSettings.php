@@ -354,6 +354,10 @@ class SchemaDotOrgSettings extends Textarea {
    *   The Schema.org settings array to settings value.
    */
   protected static function convertSettingsToValue(array $element, ?array $settings): string|array {
+    if (empty($settings)) {
+      return '';
+    }
+
     switch ($element['#settings_type']) {
       case static::INDEXED:
         return static::convertIndexedArrayToString($settings);
