@@ -11,6 +11,9 @@ schema_types:
     QAPage:
       name: qa
       label: 'Q&A'
+    MedicalClinic:
+      name: clinic
+      label: Clinic
   main_properties:
     AudioObject: null
     Comment: text
@@ -367,7 +370,11 @@ schema_types:
       - serviceUrl
     ContactPoint:
       - contactType
+      - contactOption
       - telephone
+      - faxNumber
+      - email
+      - hoursAvailable
     PostalAddress:
       - addressCountry
       - addressLocality
@@ -567,6 +574,8 @@ schema_types:
       - address
       - description
       - image
+      - latitude
+      - longitude
       - name
       - telephone
     CivicStructure:
@@ -824,8 +833,6 @@ schema_properties:
     Person--givenName:
       label: 'First name'
       required: true
-    Physician--founder:
-      label: 'Physician biography'
     QAPage--mainEntity:
       label: Questions
       unlimited: true
@@ -943,6 +950,9 @@ schema_properties:
       unlimited: true
     deathPlace:
       type: string
+    department:
+      label: 'Departments'
+      unlimited: true
     description:
       type: text_long
     dietFeatures:
@@ -994,6 +1004,9 @@ schema_properties:
       unlimited: true
     hasHealthAspect:
       label: 'Health aspects'
+      unlimited: true
+    hasMap:
+      label: Maps
       unlimited: true
     hasMenu:
       label: Menus

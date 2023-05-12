@@ -1,16 +1,24 @@
 default_vocabularies_group_label: 'Tags / Categories'
 default_vocabularies: {  }
 property_vocabularies:
+  amenityFeature:
+    id: amenity
+    label: 'Amenity'
+  availableService:
+    id: service
+    label: 'Service'
+  cookingMethod:
+    id: cooking_method
+    label: 'Cooking method'
   keywords:
     id: keywords
     label: Keywords
+  medicalSpecialty:
+    id: amenity
+    label: 'Medical specialty'
   recipeCategory:
     id: recipe_category
     label: 'Recipe category'
   recipeCuisine:
     id: recipe_cuisine
     label: 'Recipe cuisine'
-  cookingMethod:
-    id: cooking_method
-    label: 'Cooking method'
-

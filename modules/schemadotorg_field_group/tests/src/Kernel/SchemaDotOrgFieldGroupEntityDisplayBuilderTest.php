@@ -6,7 +6,6 @@ namespace Drupal\Tests\schemadotorg_field_grup\Kernel;
 
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\schemadotorg\Entity\SchemaDotOrgMappingType;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 
 /**
@@ -68,13 +67,9 @@ n   */
   public function testEntityDisplayBuilder(): void {
     // Allow Schema.org Thing to have default properties.
     $this->config('schemadotorg.settings')
-      ->set('schema_types.default_properties.Thing', ['name', 'alternateName'])
+      ->set('schema_types.default_properties.Thing', ['name', 'disambiguatingDescription'])
+      ->set('schema_properties.default_field_weights', ['name', 'disambiguatingDescription', 'description'])
       ->save();
-
-    // Update field weights.
-    $mapping_type = SchemaDotOrgMappingType::load('node');
-    $mapping_type->set('default_field_weights', ['name', 'alternateName', 'description']);
-    $mapping_type->save();
 
     // Create node.thing.
     $mapping = $this->createSchemaEntity('node', 'Thing');
@@ -83,14 +78,14 @@ n   */
     $view_display = $this->entityDisplayRepository->getViewDisplay('node', 'thing', 'default');
 
     $field_group = $view_display->getThirdPartySettings('field_group');
-    $this->assertEquals(['schema_alternate_name'], $field_group['group_thing']['children']);
+    $this->assertEquals(['schema_disambiguating_desc'], $field_group['group_thing']['children']);
     $this->assertEquals('Thing information', $field_group['group_thing']['label']);
     $this->assertEquals('fieldset', $field_group['group_thing']['format_type']);
 
-    $component = $view_display->getComponent('schema_alternate_name');
-    $this->assertEquals('string', $component['type']);
+    $component = $view_display->getComponent('schema_disambiguating_desc');
+    $this->assertEquals('text_default', $component['type']);
     $this->assertEquals('above', $component['label']);
-    $this->assertEquals(4, $component['weight']);
+    $this->assertEquals(2, $component['weight']);
 
     $component = $view_display->getComponent('links');
     $this->assertEquals(200, $component['weight']);
@@ -99,13 +94,13 @@ n   */
     $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'thing', 'default');
 
     $field_group = $form_display->getThirdPartySettings('field_group');
-    $this->assertEquals(['schema_alternate_name'], $field_group['group_thing']['children']);
+    $this->assertEquals(['schema_disambiguating_desc'], $field_group['group_thing']['children']);
     $this->assertEquals('Thing information', $field_group['group_thing']['label']);
     $this->assertEquals('details', $field_group['group_thing']['format_type']);
 
-    $component = $form_display->getComponent('schema_alternate_name');
-    $this->assertEquals('string_textfield', $component['type']);
-    $this->assertEquals(4, $component['weight']);
+    $component = $form_display->getComponent('schema_disambiguating_desc');
+    $this->assertEquals('text_textarea', $component['type']);
+    $this->assertEquals(2, $component['weight']);
 
     $component = $form_display->getComponent('status');
     $this->assertEquals(220, $component['weight']);
@@ -175,19 +170,19 @@ n   */
       $mapping->getSchemaProperties()
     );
     $view_display = $this->entityDisplayRepository->getViewDisplay('node', 'thing', 'default');
-    $this->assertEquals(4, $view_display->getComponent('schema_alternate_name')['weight']);
-    $this->assertEquals(12, $view_display->getComponent('body')['weight']);
+    $this->assertEquals(2, $view_display->getComponent('schema_disambiguating_desc')['weight']);
+    $this->assertEquals(3, $view_display->getComponent('body')['weight']);
     $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'thing', 'default');
-    $this->assertEquals(4, $form_display->getComponent('schema_alternate_name')['weight']);
-    $this->assertEquals(12, $form_display->getComponent('body')['weight']);
+    $this->assertEquals(2, $form_display->getComponent('schema_disambiguating_desc')['weight']);
+    $this->assertEquals(3, $form_display->getComponent('body')['weight']);
 
     // Check settings entity display field groups for Schema.org properties.
     $this->config('schemadotorg_field_group.settings')
       ->set('default_field_groups.node', [
         'general' => [
           'label' => 'General information',
-          // Note: Switching the order of alterateName and description.
-          'properties' => ['title', 'description', 'alternateName'],
+          // Note: Switching the order of disambiguatingDescription and description.
+          'properties' => ['title', 'description', 'disambiguatingDescription'],
         ],
       ])->save();
 
@@ -199,16 +194,16 @@ n   */
     );
 
     $view_display = $this->entityDisplayRepository->getViewDisplay('node', 'thing', 'default');
-    $this->assertEquals(2, $view_display->getComponent('schema_alternate_name')['weight']);
+    $this->assertEquals(2, $view_display->getComponent('schema_disambiguating_desc')['weight']);
     $this->assertEquals(1, $view_display->getComponent('body')['weight']);
 
     $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'thing', 'default');
-    $this->assertEquals(2, $form_display->getComponent('schema_alternate_name')['weight']);
+    $this->assertEquals(2, $form_display->getComponent('schema_disambiguating_desc')['weight']);
     $this->assertEquals(1, $form_display->getComponent('body')['weight']);
 
     $field_group = $view_display->getThirdPartySettings('field_group');
     $this->assertEquals([], $field_group['group_thing']['children']);
-    $this->assertEquals(['title', 'schema_alternate_name', 'body'], $field_group['group_general']['children']);
+    $this->assertEquals(['title', 'schema_disambiguating_desc', 'body'], $field_group['group_general']['children']);
     $this->assertEquals('General information', $field_group['group_general']['label']);
     $this->assertEquals('fieldset', $field_group['group_general']['format_type']);
   }

@@ -425,6 +425,13 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     array &$formatter_settings
   ): void {
     switch ($field_storage_values['type']) {
+      case 'boolean':
+        $field_values['settings'] = [
+          'on_label' => $this->t('Yes'),
+          'off_label' => $this->t('No'),
+        ];
+        break;
+
       case 'datetime':
         switch ($schema_property) {
           case 'dateCreated':

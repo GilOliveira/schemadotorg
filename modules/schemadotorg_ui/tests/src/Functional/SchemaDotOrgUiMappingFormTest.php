@@ -140,7 +140,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet('/admin/structure/paragraphs_type/schemadotorg', ['query' => ['type' => 'ContactPoint']]);
     $this->submitForm([], 'Save');
     $assert_session->responseContains('The Paragraphs type <em class="placeholder">Contact Point</em> has been added.');
-    $assert_session->responseContains('Added <em class="placeholder">Contact type; Telephone</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Contact option; Contact type; Email; Fax number; Hours available; Telephone</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">Contact Point</em> mapping.');
 
     // Check display warning that new Schema.org type is mapped.
@@ -186,6 +186,10 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $expected_schema_properties = [
       'schema_contact_type' => 'contactType',
       'schema_telephone' => 'telephone',
+      'schema_contact_option' => 'contactOption',
+      'schema_email' => 'email',
+      'schema_fax_number' => 'faxNumber',
+      'schema_hours_available' => 'hoursAvailable',
     ];
     $actual_schema_properties = $contact_point_mapping->getSchemaProperties();
     $this->assertEquals($expected_schema_properties, $actual_schema_properties);
@@ -337,7 +341,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet('/admin/structure/types/schemadotorg', ['query' => ['type' => 'Place']]);
     $this->submitForm([], 'Save');
     $assert_session->responseContains('The content type <em class="placeholder">Place</em> has been added.');
-    $assert_session->responseContains('Added <em class="placeholder">Address; Image; Telephone</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Address; Image; Latitude; Longitude; Telephone</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">Place</em> mapping.');
   }
 

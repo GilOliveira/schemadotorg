@@ -42,7 +42,7 @@ class SchemaDotOrgOfficeHoursInstallTest extends KernelTestBase {
   public function testInstallAndUninstall(): void {
     $this->assertNull(\Drupal::config('schemadotorg.settings')->get('schema_types.default_field_types.OpeningHoursSpecification'));
     $this->assertEquals(
-      ['address', 'description', 'image', 'name', 'telephone'],
+      ['address', 'description', 'image', 'latitude', 'longitude', 'name', 'telephone'],
       \Drupal::config('schemadotorg.settings')->get('schema_types.default_properties.Place')
     );
 
@@ -56,7 +56,7 @@ class SchemaDotOrgOfficeHoursInstallTest extends KernelTestBase {
 
     // Check adding openingHoursSpecification to Place's default properties.
     $this->assertEquals(
-      ['address', 'description', 'image', 'name', 'openingHoursSpecification', 'telephone'],
+      ['address', 'description', 'image', 'latitude', 'longitude', 'name', 'openingHoursSpecification', 'telephone'],
       \Drupal::config('schemadotorg.settings')->get('schema_types.default_properties.Place')
     );
 
@@ -71,7 +71,7 @@ class SchemaDotOrgOfficeHoursInstallTest extends KernelTestBase {
     // Check removing openingHoursSpecification from Place's default properties.
     $this->assertNull(\Drupal::config('schemadotorg.settings')->get('schema_types.default_field_types.OpeningHoursSpecification'));
     $this->assertEquals(
-      ['address', 'description', 'image', 'name', 'telephone'],
+      ['address', 'description', 'image', 'latitude', 'longitude', 'name', 'telephone'],
       \Drupal::config('schemadotorg.settings')->get('schema_types.default_properties.Place')
     );
 

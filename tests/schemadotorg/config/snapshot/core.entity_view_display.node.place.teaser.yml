@@ -6,9 +6,12 @@ dependencies:
     - field.field.node.place.body
     - field.field.node.place.schema_address
     - field.field.node.place.schema_image
+    - field.field.node.place.schema_latitude
+    - field.field.node.place.schema_longitude
     - field.field.node.place.schema_telephone
     - node.type.place
   module:
+    - image
     - text
     - user
 id: node.place.teaser
@@ -36,6 +39,18 @@ content:
     third_party_settings: {  }
     weight: 109
     region: content
+  schema_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 5
+    region: content
 hidden:
-  schema_image: true
+  schema_latitude: true
+  schema_longitude: true
   schema_telephone: true

@@ -3,3 +3,5 @@ default_properties:
   memberOf: member
   subOrganization: parentOrganization
   subjectOf: about
+  worksFor: employee
+  department: department

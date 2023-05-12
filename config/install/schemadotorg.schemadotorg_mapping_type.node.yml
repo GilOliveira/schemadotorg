@@ -111,12 +111,22 @@ default_schema_type_view_displays:
     Person:
       - image
     Place:
+      - image
       - address
     LocalBusiness:
       - openingHours
     Episode:
       - duration
       - episodeNumber
+    Hospital:
+      - availableService
+    MedicalOrganization:
+      - medicalSpecialty
+    MedicalClinic:
+      - availableService
+    Physician:
+      - availableService
+      - medicalSpecialty
     JobPosting:
       - datePosted
     Recipe:

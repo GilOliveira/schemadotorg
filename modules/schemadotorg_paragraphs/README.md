@@ -24,6 +24,9 @@ Features
 - Add paragraph type icons from provided this and other modules. 
   {module_name}/image/schemadotorg_paragraphs/{paragrap_type}.svg
 - Adds paragraph from paragraphs library to JSON-LD.
+- Limit a paragraph's property/field access based on the paragraph's parent
+  Schema.org mapping type.
+
 
 Configuration
 -------------
@@ -31,6 +34,8 @@ Configuration
 - Go to the Schema.org types configuration page.  
   (/admin/config/search/schemadotorg/settings/types)
 - Enter Schema.org types that default to using the Paragraphs library.
+- Enter Schema.org parent type and paragraph types that have limited 
+  Schema.org properties.
 
 
 Requirements

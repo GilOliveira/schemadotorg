@@ -20,41 +20,18 @@ default_field_groups:
         - jobTitle
         - worksFor
         - affiliation
-        - alumniOf
         - award
     contact:
       label: 'Contact information'
       properties:
         - address
-        - email
+        - longitude
+        - latitude
         - telephone
-        - fax
+        - faxNumber
+        - email
         - contactPoint
   node:
-    general:
-      label: 'General information'
-      properties:
-        - subtype
-        - title
-        - name
-        - headline
-        - alternativeHeadline
-        - description
-        - articleBody
-        - text
-        - author
-    media:
-      label: Media/Assets
-      properties:
-        - logo
-        - image
-        - photo
-        - primaryImageOfPage
-        - video
-        - trailer
-        - thumbnail
-        - thumbnailUrl
-        - contentUrl
     biographical:
       label: 'Biographical information'
       properties:
@@ -67,17 +44,37 @@ default_field_groups:
         - birthDate
         - knowsLanguage
         - nationality
-    professional:
-      label: 'Professional information'
+    general:
+      label: 'General information'
       properties:
-        - jobTitle
-        - worksFor
-        - affiliation
-        - alumniOf
-        - award
+        - subtype
+        - title
+        - name
+        - headline
+        - alternativeHeadline
+        - description
+        - articleBody
+        - text
+        - author
+        - alternateName
+    media:
+      label: Media/Assets
+      properties:
+        - logo
+        - image
+        - photo
+        - primaryImageOfPage
+        - video
+        - trailer
+        - thumbnail
+        - thumbnailUrl
+        - contentUrl
     employment:
       label: 'Employment information'
       properties:
+        - jobTitle
+        - affiliation
+        - award
         - benefits
         - datePosted
         - validThrough
@@ -94,18 +91,6 @@ default_field_groups:
         - eligibilityToWorkRequirement
         - employerOverview
         - applicationContact
-    organization:
-      label: 'Organization information'
-      properties:
-        - nonprofitStatus
-        - founder
-        - employee
-        - member
-        - memberOf
-        - department
-        - subOrganization
-        - parentOrganization
-        - alumni
     education:
       label: 'Education information'
       properties:
@@ -135,6 +120,7 @@ default_field_groups:
         - hasMenu
         - availableService
         - amenityFeature
+        - nonprofitStatus
     service:
       label: 'Service information'
       properties:
@@ -158,10 +144,13 @@ default_field_groups:
       label: 'Contact information'
       properties:
         - address
-        - contactPoint
+        - longitude
+        - latitude
         - telephone
         - faxNumber
         - email
+        - hasMap
+        - contactPoint
     event:
       label: 'Event information'
       properties:
@@ -190,7 +179,6 @@ default_field_groups:
         - causeOf
         - usesDevice
         - hospitalAffiliation
-        - healthPlanNetworkId
         - isAcceptingNewPatients
     medical_substance:
       label: 'Medical substance'
@@ -259,16 +247,26 @@ default_field_groups:
       label: Links
       properties:
         - sameAs
-        - mentions
         - relatedLink
         - significantLink
-    references:
-      label: References
+    relationships:
+      label: Relationships
       properties:
+        - founder
+        - employee
+        - worksFor
+        - department
+        - alumni
+        - alumniOf
+        - member
+        - memberOf
+        - subOrganization
+        - parentOrganization
         - containedInPlace
         - containsPlace
         - subjectOf
         - about
+        - mentions
     identifier:
       label: Identifiers
       properties:
@@ -286,6 +284,7 @@ default_field_groups:
         - gtin13
         - gtin14
         - gtin8
+        - healthPlanNetworkId
         - isbn
         - issn
         - legislationIdentifier

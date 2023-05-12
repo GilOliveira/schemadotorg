@@ -46,7 +46,11 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
     $this->assertEquals('contact_point', $mapping->getTargetBundle());
     $this->assertEquals('ContactPoint', $mapping->getSchemaType());
     $this->assertEquals($mapping->getSchemaProperties(), [
+      'schema_contact_option' => 'contactOption',
       'schema_contact_type' => 'contactType',
+      'schema_email' => 'email',
+      'schema_fax_number' => 'faxNumber',
+      'schema_hours_available' => 'hoursAvailable',
       'schema_telephone' => 'telephone',
     ]);
 
@@ -90,6 +94,8 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
       'body' => 'description',
       'schema_address' => 'address',
       'schema_image' => 'image',
+      'schema_latitude' => 'latitude',
+      'schema_longitude' => 'longitude',
       'schema_telephone' => 'telephone',
       'title' => 'name',
     ]);

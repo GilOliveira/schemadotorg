@@ -54,8 +54,7 @@ class SchemaDotOrgCorrespondingReferenceManager implements SchemaDotOrgCorrespon
       ->get('default_properties');
     $default_properties += array_flip($default_properties);
     foreach ($default_properties as $default_property) {
-      if (!isset($defaults['properties'][$default_property])
-        || !empty($defaults['properties'][$default_property]['name'])) {
+      if (!isset($defaults['properties'][$default_property])) {
         continue;
       }
 

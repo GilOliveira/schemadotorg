@@ -391,7 +391,7 @@ class SchemaDotOrgHelpManager implements SchemaDotOrgHelpManagerInterface {
         ];
       }
     }
-
+    ksort($operations);
     $operations['schemadotorg']['title'] = $this->t('Learn more about the Schema.org Blueprints modules');
 
     return $operations;

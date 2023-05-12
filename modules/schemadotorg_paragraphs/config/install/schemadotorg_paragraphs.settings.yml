@@ -15,3 +15,7 @@ paragraphs_library:
   - MediaGallery
   - ImageGallery
   - VideoGallery
+property_access:
+  Person--ContactPoint:
+    - contactType
+    - telephone
