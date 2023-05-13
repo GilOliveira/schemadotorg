@@ -1,6 +1,6 @@
 schemadotorg_cer.settings:
   type: config_entity
-  label: Schema.org Corresponding Entity References settings
+  label: Schema.org Corresponding entity references settings
   mapping:
     default_properties:
       type: sequence

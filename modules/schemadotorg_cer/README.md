@@ -35,5 +35,5 @@ Configuration
 
 - Go to the Schema.org properties configuration page.  
   (/admin/config/search/schemadotorg/settings/properties)
-- Go to the 'Corresponding Entity References settings' details.
+- Go to the 'Corresponding entity references settings' details.
 - Enter default Schema.org property inverse of relationships.
