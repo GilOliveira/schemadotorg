@@ -96,10 +96,9 @@ class SchemaDotOrgIdentifierManagerTest extends SchemaDotOrgKernelEntityTestBase
         'base_field' => TRUE,
       ],
       'npi' => [
-        'property_id' => 'NPI',
+        'property_id' => 'npi',
         'label' => 'National Provider Identifier (NPI)',
         'description' => 'A unique identification number for covered health care providers.',
-        'required' => TRUE,
         'max_length' => 10,
         'field_name' => 'schema_identifier_npi',
         'base_field' => FALSE,

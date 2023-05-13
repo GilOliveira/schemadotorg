@@ -70,6 +70,9 @@ and field configuration settings.
 - **[Schema.org Blueprints Field Group](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_field_group)**  
   Creates field groups in entity view and form displays when Schema.org properties are mapping to a field.
 
+- **[Schema.org Blueprints Field Validation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_field_validation)**  
+  Adds field validation/constraint rules to Schema.org properties.
+
 - **[Schema.org Blueprints Flex Field](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_flexfield)**  
   Allows a Flex field to be used to create Schema.org relationships within an entity type/bundle Schema.org mapping.
 
@@ -233,23 +236,11 @@ _The below modules improve the Schema.org Blueprints module's user experience._
 - **[Content Browser](https://www.drupal.org/project/content_browser)**  
   Provides a default Entity Browser for default Content Entity types, using Masonry.
 
-- **[Entity Reference Tree Widget](https://www.drupal.org/project/entity_reference_tree)**  
-  Provides an entity relationship hierarchy tree widget for an entity reference field.
-
-- **[Inline Entity Form](https://www.drupal.org/project/inline_entity_form)**  
-  Provides a widget for inline management (creation, modification, removal) of referenced entities.\
-
-- **[Allowed Formats](https://www.drupal.org/project/allowed_formats)**  
-  Limit which text formats are available for each field instance.
-
 - **[Autosave Form](https://www.drupal.org/project/autosave_form)**  
   Provides an autosave feature for all forms (entity forms inclusive).
 
 - **[Node Edit Protection](https://www.drupal.org/project/node_edit_protection)**  
   Alerts a user if they are navigating away from a modified Node Edit form without saving.
-
-- **[Token Filter](https://www.drupal.org/project/token_filter)**  
-  Makes token values available as an input filter.
 
 ### Workflow/Moderation
 
@@ -302,11 +293,14 @@ _The below modules provide additional features to entity types._
 - **[Metatag](https://www.drupal.org/project/metatag)**  
   Manages meta tags for all entities.
 
-### Field Types
+### Field Types/Field Enhancements
 
-_The below modules provide more specific field types and behaviors._
+_The below modules provide more specific field types, enhancements, and behaviors._
 
 Text
+
+- **[Allowed Formats](https://www.drupal.org/project/allowed_formats)**  
+  Limit which text formats are available for each field instance.
 
 - **[Existing Values Autocomplete Widget](https://www.drupal.org/project/existing_values_autocomplete_widget)**  
   Provides an autocomplete widget for text fields that suggests all existing (previously entered) values for that field.
@@ -318,6 +312,9 @@ Text
 - **[Time Field](https://www.drupal.org/project/time_field)**  
   (Applies to: [Time](https://schema.org/Time))  
   Provides "Time Field" and "Time Range Field".
+
+- **[Token Filter](https://www.drupal.org/project/token_filter)**  
+  Makes token values available as an input filter.
 
 - **[SmartDate](https://www.drupal.org/project/smart_date)**  
   (Applies to: [Date](https://schema.org/Date), [DateTime](https://schema.org/DateTime), [Schedule](https://schema.org/Schedule))  
@@ -343,6 +340,12 @@ References
 
 - **[Corresponding Entity References](https://www.drupal.org/project/cer)**        
   Allows users to create two-way references between entities.
+
+- **[Entity Reference Tree Widget](https://www.drupal.org/project/entity_reference_tree)**  
+  Provides an entity relationship hierarchy tree widget for an entity reference field.
+
+- **[Inline Entity Form](https://www.drupal.org/project/inline_entity_form)**  
+  Provides a widget for inline management (creation, modification, removal) of referenced entities.\
 
 Demographic
 
@@ -395,6 +398,11 @@ Calculation
 
 - **[Field Token Value](https://www.drupal.org/project/field_token_value)**  
   Provides a field allowing the value to be set using a string containing tokens.
+
+Validation
+
+- **[Field Validation](https://www.drupal.org/project/field_validation)**    
+  Provides customizable field validation rules.
 
 ### Integrations
 

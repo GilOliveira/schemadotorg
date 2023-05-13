@@ -65,6 +65,10 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
       case 'schemadotorg_report.properties.inverse_of':
         $base_query->condition('inverse_of', '', '<>');
         break;
+
+      case 'schemadotorg_report.properties.identifier':
+        $base_query->condition('sub_property_of', 'https://schema.org/identifier');
+        break;
     }
 
     // Total.
@@ -162,6 +166,10 @@ class SchemaDotOrgReportTableController extends SchemaDotOrgReportControllerBase
       ],
       'range_includes' => [
         'data' => $this->t('Range includes'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+      ],
+      'sub_property_of' => [
+        'data' => $this->t('Sub property of'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
       ],
     ];

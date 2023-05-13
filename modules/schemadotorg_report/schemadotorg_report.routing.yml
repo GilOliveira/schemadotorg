@@ -95,6 +95,15 @@ schemadotorg_report.properties.inverse_of:
   requirements:
     _permission: 'access site reports'
 
+schemadotorg_report.properties.identifier:
+  path: '/admin/reports/schemadotorg/docs/identifier'
+  defaults:
+    _title: 'Schema.org: Identifiers'
+    _controller: '\Drupal\schemadotorg_report\Controller\SchemaDotOrgReportTableController::index'
+    table: 'properties'
+  requirements:
+    _permission: 'access site reports'
+
 # Mappings
 
 schemadotorg_report.mappings.recommendations:

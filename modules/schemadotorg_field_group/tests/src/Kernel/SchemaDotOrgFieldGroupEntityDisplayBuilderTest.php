@@ -40,7 +40,6 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilderTest extends SchemaDotOrgKernelE
 n   */
   protected $schemaEntityDisplayBuilder;
 
-
   /**
    * The Schema.org field group entity display builder.
    *

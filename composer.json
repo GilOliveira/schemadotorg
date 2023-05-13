@@ -38,6 +38,7 @@
         "drupal/entity_usage": "~2.0",
         "drupal/existing_values_autocomplete_widget": "~2.0",
         "drupal/field_group": "~3.0",
+        "drupal/field_validation": "^1.0",
         "drupal/focal_point": "~1.0",
         "drupal/jsonapi_extras": "~3.0",
         "drupal/layout_paragraphs": "~2.0",

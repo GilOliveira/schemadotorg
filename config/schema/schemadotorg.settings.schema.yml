@@ -105,6 +105,9 @@ schemadotorg.settings:
               required:
                 type: boolean
                 label: 'Required field'
+              max_length:
+                type: integer
+                label: 'Maximum length'
         default_field_types:
           type: sequence
           label: 'Default field types'

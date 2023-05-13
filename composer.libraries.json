@@ -30,6 +30,7 @@
     "drupal/entity_usage": "^2.0",
     "drupal/existing_values_autocomplete_widget": "^2.0",
     "drupal/field_group": "^3.0",
+    "drupal/field_validation": "^1.0",
     "drupal/flexfield": "^2.0",
     "drupal/entity_reference_tree": "^2.0",
     "drupal/focal_point": "^2.0",
@@ -56,8 +57,7 @@
         "Issue #2819251: generateSampleValue": "https://www.drupal.org/files/issues/2022-05-16/address-2819251-6.patch"
       },
       "drupal/layout_paragraphs": {
-        "Issue #3258029: Media Library validation bug when content type has a media field and a paragraph field with the same machine name": "https://git.drupalcode.org/project/layout_paragraphs/-/merge_requests/58.diff",
-        "Issue #3273387: Layout Paragraphs Builder Field Formatter causes error on Layout Builder display mode management screen": "https://www.drupal.org/files/issues/2022-12-31/layout_paragraphs-3273387-6.patch"
+        "Issue #3258029: Media Library validation bug when content type has a media field and a paragraph field with the same machine name": "https://git.drupalcode.org/project/layout_paragraphs/-/merge_requests/58.diff"
       },
       "drupal/metatag": {
         "Issue #2945817: Support JSON API, REST, GraphQL and custom normalizations": "https://www.drupal.org/files/issues/2022-10-13/metatag-data-type-support-2945817-154.patch"

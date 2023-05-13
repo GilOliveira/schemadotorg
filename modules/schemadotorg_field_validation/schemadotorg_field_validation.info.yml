@@ -1,0 +1,9 @@
+name: Schema.org Blueprints Field Validation
+type: module
+description: Adds field validation/constraint rules to Schema.org properties.
+package: Schema.org Blueprints Fields
+core_version_requirement: '^9.4 || ^10.0'
+configure: schemadotorg.settings.properties
+dependencies:
+  - 'schemadotorg:schemadotorg'
+  - 'field_validation:field_validation'

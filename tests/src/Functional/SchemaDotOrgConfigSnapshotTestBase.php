@@ -117,7 +117,11 @@ abstract class SchemaDotOrgConfigSnapshotTestBase extends SchemaDotOrgBrowserTes
 
         // Get config raw data without uuid and _core.
         $config_data = \Drupal::config($config_name)->getRawData();
-        unset($config_data['uuid'], $config_data['_core']);
+        unset(
+          $config_data['uuid'],
+          $config_data['icon_uuid'],
+          $config_data['_core']
+        );
 
         // Create config snapshot if it does not exist.
         // @todo Determine if we need to notify the user via CLI.

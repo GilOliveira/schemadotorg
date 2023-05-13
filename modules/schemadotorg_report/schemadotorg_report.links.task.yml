@@ -50,6 +50,10 @@ schemadotorg_report.properties.inverse_of:
   title: Inverse of
   route_name: schemadotorg_report.properties.inverse_of
   parent_id: schemadotorg_report.properties
+schemadotorg_report.properties.identifier:
+  title: Identifiers
+  route_name: schemadotorg_report.properties.identifier
+  parent_id: schemadotorg_report.properties
 
 # Mappings
 

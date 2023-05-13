@@ -74,6 +74,10 @@ function schemadotorg_paragraphs_schemadotorg_property_field_alter(
  * Implements hook_ENTITY_TYPE_presave().
  */
 function schemadotorg_paragraphs_paragraphs_type_presave(ParagraphsTypeInterface $paragraphs_type): void {
+  if (\Drupal::isConfigSyncing()) {
+    return;
+  }
+
   if ($paragraphs_type->getIconFile()) {
     return;
   }

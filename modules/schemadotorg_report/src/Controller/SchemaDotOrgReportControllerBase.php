@@ -187,8 +187,7 @@ abstract class SchemaDotOrgReportControllerBase extends ControllerBase {
   protected function buildTableCell(string $name, string $value): array|string {
     switch ($name) {
       case 'comment':
-        $options = ['base_path' => Url::fromRoute('schemadotorg_report')->toString()];
-        return ['data' => ['#markup' => $this->schemaTypeBuilder->formatComment($value, $options)]];
+        return ['data' => ['#markup' => $this->schemaTypeBuilder->formatComment($value)]];
 
       default:
         $links = $this->schemaTypeBuilder->buildItemsLinks($value);

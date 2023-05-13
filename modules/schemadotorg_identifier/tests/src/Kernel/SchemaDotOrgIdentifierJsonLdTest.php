@@ -68,7 +68,7 @@ class SchemaDotOrgIdentifierJsonLdTest extends SchemaDotOrgKernelEntityTestBase 
       ],
       [
         '@type' => 'PropertyValue',
-        'propertyID' => 'NPI',
+        'propertyID' => 'npi',
         'value' => '000000000',
       ],
     ];
