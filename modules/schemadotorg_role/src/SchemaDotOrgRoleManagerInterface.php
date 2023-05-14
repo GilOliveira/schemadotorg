@@ -27,7 +27,7 @@ interface SchemaDotOrgRoleManagerInterface {
   public function mappingDefaultsAlter(array &$defaults, string $entity_type_id, ?string $bundle, string $schema_type): void;
 
   /**
-   * Alter the Schema.org Blueprint UI mapping form.
+   * Alter the Schema.org Blueprints UI mapping form.
    *
    * Replaces field creation form with text and edit links.
    *

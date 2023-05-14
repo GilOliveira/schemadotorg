@@ -78,8 +78,7 @@ class SchemadotorgMappingSetController extends ControllerBase {
   public function overview(): array {
     // Header.
     $header = [
-      'title' => ['data' => $this->t('Title'), 'width' => '15%'],
-      'name' => ['data' => $this->t('Name'), 'width' => '15%'],
+      'title' => ['data' => $this->t('Title / Name'), 'width' => '30%'],
       'setup' => ['data' => $this->t('Setup'), 'width' => '10%'],
       'types' => ['data' => $this->t('Types'), 'width' => '50%'],
       'operations' => ['data' => $this->t('Operations'), 'width' => '10%'],
@@ -116,12 +115,16 @@ class SchemadotorgMappingSetController extends ControllerBase {
       $row = [];
       $row['title'] = [
         'data' => [
-          '#type' => 'link',
-          '#title' => $mapping_set['label'],
-          '#url' => $view_url,
+          'link' => [
+            '#type' => 'link',
+            '#title' => $mapping_set['label'],
+            '#url' => $view_url,
+          ],
+          'name' => [
+            '#markup' => ' (' . $name . ')',
+          ],
         ],
       ];
-      $row['name'] = $name;
       $row['setup'] = $is_setup ? $this->t('Yes') : $this->t('No');
       $row['types'] = ['data' => ['#markup' => implode(', ', $types)]];
       // Only show operation when there are no invalid types.

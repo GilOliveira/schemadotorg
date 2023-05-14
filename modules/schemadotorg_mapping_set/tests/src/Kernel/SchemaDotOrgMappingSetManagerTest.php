@@ -182,7 +182,6 @@ class SchemaDotOrgMappingSetManagerTest extends SchemaDotOrgKernelEntityTestBase
     $this->assertCount(0, $mapping_sets);
     $mapping_sets = $this->schemaMappingSetManager->getMappingSets('node', 'ContactPoint', FALSE);
     $this->assertCount(1, $mapping_sets);
-
   }
 
 }

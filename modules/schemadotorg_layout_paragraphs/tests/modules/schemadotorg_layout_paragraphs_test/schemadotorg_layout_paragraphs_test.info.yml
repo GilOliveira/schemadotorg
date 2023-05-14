@@ -1,6 +1,6 @@
-name: 'Schema.org Blueprint Layout Paragraphs test'
+name: 'Schema.org Blueprints Layout Paragraphs test'
 type: module
-description: 'Support module for the Schema.org Blueprint Layout Paragraphs module tests.'
+description: 'Support module for the Schema.org Blueprints Layout Paragraphs module tests.'
 package: Testing
 dependencies:
  - 'drupal:file'

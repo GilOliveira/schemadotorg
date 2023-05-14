@@ -12,22 +12,22 @@ modules/schemadotorg_demo/scripts/schemadotorg_demo.sh install;
 # Install minimal profile.
 modules/schemadotorg_demo/scripts/schemadotorg_demo.sh install minimal;
 
-# Install Schema.org Blueprint base modules.
+# Install Schema.org Blueprints base modules.
 modules/schemadotorg_demo/scripts/schemadotorg_demo.sh install_base;
 
-# Install Schema.org Blueprint base + extras modules.
+# Install Schema.org Blueprints base + extras modules.
 modules/schemadotorg_demo/scripts/schemadotorg_demo.sh install_extras;
 
-# Install Schema.org Blueprint standard demo.
+# Install Schema.org Blueprints standard demo.
 modules/schemadotorg_demo/scripts/schemadotorg_demo.sh install_demo_standard;
 
-# Install Schema.org Blueprint standard demo + translations.
+# Install Schema.org Blueprints standard demo + translations.
 modules/schemadotorg_demo/scripts/schemadotorg_demo.sh install_demo_standard_translation;
 
-# Install Schema.org Blueprint standard demo + Next.js.
+# Install Schema.org Blueprints standard demo + Next.js.
 modules/schemadotorg_demo/scripts/schemadotorg_demo.sh install_demo_standard_next;
 
-# Install Schema.org Blueprint standard demo + translations + Umami.
+# Install Schema.org Blueprints standard demo + translations + Umami.
 modules/schemadotorg_demo/scripts/schemadotorg_demo.sh install_demo_standard_translation_umami;
 ```
 

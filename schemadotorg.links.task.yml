@@ -8,13 +8,13 @@ entity.schemadotorg_mapping_type.collection:
   title: Mapping types
   route_name: entity.schemadotorg_mapping_type.collection
   base_route: entity.schemadotorg_mapping.collection
-  weight: 20
+  weight: 10
 
 schemadotorg.settings:
   title: Settings
   route_name: schemadotorg.settings
   base_route: entity.schemadotorg_mapping.collection
-  weight: 30
+  weight: 100
 schemadotorg.settings.general:
   title: General
   route_name: schemadotorg.settings.general

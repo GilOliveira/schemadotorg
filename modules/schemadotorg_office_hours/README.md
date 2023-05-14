@@ -16,7 +16,7 @@ used to create https://schema.org/OpeningHoursSpecification.
 Features
 --------
 
-- During installation, alters the Schema.org Blueprint type and properties
+- During installation, alters the Schema.org Blueprints type and properties
   configuration to use the
   [openingHoursSpecification](https://schema.org/openingHoursSpecification) property.
 

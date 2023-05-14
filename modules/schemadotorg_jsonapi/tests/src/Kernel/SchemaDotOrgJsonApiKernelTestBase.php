@@ -76,7 +76,7 @@ abstract class SchemaDotOrgJsonApiKernelTestBase extends SchemaDotOrgKernelTestB
     $this->resourceStorage = $this->container->get('entity_type.manager')->getStorage('jsonapi_resource_config');
     $this->manager = $this->container->get('schemadotorg_jsonapi.manager');
 
-    // Set the Schema.org Blueprint JSON:API weight.
+    // Set the Schema.org Blueprints JSON:API weight.
     // @see schemadotorg_jsonapi_install()
     module_set_weight('schemadotorg_jsonapi', 1);
   }

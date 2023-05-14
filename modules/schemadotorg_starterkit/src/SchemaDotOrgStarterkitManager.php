@@ -9,14 +9,18 @@ use Drupal\config_rewrite\ConfigRewriter;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleExtensionList;
+use Drupal\Core\Extension\ModuleInstallerInterface;
 use Drupal\Core\File\FileSystemInterface;
+use Drupal\devel_generate\DevelGeneratePluginManager;
 use Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
+use Drupal\schemadotorg\Traits\SchemaDotOrgDevelGenerateTrait;
 
 /**
- * Schema.org starterkit manager service.
+ * Schema.org Starterkit manager service.
  */
 class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInterface {
+  use SchemaDotOrgDevelGenerateTrait;
 
   /**
    * Constructs a SchemaDotOrgStarterkitManager object.
@@ -25,6 +29,8 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    *   The file system service.
    * @param \Drupal\Core\Extension\ModuleExtensionList $extensionListModule
    *   The module extension list.
+   * @param \Drupal\Core\Extension\ModuleInstallerInterface $moduleInstaller
+   *   The module installer service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The configuration object factory.
    * @param \Drupal\config_rewrite\ConfigRewriter|null $configRewriter
@@ -35,16 +41,96 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    *   The Schema.org mapping manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface $schemaConfigManager
    *   The Schema.org config manager.
+   * @param \Drupal\devel_generate\DevelGeneratePluginManager|null $develGenerateManager
+   *   The Devel generate manager.
    */
   public function __construct(
     protected FileSystemInterface $fileSystem,
     protected ModuleExtensionList $extensionListModule,
+    protected ModuleInstallerInterface $moduleInstaller,
     protected ConfigFactoryInterface $configFactory,
     protected ?ConfigRewriter $configRewriter,
     protected EntityTypeManagerInterface $entityTypeManager,
     protected SchemaDotOrgMappingManagerInterface $schemaMappingManager,
-    protected SchemaDotOrgConfigManagerInterface $schemaConfigManager
+    protected SchemaDotOrgConfigManagerInterface $schemaConfigManager,
+    protected ?DevelGeneratePluginManager $develGenerateManager,
   ) {}
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isStarterkit(string $module): bool {
+    $module_path = $this->extensionListModule->getPath($module);
+    $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
+    return file_exists($module_schemadotorg_path);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getStarterkit($module): ?array {
+    return $this->getStarterkits()[$module] ?? NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getStarterkits(): array {
+    $modules = $this->extensionListModule->getAllAvailableInfo();
+    foreach ($modules as $module_name => $module_info) {
+      if (!str_starts_with($module_name, 'schemadotorg_')
+        || !$this->isStarterkit($module_name)) {
+        unset($modules[$module_name]);
+        continue;
+      }
+    }
+    return $modules;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getStarterkitSettings(string $module): FALSE|array {
+    $module_path = $this->extensionListModule->getPath($module);
+    $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
+    return (file_exists($module_schemadotorg_path))
+      ? Yaml::decode(file_get_contents($module_schemadotorg_path))
+      : FALSE;
+  }
+
+  /**
+   * Install a Schema.org starterkit.
+   *
+   * @param string $module
+   *   A Schema.org starterkit module name.
+   */
+  public function install(string $module): void {
+    $this->moduleInstaller->install([$module]);
+  }
+
+  /**
+   * Generate a Schema.org starterkit's content.
+   *
+   * @param string $module
+   *   A Schema.org starterkit module name.
+   */
+  public function generate(string $module): void {
+    $settings = $this->getStarterkitSettings($module);
+    $types = array_keys($settings['types']);
+    $this->develGenerate($types, 5);
+  }
+
+  /**
+   * Kill a Schema.org starterkit's content.
+   *
+   * @param string $module
+   *   A Schema.org starterkit module name.
+   */
+  public function kill(string $module): void {
+    $settings = $this->getStarterkitSettings($module);
+    $types = array_keys($settings['types']);
+    $this->develGenerate($types, 0);
+  }
 
   /**
    * {@inheritdoc}
@@ -80,45 +166,12 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
       }
     }
 
-    // Repair configuration if the starter kit has written any
+    // Repair configuration if the starterkit has written any
     // schemadotorg* configuration.
     // @see https://www.drupal.org/project/config_rewrite/issues/3152228
     if ($has_schema_config_rewrite) {
       $this->schemaConfigManager->repair();
     }
-  }
-
-  /**
-   * Determine if a module is Schema.org Blueprints Starterkit.
-   *
-   * @param string $module
-   *   A module.
-   *
-   * @return bool
-   *   TRUE if a module is Schema.org Blueprints Starterkit.
-   */
-  protected function isStarterkit(string $module): bool {
-    $module_path = $this->extensionListModule->getPath($module);
-    $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
-    return file_exists($module_schemadotorg_path);
-  }
-
-  /**
-   * Get a module's Schema.org Blueprints starter kit settings.
-   *
-   * @param string $module
-   *   A module.
-   *
-   * @return false|array
-   *   A module's Schema.org Blueprints starter kit settings.
-   *   FALSE if the module is not a Schema.org Blueprints starter kit
-   */
-  protected function getSettings(string $module): FALSE|array {
-    $module_path = $this->extensionListModule->getPath($module);
-    $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
-    return (file_exists($module_schemadotorg_path))
-      ? Yaml::decode(file_get_contents($module_schemadotorg_path))
-      : FALSE;
   }
 
   /**
@@ -157,7 +210,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
   }
 
   /**
-   * Setup a starterkit module based on the module's settings.
+   * Setup a starterkit  module based on the module's settings.
    *
    * @param string $module
    *   A module.
@@ -166,7 +219,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
 
-    $settings = $this->getSettings($module);
+    $settings = $this->getStarterkitSettings($module);
     $types = $settings['types'] ?? [];
     foreach ($types as $type => $defaults) {
       [$entity_type, $schema_type] = explode(':', $type);

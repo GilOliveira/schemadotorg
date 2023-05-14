@@ -22,7 +22,7 @@ Currently, the best use case for the Smart date is the pending
 Features
 --------
 
-- During installation, alters the Schema.org Blueprint properties configuration
+- During installation, alters the Schema.org Blueprints properties configuration
   to use the [eventSchedule](https://schema.org/eventSchedule) property.
 
 - Alters Schema.org JSON-LD for startDate and eventSchedule to convert

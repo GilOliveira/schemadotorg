@@ -5,26 +5,26 @@ Table of contents
 * Features
 * Notes
 * Usage
-* Todo
 
 
 Introduction
 ------------
 
 The **Schema.org Blueprints Starterkit (API)** module provides an API for 
-starter kits to create Schema.org types.
+starterkits to create Schema.org types.
 
 
 Features
 --------
 
-- Allows a starter kit/module to change Schema.org configuration before any
+- Allows a starterkit/module to change Schema.org configuration before any
   Schema.org types are created.
-- Allows a starter kit/module to declare what Schema.org types are required
+- Allows a starterkit/module to declare what Schema.org types are required
   preinstallation.
 - Post module installation, re-imports optional configuration and rewrites 
-  configuration via the config_rewrite.module. This allows a starter kit
+  configuration via the config_rewrite.module. This allows a starterkit
   via `hook_install()` to create additional configuration settings.
+- Provide adminstrative page to install starterkits and generate/kill content. 
 
 
 Notes
@@ -44,11 +44,11 @@ Notes
 ### Pre-install
 
 - Rewrites any schemadotorg* configuration in `/config/rewrite`.   
-  _This allows starter kits to adjust the 
+  _This allows starterkits to adjust the 
    Schema.org Blueprints module configuration._
 - Creates Schema.org types via *.schemadotorg_starterkit.yml
 - Rewrites existing and newly created configuration.
-- Imports starter kit's optional configuration.  
+- Imports starterkit's optional configuration.  
 
 ### Install
 
@@ -77,17 +77,3 @@ types:
       organizer: false
       performer: false
 ```
-
-
-TODO
-----
-
-- Possibly create an admin page, similar to the Features UI, that tracks 
-  which starter kits are available and installed.
-
-- Potential starter kits
-  - events
-  - people
-  - places
-  - organizations
-  - recipes

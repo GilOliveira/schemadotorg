@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\Tests\schemadotorg_field_grup\Kernel;
 
-use Drupal\field\Entity\FieldConfig;
-use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\field_validation\Entity\FieldValidationRuleSet;
 use Drupal\node\Entity\NodeType;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
