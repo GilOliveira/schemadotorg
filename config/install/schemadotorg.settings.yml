@@ -996,6 +996,8 @@ schema_properties:
     gamePlatform:
       label: 'Game platforms'
       unlimited: true
+    geo:
+      label: 'Geolocation'
     hasCourseInstance:
       label: 'Course instances'
       unlimited: true

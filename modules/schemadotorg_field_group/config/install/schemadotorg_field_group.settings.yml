@@ -25,6 +25,7 @@ default_field_groups:
       label: 'Contact information'
       properties:
         - address
+        - geo
         - longitude
         - latitude
         - telephone
@@ -144,6 +145,7 @@ default_field_groups:
       label: 'Contact information'
       properties:
         - address
+        - geo
         - longitude
         - latitude
         - telephone
