@@ -762,7 +762,6 @@ schema_properties:
     - encodingFormat
     - funder
     - funding
-    - geo
     - geoContains
     - geoCoveredBy
     - geoCovers

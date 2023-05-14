@@ -10,7 +10,7 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 /**
  * Tests the functionality of the Schema.org Custom Field JSON-LD .
  *
- * @cover \Drupal\schemadotorg_custom_field\SchemaDotOrgCustomFieldJsonLdManager
+ * @covers \Drupal\schemadotorg_custom_field\SchemaDotOrgCustomFieldJsonLdManager
  * @group schemadotorg
  */
 class SchemaDotOrgCustomFieldJsonLdTest extends SchemaDotOrgKernelEntityTestBase {

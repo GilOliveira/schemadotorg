@@ -76,8 +76,11 @@ and field configuration settings.
 - **[Schema.org Blueprints Flex Field](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_flexfield)**  
   Allows a Flex field to be used to create Schema.org relationships within an entity type/bundle Schema.org mapping.
 
-- **[Schema.org Blueprints Focal Point](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_focal_popint)**  
+- **[Schema.org Blueprints Focal Point](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_focal_point)**  
   Enables focal point for Schema.org images and generates default image styles for decoupled front-ends.
+
+- **[Schema.org Blueprints Geolocation Field](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_geolocation)**  
+  Allows a geolocation field to be used to create https://schema.org/GeoCoordinates.
 
 - **[Schema.org Blueprints Inline Entity Form](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_inline_entity_form)**  
   Allows an inline entity form to be automatically added to Schema.org properties within an entity type/bundle Schema.org mapping.
@@ -346,6 +349,12 @@ References
 
 - **[Inline Entity Form](https://www.drupal.org/project/inline_entity_form)**  
   Provides a widget for inline management (creation, modification, removal) of referenced entities.\
+
+Geolocation
+
+- **[Geolocation Field](https://www.drupal.org/project/geolocation)**    
+  Provides a field type to store geographical locations as pairs of latitude
+  and longitude (lan,lng)
 
 Demographic
 

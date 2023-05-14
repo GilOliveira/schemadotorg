@@ -32,6 +32,7 @@
     "drupal/field_group": "^3.0",
     "drupal/field_validation": "^1.0",
     "drupal/flexfield": "^2.0",
+    "drupal/geolocation": "^3.0",
     "drupal/entity_reference_tree": "^2.0",
     "drupal/focal_point": "^2.0",
     "drupal/inline_entity_form": "^1.0",

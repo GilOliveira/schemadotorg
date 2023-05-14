@@ -5,5 +5,4 @@ package: Schema.org Blueprints Fields
 core_version_requirement: '^9.4 || ^10.0'
 dependencies:
   - 'schemadotorg:schemadotorg'
-  - 'schemadotorg:schemadotorg_jsonld'
   - 'office_hours:office_hours'

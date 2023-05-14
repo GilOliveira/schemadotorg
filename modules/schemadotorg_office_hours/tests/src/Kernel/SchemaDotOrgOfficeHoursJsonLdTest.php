@@ -13,11 +13,11 @@ require_once __DIR__ . '/../../../schemadotorg_office_hours.install';
 /**
  * Tests the functionality of the Schema.org Office Hours integration.
  *
- * @cover schemadotorg_office_hours_schemadotorg_property_field_alter()
+ * @covers schemadotorg_office_hours_schemadotorg_property_field_alter()
  * @covers schemadotorg_office_hours_schemadotorg_jsonld_schema_property_alter()
  * @group schemadotorg
  */
-class SchemaDotOrgOfficeHoursJsonLdManagerTest extends SchemaDotOrgKernelEntityTestBase {
+class SchemaDotOrgOfficeHoursJsonLdTest extends SchemaDotOrgKernelEntityTestBase {
 
   /**
    * Modules to install.
@@ -50,12 +50,12 @@ class SchemaDotOrgOfficeHoursJsonLdManagerTest extends SchemaDotOrgKernelEntityT
   /**
    * Test Schema.org alter the JSON-LD eventSchedule property.
    *
-   * @covers ::alterProperty
+   * @covers schemadotorg_office_hours_schemadotorg_jsonld_schema_property_alter()
    */
   public function testOpening(): void {
     schemadotorg_office_hours_install(FALSE);
 
-    // Create Place with eventSchedule.
+    // Create Place with eventSchedule property.
     $this->createSchemaEntity('node', 'Place');
 
     // Create a place.
