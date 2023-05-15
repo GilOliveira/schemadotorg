@@ -342,22 +342,6 @@ class SchemaDotOrgEntityFieldManager implements SchemaDotOrgEntityFieldManagerIn
       $field_types[$entity_reference_field_type] = $entity_reference_field_type;
     }
 
-    // Check for Schema.org enumerations and Drupal allowed values.
-    if (empty($field_types)) {
-      foreach ($range_includes as $range_include) {
-        if ($this->schemaTypeManager->isEnumerationType($range_include)) {
-          $field_types['list_string'] = 'list_string';
-          break;
-        }
-        // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeBuilder::alterFieldValues
-        $allowed_values_function = 'schemadotorg_allowed_values_' . strtolower($range_include);
-        if (function_exists($allowed_values_function)) {
-          $field_types['list_string'] = 'list_string';
-          break;
-        }
-      }
-    }
-
     // Check Schema.org property and type specific field type from settings.
     if (empty($field_types)) {
       // Append property includes field types.

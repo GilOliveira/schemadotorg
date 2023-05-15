@@ -88,6 +88,9 @@ and field configuration settings.
 - **[Schema.org Blueprints Office Hours](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_office_hours)**  
   Allows an Office hours field to be used to create https://schema.org/OpeningHoursSpecification.
 
+- **[Schema.org Blueprints Options](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_options)**  
+  Set allowed values for list (options) fields.
+
 - **[Schema.org Blueprints Editorial](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_editorial)**  
   Adds an 'Editorial information' paragraph to the sidebar on every node edit form.
 

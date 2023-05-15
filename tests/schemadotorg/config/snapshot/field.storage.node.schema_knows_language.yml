@@ -3,15 +3,15 @@ status: true
 dependencies:
   module:
     - node
-    - options
 id: node.schema_knows_language
 field_name: schema_knows_language
 entity_type: node
-type: list_string
+type: string
 settings:
-  allowed_values: {  }
-  allowed_values_function: schemadotorg_allowed_values_language
-module: options
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
 locked: false
 cardinality: -1
 translatable: true

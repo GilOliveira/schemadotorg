@@ -19,7 +19,6 @@ dependencies:
     - node.type.recipe
   module:
     - image
-    - options
     - text
     - user
 id: node.recipe.default
@@ -130,9 +129,10 @@ content:
     weight: 109
     region: content
   schema_suitable_for_diet:
-    type: list_default
+    type: string
     label: above
-    settings: {  }
+    settings:
+      link_to_entity: false
     third_party_settings: {  }
     weight: 63
     region: content

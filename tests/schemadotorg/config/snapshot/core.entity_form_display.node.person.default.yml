@@ -87,10 +87,12 @@ content:
       preview_image_style: thumbnail
     third_party_settings: {  }
   schema_knows_language:
-    type: options_select
+    type: string_textfield
     weight: 109
     region: content
-    settings: {  }
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   schema_same_as:
     type: link_default

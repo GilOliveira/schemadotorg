@@ -37,6 +37,7 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
     'link',
     'media',
     'text',
+    'schemadotorg_options',
     'schemadotorg_address',
     'schemadotorg_paragraphs',
     'schemadotorg_ui',
@@ -72,7 +73,7 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
     $this->installEntitySchema('paragraphs_type');
 
     // Install the Schema.org configuration settings.
-    $this->installConfig(['schemadotorg', 'schemadotorg_address']);
+    $this->installConfig(['schemadotorg', 'schemadotorg_address', 'schemadotorg_options']);
     // Install the Schema.org type and properties tables.
     $this->installSchema('schemadotorg', ['schemadotorg_types', 'schemadotorg_properties']);
 
@@ -264,6 +265,11 @@ class SchemaDotOrgEntityFieldManagerTest extends SchemaDotOrgKernelTestBase {
         'gender',
         [
           'list_string' => 'list_string',
+          'string' => 'string',
+          'string_long' => 'string_long',
+          'text' => 'text',
+          'text_long' => 'text_long',
+          'text_with_summary' => 'text_with_summary',
         ],
       ],
       [

@@ -138,10 +138,12 @@ content:
       placeholder: ''
     third_party_settings: {  }
   schema_suitable_for_diet:
-    type: options_select
+    type: string_textfield
     weight: 63
     region: content
-    settings: {  }
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   schema_total_time:
     type: string_textfield

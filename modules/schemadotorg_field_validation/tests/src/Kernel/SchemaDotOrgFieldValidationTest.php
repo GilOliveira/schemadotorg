@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Drupal\Tests\schemadotorg_field_grup\Kernel;
+namespace Drupal\Tests\schemadotorg_field_validation\Kernel;
 
 use Drupal\field_validation\Entity\FieldValidationRuleSet;
 use Drupal\node\Entity\NodeType;

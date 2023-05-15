@@ -9,7 +9,6 @@ use Drupal\Core\Entity\Display\EntityDisplayInterface;
 use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\field_group\Form\FieldGroupAddForm;
 use Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface;
 use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
@@ -127,29 +126,28 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
     // Set group name if the field is an entity reference field.
     if (!$group_name) {
       /** @var \Drupal\field\FieldStorageConfigInterface $field_storage */
-      $field_storage = FieldStorageConfig::load("$entity_type_id.$field_name");
+      $field_storage = $this->entityTypeManager
+        ->getStorage('field_storage_config')
+        ->load("$entity_type_id.$field_name");
       if ($field_storage) {
         // Set entity reference and taxonomy field groups.
         if ($field_storage->getType() === 'entity_reference') {
           $target_type = $field_storage->getSetting('target_type');
           if ($target_type === 'taxonomy_term' && isset($default_field_groups['taxonomy'])) {
             $group_name = 'taxonomy';
-            $group_label = $default_field_groups['taxonomy']['label'];
-            $group_weight = $group_weights['taxonomy'];
           }
           elseif (isset($default_field_groups['relationships'])) {
             $group_name = 'relationships';
-            $group_label = $default_field_groups['relationships']['label'];
-            $group_weight = $group_weights['relationships'];
           }
         }
         // Set links field groups.
-        elseif ($field_storage->getType() === 'link'
-          && isset($default_field_groups['links'])) {
+        elseif ($field_storage->getType() === 'link' && isset($default_field_groups['links'])) {
           $group_name = 'links';
-          $group_label = $default_field_groups['links']['label'];
-          $group_weight = $group_weights['links'];
         }
+      }
+      if ($group_name) {
+        $group_label = $default_field_groups[$group_name]['label'];
+        $group_weight = $group_weights[$group_name];
       }
     }
 

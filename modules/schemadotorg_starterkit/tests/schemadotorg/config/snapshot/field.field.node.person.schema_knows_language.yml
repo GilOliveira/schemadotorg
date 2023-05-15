@@ -4,8 +4,6 @@ dependencies:
   config:
     - field.storage.node.schema_knows_language
     - node.type.person
-  module:
-    - options
 id: node.person.schema_knows_language
 field_name: schema_knows_language
 entity_type: node
@@ -17,4 +15,4 @@ translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: list_string
+field_type: string

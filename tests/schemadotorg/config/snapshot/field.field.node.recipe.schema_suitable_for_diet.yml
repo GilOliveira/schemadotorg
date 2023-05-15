@@ -4,8 +4,6 @@ dependencies:
   config:
     - field.storage.node.schema_suitable_for_diet
     - node.type.recipe
-  module:
-    - options
 id: node.recipe.schema_suitable_for_diet
 field_name: schema_suitable_for_diet
 entity_type: node
@@ -17,4 +15,4 @@ translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: list_string
+field_type: string

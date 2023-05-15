@@ -516,40 +516,6 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
           ];
           unset($field_storage_values['allowed_values']);
         }
-        elseif ($this->schemaTypeManager->hasProperty($schema_type, $schema_property)) {
-          // @see \Drupal\schemadotorg\SchemaDotOrgEntityTypeManager::getSchemaPropertyFieldTypes
-          $property_definition = $this->schemaTypeManager->getProperty($schema_property);
-          $range_includes = $this->schemaTypeManager->parseIds($property_definition['range_includes']);
-          foreach ($range_includes as $range_include) {
-            // Set allowed values function if it exists.
-            // @see schemadotorg.allowed_values.inc
-            // @see schemadotorg_allowed_values_country()
-            // @see schemadotorg_allowed_values_language()
-            $allowed_values_function = 'schemadotorg_allowed_values_' . strtolower($range_include);
-            if (function_exists($allowed_values_function)) {
-              $field_storage_values['settings'] = [
-                'allowed_values' => [],
-                'allowed_values_function' => $allowed_values_function,
-              ];
-              break;
-            }
-
-            // Copy enumeration values into allowed values.
-            if ($this->schemaTypeManager->isEnumerationType($range_include)) {
-              $allowed_values = $this->schemaTypeManager->getTypeChildrenAsOptions($range_include);
-              // Append 'Unspecified' to GenderType, which is only Male
-              // or Female, to be more inclusive.
-              if ($range_include === 'GenderType') {
-                $allowed_values['Unspecified'] = 'Unspecified';
-              }
-              $field_storage_values['settings'] = [
-                'allowed_values' => $allowed_values,
-                'allowed_values_function' => '',
-              ];
-              break;
-            }
-          }
-        }
         break;
     }
   }

@@ -8,32 +8,6 @@
 declare(strict_types = 1);
 
 use Drupal\Core\Field\FieldItemInterface;
-use Drupal\Core\Language\LanguageManager;
-use Drupal\Core\Locale\CountryManager;
-
-/* ************************************************************************** */
-// Allowed values.
-/* ************************************************************************** */
-
-/**
- * HOOK_allowed_values_SCHEMA_TYPE()
- */
-function schemadotorg_allowed_values_country(): array {
-  return CountryManager::getStandardList();
-}
-
-/**
- * HOOK_allowed_values_SCHEMA_TYPE()
- */
-function schemadotorg_allowed_values_language(): array {
-  $languages = LanguageManager::getStandardLanguageList();
-  unset($languages['en-x-simple']);
-  $allowed_values = [];
-  foreach ($languages as $language) {
-    $allowed_values[$language[0]] = $language[0];
-  }
-  return $allowed_values;
-}
 
 /* ************************************************************************** */
 // Duration field.

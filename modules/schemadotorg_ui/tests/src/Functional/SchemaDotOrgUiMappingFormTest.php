@@ -35,6 +35,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     'link',
     'text',
     'options',
+    'schemadotorg_options',
     'schemadotorg_media',
     'schemadotorg_paragraphs',
     'schemadotorg_ui',
@@ -172,7 +173,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     // Check the 'Contact Point' paragraph form display.
     $contact_point_form_display = $display_repository->getFormDisplay('paragraph', 'contact_point');
     $expected_form_components = [
-      'schema_contact_type' => ['type' => 'string_textfield'],
+      'schema_contact_type' => ['type' => 'options_select'],
       'schema_telephone' => ['type' => 'telephone_default'],
     ];
     $actual_form_components = $contact_point_form_display->getComponents();
@@ -246,10 +247,10 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
         ],
       ],
       'schema_knows_language' => [
-        'allowed_values_function' => 'schemadotorg_allowed_values_language',
+        'allowed_values_function' => 'schemadotorg_options_allowed_values_language',
       ],
       'schema_nationality' => [
-        'allowed_values_function' => 'schemadotorg_allowed_values_country',
+        'allowed_values_function' => 'schemadotorg_options_allowed_values_country',
       ],
       'schema_works_for' => [
         'max_length' => 255,
@@ -287,8 +288,8 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_family_name' => ['type' => 'string_textfield'],
       'schema_gender' => ['type' => 'options_select'],
       'schema_given_name' => ['type' => 'string_textfield'],
-      'schema_honorific_prefix' => ['type' => 'string_textfield'],
-      'schema_honorific_suffix' => ['type' => 'string_textfield'],
+      'schema_honorific_prefix' => ['type' => 'options_select'],
+      'schema_honorific_suffix' => ['type' => 'options_select'],
       'schema_job_title' => ['type' => 'string_textfield'],
       'schema_knows_language' => ['type' => 'options_select'],
       'schema_nationality' => ['type' => 'options_select'],

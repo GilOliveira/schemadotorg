@@ -15,7 +15,6 @@ dependencies:
   module:
     - image
     - link
-    - options
     - text
     - user
 id: node.person.default
@@ -78,9 +77,10 @@ content:
     weight: 5
     region: content
   schema_knows_language:
-    type: list_default
+    type: string
     label: above
-    settings: {  }
+    settings:
+      link_to_entity: false
     third_party_settings: {  }
     weight: 109
     region: content

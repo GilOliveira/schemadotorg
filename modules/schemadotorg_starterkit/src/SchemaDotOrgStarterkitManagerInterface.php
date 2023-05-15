@@ -37,7 +37,7 @@ interface SchemaDotOrgStarterkitManagerInterface {
    * @return array|null
    *   A Schema.org starterkit's module info.
    */
-  public function getStarterkit($module): ?array;
+  public function getStarterkit(string $module): ?array;
 
   /**
    * Get a module's Schema.org Blueprints starterkit settings.
