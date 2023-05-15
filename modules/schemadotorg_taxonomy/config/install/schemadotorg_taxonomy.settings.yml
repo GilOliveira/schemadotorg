@@ -17,7 +17,7 @@ property_vocabularies:
     id: keywords
     label: Keywords
   medicalSpecialty:
-    id: amenity
+    id: medical_specialty
     label: 'Medical specialty'
   recipeCategory:
     id: recipe_category
