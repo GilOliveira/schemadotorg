@@ -3,13 +3,13 @@ default_vocabularies: {  }
 property_vocabularies:
   alumniOf:
     id: alumni
-    label: 'Alumni'
+    label: Alumni
   amenityFeature:
     id: amenity
-    label: 'Amenity'
+    label: Amenity
   availableService:
     id: service
-    label: 'Service'
+    label: Service
   cookingMethod:
     id: cooking_method
     label: 'Cooking method'

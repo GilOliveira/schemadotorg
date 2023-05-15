@@ -53,15 +53,17 @@ class SchemadotorgStarterkitController extends ControllerBase {
       // Types.
       $settings = $this->schemaStarterkitManager->getStarterkitSettings($module_name);
       $types = [];
-      foreach ($settings['types'] as $type => $type_settings) {
-        [$entity_type_id, $schema_type] = explode(':', $type);
-        $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
-        if ($mapping) {
-          $entity_type_bundle = $mapping->getTargetEntityBundleEntity();
-          $types[$type] = $entity_type_bundle->toLink($type, 'edit-form')->toString();
-        }
-        else {
-          $types[$type] = $type;
+      if (!empty($settings['types'])) {
+        foreach ($settings['types'] as $type => $type_settings) {
+          [$entity_type_id, $schema_type] = explode(':', $type);
+          $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
+          if ($mapping) {
+            $entity_type_bundle = $mapping->getTargetEntityBundleEntity();
+            $types[$type] = $entity_type_bundle->toLink($type, 'edit-form')->toString();
+          }
+          else {
+            $types[$type] = $type;
+          }
         }
       }
       $row = [];
@@ -93,7 +95,7 @@ class SchemadotorgStarterkitController extends ControllerBase {
   /**
    * Get a starterkit's operations based on its status.
    *
-   * @param string $name
+   * @param string $module_name
    *   The name of the starterkit.
    * @param array $options
    *   An array of route options.
@@ -101,23 +103,26 @@ class SchemadotorgStarterkitController extends ControllerBase {
    * @return array
    *   A starterkit's operations based on its status.
    */
-  protected function getOperations(string $name, array $options = []): array {
+  protected function getOperations(string $module_name, array $options = []): array {
     $operations = [];
-    if (!$this->moduleHandler()->moduleExists($name)) {
+    if (!$this->moduleHandler()->moduleExists($module_name)) {
       if ($this->currentUser()->hasPermission('administer modules')) {
         $operations['install'] = $this->t('Install starterkit');
       }
     }
     elseif ($this->moduleHandler()->moduleExists('devel_generate')) {
-      $operations['generate'] = $this->t('Generate content');
-      $operations['kill'] = $this->t('Kill content');
+      $settings = $this->schemaStarterkitManager->getStarterkitSettings($module_name);
+      if (!empty($settings['types'])) {
+        $operations['generate'] = $this->t('Generate content');
+        $operations['kill'] = $this->t('Kill content');
+      }
     }
     foreach ($operations as $operation => $title) {
       $operations[$operation] = [
         'title' => $title,
         'url' => Url::fromRoute(
           'schemadotorg_starterkit.confirm_form',
-          ['name' => $name, 'operation' => $operation],
+          ['name' => $module_name, 'operation' => $operation],
           $options
         ),
       ];

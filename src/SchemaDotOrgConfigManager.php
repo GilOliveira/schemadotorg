@@ -30,13 +30,54 @@ class SchemaDotOrgConfigManager implements SchemaDotOrgConfigManagerInterface {
   public function setSchemaTypeDefaultProperties(string $schema_type, array|string|NULL $add = NULL, array|string|NULL $remove = NULL): void {
     $config = $this->configFactory->getEditable('schemadotorg.settings');
 
-    // Get or create default properties.
+    // Get default properties.
     $default_properties = $config->get("schema_types.default_properties.$schema_type") ?? [];
 
+    // Add/remove default properties.
+    $this->updateProperties($default_properties, $add, $remove);
+
+    // Save default properties.
+    $config->set("schema_types.default_properties.$schema_type", $default_properties)
+      ->save();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setMappingTypeSchemaTypeDefaultProperties(string $entity_type_id, string $schema_type, array|string|NULL $add = NULL, array|string|NULL $remove = NULL): void {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
+    $mapping_type = \Drupal::entityTypeManager()
+      ->getStorage('schemadotorg_mapping_type')
+      ->load($entity_type_id);
+
+    // Get default properties from mapping type.
+    $default_schema_type_properties = $mapping_type->get('default_schema_type_properties');
+    $default_properties = $default_schema_type_properties[$schema_type] ?? [];
+
+    // Add/remove default properties.
+    $this->updateProperties($default_properties, $add, $remove);
+
+    // Save default properties to mapping type.
+    $default_schema_type_properties[$schema_type] = $default_properties;
+    $mapping_type->set('default_schema_type_properties', $default_schema_type_properties);
+    $mapping_type->save();
+  }
+
+  /**
+   * Update Schema.org properties.
+   *
+   * @param array $properties
+   *   An array of Schema.org properties.
+   * @param array|string|null $add
+   *   Schema.org properties to be removed.
+   * @param array|string|null $remove
+   *   Schema.org properties to be added.
+   */
+  protected function updateProperties(array &$properties, array|string|NULL $add = NULL, array|string|NULL $remove = NULL): void {
     // Remove default properties.
     if ($remove) {
       $remove = (array) $remove;
-      $default_properties = array_filter($default_properties, function ($property) use ($remove) {
+      $properties = array_filter($properties, function ($property) use ($remove) {
         return !in_array($property, $remove);
       });
     }
@@ -44,16 +85,12 @@ class SchemaDotOrgConfigManager implements SchemaDotOrgConfigManagerInterface {
     // Add default properties.
     if ($add) {
       $add = (array) $add;
-      $default_properties = array_merge($default_properties, $add);
-      $default_properties = array_unique($default_properties);
+      $properties = array_merge($properties, $add);
+      $properties = array_unique($properties);
     }
 
     // Sort default properties.
-    sort($default_properties);
-
-    // Save default properties.
-    $config->set("schema_types.default_properties.$schema_type", $default_properties)
-      ->save();
+    sort($properties);
   }
 
   /**

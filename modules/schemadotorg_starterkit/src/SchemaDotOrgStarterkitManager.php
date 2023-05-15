@@ -93,9 +93,12 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
   public function getStarterkitSettings(string $module): FALSE|array {
     $module_path = $this->extensionListModule->getPath($module);
     $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
-    return (file_exists($module_schemadotorg_path))
-      ? Yaml::decode(file_get_contents($module_schemadotorg_path))
-      : FALSE;
+    if (!file_exists($module_schemadotorg_path)) {
+      return FALSE;
+    }
+
+    $settings = Yaml::decode(file_get_contents($module_schemadotorg_path));
+    return ($settings !== TRUE) ? $settings : [];
   }
 
   /**
