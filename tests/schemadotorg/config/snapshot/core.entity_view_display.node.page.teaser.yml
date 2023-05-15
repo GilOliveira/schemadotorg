@@ -4,6 +4,9 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.page.body
+    - field.field.node.page.schema_primary_image
+    - field.field.node.page.schema_related_link
+    - field.field.node.page.schema_significant_link
     - node.type.page
   module:
     - user
@@ -19,3 +22,6 @@ content:
     region: content
 hidden:
   body: true
+  schema_primary_image: true
+  schema_related_link: true
+  schema_significant_link: true

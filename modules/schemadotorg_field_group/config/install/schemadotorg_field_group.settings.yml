@@ -113,15 +113,14 @@ default_field_groups:
       label: 'Business information'
       properties:
         - openingHours
-        - openingHoursSpecification
         - paymentAccepted
         - priceRange
         - acceptsReservations
-        - servesCuisine
-        - hasMenu
-        - availableService
-        - amenityFeature
         - nonprofitStatus
+    hours:
+      label: 'Hours of operation'
+      properties:
+        - openingHoursSpecification
     service:
       label: 'Service information'
       properties:
@@ -151,8 +150,8 @@ default_field_groups:
         - telephone
         - faxNumber
         - email
-        - hasMap
         - contactPoint
+        - isAcceptingNewPatients
     event:
       label: 'Event information'
       properties:
@@ -166,22 +165,6 @@ default_field_groups:
         - attendee
         - organizer
         - location
-    medical:
-      label: 'Medical information'
-      properties:
-        - availableTest
-        - medicalAudience
-        - medicineSystem
-        - medicalSpecialty
-        - relevantSpecialty
-        - healthCondition
-        - hasHealthAspect
-        - usedToDiagnose
-        - affectedBy
-        - causeOf
-        - usesDevice
-        - hospitalAffiliation
-        - isAcceptingNewPatients
     medical_substance:
       label: 'Medical substance'
       properties:
@@ -202,7 +185,6 @@ default_field_groups:
         - recommendedIntake
         - maximumIntake
         - manufacturer
-        - relatedDrug
         - activeIngredient
     medical_condition:
       label: 'Medical condition'
@@ -268,7 +250,9 @@ default_field_groups:
         - containsPlace
         - subjectOf
         - about
-        - mentions
+    taxonomy:
+      label: 'Categories and Services'
+      properties: {  }
     identifier:
       label: Identifiers
       properties:
@@ -298,10 +282,6 @@ default_field_groups:
         - sku
         - taxID
         - titleEIDR
-    taxonomy:
-      label: 'Tags/Categories'
-      properties:
-        - keywords
 default_label_suffix: information
 default_form_type: details
 default_view_type: fieldset

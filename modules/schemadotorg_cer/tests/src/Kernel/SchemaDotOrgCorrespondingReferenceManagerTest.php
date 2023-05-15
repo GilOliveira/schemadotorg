@@ -50,6 +50,9 @@ class SchemaDotOrgCorrespondingReferenceManagerTest extends SchemaDotOrgKernelEn
 
     $this->installConfig(self::$modules);
 
+    \Drupal::moduleHandler()->loadInclude('schemadotorg_cer', 'install');
+    schemadotorg_cer_install(FALSE);
+
     // Get the Schema.org mapping manager.
     $this->mappingManager = $this->container->get('schemadotorg.mapping_manager');
   }

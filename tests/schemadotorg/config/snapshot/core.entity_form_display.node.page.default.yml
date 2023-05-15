@@ -3,8 +3,14 @@ status: true
 dependencies:
   config:
     - field.field.node.page.body
+    - field.field.node.page.schema_primary_image
+    - field.field.node.page.schema_related_link
+    - field.field.node.page.schema_significant_link
+    - image.style.thumbnail
     - node.type.page
   module:
+    - image
+    - link
     - text
 id: node.page.default
 targetEntityType: node
@@ -33,6 +39,30 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  schema_primary_image:
+    type: image_image
+    weight: 7
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  schema_related_link:
+    type: link_default
+    weight: 106
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  schema_significant_link:
+    type: link_default
+    weight: 105
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   status:
     type: boolean_checkbox

@@ -103,7 +103,7 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
         // Add note after the actions element which has a weight of 100.
         $form['note'] = [
           '#weight' => 101,
-          '#markup' => $this->t('Please note that the installation and setting up multiple entity types and fields may take a minute or two to complete.'),
+          '#markup' => $this->t('Please note that the installation and setting up of multiple entity types and fields may take a minute or two to complete.'),
           '#prefix' => '<div><em>',
           '#suffix' => '</em></div>',
         ];

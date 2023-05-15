@@ -39,7 +39,7 @@ class SchemaDotOrgStarterKitTest extends SchemaDotOrgBrowserTestBase {
     // schemadotorg.settings.yml are unique and sorted.
     // @see https://www.drupal.org/project/config_rewrite/issues/3152228
     $this->assertEquals(
-      ['articleBody', 'author', 'headline', 'keywords'],
+      ['articleBody', 'author', 'headline', 'image', 'keywords'],
       \Drupal::config('schemadotorg.settings')->get('schema_types.default_properties.Article'),
     );
 

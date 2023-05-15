@@ -1,6 +1,9 @@
 default_vocabularies_group_label: 'Tags / Categories'
 default_vocabularies: {  }
 property_vocabularies:
+  alumniOf:
+    id: alumni
+    label: 'Alumni'
   amenityFeature:
     id: amenity
     label: 'Amenity'

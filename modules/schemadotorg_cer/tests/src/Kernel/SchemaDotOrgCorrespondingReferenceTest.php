@@ -49,6 +49,9 @@ class SchemaDotOrgCorrespondingReferenceTest extends SchemaDotOrgKernelEntityTes
 
     $this->installEntitySchema('node');
     $this->installConfig(self::$modules);
+
+    \Drupal::moduleHandler()->loadInclude('schemadotorg_cer', 'install');
+    schemadotorg_cer_install(FALSE);
   }
 
   /**

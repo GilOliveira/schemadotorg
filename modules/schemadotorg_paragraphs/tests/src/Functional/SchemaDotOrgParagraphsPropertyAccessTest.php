@@ -30,6 +30,7 @@ class SchemaDotOrgParagraphsPropertyAccessTest extends SchemaDotOrgBrowserTestBa
     $assert_session = $this->assertSession();
 
     // Create Person and Organization with ContactPoint.
+    $this->appendSchemaTypeDefaultProperties('ContactPoint', 'faxNumber');
     $this->appendSchemaTypeDefaultProperties('Person', 'contactPoint');
     $this->appendSchemaTypeDefaultProperties('Organization', 'contactPoint');
     $this->createSchemaEntity('paragraph', 'ContactPoint');

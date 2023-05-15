@@ -9,10 +9,14 @@ dependencies:
     - field.field.node.person.schema_given_name
     - field.field.node.person.schema_image
     - field.field.node.person.schema_knows_language
+    - field.field.node.person.schema_same_as
+    - field.field.node.person.schema_telephone
     - image.style.thumbnail
     - node.type.person
   module:
     - image
+    - link
+    - telephone
     - text
 id: node.person.default
 targetEntityType: node
@@ -87,6 +91,21 @@ content:
     weight: 109
     region: content
     settings: {  }
+    third_party_settings: {  }
+  schema_same_as:
+    type: link_default
+    weight: 109
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  schema_telephone:
+    type: telephone_default
+    weight: 18
+    region: content
+    settings:
+      placeholder: ''
     third_party_settings: {  }
   status:
     type: boolean_checkbox

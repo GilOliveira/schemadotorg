@@ -1,7 +1,7 @@
 default_properties:
-  containedInPlace: containsPlace
-  memberOf: member
   subOrganization: parentOrganization
+  memberOf: member
   subjectOf: about
+  containedInPlace: containsPlace
   worksFor: employee
   department: department

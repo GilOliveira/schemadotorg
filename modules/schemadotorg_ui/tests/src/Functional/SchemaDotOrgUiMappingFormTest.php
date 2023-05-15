@@ -140,7 +140,7 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet('/admin/structure/paragraphs_type/schemadotorg', ['query' => ['type' => 'ContactPoint']]);
     $this->submitForm([], 'Save');
     $assert_session->responseContains('The Paragraphs type <em class="placeholder">Contact Point</em> has been added.');
-    $assert_session->responseContains('Added <em class="placeholder">Contact option; Contact type; Email; Fax number; Hours available; Telephone</em> fields.');
+    $assert_session->responseContains('Added <em class="placeholder">Contact option; Contact type; Email; Hours available; Telephone</em> fields.');
     $assert_session->responseContains('Created <em class="placeholder">Contact Point</em> mapping.');
 
     // Check display warning that new Schema.org type is mapped.
@@ -188,7 +188,6 @@ class SchemaDotOrgUiMappingFormTest extends SchemaDotOrgBrowserTestBase {
       'schema_telephone' => 'telephone',
       'schema_contact_option' => 'contactOption',
       'schema_email' => 'email',
-      'schema_fax_number' => 'faxNumber',
       'schema_hours_available' => 'hoursAvailable',
     ];
     $actual_schema_properties = $contact_point_mapping->getSchemaProperties();

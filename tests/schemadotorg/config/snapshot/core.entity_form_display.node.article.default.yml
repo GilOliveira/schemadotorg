@@ -3,8 +3,11 @@ status: true
 dependencies:
   config:
     - field.field.node.article.body
+    - field.field.node.article.schema_image
+    - image.style.thumbnail
     - node.type.article
   module:
+    - image
     - text
 id: node.article.default
 targetEntityType: node
@@ -33,6 +36,14 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  schema_image:
+    type: image_image
+    weight: 5
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
     third_party_settings: {  }
   status:
     type: boolean_checkbox

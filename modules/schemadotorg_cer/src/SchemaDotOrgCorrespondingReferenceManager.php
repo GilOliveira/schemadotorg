@@ -10,7 +10,6 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
-use Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm;
 
 /**
  * Schema.orgCorresponding Entity Reference manager.
@@ -45,30 +44,14 @@ class SchemaDotOrgCorrespondingReferenceManager implements SchemaDotOrgCorrespon
       return;
     }
 
-    $field_prefix = $this->configFactory
-      ->get('schemadotorg.settings')
-      ->get('field_prefix');
-
     $default_properties = $this->configFactory
       ->get('schemadotorg_cer.settings')
       ->get('default_properties');
     $default_properties += array_flip($default_properties);
     foreach ($default_properties as $default_property) {
-      if (!isset($defaults['properties'][$default_property])) {
-        continue;
+      if (isset($defaults['properties'][$default_property])) {
+        $defaults['properties'][$default_property]['type'] = 'field_ui:entity_reference:node';
       }
-
-      $property_element =& $defaults['properties'][$default_property];
-
-      $field_name = $field_prefix . $property_element['machine_name'];
-      $field_config = $this->entityTypeManager
-        ->getStorage('field_storage_config')
-        ->load('node.' . $field_name);
-
-      $property_element['name'] = ($field_config)
-        ? $field_name
-        : SchemaDotOrgUiMappingForm::ADD_FIELD;
-      $property_element['type'] = 'field_ui:entity_reference:node';
     }
   }
 
@@ -181,8 +164,12 @@ class SchemaDotOrgCorrespondingReferenceManager implements SchemaDotOrgCorrespon
    *   An associative array tracking field names instances to bundles.
    */
   protected function syncEntityReferenceTargetBundles(string $source_field_name, string $target_field_name, array $field_name_bundles): void {
-    $source_bundles = $field_name_bundles[$source_field_name];
-    $target_bundles = $field_name_bundles[$target_field_name];
+    $source_bundles = $field_name_bundles[$source_field_name] ?? NULL;
+    $target_bundles = $field_name_bundles[$target_field_name] ?? NULL;
+    if (empty($source_bundles) || empty($target_bundles)) {
+      return;
+    }
+
     ksort($target_bundles);
 
     /** @var \Drupal\field\FieldConfigStorage $field_config_storage */

@@ -4,6 +4,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.article.body
+    - field.field.node.article.schema_image
     - node.type.article
   module:
     - user
@@ -19,3 +20,4 @@ content:
     region: content
 hidden:
   body: true
+  schema_image: true

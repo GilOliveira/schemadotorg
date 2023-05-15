@@ -49,7 +49,6 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
       'schema_contact_option' => 'contactOption',
       'schema_contact_type' => 'contactType',
       'schema_email' => 'email',
-      'schema_fax_number' => 'faxNumber',
       'schema_hours_available' => 'hoursAvailable',
       'schema_telephone' => 'telephone',
     ]);
@@ -81,8 +80,10 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
       'schema_description' => 'description',
       'schema_family_name' => 'familyName',
       'schema_given_name' => 'givenName',
-      'schema_knows_language' => 'knowsLanguage',
       'schema_image' => 'image',
+      'schema_knows_language' => 'knowsLanguage',
+      'schema_same_as' => 'sameAs',
+      'schema_telephone' => 'telephone',
     ]);
 
     // Check creating node:Place Schema.org mapping.

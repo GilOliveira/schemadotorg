@@ -34,6 +34,7 @@ schema_types:
     Article:
       - articleBody
       - headline
+      - image
     Atlas:
       - name
     Blog:
@@ -250,6 +251,9 @@ schema_types:
       - hasHealthAspect
     WebPage:
       - name
+      - primaryImageOfPage
+      - relatedLink
+      - significantLink
       - text
     CollectionPage:
       - '-primaryImageOfPage'
@@ -372,7 +376,6 @@ schema_types:
       - contactType
       - contactOption
       - telephone
-      - faxNumber
       - email
       - hoursAvailable
     PostalAddress:
@@ -539,12 +542,10 @@ schema_types:
       - amenityFeature
       - department
       - email
-      - faxNumber
-      - founder
+      - email
       - hospitalAffiliation
       - isAcceptingNewPatients
       - medicalSpecialty
-      - memberOf
       - openingHours
       - telephone
     MedicalClinic:
@@ -565,11 +566,13 @@ schema_types:
       - additionalName
       - description
       - email
+      - telephone
       - familyName
       - givenName
       - image
       - knowsLanguage
       - name
+      - sameAs
     Place:
       - address
       - description

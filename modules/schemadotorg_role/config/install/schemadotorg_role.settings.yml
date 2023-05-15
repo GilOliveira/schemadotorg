@@ -23,6 +23,7 @@ field_definitions:
     label: 'Primary physician'
     description: 'Primary physician for a doctor''s office.'
     role_name: 'Primary physician'
+    required: true
 schema_types:
   MedicalTrial--sponsor:
     - principle_investigator
