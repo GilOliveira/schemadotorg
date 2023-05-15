@@ -8,8 +8,8 @@ property_vocabularies:
     id: amenity
     label: Amenity
   availableService:
-    id: service
-    label: Service
+    id: medical_service
+    label: 'Medical Service'
   cookingMethod:
     id: cooking_method
     label: 'Cooking method'
