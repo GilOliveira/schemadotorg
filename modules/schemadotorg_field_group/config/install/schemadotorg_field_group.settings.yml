@@ -181,35 +181,10 @@ default_field_groups:
       label: 'Categories and Services'
       properties:
         - keywords
-    identifier:
+    identifiers:
       label: Identifiers
       properties:
-        - identifier
-        - accountId
-        - asin
-        - callSign
-        - confirmationNumber
-        - duns
-        - editEIDR
-        - flightNumber
-        - globalLocationNumber
-        - gtin
-        - gtin12
-        - gtin13
-        - gtin14
-        - gtin8
         - healthPlanNetworkId
-        - isbn
-        - issn
-        - legislationIdentifier
-        - leiCode
-        - nsn
-        - orderNumber
-        - productID
-        - serialNumber
-        - sku
-        - taxID
-        - titleEIDR
 default_schema_type_field_groups:
   Person: general
   Event: event

@@ -173,6 +173,14 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
+  public function isSubPropertyOf(string $property, string $subproperty_of): bool {
+    $property_definition = $this->getProperty($property);
+    return ($property_definition && $property_definition['sub_property_of'] === 'https://schema.org/' . $subproperty_of);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function isSuperseded(string $id): bool {
     if (!isset($this->supersededCache)) {
       $this->supersededCache = [];

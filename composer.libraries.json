@@ -44,7 +44,7 @@
     "drupal/paragraphs": "^1.0",
     "drupal/scheduler": "^2.0",
     "drupal/simple_sitemap": "^4.0",
-    "drupal/smart_date": "^3.7",
+    "drupal/smart_date": "^4.0",
     "masonry/masonry": "*",
     "michelf/php-markdown": "^1.0"
   },

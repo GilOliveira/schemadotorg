@@ -74,18 +74,18 @@ class SchemaDotOrgIdentifierManagerTest extends SchemaDotOrgKernelEntityTestBase
     $component = $form_display->getComponent('schema_identifier_npi');
     $this->assertEquals('string_textfield', $component['type']);
     $field_group = $form_display->getThirdPartySettings('field_group');
-    $this->assertEquals(['schema_identifier_npi'], $field_group['group_identifier']['children']);
-    $this->assertEquals('Identifiers', $field_group['group_identifier']['label']);
-    $this->assertEquals('details', $field_group['group_identifier']['format_type']);
+    $this->assertEquals(['schema_identifier_npi'], $field_group['group_identifiers']['children']);
+    $this->assertEquals('Identifiers', $field_group['group_identifiers']['label']);
+    $this->assertEquals('details', $field_group['group_identifiers']['format_type']);
 
     // Check that the identifier field group is created via the view display.
     $view_display = $this->entityDisplayRepository->getViewDisplay('node', 'medical_business', 'default');
     $component = $view_display->getComponent('schema_identifier_npi');
     $this->assertEquals('string', $component['type']);
     $field_group = $view_display->getThirdPartySettings('field_group');
-    $this->assertEquals(['schema_identifier_npi'], $field_group['group_identifier']['children']);
-    $this->assertEquals('Identifiers', $field_group['group_identifier']['label']);
-    $this->assertEquals('fieldset', $field_group['group_identifier']['format_type']);
+    $this->assertEquals(['schema_identifier_npi'], $field_group['group_identifiers']['children']);
+    $this->assertEquals('Identifiers', $field_group['group_identifiers']['label']);
+    $this->assertEquals('fieldset', $field_group['group_identifiers']['format_type']);
 
     // Check identifier field definitions for a Schema.org mapping.
     $mapping = SchemaDotOrgMapping::load('node.medical_business');

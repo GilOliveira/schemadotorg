@@ -12,6 +12,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\field_group\Form\FieldGroupAddForm;
 use Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface;
 use Drupal\schemadotorg\SchemaDotOrgNamesInterface;
+use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 
 /**
  * Schema.org field group entity display builder service.
@@ -29,6 +30,8 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
    *   The entity display repository.
    * @param \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schemaNames
    *   The Schema.org names service.
+   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager
+   *   The Schema.org type manager.
    * @param \Drupal\schemadotorg\SchemaDotOrgEntityDisplayBuilderInterface $schemaEntityDisplayBuilder
    *   The Schema.org entity display builder service.
    */
@@ -37,6 +40,7 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
     protected EntityTypeManagerInterface $entityTypeManager,
     protected EntityDisplayRepositoryInterface $entityDisplayRepository,
     protected SchemaDotOrgNamesInterface $schemaNames,
+    protected SchemaDotOrgSchemaTypeManagerInterface $schemaTypeManager,
     protected SchemaDotOrgEntityDisplayBuilderInterface $schemaEntityDisplayBuilder
   ) {}
 
@@ -127,6 +131,14 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
       }
     }
 
+    // Set group name for sub properties of identifier.
+    if (!$group_name
+      && isset($default_field_groups['identifiers'])
+      && $this->schemaTypeManager->isSubPropertyOf($schema_property, 'identifier')
+    ) {
+      $group_name = 'identifiers';
+    }
+
     // Set group name by field type.
     if (!$group_name && $field_type) {
       // Set links field groups.
@@ -146,12 +158,10 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
 
     // Set group name by the parent Schema.org type.
     if (!$group_name) {
-      /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
-      $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
       $default_schema_type_field_groups = $config->get('default_schema_type_field_groups');
       foreach ($default_schema_type_field_groups as $default_schema_type => $default_field_group_name) {
         if (isset($default_field_groups[$default_field_group_name])
-          && $schema_type_manager->isSubTypeOf($schema_type, $default_schema_type)) {
+          && $this->schemaTypeManager->isSubTypeOf($schema_type, $default_schema_type)) {
           $group_name = $default_field_group_name;
         }
       }
@@ -177,6 +187,7 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
         'links' => 10 + $max_group_weight,
         'relationships'  => 20 + $max_group_weight,
         'taxonomy' => 30 + $max_group_weight,
+        'identifiers' => 40 + $max_group_weight,
       ];
       $group_weight = $default_group_weights[$group_name]
         ?? $group_weights[$group_name]

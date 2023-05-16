@@ -104,6 +104,11 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $this->assertFalse($this->schemaTypeManager->isProperty('Thing'));
     $this->assertFalse($this->schemaTypeManager->isProperty('xxx'));
 
+    // Check determining if a Schema.org property is a sub property.
+    $this->assertFalse($this->schemaTypeManager->isSubPropertyOf('accountId', 'name'));
+    $this->assertFalse($this->schemaTypeManager->isSubPropertyOf('notProperty', 'name'));
+    $this->assertTrue($this->schemaTypeManager->isSubPropertyOf('accountId', 'identifier'));
+
     // Check determining if Schema.org ID is superseded.
     $this->assertTrue($this->schemaTypeManager->isSuperseded('UserInteraction'));
     $this->assertFaLse($this->schemaTypeManager->isSuperseded('Event'));

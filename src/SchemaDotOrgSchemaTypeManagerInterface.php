@@ -143,6 +143,19 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function isProperty(string $id): bool;
 
   /**
+   * Determine if a Schema.org property is a sub property.
+   *
+   * @param string $property
+   *   A Schema.org property.
+   * @param string $subproperty_of
+   *   A Schema.org property.
+   *
+   * @return bool
+   *   TRUE if a Schema.org property is a sub property.
+   */
+  public function isSubPropertyOf(string $property, string $subproperty_of): bool;
+
+  /**
    * Determine if Schema.org ID is superseded.
    *
    * @param string $id
