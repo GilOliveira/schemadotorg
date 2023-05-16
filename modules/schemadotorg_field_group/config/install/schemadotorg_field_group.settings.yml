@@ -150,68 +150,9 @@ default_field_groups:
         - attendee
         - organizer
         - location
-    medical_substance:
-      label: 'Medical substance'
-      properties:
-        - proprietaryName
-        - nonProprietaryName
-        - isProprietary
-        - isAvailableGenerically
-        - drugClass
-        - drugUnit
-        - mechanismOfAction
-        - clinicalPharmacology
-        - overdosage
-        - foodWarning
-        - safetyConsideration
-        - targetPopulation
-        - dosageForm
-        - doseSchedule
-        - recommendedIntake
-        - maximumIntake
-        - manufacturer
-        - activeIngredient
-    medical_condition:
-      label: 'Medical condition'
-      properties:
-        - epidemiology
-        - riskFactor
-        - primaryPrevention
-        - secondaryPrevention
-        - signOrSymptom
-        - possibleTreatment
-        - possibleComplication
-        - expectedPrognosis
-    medical_study:
-      label: 'Medical study information'
-      properties:
-        - status
-        - studySubject
-        - trialDesign
-        - sponsor
-        - studyLocation
-    how_to:
-      label: 'How to'
-      properties:
-        - supply
-        - tool
-        - step
-        - prepTime
-        - performTime
-        - totalTime
-        - yield
-    recipe:
-      label: 'Recipe information'
-      properties:
-        - recipeIngredient
-        - recipeInstructions
-        - recipeYield
-        - cookTime
-        - suitableForDiet
-        - cookingMethod
-        - recipeCategory
-        - recipeCuisine
-        - nutrition
+    medical:
+      label: 'Medical information'
+      properties: {  }
     links:
       label: Links
       properties:
@@ -221,6 +162,7 @@ default_field_groups:
     relationships:
       label: Relationships
       properties:
+        - sponsor
         - founder
         - employee
         - worksFor
@@ -237,7 +179,8 @@ default_field_groups:
         - about
     taxonomy:
       label: 'Categories and Services'
-      properties: {  }
+      properties:
+        - keywords
     identifier:
       label: Identifiers
       properties:
@@ -267,6 +210,10 @@ default_field_groups:
         - sku
         - taxID
         - titleEIDR
+default_schema_type_field_groups:
+  Person: general
+  Event: event
+  MedicalEntity: medical
 default_label_suffix: information
 default_form_type: details
 default_view_type: fieldset

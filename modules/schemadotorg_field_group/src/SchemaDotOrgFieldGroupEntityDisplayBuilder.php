@@ -91,90 +91,100 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
     $entity_type_id = $display->getTargetEntityTypeId();
     $display_type = ($display instanceof EntityFormDisplayInterface) ? 'form' : 'view';
 
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
+    $mapping_type = $this->entityTypeManager
+      ->getStorage('schemadotorg_mapping_type')
+      ->load($entity_type_id);
+
     $config = $this->configFactory->get('schemadotorg_field_group.settings');
     $default_field_groups = $config->get('default_field_groups.' . $entity_type_id) ?? [];
-    $default_label_suffix = $config->get('default_label_suffix');
-    $default_format_type = $config->get('default_' . $display_type . '_type') ?: '';
-    $default_format_settings = ($default_format_type === 'details') ? ['open' => TRUE] : [];
+    $group_weights = array_flip(array_keys($default_field_groups));
+    foreach ($group_weights as $group_name => $group_weight) {
+      $group_weights[$group_name] = $group_weight - 5;
+    }
+    $max_group_weight = ($group_weights)
+      ? (int) ceil(max($group_weights) / 10) * 10
+      : 0;
+    $group_weight = NULL;
 
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeStorageInterface $mapping_type_storage */
-    $mapping_type_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping_type');
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingTypeInterface $mapping_type */
-    $mapping_type = $mapping_type_storage->load($entity_type_id);
+    /** @var \Drupal\field\FieldStorageConfigInterface $field_storage */
+    $field_storage = $this->entityTypeManager
+      ->getStorage('field_storage_config')
+      ->load("$entity_type_id.$field_name");
+    $field_type = ($field_storage) ? $field_storage->getType() : NULL;
+    $field_target_type = ($field_storage) ? $field_storage->getSetting('target_type') : NULL;
 
-    $default_field_weights = $this->schemaEntityDisplayBuilder->getDefaultFieldWeights();
-
-    $group_weight = 0;
+    // Get group name and field weight from entity type
+    // field group configuration.
     $group_name = NULL;
-    $group_label = NULL;
     $field_weight = NULL;
-    $index = -5;
-    $group_weights = [];
     foreach ($default_field_groups as $default_field_group_name => $default_field_group) {
       $properties = array_flip($default_field_group['properties']);
       if (isset($properties[$schema_property])) {
         $group_name = $default_field_group_name;
-        $group_label = $default_field_group['label'];
-        $group_weight = $index;
         $field_weight = $properties[$schema_property];
         break;
       }
-      $group_weights[$default_field_group_name] = $index;
-      $index++;
     }
 
-    // Set group name if the field is an entity reference field.
-    if (!$group_name) {
-      /** @var \Drupal\field\FieldStorageConfigInterface $field_storage */
-      $field_storage = $this->entityTypeManager
-        ->getStorage('field_storage_config')
-        ->load("$entity_type_id.$field_name");
-      if ($field_storage) {
-        // Set entity reference and taxonomy field groups.
-        if ($field_storage->getType() === 'entity_reference') {
-          $target_type = $field_storage->getSetting('target_type');
-          if ($target_type === 'taxonomy_term' && isset($default_field_groups['taxonomy'])) {
-            $group_name = 'taxonomy';
-          }
-          elseif (isset($default_field_groups['relationships'])) {
-            $group_name = 'relationships';
-          }
+    // Set group name by field type.
+    if (!$group_name && $field_type) {
+      // Set links field groups.
+      if ($field_storage->getType() === 'link' && isset($default_field_groups['links'])) {
+        $group_name = 'links';
+      }
+      // Set entity reference and taxonomy field groups.
+      elseif ($field_type === 'entity_reference') {
+        if ($field_target_type === 'taxonomy_term' && isset($default_field_groups['taxonomy'])) {
+          $group_name = 'taxonomy';
         }
-        // Set links field groups.
-        elseif ($field_storage->getType() === 'link' && isset($default_field_groups['links'])) {
-          $group_name = 'links';
+        elseif (isset($default_field_groups['relationships'])) {
+          $group_name = 'relationships';
         }
       }
-      if ($group_name) {
-        $group_label = $default_field_groups[$group_name]['label'];
-        $group_weight = $group_weights[$group_name];
+    }
+
+    // Set group name by the parent Schema.org type.
+    if (!$group_name) {
+      /** @var \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager */
+      $schema_type_manager = \Drupal::service('schemadotorg.schema_type_manager');
+      $default_schema_type_field_groups = $config->get('default_schema_type_field_groups');
+      foreach ($default_schema_type_field_groups as $default_schema_type => $default_field_group_name) {
+        if (isset($default_field_groups[$default_field_group_name])
+          && $schema_type_manager->isSubTypeOf($schema_type, $default_schema_type)) {
+          $group_name = $default_field_group_name;
+        }
       }
     }
 
     // Automatically generate a default catch all field group for
-    // the Schema.org type.
+    // the current Schema.org type.
     if (!$group_name) {
       // But don't generate a group for default fields.
       $base_field_names = $mapping_type->getBaseFieldNames();
       if (isset($base_field_names[$field_name])) {
         return;
       }
-
+      $default_label_suffix = $config->get('default_label_suffix');
       $group_name = $this->schemaNames->schemaIdToDrupalName('types', $schema_type);
-      $group_label = $this->schemaNames->camelCaseToSentenceCase($schema_type);
-      if ($default_label_suffix) {
-        $group_label .= ' ' . $default_label_suffix;
-      }
-      if (isset($default_field_weights[$schema_property])) {
-        $field_weight = $default_field_weights[$schema_property];
-      }
-      elseif (!empty($default_field_weights)) {
-        $field_weight = max($default_field_weights);
-      }
-      else {
-        $field_weight = 0;
-      }
+      $group_label = $this->schemaNames->camelCaseToSentenceCase($schema_type)
+        . ($default_label_suffix ? ' ' . $default_label_suffix : '');
+      $group_weight = $max_group_weight;
     }
+    else {
+      $group_label = $default_field_groups[$group_name]['label'];
+      $default_group_weights = [
+        'links' => 10 + $max_group_weight,
+        'relationships'  => 20 + $max_group_weight,
+        'taxonomy' => 30 + $max_group_weight,
+      ];
+      $group_weight = $default_group_weights[$group_name]
+        ?? $group_weights[$group_name]
+        ?? $max_group_weight;
+    }
+
+    // Set default field weight.
+    $field_weight = $field_weight ?? $this->schemaEntityDisplayBuilder->getSchemaPropertyDefaultFieldWeight($entity_type_id, $field_name, $schema_property);
 
     // Prefix group name.
     $group_name = FieldGroupAddForm::GROUP_PREFIX . $group_name;
@@ -192,6 +202,8 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
     // Get existing group.
     $group = $display->getThirdPartySetting('field_group', $group_name);
     if (!$group) {
+      $default_format_type = $config->get('default_' . $display_type . '_type') ?: '';
+      $default_format_settings = ($default_format_type === 'details') ? ['open' => TRUE] : [];
       $group = [
         'label' => $group_label,
         'children' => [],

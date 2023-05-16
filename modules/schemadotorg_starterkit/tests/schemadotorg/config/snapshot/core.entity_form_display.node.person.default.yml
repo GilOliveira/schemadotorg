@@ -48,7 +48,7 @@ content:
     third_party_settings: {  }
   schema_additional_name:
     type: string_textfield
-    weight: 109
+    weight: 100
     region: content
     settings:
       size: 60
@@ -64,7 +64,7 @@ content:
     third_party_settings: {  }
   schema_family_name:
     type: string_textfield
-    weight: 109
+    weight: 100
     region: content
     settings:
       size: 60
@@ -72,7 +72,7 @@ content:
     third_party_settings: {  }
   schema_given_name:
     type: string_textfield
-    weight: 109
+    weight: 100
     region: content
     settings:
       size: 60
@@ -88,7 +88,7 @@ content:
     third_party_settings: {  }
   schema_knows_language:
     type: string_textfield
-    weight: 109
+    weight: 105
     region: content
     settings:
       size: 60
@@ -96,7 +96,7 @@ content:
     third_party_settings: {  }
   schema_same_as:
     type: link_default
-    weight: 109
+    weight: 136
     region: content
     settings:
       placeholder_url: ''

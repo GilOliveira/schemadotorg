@@ -44,7 +44,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 100
     region: content
   schema_cooking_method:
     type: string
@@ -52,7 +52,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 100
     region: content
   schema_image:
     type: image
@@ -71,7 +71,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 105
     region: content
   schema_nutrition:
     type: string
@@ -79,7 +79,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 100
     region: content
   schema_prep_time:
     type: string
@@ -87,7 +87,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 38
+    weight: 100
     region: content
   schema_recipe_category:
     type: string
@@ -95,7 +95,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 105
     region: content
   schema_recipe_cuisine:
     type: string
@@ -103,7 +103,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 105
     region: content
   schema_recipe_ingredient:
     type: string
@@ -111,14 +111,14 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 105
     region: content
   schema_recipe_instructions:
     type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 109
+    weight: 115
     region: content
   schema_recipe_yield:
     type: string
@@ -126,7 +126,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 100
     region: content
   schema_suitable_for_diet:
     type: string
@@ -134,7 +134,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 63
+    weight: 105
     region: content
   schema_total_time:
     type: string
@@ -142,6 +142,6 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 40
+    weight: 100
     region: content
 hidden: {  }

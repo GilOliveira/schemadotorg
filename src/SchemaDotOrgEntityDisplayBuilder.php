@@ -54,6 +54,79 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
   }
 
   /**
+   * Get the default field weight for Schema.org property.
+   *
+   * @param string $entity_type_id
+   *   The Schema.org property.
+   * @param string $field_name
+   *   The entity type.
+   * @param string $schema_property
+   *   The field name.
+   *
+   * @return int
+   *   The default field weight for Schema.org property.
+   */
+  public function getSchemaPropertyDefaultFieldWeight(string $entity_type_id, string $field_name, string $schema_property): int {
+    // Check default field weights.
+    $default_field_weights = $this->getDefaultFieldWeights();
+    if (isset($default_field_weights[$schema_property])) {
+      return $default_field_weights[$schema_property];
+    }
+
+    // Determine max field weight rounded up to 10.
+    $max_field_weight = ($default_field_weights)
+      ? (int) ceil(max($default_field_weights) / 10) * 10
+      : 0;
+
+    // Get the field storage entity.
+    /** @var \Drupal\field\FieldStorageConfigInterface $field_storage */
+    $field_storage = $this->entityTypeManager
+      ->getStorage('field_storage_config')
+      ->load("$entity_type_id.$field_name");
+    if (!$field_storage) {
+      return $max_field_weight;
+    }
+
+    // Determine the field weight by the field type.
+    $field_type_weights = [
+      // Text fields.
+      'string' => 10 + $max_field_weight,
+      'integer' => 10 + $max_field_weight,
+      'float'  => 10 + $max_field_weight,
+      'decimal' => 10 + $max_field_weight,
+      'datetime' => 11 + $max_field_weight,
+      'duration' => 12 + $max_field_weight,
+      // Text areas.
+      'string_long' => 20 + $max_field_weight,
+      'text_long' => 20 + $max_field_weight,
+      'text_with_summary' => 20 + $max_field_weight,
+      // Options.
+      'list_string' => 30 + $max_field_weight,
+      'list_integer' => 30 + $max_field_weight,
+      'list_float' => 30 + $max_field_weight,
+      'list_decimal' => 30 + $max_field_weight,
+      'boolean' => 31 + $max_field_weight,
+      // File and Links.
+      'file' => 40 + $max_field_weight,
+      'link' => 41 + $max_field_weight,
+      'custom_field' => 42 + $max_field_weight,
+      // Custom (50 - 55).
+      // Entity references.
+      'entity_reference' => 60 + $max_field_weight,
+      'entity_reference_revisions' => 61 + $max_field_weight,
+    ];
+    $field_weight = $field_type_weights[$field_storage->getType()]
+      ?? 50 + $max_field_weight;
+
+    // Add 5 to weight for multiple value fields..
+    if ($field_storage->getCardinality() !== 1) {
+      $field_weight += 5;
+    }
+
+    return $field_weight;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function setFieldDisplays(
@@ -198,13 +271,8 @@ class SchemaDotOrgEntityDisplayBuilder implements SchemaDotOrgEntityDisplayBuild
       return;
     }
 
-    $default_field_weights = $this->getDefaultFieldWeights();
-    if (empty($default_field_weights)) {
-      return;
-    }
-
-    // Use the property's default field weight or the lowest weight plus one.
-    $field_weight = $default_field_weights[$schema_property] ?? max($default_field_weights) + 1;
+    $entity_type_id = $display->getTargetEntityTypeId();
+    $field_weight = $this->getSchemaPropertyDefaultFieldWeight($entity_type_id, $field_name, $schema_property);
 
     $component = $display->getComponent($field_name);
     $component['weight'] = $field_weight;

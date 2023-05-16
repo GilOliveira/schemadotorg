@@ -120,6 +120,15 @@ function schemadotorg_field_group_form_schemadotorg_properties_settings_form_alt
       '#description_link' => 'properties',
     ];
   }
+  $form['schemadotorg_field_group']['default_schema_type_field_groups'] = [
+    '#type' => 'schemadotorg_settings',
+    '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+    '#settings_format' => 'SchemaType:group_name',
+    '#array_name' => 'type',
+    '#title' => t('Default Schema.org type field groups'),
+    '#description' => t('Enter the default Schema.org type field groups.'),
+    '#description_link' => 'properties',
+  ];
   $type_options = [
     'details' => t('Details'),
     'html_element' => t('HTML element'),

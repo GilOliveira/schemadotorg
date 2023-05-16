@@ -10,6 +10,9 @@ property_vocabularies:
   availableService:
     id: medical_service
     label: 'Medical service'
+  epidemiology:
+    id: epidemiology
+    label: Epidemiology
   cookingMethod:
     id: cooking_method
     label: 'Cooking method'

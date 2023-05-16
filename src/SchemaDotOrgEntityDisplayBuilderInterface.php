@@ -18,6 +18,21 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
   public function getDefaultFieldWeights(): array;
 
   /**
+   * Get the default field weight for Schema.org property.
+   *
+   * @param string $entity_type_id
+   *   The Schema.org property.
+   * @param string $field_name
+   *   The entity type.
+   * @param string $schema_property
+   *   The field name.
+   *
+   * @return int
+   *   The default field weight for Schema.org property.
+   */
+  public function getSchemaPropertyDefaultFieldWeight(string $entity_type_id, string $field_name, string $schema_property): int;
+
+    /**
    * Set entity displays for a field.
    *
    * @param string $schema_type

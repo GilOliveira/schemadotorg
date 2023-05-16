@@ -21,6 +21,12 @@ schemadotorg_field_group.settings:
               sequence:
                 type: string
                 label: 'Property'
+    default_schema_type_field_groups:
+      type: sequence
+      label: 'Default Schema.org type field groups'
+      sequence:
+        type: string
+        label: 'Default Schema.org type field group'
     default_label_suffix:
       type: label
       label: 'Default field group label suffix'

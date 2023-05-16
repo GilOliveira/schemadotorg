@@ -37,7 +37,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 100
     region: content
   schema_image:
     type: image

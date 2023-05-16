@@ -40,7 +40,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 100
     region: content
   schema_email:
     type: email_mailto
@@ -55,7 +55,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 100
     region: content
   schema_given_name:
     type: string
@@ -63,7 +63,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 100
     region: content
   schema_image:
     type: image
@@ -82,7 +82,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 105
     region: content
   schema_same_as:
     type: link
@@ -94,7 +94,7 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 109
+    weight: 136
     region: content
   schema_telephone:
     type: basic_string
