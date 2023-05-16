@@ -134,7 +134,9 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
     // Set group name for sub properties of identifier.
     if (!$group_name
       && isset($default_field_groups['identifiers'])
-      && $this->schemaTypeManager->isSubPropertyOf($schema_property, 'identifier')
+      && (
+        $this->schemaTypeManager->isSubPropertyOf($schema_property, 'identifier')
+      )
     ) {
       $group_name = 'identifiers';
     }
