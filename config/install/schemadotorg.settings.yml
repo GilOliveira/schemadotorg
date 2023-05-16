@@ -1027,6 +1027,10 @@ schema_properties:
       unlimited: true
     height:
       type: string
+    honorificPrefix:
+      label: 'Honorific'
+    honorificSuffix:
+      label: 'Degree'
     hospitalAffiliation:
       unlimited: true
     increasesRiskOf:

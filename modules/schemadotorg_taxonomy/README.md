@@ -3,8 +3,8 @@ Table of contents
 
 * Introduction
 * Features
+* Optional
 * Configuration
-- Optional
 
 
 Introduction
@@ -27,7 +27,9 @@ Features
   (i.e. https://schema.org/recipeCategories).
 - Creates selected 'default' taxonomy vocabulary on all Schema.org content types
   (i.e. Tags).
-
+- Uses the [Entity Reference Tree Widget](https://www.drupal.org/project/entity_reference_tree)
+  to select taxonomy terms.
+- Organizes term references in field groups. 
 
 Optional (Recommended)
 ----------------------
@@ -41,6 +43,13 @@ Provides an entity relationship hierarchy tree widget for an entity reference fi
 
 Configuration
 -------------
+
+- Go to the Schema.org types configuration page.  
+  (/admin/config/search/schemadotorg/settings/type)
+- Go to the 'Taxonomy settings' details.
+- Enter the field group label for default vocabularies.
+- Enter default vocabularies that will be added to every Schema.org
+  content type.
 
 - Go to the Schema.org properties configuration page.  
   (/admin/config/search/schemadotorg/settings/properties)

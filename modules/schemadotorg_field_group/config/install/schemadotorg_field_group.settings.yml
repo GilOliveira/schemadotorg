@@ -33,9 +33,14 @@ default_field_groups:
         - email
         - contactPoint
   node:
-    biographical:
-      label: 'Biographical information'
+    general:
+      label: 'General information'
       properties:
+        - subtype
+        - title
+        - name
+        - headline
+        - alternativeHeadline
         - givenName
         - additionalName
         - familyName
@@ -45,22 +50,11 @@ default_field_groups:
         - birthDate
         - knowsLanguage
         - nationality
-    general:
-      label: 'General information'
-      properties:
-        - subtype
-        - title
-        - name
-        - headline
-        - alternativeHeadline
         - description
         - articleBody
         - text
         - author
         - alternateName
-    media:
-      label: Media/Assets
-      properties:
         - logo
         - image
         - photo
@@ -113,17 +107,11 @@ default_field_groups:
       label: 'Business information'
       properties:
         - openingHours
+        - openingHoursSpecification
         - paymentAccepted
         - priceRange
         - acceptsReservations
         - nonprofitStatus
-    hours:
-      label: 'Hours of operation'
-      properties:
-        - openingHoursSpecification
-    service:
-      label: 'Service information'
-      properties:
         - availableChannel
         - hoursAvailable
         - provider
@@ -131,9 +119,6 @@ default_field_groups:
         - serviceAudience
         - serviceOutput
         - serviceType
-    lodging:
-      label: 'Lodging information'
-      properties:
         - starRating
         - numberOfRooms
         - checkinTime
@@ -300,3 +285,4 @@ disable_field_groups:
   - 'paragraph--MediaGallery'
   - 'paragraph--ImageGallery'
   - 'paragraph--VideoGallery'
+  - 'taxonomy_term'

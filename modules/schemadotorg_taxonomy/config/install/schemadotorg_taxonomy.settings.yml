@@ -1,4 +1,4 @@
-default_vocabularies_group_label: 'Tags / Categories'
+default_vocabularies_group_label: 'Categories and Services'
 default_vocabularies: {  }
 property_vocabularies:
   alumniOf:
@@ -9,7 +9,7 @@ property_vocabularies:
     label: Amenity
   availableService:
     id: medical_service
-    label: 'Medical Service'
+    label: 'Medical service'
   cookingMethod:
     id: cooking_method
     label: 'Cooking method'

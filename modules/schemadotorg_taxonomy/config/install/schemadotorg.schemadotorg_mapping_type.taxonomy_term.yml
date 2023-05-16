@@ -33,6 +33,8 @@ default_base_fields:
   description:
     - description
 default_component_weights:
-  langcode: 200
-  published: 200
-  path: 210
+  langcode: 90
+  path: 90
+  published: 100
+  simple_sitemap: 90
+  scheduler_settings: 90

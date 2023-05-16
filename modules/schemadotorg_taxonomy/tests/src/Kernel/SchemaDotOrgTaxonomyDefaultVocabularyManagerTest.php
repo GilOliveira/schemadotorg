@@ -97,7 +97,7 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManagerTest extends SchemaDotOrgKerne
     $form_component = $form_display->getComponent('field_article_tags');
     $this->assertEquals('entity_reference_autocomplete_tags', $form_component['type']);
     $form_group = $form_display->getThirdPartySetting('field_group', 'group_taxonomy');
-    $this->assertEquals('Tags / Categories', $form_group['label']);
+    $this->assertEquals('Categories and Services', $form_group['label']);
     $this->assertEquals('details', $form_group['format_type']);
     $this->assertEquals(['field_tags', 'field_article_tags'], $form_group['children']);
 
@@ -109,7 +109,7 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManagerTest extends SchemaDotOrgKerne
     $view_component = $view_display->getComponent('field_article_tags');
     $this->assertEquals('entity_reference_label', $view_component['type']);
     $view_group = $view_display->getThirdPartySetting('field_group', 'group_taxonomy');
-    $this->assertEquals('Tags / Categories', $view_group['label']);
+    $this->assertEquals('Categories and Services', $view_group['label']);
     $this->assertEquals('fieldset', $view_group['format_type']);
     $this->assertEquals(['field_tags', 'field_article_tags'], $view_group['children']);
 
