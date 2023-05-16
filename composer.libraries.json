@@ -35,7 +35,7 @@
     "drupal/geolocation": "^3.0",
     "drupal/entity_reference_tree": "^2.0",
     "drupal/focal_point": "^2.0",
-    "drupal/inline_entity_form": "^1.0",
+    "drupal/inline_entity_form": "^2.0",
     "drupal/jsonapi_extras": "^3.0",
     "drupal/layout_paragraphs": "^2.0",
     "drupal/link_attributes": "^1.0",
