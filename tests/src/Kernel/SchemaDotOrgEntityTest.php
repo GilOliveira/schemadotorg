@@ -84,6 +84,8 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
       'schema_knows_language' => 'knowsLanguage',
       'schema_same_as' => 'sameAs',
       'schema_telephone' => 'telephone',
+      'schema_member_of' => 'memberOf',
+      'schema_works_for' => 'worksFor',
     ]);
 
     // Check creating node:Place Schema.org mapping.
@@ -111,7 +113,6 @@ class SchemaDotOrgEntityTest extends SchemaDotOrgKernelEntityTestBase {
       'schema_address' => 'address',
       'schema_email' => 'email',
       'schema_image' => 'image',
-      'schema_member_of' => 'memberOf',
       'schema_same_as' => 'sameAs',
       'schema_telephone' => 'telephone',
       'title' => 'name',

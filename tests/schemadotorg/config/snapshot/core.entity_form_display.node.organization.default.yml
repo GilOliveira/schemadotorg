@@ -6,7 +6,6 @@ dependencies:
     - field.field.node.organization.schema_address
     - field.field.node.organization.schema_email
     - field.field.node.organization.schema_image
-    - field.field.node.organization.schema_member_of
     - field.field.node.organization.schema_same_as
     - field.field.node.organization.schema_telephone
     - image.style.thumbnail
@@ -67,14 +66,6 @@ content:
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
-    third_party_settings: {  }
-  schema_member_of:
-    type: string_textfield
-    weight: 105
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   schema_same_as:
     type: link_default

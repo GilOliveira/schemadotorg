@@ -9,6 +9,7 @@ default_subtypes:
   - Event
   - FoodEstablishment
   - LocalBusiness
+  - MedicalOrganization
   - MedicalBusiness
   - WebPage
 default_allowed_values:

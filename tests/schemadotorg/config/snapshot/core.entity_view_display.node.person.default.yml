@@ -9,8 +9,10 @@ dependencies:
     - field.field.node.person.schema_given_name
     - field.field.node.person.schema_image
     - field.field.node.person.schema_knows_language
+    - field.field.node.person.schema_member_of
     - field.field.node.person.schema_same_as
     - field.field.node.person.schema_telephone
+    - field.field.node.person.schema_works_for
     - node.type.person
   module:
     - image
@@ -84,6 +86,14 @@ content:
     third_party_settings: {  }
     weight: 105
     region: content
+  schema_member_of:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 155
+    region: content
   schema_same_as:
     type: link
     label: above
@@ -102,5 +112,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 18
+    region: content
+  schema_works_for:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 105
     region: content
 hidden: {  }

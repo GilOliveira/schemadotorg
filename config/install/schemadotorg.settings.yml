@@ -508,7 +508,6 @@ schema_types:
       - description
       - email
       - image
-      - memberOf
       - name
       - sameAs
       - telephone
@@ -516,6 +515,7 @@ schema_types:
       - alumni
       - nonprofitStatus
     LocalBusiness:
+      - employee
       - openingHours
     Hospital:
       - availableService
@@ -540,8 +540,6 @@ schema_types:
     MedicalBusiness:
       - availableService
       - amenityFeature
-      - department
-      - email
       - email
       - hospitalAffiliation
       - isAcceptingNewPatients
@@ -571,8 +569,10 @@ schema_types:
       - givenName
       - image
       - knowsLanguage
+      - memberOf
       - name
       - sameAs
+      - worksFor
     Place:
       - address
       - description

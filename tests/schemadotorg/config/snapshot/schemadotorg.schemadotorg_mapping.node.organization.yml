@@ -6,7 +6,6 @@ dependencies:
     - field.field.node.organization.schema_address
     - field.field.node.organization.schema_email
     - field.field.node.organization.schema_image
-    - field.field.node.organization.schema_member_of
     - field.field.node.organization.schema_same_as
     - field.field.node.organization.schema_telephone
     - node.type.organization
@@ -19,7 +18,6 @@ schema_properties:
   body: description
   schema_email: email
   schema_image: image
-  schema_member_of: memberOf
   title: name
   schema_same_as: sameAs
   schema_telephone: telephone

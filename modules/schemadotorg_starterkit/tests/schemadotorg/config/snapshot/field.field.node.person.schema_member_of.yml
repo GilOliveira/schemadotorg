@@ -3,11 +3,11 @@ status: true
 dependencies:
   config:
     - field.storage.node.schema_member_of
-    - node.type.organization
-id: node.organization.schema_member_of
+    - node.type.person
+id: node.person.schema_member_of
 field_name: schema_member_of
 entity_type: node
-bundle: organization
+bundle: person
 label: 'Member of'
 description: 'An Organization (or ProgramMembership) to which this Person or Organization belongs.'
 required: false

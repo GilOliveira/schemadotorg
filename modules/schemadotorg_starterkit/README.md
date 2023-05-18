@@ -77,3 +77,11 @@ types:
       organizer: false
       performer: false
 ```
+
+
+Tips
+----
+
+`MODULE_NAME.schemadotorg_starterkit.yml` file
+
+- Explicitly include any Schema.org properties that are required.
