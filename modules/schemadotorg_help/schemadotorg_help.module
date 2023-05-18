@@ -54,3 +54,20 @@ function schemadotorg_help_help(string $route_name, RouteMatchInterface $route_m
       return NULL;
   }
 }
+
+/**
+ * Preprocess variables for help-section.html.twig.
+ */
+function schemadotorg_help_preprocess_help_section(array &$variables) {
+  // Remove all 'schemadotorg' links from the 'Module overviews'.
+  if ((string) $variables['title'] === (string) t('Module overviews')) {
+    /** @var \Drupal\Core\Link[] $links */
+    $links =& $variables['links'];
+    foreach ($links as $key => $link) {
+      $module_name = $link->getUrl()->getRouteParameters()['name'] ?? '';
+      if (str_starts_with($module_name, 'schemadotorg')) {
+        unset($links[$key]);
+      }
+    }
+  }
+}
