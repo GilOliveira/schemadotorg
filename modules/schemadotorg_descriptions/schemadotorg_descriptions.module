@@ -11,21 +11,11 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\field\FieldConfigInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
 use Drupal\schemadotorg\Utility\SchemaDotOrgStringHelper;
 use Drupal\schemadotorg_ui\Form\SchemaDotOrgUiMappingForm;
-
-/**
- * Implements hook_help().
- */
-function schemadotorg_descriptions_help(string $route_name, RouteMatchInterface $route_match): string|array|NULL {
-  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
-  $help_manager = \Drupal::service('schemadotorg.help_manager');
-  return $help_manager->buildHelpPage($route_name, $route_match);
-}
 
 /**
  * Implements hook_entity_load().

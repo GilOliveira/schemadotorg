@@ -4,9 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\Tests\schemadotorg\Kernel;
 
-use Drupal\schemadotorg\Entity\SchemaDotOrgMapping;
-use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
-
 /**
  * Tests the Schema.org config manager service.
  *

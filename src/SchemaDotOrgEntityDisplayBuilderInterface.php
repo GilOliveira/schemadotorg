@@ -32,7 +32,7 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
    */
   public function getSchemaPropertyDefaultFieldWeight(string $entity_type_id, string $field_name, string $schema_property): int;
 
-    /**
+  /**
    * Set entity displays for a field.
    *
    * @param string $schema_type

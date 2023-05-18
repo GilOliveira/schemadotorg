@@ -32,6 +32,7 @@ default_field_groups:
         - faxNumber
         - email
         - contactPoint
+        - workLocation
   node:
     general:
       label: 'General information'

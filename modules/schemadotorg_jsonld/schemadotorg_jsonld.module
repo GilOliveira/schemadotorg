@@ -19,9 +19,7 @@ function schemadotorg_jsonld_help(string $route_name, RouteMatchInterface $route
     return '<p>' . t('The <em>Schema.org JSON-LD settings</em> page allows administrators to configure the default settings for the Schema.org JSON-LD data and endpoints.') . '<p>';
   }
 
-  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
-  $help_manager = \Drupal::service('schemadotorg.help_manager');
-  return $help_manager->buildHelpPage($route_name, $route_match);
+  return NULL;
 }
 
 /**

@@ -10,17 +10,7 @@ declare(strict_types = 1);
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Locale\CountryManager;
-use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
-
-/**
- * Implements hook_help().
- */
-function schemadotorg_options_help(string $route_name, RouteMatchInterface $route_match): string|array|NULL {
-  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
-  $help_manager = \Drupal::service('schemadotorg.help_manager');
-  return $help_manager->buildHelpPage($route_name, $route_match);
-}
 
 /**
  * Implements hook_schemadotorg_property_field_type_alter().

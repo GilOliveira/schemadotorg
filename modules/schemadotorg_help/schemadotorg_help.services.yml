@@ -1,0 +1,8 @@
+services:
+  schemadotorg_help.manager:
+    class: Drupal\schemadotorg_help\SchemaDotOrgHelpManager
+    arguments: ['@module_handler', '@extension.list.module', '@extension.path.resolver']
+  schemadotorg_help.breadcrumb:
+    class: Drupal\schemadotorg_help\Breadcrumb\SchemaDotOrgHelpBreadcrumbBuilder
+    tags:
+      - { name: breadcrumb_builder, priority: 1000 }

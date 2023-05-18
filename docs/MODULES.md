@@ -21,6 +21,9 @@ on Schema.org types.
 - **[Schema.org Blueprints Report](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_report)**  
   Provides a report for browsing Schema.org types, properties, and naming conventions.
 
+- **[Schema.org Blueprints Help](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_help)**  
+  Provides a dedicated help section for the Schema.org Blueprints module and submodules.
+
 ### UI/UX
 
 The below UI/UX modules help enhance the creation and management

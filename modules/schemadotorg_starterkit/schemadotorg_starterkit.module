@@ -18,9 +18,7 @@ function schemadotorg_starterkit_help(string $route_name, RouteMatchInterface $r
       return '<p>' . t('The <em>Schema.org starterkit</em> page lists all available Schema.org starterkits that can be installed and managed using the below admin UI or <a href=":href">Drush</a>.', [':href' => 'https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/DRUSH.md']) . '<p>';
   }
 
-  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
-  $help_manager = \Drupal::service('schemadotorg.help_manager');
-  return $help_manager->buildHelpPage($route_name, $route_match);
+  return NULL;
 }
 
 /**

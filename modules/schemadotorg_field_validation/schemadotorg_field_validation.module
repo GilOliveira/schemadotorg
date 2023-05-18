@@ -9,17 +9,7 @@ declare(strict_types = 1);
 
 use Drupal\Core\Field\FieldConfigInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
-
-/**
- * Implements hook_help().
- */
-function schemadotorg_field_validation_help(string $route_name, RouteMatchInterface $route_match): string|array|NULL {
-  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
-  $help_manager = \Drupal::service('schemadotorg.help_manager');
-  return $help_manager->buildHelpPage($route_name, $route_match);
-}
 
 /**
  * Implements hook_field_config_insert().

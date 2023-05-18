@@ -24,9 +24,7 @@ function schemadotorg_subtype_help(string $route_name, RouteMatchInterface $rout
     return '<p>' . t('The <em>Schema.org subtype settings</em> page allows administrators to configure default setting for subtyping.') . '<p>';
   }
 
-  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
-  $help_manager = \Drupal::service('schemadotorg.help_manager');
-  return $help_manager->buildHelpPage($route_name, $route_match);
+  return NULL;
 }
 
 /* ************************************************************************** */

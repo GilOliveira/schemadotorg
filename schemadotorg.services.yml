@@ -5,9 +5,6 @@ services:
   schemadotorg.names:
     class: Drupal\schemadotorg\SchemaDotOrgNames
     arguments: ['@config.factory']
-  schemadotorg.help_manager:
-    class: Drupal\schemadotorg\SchemaDotOrgHelpManager
-    arguments: ['@module_handler', '@extension.list.module', '@extension.path.resolver', '@?plugin.manager.help_section']
   schemadotorg.config_manager:
     class: Drupal\schemadotorg\SchemaDotOrgConfigManager
     arguments: ['@config.factory', '@schemadotorg.schema_type_manager']

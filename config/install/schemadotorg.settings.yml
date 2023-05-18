@@ -912,6 +912,8 @@ schema_properties:
     blogPost:
       label: 'Blog posts'
       unlimited: true
+    bodyLocation:
+      type: text_long
     category:
       label: Categories
       unlimited: true
@@ -992,6 +994,8 @@ schema_properties:
       unlimited: true
     faxNumber:
       type: telephone
+    followup:
+      type: text_long
     foodWarning:
       type: text_long
     founder:
@@ -1027,6 +1031,8 @@ schema_properties:
       unlimited: true
     height:
       type: string
+    howPerformed:
+      type: text_long
     honorificPrefix:
       label: 'Honorific'
     honorificSuffix:

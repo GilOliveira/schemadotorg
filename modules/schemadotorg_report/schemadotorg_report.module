@@ -81,9 +81,7 @@ function schemadotorg_report_help(string $route_name, RouteMatchInterface $route
       return '<p>' . t('The <em>Schema.org: References</em> page lists Schema.org references and issues.') . '</p>';
   }
 
-  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
-  $help_manager = \Drupal::service('schemadotorg.help_manager');
-  return $help_manager->buildHelpPage($route_name, $route_match);
+  return NULL;
 }
 
 /**

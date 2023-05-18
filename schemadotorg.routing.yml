@@ -104,11 +104,3 @@ schemadotorg.autocomplete:
     _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgAutocompleteController::autocomplete'
   requirements:
     _permission: 'access content'
-
-schemadotorg.help.videos:
-  path: '/admin/help/schemadotorg/videos'
-  defaults:
-    _controller: '\Drupal\schemadotorg\Controller\SchemaDotOrgHelpController::videos'
-    _title: 'Learn more about the Schema.org Blueprints module'
-  requirements:
-    _permission: 'administer schemadotorg'

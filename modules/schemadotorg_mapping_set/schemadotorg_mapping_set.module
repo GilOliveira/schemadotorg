@@ -26,9 +26,7 @@ function schemadotorg_mapping_set_help(string $route_name, RouteMatchInterface $
       return '<p>' . t('The <em>Schema.org mapping set details</em> page provide an overview of what entity types and fields will be created when generating a mapping set.') . '<p>';
   }
 
-  /** @var \Drupal\schemadotorg\SchemaDotOrgHelpManagerInterface $help_manager */
-  $help_manager = \Drupal::service('schemadotorg.help_manager');
-  return $help_manager->buildHelpPage($route_name, $route_match);
+  return NULL;
 }
 
 /**
