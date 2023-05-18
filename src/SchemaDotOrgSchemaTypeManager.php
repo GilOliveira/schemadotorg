@@ -657,7 +657,7 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
    */
   public function hasProperty(string $type, string $property): bool {
     $type_definition = $this->getType($type);
-    return (str_contains($type_definition['properties'], '/' . $property));
+    return ($type_definition && str_contains($type_definition['properties'], '/' . $property));
   }
 
   /**
