@@ -848,6 +848,7 @@ schema_properties:
       label: Videos
     about:
       type: text_long
+      unlimited: true
     acceptedAnswer:
       type: text_long
     activeIngredient:
@@ -1174,6 +1175,8 @@ schema_properties:
       unlimited: true
     studySubject:
       label: 'Study subjects'
+      unlimited: true
+    subjectOf:
       unlimited: true
     suitableForDiet:
       label: 'Suitable for diets'
