@@ -96,7 +96,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    * {@inheritdoc}
    */
   public function buildEntity(?EntityInterface $entity = NULL, array $options = []): ?array {
-    if (!$entity) {
+    if (!$entity || !$entity->access('view')) {
       return [];
     }
 

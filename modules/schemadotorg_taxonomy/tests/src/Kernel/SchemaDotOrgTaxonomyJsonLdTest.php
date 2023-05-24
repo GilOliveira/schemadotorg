@@ -50,6 +50,8 @@ class SchemaDotOrgTaxonomyJsonLdTest extends SchemaDotOrgKernelEntityTestBase {
    * Test Schema.org taxonomy JSON-LD.
    */
   public function testJsonLd(): void {
+    \Drupal::currentUser()->setAccount($this->createUser(['access content']));
+
     // Create a Schema.org Recipe which automatically creates
     // a 'recipe_category' vocabulary.
     // @se e\Drupal\schemadotorg_taxonomy\SchemaDotOrgTaxonomyPropertyVocabularyManager::propertyFieldAlter

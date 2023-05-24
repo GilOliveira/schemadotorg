@@ -49,6 +49,8 @@ class SchemaDotOrgTaxonomyJsonLdTest extends SchemaDotOrgBrowserTestBase {
    * Test Schema.org taxonomy.
    */
   public function testTaxonomy(): void {
+    \Drupal::currentUser()->setAccount($this->createUser(['administer taxonomy']));
+
     $assert_session = $this->assertSession();
 
     $vocabulary = Vocabulary::create([

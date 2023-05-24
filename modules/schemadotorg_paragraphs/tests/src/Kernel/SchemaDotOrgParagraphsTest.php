@@ -61,6 +61,8 @@ class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
    * Test Schema.org paragraphs.
    */
   public function testParagraphs(): void {
+    \Drupal::currentUser()->setAccount($this->createUser(['access content']));
+
     $this->createSchemaEntity('paragraph', 'ContactPoint');
     $this->createSchemaEntity('node', 'Person');
 
@@ -112,6 +114,7 @@ class SchemaDotOrgParagraphsTest extends SchemaDotOrgKernelEntityTestBase {
     // the ContactPoint paragraph and paragraph library item..
     $expected = [
       '@type' => 'Person',
+      '@url' => $person_node->toUrl()->setAbsolute()->toString(),
       'name' => 'Person',
       'contactPoint' => [
         [

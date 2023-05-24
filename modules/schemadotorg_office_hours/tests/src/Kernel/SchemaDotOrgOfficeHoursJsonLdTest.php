@@ -53,6 +53,8 @@ class SchemaDotOrgOfficeHoursJsonLdTest extends SchemaDotOrgKernelEntityTestBase
    * @covers schemadotorg_office_hours_schemadotorg_jsonld_schema_property_alter()
    */
   public function testOpening(): void {
+    \Drupal::currentUser()->setAccount($this->createUser(['access content']));
+
     schemadotorg_office_hours_install(FALSE);
 
     // Create Place with eventSchedule property.

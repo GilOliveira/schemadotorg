@@ -46,6 +46,8 @@ class SchemaDotOrgJsonLdDateTimeRangeTest extends SchemaDotOrgKernelEntityTestBa
    * Test Schema.org datetime range JSON-LD.
    */
   public function testJsonLdDateTimeRange(): void {
+    \Drupal::currentUser()->setAccount($this->createUser(['access content']));
+
     // Reset Event properties to use eventSchedule and startDate with daterange.
     $config = $this->config('schemadotorg.settings');
     $config
@@ -77,6 +79,7 @@ class SchemaDotOrgJsonLdDateTimeRangeTest extends SchemaDotOrgKernelEntityTestBa
     // Event schedule.
     $expected_value = [
       '@type' => 'Event',
+      '@url' => $event_node->toUrl()->setAbsolute()->toString(),
       'inLanguage' => 'en',
       'name' => 'Sometime',
       'eventSchedule' => [

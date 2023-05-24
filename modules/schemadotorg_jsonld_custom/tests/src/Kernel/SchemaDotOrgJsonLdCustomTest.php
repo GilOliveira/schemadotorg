@@ -64,6 +64,8 @@ class SchemaDotOrgJsonLdCustomTest extends SchemaDotOrgKernelEntityTestBase {
    * Test Schema.org JSON-LD custom.
    */
   public function testCustom(): void {
+    \Drupal::currentUser()->setAccount($this->createUser(['access content']));
+
     $this->createSchemaEntity('node', 'Article');
 
     $node = Node::create([
@@ -97,6 +99,7 @@ class SchemaDotOrgJsonLdCustomTest extends SchemaDotOrgKernelEntityTestBase {
       [
         '@context' => 'https://schema.org',
         '@type' => 'Article',
+        '@url' => $node->toUrl()->setAbsolute()->toString(),
         'inLanguage' => 'en',
         'headline' => 'Something',
         'dateCreated' => $this->dateFormatter->format($node->getCreatedTime(), 'custom', 'Y-m-d H:i:s P'),

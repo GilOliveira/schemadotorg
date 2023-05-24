@@ -53,6 +53,8 @@ class SchemaDotOrgJsonLdBreadcrumbTest extends SchemaDotOrgKernelEntityTestBase 
    * Test Schema.org JSON-LD breadcrumb.
    */
   public function testBreadcrumb(): void {
+    \Drupal::currentUser()->setAccount($this->createUser(['access content']));
+
     // Allow Schema.org Thing to have default properties.
     $this->config('schemadotorg.settings')
       ->set('schema_types.default_properties.Thing', ['name'])
@@ -95,6 +97,7 @@ class SchemaDotOrgJsonLdBreadcrumbTest extends SchemaDotOrgKernelEntityTestBase 
       [
         '@context' => 'https://schema.org',
         '@type' => 'Thing',
+        '@url' => $node->toUrl()->setAbsolute()->toString(),
         'name' => 'Something',
       ],
     ];

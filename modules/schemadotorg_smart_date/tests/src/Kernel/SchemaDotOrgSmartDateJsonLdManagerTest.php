@@ -64,6 +64,8 @@ class SchemaDotOrgSmartDateJsonLdManagerTest extends SchemaDotOrgKernelEntityTes
    * @covers ::alterProperty
    */
   public function testEventSchedule(): void {
+    \Drupal::currentUser()->setAccount($this->createUser(['access content']));
+
     // Install the module.
     schemadotorg_smart_date_install(FALSE);
 
@@ -141,6 +143,8 @@ class SchemaDotOrgSmartDateJsonLdManagerTest extends SchemaDotOrgKernelEntityTes
    * @covers ::alterProperties
    */
   public function testEventStartDate(): void {
+    \Drupal::currentUser()->setAccount($this->createUser(['access content']));
+
     // Reset Event properties to use startDate with smartdate.
     $config = $this->config('schemadotorg.settings');
     $config
@@ -168,6 +172,7 @@ class SchemaDotOrgSmartDateJsonLdManagerTest extends SchemaDotOrgKernelEntityTes
     // Check Event eventSchedule JSON-LD data.
     $expected_value = [
       '@type' => 'Event',
+      '@url' => $event_node->toUrl()->setAbsolute()->toString(),
       'inLanguage' => 'en',
       'name' => 'Sometime',
       'startDate' => '2001-01-01T11:00:00+11:00',

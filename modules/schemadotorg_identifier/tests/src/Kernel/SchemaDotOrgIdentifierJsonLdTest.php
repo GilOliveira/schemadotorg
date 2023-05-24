@@ -45,6 +45,8 @@ class SchemaDotOrgIdentifierJsonLdTest extends SchemaDotOrgKernelEntityTestBase 
    * Test Schema.org identifier.
    */
   public function testIdentifier(): void {
+    \Drupal::currentUser()->setAccount($this->createUser(['access content']));
+
     $this->createSchemaEntity('node', 'MedicalBusiness');
 
     $node = Node::create([

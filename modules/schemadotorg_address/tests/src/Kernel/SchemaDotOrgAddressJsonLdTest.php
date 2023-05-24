@@ -51,6 +51,8 @@ class SchemaDotOrgAddressJsonLdTest extends SchemaDotOrgKernelEntityTestBase {
    * Test Schema.org address JSON-LD.
    */
   public function testJsonLdAddress(): void {
+    \Drupal::currentUser()->setAccount($this->createUser(['access content']));
+
     $this->createSchemaEntity('node', 'Place');
 
     // Place node.
@@ -68,6 +70,7 @@ class SchemaDotOrgAddressJsonLdTest extends SchemaDotOrgKernelEntityTestBase {
 
     $expected_value = [
       '@type' => 'Place',
+      '@url' => $place_node->toUrl()->setAbsolute()->toString(),
       'name' => 'Some place',
       'address' => [
         '@type' => 'PostalAddress',

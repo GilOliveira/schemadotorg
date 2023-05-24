@@ -49,6 +49,8 @@ class SchemaDotOrgGeolocationJsonLdTest extends SchemaDotOrgKernelEntityTestBase
    * Test Schema.org alter the JSON-LD geo property.
    */
   public function testGeo(): void {
+    \Drupal::currentUser()->setAccount($this->createUser(['access content']));
+
     schemadotorg_geolocation_install(FALSE);
 
     // Create Place with geo property.

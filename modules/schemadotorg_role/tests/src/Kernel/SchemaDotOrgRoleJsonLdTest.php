@@ -45,6 +45,8 @@ class SchemaDotOrgRoleJsonLdTest extends SchemaDotOrgKernelEntityTestBase {
    * Test Schema.org role.
    */
   public function testRole(): void {
+    \Drupal::currentUser()->setAccount($this->createUser(['access content']));
+
     $this->createSchemaEntity('node', 'PodcastEpisode');
 
     $node = Node::create([

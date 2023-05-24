@@ -45,6 +45,8 @@ class SchemaDotOrgJsonLdRangeTest extends SchemaDotOrgKernelEntityTestBase {
    * Test Schema.org range JSON-LD.
    */
   public function testJsonLdRange(): void {
+    \Drupal::currentUser()->setAccount($this->createUser(['access content']));
+
     $this->createSchemaEntity('node', 'JobPosting');
 
     // Job node.
@@ -60,6 +62,7 @@ class SchemaDotOrgJsonLdRangeTest extends SchemaDotOrgKernelEntityTestBase {
 
     $expected_value = [
       '@type' => 'JobPosting',
+      '@url' => $job_node->toUrl()->setAbsolute()->toString(),
       'title' => 'Some job',
       'estimatedSalary' => [
         '@type' => 'MonetaryAmount',

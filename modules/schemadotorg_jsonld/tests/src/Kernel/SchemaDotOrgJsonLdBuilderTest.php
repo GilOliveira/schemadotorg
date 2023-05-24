@@ -46,6 +46,8 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
    * Test Schema.org JSON-LD builder.
    */
   public function testBuilder(): void {
+    \Drupal::currentUser()->setAccount($this->createUser(['access content']));
+
     /** @var \Drupal\Core\Datetime\DateFormatterInterface $data_formatter */
     $data_formatter = \Drupal::service('date.formatter');
     $now = time();
@@ -86,6 +88,7 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
     // Check building JSON-LD for an entity that is mapped to a Schema.org type.
     $expected_result = [
       '@type' => 'CreativeWork',
+      '@url' => $node->toUrl()->setAbsolute()->toString(),
       'name' => 'Something',
       'alternateName' => [
         'Something else',
