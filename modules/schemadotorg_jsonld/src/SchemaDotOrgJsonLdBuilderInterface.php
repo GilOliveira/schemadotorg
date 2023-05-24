@@ -29,14 +29,12 @@ interface SchemaDotOrgJsonLdBuilderInterface {
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity.
-   * @param array $options
-   *   The entity build options.
    *
    * @return array|bool
    *   The JSON-LD for an entity that is mapped to a Schema.org type
    *   or NULL if the entity is not mapped to a Schema.org type.
    */
-  public function buildEntity(EntityInterface $entity, array $options = []): ?array;
+  public function buildEntity(EntityInterface $entity): ?array;
 
   /**
    * Get Schema.org property values from field items.
@@ -47,12 +45,10 @@ interface SchemaDotOrgJsonLdBuilderInterface {
    *   The Schema.org property.
    * @param \Drupal\Core\Field\FieldItemListInterface $items
    *   The field items.
-   * @param array $options
-   *   The entity build options.
    *
    * @return array
    *   An array of Schema.org property values.
    */
-  public function getSchemaPropertyFieldItems(string $schema_type, string $schema_property, FieldItemListInterface $items, array $options = []): array;
+  public function getSchemaPropertyFieldItems(string $schema_type, string $schema_property, FieldItemListInterface $items): array;
 
 }

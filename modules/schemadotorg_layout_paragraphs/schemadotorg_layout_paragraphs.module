@@ -81,7 +81,7 @@ function schemadotorg_layout_paragraphs_schemadotorg_jsonld_schema_type_entity_a
     && $entity->field_node->entity) {
     /** @var \Drupal\schemadotorg_jsonld\SchemaDotOrgJsonLdBuilderInterface $jsonld_builder */
     $jsonld_builder = \Drupal::service('schemadotorg_jsonld.builder');
-    $data = $jsonld_builder->buildEntity($entity->field_node->entity, ['map_entities' => FALSE]);
+    $data = $jsonld_builder->buildEntity($entity->field_node->entity);
   }
 }
 

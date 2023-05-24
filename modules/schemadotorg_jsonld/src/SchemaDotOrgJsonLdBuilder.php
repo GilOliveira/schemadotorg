@@ -11,6 +11,7 @@ use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\file\FileInterface;
+use Drupal\node\NodeInterface;
 use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 
 /**
@@ -95,19 +96,12 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   /**
    * {@inheritdoc}
    */
-  public function buildEntity(?EntityInterface $entity = NULL, array $options = []): ?array {
+  public function buildEntity(?EntityInterface $entity = NULL): ?array {
     if (!$entity || !$entity->access('view')) {
       return [];
     }
 
-    // Set default options.
-    $options += [
-      // Mapping entity references.
-      // This helps prevent a mapping recursion.
-      'map_entities' => TRUE,
-    ];
-
-    $data = $this->buildMappedEntity($entity, $options);
+    $data = $this->buildMappedEntity($entity);
 
     // Load Schema.org JSON-LD entity data.
     // @see schemadotorg_jsonld_schema_type_entity_load()
@@ -136,23 +130,19 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity.
-   * @param array $options
-   *   The entity build options.
    *
    * @return array|bool
    *   The JSON-LD for an entity that is mapped to a Schema.org type.
    */
-  protected function buildMappedEntity(EntityInterface $entity, array $options = []): array {
+  protected function buildMappedEntity(EntityInterface $entity): array {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
-    if (!$mapping_storage->isEntityMapped($entity)) {
+    $mapping = $mapping_storage->loadByEntity($entity);
+    if (!$mapping) {
       return [];
     }
 
     $type_data = [];
-
-    $mapping = $mapping_storage->loadByEntity($entity);
-
     $schema_type = $mapping->getSchemaType();
     $schema_properties = $mapping->getSchemaProperties();
     foreach ($schema_properties as $field_name => $schema_property) {
@@ -166,7 +156,7 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
       // Get property values from field items.
       /** @var \Drupal\Core\Field\FieldItemListInterface $field_items */
       $field_items = $entity->get($field_name);
-      $property_values = $this->getSchemaPropertyFieldItems($schema_type, $schema_property, $field_items, $options);
+      $property_values = $this->getSchemaPropertyFieldItems($schema_type, $schema_property, $field_items);
 
       if ($property_values) {
         // If the cardinality is 1, return the first property data item.
@@ -225,13 +215,13 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
   /**
    * {@inheritdoc}
    */
-  public function getSchemaPropertyFieldItems(string $schema_type, string $schema_property, FieldItemListInterface $items, array $options = []): array {
+  public function getSchemaPropertyFieldItems(string $schema_type, string $schema_property, FieldItemListInterface $items): array {
     $total_items = $items->count();
 
     $position = 1;
     $property_values = [];
     foreach ($items as $item) {
-      $property_value = $this->getSchemaPropertyFieldItem($schema_type, $schema_property, $item, $options);
+      $property_value = $this->getSchemaPropertyFieldItem($schema_type, $schema_property, $item);
 
       // Alter the Schema.org property's individual value.
       $this->moduleHandler->alter(
@@ -276,44 +266,40 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
    *   The Schema.org property.
    * @param \Drupal\Core\Field\FieldItemInterface|null $item
    *   The field item.
-   * @param array $options
-   *   The entity build options.
    *
    * @return mixed
    *   A data type.
    */
-  protected function getSchemaPropertyFieldItem(string $schema_type, string $schema_property, ?FieldItemInterface $item = NULL, array $options = []): mixed {
-    if ($item === NULL) {
+  protected function getSchemaPropertyFieldItem(string $schema_type, string $schema_property, ?FieldItemInterface $item = NULL): mixed {
+    if (is_null($item)) {
       return NULL;
     }
 
-    // Handle entity reference relationships.
+    // Handle entity reference except for files (and images).
     if ($item->entity
       && $item->entity instanceof EntityInterface
       && !$item->entity instanceof FileInterface) {
-      if (empty($options['map_entities'])) {
-        return NULL;
-      }
-
-      $entity_options = [
-        // Only map entities that DO NOT have canonical URLs.
-        'map_entities' => empty($item->entity->hasLinkTemplate('canonical')),
-      ] + $options;
-      $entity_data = $this->buildEntity($item->entity, $entity_options);
-      if ($entity_data) {
-        return $entity_data;
+      // Return node reference's type, url, and label.
+      if ($item->entity instanceof NodeInterface) {
+        $node = $item->entity;
+        /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+        $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+        $node_mapping = $mapping_storage->loadByEntity($node);
+        $node_schema_property = $node_mapping->getSchemaPropertyMapping('title') ?? 'name';
+        return [
+          '@type' => $node_mapping->getSchemaType(),
+          '@url' => $node->toUrl('canonical')->setAbsolute()->toString(),
+          $node_schema_property => $node->label(),
+        ];
       }
       else {
-        return NULL;
+        return $this->buildEntity($item->entity) ?: NULL;
       }
     }
-
-    // Get Schema.org property value.
-    $property_value = $this->schemaJsonLdManager->getSchemaPropertyValue($item);
-
-    // Get Schema.org property value with the property's
-    // default Schema.org type.
-    return $this->schemaJsonLdManager->getSchemaPropertyValueDefaultType($schema_type, $schema_property, $property_value);
+    else {
+      $property_value = $this->schemaJsonLdManager->getSchemaPropertyValue($item);
+      return $this->schemaJsonLdManager->getSchemaPropertyValueDefaultType($schema_type, $schema_property, $property_value);
+    }
   }
 
   /**
