@@ -1,4 +1,5 @@
-default_vocabularies_group_label: 'Categories and Services'
+default_field_groups:
+  taxonomy: 'Categories and Services'
 default_vocabularies: {  }
 property_vocabularies:
   alumniOf:

@@ -135,20 +135,25 @@ function schemadotorg_taxonomy_form_schemadotorg_types_settings_form_alter(array
     '#open' => TRUE,
     '#tree' => TRUE,
   ];
-  $form['schemadotorg_taxonomy']['default_vocabularies_group_label'] = [
-    '#type' => 'textfield',
-    '#title' => t('Default vocabularies group label'),
-    '#description' => t('Enter the field group label for default vocabularies.'),
+  $form['schemadotorg_taxonomy']['default_field_groups'] = [
+    '#type' => 'schemadotorg_settings',
+    '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+    '#settings_format' => 'group_name|Group label',
+    '#title' => t('Default field groups'),
     '#required' => TRUE,
+    '#description' => t("Enter default vocabulary field group names and labels. All field group names will be prefixed with group_*. The 'taxonomy' field group is required and will be used as the default field group for default vocabularies."),
     '#access' => \Drupal::moduleHandler()->moduleExists('field_group'),
   ];
   $form['schemadotorg_taxonomy']['default_vocabularies'] = [
     '#type' => 'schemadotorg_settings',
     '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
-    '#settings_format' => 'propertyName|id:vocabulary_id,label:Vocabulary name,description: Vocabulary description goes here or SchemaType--propertyName|id:vocabulary_id,label:Vocabulary name',
+    '#settings_format' => 'propertyName|id:vocabulary_id,label:Vocabulary name,description: Vocabulary description goes here,group:group_name or SchemaType--propertyName|id:vocabulary_id,label:Vocabulary name,group:group_name',
     '#title' => t('Default vocabularies'),
     '#description' => t('Enter default vocabularies that will be added to every Schema.org content type.'),
   ];
+
+  // Add validate callback.
+  $form['#validate'][] = 'schemadotorg_taxonomy_form_schemadotorg_types_settings_form_validate';
 
   // Add submit callback.
   $form['#submit'][] = 'schemadotorg_taxonomy_settings_form_submit';
@@ -177,6 +182,19 @@ function schemadotorg_taxonomy_form_schemadotorg_properties_settings_form_alter(
 
   // Add submit callback.
   $form['#submit'][] = 'schemadotorg_taxonomy_settings_form_submit';
+}
+
+/**
+ * Form validation handler for schemadotorg_properties_settings_form().
+ *
+ * @see schemadotorg_taxonomy_form_schemadotorg_type_settings_form_alter()
+ */
+function schemadotorg_taxonomy_form_schemadotorg_types_settings_form_validate(array &$form, FormStateInterface $form_state): void {
+  // Require the 'taxonomy' field group for default vocabularies.
+  $values = $form_state->getValue('schemadotorg_taxonomy');
+  if (!isset($values['default_field_groups']['taxonomy'])) {
+    $form_state->setError($form['schemadotorg_taxonomy']['default_field_groups'], t("The 'taxonomy' default field group is required."));
+  }
 }
 
 /**

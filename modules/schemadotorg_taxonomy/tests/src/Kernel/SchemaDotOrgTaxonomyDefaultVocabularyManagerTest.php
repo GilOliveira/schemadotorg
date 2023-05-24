@@ -61,6 +61,7 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManagerTest extends SchemaDotOrgKerne
 
     // Config tags and article_tags as default vocabularies.
     \Drupal::configFactory()->getEditable('schemadotorg_taxonomy.settings')
+      ->set('default_field_groups.custom', 'Custom')
       ->set('default_vocabularies.tags', [
         'id' => 'tags',
         'label' => 'Tags',
@@ -68,6 +69,11 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManagerTest extends SchemaDotOrgKerne
       ->set('default_vocabularies.Article--article_tags', [
         'id' => 'article_tags',
         'label' => 'Article Tags',
+      ])
+      ->set('default_vocabularies.custom', [
+        'id' => 'custom',
+        'label' => 'Custom',
+        'group' => 'custom',
       ])
       ->save();
 
@@ -100,8 +106,12 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManagerTest extends SchemaDotOrgKerne
     $this->assertEquals('Categories and Services', $form_group['label']);
     $this->assertEquals('details', $form_group['format_type']);
     $this->assertEquals(['field_tags', 'field_article_tags'], $form_group['children']);
+    $form_group = $form_display->getThirdPartySetting('field_group', 'group_custom');
+    $this->assertEquals('Custom', $form_group['label']);
+    $this->assertEquals('details', $form_group['format_type']);
+    $this->assertEquals(['field_custom'], $form_group['children']);
 
-    // Create that the view display and component are created.
+    // Check that the view display and component are created.
     $view_display = $entity_display_repository->getViewDisplay('node', 'article');
     $this->assertNotNull($view_display);
     $view_component = $view_display->getComponent('field_tags');
@@ -112,6 +122,10 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManagerTest extends SchemaDotOrgKerne
     $this->assertEquals('Categories and Services', $view_group['label']);
     $this->assertEquals('fieldset', $view_group['format_type']);
     $this->assertEquals(['field_tags', 'field_article_tags'], $view_group['children']);
+    $view_group = $view_display->getThirdPartySetting('field_group', 'group_custom');
+    $this->assertEquals('Custom', $view_group['label']);
+    $this->assertEquals('fieldset', $view_group['format_type']);
+    $this->assertEquals(['field_custom'], $view_group['children']);
 
     // Check that tags and article_tags vocabularies are translated.
     $this->assertNotNull(ContentLanguageSettings::load('taxonomy_term.tags'));

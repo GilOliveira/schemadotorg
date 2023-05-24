@@ -2,9 +2,12 @@ schemadotorg_taxonomy.settings:
   type: config_entity
   label: Schema.org Taxonomy settings
   mapping:
-    default_vocabularies_group_label:
-      type: text
-      label: 'Default vocabularies group label'
+    default_field_groups:
+      type: sequence
+      label: 'Default field groups'
+      sequence:
+        type: string
+        label: 'Default field group'
     default_vocabularies:
       type: sequence
       label: 'Default vocabularies'
@@ -24,6 +27,9 @@ schemadotorg_taxonomy.settings:
           auto_create:
             type: boolean
             label: 'Auto create'
+          group:
+            type: string
+            label: 'Group name'
     property_vocabularies:
       type: sequence
       label: 'Default properties'

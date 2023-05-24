@@ -61,15 +61,14 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManager implements SchemaDotOrgTaxono
     $schema_type = $mapping->getSchemaType();
     $entity_type = $mapping->getTargetEntityTypeId();
     $bundle = $mapping->getTargetBundle();
-    $group_name = 'group_taxonomy';
 
     // Make sure we are adding default vocabularies to nodes.
     if ($entity_type !== 'node') {
       return;
     }
 
-    $group_label = $this->configFactory->get('schemadotorg_taxonomy.settings')
-      ->get('default_vocabularies_group_label');
+    $default_field_groups = $this->configFactory->get('schemadotorg_taxonomy.settings')
+      ->get('default_field_groups');
     $default_vocabularies = $this->configFactory->get('schemadotorg_taxonomy.settings')
       ->get('default_vocabularies');
     foreach ($default_vocabularies as $vocabulary_id => $vocabulary_settings) {
@@ -85,6 +84,9 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManager implements SchemaDotOrgTaxono
       $vocabulary_id = preg_replace('/[^a-z0-9_]+/', '_', $vocabulary_id);
 
       $field_name = 'field_' . $vocabulary_id;
+
+      $group_name = 'group_' . ($vocabulary_settings['group'] ?? 'taxonomy');
+      $group_label = $default_field_groups[$vocabulary_settings['group'] ?? 'taxonomy'] ?? NULL;
 
       // Create vocabulary.
       $vocabulary = $this->createVocabulary($vocabulary_id, $vocabulary_settings);
@@ -141,7 +143,7 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManager implements SchemaDotOrgTaxono
           'type' => 'entity_reference_autocomplete_tags',
         ]);
       }
-      if ($this->moduleHandler->moduleExists('field_group')) {
+      if ($this->moduleHandler->moduleExists('field_group') && $group_label) {
         $group = $form_display->getThirdPartySetting('field_group', $group_name);
         if (!$group) {
           $group = [
@@ -166,7 +168,7 @@ class SchemaDotOrgTaxonomyDefaultVocabularyManager implements SchemaDotOrgTaxono
       $view_display->setComponent($field_name, [
         'type' => 'entity_reference_label',
       ]);
-      if ($this->moduleHandler->moduleExists('field_group')) {
+      if ($this->moduleHandler->moduleExists('field_group') && $group_label) {
         $group = $view_display->getThirdPartySetting('field_group', $group_name);
         if (!$group) {
           $group = [
