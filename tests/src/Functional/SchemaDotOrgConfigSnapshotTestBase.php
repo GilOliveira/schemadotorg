@@ -24,6 +24,13 @@ use Drupal\Component\Serialization\Yaml;
  */
 abstract class SchemaDotOrgConfigSnapshotTestBase extends SchemaDotOrgBrowserTestBase {
 
+  // phpcs:disable
+  /**
+   * Disable config schema checking.
+   */
+  protected $strictConfigSchema = FALSE;
+  // phpcs:enable
+
   /**
    * The Schema.org Blueprints config snapshot directory.
    *

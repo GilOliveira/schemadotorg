@@ -13,15 +13,6 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgConfigSnapshotTestBase;
  */
 class SchemaDotOrgStarterKitConfigSnapshotTest extends SchemaDotOrgConfigSnapshotTestBase {
 
-  // phpcs:disable DrupalPractice.Objects.StrictSchemaDisabled.StrictConfigSchema
-  /**
-   * Disabled config schema checking temporarily until smart date fixes missing schema.
-   *
-   * @var bool
-   */
-  protected $strictConfigSchema = FALSE;
-  // phpcs:enable DrupalPractice.Objects.StrictSchemaDisabled.StrictConfigSchema
-
   /**
    * Modules to install.
    *
