@@ -27,7 +27,7 @@ class SchemaDotOrgStarterKitTest extends SchemaDotOrgBrowserTestBase {
    *
    * @var string[]
    */
-  protected static $modules = ['schemadotorg_starterkit_test'];
+  protected static $modules = ['schemadotorg_starterkit_test', 'schemadotorg_starterkit_update_test'];
 
   /**
    * Test Schema.org actions before a module is installed.
@@ -77,6 +77,33 @@ class SchemaDotOrgStarterKitTest extends SchemaDotOrgBrowserTestBase {
       'schema_name' => 'name',
     ];
     $this->assertEquals($expected_properties, $mapping->getSchemaProperties());
+
+    // Check node.person properties includes honorific suffix/prefix
+    // and family name.
+    // This check confirms that starterkits can only add properties to
+    // existing Schema.org types.
+    // @see schemadotorg_starterkit_test.schemadotorg_starterkit.yml
+    // @see schemadotorg_starterkit_update_test.schemadotorg_starterkit.yml
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
+    $mapping = $mapping_storage->load('node.person');
+    $expected_properties = [
+      'schema_additional_name' => 'additionalName',
+      'body' => 'description',
+      'schema_email' => 'email',
+      'schema_family_name' => 'familyName',
+      'schema_given_name' => 'givenName',
+      'schema_honorific_prefix' => 'honorificPrefix',
+      'schema_honorific_suffix' => 'honorificSuffix',
+      'schema_image' => 'image',
+      'schema_knows_language' => 'knowsLanguage',
+      'schema_member_of' => 'memberOf',
+      'title' => 'name',
+      'schema_same_as' => 'sameAs',
+      'schema_telephone' => 'telephone',
+      'schema_works_for' => 'worksFor',
+    ];
+    $this->assertEquals($expected_properties, $mapping->getSchemaProperties());
   }
+
 
 }

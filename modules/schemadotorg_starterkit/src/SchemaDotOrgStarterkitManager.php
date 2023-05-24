@@ -213,7 +213,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
   }
 
   /**
-   * Setup a starterkit  module based on the module's settings.
+   * Set up a starterkit  module based on the module's settings.
    *
    * @param string $module
    *   A module.
@@ -225,9 +225,17 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
     $settings = $this->getStarterkitSettings($module);
     $types = $settings['types'] ?? [];
     foreach ($types as $type => $defaults) {
-      [$entity_type, $schema_type] = explode(':', $type);
-      if (!$mapping_storage->loadBySchemaType($entity_type, $schema_type)) {
-        $this->schemaMappingManager->createType($entity_type, $schema_type, $defaults);
+      [$entity_type_id, $schema_type] = explode(':', $type);
+      $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
+      if ($mapping) {
+        // Don't allow properties to be unexpectedly removed.
+        $defaults['properties'] = array_filter($defaults['properties']);
+        $bundle = $mapping->getTargetBundle();
+        $mapping_defaults = $this->schemaMappingManager->getMappingDefaults($entity_type_id, $bundle, $schema_type, $defaults);
+        $this->schemaMappingManager->saveMapping($entity_type_id, $schema_type, $mapping_defaults);
+      }
+      else {
+        $this->schemaMappingManager->createType($entity_type_id, $schema_type, $defaults);
       }
     }
   }
