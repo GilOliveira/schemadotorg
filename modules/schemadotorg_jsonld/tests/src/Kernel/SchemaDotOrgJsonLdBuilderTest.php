@@ -71,7 +71,7 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
         'value' => 'Something else',
       ],
       'schema_subject_of' => [
-        'value' => 'Some subject',
+        ['value' => 'Some subject'],
       ],
       'body' => [
         'summary' => 'A summary',
@@ -93,8 +93,10 @@ class SchemaDotOrgJsonLdBuilderTest extends SchemaDotOrgKernelEntityTestBase {
       'description' => 'A summary',
       'text' => 'Some description',
       'subjectOf' => [
-        '@type' => 'CreativeWork',
-        'name' => 'Some subject',
+        [
+          '@type' => 'CreativeWork',
+          'name' => 'Some subject',
+        ],
       ],
       'inLanguage' => 'en',
       'dateCreated' => $data_formatter->format($now, 'custom', 'Y-m-d H:i:s P'),
