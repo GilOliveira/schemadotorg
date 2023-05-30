@@ -276,21 +276,27 @@ class SchemaDotOrgJsonLdBuilder implements SchemaDotOrgJsonLdBuilderInterface {
     }
 
     // Handle entity reference except for files (and images).
+    // Returns the label for unmapped entity references.
     if ($item->entity
       && $item->entity instanceof EntityInterface
       && !$item->entity instanceof FileInterface) {
-      // Return node reference's type, url, and label.
+      // Return node reference's type, url, and label or just the node's label.
       if ($item->entity instanceof NodeInterface) {
         $node = $item->entity;
         /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
         $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
         $node_mapping = $mapping_storage->loadByEntity($node);
-        $node_schema_property = $node_mapping->getSchemaPropertyMapping('title') ?? 'name';
-        return [
-          '@type' => $node_mapping->getSchemaType(),
-          '@url' => $node->toUrl('canonical')->setAbsolute()->toString(),
-          $node_schema_property => $node->label(),
-        ];
+        if ($node_mapping) {
+          $node_schema_property = $node_mapping->getSchemaPropertyMapping('title') ?? 'name';
+          return [
+            '@type' => $node_mapping->getSchemaType(),
+            '@url' => $node->toUrl('canonical')->setAbsolute()->toString(),
+            $node_schema_property => $node->label(),
+          ];
+        }
+        else {
+          return $node->label();
+        }
       }
       else {
         return $this->buildEntity($item->entity) ?: NULL;

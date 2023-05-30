@@ -227,9 +227,8 @@ class SchemaDotOrgJsonLdManager implements SchemaDotOrgJsonLdManagerInterface {
       }
     }
 
-    // Entity reference that are not mapped to Schema.org type.
-    // @todo Determine the best way to handle an unmapped entity reference.
-    if ($item->entity && $item->entity instanceof EntityInterface) {
+    // Return the label for unmapped entity references.
+    if (isset($item->entity) && $item->entity instanceof EntityInterface) {
       return $item->entity->label();
     }
 
