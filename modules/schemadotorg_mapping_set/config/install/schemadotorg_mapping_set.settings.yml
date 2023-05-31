@@ -28,11 +28,6 @@ sets:
       - 'node:MediaGallery'
       - 'node:ImageGallery'
       - 'node:VideoGallery'
-  faq:
-    label: FAQ
-    types:
-      - 'paragraph:Question'
-      - 'node:FAQPage'
   howto:
     label: 'How to'
     types:
@@ -46,16 +41,11 @@ sets:
   food_establishment:
     label: 'Food establishment'
     types:
-      - 'paragraph:NutritionInformation'
       - 'paragraph:MenuItem'
       - 'paragraph:MenuSection'
       - 'node:Menu'
-      - 'node:FoodEstablishment'
-  recipe:
-    label: Recipe
-    types:
-      - 'paragraph:NutritionInformation'
       - 'node:Recipe'
+      - 'node:FoodEstablishment'
   movie:
     label: Movie
     types:
