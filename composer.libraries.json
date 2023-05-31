@@ -39,7 +39,7 @@
     "drupal/jsonapi_extras": "^3.0",
     "drupal/layout_paragraphs": "^2.0",
     "drupal/link_attributes": "^1.0",
-    "drupal/metatag": "^1.0",
+    "drupal/metatag": "^2.0",
     "drupal/office_hours": "^1.0",
     "drupal/paragraphs": "^1.0",
     "drupal/scheduler": "^2.0",
@@ -57,11 +57,11 @@
       "drupal/address": {
         "Issue #2819251: generateSampleValue": "https://www.drupal.org/files/issues/2022-05-16/address-2819251-6.patch"
       },
+      "drupal/custom_field": {
+        "Issue #3363964: Warning: Undefined variable $max in CustomItem::generateSampleValue()": "https://www.drupal.org/files/issues/2023-05-31/3363964-4.patch"
+      },
       "drupal/layout_paragraphs": {
         "Issue #3258029: Media Library validation bug when content type has a media field and a paragraph field with the same machine name": "https://git.drupalcode.org/project/layout_paragraphs/-/merge_requests/58.diff"
-      },
-      "drupal/metatag": {
-        "Issue #2945817: Support JSON API, REST, GraphQL and custom normalizations": "https://www.drupal.org/files/issues/2022-10-13/metatag-data-type-support-2945817-154.patch"
       },
       "drupal/paragraphs": {
         "Issue #3067265: Paragraph templates: unable to access parent-node tokens from child-paragraphs in the default installed setup": "https://git.drupalcode.org/project/paragraphs/-/merge_requests/28.diff"
