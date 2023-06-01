@@ -109,7 +109,6 @@ class SchemaDotOrgFieldGroupEntityDisplayBuilder implements SchemaDotOrgFieldGro
     $max_group_weight = ($group_weights)
       ? (int) ceil(max($group_weights) / 10) * 10
       : 0;
-    $group_weight = NULL;
 
     /** @var \Drupal\field\FieldStorageConfigInterface $field_storage */
     $field_storage = $this->entityTypeManager
