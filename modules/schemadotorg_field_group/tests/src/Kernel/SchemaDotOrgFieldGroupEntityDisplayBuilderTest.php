@@ -78,7 +78,7 @@ n   */
 
     $field_group = $view_display->getThirdPartySettings('field_group');
     $this->assertEquals(['schema_disambiguating_desc'], $field_group['group_thing']['children']);
-    $this->assertEquals('Thing information', $field_group['group_thing']['label']);
+    $this->assertEquals('Thing', $field_group['group_thing']['label']);
     $this->assertEquals('fieldset', $field_group['group_thing']['format_type']);
 
     $component = $view_display->getComponent('schema_disambiguating_desc');
@@ -94,7 +94,7 @@ n   */
 
     $field_group = $form_display->getThirdPartySettings('field_group');
     $this->assertEquals(['schema_disambiguating_desc'], $field_group['group_thing']['children']);
-    $this->assertEquals('Thing information', $field_group['group_thing']['label']);
+    $this->assertEquals('Thing', $field_group['group_thing']['label']);
     $this->assertEquals('details', $field_group['group_thing']['format_type']);
 
     $component = $form_display->getComponent('schema_disambiguating_desc');
@@ -179,7 +179,7 @@ n   */
     $this->config('schemadotorg_field_group.settings')
       ->set('default_field_groups.node', [
         'general' => [
-          'label' => 'General information',
+          'label' => 'General',
           // Note: Switching the order of disambiguatingDescription and description.
           'properties' => ['title', 'description', 'disambiguatingDescription'],
         ],
@@ -203,7 +203,7 @@ n   */
     $field_group = $view_display->getThirdPartySettings('field_group');
     $this->assertEquals([], $field_group['group_thing']['children']);
     $this->assertEquals(['title', 'schema_disambiguating_desc', 'body'], $field_group['group_general']['children']);
-    $this->assertEquals('General information', $field_group['group_general']['label']);
+    $this->assertEquals('General', $field_group['group_general']['label']);
     $this->assertEquals('fieldset', $field_group['group_general']['format_type']);
   }
 
