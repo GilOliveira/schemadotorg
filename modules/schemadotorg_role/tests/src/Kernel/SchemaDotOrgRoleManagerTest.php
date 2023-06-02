@@ -81,7 +81,7 @@ class SchemaDotOrgRoleManagerTest extends SchemaDotOrgKernelEntityTestBase {
       ['schema_date_published', 'schema_episode_number', 'schema_role_host', 'schema_role_guest'],
       $field_group['group_podcast_episode']['children']
     );
-    $this->assertEquals('Podcast episode information', $field_group['group_podcast_episode']['label']);
+    $this->assertEquals('Podcast episode', $field_group['group_podcast_episode']['label']);
     $this->assertEquals('details', $field_group['group_podcast_episode']['format_type']);
 
     // Check that the guest and host role is created via the view display.
@@ -95,7 +95,7 @@ class SchemaDotOrgRoleManagerTest extends SchemaDotOrgKernelEntityTestBase {
       ['schema_date_published', 'schema_episode_number', 'schema_role_host', 'schema_role_guest'],
       $field_group['group_podcast_episode']['children']
     );
-    $this->assertEquals('Podcast episode information', $field_group['group_podcast_episode']['label']);
+    $this->assertEquals('Podcast episode', $field_group['group_podcast_episode']['label']);
     $this->assertEquals('fieldset', $field_group['group_podcast_episode']['format_type']);
 
     // Check role field definitions for a Schema.org mapping.
