@@ -23,7 +23,8 @@ Features
 - Create an 'Editorial information' paragraph type that is added to every node.
 - Displays customizable editorial related message on node edit forms.
 - Hides empty paragraphs from being displayed.
-
+- Provide an 'Editorial' content administration view and tab.   
+  (/admin/content/editorial)
 
 Requirements
 ------------
