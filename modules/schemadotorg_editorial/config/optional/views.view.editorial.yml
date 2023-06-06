@@ -50,31 +50,13 @@ display:
           id: title
           table: node_field_data
           field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
           entity_type: node
           entity_field: title
           plugin_id: field
-          label: Title
-          exclude: false
-          alter:
-            alter_text: false
-          element_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          type: string
-          settings:
-            link_to_entity: true
-        field_editorial_notes:
-          id: field_editorial_notes
-          table: paragraph__field_editorial_notes
-          field: field_editorial_notes
-          relationship: field_editorial
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: Notes
+          label: 'Title / Notes / Status'
           exclude: false
           alter:
             alter_text: false
@@ -92,7 +74,7 @@ display:
             prefix: ''
             suffix: ''
             target: ''
-            nl2br: true
+            nl2br: false
             max_length: 0
             word_boundary: true
             ellipsis: true
@@ -116,8 +98,72 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: text_default
-          settings: {  }
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_editorial_notes:
+          id: field_editorial_notes
+          table: paragraph__field_editorial_notes
+          field: field_editorial_notes
+          relationship: field_editorial
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: Notes
+          exclude: false
+          alter:
+            alter_text: true
+            text: '<br/>{{ field_editorial_notes }}'
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: true
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: true
+            trim: false
+            preserve_tags: '<br>'
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: text_trimmed
+          settings:
+            trim_length: 100
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -140,7 +186,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<em>{{ field_editorial_status }}</em>'
+            text: '<br/><em>{{ field_editorial_status }}</em>'
             make_link: false
             path: ''
             absolute: false
@@ -411,7 +457,7 @@ display:
           type: datetime_default
           settings:
             timezone_override: ''
-            format_type: medium
+            format_type: html_date
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -475,7 +521,7 @@ display:
           type: datetime_default
           settings:
             timezone_override: ''
-            format_type: medium
+            format_type: html_date
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -877,10 +923,10 @@ display:
             node_bulk_form: node_bulk_form
             title: title
             field_editorial_notes: title
-            type: status
+            field_editorial_status: title
+            type: type
             field_editorial_priority: field_editorial_priority
             status: status
-            field_editorial_status: field_editorial_status
             name: name
             field_editorial_last_updated: field_editorial_last_updated
             field_editorial_review_date_1: field_editorial_review_date_1
@@ -906,6 +952,13 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
+            field_editorial_status:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             type:
               sortable: true
               default_sort_order: asc
@@ -914,7 +967,7 @@ display:
               empty_column: false
               responsive: ''
             field_editorial_priority:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
@@ -922,13 +975,6 @@ display:
               responsive: ''
             status:
               sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_editorial_status:
-              sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
@@ -942,14 +988,14 @@ display:
               empty_column: false
               responsive: priority-low
             field_editorial_last_updated:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
             field_editorial_review_date_1:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
