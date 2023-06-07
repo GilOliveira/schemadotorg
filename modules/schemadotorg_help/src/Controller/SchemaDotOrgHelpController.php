@@ -140,6 +140,11 @@ class SchemaDotOrgHelpController extends ControllerBase {
         'youtube_id' => '5RgPhNvEC4U',
       ],
       [
+        'title' => $this->t('Schema.org Blueprints for Drupal'),
+        'content' => $this->t('A session about the Schema.org Blueprints for Drupal from DrupalCamp NJ 2023.'),
+        'youtube_id' => 'VG5Hm0Ar95c',
+      ],
+      [
         'title' => $this->t('Baking a Recipe using the Schema.org Blueprints module for Drupal'),
         'content' => $this->t("This presentation shows how to create a 'recipe' content type in Drupal based entirely on https://Schema.org/Recipe using two possible approaches via the Paragraphs module or Flex Field module to build out the nutrition information."),
         'youtube_id' => 'F31avX4gRm0',
