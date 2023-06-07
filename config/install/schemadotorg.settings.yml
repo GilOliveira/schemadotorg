@@ -987,7 +987,7 @@ schema_properties:
       label: Episodes
       unlimited: true
     eventSchedule:
-      type: smartdate
+      type: daterange
       unlimited: true
     exceptDate:
       label: 'Except dates'
