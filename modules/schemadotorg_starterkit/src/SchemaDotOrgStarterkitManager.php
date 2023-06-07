@@ -98,30 +98,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
     }
 
     $settings = Yaml::decode(file_get_contents($module_schemadotorg_path));
-    $settings = ($settings !== TRUE) ? $settings : ['types' => []];
-    if (empty($settings['types'])) {
-      return $settings;
-    }
-
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-    $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
-
-    foreach ($settings['types'] as $type => $defaults) {
-      [$entity_type_id, $schema_type] = explode(':', $type);
-
-      $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
-      if ($mapping) {
-        // Don't allow properties to be unexpectedly removed.
-        $defaults['properties'] = array_filter($defaults['properties']);
-        $bundle = $mapping->getTargetBundle();
-      }
-      else {
-        $bundle = NULL;
-      }
-
-      $settings['types'][$type] = $this->schemaMappingManager->getMappingDefaults($entity_type_id, $bundle, $schema_type, $defaults);
-    }
-    return $settings;
+    return ($settings !== TRUE) ? $settings : [];
   }
 
   /**
@@ -242,10 +219,24 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    *   A module.
    */
   protected function setupSchemaTypes(string $module): void {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
+    $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+
     $settings = $this->getStarterkitSettings($module);
-    foreach ($settings['types'] as $type => $defaults) {
+    $types = $settings['types'] ?? [];
+    foreach ($types as $type => $defaults) {
       [$entity_type_id, $schema_type] = explode(':', $type);
-      $this->schemaMappingManager->createType($entity_type_id, $schema_type, $defaults);
+      $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
+      if ($mapping) {
+        // Don't allow properties to be unexpectedly removed.
+        $defaults['properties'] = array_filter($defaults['properties']);
+        $bundle = $mapping->getTargetBundle();
+        $mapping_defaults = $this->schemaMappingManager->getMappingDefaults($entity_type_id, $bundle, $schema_type, $defaults);
+        $this->schemaMappingManager->saveMapping($entity_type_id, $schema_type, $mapping_defaults);
+      }
+      else {
+        $this->schemaMappingManager->createType($entity_type_id, $schema_type, $defaults);
+      }
     }
   }
 
