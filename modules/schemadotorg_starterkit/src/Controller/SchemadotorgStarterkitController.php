@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\schemadotorg_starterkit\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -58,8 +59,16 @@ class SchemadotorgStarterkitController extends ControllerBase {
           [$entity_type_id, $schema_type] = explode(':', $type);
           $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
           if ($mapping) {
-            $entity_type_bundle = $mapping->getTargetEntityBundleEntity();
-            $types[$type] = $entity_type_bundle->toLink($type, 'edit-form')->toString();
+            if ($mapping->getTargetEntityBundleEntity()) {
+              $types[$type] = $mapping->getTargetEntityBundleEntity()
+                ->toLink($type, 'edit-form')->toString();
+            }
+            elseif ($mapping->getTargetEntityTypeId() === 'user') {
+              $types[$type] = Link::createFromRoute($type, 'entity.user.admin_form')->to;
+            }
+            else {
+              $types[$type] = $type;
+            }
           }
           else {
             $types[$type] = $type;

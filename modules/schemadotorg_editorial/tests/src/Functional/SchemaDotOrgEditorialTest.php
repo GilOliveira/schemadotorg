@@ -80,7 +80,7 @@ class SchemaDotOrgEditorialTest extends SchemaDotOrgBrowserTestBase {
     // Check that 'Editorial sidebar' exists.
     $this->assertNotEmpty($this->cssSelect('details#edit-group-editorial'));
     // Check that the nested field does not exist.
-    // @see schemadotorg_editorial_field_widget_inline_entity_form_simple_form_alter()
+    // @see schemadotorg_editorial_field_widget_single_element_inline_entity_form_simple_form_alter()
     $this->assertEmpty($this->cssSelect('details#edit-group-editorial fieldset'));
     // Check that last updated data element exists.
     $assert_session->fieldExists('field_editorial[0][inline_entity_form][field_editorial_last_updated][0][value][date]');

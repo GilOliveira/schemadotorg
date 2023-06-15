@@ -416,9 +416,18 @@ class SchemadotorgMappingSetController extends ControllerBase {
 
     $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
     if ($mapping) {
-      $entity_type = $mapping->getTargetEntityBundleEntity()
-        ->toLink($type, 'edit-form')
-        ->toRenderable();
+      if ($mapping->getTargetEntityBundleEntity()) {
+        $entity_type = $mapping->getTargetEntityBundleEntity()
+          ->toLink($type, 'edit-form')->toRenderable();
+      }
+      elseif ($mapping->getTargetEntityTypeId() === 'user') {
+        $entity_type = Link::createFromRoute($type, 'entity.user.admin_form')->toRenderable();
+      }
+      else {
+        $entity_type = [
+          '#markup' => $entity_type_id . ':' . $mapping_defaults['entity']['id'],
+        ];
+      }
     }
     else {
       $entity_type = [
@@ -520,7 +529,6 @@ class SchemadotorgMappingSetController extends ControllerBase {
       ],
       '#rows' => $rows,
     ];
-
     $details['#attached']['library'][] = 'schemadotorg/schemadotorg.dialog';
     return $details;
   }

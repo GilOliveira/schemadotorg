@@ -95,7 +95,7 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
         elseif (is_array($property)) {
           // Merge the custom defaults with the property's defaults.
           $mapping_defaults['properties'][$property_name] = $property
-            + $mapping_defaults['properties'][$property_name];
+            + ($mapping_defaults['properties'][$property_name] ?? []);
         }
       }
     }

@@ -6,6 +6,7 @@ namespace Drupal\schemadotorg_starterkit\Form;
 
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
@@ -314,9 +315,18 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
 
     $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
     if ($mapping) {
-      $entity_type = $mapping->getTargetEntityBundleEntity()
-        ->toLink($type, 'edit-form')
-        ->toRenderable();
+      if ($mapping->getTargetEntityBundleEntity()) {
+        $entity_type = $mapping->getTargetEntityBundleEntity()
+          ->toLink($type, 'edit-form')->toRenderable();
+      }
+      elseif ($mapping->getTargetEntityTypeId() === 'user') {
+        $entity_type = Link::createFromRoute($type, 'entity.user.admin_form')->toRenderable();
+      }
+      else {
+        $entity_type = [
+          '#markup' => $entity_type_id . ':' . $mapping_defaults['entity']['id'],
+        ];
+      }
     }
     else {
       $entity_type = [

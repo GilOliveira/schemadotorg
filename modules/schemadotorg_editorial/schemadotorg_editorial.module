@@ -111,9 +111,9 @@ function schemadotorg_editorial_schemadotorg_mapping_insert(SchemaDotOrgMappingI
 }
 
 /**
- * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ * Implements hook_field_widget_single_element_WIDGET_TYPE_form_alter().
  */
-function schemadotorg_editorial_field_widget_inline_entity_form_simple_form_alter(array &$element, FormStateInterface $form_state, array $context): void {
+function schemadotorg_editorial_field_widget_single_element_inline_entity_form_simple_form_alter(array &$element, FormStateInterface $form_state, array $context): void {
   // Remove the nested fieldset from the inline entity form.
   /** @var \Drupal\entity_reference_revisions\EntityReferenceRevisionsFieldItemList $items */
   $items = $context['items'];
