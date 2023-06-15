@@ -64,7 +64,7 @@ class SchemadotorgStarterkitController extends ControllerBase {
                 ->toLink($type, 'edit-form')->toString();
             }
             elseif ($mapping->getTargetEntityTypeId() === 'user') {
-              $types[$type] = Link::createFromRoute($type, 'entity.user.admin_form')->to;
+              $types[$type] = Link::createFromRoute($type, 'entity.user.admin_form')->toString();
             }
             else {
               $types[$type] = $type;
