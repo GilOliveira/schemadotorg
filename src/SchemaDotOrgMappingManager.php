@@ -143,6 +143,12 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
       $defaults['label'] = $default_type['label'] ?? $type_definition['drupal_label'];
       $defaults['id'] = $bundle ?: $default_type['name'] ?? $type_definition['drupal_name'];
       $defaults['description'] = $default_type['description'] ?? $this->schemaTypeBuilder->formatComment($type_definition['comment'], ['base_path' => 'https://schema.org/']);
+
+      // Prefix label and id.
+      $mapping_type = $this->loadMappingType($entity_type_id);
+      $defaults['label'] = ($mapping_type->get('label_prefix') ?? '') . $defaults['label'];
+      $defaults['id'] = ($mapping_type->get('id_prefix') ?? '') . $defaults['id'];
+
       return $defaults;
     }
   }

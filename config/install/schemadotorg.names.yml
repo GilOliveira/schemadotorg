@@ -9,6 +9,7 @@ custom_names:
   customer_remorse_return_label_source: cust_rem_ret_label_src
   customer_remorse_return_shipping_fees_amount: cust_rem_ret_ship_fee_amt
   delivery_charge_specification: delivery_charge_spec
+  health_plan_cost_sharing_specification: hth_plan_cost_shr_spec
   is_accessory_or_spare_part_for: is_access_or_part_for
   is_located_in_subcellular_location: is_located_in_subcell_loc
   mission_coverage_priorities_policy: mis_cover_priorities_pol
@@ -35,12 +36,12 @@ prefixes:
   educational: edu
   educational_occupational: edu_occ
   food_establishment: food_est
+  health: hth
   included: inc
   includes: inc
   item_defect_return: itm_def_ret
   maximum: max
   medical_guideline: medical_guide
-  merchant: mer
   merchant_return_policy: mer_ret_pol
   number: num
   original: orig
@@ -78,7 +79,6 @@ abbreviations:
   frequency: freq
   guideline: guide
   health: hth
-  health_plan: hth_plan
   historical: hist
   hours: hrs
   identification: id
@@ -103,6 +103,7 @@ suffixes:
   amount: amt
   application: app
   aspect: asp
+  article: art
   audience: aud
   buildings: bld
   business: biz
@@ -117,6 +118,7 @@ suffixes:
   credential: cred
   description: desc
   distribution: dist
+  document: doc
   duration: dur
   education: ed
   entity: ent

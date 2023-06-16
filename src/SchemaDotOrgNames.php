@@ -35,9 +35,17 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
    * {@inheritdoc}
    */
   public function getNameMaxLength(string $table): int {
-    return ($table === 'properties')
-      ? 32 - strlen($this->getFieldPrefix())
-      : 32;
+    if ($table === 'properties') {
+      return 32 - strlen($this->getFieldPrefix());
+    }
+    else {
+      $config_names = $this->configFactory->listAll('schemadotorg.schemadotorg_mapping_type.');
+      $prefix_lengths = [0];
+      foreach ($config_names as $config_name) {
+        $prefix_lengths[] = strlen((string) $this->configFactory->get($config_name)->get('id_prefix'));
+      }
+      return 32 - max($prefix_lengths);
+    }
   }
 
   /**
