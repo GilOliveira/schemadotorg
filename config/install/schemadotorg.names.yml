@@ -36,7 +36,6 @@ prefixes:
   educational: edu
   educational_occupational: edu_occ
   food_establishment: food_est
-  health: hth
   included: inc
   includes: inc
   item_defect_return: itm_def_ret
@@ -78,7 +77,6 @@ abbreviations:
   experience: exp
   frequency: freq
   guideline: guide
-  health: hth
   historical: hist
   hours: hrs
   identification: id

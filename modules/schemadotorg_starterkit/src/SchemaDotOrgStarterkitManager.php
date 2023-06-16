@@ -91,37 +91,11 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    * {@inheritdoc}
    */
   public function getStarterkitSettings(string $module): FALSE|array {
-    $module_path = $this->extensionListModule->getPath($module);
-    $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
-    if (!file_exists($module_schemadotorg_path)) {
-      return FALSE;
-    }
-
-    $settings = Yaml::decode(file_get_contents($module_schemadotorg_path));
-    $settings = ($settings !== TRUE) ? $settings : ['types' => []];
-    if (empty($settings['types'])) {
-      return $settings;
-    }
-
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorageInterface $mapping_storage */
-    $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
-
-    foreach ($settings['types'] as $type => $defaults) {
-      [$entity_type_id, $schema_type] = explode(':', $type);
-
-      $mapping = $mapping_storage->loadBySchemaType($entity_type_id, $schema_type);
-      if ($mapping) {
-        // Don't allow properties to be unexpectedly removed.
-        if (!empty($defaults['properties'])) {
-          $defaults['properties'] = array_filter($defaults['properties']);
-        }
-        $bundle = $mapping->getTargetBundle();
+    $settings = $this->getStarterkitSettingsData($module);
+    if ($settings && !empty($settings['types'])) {
+      foreach ($settings['types'] as $type => $type_defaults) {
+        $settings['types'][$type] = $this->getStarterSettingsTypeDefaults($type, $type_defaults);
       }
-      else {
-        $bundle = NULL;
-      }
-
-      $settings['types'][$type] = $this->schemaMappingManager->getMappingDefaults($entity_type_id, $bundle, $schema_type, $defaults);
     }
     return $settings;
   }
@@ -244,11 +218,66 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    *   A module.
    */
   protected function setupSchemaTypes(string $module): void {
-    $settings = $this->getStarterkitSettings($module);
-    foreach ($settings['types'] as $type => $defaults) {
-      [$entity_type_id, $schema_type] = explode(':', $type);
-      $this->schemaMappingManager->createType($entity_type_id, $schema_type, $defaults);
+    $settings = $this->getStarterkitSettingsData($module);
+    if ($settings && !empty($settings['types'])) {
+      foreach ($settings['types'] as $type => $type_defaults) {
+        [$entity_type_id, $schema_type] = explode(':', $type);
+        $defaults = $this->getStarterSettingsTypeDefaults($type, $type_defaults);
+        $this->schemaMappingManager->createType($entity_type_id, $schema_type, $defaults);
+      }
     }
+  }
+
+  /**
+   * Get Schema.org starter kit settings from module's YAML file.
+   *
+   * @param string $module
+   *   The module.
+   *
+   * @return FALSE|array
+   *   Schema.org starter kit settings for a module.
+   */
+  protected function getStarterkitSettingsData(string $module): FALSE|array {
+    $module_path = $this->extensionListModule->getPath($module);
+    $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
+    if (!file_exists($module_schemadotorg_path)) {
+      return FALSE;
+    }
+
+    $settings = Yaml::decode(file_get_contents($module_schemadotorg_path));
+    return ($settings !== TRUE) ? $settings : ['types' => []];
+  }
+
+  /**
+   * Get the Schema.org starter kit type defaults merged with the preconfigured defaults.
+   *
+   * @param string $type
+   *   The entity type and Schema.org type.
+   * @param array $type_defaults
+   *   The Schema.org starter kit type defaults.
+   *
+   * @return array
+   *   Schema.org starter kit type defaults merged with the preconfigured defaults.
+   */
+  protected function getStarterSettingsTypeDefaults(string $type, array $type_defaults): array {
+    [$entity_type_id, $schema_type] = explode(':', $type);
+
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
+    $mapping = $this->entityTypeManager
+      ->getStorage('schemadotorg_mapping')
+      ->loadBySchemaType($entity_type_id, $schema_type);
+    if ($mapping) {
+      $bundle = $mapping->getTargetBundle();
+      // Don't allow properties to be unexpectedly removed.
+      if (!empty($type_defaults['properties'])) {
+        $type_defaults['properties'] = array_filter($type_defaults['properties']);
+      }
+    }
+    else {
+      $bundle = NULL;
+    }
+
+    return $this->schemaMappingManager->getMappingDefaults($entity_type_id, $bundle, $schema_type, $type_defaults);
   }
 
 }
