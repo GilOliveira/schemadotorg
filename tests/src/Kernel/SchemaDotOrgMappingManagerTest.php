@@ -119,6 +119,11 @@ class SchemaDotOrgMappingManagerTest extends SchemaDotOrgKernelTestBase {
     ];
     $this->assertEquals($expected, $mapping_defaults['properties']['givenName']);
 
+    // Check getting Schema.org mapping default values for entity w/o bundles.
+    $mapping_defaults = $this->mappingManager->getMappingDefaults('user', NULL, 'Person');
+    $this->assertEquals('User', $mapping_defaults['entity']['label']);
+    $this->assertEquals('user', $mapping_defaults['entity']['id']);
+
     // Check getting Schema.org mapping with a customized default type.
     $mapping_defaults = $this->mappingManager->getMappingDefaults('node', NULL, 'FAQPage');
     $this->assertNotEquals('faq_page', $mapping_defaults['entity']['id']);
