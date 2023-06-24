@@ -130,6 +130,11 @@ class SchemaDotOrgHelpController extends ControllerBase {
     // Videos.
     $videos = [
       [
+        'title' => $this->t('Schema.org Blueprints for Drupal @ Pittsburgh 2023'),
+        'content' => $this->t("This presentation is for anyone who has created a website using Drupal and is interested in discovering a standardized, simpler, and faster way to model and build a website's content and information architecture."),
+        'youtube_id' => 'Yo6Vw-s1FtM',
+      ],
+      [
         'title' => $this->t('Schema.org Blueprints module in 7 minutes'),
         'content' => $this->t('A presentation and demo of the Schema.org Blueprints for Drupal in 7 minutes.'),
         'youtube_id' => 'KzNFAEfbFNw',

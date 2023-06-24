@@ -105,5 +105,4 @@ class SchemaDotOrgStarterKitTest extends SchemaDotOrgBrowserTestBase {
     $this->assertEquals($expected_properties, $mapping->getSchemaProperties());
   }
 
-
 }

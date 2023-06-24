@@ -14,4 +14,3 @@ dependencies:
   - 'drupal:options'
   - 'drupal:telephone'
   - 'drupal:text'
-

@@ -234,7 +234,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    * @param string $module
    *   The module.
    *
-   * @return FALSE|array
+   * @return false|array
    *   Schema.org starter kit settings for a module.
    */
   protected function getStarterkitSettingsData(string $module): FALSE|array {
