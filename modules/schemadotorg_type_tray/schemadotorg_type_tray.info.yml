@@ -1,0 +1,8 @@
+name: Schema.org Blueprints Type Tray
+type: module
+description: Adds Schema.org content types to the add content type tray.
+package: Schema.org Blueprints Other
+core_version_requirement: '^9.4 || ^10.0'
+dependencies:
+  - 'schemadotorg:schemadotorg'
+  - 'type_tray:type_tray'

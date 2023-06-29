@@ -1,0 +1,20 @@
+schemadotorg_type_tray.settings:
+  type: config_entity
+  label: Schema.org Type Tray settings
+  mapping:
+    schema_types:
+      type: sequence
+      label: 'Schema.org types'
+      sequence:
+        type: mapping
+        label: 'Schema.org type'
+        mapping:
+          label:
+            type: string
+            label: 'Label'
+          types:
+            type: sequence
+            label: 'Types'
+            sequence:
+              type: string
+              label: 'Type'

@@ -251,6 +251,10 @@ _The below modules improve the Schema.org Blueprints module's user experience._
 - **[Node Edit Protection](https://www.drupal.org/project/node_edit_protection)**  
   Alerts a user if they are navigating away from a modified Node Edit form without saving.
 
+- **[Type Tray](https://www.drupal.org/project/type_tray)**  
+  Improve usability of the 'Node Add' page with more help text, functional grouping and iconography.
+
+
 ### Workflow/Moderation
 
 _The below modules improve the Schema.org Blueprints module's workflow and moderation experience._
