@@ -40,3 +40,4 @@ References
 ----------
 
 - [Use Type Tray to improve editorial UX](https://architecture.lullabot.com/adr/20220503-use-type-tray/)
+- [Improve the Editorial Experience with Type Tray and Page Templates](https://www.lullabot.com/articles/improve-editorial-experience-type-tray-and-page-templates)
