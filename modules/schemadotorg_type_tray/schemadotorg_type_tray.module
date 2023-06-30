@@ -74,9 +74,28 @@ function schemadotorg_type_tray_schemadotorg_mapping_insert(SchemaDotOrgMappingI
     $breadcrumb_types = array_reverse($breadcrumb);
     foreach ($breadcrumb_types as $breadcrumb_type) {
       foreach ($module_names as $module_name) {
-        $icon_path = $module_extension_list->getPath($module_name) . '/images/schemadotorg_type_tray/' . $schema_names->camelCaseToSnakeCase($breadcrumb_type) . '.png';
+        $icon_path = $module_extension_list->getPath($module_name) . '/images/schemadotorg_type_tray/icon/' . $schema_names->camelCaseToSnakeCase($breadcrumb_type) . '.png';
         if (file_exists($icon_path)) {
           $type_icon = $base_path . $icon_path;
+          break 3;
+        }
+      }
+    }
+  }
+
+  // Look for the Schema.org type's thumbnail.
+  /** @var \Drupal\Core\Extension\ModuleExtensionList $module_extension_list */
+  $module_extension_list = \Drupal::service('extension.list.module');
+  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+  $schema_names = \Drupal::service('schemadotorg.names');
+  $type_thumbnail = NULL;
+  foreach ($breadcrumbs as $breadcrumb) {
+    $breadcrumb_types = array_reverse($breadcrumb);
+    foreach ($breadcrumb_types as $breadcrumb_type) {
+      foreach ($module_names as $module_name) {
+        $thumbnail_path = $module_extension_list->getPath($module_name) . '/images/schemadotorg_type_tray/thumbnail/' . $schema_names->camelCaseToSnakeCase($breadcrumb_type) . '.png';
+        if (file_exists($thumbnail_path)) {
+          $type_thumbnail = $base_path . $thumbnail_path;
           break 3;
         }
       }
@@ -87,10 +106,15 @@ function schemadotorg_type_tray_schemadotorg_mapping_insert(SchemaDotOrgMappingI
   // @see type_tray_form_node_type_form_alter()
   // @see type_tray_entity_builder()
   $node_type = $mapping->getTargetEntityBundleEntity();
+  $existing_nodes_link_text = \Drupal::config('schemadotorg_type_tray.settings')
+    ->get('existing_nodes_link_text');
   $values = [
     'type_category' => $type_category,
+    'type_thumbnail' => $type_thumbnail ?? '',
     'type_icon' => $type_icon ?? '',
-    'existing_nodes_link_text' => t('View existing %type_label content', ['%type_label' => $node_type->label()]),
+    'existing_nodes_link_text' => $existing_nodes_link_text
+      ? t('View existing %type_label content', ['%type_label' => $node_type->label()])
+      : '',
     'type_weight' => '0',
   ];
   foreach ($values as $key => $value) {
@@ -118,6 +142,12 @@ function schemadotorg_type_tray_form_schemadotorg_types_settings_form_alter(arra
     '#description' => t('Enter Schema.org types to be place in type tray categories.'),
     '#description_link' => 'types',
   ];
+  $form['schemadotorg_type_tray']['existing_nodes_link_text'] = [
+    '#type' => 'textfield',
+    '#title' => t('Existing content link text'),
+    '#description' => t('Indicate the text to use when building a link to allow quick access to all nodes of a given type, such as "View all Article content". Leave this empty to not display a link to existing content.'),
+  ];
+
   // Add submit callback.
   $form['#submit'][] = 'schemadotorg_type_tray_settings_form_submit';
 }

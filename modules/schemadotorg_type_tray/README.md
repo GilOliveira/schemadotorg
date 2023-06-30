@@ -16,7 +16,10 @@ Features
 --------
 
 - Defines type categories and associated Schema.org types.
-
+- Defines default text to be used when building links to existing content.
+- Discovers and set icons and thumbnails placed in the below directories.
+  - MODULE_NAME/images/schemadotorg_type_tray/icon 
+  - MODULE_NAME/images/schemadotorg_type_tray/thumbnail
 
 Requirements
 ------------

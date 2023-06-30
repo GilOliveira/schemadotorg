@@ -57,17 +57,33 @@ class SchemaDotOrgTypeTrayTest extends SchemaDotOrgKernelEntityTestBase {
     ];
     $this->assertEquals($expected_categories, $this->config('type_tray.settings')->get('categories'));
 
-    // Check that type settings are added to the Schema.org Person node type.
+    // Check that type tray settings are added to the person node type.
     $mapping = $this->createSchemaEntity('node', 'Person');
     $expected_settings = [
       'type_category' => 'common',
-      'type_icon' => $base_path . 'modules/sandbox/schemadotorg/modules/schemadotorg_type_tray/images/schemadotorg_type_tray/person.png',
+      'type_thumbnail' => '',
+      'type_icon' => $base_path . 'modules/sandbox/schemadotorg/modules/schemadotorg_type_tray/images/schemadotorg_type_tray/icon/person.png',
       'existing_nodes_link_text' => 'View existing <em class="placeholder">Person</em> content',
       'type_weight' => 0,
     ];
     $node_type = $mapping->getTargetEntityBundleEntity();
     $this->assertEquals($expected_settings, $node_type->getThirdPartySettings('type_tray'));
 
+    // Check that type tray settings w/o existing link are added to the
+    // event node type.
+    $this->config('schemadotorg_type_tray.settings')
+      ->set('existing_nodes_link_text', '')
+      ->save();
+    $mapping = $this->createSchemaEntity('node', 'Event');
+    $expected_settings = [
+      'type_category' => 'common',
+      'type_thumbnail' => '',
+      'type_icon' => $base_path . 'modules/sandbox/schemadotorg/modules/schemadotorg_type_tray/images/schemadotorg_type_tray/icon/event.png',
+      'existing_nodes_link_text' => '',
+      'type_weight' => 0,
+    ];
+    $node_type = $mapping->getTargetEntityBundleEntity();
+    $this->assertEquals($expected_settings, $node_type->getThirdPartySettings('type_tray'));
   }
 
 }

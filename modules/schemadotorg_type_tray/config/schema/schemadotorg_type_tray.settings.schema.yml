@@ -18,3 +18,6 @@ schemadotorg_type_tray.settings:
             sequence:
               type: string
               label: 'Type'
+    existing_nodes_link_text:
+      type: string
+      label: 'Text to be used when building links to existing content'

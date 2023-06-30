@@ -71,3 +71,4 @@ schema_types:
       - MedicalStudy
       - MedicalTrial
       - MedicalCondition
+existing_nodes_link_text: 'View existing %type_label content'
