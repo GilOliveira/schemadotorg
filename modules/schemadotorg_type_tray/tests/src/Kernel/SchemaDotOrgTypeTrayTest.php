@@ -38,6 +38,9 @@ class SchemaDotOrgTypeTrayTest extends SchemaDotOrgKernelEntityTestBase {
    */
   public function testTypeTray(): void {
     global $base_path;
+    // Get type tray icon path.
+    $module_path = \Drupal::service('extension.list.module')->getPath('schemadotorg_type_tray');
+    $icon_path = $base_path . $module_path . '/images/schemadotorg_type_tray/icon';
 
     // Check syncing grouped Schema.org types with type tray categories.
     // @covers _schemadotorg_type_tray_sync_schema_types_with_categories()
@@ -62,7 +65,7 @@ class SchemaDotOrgTypeTrayTest extends SchemaDotOrgKernelEntityTestBase {
     $expected_settings = [
       'type_category' => 'common',
       'type_thumbnail' => '',
-      'type_icon' => $base_path . 'modules/sandbox/schemadotorg/modules/schemadotorg_type_tray/images/schemadotorg_type_tray/icon/person.png',
+      'type_icon' => "$icon_path/person.png",
       'existing_nodes_link_text' => 'View existing <em class="placeholder">Person</em> content',
       'type_weight' => 0,
     ];
@@ -78,7 +81,7 @@ class SchemaDotOrgTypeTrayTest extends SchemaDotOrgKernelEntityTestBase {
     $expected_settings = [
       'type_category' => 'common',
       'type_thumbnail' => '',
-      'type_icon' => $base_path . 'modules/sandbox/schemadotorg/modules/schemadotorg_type_tray/images/schemadotorg_type_tray/icon/event.png',
+      'type_icon' => "$icon_path/event.png",
       'existing_nodes_link_text' => '',
       'type_weight' => 0,
     ];
