@@ -42,16 +42,18 @@ schema_types:
       - Menu
       - Recipe
       - Diet
-  entertainment:
-    label: Entertainment
+  podcast:
+    label: Podcast
     types:
-      - Movie
-      - TVSeries
-      - TVSeason
-      - TVEpisode
       - PodcastSeries
       - PodcastSeason
       - PodcastEpisode
+  tv:
+    label: TV
+    types:
+      - TVSeries
+      - TVSeason
+      - TVEpisode
   medical_organization:
     label: 'Medical organization'
     types:

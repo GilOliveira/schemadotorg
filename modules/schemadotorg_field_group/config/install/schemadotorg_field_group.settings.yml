@@ -65,6 +65,7 @@ default_field_groups:
         - thumbnail
         - thumbnailUrl
         - contentUrl
+        - associatedMedia
     employment:
       label: Employment
       properties:
@@ -141,13 +142,9 @@ default_field_groups:
     event:
       label: Event
       properties:
-        - startDate
-        - endDate
         - eventSchedule
         - eventStatus
-        - duration
         - performer
-        - audience
         - attendee
         - organizer
         - location
@@ -162,12 +159,16 @@ default_field_groups:
     links:
       label: Links
       properties:
+        - webFeed
         - sameAs
         - relatedLink
         - significantLink
     relationships:
       label: Relationships
       properties:
+        - partOfSeries
+        - partOfSeason
+        - actor
         - sponsor
         - founder
         - employee

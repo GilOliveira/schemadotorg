@@ -78,7 +78,7 @@ class SchemaDotOrgRoleManagerTest extends SchemaDotOrgKernelEntityTestBase {
     $this->assertEquals('string_textfield', $component['type']);
     $field_group = $form_display->getThirdPartySettings('field_group');
     $this->assertEquals(
-      ['schema_date_published', 'schema_episode_number', 'schema_role_host', 'schema_role_guest'],
+      ['schema_date_published', 'schema_duration', 'schema_episode_number'],
       $field_group['group_podcast_episode']['children']
     );
     $this->assertEquals('Podcast episode', $field_group['group_podcast_episode']['label']);
@@ -92,7 +92,7 @@ class SchemaDotOrgRoleManagerTest extends SchemaDotOrgKernelEntityTestBase {
     $this->assertEquals('string', $component['type']);
     $field_group = $view_display->getThirdPartySettings('field_group');
     $this->assertEquals(
-      ['schema_date_published', 'schema_episode_number', 'schema_role_host', 'schema_role_guest'],
+      ['schema_date_published', 'schema_duration', 'schema_episode_number'],
       $field_group['group_podcast_episode']['children']
     );
     $this->assertEquals('Podcast episode', $field_group['group_podcast_episode']['label']);

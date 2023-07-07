@@ -13,6 +13,7 @@ use Drupal\Core\Extension\ModuleInstallerInterface;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\devel_generate\DevelGeneratePluginManager;
 use Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface;
+use Drupal\schemadotorg\SchemaDotOrgEntityFieldManagerInterface;
 use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
 use Drupal\schemadotorg\Traits\SchemaDotOrgDevelGenerateTrait;
 
@@ -275,6 +276,15 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
     }
     else {
       $bundle = NULL;
+    }
+
+    // Add properties that are explicitly set.
+    if (isset($type_defaults['properties'])) {
+      foreach ($type_defaults['properties'] as $property_name => $property) {
+        if (is_array($property)) {
+          $type_defaults['properties'][$property_name]['name'] = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
+        }
+      }
     }
 
     return $this->schemaMappingManager->getMappingDefaults($entity_type_id, $bundle, $schema_type, $type_defaults);

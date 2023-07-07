@@ -56,12 +56,11 @@ schema_types:
       - startDate
     CreativeWorkSeries:
       - description
-      - endDate
       - image
       - name
-      - startDate
     PodcastSeries:
       - actor
+      - sameAs
       - webFeed
     TVSeries:
       - actor
@@ -76,6 +75,7 @@ schema_types:
     Drawing:
       - name
     Episode:
+      - associatedMedia
       - datePublished
       - description
       - duration
@@ -83,9 +83,13 @@ schema_types:
       - name
     PodcastEpisode:
       - actor
+      - sameAs
+    TVSeason:
+      - partOfSeries
     TVEpisode:
       - actor
       - director
+      - partOfSeason
     ExercisePlan:
       - name
     Game:
@@ -717,12 +721,16 @@ schema_properties:
     MenuItem--offers:
       - Offer
       - Demand
+    PodcastEpisode--associatedMedia:
+      - AudioObject
     PodcastSeason--episode:
       - PodcastEpisode
     PodcastSeries--containsSeason:
       - PodcastSeason
     QAPage--mainEntity:
       - Question
+    TVEpisode--associatedMedia:
+      - VideoObject
     TVSeason--episode:
       - TVEpisode
     TVSeries--containsSeason:
@@ -748,7 +756,6 @@ schema_properties:
     - additionalType
     - answerCount
     - assesses
-    - associatedMedia
     - branchCode
     - conditionsOfAccess
     - contentLocation
@@ -1115,6 +1122,10 @@ schema_properties:
       unlimited: true
     overdosage:
       type: text_long
+    partOfSeason:
+      required: true
+    partOfSeries:
+      required: true
     performer:
       label: Performers
       unlimited: true

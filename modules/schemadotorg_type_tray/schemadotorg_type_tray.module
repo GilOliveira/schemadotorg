@@ -43,11 +43,14 @@ function schemadotorg_type_tray_schemadotorg_mapping_insert(SchemaDotOrgMappingI
 
   // Look for the Schema.org type's category.
   $type_category = NULL;
+  $type_weight = 0;
   foreach ($breadcrumbs as $breadcrumb) {
     $breadcrumb_types = array_reverse($breadcrumb);
     foreach ($breadcrumb_types as $breadcrumb_type) {
       if (isset($category_lookup[$breadcrumb_type])) {
         $type_category = $category_lookup[$breadcrumb_type];
+        $type_weights = array_flip($type_tray_schema_types[$type_category]['types']);
+        $type_weight = $type_weights[$breadcrumb_type] - 20;
         break 2;
       }
     }
@@ -115,7 +118,7 @@ function schemadotorg_type_tray_schemadotorg_mapping_insert(SchemaDotOrgMappingI
     'existing_nodes_link_text' => $existing_nodes_link_text
       ? t('View existing %type_label content', ['%type_label' => $node_type->label()])
       : '',
-    'type_weight' => '0',
+    'type_weight' => (string) $type_weight,
   ];
   foreach ($values as $key => $value) {
     $node_type->setThirdPartySetting('type_tray', $key, $value);

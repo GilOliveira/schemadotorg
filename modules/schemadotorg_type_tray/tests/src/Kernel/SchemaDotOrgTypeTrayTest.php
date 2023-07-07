@@ -54,7 +54,8 @@ class SchemaDotOrgTypeTrayTest extends SchemaDotOrgKernelEntityTestBase {
       'organization' => 'Organization',
       'education' => 'Education',
       'food' => 'Food',
-      'entertainment' => 'Entertainment',
+      'podcast' => 'Podcast',
+      'tv' => 'TV',
       'medical_organization' => 'Medical organization',
       'medical_information' => 'Medical information',
     ];
@@ -67,7 +68,7 @@ class SchemaDotOrgTypeTrayTest extends SchemaDotOrgKernelEntityTestBase {
       'type_thumbnail' => '',
       'type_icon' => "$icon_path/person.png",
       'existing_nodes_link_text' => 'View existing <em class="placeholder">Person</em> content',
-      'type_weight' => 0,
+      'type_weight' => -18,
     ];
     $node_type = $mapping->getTargetEntityBundleEntity();
     $this->assertEquals($expected_settings, $node_type->getThirdPartySettings('type_tray'));
@@ -83,7 +84,7 @@ class SchemaDotOrgTypeTrayTest extends SchemaDotOrgKernelEntityTestBase {
       'type_thumbnail' => '',
       'type_icon' => "$icon_path/event.png",
       'existing_nodes_link_text' => '',
-      'type_weight' => 0,
+      'type_weight' => -17,
     ];
     $node_type = $mapping->getTargetEntityBundleEntity();
     $this->assertEquals($expected_settings, $node_type->getThirdPartySettings('type_tray'));

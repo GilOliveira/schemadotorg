@@ -6,6 +6,7 @@ types:
     entity:
       label: 'Something'
     properties:
-      name: true
+      name:
+        required: true
       description:  true
       image: true
