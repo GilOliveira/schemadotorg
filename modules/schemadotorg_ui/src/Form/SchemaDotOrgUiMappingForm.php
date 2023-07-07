@@ -643,7 +643,6 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
     $form['properties'] = [
       '#type' => 'table',
       '#header' => $header,
-      '#sticky' => TRUE,
       '#attributes' => ['class' => ['schemadotorg-ui-properties']],
       '#weight' => 0,
     ] + $rows;
