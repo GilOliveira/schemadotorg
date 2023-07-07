@@ -70,6 +70,7 @@ codemirror:
       css/schemadotorg.codemirror.css: {}
   js:
     https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/runmode/runmode.js: {}
     js/schemadotorg.codemirror.js: {}
   dependencies:
     - core/tabbable
