@@ -56,6 +56,10 @@
 
   Drupal.behaviors.schemaDotOrgDetailsToggle = {
     attach: function attach(context) {
+      if (!hasLocalStorage) {
+        return;
+      }
+
       once('schemadotorg-details-toggle', 'body form', context)
         .forEach(() => {
           const helpRegion = document.querySelector('.region-help');
@@ -66,26 +70,27 @@
           const button = document.createElement('button');
 
           button.setAttribute('type', 'button');
-          button.setAttribute('class', 'schemadotorg-details-toggle button button--small button--extrasmall');
+          button.setAttribute('class', 'schemadotorg-details-toggle button button-small button--extrasmall');
           button.setAttribute('style', 'float: right; margin: 0');
           button.setAttribute('title', Drupal.t('Toggle details widget state.'));
+          setButtonLabel();
 
           button.addEventListener('click', () => {
             let isClosed = document.querySelector('details:not([open])');
             document.querySelectorAll('details').forEach((details) => {
+              const key = details.getAttribute('data-schemadotorg-details-key');
               if (isClosed) {
-                details.removeAttribute('open');
+                details.setAttribute('open', 'open');
+                key && localStorage.setItem(key, '1');
               }
               else {
-                details.setAttribute('open', 'open');
+                details.removeAttribute('open');
+                key && localStorage.setItem(key, '0');
               }
-              details.querySelector('summary').click();
             });
-            button.focus();
             setButtonLabel();
           });
 
-          setButtonLabel();
           helpRegion.prepend(button);
 
           function setButtonLabel() {
