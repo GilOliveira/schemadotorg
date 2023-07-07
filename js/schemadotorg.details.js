@@ -53,4 +53,46 @@
         });
     }
   };
+
+  Drupal.behaviors.schemaDotOrgDetailsToggle = {
+    attach: function attach(context) {
+      once('schemadotorg-details-toggle', 'body form', context)
+        .forEach(() => {
+          const helpRegion = document.querySelector('.region-help');
+          if (!helpRegion) {
+            return;
+          }
+
+          const button = document.createElement('button');
+
+          button.setAttribute('type', 'button');
+          button.setAttribute('class', 'schemadotorg-details-toggle button button--small button--extrasmall');
+          button.setAttribute('style', 'float: right; margin: 0');
+          button.setAttribute('title', Drupal.t('Toggle details widget state.'));
+
+          button.addEventListener('click', () => {
+            let isClosed = document.querySelector('details:not([open])');
+            document.querySelectorAll('details').forEach((details) => {
+              if (isClosed) {
+                details.removeAttribute('open');
+              }
+              else {
+                details.setAttribute('open', 'open');
+              }
+              details.querySelector('summary').click();
+            });
+            button.focus();
+            setButtonLabel();
+          });
+
+          setButtonLabel();
+          helpRegion.prepend(button);
+
+          function setButtonLabel() {
+            let isClosed = document.querySelector('details:not([open])');
+            button.innerText = (isClosed) ? Drupal.t('Expand all') : Drupal.t('Collapse all');
+          }
+        });
+    }
+  };
 })(Drupal, once);
