@@ -67,8 +67,8 @@
             return;
           }
 
+          // Build the toggle details button.
           const button = document.createElement('button');
-
           button.setAttribute('type', 'button');
           button.setAttribute('class', 'schemadotorg-details-toggle button button-small button--extrasmall');
           button.setAttribute('style', 'float: right; margin: 0');
@@ -77,6 +77,7 @@
 
           button.addEventListener('click', () => {
             let isClosed = document.querySelector('details:not([open])');
+            // Toggle all details.
             document.querySelectorAll('details').forEach((details) => {
               const key = details.getAttribute('data-schemadotorg-details-key');
               if (isClosed) {
@@ -88,11 +89,19 @@
                 key && localStorage.setItem(key, '0');
               }
             });
+            // Announce toggling of details state.
+            const text = (isClosed) ? Drupal.t('All details have been expanded.') : Drupal.t('All details have been collapsed.');
+            Drupal.announce(text);
+            // Set toggle button label.
             setButtonLabel();
           });
 
+          // Prepend the  toggle details button to the help region.
           helpRegion.prepend(button);
 
+          /**
+           * Set the toggle details button's label.
+           */
           function setButtonLabel() {
             let isClosed = document.querySelector('details:not([open])');
             button.innerText = (isClosed) ? Drupal.t('Expand all') : Drupal.t('Collapse all');

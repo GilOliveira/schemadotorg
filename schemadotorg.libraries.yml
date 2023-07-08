@@ -10,6 +10,7 @@ schemadotorg.details:
     js/schemadotorg.details.js: {}
   dependencies:
     - core/drupal
+    - core/drupal.announce
     - core/once
 
 schemadotorg.dialog:
