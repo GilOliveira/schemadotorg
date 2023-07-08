@@ -71,7 +71,7 @@
           const button = document.createElement('button');
           button.setAttribute('type', 'button');
           button.setAttribute('class', 'schemadotorg-details-toggle button button-small button--extrasmall');
-          button.setAttribute('style', 'float: right; margin: 0');
+          button.setAttribute('style', 'float: right; margin: 0; min-width: 7rem');
           button.setAttribute('title', Drupal.t('Toggle details widget state.'));
           setButtonLabel();
 
@@ -104,7 +104,7 @@
            */
           function setButtonLabel() {
             let isClosed = document.querySelector('details:not([open])');
-            button.innerText = (isClosed) ? Drupal.t('Expand all') : Drupal.t('Collapse all');
+            button.innerText = (isClosed) ? Drupal.t('+ Expand all') : Drupal.t('− Collapse all');
           }
         });
     }
