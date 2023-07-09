@@ -401,18 +401,22 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
       ];
       $row['property'] = $property_name;
       $row['arrow'] = '→';
-      if ($property_definition['name'] === SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD) {
-        $row['name'] = $field_prefix . $property_definition['machine_name'];
-        $row['existing'] = $this->t('No');
-      }
-      else {
+      $exists = ($property_definition['name'] !== SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD);
+      if ($exists) {
         $row['name'] = $property_definition['name'];
         $row['existing'] = $this->t('Yes');
+      }
+      else {
+        $row['name'] = $field_prefix . $property_definition['machine_name'];
+        $row['existing'] = $this->t('No');
       }
       $row['type'] = $property_definition['type'];
       $row['unlimited'] = !empty($property_definition['unlimited']) ? $this->t('Yes') : $this->t('No');
       $row['required'] = !empty($property_definition['required']) ? $this->t('Yes') : $this->t('No');
-      $rows[] = $row;
+      $rows[] = [
+        'data' => $row,
+        'class' => [$exists ? 'color-success' : 'color-warning'],
+      ];
     }
     $details['properties'] = [
       '#type' => 'table',
