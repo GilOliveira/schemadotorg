@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.thing.custom
     - field.field.node.thing.schema_description
     - field.field.node.thing.schema_image
     - field.field.node.thing.schema_name
@@ -15,6 +16,14 @@ targetEntityType: node
 bundle: thing
 mode: default
 content:
+  custom:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 100
+    region: content
   links:
     settings: {  }
     third_party_settings: {  }

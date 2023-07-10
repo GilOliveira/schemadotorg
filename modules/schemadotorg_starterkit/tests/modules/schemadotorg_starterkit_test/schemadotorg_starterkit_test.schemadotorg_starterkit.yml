@@ -10,3 +10,7 @@ types:
         required: true
       description:  true
       image: true
+      custom:
+        name: custom
+        type: string
+        label: Custom

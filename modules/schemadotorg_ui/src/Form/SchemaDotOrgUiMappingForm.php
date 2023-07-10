@@ -379,6 +379,10 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       }
     }
 
+    // Append custom properties to to mapping values properties.
+    $defaults = $form_state->get('mapping_defaults');
+    $mapping_values['properties'] += $defaults['properties'];
+
     // Third party settings.
     $mapping_values['third_party_settings'] = $mapping_values['third_party_settings'] ?? [];
 

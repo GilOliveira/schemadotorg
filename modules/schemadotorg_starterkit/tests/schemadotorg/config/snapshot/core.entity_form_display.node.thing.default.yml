@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.thing.custom
     - field.field.node.thing.schema_description
     - field.field.node.thing.schema_image
     - field.field.node.thing.schema_name
@@ -20,6 +21,14 @@ content:
     weight: 200
     region: content
     settings: {  }
+    third_party_settings: {  }
+  custom:
+    type: string_textfield
+    weight: 100
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   promote:
     type: boolean_checkbox

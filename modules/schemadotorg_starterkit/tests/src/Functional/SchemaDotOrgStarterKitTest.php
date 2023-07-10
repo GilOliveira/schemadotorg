@@ -75,6 +75,7 @@ class SchemaDotOrgStarterKitTest extends SchemaDotOrgBrowserTestBase {
       'schema_description' => 'description',
       'schema_image' => 'image',
       'schema_name' => 'name',
+      'custom' => 'custom',
     ];
     $this->assertEquals($expected_properties, $mapping->getSchemaProperties());
 

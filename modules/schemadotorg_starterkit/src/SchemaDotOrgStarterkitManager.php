@@ -281,7 +281,8 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
     // Add properties that are explicitly set.
     if (isset($type_defaults['properties'])) {
       foreach ($type_defaults['properties'] as $property_name => $property) {
-        if (is_array($property)) {
+        if (is_array($property)
+          && empty($type_defaults['properties'][$property_name]['name'])) {
           $type_defaults['properties'][$property_name]['name'] = SchemaDotOrgEntityFieldManagerInterface::ADD_FIELD;
         }
       }
