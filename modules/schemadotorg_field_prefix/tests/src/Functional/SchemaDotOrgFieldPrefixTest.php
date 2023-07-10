@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Drupal\Tests\schemadotorg_ui\Functional;
+namespace Drupal\Tests\schemadotorg_field_prefix\Functional;
 
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
@@ -11,10 +11,10 @@ use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 /**
  * Tests the functionality of the Schema.org field prefix.
  *
- * @covers schemadotorg_ui_form_field_ui_field_storage_add_form_alter()
+ * @covers schemadotorg_field_prefix_form_field_ui_field_storage_add_form_alter()
  * @group schemadotorg
  */
-class SchemaDotOrgUiFieldPrefixTest extends SchemaDotOrgBrowserTestBase {
+class SchemaDotOrgFieldPrefixTest extends SchemaDotOrgBrowserTestBase {
 
   /**
    * Modules to install.
@@ -22,13 +22,14 @@ class SchemaDotOrgUiFieldPrefixTest extends SchemaDotOrgBrowserTestBase {
    * @var string[]
    */
   protected static $modules = [
-    'schemadotorg_ui',
+    'field_ui',
+    'schemadotorg_field_prefix',
   ];
 
   /**
    * Test Schema.org field prefix.
    */
-  public function testMappingForm(): void {
+  public function testFieldPrefix(): void {
     $assert_session = $this->assertSession();
     $this->drupalLogin($this->rootUser);
 
@@ -39,7 +40,7 @@ class SchemaDotOrgUiFieldPrefixTest extends SchemaDotOrgBrowserTestBase {
     $this->drupalGet('/admin/structure/types/manage/page/fields/add-field');
     $assert_session->fieldNotExists('field_prefix');
 
-    $this->config('schemadotorg.settings')
+    $this->config('schemadotorg_field_prefix.settings')
       ->set('field_prefix_ui', TRUE)
       ->save();
 
@@ -51,8 +52,8 @@ class SchemaDotOrgUiFieldPrefixTest extends SchemaDotOrgBrowserTestBase {
     $edit = [
       'new_storage_type' => 'text',
       'field_prefix' => 'schema_',
-      'schemadotorg_label' => '',
-      'schemadotorg_field_name' => 'test',
+      'label' => '',
+      'field_name' => 'test',
     ];
     $this->submitForm($edit, 'Save and continue');
     $assert_session->responseContains('Add new field: you need to provide a label.');
@@ -61,8 +62,8 @@ class SchemaDotOrgUiFieldPrefixTest extends SchemaDotOrgBrowserTestBase {
     $edit = [
       'new_storage_type' => 'text',
       'field_prefix' => 'schema_',
-      'schemadotorg_label' => 'Test',
-      'schemadotorg_field_name' => '',
+      'label' => 'Test',
+      'field_name' => '',
     ];
     $this->submitForm($edit, 'Save and continue');
     $assert_session->responseContains('Add new field: you need to provide a machine name for the field.');
@@ -71,8 +72,8 @@ class SchemaDotOrgUiFieldPrefixTest extends SchemaDotOrgBrowserTestBase {
     $edit = [
       'new_storage_type' => 'text',
       'field_prefix' => 'schema_',
-      'schemadotorg_label' => 'Test',
-      'schemadotorg_field_name' => 'test',
+      'label' => 'Test',
+      'field_name' => 'test',
     ];
     $this->submitForm($edit, 'Save and continue');
     $this->assertNotNull(FieldStorageConfig::loadByName('node', 'schema_test'));
@@ -83,11 +84,11 @@ class SchemaDotOrgUiFieldPrefixTest extends SchemaDotOrgBrowserTestBase {
     $edit = [
       'new_storage_type' => 'string',
       'field_prefix' => 'schema_',
-      'schemadotorg_label' => 'Test',
-      'schemadotorg_field_name' => 'test',
+      'label' => 'Test',
+      'field_name' => 'test',
     ];
     $this->submitForm($edit, 'Save and continue');
-    $assert_session->responseContains('There was a problem creating field <em class="placeholder"></em>: &#039;field_storage_config&#039; entity with ID &#039;node.schema_test&#039; already exists.');
+    $assert_session->responseContains('There was a problem creating field <em class="placeholder">Test</em>: &#039;field_storage_config&#039; entity with ID &#039;node.schema_test&#039; already exists.');
   }
 
 }

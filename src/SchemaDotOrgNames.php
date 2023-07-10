@@ -28,7 +28,9 @@ class SchemaDotOrgNames implements SchemaDotOrgNamesInterface {
    * {@inheritdoc}
    */
   public function getFieldPrefix(): string {
-    return $this->getSettingsConfig()->get('field_prefix');
+    return $this->configFactory
+      ->get('schemadotorg_field_prefix.settings')
+      ->get('field_prefix') ?? 'schema_';
   }
 
   /**

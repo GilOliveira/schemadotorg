@@ -1,0 +1,119 @@
+<?php
+
+/**
+ * @file
+ * Allows the schema_* field prefix and other field prefixes to be customized.
+ */
+
+declare(strict_types = 1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\field\Entity\FieldStorageConfig;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see \Drupal\field_ui\Form\FieldStorageAddForm::buildForm
+ */
+function schemadotorg_field_prefix_form_field_ui_field_storage_add_form_alter(array &$form, FormStateInterface $form_state): void {
+  if (!\Drupal::config('schemadotorg_field_prefix.settings')->get('field_prefix_ui')) {
+    return;
+  }
+
+  $default_field_prefix = \Drupal::config('field_ui.settings')->get('field_prefix');
+  $schemadotorg_field_prefix = \Drupal::config('schemadotorg_field_prefix.settings')->get('field_prefix');
+
+  $field_prefix_value = $form_state->getValue('field_prefix')
+    ?? $default_field_prefix;
+
+  $form['new_storage_wrapper'] = [
+    // Add the ajax wrapper container.
+    '#prefix' => '<div id="schemadotorg-field-prefix-container">',
+    '#suffix' => '</div>',
+    // Add the field prefix select menu.
+    'field_prefix' => [
+      '#type' => 'select',
+      '#title' => t('Field prefix'),
+      '#options' => [
+        $default_field_prefix => $default_field_prefix,
+        $schemadotorg_field_prefix => $schemadotorg_field_prefix ?: t('- None -'),
+      ],
+      '#default_value' => $field_prefix_value,
+      '#required' => TRUE,
+      '#ajax' => [
+        'callback' => 'schemadotorg_field_prefix_form_field_ui_field_storage_add_ajax_callback',
+        'wrapper' => 'schemadotorg-field-prefix-container',
+      ],
+    ],
+  ] + $form['new_storage_wrapper'];
+
+  // Update the field name (aka machine name) field prefix and maxlength.
+  $form['new_storage_wrapper']['field_name']['#field_prefix'] = $field_prefix_value;
+  $form['new_storage_wrapper']['field_name']['#maxlength'] = FieldStorageConfig::NAME_MAX_LENGTH - strlen($field_prefix_value);
+
+  // Validation callback to set the field name using the custom field prefix.
+  $form['#validate'][] = 'schemadotorg_field_prefix_form_field_ui_field_storage_add_form_validate';
+}
+
+/**
+ * Handles switching the available regions based on the selected theme.
+ */
+function schemadotorg_field_prefix_form_field_ui_field_storage_add_ajax_callback($form, FormStateInterface $form_state) {
+  // Ensure that the field label is required.
+  // The field label's required state is lost via Drupal's #states API.
+  $form['new_storage_wrapper']['label']['#required'] = TRUE;
+  return $form['new_storage_wrapper'];
+}
+
+/**
+ * Form validation handler for schemadotorg_field_prefix_form_field_ui_field_storage_add_form_alter().
+ *
+ * @see \Drupal\field_ui\Form\FieldStorageAddForm::validateAddNew()
+ */
+function schemadotorg_field_prefix_form_field_ui_field_storage_add_form_validate(array &$form, FormStateInterface $form_state): void {
+  if ($form_state->getValue('new_storage_type')
+    && $form_state->getValue('label')
+    && $form_state->getValue('field_name')
+  ) {
+    $field_prefix = $form_state->getValue('field_prefix');
+
+    // Get the field name without the default field prefix.
+    $default_field_prefix = \Drupal::config('field_ui.settings')->get('field_prefix');
+    $field_name = $form_state->getValue('field_name');
+    $field_name = preg_replace('/^'.  preg_quote($default_field_prefix, '/') . '/', '', $field_name);
+
+    $form_state->setValueForElement($form['new_storage_wrapper']['field_name'], $field_prefix . $field_name);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function schemadotorg_field_prefix_form_schemadotorg_properties_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['schemadotorg_field_prefix'] = [
+    '#type' => 'details',
+    '#title' => t('Field prefix settings'),
+    '#open' => TRUE,
+    '#tree' => TRUE,
+  ];
+  $form['schemadotorg_field_prefix']['field_prefix'] = [
+    '#type' => 'textfield',
+    '#title' => t('Schema.org property field prefix'),
+    '#description' => t('Enter the field prefix to be prepended to a Schema.org property when added to an entity type.')
+      . ' '
+      . t('Schema.org property field prefix cannot be updated after mappings have been created.'),
+  ];
+  if (\Drupal::entityTypeManager()->getStorage('schemadotorg_mapping')->loadMultiple()) {
+    $form['schema_properties']['field_prefix']['#disabled'] = TRUE;
+  }
+  $t_args = [
+    '%drupal_field_prefix' => \Drupal::config('field_ui.settings')->get('field_prefix') ?? 'field_',
+    '%schemadotorg_field_prefix' => \Drupal::config('schemadotorg_field_prefix.settings')->get('field_prefix'),
+  ];
+  $form['schemadotorg_field_prefix']['field_prefix_ui'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Allow the Schema.org field prefix to be selected via the field UI.'),
+    '#description' => t("If checked, site builders will be able to select between the Drupal's field prefix (%drupal_field_prefix) or the Schema.org Blueprints' field prefix (%schemadotorg_field_prefix) when adding new fields.", $t_args),
+    '#return_value' => TRUE,
+  ];
+}

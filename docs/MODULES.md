@@ -55,6 +55,9 @@ Schema.org types.
 The below field related modules help configure entity edit forms
 and field configuration settings.
 
+- **[Schema.org Blueprints Field Prefix](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_field_prefix)**  
+  Allows the schema_* field prefix and other field prefixes to be customized.
+
 - **[Schema.org Blueprints Address](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_address)**  
   Allows an address field to be used to create a http://schema.org/PostalAddress.
 

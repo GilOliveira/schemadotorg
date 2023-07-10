@@ -51,8 +51,9 @@ function schemadotorg_cer_form_alter(array &$form, FormStateInterface $form_stat
     return;
   }
 
-  $field_prefix = \Drupal::config('schemadotorg.settings')
-    ->get('field_prefix');
+  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+  $schema_names = \Drupal::service('schemadotorg.names');
+  $field_prefix = $schema_names->getFieldPrefix();
   if (empty($field_prefix)) {
     return;
   }

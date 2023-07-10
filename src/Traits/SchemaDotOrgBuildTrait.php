@@ -84,7 +84,9 @@ trait SchemaDotOrgBuildTrait {
 
     // Properties.
     $rows = [];
-    $field_prefix = $this->config('schemadotorg.settings')->get('field_prefix');
+    /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+    $schema_names = \Drupal::service('schemadotorg.names');
+    $field_prefix = $schema_names->getFieldPrefix();
     foreach ($mapping_defaults['properties'] as $property_name => $property_definition) {
       if (empty($property_definition['name'])) {
         continue;

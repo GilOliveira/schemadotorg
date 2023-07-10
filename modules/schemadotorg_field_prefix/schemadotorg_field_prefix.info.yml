@@ -1,0 +1,8 @@
+name: 'Schema.org Blueprints Field Prefix'
+type: module
+description: 'Allows the schema_* field prefix and other field prefixes to be customized.'
+package: Schema.org Blueprints Fields
+core_version_requirement: '^9.4 || ^10.0'
+configure: schemadotorg.settings.properties
+dependencies:
+  - 'schemadotorg:schemadotorg'
