@@ -207,12 +207,13 @@ interface SchemaDotOrgMappingInterface extends ConfigEntityInterface {
   /**
    * Set the Schema.org mapping default values.
    *
-   * @return array
+   * @param array $mapping_defaults
    *   The Schema.org mapping default values.
    *
    * @return $this
    */
   public function setMappingDefaults(array $mapping_defaults): SchemaDotOrgMappingInterface;
+
   /**
    * Load by entity.
    *

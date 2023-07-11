@@ -7,9 +7,6 @@
 
 declare(strict_types = 1);
 
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\field\Entity\FieldStorageConfig;
-
 /**
  * Implements hook_entity_type_build().
  */

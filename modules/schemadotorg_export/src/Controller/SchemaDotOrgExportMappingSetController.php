@@ -132,9 +132,7 @@ class SchemaDotOrgExportMappingSetController extends ControllerBase {
         $bundle = ($mapping) ? $mapping->getTargetBundle() : $mapping_defaults['entity']['id'];
 
         // Properties.
-        /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
-        $schema_names = \Drupal::service('schemadotorg.names');
-        $field_prefix = $schema_names->getFieldPrefix();
+        $field_prefix = $this->schemaNames->getFieldPrefix();
         foreach ($mapping_defaults['properties'] as $property_name => $property_definition) {
           if (empty($property_definition['name'])) {
             continue;

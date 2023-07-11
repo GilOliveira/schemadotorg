@@ -70,8 +70,6 @@ interface SchemaDotOrgEntityDisplayBuilderInterface {
    *   The Schema.org mapping.
    * @param array $properties
    *   The Schema.org properties to be weighted.
-   *
-   * @return void
    */
   public function setFieldWeights(SchemaDotOrgMappingInterface $mapping, array $properties = []): void;
 

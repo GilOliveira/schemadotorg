@@ -66,7 +66,7 @@ function schemadotorg_field_prefix_form_field_ui_field_storage_add_form_alter(ar
 /**
  * Handles switching the available regions based on the selected theme.
  */
-function schemadotorg_field_prefix_form_field_ui_field_storage_add_ajax_callback($form, FormStateInterface $form_state) {
+function schemadotorg_field_prefix_form_field_ui_field_storage_add_ajax_callback(array $form, FormStateInterface $form_state): array {
   // Ensure that the field label is required.
   // The field label's required state is lost via Drupal's #states API.
   $form['new_storage_wrapper']['label']['#required'] = TRUE;
@@ -88,7 +88,7 @@ function schemadotorg_field_prefix_form_field_ui_field_storage_add_form_validate
     // Get the field name without the default field prefix.
     $default_field_prefix = \Drupal::config('field_ui.settings')->get('field_prefix');
     $field_name = $form_state->getValue('field_name');
-    $field_name = preg_replace('/^'.  preg_quote($default_field_prefix, '/') . '/', '', $field_name);
+    $field_name = preg_replace('/^' . preg_quote($default_field_prefix, '/') . '/', '', $field_name);
 
     $form_state->setValueForElement($form['new_storage_wrapper']['field_name'], $field_prefix . $field_name);
   }

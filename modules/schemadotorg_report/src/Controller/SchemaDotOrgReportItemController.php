@@ -32,7 +32,6 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
     return $instance;
   }
 
-  //
   /**
    * Builds the Schema.org type or property item.
    *
@@ -362,7 +361,7 @@ class SchemaDotOrgReportItemController extends SchemaDotOrgReportControllerBase 
       }
     }
 
-    // Get mapping defaults
+    // Get mapping defaults.
     if ($table === 'types') {
       $default_entity_type_id = $this->getDefaultEntityTypeId($id);
       $mapping_defaults = $this->schemaMappingManager->getMappingDefaults($default_entity_type_id, NULL, $id);
