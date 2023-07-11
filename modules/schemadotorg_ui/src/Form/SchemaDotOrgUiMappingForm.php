@@ -382,7 +382,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
         $mapping_values['properties'][$property] += $property_values['field'][static::ADD_FIELD];
       }
     }
-    $mapping_defaults['properties'] = NestedArray::mergeDeep(
+    $mapping_values['properties'] = NestedArray::mergeDeep(
       $mapping_defaults['properties'] ?? [],
       $mapping_values['properties'],
     );

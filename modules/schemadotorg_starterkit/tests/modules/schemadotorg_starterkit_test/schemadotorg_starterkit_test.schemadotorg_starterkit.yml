@@ -14,3 +14,5 @@ types:
         name: custom
         type: string
         label: Custom
+        group: general
+        group_field_weight: -100

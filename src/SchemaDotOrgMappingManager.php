@@ -370,17 +370,18 @@ class SchemaDotOrgMappingManager implements SchemaDotOrgMappingManagerInterface 
 
     // Set field weights for new mappings.
     if ($mapping->isNew()) {
-      $this->schemaEntityDisplayBuilder->setFieldWeights(
-        $entity_type_id,
-        $bundle,
-        $mapping->getNewSchemaProperties()
-      );
+      $this->schemaEntityDisplayBuilder->setFieldWeights($mapping);
     }
 
     // Set third party settings.
     if (isset($values['third_party_settings'])) {
       $mapping->set('third_party_settings', array_filter($values['third_party_settings']));
     }
+
+    // Set mapping defaults.
+    // This allows mapping hooks to act on the mapping defaults.
+    // @see \Drupal\schemadotorg_field_group\SchemaDotOrgFieldGroupEntityDisplayBuilder::setFieldGroups
+    $mapping->setMappingDefaults($values);
 
     // Save the mapping entity.
     $mapping->save();

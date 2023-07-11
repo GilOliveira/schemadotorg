@@ -9,4 +9,5 @@ dependencies:
   - 'drupal:views'
   - 'config_rewrite:config_rewrite'
   - 'schemadotorg:schemadotorg'
+  - 'schemadotorg:schemadotorg_field_group'
   - 'schemadotorg:schemadotorg_starterkit'
