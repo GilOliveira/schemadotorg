@@ -36,17 +36,13 @@ class SchemaDotOrgFieldPrefixTest extends SchemaDotOrgBrowserTestBase {
     // Create the page content type.
     $this->drupalCreateContentType(['type' => 'page']);
 
-    // Check that changing the field prefix does not exist.
-    $this->drupalGet('/admin/structure/types/manage/page/fields/add-field');
-    $assert_session->fieldNotExists('field_prefix');
-
-    $this->config('schemadotorg_field_prefix.settings')
-      ->set('field_prefix_ui', TRUE)
-      ->save();
-
     // Check that changing the field prefix does exist.
     $this->drupalGet('/admin/structure/types/manage/page/fields/add-field');
     $assert_session->fieldExists('field_prefix');
+    // Check the field prefix options.
+    $assert_session->responseContains('<option value="">&lt;none&gt;</option><option value="field_" selected="selected">field_</option><option value="field_page_">field_page_</option><option value="schema_">schema_</option><option value="schema_page_">schema_page_</option>');
+    // Check the field prefix descripion.
+    $assert_session->responseContains("Select the field's prefix. Use <code>&lt;none&gt;</code> with caution because the machine-readable name can conflict with existing base field/property names.");
 
     // Check missing label validation.
     $edit = [
@@ -89,6 +85,13 @@ class SchemaDotOrgFieldPrefixTest extends SchemaDotOrgBrowserTestBase {
     ];
     $this->submitForm($edit, 'Save and continue');
     $assert_session->responseContains('There was a problem creating field <em class="placeholder">Test</em>: &#039;field_storage_config&#039; entity with ID &#039;node.schema_test&#039; already exists.');
+
+    // Check that clearing the field option remove the  field prefix select menu.
+    $this->config('schemadotorg_field_prefix.settings')
+      ->set('field_prefix_options', [])
+      ->save();
+    $this->drupalGet('/admin/structure/types/manage/page/fields/add-field');
+    $assert_session->fieldNotExists('field_prefix');
   }
 
 }

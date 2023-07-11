@@ -9,6 +9,7 @@ declare(strict_types = 1);
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\schemadotorg\Element\SchemaDotOrgSettings;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -16,15 +17,24 @@ use Drupal\field\Entity\FieldStorageConfig;
  * @see \Drupal\field_ui\Form\FieldStorageAddForm::buildForm
  */
 function schemadotorg_field_prefix_form_field_ui_field_storage_add_form_alter(array &$form, FormStateInterface $form_state): void {
-  if (!\Drupal::config('schemadotorg_field_prefix.settings')->get('field_prefix_ui')) {
+  $field_prefix_options = \Drupal::config('schemadotorg_field_prefix.settings')->get('field_prefix_options');
+  if (empty($field_prefix_options)) {
     return;
   }
 
   $default_field_prefix = \Drupal::config('field_ui.settings')->get('field_prefix');
-  $schemadotorg_field_prefix = \Drupal::config('schemadotorg_field_prefix.settings')->get('field_prefix');
-
   $field_prefix_value = $form_state->getValue('field_prefix')
     ?? $default_field_prefix;
+
+  $field_prefix_description = \Drupal::config('schemadotorg_field_prefix.settings')->get('field_prefix_description');
+
+  $bundle = $form_state->get('bundle');
+  $options = [];
+  foreach ($field_prefix_options as $key => $value) {
+    $key = str_replace('[bundle]', $bundle, $key);
+    $value = str_replace('[bundle]', $bundle, $value);
+    $options[$key] = $value;
+  }
 
   $form['new_storage_wrapper'] = [
     // Add the ajax wrapper container.
@@ -33,11 +43,9 @@ function schemadotorg_field_prefix_form_field_ui_field_storage_add_form_alter(ar
     // Add the field prefix select menu.
     'field_prefix' => [
       '#type' => 'select',
-      '#title' => t('Field prefix'),
-      '#options' => [
-        $default_field_prefix => $default_field_prefix,
-        $schemadotorg_field_prefix => $schemadotorg_field_prefix ?: t('- None -'),
-      ],
+      '#title' => t('Prefix'),
+      '#description' => $field_prefix_description,
+      '#options' => $options,
       '#default_value' => $field_prefix_value,
       '#required' => TRUE,
       '#ajax' => [
@@ -106,14 +114,17 @@ function schemadotorg_field_prefix_form_schemadotorg_properties_settings_form_al
   if (\Drupal::entityTypeManager()->getStorage('schemadotorg_mapping')->loadMultiple()) {
     $form['schema_properties']['field_prefix']['#disabled'] = TRUE;
   }
-  $t_args = [
-    '%drupal_field_prefix' => \Drupal::config('field_ui.settings')->get('field_prefix') ?? 'field_',
-    '%schemadotorg_field_prefix' => \Drupal::config('schemadotorg_field_prefix.settings')->get('field_prefix'),
+  $form['schemadotorg_field_prefix']['field_prefix_options'] = [
+    '#type' => 'schemadotorg_settings',
+    '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+    '#settings_format' => 'prefix_|prefix_ - Description',
+    '#title' => t('Field prefix options'),
+    '#description' => t('Enter the field options that a site builder can choose from. Leave blank to not display the field prefix select menu when adding new fields.'),
+    '#description_link' => NULL,
   ];
-  $form['schemadotorg_field_prefix']['field_prefix_ui'] = [
-    '#type' => 'checkbox',
-    '#title' => t('Allow the Schema.org field prefix to be selected via the field UI.'),
-    '#description' => t("If checked, site builders will be able to select between the Drupal's field prefix (%drupal_field_prefix) or the Schema.org Blueprints' field prefix (%schemadotorg_field_prefix) when adding new fields.", $t_args),
-    '#return_value' => TRUE,
+  $form['schemadotorg_field_prefix']['field_prefix_description'] = [
+    '#type' => 'textarea',
+    '#title' => t('Field prefix description'),
+    '#description' => t('Enter a field prefix description to help site builders understand the use case of each field prefix.'),
   ];
 }
