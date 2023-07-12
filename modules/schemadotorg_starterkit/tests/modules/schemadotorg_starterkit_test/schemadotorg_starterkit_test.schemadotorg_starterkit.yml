@@ -16,3 +16,6 @@ types:
         label: Custom
         group: general
         group_field_weight: -100
+        field_values:
+          default_value:
+            - value: 'Custom value'

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -159,7 +160,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       'cardinality' => $field_unlimited ? -1 : 1,
       'allowed_values' => $field_allowed_values,
       'max_length' => $field_max_length,
-    ] + $field['field_storage_values'];
+    ];
+    $field_storage_values = NestedArray::mergeDeep($field['field_storage_values'], $field_storage_values);
 
     // Set field instance values.
     $field_values = [
@@ -169,7 +171,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       'label' => $field_label,
       'description' => $field_description,
       'required' => $field_required,
-      ] + $field['field_values'];
+    ];
+    $field_values = NestedArray::mergeDeep($field['field_values'], $field_values);
 
     // Initialize widget and formatter id and settings.
     $widget_id = $field['widget_id'];
