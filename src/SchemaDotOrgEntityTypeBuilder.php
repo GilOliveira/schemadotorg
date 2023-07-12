@@ -434,12 +434,9 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     ?string &$formatter_id,
     array &$formatter_settings
   ): void {
-    $field_values =+ ['settings' => []];
-    $field_storage_values =+ ['settings' => []];
-
     switch ($field_storage_values['type']) {
       case 'boolean':
-        $field_values['settings'] += [
+        $field_values['settings'] = [
           'on_label' => $this->t('Yes'),
           'off_label' => $this->t('No'),
         ];
@@ -469,7 +466,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
             $is_date = (in_array('Date', $range_includes) && !in_array('DateTime', $range_includes));
             break;
         }
-        $field_storage_values['settings'] += ['datetime_type' => $is_date ? 'date' : 'datetime'];
+        $field_storage_values['settings']['datetime_type'] = $is_date ? 'date' : 'datetime';
         break;
 
       case 'entity_reference':
@@ -487,7 +484,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         $handler_settings = [];
         $handler_settings['target_bundles'] = $target_bundles;
 
-        $field_values['settings'] += [
+        $field_values['settings'] = [
           'handler' => 'default:' . $target_type,
           'handler_settings' => $handler_settings,
         ];
@@ -500,21 +497,21 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
         if ($unit_plural) {
           $unit_singular = $this->schemaTypeManager->getPropertyUnit($schema_property, 1);
           if ((string) $unit_singular != (string) $unit_plural) {
-            $field_values['settings'] += ['suffix' => ' ' . $unit_singular . '| ' . $unit_plural];
+            $field_values['settings']['suffix'] = ' ' . $unit_singular . '| ' . $unit_plural;
           }
           else {
-            $field_values['settings'] += ['suffix' => ' ' . $unit_singular];
+            $field_values['settings']['suffix'] = ' ' . $unit_singular;
           }
         }
         break;
 
       case 'email':
-        $formatter_id = $formatter_id ?? 'email_mailto';
+        $formatter_id = 'email_mailto';
         break;
 
       case 'string':
         if (!empty($field_storage_values['max_length'])) {
-          $field_storage_values['settings'] += [
+          $field_storage_values['settings'] = [
             'max_length' => $field_storage_values['max_length'],
           ];
           unset($field_storage_values['max_length']);
@@ -523,7 +520,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
 
       case 'list_string':
         if (!empty($field_storage_values['allowed_values'])) {
-          $field_storage_values['settings'] += [
+          $field_storage_values['settings'] = [
             'allowed_values' => $field_storage_values['allowed_values'],
             'allowed_values_function' => '',
           ];
