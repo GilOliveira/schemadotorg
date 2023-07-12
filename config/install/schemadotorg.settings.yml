@@ -100,7 +100,6 @@ schema_types:
       - name
     HowTo:
       - image
-      - keywords
       - name
       - step
       - supply
@@ -112,6 +111,7 @@ schema_types:
       - '-tool'
       - cookTime
       - cookingMethod
+      - isFamilyFriendly
       - nationality
       - nutrition
       - prepTime
@@ -940,6 +940,8 @@ schema_properties:
       type: text_long
     colleague:
       label: Colleagues
+      unlimited: true
+    cookingMethod:
       unlimited: true
     comment:
       label: Comments
