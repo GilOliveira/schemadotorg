@@ -120,6 +120,13 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       // Schema.org type and property.
       'schema_type' => NULL,
       'schema_property' => NULL,
+      // Additional defaults.
+      'field_values' => [],
+      'field_storage_values' => [],
+      'widget_id' => NULL,
+      'widget_settings' => [],
+      'formatter_id' => NULL,
+      'formatter_settings' => [],
     ];
 
     /** @var \Drupal\field\FieldStorageConfigInterface $field_storage_config */
@@ -152,7 +159,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       'cardinality' => $field_unlimited ? -1 : 1,
       'allowed_values' => $field_allowed_values,
       'max_length' => $field_max_length,
-    ];
+    ] + $field['field_storage_values'];
 
     // Set field instance values.
     $field_values = [
@@ -162,13 +169,13 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       'label' => $field_label,
       'description' => $field_description,
       'required' => $field_required,
-    ];
+      ] + $field['field_values'];
 
     // Initialize widget and formatter id and settings.
-    $widget_id = NULL;
-    $widget_settings = [];
-    $formatter_id = NULL;
-    $formatter_settings = [];
+    $widget_id = $field['widget_id'];
+    $widget_settings = $field['widget_settings'];
+    $formatter_id = $field['formatter_id'];;
+    $formatter_settings = $field['formatter_settings'];;
 
     // If new field UI field we need to get the preconfigured field.
     // These preconfigured field are typically used for entity references.
@@ -199,10 +206,10 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
       }
 
       // Get widget and format id and settings.
-      $widget_id = $field_options['entity_form_display']['type'] ?? NULL;
-      $widget_settings = $field_options['entity_form_display']['settings'] ?? [];
-      $formatter_id = $field_options['entity_view_display']['type'] ?? NULL;
-      $formatter_settings = $field_options['entity_view_display']['settings'] ?? [];
+      $widget_id = $field_options['entity_form_display']['type'] ?? $widget_id;
+      $widget_settings = $field_options['entity_form_display']['settings'] ?? $widget_settings;
+      $formatter_id = $field_options['entity_view_display']['type'] ?? $formatter_id;
+      $formatter_settings = $field_options['entity_view_display']['settings'] ?? $formatter_settings;
     }
 
     // Alter field values.
