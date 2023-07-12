@@ -47,7 +47,6 @@ function schemadotorg_field_prefix_form_field_ui_field_storage_add_form_alter(ar
       '#description' => $field_prefix_description,
       '#options' => $options,
       '#default_value' => $field_prefix_value,
-      '#required' => TRUE,
       '#ajax' => [
         'callback' => 'schemadotorg_field_prefix_form_field_ui_field_storage_add_ajax_callback',
         'wrapper' => 'schemadotorg-field-prefix-container',

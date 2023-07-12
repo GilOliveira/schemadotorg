@@ -63,9 +63,6 @@
       },
       "drupal/paragraphs": {
         "Issue #3067265: Paragraph templates: unable to access parent-node tokens from child-paragraphs in the default installed setup": "https://git.drupalcode.org/project/paragraphs/-/merge_requests/28.diff"
-      },
-      "drupal/type_tray": {
-        "Issue #3371399: Allow long URLs for type tray icons and thumbnails": "https://www.drupal.org/files/issues/2023-06-29/type_tray-3371399-2.patch"
       }
     }
   }
