@@ -19,6 +19,13 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
   use SchemaDotOrgBuildTrait;
 
   /**
+   * The module list service.
+   *
+   * @var \Drupal\Core\Extension\ModuleExtensionList
+   */
+  protected $moduleList;
+
+  /**
    * The module handler to invoke the alter hook.
    *
    * @var \Drupal\Core\Extension\ModuleHandlerInterface
@@ -65,6 +72,7 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
    */
   public static function create(ContainerInterface $container) {
     $instance = new static();
+    $instance->moduleList = $container->get('extension.list.module');
     $instance->moduleHandler = $container->get('module_handler');
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
@@ -128,12 +136,36 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, ?string $name = NULL, ?string $operation = NULL): array {
+    if (!$this->schemaStarterkitManager->isStarterkit($name)) {
+      throw new NotFoundHttpException();
+    }
+
     $this->name = $name;
     $this->operation = $operation;
 
-    $form = parent::buildForm($form, $form_state);
-
     $settings = $this->schemaStarterkitManager->getStarterkitSettings($this->name);
+
+    // Check dependencies.
+    $module_data = $this->moduleList->getList();
+    $missing_dependencies = [];
+    foreach ($settings['dependencies'] as $dependency) {
+      if (!isset($module_data[$dependency])) {
+        $missing_dependencies[] = $dependency;
+      }
+    };
+    if ($missing_dependencies) {
+      $starterkit = $this->schemaStarterkitManager->getStarterkit($this->name);
+      $t_args = [
+        '%name' => $starterkit['name'],
+        '%starterkits' => implode(', ', $missing_dependencies),
+      ];
+      $message = $this->t('Unable to install %name due to missing starterkits %starterkits.', $t_args);
+      $this->messenger()->addWarning($message);
+      $form['#title'] = $this->getQuestion();
+      return $form;
+    }
+
+    $form = parent::buildForm($form, $form_state);
 
     $form['description'] = [
       'description' => $form['description'] + ['#prefix' => '<p>', '#suffix' => '</p>'],

@@ -1,3 +1,5 @@
+dependencies:
+  - schemadotorg_starterkit_test
 types:
   node:Person:
     properties:

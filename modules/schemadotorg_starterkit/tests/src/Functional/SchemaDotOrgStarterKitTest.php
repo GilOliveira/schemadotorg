@@ -27,7 +27,7 @@ class SchemaDotOrgStarterKitTest extends SchemaDotOrgBrowserTestBase {
    *
    * @var string[]
    */
-  protected static $modules = ['schemadotorg_starterkit_test', 'schemadotorg_starterkit_update_test'];
+  protected static $modules = ['schemadotorg_starterkit_dependency_test'];
 
   /**
    * Test Schema.org actions before a module is installed.
@@ -84,7 +84,7 @@ class SchemaDotOrgStarterKitTest extends SchemaDotOrgBrowserTestBase {
     // This check confirms that starterkits can only add properties to
     // existing Schema.org types.
     // @see schemadotorg_starterkit_test.schemadotorg_starterkit.yml
-    // @see schemadotorg_starterkit_update_test.schemadotorg_starterkit.yml
+    // @see schemadotorg_starterkit_dependency_test.schemadotorg_starterkit.yml
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
     $mapping = $mapping_storage->load('node.person');
     $expected_properties = [

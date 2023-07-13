@@ -61,6 +61,11 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    * {@inheritdoc}
    */
   public function isStarterkit(string $module): bool {
+    $extensions = $this->extensionListModule->getList();
+    if (!isset($extensions[$module])) {
+      return FALSE;
+    }
+
     $module_path = $this->extensionListModule->getPath($module);
     $module_schemadotorg_path = "$module_path/$module.schemadotorg_starterkit.yml";
     return file_exists($module_schemadotorg_path);
@@ -144,6 +149,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
     }
 
     $this->rewriteSchemaConfig($module);
+    $this->installDependencies($module);
     $this->setupSchemaTypes($module);
   }
 
@@ -213,6 +219,19 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
   }
 
   /**
+   * Install dependencies.
+   *
+   * @param string $module
+   *   A module.
+   */
+  protected function installDependencies(string $module): void {
+    $settings = $this->getStarterkitSettingsData($module);
+    if ($settings && !empty($settings['dependencies'])) {
+      $this->moduleInstaller->install($settings['dependencies']);
+    }
+  }
+
+  /**
    * Set up a starterkit  module based on the module's settings.
    *
    * @param string $module
@@ -246,7 +265,8 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
     }
 
     $settings = Yaml::decode(file_get_contents($module_schemadotorg_path));
-    return ($settings !== TRUE) ? $settings : ['types' => []];
+    return ($settings !== TRUE ? $settings : [])
+      + ['dependencies' => [], 'types' => []];
   }
 
   /**
@@ -262,6 +282,9 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
    */
   protected function getStarterSettingsTypeDefaults(string $type, array $type_defaults): array {
     [$entity_type_id, $schema_type] = explode(':', $type);
+    if (!$this->entityTypeManager->hasDefinition($entity_type_id)) {
+      return [];
+    }
 
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingInterface $mapping */
     $mapping = $this->entityTypeManager

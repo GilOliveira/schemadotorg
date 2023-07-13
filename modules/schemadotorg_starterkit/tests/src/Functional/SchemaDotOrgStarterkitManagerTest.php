@@ -58,6 +58,7 @@ class SchemaDotOrgStarterkitManagerTest extends SchemaDotOrgKernelEntityTestBase
   public function testManager(): void {
     // Check determining if a module is Schema.org Blueprints Starterkit.
     $this->assertFalse($this->schemaStarterkitManager->isStarterkit('schemadotorg'));
+    $this->assertFalse($this->schemaStarterkitManager->isStarterkit('missing_module'));
     $this->assertTrue($this->schemaStarterkitManager->isStarterkit('schemadotorg_starterkit_test'));
 
     // Check getting a list of Schema.org starterkits.

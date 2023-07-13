@@ -5,6 +5,7 @@ Table of contents
 * Features
 * Notes
 * Usage
+* Todo
 
 
 Introduction
@@ -65,6 +66,11 @@ Inside the `MODULE_NAME.schemadotorg_starterkit.yml` file declare what
 Schema.org types and properties should be created preinstallation.
 
 ```
+# Declare a dependency on a another starter while still allowing schemadotorg*
+# config files to rewritten.
+dependencies:
+  - some_other_startkit
+# Declare which Schema.org types should be created.
 types:
   'node:Event':
     properties:
@@ -76,6 +82,12 @@ types:
       location: false
       organizer: false
       performer: false
+      # Declare a custom field to be created.
+      custom:
+        name: custom
+        type: string
+        label: Custom
+        group: general
 ```
 
 
@@ -85,3 +97,12 @@ Tips
 `MODULE_NAME.schemadotorg_starterkit.yml` file
 
 - Explicitly include any Schema.org properties that are required.
+- Generally, you want to add include additional Schema.org properties 
+  and not excluded any  Schema.org properties. 
+
+
+Todo
+----
+
+- Improve custom dependency management code which is a little brittle when
+  there are missing dependencies.
