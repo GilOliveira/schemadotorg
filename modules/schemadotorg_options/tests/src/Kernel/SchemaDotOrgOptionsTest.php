@@ -59,17 +59,17 @@ class SchemaDotOrgOptionsTest extends SchemaDotOrgKernelEntityTestBase {
     /** @var \Drupal\field\FieldStorageConfigInterface $field */
     $field_storage = FieldStorageConfig::load('node.schema_suitable_for_diet');
     $expected_allowed_values = [
-      'DiabeticDiet' => 'Diabetic Diet',
-      'GlutenFreeDiet' => 'Gluten Free Diet',
-      'HalalDiet' => 'Halal Diet',
-      'HinduDiet' => 'Hindu Diet',
-      'KosherDiet' => 'Kosher Diet',
-      'LowCalorieDiet' => 'Low Calorie Diet',
-      'LowFatDiet' => 'Low Fat Diet',
-      'LowLactoseDiet' => 'Low Lactose Diet',
-      'LowSaltDiet' => 'Low Salt Diet',
-      'VeganDiet' => 'Vegan Diet',
-      'VegetarianDiet' => 'Vegetarian Diet',
+      'DiabeticDiet' => 'Diabetic',
+      'GlutenFreeDiet' => 'Gluten Free',
+      'HalalDiet' => 'Halal',
+      'HinduDiet' => 'Hindu',
+      'KosherDiet' => 'Kosher',
+      'LowCalorieDiet' => 'Low Calorie',
+      'LowFatDiet' => 'Low Fat',
+      'LowLactoseDiet' => 'Low Lactose',
+      'LowSaltDiet' => 'Low Salt',
+      'VeganDiet' => 'Vegan',
+      'VegetarianDiet' => 'Vegetarian',
     ];
     $this->assertEquals($expected_allowed_values, $field_storage->getSetting('allowed_values'));
   }
