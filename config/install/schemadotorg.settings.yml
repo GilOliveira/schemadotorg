@@ -1140,6 +1140,8 @@ schema_properties:
     possibleTreatment:
       label: 'Possible treatments'
       unlimited: true
+    primaryImageOfPage:
+      name: image
     primaryPrevention:
       unlimited: true
     productionCompany:

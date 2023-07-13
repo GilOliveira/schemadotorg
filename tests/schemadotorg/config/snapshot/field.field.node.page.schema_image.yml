@@ -2,12 +2,12 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.schema_primary_image
+    - field.storage.node.schema_image
     - node.type.page
   module:
     - image
-id: node.page.schema_primary_image
-field_name: schema_primary_image
+id: node.page.schema_image
+field_name: schema_image
 entity_type: node
 bundle: page
 label: 'Primary image of page'
