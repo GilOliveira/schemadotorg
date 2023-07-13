@@ -55,7 +55,7 @@ class SchemaDotOrgOptionsTest extends SchemaDotOrgKernelEntityTestBase {
     $field_storage = FieldStorageConfig::load('node.schema_knows_language');
     $this->assertEquals('schemadotorg_options_allowed_values_language', $field_storage->getSetting('allowed_values_function'));
 
-    // Check that suitableForDiet    is assigned an allowed values function.
+    // Check that suitableForDiet is assigned an allowed values function.
     /** @var \Drupal\field\FieldStorageConfigInterface $field */
     $field_storage = FieldStorageConfig::load('node.schema_suitable_for_diet');
     $expected_allowed_values = [
