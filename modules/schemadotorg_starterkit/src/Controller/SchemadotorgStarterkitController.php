@@ -106,13 +106,13 @@ class SchemadotorgStarterkitController extends ControllerBase {
       $row['types'] = [
         'data' => [
           '#markup' => implode(', ', $types),
-        ]
+        ],
       ];
       $row['dependencies'] = [
         'data' => [
           '#theme' => 'item_list',
           '#items' => $dependencies,
-        ]
+        ],
       ];
 
       $operations = ($is_installable)
