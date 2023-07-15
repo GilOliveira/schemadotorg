@@ -177,8 +177,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     // Initialize widget and formatter id and settings.
     $widget_id = $field['widget_id'];
     $widget_settings = $field['widget_settings'];
-    $formatter_id = $field['formatter_id'];;
-    $formatter_settings = $field['formatter_settings'];;
+    $formatter_id = $field['formatter_id'];
+    $formatter_settings = $field['formatter_settings'];
 
     // If new field UI field we need to get the preconfigured field.
     // These preconfigured field are typically used for entity references.

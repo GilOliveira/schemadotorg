@@ -1,0 +1,11 @@
+name: 'Schema.org Blueprints Sidebar'
+type: module
+description: 'Adds paragraph types to the sidebar on node edit forms.'
+package: Schema.org Blueprints Other
+core_version_requirement: '^9.4 || ^10.0'
+configure: schemadotorg.settings.types
+dependencies:
+  - 'field_group:field_group'
+  - 'inline_entity_form:inline_entity_form'
+  - 'schemadotorg:schemadotorg'
+  - 'schemadotorg:schemadotorg_paragraphs'

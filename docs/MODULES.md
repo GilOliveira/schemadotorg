@@ -97,8 +97,11 @@ and field configuration settings.
 - **[Schema.org Blueprints Options](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_options)**  
   Set allowed values for list (options) fields.
 
+- **[Schema.org Blueprints Sidebar](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_sidebar)**  
+  Adds paragraph types to the sidebar on node edit forms.
+
 - **[Schema.org Blueprints Editorial](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_editorial)**  
-  Adds an 'Editorial information' paragraph to the sidebar on every node edit form.
+  Adds an 'Editorial information' paragraph to the sidebar on node edit forms.
 
 - **[Schema.org Blueprints Smart Date](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_smart_date)**  
   Allows a Smart date field to be used to create date ranges and event schedules included in a site's Schema.org JSON-LD.

@@ -1,6 +1,6 @@
 name: 'Schema.org Blueprints Editorial'
 type: module
-description: 'Adds an ''Editorial information'' paragraph to the sidebar on every node edit form.'
+description: 'Adds an ''Editorial information'' paragraph to the sidebar on node edit forms.'
 package: Schema.org Blueprints Other
 core_version_requirement: '^9.4 || ^10.0'
 dependencies:
@@ -9,7 +9,5 @@ dependencies:
   - 'drupal:node'
   - 'drupal:options'
   - 'drupal:text'
-  - 'field_group:field_group'
-  - 'inline_entity_form:inline_entity_form'
-  - 'schemadotorg:schemadotorg'
-  - 'schemadotorg:schemadotorg_paragraphs'
+  - 'config_rewrite:config_rewrite'
+  - 'schemadotorg:schemadotorg_sidebar'

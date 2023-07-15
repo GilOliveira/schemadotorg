@@ -333,10 +333,6 @@ function schemadotorg_paragraphs_form_entity_embed_dialog_alter(array &$form, Fo
  * Implements hook_form_FORM_ID_alter().
  */
 function schemadotorg_paragraphs_form_schemadotorg_types_settings_form_alter(array &$form, FormStateInterface $form_state): void {
-  if (!\Drupal::moduleHandler()->moduleExists('paragraphs_library')) {
-    return;
-  }
-
   $form['schemadotorg_paragraphs'] = [
     '#type' => 'details',
     '#title' => t('Paragraphs settings'),
@@ -350,6 +346,7 @@ function schemadotorg_paragraphs_form_schemadotorg_types_settings_form_alter(arr
     '#title' => t('Schema.org types that default to using the Paragraphs library'),
     '#description' => t('Enter Schema.org types that default to using the Paragraphs library.'),
     '#description_link' => 'types',
+    '#access' => \Drupal::moduleHandler()->moduleExists('paragraphs_library'),
   ];
   $form['schemadotorg_paragraphs']['property_access'] = [
     '#type' => 'schemadotorg_settings',
