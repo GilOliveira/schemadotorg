@@ -209,6 +209,13 @@ types:
     -
       title: 'Medical Professionals'
       uri: 'https://jsonld.com/person/medical-professionals/'
+  PodcastSeries:
+    -
+      title: 'Proposal: Podcast and PodcastEpisode #373'
+      uri: 'https://github.com/schemaorg/schemaorg/issues/373'
+    -
+      title: 'A Podcaster''s Guide to RSS'
+      uri: 'https://help.apple.com/itc/podcasts_connect/'
   Product:
     -
       title: 'How To Add Product Structured Data'
