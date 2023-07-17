@@ -747,7 +747,6 @@ schema_properties:
     - accessibilityFeature
     - accessibilityHazard
     - accessibilitySummary
-    - accountablePerson
     - acquireLicensePage
     - actionableFeedbackPolicy
     - additionalProperty
