@@ -57,20 +57,13 @@ schema_types:
   medical_organization:
     label: 'Medical organization'
     types:
-      - MedicalTest
-      - MedicalWebPage
-      - Hospital
+      - MedicalOrganization
       - MedicalBusiness
-      - MedicalClinic
-      - DiagnosticLab
-      - Physician
   medical_information:
     label: 'Medical information'
     types:
       - HealthTopicContent
-      - Drug
-      - DietarySupplement
-      - MedicalStudy
-      - MedicalTrial
-      - MedicalCondition
+      - MedicalWebPage
+      - MedicalEntity
+      - MedicalTest
 existing_nodes_link_text: 'View existing %type_label content'
