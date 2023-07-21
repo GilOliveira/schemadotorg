@@ -5,3 +5,4 @@ default_properties:
   containedInPlace: containsPlace
   worksFor: employee
   department: department
+  offeredBy: makesOffer

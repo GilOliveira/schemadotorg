@@ -8,6 +8,7 @@
 declare(strict_types = 1);
 
 use Drupal\Core\Field\FieldItemInterface;
+use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /* ************************************************************************** */
 // Duration field.
@@ -111,4 +112,32 @@ function linkit_schemadotorg_property_field_alter(
   // Use linkit for the link URL autocompletion.
   $widget_id = 'linkit';
   $widget_settings = ['linkit_auto_link_text' => TRUE];
+}
+
+/* ************************************************************************** */
+// Entity Prepopulate.
+/* ************************************************************************** */
+
+/**
+ * Implements hook_schemadotorg_property_field_alter() for the epp.module.
+ */
+function epp_schemadotorg_property_field_alter(
+  string $schema_type,
+  string $schema_property,
+  array &$field_storage_values,
+  array &$field_values,
+  ?string &$widget_id,
+  array &$widget_settings,
+  ?string &$formatter_id,
+  array &$formatter_settings
+): void {
+  // Make sure the field type is set to 'entity_reference'.
+  if (!in_array($field_storage_values['type'], ['entity_reference', 'entity_reference_revisions'])) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
+  $schema_names = \Drupal::service('schemadotorg.names');
+  $name = str_replace($schema_names->getFieldPrefix(), '', $field_values['field_name']);
+  $field_values['third_party_settings']['epp']['value'] = 'target_id: [current-page:query:' . $name . ']';
 }

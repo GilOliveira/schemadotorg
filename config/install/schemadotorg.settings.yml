@@ -505,19 +505,19 @@ schema_types:
       - proprietaryName
       - relatedDrug
     Organization:
-      - address
       - description
-      - email
       - image
       - name
       - sameAs
-      - telephone
     EducationalOrganization:
       - alumni
       - nonprofitStatus
     LocalBusiness:
+      - address
+      - email
       - employee
       - openingHours
+      - telephone
     Hospital:
       - availableService
       - medicalSpecialty
@@ -541,12 +541,10 @@ schema_types:
     MedicalBusiness:
       - amenityFeature
       - availableService
-      - email
       - hospitalAffiliation
       - isAcceptingNewPatients
       - medicalSpecialty
       - openingHours
-      - telephone
     MedicalClinic:
       - availableService
       - medicalSpecialty
@@ -555,7 +553,6 @@ schema_types:
       - hospitalAffiliation
       - medicalSpecialty
     MedicalOrganization:
-      - '-address'
       - healthPlanNetworkId
       - medicalSpecialty
     DiagnosticLab:
@@ -1121,6 +1118,8 @@ schema_properties:
       unlimited: true
     overdosage:
       type: text_long
+    parentOrganization:
+      unlimited: true
     partOfSeason:
       required: true
     partOfSeries:
@@ -1206,6 +1205,8 @@ schema_properties:
       label: 'Study subjects'
       unlimited: true
     subjectOf:
+      unlimited: true
+    subOrganization:
       unlimited: true
     suitableForDiet:
       label: 'Suitable for diets'
