@@ -136,6 +136,7 @@ function epp_schemadotorg_property_field_alter(
     return;
   }
 
+  // Allow all entity reference to be prepopulated via query string parameters.
   /** @var \Drupal\schemadotorg\SchemaDotOrgNamesInterface $schema_names */
   $schema_names = \Drupal::service('schemadotorg.names');
   $name = str_replace($schema_names->getFieldPrefix(), '', $field_values['field_name']);
