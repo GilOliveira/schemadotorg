@@ -12,7 +12,7 @@ use Drupal\Tests\schemadotorg_jsonapi\Kernel\SchemaDotOrgJsonApiKernelTestBase;
  * @covers schemadotorg_role_jsonapi_resource_config_presave()
  * @group schemadotorg
  */
-class SchemaDotOrgRoleJsonApiTest extends SchemaDotOrgJsonApiKernelTestBase {
+class SchemaDotOrgRoleFieldJsonApiTest extends SchemaDotOrgJsonApiKernelTestBase {
 
   /**
    * Modules to install.

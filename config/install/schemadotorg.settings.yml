@@ -734,8 +734,6 @@ schema_properties:
       - VideoObject
     itemListElement:
       - CreativeWork
-    member:
-      - Organization
   ignored_properties:
     - accessMode
     - accessModeSufficient

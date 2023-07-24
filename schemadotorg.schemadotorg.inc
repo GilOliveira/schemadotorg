@@ -8,7 +8,6 @@
 declare(strict_types = 1);
 
 use Drupal\Core\Field\FieldItemInterface;
-use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 
 /* ************************************************************************** */
 // Duration field.

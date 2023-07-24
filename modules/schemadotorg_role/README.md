@@ -4,7 +4,7 @@ Table of contents
 * Introduction
 * Features
 * Configuration
-
+* Requirements
 
 Introduction
 ------------
@@ -19,6 +19,7 @@ Features
 - Allows dedicated role fields to be created with Schema.org type.
 - Adds role field values to JSON-LD property.
 - Exposes role fields to JSON:API.
+- Use Entity Reference Override fields for role related fields.
 
 
 Configuration
@@ -29,3 +30,19 @@ Configuration
 - Go to the 'Role settings' details.
 - Enter role field definitions which will be available to Schema.org properties.
 - Enter Schema.org properties and their roles.
+- Enter the Schema.org properties that should should use the Entity Reference 
+  Override field to capture an entity references roles.
+
+
+Requirements
+------------
+
+- **[Entity Reference Override](https://www.drupal.org/project/entity_reference_override)**  
+  Provides entity reference field with overridable label.
+
+
+Todo
+----
+
+- [Issue #2822973 by alexpott: Add entity_browser support](https://www.drupal.org/project/entity_reference_override/issues/2822973)
+  
