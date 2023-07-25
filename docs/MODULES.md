@@ -41,10 +41,13 @@ Schema.org types.
   Manages roles (https://schema.org/Role) for Schema.org properties.
 
 - **[Schema.org Blueprints Subtype](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_subtype)**  
-  Subtypes allow more specificity without having to create dedicated entity types for every appropriate Schema.type.
+  Subtypes allow more specificity without having to create dedicated entity types for every appropriate Schema.org type.
 
 - **[Schema.org Blueprints Translation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_translation)**  
   Manages translations for Schema.org types and properties as they are created.
+
+- **[Schema.org Blueprints Starterkit (API)](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_starterkit)**  
+  Provides an API for starterkits to create Schema.org types.
 
 # Fields
 
