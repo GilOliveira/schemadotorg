@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ * Allows users to preview a web page's Schema.org JSON-LD.
+ */
+
+declare(strict_types = 1);
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function schemadotorg_diagram_preprocess_html(array &$variables): void {
+  // Check if the user can view Schema.org diagrams.
+  if (!\Drupal::currentUser()->hasPermission('view schemadotorg diagram')) {
+    return;
+  }
+
+  // Get the current page's node.
+  $current_node = \Drupal::routeMatch()->getParameter('node');
+  if (!$current_node
+    || !($current_node instanceof NodeInterface)
+    || !node_is_page($current_node)) {
+    return;
+  }
+
+  /** @var \Drupal\schemadotorg_diagram\SchemaDotOrgDiagramOrganizationInterface $diagram_organization */
+  $diagram_organization = \Drupal::service('schemadotorg_diagram.organization');
+  $organization_build = $diagram_organization->build($current_node);
+  if ($organization_build) {
+    $variables['page']['content']['schemadotorg_diagram'] = [
+      '#type' => 'details',
+      '#title' => t('Schema.org Diagrams'),
+      '#attributes' => [
+        'id' => 'schemadotorg-diagram',
+        'data-schemadotorg-details-key' => 'schemadotorg-diagram',
+      ],
+      '#attached' => ['library' => ['schemadotorg/schemadotorg.details']],
+      'organization' => $organization_build,
+    ];
+  }
+}
