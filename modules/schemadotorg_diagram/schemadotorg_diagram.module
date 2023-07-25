@@ -6,6 +6,7 @@
  */
 
 declare(strict_types = 1);
+
 use Drupal\node\NodeInterface;
 
 /**
@@ -25,19 +26,25 @@ function schemadotorg_diagram_preprocess_html(array &$variables): void {
     return;
   }
 
+
+  $diagrams = [];
+
+  // Organization.
   /** @var \Drupal\schemadotorg_diagram\SchemaDotOrgDiagramOrganizationInterface $diagram_organization */
   $diagram_organization = \Drupal::service('schemadotorg_diagram.organization');
-  $organization_build = $diagram_organization->build($current_node);
-  if ($organization_build) {
+  $diagrams['organization'] = $diagram_organization->build($current_node);
+
+  $diagrams = array_filter($diagrams);
+
+  if ($diagrams) {
     $variables['page']['content']['schemadotorg_diagram'] = [
       '#type' => 'details',
-      '#title' => t('Schema.org Diagrams'),
+      '#title' => t('Schema.org diagrams'),
       '#attributes' => [
         'id' => 'schemadotorg-diagram',
         'data-schemadotorg-details-key' => 'schemadotorg-diagram',
       ],
       '#attached' => ['library' => ['schemadotorg/schemadotorg.details']],
-      'organization' => $organization_build,
-    ];
+    ] + $diagrams;
   }
 }

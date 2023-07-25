@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_diagram;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -54,13 +56,12 @@ class SchemaDotOrgDiagramOrganization implements SchemaDotOrgDiagramOrganization
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
    */
-
   public function __construct(
     protected AccountInterface $currentUser,
     protected ConfigFactoryInterface $configFactory,
     protected RouteMatchInterface $routeMatch,
     protected EntityTypeManagerInterface $entityTypeManager
-  ) { }
+  ) {}
 
   /**
    * {@inheritdoc}
@@ -80,7 +81,7 @@ class SchemaDotOrgDiagramOrganization implements SchemaDotOrgDiagramOrganization
     $node_id = '1-' . $node->id();
     $this->appendNodeToOutput($output, $node_id, $node, static::CIRCLE);
 
-    // Build parent nodes
+    // Build parent nodes.
     // @see https://schema.org/parentOrganization
     if ($parent_organization_field_name) {
       foreach ($node->$parent_organization_field_name as $item) {
@@ -89,11 +90,11 @@ class SchemaDotOrgDiagramOrganization implements SchemaDotOrgDiagramOrganization
 
         $parent_id = '0-' . $parent_node->id();
 
-        // Build child container and link.
+        // Build parent container and link.
         $this->appendNodeToOutput($output, $parent_id, $parent_node, static::ROUNDED_RECTANGLE);
 
         // Build connector from parent to child.
-        $output[] = $parent_id . ' -...- ' . $node_id;
+        $output[] = $parent_id . ' -.- ' . $node_id;
       }
     }
 
@@ -134,7 +135,7 @@ class SchemaDotOrgDiagramOrganization implements SchemaDotOrgDiagramOrganization
    * @param int $depth
    *   The current depth of the recursion.
    */
-  protected function buildFlowChartRecursive(array &$output, NodeInterface $node, $depth): void {
+  protected function buildFlowChartRecursive(array &$output, NodeInterface $node, int $depth): void {
     $sub_organization_field_name = $this->getEntityReferenceFieldName($node, 'subOrganization');
     if (!$sub_organization_field_name) {
       return;
@@ -148,7 +149,7 @@ class SchemaDotOrgDiagramOrganization implements SchemaDotOrgDiagramOrganization
       $child_id = $depth . '-' . $child_node->id();
 
       // Build connector from parent to child.
-      $output[] = $parent_id . ' --- '. $child_id;
+      $output[] = $parent_id . ' --- ' . $child_id;
 
       // Build child container and link.
       $this->appendNodeToOutput($output, $child_id, $child_node);
@@ -159,22 +160,27 @@ class SchemaDotOrgDiagramOrganization implements SchemaDotOrgDiagramOrganization
     }
   }
 
-  protected function appendNodeToOutput(array &$output, string $id, NodeInterface $node, string $shape = NULL) {
+  /**
+   *
+   */
+  protected function appendNodeToOutput(array &$output, string $id, NodeInterface $node, ?string $shape = NULL): void {
     // URI.
     $node_uri = $node->toUrl()->setAbsolute()->toString();
 
-    // Title.
+    // Title with Schema.org type.
     $node_title = '**' . $node->label() . '**';
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorage $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
     $mapping = $mapping_storage->loadByEntity($node);
     if ($mapping) {
       $field_name = $mapping->getSchemaPropertyFieldName('subtype');
-      $schema_type = $node->get($field_name)->value ?? $mapping->getSchemaType();
-      $node_title .= PHP_EOL . '(' . $schema_type . ')';
+      if ($field_name && $node->hasField($field_name)) {
+        $schema_type = $node->get($field_name)->value ?? $mapping->getSchemaType();
+        $node_title .= PHP_EOL . '(' . $schema_type . ')';
+      }
     }
 
-    // Shape.
+    // Shape with style.
     switch ($shape) {
       case static::CIRCLE;
         $output[] = $id . '(("`' . $node_title . '`"))';
@@ -196,6 +202,17 @@ class SchemaDotOrgDiagramOrganization implements SchemaDotOrgDiagramOrganization
     $output[] = 'click ' . $id . ' "' . $node_uri . '"';
   }
 
+  /**
+   * Get a node's entity reference field for a Schema.org property.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   A node.
+   * @param string $schema_property
+   *   A Schema.org property.
+   *
+   * @return string|null
+   *   A node's entity reference field for a Schema.org property.
+   */
   protected function getEntityReferenceFieldName(NodeInterface $node, string $schema_property): ?string {
     /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorage $mapping_storage */
     $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
@@ -205,7 +222,8 @@ class SchemaDotOrgDiagramOrganization implements SchemaDotOrgDiagramOrganization
     }
 
     $field_name = $mapping->getSchemaPropertyFieldName($schema_property);
-    if (!$node->hasField($field_name)
+    if (!$field_name
+      || !$node->hasField($field_name)
       || !($node->$field_name instanceof EntityReferenceFieldItemListInterface)) {
       return NULL;
     }

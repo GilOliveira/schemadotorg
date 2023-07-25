@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\schemadotorg_diagram;
 
 use Drupal\node\NodeInterface;
