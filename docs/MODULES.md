@@ -28,7 +28,7 @@ Schema.org types.
 - **[Schema.org Blueprints Descriptions](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_descriptions)**  
   Sets entity type and field descriptions to their corresponding Schema.org type and property comments.
 
-- **[Schema.org Blueprints Export](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_export)**  
+- **[Schema.org Blueprints Diagram](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_diagram)**  
   Provides a CSV export of Schema.org type mappings.
 
 - **[Schema.org Blueprints Identifier](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_identifier)**  

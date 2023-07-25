@@ -12,8 +12,7 @@ Introduction
 ------------
 
 The **Schema.org Blueprints Diagramn** module provides
-diagrams for Schema.org relationships which includes
-https://schema.org/Organization.
+diagrams for Schema.org relationships.
 
 
 Features
