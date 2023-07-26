@@ -4,5 +4,4 @@ default_properties:
   subjectOf: about
   containedInPlace: containsPlace
   worksFor: employee
-  department: department
   offeredBy: makesOffer

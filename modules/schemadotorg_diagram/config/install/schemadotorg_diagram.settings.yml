@@ -1,0 +1,25 @@
+diagrams:
+  organization:
+    title: Organization
+    parent: parentOrganization
+    child: subOrganization
+  local_business:
+    title: 'Local Business'
+    parent: ''
+    child: department
+  employee:
+    title: Employees
+    parent: ''
+    child: employee
+  works_for:
+    title: 'Works for'
+    parent: ''
+    child: worksFor
+  member:
+    title: Members
+    parent: ''
+    child: member
+  member_of:
+    title: 'Member of'
+    parent: ''
+    child: memberOf
