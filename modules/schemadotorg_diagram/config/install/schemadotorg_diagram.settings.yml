@@ -23,3 +23,7 @@ diagrams:
     title: 'Member of'
     parent: memberOf
     child: ''
+  partOfSeries:
+    title: 'Part of series'
+    parent: partOfSeries
+    child: ''
