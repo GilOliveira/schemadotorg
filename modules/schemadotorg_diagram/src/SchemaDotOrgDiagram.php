@@ -127,19 +127,27 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
       ];
     }
 
-    // Properties.
-    $build['properties'] = [
-      '#prefix' => '<p>',
+    // Relationships.
+    $build['relationships'] = [
+      '#prefix' => '<p class="schemadotorg-diagram-relationships">',
       '#suffix' => '</p>',
     ];
+    // Relationships: Parent.
     if ($this->parentProperty && $parent_output) {
-      $build['properties']['parent'] = $this->schemaTypeBuilder->buildItemsLinks('https://schema.org/' . $this->parentProperty);
+      $build['relationships']['parent'] = $this->schemaTypeBuilder->buildItemsLinks('https://schema.org/' . $this->parentProperty);
     }
-    if (($this->parentProperty && $parent_output) && ($this->childProperty && $child_output)) {
-      $build['properties']['divider'] = ['#markup' => ' ↔ '];
+    // Relationships: Current.
+    $schema_type = $this->getNodeSchemaType($node) ?? (string) t('{current}');
+    $build['relationships']['current'] = $this->schemaTypeBuilder->buildItemsLinks('https://schema.org/' . $schema_type);;
+    if (($this->parentProperty && $parent_output)) {
+      $build['relationships']['current']['#prefix'] = ' → ';
     }
     if ($this->childProperty && $child_output) {
-      $build['properties']['child'] = $this->schemaTypeBuilder->buildItemsLinks('https://schema.org/' . $this->childProperty);
+      $build['relationships']['current']['#suffix'] = ' → ';
+    }
+    // Relationships: Child.
+    if ($this->childProperty && $child_output) {
+      $build['relationships']['child'] = $this->schemaTypeBuilder->buildItemsLinks('https://schema.org/' . $this->childProperty);
     }
 
     // Mermaid.js diagram.
@@ -257,18 +265,12 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
 
     // Title with Schema.org type.
     $node_title = '**' . $node->label() . '**';
-    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorage $mapping_storage */
-    $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
-    $mapping = $mapping_storage->loadByEntity($node);
-    if ($mapping) {
-      $field_name = $mapping->getSchemaPropertyFieldName('subtype');
-      if ($field_name && $node->hasField($field_name)) {
-        $schema_type = $node->get($field_name)->value ?? $mapping->getSchemaType();
-        $node_title .= PHP_EOL . '(' . $schema_type . ')';
-      }
+    $schema_type = $this->getNodeSchemaType($node);
+    if ($schema_type) {
+      $node_title .= PHP_EOL . '(' . $schema_type . ')';
     }
 
-    // Shape with style.
+    // Node type shapes.
     switch ($type) {
       case static::CURRENT_NODE;
         // Pink circle with thick border.
@@ -291,6 +293,29 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
 
     // Link.
     $output[] = 'click ' . $id . ' "' . $node_uri . '"';
+  }
+
+  /**
+   * Get a node's Schema.org type.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   A node.
+   *
+   * @return string|null
+   *   A node's Schema.org type.
+   */
+  protected function getNodeSchemaType(NodeInterface $node): ?string {
+    /** @var \Drupal\schemadotorg\SchemaDotOrgMappingStorage $mapping_storage */
+    $mapping_storage = $this->entityTypeManager->getStorage('schemadotorg_mapping');
+    $mapping = $mapping_storage->loadByEntity($node);
+    if (!$mapping) {
+      return NULL;
+    }
+
+    $field_name = $mapping->getSchemaPropertyFieldName('subtype');
+    return ($field_name && $node->hasField($field_name) && $node->get($field_name)->value)
+      ? $node->get($field_name)->value
+      : $mapping->getSchemaType();
   }
 
   /**

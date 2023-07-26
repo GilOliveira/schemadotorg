@@ -71,17 +71,23 @@ class SchemaDotOrgDiagramTest extends SchemaDotOrgBrowserTestBase {
 
     // Check the parent - current - child flowchart markdown.
     $expected_text = 'flowchart TB
-1-3(("`**{Current}**`"))
+1-3(("`**{Current}**
+(Organization)`"))
 style 1-3 fill:#ffaacc,stroke:#333,stroke-width:4px;
 click 1-3 "' . $current_node->toUrl()->setAbsolute()->toString() . '"
-0-1("`**{Parent}**`")
+0-1("`**{Parent}**
+(Organization)`")
 style 0-1 stroke-dasharray: 5 5
 click 0-1 "' . $parent_node->toUrl()->setAbsolute()->toString() . '"
 0-1 -.- 1-3
 1-3 --- 2-2
-2-2["`**{Child}**`"]
+2-2["`**{Child}**
+(Organization)`"]
 click 2-2 "' . $child_node->toUrl()->setAbsolute()->toString() . '"';
     $assert_session->responseContains($expected_text);
+
+    // Check the parent - current - child relationships.
+    $assert_session->responseContains('<p class="schemadotorg-diagram-relationships"><a href="https://schema.org/parentOrganization">parentOrganization</a> → <a href="https://schema.org/Organization">Organization</a> → <a href="https://schema.org/subOrganization">subOrganization</a></p>');
 
   }
 
