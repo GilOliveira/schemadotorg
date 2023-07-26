@@ -28,7 +28,6 @@ function schemadotorg_diagram_preprocess_html(array &$variables): void {
     return;
   }
 
-
   /** @var \Drupal\schemadotorg_diagram\SchemaDotOrgDiagramInterface $diagram */
   $diagram = \Drupal::service('schemadotorg_diagram');
 

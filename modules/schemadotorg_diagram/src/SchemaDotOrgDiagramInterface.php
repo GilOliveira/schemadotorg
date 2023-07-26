@@ -20,7 +20,7 @@ interface SchemaDotOrgDiagramInterface {
    *   The parent Schema.org property.
    * @param string|null $child_property
    *   The child Schema.org property.
-   * @param string $title|null
+   * @param string|null $title
    *   The diagram's title.
    *
    * @return array|null

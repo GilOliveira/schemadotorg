@@ -25,19 +25,19 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
   use StringTranslationTrait;
 
   /**
-   * Circle.
+   * Current node.
    */
-  const CIRCLE = 'circle';
+  const CURRENT_NODE = 'current';
 
   /**
-   * Rounded rectangle.
+   * Parent node.
    */
-  const ROUNDED_RECTANGLE = 'rounded_rectangle';
+  const PARENT_NODE = 'parent';
 
   /**
-   * Rectangle.
+   * Child node.
    */
-  const RECTANGLE = 'rectangle';
+  const CHILD_NODE = 'child';
 
   /**
    * Max depth for hierarchy.
@@ -89,13 +89,17 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
     $this->parentProperty = $parent_property;
     $this->childProperty = $child_property;
 
+    // The current node's depth is 1, the parent nodes' depth is 0,
+    // and child nodes' depth starts at 2.
+    $depth = 1;
+
     // Build parent nodes output.
     $parent_output = [];
     $this->buildParentNodesOutput($parent_output, $node);
 
     // Build child nodes output.
     $child_output = [];
-    $this->buildChildNodesOutputRecursive($child_output, $node, 2);
+    $this->buildChildNodesOutputRecursive($child_output, $node);
 
     // Exit, if there are no parent or child outputs.
     if (empty($parent_output) && empty($child_output)) {
@@ -106,8 +110,8 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
     $output = ['flowchart TB'];
 
     // Build current node container.
-    $node_id = '1-' . $node->id();
-    $this->appendNodeToOutput($output, $node_id, $node, static::CIRCLE);
+    $node_id = $depth . '-' . $node->id();
+    $this->appendNodeToOutput($output, $node_id, $node, static::CURRENT_NODE);
 
     // Merge parent and child output.
     $output = array_merge($output, $parent_output, $child_output);
@@ -155,6 +159,14 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
     return $build;
   }
 
+  /**
+   * Build parent nodes.
+   *
+   * @param array &$output
+   *   Parent output.
+   * @param \Drupal\node\NodeInterface $node
+   *   The node.
+   */
   protected function buildParentNodesOutput(array &$output, NodeInterface $node): void {
     $parent_field_name = $this->getEntityReferenceFieldName($node, $this->parentProperty);
     if (!$parent_field_name) {
@@ -170,7 +182,7 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
       $parent_id = '0-' . $parent_node->id();
 
       // Build parent container and link.
-      $this->appendNodeToOutput($output, $parent_id, $parent_node, static::ROUNDED_RECTANGLE);
+      $this->appendNodeToOutput($output, $parent_id, $parent_node, static::PARENT_NODE);
 
       // Build connector from parent to child.
       $output[] = $parent_id . ' -.- ' . $node_id;
@@ -180,12 +192,14 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
   /**
    * Build child nodes recursively.
    *
+   * @param array &$output
+   *   Child output.
    * @param \Drupal\node\NodeInterface $node
    *   The node.
    * @param int $depth
    *   The current depth of the recursion.
    */
-  protected function buildChildNodesOutputRecursive(array &$output, NodeInterface $node, int $depth): void {
+  protected function buildChildNodesOutputRecursive(array &$output, NodeInterface $node, int $depth = 2): void {
     $child_field_name = $this->getEntityReferenceFieldName($node, $this->childProperty);
     if (!$child_field_name) {
       return;
@@ -210,7 +224,7 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
           ? (string) check_markup($override, $override_format)
           : $override;
         $connector_label = Unicode::truncate($connector_label, 30, TRUE, TRUE);
-        $output[] = $parent_id . ' --- |"`' . $connector_label . '`"|' .$child_id;
+        $output[] = $parent_id . ' --- |"`' . $connector_label . '`"|' . $child_id;
       }
       else {
         $output[] = $parent_id . ' --- ' . $child_id;
@@ -226,9 +240,18 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
   }
 
   /**
+   * Append the node to the diagram's output.
    *
+   * @param array &$output
+   *   The output.
+   * @param string $id
+   *   The node's id prefixed with its depth.
+   * @param \Drupal\node\NodeInterface $node
+   *   The node.
+   * @param string|null $type
+   *   The node's container type.
    */
-  protected function appendNodeToOutput(array &$output, string $id, NodeInterface $node, ?string $shape = NULL): void {
+  protected function appendNodeToOutput(array &$output, string $id, NodeInterface $node, ?string $type = NULL): void {
     // URI.
     $node_uri = $node->toUrl()->setAbsolute()->toString();
 
@@ -246,19 +269,22 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
     }
 
     // Shape with style.
-    switch ($shape) {
-      case static::CIRCLE;
+    switch ($type) {
+      case static::CURRENT_NODE;
+        // Pink circle with thick border.
         $output[] = $id . '(("`' . $node_title . '`"))';
         $output[] = "style $id fill:#ffaacc,stroke:#333,stroke-width:4px;";
         break;
 
-      case static::ROUNDED_RECTANGLE;
+      case static::PARENT_NODE;
+        // Rounded rectangle with dotted border.
         $output[] = $id . '("`' . $node_title . '`")';
         $output[] = "style $id stroke-dasharray: 5 5";
         break;
 
-      case static::RECTANGLE;
+      case static::CHILD_NODE;
       default;
+        // Rectangle.
         $output[] = $id . '["`' . $node_title . '`"]';
         break;
     }

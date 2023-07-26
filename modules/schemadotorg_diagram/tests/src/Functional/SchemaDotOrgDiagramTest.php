@@ -73,14 +73,14 @@ class SchemaDotOrgDiagramTest extends SchemaDotOrgBrowserTestBase {
     $expected_text = 'flowchart TB
 1-3(("`**{Current}**`"))
 style 1-3 fill:#ffaacc,stroke:#333,stroke-width:4px;
-click 1-3 "'. $current_node->toUrl()->setAbsolute()->toString() . '"
+click 1-3 "' . $current_node->toUrl()->setAbsolute()->toString() . '"
 0-1("`**{Parent}**`")
 style 0-1 stroke-dasharray: 5 5
-click 0-1 "'. $parent_node->toUrl()->setAbsolute()->toString() . '"
+click 0-1 "' . $parent_node->toUrl()->setAbsolute()->toString() . '"
 0-1 -.- 1-3
 1-3 --- 2-2
 2-2["`**{Child}**`"]
-click 2-2 "'. $child_node->toUrl()->setAbsolute()->toString() . '"';
+click 2-2 "' . $child_node->toUrl()->setAbsolute()->toString() . '"';
     $assert_session->responseContains($expected_text);
 
   }
