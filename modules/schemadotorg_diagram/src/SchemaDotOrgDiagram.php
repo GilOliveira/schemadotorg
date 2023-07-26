@@ -193,7 +193,7 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
       $this->appendNodeToOutput($output, $parent_id, $parent_node, static::PARENT_NODE);
 
       // Build connector from parent to child.
-      $output[] = $parent_id . ' -.- ' . $node_id;
+      $output[] = $parent_id . ' --- ' . $node_id;
     }
   }
 
@@ -279,11 +279,6 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
         break;
 
       case static::PARENT_NODE;
-        // Rounded rectangle with dotted border.
-        $output[] = $id . '("`' . $node_title . '`")';
-        $output[] = "style $id stroke-dasharray: 5 5";
-        break;
-
       case static::CHILD_NODE;
       default;
         // Rectangle.

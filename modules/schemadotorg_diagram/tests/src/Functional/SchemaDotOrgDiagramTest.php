@@ -75,11 +75,10 @@ class SchemaDotOrgDiagramTest extends SchemaDotOrgBrowserTestBase {
 (Organization)`"))
 style 1-3 fill:#ffaacc,stroke:#333,stroke-width:4px;
 click 1-3 "' . $current_node->toUrl()->setAbsolute()->toString() . '"
-0-1("`**{Parent}**
-(Organization)`")
-style 0-1 stroke-dasharray: 5 5
+0-1["`**{Parent}**
+(Organization)`"]
 click 0-1 "' . $parent_node->toUrl()->setAbsolute()->toString() . '"
-0-1 -.- 1-3
+0-1 --- 1-3
 1-3 --- 2-2
 2-2["`**{Child}**
 (Organization)`"]
