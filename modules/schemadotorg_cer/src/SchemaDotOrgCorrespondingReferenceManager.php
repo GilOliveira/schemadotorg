@@ -48,10 +48,12 @@ class SchemaDotOrgCorrespondingReferenceManager implements SchemaDotOrgCorrespon
     $default_properties = $this->configFactory
       ->get('schemadotorg_cer.settings')
       ->get('default_properties');
-    $default_properties += array_flip($default_properties);
-    foreach ($default_properties as $default_property) {
-      if (isset($defaults['properties'][$default_property])) {
-        $defaults['properties'][$default_property]['type'] = 'field_ui:entity_reference:node';
+    foreach ($default_properties as $first_property_name => $second_property_name) {
+      if (isset($defaults['properties'][$first_property_name])) {
+        $defaults['properties'][$first_property_name]['type'] = 'field_ui:entity_reference:node';
+      }
+      if (isset($defaults['properties'][$second_property_name])) {
+        $defaults['properties'][$second_property_name]['type'] = 'field_ui:entity_reference:node';
       }
     }
   }

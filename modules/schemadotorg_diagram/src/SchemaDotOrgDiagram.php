@@ -128,13 +128,13 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
       '#prefix' => '<p>',
       '#suffix' => '</p>',
     ];
-    if ($this->parentProperty) {
+    if ($this->parentProperty && $parent_output) {
       $build['properties']['parent'] = $this->schemaTypeBuilder->buildItemsLinks('https://schema.org/' . $this->parentProperty);
     }
-    if ($this->parentProperty && $this->childProperty) {
+    if (($this->parentProperty && $parent_output) && ($this->childProperty && $child_output)) {
       $build['properties']['divider'] = ['#markup' => ' ↔ '];
     }
-    if ($this->childProperty) {
+    if ($this->childProperty && $child_output) {
       $build['properties']['child'] = $this->schemaTypeBuilder->buildItemsLinks('https://schema.org/' . $this->childProperty);
     }
 
