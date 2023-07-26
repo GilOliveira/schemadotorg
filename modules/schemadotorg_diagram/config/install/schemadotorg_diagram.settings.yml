@@ -13,13 +13,13 @@ diagrams:
     child: employee
   works_for:
     title: 'Works for'
-    parent: ''
-    child: worksFor
+    parent: worksFor
+    child: ''
   member:
     title: Members
     parent: ''
     child: member
   member_of:
     title: 'Member of'
-    parent: ''
-    child: memberOf
+    parent: memberOf
+    child: ''
