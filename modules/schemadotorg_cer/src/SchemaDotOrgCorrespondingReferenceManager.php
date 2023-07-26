@@ -6,6 +6,7 @@ namespace Drupal\schemadotorg_cer;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\Plugin\DataType\EntityReference;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
@@ -212,7 +213,7 @@ class SchemaDotOrgCorrespondingReferenceManager implements SchemaDotOrgCorrespon
     }
 
     foreach ($fields as $field) {
-      if ($field->getType() !== 'entity_reference'
+      if ($field instanceof EntityReference
         || $field->getSetting('target_type') !== 'node') {
         return FALSE;
       }

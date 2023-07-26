@@ -7,10 +7,6 @@
 
 ((Drupal, mermaid, once) => {
 
-  mermaid.flowchartConfig = {
-    width: '100%',
-  };
-
   /**
    * Schema.org mermaid behaviors.
    *

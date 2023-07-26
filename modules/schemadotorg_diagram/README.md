@@ -30,6 +30,13 @@ Permissions
 - Configure 'View Schema.org Diagram' permission.  
   (/admin/people/permissions/module/schemadotorg_diagram)
 
+Settings
+
+- Go to the Schema.org general configuration page.  
+  (/admin/config/search/schemadotorg/settings/general)
+- Go to the 'Diagram settings' details.
+- Enter Schema.org diagrams title, parent, and child Schema.org properties.
+
 
 Concepts
 --------
