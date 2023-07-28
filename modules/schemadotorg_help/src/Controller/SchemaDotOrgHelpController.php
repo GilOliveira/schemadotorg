@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\schemadotorg_help\Controller;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -90,7 +91,8 @@ class SchemaDotOrgHelpController extends ControllerBase {
       ],
     ];
 
-    $module_readme = $this->extensionPathResolver->getPath('module', $name) . '/README.md';
+    $module_path = $this->extensionPathResolver->getPath('module', $name);
+    $module_readme = $module_path . '/README.md';
     if (!file_exists($module_readme)) {
       return $build;
     }
@@ -104,6 +106,28 @@ class SchemaDotOrgHelpController extends ControllerBase {
       // phpcs:ignore Drupal.Classes.FullyQualifiedNamespace.UseStatementMissing
       $markup = \Michelf\Markdown::defaultTransform($contents);
       $markup = preg_replace('#\(/(admin/.*?)\)#', '(<a href="' . $base_path . '$1">/$1</a>)', $markup);
+
+      // Replace @see DIAGRAM.html
+      $module_diagram = $module_path . '/DIAGRAM.html';
+      if (file_exists($module_diagram) && str_contains($markup, 'DIAGRAM.html')) {
+        $document = Html::load(file_get_contents($module_diagram));
+        $markup = preg_replace_callback(
+          '/<p>@see DIAGRAM\.html#([-_A-Za-z0-9]+)<\/p>/',
+          function ($matches) use ($document) {
+            $dom_node = $document->getElementById($matches[1]);
+            if ($dom_node) {
+              return $document->saveXML($dom_node);
+            }
+            else {
+              return '';
+            }
+          },
+          $markup
+        );
+
+        $build['#attached']['library'][] = 'schemadotorg/schemadotorg.mermaid';
+      }
+
       $build['readme'] = [
         '#markup' => $markup,
       ];
