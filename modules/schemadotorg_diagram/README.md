@@ -14,6 +14,9 @@ Introduction
 The **Schema.org Blueprints Diagramn** module provides
 diagrams for Schema.org relationships.
 
+Example of diagram via DIAGRAM.html.
+
+@see DIAGRAM.html#example
 
 Features
 --------

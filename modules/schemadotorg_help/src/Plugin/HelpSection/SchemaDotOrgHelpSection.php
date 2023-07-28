@@ -72,6 +72,7 @@ class SchemaDotOrgHelpSection extends HelpSectionPluginBase implements Container
     $topics = [];
     foreach ($modules as $module_name => $module_info) {
       $title = $module_info['name'];
+      $title = str_replace('Schema.org Blueprints ', '', $title);
       $url = Url::fromRoute('schemadotorg_help.page', ['name' => $module_name]);
       $topics[$module_name] = Link::fromTextAndUrl($title, $url)->toString();
     }

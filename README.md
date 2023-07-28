@@ -27,9 +27,8 @@ Once you understand Schema.org, please watch a
 
 Additional documentation
 
-- [docs/NOTES.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/NOTES.md)
+- [docs/DECISIONS.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/DECISIONS.md)
 - [docs/ROADMAP.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/ROADMAP.md)
-- [docs/FEATURES.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/FEATURES.md)
 - [docs/MODULES.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/MODULES.md)
 - [docs/DRUSH.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/DRUSH.md)
 - [docs/DEVELOPMENT.md](https://git.drupalcode.org/project/schemadotorg/-/blob/1.0.x/docs/DEVELOPMENT.md)

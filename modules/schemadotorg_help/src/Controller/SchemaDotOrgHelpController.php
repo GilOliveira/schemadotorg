@@ -428,6 +428,7 @@ class SchemaDotOrgHelpController extends ControllerBase {
     $operations = [];
     foreach ($modules as $module_name => $module_info) {
       $title = $module_info['name'];
+      $title = str_replace('Schema.org Blueprints ', '', $title);
       $url = Url::fromRoute('schemadotorg_help.page', ['name' => $module_name]);
       $operations[$module_name] = [
         'title' => $title,
