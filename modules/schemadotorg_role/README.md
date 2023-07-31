@@ -25,7 +25,7 @@ Features
 Configuration
 -------------
 
-- Go to the Schema.org properties configuration page.
+- Go to the Schema.org properties configuration page.  
   (/admin/config/search/schemadotorg/settings/properties)
 - Go to the 'Role settings' details.
 - Enter role field definitions which will be available to Schema.org properties.
@@ -44,5 +44,5 @@ Requirements
 Todo
 ----
 
-- [Issue #2822973 by alexpott: Add entity_browser support](https://www.drupal.org/project/entity_reference_override/issues/2822973)
+- [Issue #2822973: Add entity_browser support to Entity Reference Override](https://www.drupal.org/project/entity_reference_override/issues/2822973)
   

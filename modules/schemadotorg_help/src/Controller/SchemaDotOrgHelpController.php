@@ -97,6 +97,8 @@ class SchemaDotOrgHelpController extends ControllerBase {
       return $build;
     }
 
+    $build['#title'] =  $this->moduleHandler()->getName($name);
+
     $contents = file_get_contents($module_readme);
 
     // Remove the table of contents.
@@ -106,6 +108,10 @@ class SchemaDotOrgHelpController extends ControllerBase {
       // phpcs:ignore Drupal.Classes.FullyQualifiedNamespace.UseStatementMissing
       $markup = \Michelf\Markdown::defaultTransform($contents);
       $markup = preg_replace('#\(/(admin/.*?)\)#', '(<a href="' . $base_path . '$1">/$1</a>)', $markup);
+
+      // Create fake filter object with settings.
+      $filter = (object) ['settings' =>  ['filter_url_length' => 255]];
+      $markup = _filter_url($markup , $filter);
 
       // Replace @see DIAGRAM.html
       $module_diagram = $module_path . '/DIAGRAM.html';

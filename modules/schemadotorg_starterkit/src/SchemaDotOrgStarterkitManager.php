@@ -266,7 +266,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
 
     $settings = Yaml::decode(file_get_contents($module_schemadotorg_path));
     return ($settings !== TRUE ? $settings : [])
-      + ['dependencies' => [], 'types' => []];
+      + ['hidden' => FALSE, 'dependencies' => [], 'types' => []];
   }
 
   /**

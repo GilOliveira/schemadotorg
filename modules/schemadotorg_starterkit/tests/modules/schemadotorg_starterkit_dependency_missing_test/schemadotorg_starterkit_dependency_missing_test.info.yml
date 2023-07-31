@@ -3,5 +3,6 @@ type: module
 description: 'Support module for Schema.org Blueprints Start Kit dependency testing.'
 package: Schema.org Blueprints Test
 core_version_requirement: '^9.4 || ^10.0'
+hidden: true
 dependencies:
   - 'schemadotorg:schemadotorg_starterkit'
