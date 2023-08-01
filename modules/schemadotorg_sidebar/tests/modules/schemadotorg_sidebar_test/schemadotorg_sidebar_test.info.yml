@@ -7,4 +7,3 @@ dependencies:
   - 'drupal:text'
   - 'config_rewrite:config_rewrite'
   - 'schemadotorg:schemadotorg_sidebar'
-

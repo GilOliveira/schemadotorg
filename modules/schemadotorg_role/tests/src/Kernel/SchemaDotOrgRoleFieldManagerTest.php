@@ -11,10 +11,10 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 /**
  * Tests the functionality of the Schema.org role field.
  *
- * @covers \Drupal\schemadotorg_role\SchemaDotOrgRoleManager
+ * @covers \Drupal\schemadotorg_role\SchemaDotOrgRoleFieldManager
  * @group schemadotorg
  */
-class SchemaDotOrgRoleManagerTest extends SchemaDotOrgKernelEntityTestBase {
+class SchemaDotOrgRoleFieldManagerTest extends SchemaDotOrgKernelEntityTestBase {
 
   /**
    * Modules to install.
@@ -37,7 +37,7 @@ class SchemaDotOrgRoleManagerTest extends SchemaDotOrgKernelEntityTestBase {
   /**
    * The Schema.org role manager.
    *
-   * @var \Drupal\schemadotorg_role\SchemaDotOrgRoleManagerInterface
+   * @var \Drupal\schemadotorg_role\SchemaDotOrgRoleFieldManagerInterface
    */
   protected $roleManager;
 
@@ -53,7 +53,7 @@ class SchemaDotOrgRoleManagerTest extends SchemaDotOrgKernelEntityTestBase {
 
     $this->entityDisplayRepository = $this->container->get('entity_display.repository');
 
-    $this->roleManager = $this->container->get('schemadotorg_role.manager');
+    $this->roleManager = $this->container->get('schemadotorg_role.field_manager');
   }
 
   /**

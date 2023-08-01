@@ -65,6 +65,11 @@ class SchemadotorgStarterkitController extends ControllerBase {
 
       $settings = $this->schemaStarterkitManager->getStarterkitSettings($module_name);
 
+      // Skip hidden module.
+      if (!empty($module_data[$module_name]->info['hidden'])) {
+        continue;
+      }
+
       // Types.
       $types = [];
       if (!empty($settings['types'])) {
@@ -88,6 +93,7 @@ class SchemadotorgStarterkitController extends ControllerBase {
           }
         }
       }
+
       // Dependencies.
       $dependencies = [];
       foreach ($settings['dependencies'] as $dependency) {
@@ -100,8 +106,12 @@ class SchemadotorgStarterkitController extends ControllerBase {
         }
       };
 
+      $title = $starterkit['name'];
+      $title = str_replace('Schema.org Blueprints Starterkit: ', '', $title);
+      $title = str_replace('Schema.org Blueprints ', '', $title);
+
       $row = [];
-      $row['title'] = $starterkit['name'];
+      $row['title'] = $title;
       $row['installed'] = $is_installed ? $this->t('Yes') : $this->t('No');
       $row['types'] = [
         'data' => [

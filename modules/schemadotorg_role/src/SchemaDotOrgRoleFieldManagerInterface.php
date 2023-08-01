@@ -10,7 +10,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingInterface;
 /**
  * Schema.org role manager interface.
  */
-interface SchemaDotOrgRoleManagerInterface {
+interface SchemaDotOrgRoleFieldManagerInterface {
 
   /**
    * Alter Schema.org mapping entity default values.

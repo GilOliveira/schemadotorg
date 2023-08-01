@@ -1,6 +1,6 @@
 name: 'Schema.org Blueprints Subtype'
 type: module
-description: 'Subtypes allow more specificity without having to create dedicated entity types for every appropriate Schema.type.'
+description: 'Subtypes allow more specificity without having to create dedicated entity types for every appropriate Schema.org type.'
 package: Schema.org Blueprints Core
 core_version_requirement: '^9.4 || ^10.0'
 configure: schemadotorg.settings

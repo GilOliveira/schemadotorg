@@ -512,7 +512,7 @@ class SchemaDotOrgUiMappingForm extends EntityForm {
       ];
     }
 
-    // Schema.type.
+    // Schema.org type.
     $form['schema_type'] = [
       '#type' => 'item',
       '#title' => $this->t('Schema.org type'),

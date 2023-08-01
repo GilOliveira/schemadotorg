@@ -18,9 +18,9 @@ use Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface;
 use Drupal\schemadotorg_field_group\SchemaDotOrgFieldGroupEntityDisplayBuilderInterface;
 
 /**
- * Schema.org role manager.
+ * Schema.org role field manager.
  */
-class SchemaDotOrgRoleManager implements SchemaDotOrgRoleManagerInterface {
+class SchemaDotOrgRoleFieldManager implements SchemaDotOrgRoleFieldManagerInterface {
   use StringTranslationTrait;
 
   /**

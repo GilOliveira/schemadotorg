@@ -3,7 +3,6 @@ schema_types:
     label: Common
     types:
       - Place
-      - Organization
       - Person
       - Event
   web:
@@ -25,8 +24,7 @@ schema_types:
   organization:
     label: Organization
     types:
-      - LocalBusiness
-      - LodgingBusiness
+      - Organization
       - Service
       - JobPosting
   education:

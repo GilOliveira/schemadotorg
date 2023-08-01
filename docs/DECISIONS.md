@@ -137,6 +137,7 @@ Schema.org Blueprints Architecture Decisions Records (ADRs)
 0000 - Use entity reference-related modules for relationships
 - [Entity Embed](https://www.drupal.org/project/entity_embed) for building complex structured body content
 - [Existing Values Autocomplete Widget](https://www.drupal.org/project/existing_values_autocomplete_widget) for text fields with common values
+- [Entity Reference Override](https://www.drupal.org/project/entity_reference_override) for https://schema.org/Role relationships.
 - [Entity Reference Tree Widget](https://www.drupal.org/project/entity_reference_tree) for selecting hierarchical taxonomy terms
 - [Inline Entity Form](https://www.drupal.org/project/inline_entity_form) ⭐ for editing concrete and key relations
 - [Content Browser](https://www.drupal.org/project/content_browser) module for browsing and selecting content
@@ -150,6 +151,7 @@ Schema.org Blueprints Architecture Decisions Records (ADRs)
 
 0000 - For Demo & StarterKits: Use site builder tools as needed
 - [Automatic Entity Label](https://www.drupal.org/project/auto_entitylabel) ⭐for computed entity labels for [https://schema.org/Person](https://schema.org/Person)
+- [Convert Bundles](https://www.drupal.org/project/convert_bundles) for convert Schema.org types to more specific types.
 - [Focal Point](https://www.drupal.org/project/focal_point) ⭐for automated cropping of images
 - [Field Group](https://www.drupal.org/project/field_group) ⭐for grouping related fields
 - [Entity Clone](https://www.drupal.org/project/entity_clone) for cloning entities

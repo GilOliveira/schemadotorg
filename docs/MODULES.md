@@ -28,7 +28,7 @@ Schema.org types.
 - **[Schema.org Blueprints Descriptions](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_descriptions)**  
   Sets entity type and field descriptions to their corresponding Schema.org type and property comments.
 
-- **[Schema.org Blueprints Export](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_export)**  
+- **[Schema.org Blueprints Diagram](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_diagram)**  
   Provides a CSV export of Schema.org type mappings.
 
 - **[Schema.org Blueprints Identifier](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_identifier)**  
@@ -41,10 +41,13 @@ Schema.org types.
   Manages roles (https://schema.org/Role) for Schema.org properties.
 
 - **[Schema.org Blueprints Subtype](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_subtype)**  
-  Subtypes allow more specificity without having to create dedicated entity types for every appropriate Schema.type.
+  Subtypes allow more specificity without having to create dedicated entity types for every appropriate Schema.org type.
 
 - **[Schema.org Blueprints Translation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_translation)**  
   Manages translations for Schema.org types and properties as they are created.
+
+- **[Schema.org Blueprints Starterkit (API)](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_starterkit)**  
+  Provides an API for starterkits to create Schema.org types.
 
 # Fields
 

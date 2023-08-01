@@ -13,7 +13,7 @@ use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
  * @covers schemadotorg_role_schemadotorg_jsonld_schema_type_entity_load()
  * @group schemadotorg
  */
-class SchemaDotOrgRoleJsonLdTest extends SchemaDotOrgKernelEntityTestBase {
+class SchemaDotOrgRoleFieldJsonLdTest extends SchemaDotOrgKernelEntityTestBase {
 
   /**
    * Modules to install.

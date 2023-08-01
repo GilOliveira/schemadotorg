@@ -36,6 +36,7 @@
         "drupal/ckeditor": "~1.0",
         "drupal/custom_field": "~1.0",
         "drupal/entity_usage": "~2.0",
+        "drupal/entity_reference_override": "~2.0",
         "drupal/existing_values_autocomplete_widget": "~2.0",
         "drupal/field_group": "~3.0",
         "drupal/field_validation": "^1.0",

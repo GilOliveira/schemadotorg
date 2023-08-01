@@ -152,6 +152,15 @@ types:
     -
       title: 'Local Business'
       uri: 'https://jsonld.com/local-business/'
+    -
+      title: 'How to Create Local Business Schema for Multiple Locations'
+      uri: 'https://postelniak.com/blog/local-business-schema-for-multiple-locations/'
+    -
+      title: '2 Awesome JSON-LD Schema Hacks For Multiple Locations'
+      uri: 'https://intuitivedigital.com/blog/json-ld-for-multiple-locations/'
+    -
+      title: 'Local SEO: Schema Markup For Multiple Locations'
+      uri: 'https://m.youtube.com/watch?v=IQMvO_o3dRc'
   MathSolver:
     -
       title: 'Math Solvers Structured Data'

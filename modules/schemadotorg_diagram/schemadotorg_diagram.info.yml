@@ -1,0 +1,8 @@
+name: 'Schema.org Blueprints Diagram'
+type: module
+description: 'Provides diagrams for Schema.org relationships.'
+package: Schema.org Blueprints Core
+core_version_requirement: '^9.4 || ^10.0'
+configure: schemadotorg.settings.general
+dependencies:
+  - 'schemadotorg:schemadotorg'
