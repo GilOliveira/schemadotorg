@@ -97,7 +97,7 @@ class SchemaDotOrgHelpController extends ControllerBase {
       return $build;
     }
 
-    $build['#title'] =  $this->moduleHandler()->getName($name);
+    $build['#title'] = $this->moduleHandler()->getName($name);
 
     $contents = file_get_contents($module_readme);
 
@@ -110,10 +110,10 @@ class SchemaDotOrgHelpController extends ControllerBase {
       $markup = preg_replace('#\(/(admin/.*?)\)#', '(<a href="' . $base_path . '$1">/$1</a>)', $markup);
 
       // Create fake filter object with settings.
-      $filter = (object) ['settings' =>  ['filter_url_length' => 255]];
-      $markup = _filter_url($markup , $filter);
+      $filter = (object) ['settings' => ['filter_url_length' => 255]];
+      $markup = _filter_url($markup, $filter);
 
-      // Replace @see DIAGRAM.html
+      // Replace @see DIAGRAM.html.
       $module_diagram = $module_path . '/DIAGRAM.html';
       if (file_exists($module_diagram) && str_contains($markup, 'DIAGRAM.html')) {
         $document = Html::load(file_get_contents($module_diagram));

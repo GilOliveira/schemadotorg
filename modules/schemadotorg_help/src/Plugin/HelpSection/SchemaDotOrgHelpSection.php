@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_help\Plugin\HelpSection;
 
-use Drupal\Core\Extension\ModuleExtensionList;
 use Drupal\Core\Link;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Url;

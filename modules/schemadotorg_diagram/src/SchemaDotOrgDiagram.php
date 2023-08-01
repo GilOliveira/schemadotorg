@@ -137,8 +137,9 @@ class SchemaDotOrgDiagram implements SchemaDotOrgDiagramInterface {
       $build['relationships']['parent'] = $this->schemaTypeBuilder->buildItemsLinks('https://schema.org/' . $this->parentProperty);
     }
     // Relationships: Current.
-    $schema_type = $this->getNodeSchemaType($node) ?? (string) t('{current}');
-    $build['relationships']['current'] = $this->schemaTypeBuilder->buildItemsLinks('https://schema.org/' . $schema_type);;
+    $schema_type = $this->getNodeSchemaType($node) ?? (string) $this->t('{current}');
+    $build['relationships']['current'] = $this->schemaTypeBuilder->buildItemsLinks('https://schema.org/' . $schema_type);
+    ;
     if (($this->parentProperty && $parent_output)) {
       $build['relationships']['current']['#prefix'] = ' → ';
     }
