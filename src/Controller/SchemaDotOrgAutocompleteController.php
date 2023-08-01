@@ -31,26 +31,13 @@ class SchemaDotOrgAutocompleteController extends ControllerBase {
   protected $schemaTypeManager;
 
   /**
-   * The controller constructor.
-   *
-   * @param \Drupal\Core\Database\Connection $database
-   *   The database connection.
-   * @param \Drupal\schemadotorg\SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager
-   *   The Schema.org schema type manager.
-   */
-  public function __construct(Connection $database, SchemaDotOrgSchemaTypeManagerInterface $schema_type_manager) {
-    $this->database = $database;
-    $this->schemaTypeManager = $schema_type_manager;
-  }
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('database'),
-      $container->get('schemadotorg.schema_type_manager'),
-    );
+    $instance = new static();
+    $instance->database = $container->get('database');
+    $instance->schemaTypeManager = $container->get('schemadotorg.schema_type_manager');
+    return $instance;
   }
 
   /**
