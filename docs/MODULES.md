@@ -46,8 +46,8 @@ Schema.org types.
 - **[Schema.org Blueprints Translation](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_translation)**  
   Manages translations for Schema.org types and properties as they are created.
 
-- **[Schema.org Blueprints Starterkit (API)](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_starterkit)**  
-  Provides an API for starterkits to create Schema.org types.
+- **[Schema.org Blueprints Starter Kit (API)](https://git.drupalcode.org/project/schemadotorg/-/tree/1.0.x/modules/schemadotorg_starterkit)**  
+  Provides an API for starter kits to create Schema.org types.
 
 # Fields
 

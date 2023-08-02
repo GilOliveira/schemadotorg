@@ -7,7 +7,7 @@ namespace Drupal\Tests\schemadotorg_starterkti\Functional;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 
 /**
- * Tests the functionality of the Schema.org Starterkit module.
+ * Tests the functionality of the Schema.org Starter Kit module.
  *
  * @group schemadotorg
  */
@@ -81,7 +81,7 @@ class SchemaDotOrgStarterKitTest extends SchemaDotOrgBrowserTestBase {
 
     // Check node.person properties includes honorific suffix/prefix
     // and family name.
-    // This check confirms that starterkits can only add properties to
+    // This check confirms that starter kits can only add properties to
     // existing Schema.org types.
     // @see schemadotorg_starterkit_test.schemadotorg_starterkit.yml
     // @see schemadotorg_starterkit_dependency_test.schemadotorg_starterkit.yml

@@ -7,7 +7,7 @@ namespace Drupal\Tests\schemadotorg_starterkti\Functional;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 
 /**
- * Tests the functionality of the Schema.org Starterkit controller.
+ * Tests the functionality of the Schema.org Starter kit controller.
  *
  * @group schemadotorg
  */

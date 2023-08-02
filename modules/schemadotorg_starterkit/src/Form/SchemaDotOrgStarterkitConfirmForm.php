@@ -159,7 +159,7 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
         '%name' => $starterkit['name'],
         '%starterkits' => implode(', ', $missing_dependencies),
       ];
-      $message = $this->t('Unable to install %name due to missing starterkits %starterkits.', $t_args);
+      $message = $this->t('Unable to install %name due to missing starter kits %starterkits.', $t_args);
       $this->messenger()->addWarning($message);
       $form['#title'] = $this->getQuestion();
       return $form;
