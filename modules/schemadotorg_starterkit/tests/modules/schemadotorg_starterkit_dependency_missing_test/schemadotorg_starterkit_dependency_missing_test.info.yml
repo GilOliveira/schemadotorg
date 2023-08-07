@@ -1,4 +1,4 @@
-name: 'Schema.org Blueprints Starterkit: Test Dependency Missing'
+name: 'Schema.org Blueprints Starter Kit: Test Dependency Missing'
 type: module
 description: 'Support module for Schema.org Blueprints Start Kit dependency testing.'
 package: Schema.org Blueprints Test

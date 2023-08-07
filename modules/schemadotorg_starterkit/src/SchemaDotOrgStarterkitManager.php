@@ -18,7 +18,7 @@ use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
 use Drupal\schemadotorg\Traits\SchemaDotOrgDevelGenerateTrait;
 
 /**
- * Schema.org Starterkit manager service.
+ * Schema.org Starter kit manager service.
  */
 class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInterface {
   use SchemaDotOrgDevelGenerateTrait;

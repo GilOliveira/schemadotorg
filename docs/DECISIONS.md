@@ -24,7 +24,7 @@ Schema.org Blueprints Architecture Decisions Records (ADRs)
 - Structured data (Schema.org) fields are prefixed with schema_*
 - General (custom) fields are prefixed with field_*
 
-0000 - Use config snapshot test to confirm an expected configuration for starterkits
+0000 - Use config snapshot test to confirm an expected configuration for starter kits
 - @see \Drupal\Tests\schemadotorg\Functional\SchemaDotOrgConfigSnapshotTestBase
 
 0000 - Form elements should include a title and description that states the element's intent and usage
@@ -101,9 +101,9 @@ Schema.org Blueprints Architecture Decisions Records (ADRs)
 
 # 7000 - StarterKit and Demo
 
-0000 - Provide starterkits for common sets of Schema.org types with additional functionality.
+0000 - Provide starter kits for common sets of Schema.org types with additional functionality.
 
-0000 - Allows starterkits to add fields to existing Schema.org types.
+0000 - Allows starter kits to add fields to existing Schema.org types.
 
 0000 - Provide a demo profile and module that creates the ideal backend content management and authoring experience
 

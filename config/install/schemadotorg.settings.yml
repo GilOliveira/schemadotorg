@@ -732,8 +732,14 @@ schema_properties:
       - TVSeason
     VideoGallery--hasPart:
       - VideoObject
+    worksFor:
+      - LocalBusiness
+    employee:
+      - Person
     itemListElement:
       - CreativeWork
+    member:
+      - Person
   ignored_properties:
     - accessMode
     - accessModeSufficient

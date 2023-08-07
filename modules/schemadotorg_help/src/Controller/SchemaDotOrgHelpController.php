@@ -97,7 +97,7 @@ class SchemaDotOrgHelpController extends ControllerBase {
       return $build;
     }
 
-    $build['#title'] =  $this->moduleHandler()->getName($name);
+    $build['#title'] = $this->moduleHandler()->getName($name);
 
     $contents = file_get_contents($module_readme);
 

@@ -6,11 +6,12 @@ namespace Drupal\schemadotorg_starterkit\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
+use Drupal\Core\Site\Settings;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Returns responses for Schema.org Blueprints Starterkit routes.
+ * Returns responses for Schema.org Blueprints Starter Kit routes.
  */
 class SchemadotorgStarterkitController extends ControllerBase {
 
@@ -39,7 +40,7 @@ class SchemadotorgStarterkitController extends ControllerBase {
   }
 
   /**
-   * Builds the response for the starterkits overview page.
+   * Builds the response for the starter kits overview page.
    */
   public function overview(): array {
     // Header.
@@ -66,7 +67,8 @@ class SchemadotorgStarterkitController extends ControllerBase {
       $settings = $this->schemaStarterkitManager->getStarterkitSettings($module_name);
 
       // Skip hidden module.
-      if (!empty($module_data[$module_name]->info['hidden'])) {
+      if (!empty($module_data[$module_name]->info['hidden'])
+        && !drupal_valid_test_ua()) {
         continue;
       }
 
@@ -107,7 +109,7 @@ class SchemadotorgStarterkitController extends ControllerBase {
       };
 
       $title = $starterkit['name'];
-      $title = str_replace('Schema.org Blueprints Starterkit: ', '', $title);
+      $title = str_replace('Schema.org Blueprints Starter Kit: ', '', $title);
       $title = str_replace('Schema.org Blueprints ', '', $title);
 
       $row = [];

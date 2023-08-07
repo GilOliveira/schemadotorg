@@ -1,7 +1,7 @@
 schemadotorg_starterkit.overview:
   path: '/admin/config/search/schemadotorg/starterkits'
   defaults:
-    _title: 'Schema.org starterkits'
+    _title: 'Schema.org starter kits'
     _controller: '\Drupal\schemadotorg_starterkit\Controller\SchemadotorgStarterkitController::overview'
   requirements:
     _permission: 'administer schemadotorg'
