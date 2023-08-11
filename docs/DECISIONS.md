@@ -63,6 +63,14 @@ Schema.org Blueprints Architecture Decisions Records (ADRs)
 
 0000 - Examples from Schema.org should be considered the canonical reference for implementation guidelines
 
+0000 - Inverse of relationships
+- subOrganization ↔ parentOrganization: Used to build Organization hierarchy
+- memberOf ↔ member: Used to associate a Person with a (conceptual) Organization
+- worksFor ↔ employee: Used to associate a Person with a (physical) LocalBusiness
+- subjectOf ↔ about: Used to associate a Thing with a CreativeWork
+- isPartOf ↔ hasPart: Used to build CreativeWork parent/child relationships and hierarchies 
+- containedInPlace ↔ containsPlace: Used to associate Place within a Place.
+
 
 # 4000 - User experience
 

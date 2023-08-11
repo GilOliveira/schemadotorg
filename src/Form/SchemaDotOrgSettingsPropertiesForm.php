@@ -45,6 +45,15 @@ class SchemaDotOrgSettingsPropertiesForm extends SchemaDotOrgSettingsFormBase {
       '#description' => $this->t('Enter default Schema.org property field definition used when adding a Schema.org property to an entity type.'),
       '#description_link' => 'properties',
     ];
+    $form['schema_properties']['default_field_formatter_settings'] = [
+      '#type' => 'schemadotorg_settings',
+      '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
+      '#settings_format' => 'SchemaType--propertyName|label:hidden or propertyName|label:hidden',
+      '#title' => $this->t('Default Schema.org property field formatter settings'),
+      '#rows' => 20,
+      '#description' => $this->t('Enter default Schema.org property field formatter settings used when adding a Schema.org property to an entity type.'),
+      '#description_link' => 'properties',
+    ];
     $form['schema_properties']['default_field_types'] = [
       '#type' => 'schemadotorg_settings',
       '#settings_type' => SchemaDotOrgSettings::INDEXED_GROUPED,

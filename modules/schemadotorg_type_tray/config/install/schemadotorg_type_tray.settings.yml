@@ -11,9 +11,7 @@ schema_types:
       - WebPage
       - WebSite
       - FAQPage
-      - MediaGallery
-      - ImageGallery
-      - VideoGallery
+      - CollectionPage
   content:
     label: Content
     types:
@@ -63,5 +61,4 @@ schema_types:
       - HealthTopicContent
       - MedicalWebPage
       - MedicalEntity
-      - MedicalTest
 existing_nodes_link_text: 'View existing %type_label content'

@@ -102,6 +102,16 @@ schemadotorg.settings:
               max_length:
                 type: integer
                 label: 'Maximum length'
+        default_field_formatter_settings:
+          type: sequence
+          label: 'Default field formatter settings'
+          sequence:
+            type: mapping
+            label: 'Default field formatter setting'
+            mapping:
+              label:
+                type: string
+                label: 'Label'
         default_field_types:
           type: sequence
           label: 'Default field types'

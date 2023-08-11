@@ -39,6 +39,7 @@ class SchemaDotOrgOptionsTest extends SchemaDotOrgKernelEntityTestBase {
     $this->appendSchemaTypeDefaultProperties('Person', ['gender']);
     $this->createSchemaEntity('node', 'Person');
     $this->createSchemaEntity('node', 'Recipe');
+    $this->createSchemaEntity('node', 'MedicalStudy');
 
     // Check that gender is assigned custom allowed values..
     /** @var \Drupal\field\FieldStorageConfigInterface $field */
@@ -72,6 +73,29 @@ class SchemaDotOrgOptionsTest extends SchemaDotOrgKernelEntityTestBase {
       'VegetarianDiet' => 'Vegetarian',
     ];
     $this->assertEquals($expected_allowed_values, $field_storage->getSetting('allowed_values'));
+
+    // Check that status allowed values use OptGroup for multiple enumerations..
+    /** @var \Drupal\field\FieldStorageConfigInterface $field */
+    $field_storage = FieldStorageConfig::load('node.schema_status');
+    $expected_allowed_values = [
+      'EventCancelled' => 'Event Cancelled',
+      'EventMovedOnline' => 'Event Moved Online',
+      'EventPostponed' => 'Event Postponed',
+      'EventRescheduled' => 'Event Rescheduled',
+      'EventScheduled' => 'Event Scheduled',
+      'ActiveNotRecruiting' => 'Active not Recruiting',
+      'Completed' => 'Completed',
+      'EnrollingByInvitation' => 'Enrolling by Invitation',
+      'NotYetRecruiting' => 'Not Yet Recruiting',
+      'Recruiting' => 'Recruiting',
+      'ResultsAvailable' => 'Results Available',
+      'ResultsNotAvailable' => 'Results not Available',
+      'Suspended' => 'Suspended',
+      'Terminated' => 'Terminated',
+      'Withdrawn' => 'Withdrawn',
+    ];
+    $this->assertEquals($expected_allowed_values, $field_storage->getSetting('allowed_values'));
+
   }
 
 }

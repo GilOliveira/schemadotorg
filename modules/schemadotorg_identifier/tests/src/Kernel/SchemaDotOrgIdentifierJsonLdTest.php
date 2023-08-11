@@ -56,7 +56,7 @@ class SchemaDotOrgIdentifierJsonLdTest extends SchemaDotOrgKernelEntityTestBase 
     $this->createSchemaEntity('node', 'MedicalBusiness');
 
     $node = Node::create([
-      'type' => 'medical_business',
+      'type' => 'med_business',
       'title' => 'Something',
       'schema_identifier_npi' => [
         'value' => '000000000',

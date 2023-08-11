@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\schemadotorg;
 
 use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -22,6 +23,8 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
   /**
    * Constructs a SchemaDotOrgBuilder object.
    *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
+   *   The configuration object factory.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
@@ -38,6 +41,7 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
    *   The Schema.org entity display builder.
    */
   public function __construct(
+    protected ConfigFactoryInterface $configFactory,
     protected MessengerInterface $messenger,
     protected ModuleHandlerInterface $moduleHandler,
     protected EntityTypeManagerInterface $entityTypeManager,
@@ -434,6 +438,16 @@ class SchemaDotOrgEntityTypeBuilder implements SchemaDotOrgEntityTypeBuilderInte
     ?string &$formatter_id,
     array &$formatter_settings
   ): void {
+
+    // Set default formatter settings by schema type and property.
+    $default_field_formatter_settings = $this->configFactory
+      ->get('schemadotorg.settings')
+      ->get('schema_properties.default_field_formatter_settings');
+    $formatter_settings += $default_field_formatter_settings["$schema_type--$schema_property"]
+      ?? $default_field_formatter_settings[$schema_property]
+      ?? [];
+
+    // Set default by field storage type.
     switch ($field_storage_values['type']) {
       case 'boolean':
         $field_values['settings'] = [

@@ -175,7 +175,7 @@ function schemadotorg_epp_form_schemadotorg_properties_settings_form_alter(array
     '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
     '#settings_format' => 'SchemaType|property:SchemaType',
     '#title' => t('Node links'),
-    '#description' => t('Enter Schema.org parent type with child property and types that support entity reference prepopulation.'),
+    '#description' => t('Enter Schema.org parent type with child properties and types that support entity reference prepopulation.'),
     '#description_link' => 'properties',
   ];
   $form['schemadotorg_epp']['node_links_dropdown'] = [

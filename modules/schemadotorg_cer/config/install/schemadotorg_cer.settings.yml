@@ -6,3 +6,6 @@ default_properties:
   worksFor: employee
   department: parentOrganization
   offeredBy: makesOffer
+  healthCondition: study
+  relatedDrug: relatedDrug
+  isPartOf: hasPart

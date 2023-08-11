@@ -9,9 +9,15 @@ schema_types:
     QAPage:
       name: qa
       label: 'Q&A'
+    HealthTopicContent:
+      name: health_topic
+      label: Health Topic
     MedicalClinic:
       name: clinic
       label: Clinic
+    MedicalWebPage:
+      name: med_page
+      label: Medical Page
   main_properties:
     AudioObject: null
     Clip: null
@@ -428,26 +434,33 @@ schema_types:
     MedicalCondition:
       - epidemiology
       - expectedPrognosis
-      - medicineSystem
+      - naturalProgression
+      - pathophysiology
       - possibleComplication
       - possibleTreatment
       - primaryPrevention
-      - relevantSpecialty
       - riskFactor
       - secondaryPrevention
       - signOrSymptom
+      - study
+      - typicalTest
     InfectiousDisease:
       - infectiousAgent
       - infectiousAgentClass
       - transmissionMethod
     MedicalSignOrSymptom:
+      - '-epidemiology'
       - '-expectedPrognosis'
-      - '-medicineSystem'
+      - '-naturalProgression'
+      - '-pathophysiology'
       - '-possibleComplication'
-      - '-relevantSpecialty'
+      - '-possibleTreatment'
+      - '-primaryPrevention'
       - '-riskFactor'
       - '-secondaryPrevention'
       - '-signOrSymptom'
+      - '-study'
+      - '-typicalTest'
     MedicalDevice:
       - adverseOutcome
       - contraindication
@@ -459,13 +472,10 @@ schema_types:
       - followup
       - howPerformed
       - preparation
-      - procedureType
     MedicalRiskFactor:
       - increasesRiskOf
     MedicalStudy:
       - healthCondition
-      - medicineSystem
-      - relevantSpecialty
       - sponsor
       - status
       - studyLocation
@@ -473,13 +483,13 @@ schema_types:
     MedicalTrial:
       - trialDesign
     MedicalTest:
-      - affectedBy
       - usedToDiagnose
       - usesDevice
     Substance:
       - activeIngredient
       - maximumIntake
     DietarySupplement:
+      - alternateName
       - isProprietary
       - maximumIntake
       - mechanismOfAction
@@ -497,7 +507,6 @@ schema_types:
       - foodWarning
       - isAvailableGenerically
       - isProprietary
-      - manufacturer
       - maximumIntake
       - mechanismOfAction
       - nonProprietaryName
@@ -589,14 +598,8 @@ schema_types:
       - includesAttraction
       - touristType
     Product:
-      - alternateName
-      - brand
-      - category
       - description
       - image
-      - manufacturer
-      - material
-      - model
       - name
     Vehicle:
       - accelerationTime
@@ -740,6 +743,8 @@ schema_properties:
       - CreativeWork
     member:
       - Person
+    studyLocation:
+      - Place
   ignored_properties:
     - accessMode
     - accessModeSufficient
@@ -972,6 +977,8 @@ schema_properties:
       unlimited: true
     disambiguatingDescription:
       type: text_long
+    doseSchedule:
+      unlimited: true
     educationRequirements:
       unlimited: true
     educationalLevel:
@@ -1046,7 +1053,6 @@ schema_properties:
       label: 'Menu sections'
       unlimited: true
     hasPart:
-      label: Items
       unlimited: true
     healthCondition:
       label: 'Health conditions'
@@ -1062,7 +1068,7 @@ schema_properties:
     howPerformed:
       type: text_long
     increasesRiskOf:
-      unlimited: true
+      type: text_long
     itemListElement:
       type: text_long
       label: Items
@@ -1086,6 +1092,8 @@ schema_properties:
     material:
       label: Materials
       unlimited: true
+    maximumIntake:
+      unlimited: true
     mechanismOfAction:
       type: text_long
     medicalSpecialty:
@@ -1104,6 +1112,11 @@ schema_properties:
       label: 'Menu add-ons'
       unlimited: true
     musicBy:
+      unlimited: true
+    naturalProgression:
+      type: text_long
+    nonProprietaryName:
+      label: 'Non proprietary names'
       unlimited: true
     nsn:
       label: 'NATO Stock Number (NSN)'
@@ -1124,6 +1137,8 @@ schema_properties:
       type: text_long
     parentOrganization:
       unlimited: true
+    pathophysiology:
+      type: text_long
     partOfSeason:
       required: true
     partOfSeries:
@@ -1145,7 +1160,10 @@ schema_properties:
     primaryImageOfPage:
       name: image
     primaryPrevention:
+      label: 'Primary preventions'
       unlimited: true
+    preparation:
+      type: text_long
     productionCompany:
       label: 'Production companies'
       unlimited: true
@@ -1169,6 +1187,8 @@ schema_properties:
     recipeInstructions:
       type: string_long
       unlimited: true
+    recommendedIntake:
+      unlimited: true
     relatedDrug:
       label: 'Related drugs'
       unlimited: true
@@ -1190,6 +1210,7 @@ schema_properties:
     sameAs:
       unlimited: true
     secondaryPrevention:
+      label: 'Secondary preventions'
       unlimited: true
     signOrSymptom:
       label: 'Sign or symptoms'
@@ -1228,17 +1249,25 @@ schema_properties:
     trailer:
       label: Trailers
       unlimited: true
-    usedToDiagnose:
+    typicalTest:
+      label: 'Typical tests'
       unlimited: true
+    usedToDiagnose:
+      type: text_long
     usesDevice:
       type: text_long
-      label: Devices
-      unlimited: true
     width:
       type: string
     worksFor:
       type: string
       unlimited: true
+  default_field_formatter_settings:
+    address:
+      label: hidden
+    image:
+      label: hidden
+    primaryImageOfPage:
+      label: hidden
   default_field_types: {  }
   default_field_weights:
     - subtype

@@ -5,6 +5,8 @@ Table of contents
 * Features
 * Configuration
 * Requirements
+* Notes
+
 
 Introduction
 ------------
@@ -43,3 +45,9 @@ Requirements
 
 **[Paragraphs](https://www.drupal.org/project/paragraphs)**  
 Enables the creation of paragraphs entities.
+
+
+Notes
+-----
+
+- Icons are from [Font Awesome](https://fontawesome.com/)

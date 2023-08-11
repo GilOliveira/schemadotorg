@@ -40,7 +40,7 @@ prefixes:
   includes: inc
   item_defect_return: itm_def_ret
   maximum: max
-  medical_guideline: medical_guide
+  medical: med
   merchant_return_policy: mer_ret_pol
   number: num
   original: orig

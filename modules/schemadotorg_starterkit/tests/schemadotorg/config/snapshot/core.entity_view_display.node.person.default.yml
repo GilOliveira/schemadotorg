@@ -76,7 +76,7 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 14
+    weight: 17
     region: content
   links:
     settings: {  }
@@ -89,7 +89,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 6
+    weight: 9
     region: content
   schema_email:
     type: email_mailto
@@ -104,7 +104,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 7
+    weight: 10
     region: content
   schema_given_name:
     type: string
@@ -112,18 +112,18 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 5
+    weight: 8
     region: content
   schema_image:
     type: image
-    label: above
+    label: hidden
     settings:
       image_link: ''
       image_style: ''
       image_loading:
         attribute: lazy
     third_party_settings: {  }
-    weight: 20
+    weight: 22
     region: content
   schema_knows_language:
     type: string
@@ -131,7 +131,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 12
+    weight: 15
     region: content
   schema_member_of:
     type: string

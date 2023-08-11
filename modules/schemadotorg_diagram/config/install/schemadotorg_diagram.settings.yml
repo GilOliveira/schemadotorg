@@ -1,10 +1,18 @@
 diagrams:
-  organization:
-    title: Organization
+  subjectOf:
+    title: 'Subject of / About'
+    parent: subjectOf
+    child: about
+  isPartOf:
+    title: 'Is part of / Has part'
+    parent: isPartOf
+    child: hasPart
+  parentOrganization:
+    title: 'Parent organizations / Sub-organizations'
     parent: parentOrganization
     child: subOrganization
-  local_business:
-    title: 'Local Business'
+  departments:
+    title: 'Departments'
     parent: ''
     child: department
   employee:
@@ -27,3 +35,15 @@ diagrams:
     title: 'Part of series'
     parent: partOfSeries
     child: ''
+  healthCondition:
+    title: 'Health condition'
+    parent: ''
+    child: healthCondition
+  study:
+    title: 'Study'
+    parent: ''
+    child: study
+  relatedDrug:
+    title: 'Related drugs'
+    parent: ''
+    child: relatedDrug

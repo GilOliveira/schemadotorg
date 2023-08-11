@@ -5,4 +5,6 @@ node_links:
     parentOrganization: Organization
   HealthTopicContent:
     isPartOf: HealthTopicContent
+  MedicalEntity:
+    about: HealthTopicContent
 node_links_dropdown: true

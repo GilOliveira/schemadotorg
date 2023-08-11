@@ -45,7 +45,7 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 14
+    weight: 17
     region: content
   links:
     settings: {  }

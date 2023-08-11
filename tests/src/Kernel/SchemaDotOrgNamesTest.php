@@ -187,7 +187,7 @@ class SchemaDotOrgNamesTest extends SchemaDotOrgKernelTestBase {
       ['types', 'ActionAccessSpecification', 'action_access_specification'],
       ['types', 'DigitalDocumentPermissionType', 'digit_doc_permission_type'],
       ['types', 'EUEnergyEfficiencyCategoryA1Plus', 'eu_energy_eff_category_a1_plus'],
-      ['types', 'MedicalCode', 'medical_code'],
+      ['types', 'MedicalCode', 'med_code'],
       ['types', 'WearableMeasurementChestOrBust', 'wearable_measurement_chest_or_bust'],
       // Schema.org properties.
       ['properties', 'cvdNumBeds', 'cvd_beds'],
