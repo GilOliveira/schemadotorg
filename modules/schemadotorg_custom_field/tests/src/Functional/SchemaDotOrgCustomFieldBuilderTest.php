@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\Tests\schemadotorg_custom_field\Functional;
 
-use Drupal\node\Entity\Node;
 use Drupal\Tests\schemadotorg\Functional\SchemaDotOrgBrowserTestBase;
 
 /**
