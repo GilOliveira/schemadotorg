@@ -555,6 +555,28 @@ class SchemaDotOrgSchemaTypeManager implements SchemaDotOrgSchemaTypeManagerInte
   /**
    * {@inheritdoc}
    */
+  public function getParentTypes(string $type): array {
+    $breadcrumbs = $this->getTypeBreadcrumbs($type);
+
+    // Build parents types with a sortable key that ensure that the
+    // parent types are sorted from top to bottom.
+    // (i.e. Thing comes before Place or Organization)
+    $parent_types = [];
+    foreach (array_values($breadcrumbs) as $breadcrumb_index => $breadcrumb) {
+      foreach (array_values($breadcrumb) as $type_index => $type) {
+        $index = str_pad((string) $type_index, 3, '0', STR_PAD_LEFT)
+          . '-'
+          . str_pad((string) $breadcrumb_index, 3, '0', STR_PAD_LEFT);
+        $parent_types[$index] = $type;
+      }
+    }
+    ksort($parent_types);
+    return array_combine($parent_types, $parent_types);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getAllSubTypes(array $types): array {
     if (!isset($this->tree)) {
       $this->tree = [];

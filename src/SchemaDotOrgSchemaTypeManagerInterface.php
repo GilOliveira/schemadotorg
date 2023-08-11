@@ -387,6 +387,17 @@ interface SchemaDotOrgSchemaTypeManagerInterface {
   public function getDataTypes(): array;
 
   /**
+   * Get parent Schema.org types for specified Schema.org type.
+   *
+   * @param string $type
+   *   A Schema.org type.
+   *
+   * @return array
+   *   An array parent Schema.org types for the specified Schema.org type.
+   */
+  public function getParentTypes(string $type): array;
+
+  /**
    * Gets all Schema.org subtypes below specified Schema.org types.
    *
    * @param array $types

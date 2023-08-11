@@ -289,6 +289,20 @@ class SchemaDotOrgSchemaTypeManagerTest extends SchemaDotOrgKernelTestBase {
     $actual_data_types = $this->schemaTypeManager->getDataTypes();
     $this->assertEquals($expected_data_types, $actual_data_types);
 
+    // Check getting parent Schema.org types for specified Schema.org type.
+    $expected_parent_types = [
+      'Thing' => 'Thing',
+      'Organization' => 'Organization',
+      'Place' => 'Place',
+      'LocalBusiness' => 'LocalBusiness',
+      'MedicalOrganization' => 'MedicalOrganization',
+      'CivicStructure' => 'CivicStructure',
+      'EmergencyService' => 'EmergencyService',
+      'Hospital' => 'Hospital',
+    ];
+    $actual_parent_types = $this->schemaTypeManager->getParentTypes('Hospital');
+    $this->assertEquals($expected_parent_types, $actual_parent_types);
+
     // Check getting all Schema.org subtypes below specified Schema.org types.
     $expected_all_sub_types = [
       'Person' => 'Person',

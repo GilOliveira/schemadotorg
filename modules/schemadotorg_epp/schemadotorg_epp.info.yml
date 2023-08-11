@@ -1,0 +1,9 @@
+name: 'Schema.org Blueprints Entity Prepopulate'
+type: module
+description: 'Configures and manages entity prepopulation for Schema.org relationships (i.e. entity references).'
+package: Schema.org Blueprints Fields
+core_version_requirement: '^9.4 || ^10.0'
+configure: schemadotorg.settings.properties
+dependencies:
+  - 'epp:epp'
+  - 'schemadotorg:schemadotorg'

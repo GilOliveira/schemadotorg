@@ -4,14 +4,8 @@ declare(strict_types = 1);
 
 namespace Drupal\schemadotorg_devel\Commands;
 
-use Consolidation\AnnotatedCommand\CommandData;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ExtensionPathResolver;
 use Drupal\Core\Extension\ModuleExtensionList;
-use Drupal\schemadotorg\SchemaDotOrgConfigManagerInterface;
-use Drupal\schemadotorg\SchemaDotOrgEntityRelationshipManagerInterface;
-use Drupal\schemadotorg\SchemaDotOrgInstallerInterface;
-use Drupal\schemadotorg\SchemaDotOrgMappingManagerInterface;
 use Drush\Commands\DrushCommands;
 use Drush\Exceptions\UserAbortException;
 
@@ -22,12 +16,10 @@ class SchemaDotOrgDevelCommands extends DrushCommands {
 
   /**
    * Constructs a SchemaDotOrgDevelCommands object.
-   *
    */
   public function __construct(
     protected ModuleExtensionList $moduleExtensionList,
     protected ExtensionPathResolver $extensionPathResolver
-
   ) {}
 
   /**
