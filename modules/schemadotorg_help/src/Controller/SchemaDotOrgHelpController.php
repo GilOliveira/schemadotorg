@@ -147,7 +147,15 @@ class SchemaDotOrgHelpController extends ControllerBase {
     }
 
     if ($name === 'schemadotorg') {
-      $build['modules'] = $this->buildModules();
+      $build['modules'] = [
+        'title' => [
+          '#markup' => $this->t('Modules'),
+          '#prefix' => '<h2>',
+          '#suffix' => '</h2>',
+        ],
+        'packages' => $this->buildModules(),
+      ];
+
     }
 
     return $build;
@@ -193,6 +201,11 @@ class SchemaDotOrgHelpController extends ControllerBase {
         'title' => $this->t('Schema.org Blueprints - Full Demo'),
         'content' => $this->t('This extended presentation walks through the background, configuration, and future of the Schema.org Blueprints module. It provides an in-depth demo of building an entire website architecture that leverages Schema.org type, properties, and enumerations in 5 minutes.'),
         'youtube_id' => '_kk97O1SEw0',
+      ],
+      [
+        'title' => $this->t('Schema.org Blueprints Organization Starter Kit'),
+        'content' => $this->t("The Schema.org Blueprints Starter Kit: Organization module provides a starting point for building out an Organization's content and information model using Schema.org."),
+        'youtube_id' => 'cEJ6pfpBACQ',
       ],
       [
         'title' => $this->t('Schemadotorg Blueprints - Exploration'),
@@ -317,19 +330,28 @@ class SchemaDotOrgHelpController extends ControllerBase {
       ],
     ];
 
-    $rows = [];
+    $build = [];
     foreach ($modules as $module_name => $module_info) {
       $package = $module_info['package'];
-      if (!isset($rows[$package])) {
-        $rows[$package][] = [
-          'data' => ['#markup' => $package],
-          'colspan' => 4,
-          'header' => TRUE,
+      // Skip test modules.
+      if ($package === 'Schema.org Blueprints Test') {
+        continue;
+      }
+
+      // Build package details widget.
+      if (!isset($build[$package])) {
+        $build[$package] = [
+          '#type' => 'details',
+          '#title' => $package,
+          '#open' => TRUE,
+          'table' => [
+            '#type' => 'table',
+            '#header' => $header,
+          ]
         ];
       }
 
       $row = [];
-
       if ($this->moduleHandler->moduleExists($module_name)) {
         $row['title'] = [
           'data' => [
@@ -400,23 +422,10 @@ class SchemaDotOrgHelpController extends ControllerBase {
         $row['configuration'] = [];
       }
 
-      $rows["$package-$module_name"] = $row;
+      $build[$package]['table']['#rows'][$module_name] = $row;
     }
-    ksort($rows);
 
-    return [
-      'header' => [
-        '#markup' => $this->t('Schema.org Blueprints modules'),
-        '#prefix' => '<h2>',
-        '#suffix' => '</h2>',
-      ],
-      'packages' => [
-        '#type' => 'table',
-        '#header' => $header,
-        '#rows' => $rows,
-        '#sticky' => TRUE,
-      ],
-    ];
+    return $build;
   }
 
   /**

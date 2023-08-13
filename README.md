@@ -66,18 +66,13 @@ Configuration
 
 - Configure 'Schema.org Blueprints' administer permission.  
   (/admin/people/permissions/module/schemadotorg)
-
 - Review Schema.org types configuration.  
   (/admin/config/search/schemadotorg/settings/types)
-
 - Review Schema.org properties configuration.  
   (/admin/config/search/schemadotorg/settings/properties)
-
 - Review Schema.org naming conventions configuration.  
   (/admin/config/search/schemadotorg/settings/names)
-
 - Review Schema.org mappings.  
   (/admin/config/search/schemadotorg)
-
 - Review Schema.org mapping types.  
   (/admin/config/search/schemadotorg/types)
