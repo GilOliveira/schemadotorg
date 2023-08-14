@@ -154,8 +154,8 @@ class SchemaDotOrgHelpController extends ControllerBase {
           '#suffix' => '</h2>',
         ],
         'packages' => $this->buildModules(),
+        'command' => $this->buildDrushCommand(),
       ];
-
     }
 
     return $build;
@@ -296,6 +296,52 @@ class SchemaDotOrgHelpController extends ControllerBase {
     ];
   }
 
+
+
+
+  /**
+   * Build a list of Schema.org Blueprints drush commands to enable sub-modules.
+   *
+   * @return array
+   *   A renderable array containing a list of Schema.org Blueprints drush
+   *   commands to enable sub-modules.
+   */
+  protected function buildDrushCommand(): array {
+    // Get all Schema.org packages.
+    $packages = [];
+    foreach ($this->moduleExtensionList->getAllAvailableInfo() as $info) {
+      if (str_starts_with($info['package'], 'Schema.org Blueprints')) {
+        $packages[$info['package']] = $info['package'];
+      }
+    }
+    ksort($packages);
+    $packages = ['Schema.org Blueprints Core' => 'Schema.org Blueprints Core'] + $packages;
+
+    $commands = [];
+    $commands[] = '# Install all Schema.org Blueprints modules.';
+    $commands[] = 'drush pm-list --format=list | grep schemadotorg | xargs drush install -y';
+    $commands[] = '';
+    $commands[] = '------------------------------------------------------------------------------------------';
+    $commands[] = '';
+    foreach ($packages as $package) {
+      $commands[] = "# Install $package modules.";
+      $commands[] = "drush pm-list --format=list --package='$package' | xargs drush install -y";
+      $commands[] = '';
+    }
+
+    return [
+      '#type' => 'details',
+      '#title' => $this->t('Drush commands'),
+      '#description' => $this->t('Use the below Drush commands to install all or a package of Schema.org Blueprints modules.'),
+      '#open' => TRUE,
+      'commands' => [
+        '#plain_text' => implode(PHP_EOL, $commands),
+        '#prefix' => '<pre>',
+        '#suffix' => '</pre>',
+        ],
+      ];
+  }
+
   /**
    * Build a list of Schema.org Blueprints sub-modules.
    *
@@ -347,7 +393,7 @@ class SchemaDotOrgHelpController extends ControllerBase {
           'table' => [
             '#type' => 'table',
             '#header' => $header,
-          ]
+          ],
         ];
       }
 
