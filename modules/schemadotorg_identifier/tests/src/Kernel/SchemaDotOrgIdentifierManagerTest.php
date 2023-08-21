@@ -71,12 +71,12 @@ class SchemaDotOrgIdentifierManagerTest extends SchemaDotOrgKernelEntityTestBase
     /* ********************************************************************** */
 
     // Check that the identifier fields are created when a mapping is inserted.
-    $this->assertNull(FieldConfig::loadByName('node', 'med_business', 'uuid'));
-    $this->assertNull(FieldConfig::loadByName('node', 'med_business', 'schema_identifier_uuid'));
-    $this->assertNotNull(FieldConfig::loadByName('node', 'med_business', 'schema_identifier_npi'));
+    $this->assertNull(FieldConfig::loadByName('node', 'medical_business', 'uuid'));
+    $this->assertNull(FieldConfig::loadByName('node', 'medical_business', 'schema_identifier_uuid'));
+    $this->assertNotNull(FieldConfig::loadByName('node', 'medical_business', 'schema_identifier_npi'));
 
     // Check that the identifier field group is created via the form display.
-    $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'med_business', 'default');
+    $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'medical_business', 'default');
     $component = $form_display->getComponent('schema_identifier_npi');
     $this->assertEquals('string_textfield', $component['type']);
     $field_group = $form_display->getThirdPartySettings('field_group');
@@ -85,7 +85,7 @@ class SchemaDotOrgIdentifierManagerTest extends SchemaDotOrgKernelEntityTestBase
     $this->assertEquals('details', $field_group['group_identifiers']['format_type']);
 
     // Check that the identifier field group is created via the view display.
-    $view_display = $this->entityDisplayRepository->getViewDisplay('node', 'med_business', 'default');
+    $view_display = $this->entityDisplayRepository->getViewDisplay('node', 'medical_business', 'default');
     $component = $view_display->getComponent('schema_identifier_npi');
     $this->assertEquals('string', $component['type']);
     $field_group = $view_display->getThirdPartySettings('field_group');
@@ -94,7 +94,7 @@ class SchemaDotOrgIdentifierManagerTest extends SchemaDotOrgKernelEntityTestBase
     $this->assertEquals('fieldset', $field_group['group_identifiers']['format_type']);
 
     // Check identifier field definitions for a Schema.org mapping.
-    $mapping = SchemaDotOrgMapping::load('node.med_business');
+    $mapping = SchemaDotOrgMapping::load('node.medical_business');
     $expected_field_definitions = [
       'npi' => [
         'property_id' => 'npi',

@@ -50,7 +50,7 @@ class SchemaDotOrgIdentifierJsonApiTest extends SchemaDotOrgJsonApiKernelTestBas
 
     // Check that JSON:API resource was created for Thing.
     /** @var \Drupal\jsonapi_extras\Entity\JsonapiResourceConfig $resource */
-    $resource = $this->resourceStorage->load('node--med_business');
+    $resource = $this->resourceStorage->load('node--medical_business');
     $resource_fields = $resource->get('resourceFields');
     $expected_result = [
       'disabled' => FALSE,

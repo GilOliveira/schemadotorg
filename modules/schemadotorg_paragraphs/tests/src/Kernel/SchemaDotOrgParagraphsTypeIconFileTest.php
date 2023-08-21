@@ -61,10 +61,10 @@ class SchemaDotOrgParagraphsTypeIconFileTest extends SchemaDotOrgKernelEntityTes
     // Check that icon file is assigned to med_* paragraph type.
     $this->createSchemaEntity('paragraph', 'MedicalAudience');
     /** @var \Drupal\paragraphs\ParagraphsTypeInterface $paragraphs_type */
-    $paragraphs_type = ParagraphsType::load('med_audience');
+    $paragraphs_type = ParagraphsType::load('medical_audience');
     $this->assertNotNull($paragraphs_type->getIconFile());
     $this->assertEquals(
-      'public://paragraphs_type_icon/med.svg',
+      'public://paragraphs_type_icon/medical.svg',
       $paragraphs_type->getIconFile()->getFileUri()
     );
   }
