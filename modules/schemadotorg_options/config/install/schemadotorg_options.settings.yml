@@ -17,18 +17,6 @@ property_allowed_values:
     MD: 'M.D.'
     PHD: 'PhD'
     MSCSW: 'MSCSW'
-  suitableForDiet:
-    DiabeticDiet: Diabetic
-    GlutenFreeDiet: 'Gluten Free'
-    HalalDiet: Halal
-    HinduDiet: Hindu
-    KosherDiet: Kosher
-    LowCalorieDiet: 'Low Calorie'
-    LowFatDiet: 'Low Fat'
-    LowLactoseDiet: 'Low Lactose'
-    LowSaltDiet: 'Low Salt'
-    VeganDiet: Vegan
-    VegetarianDiet: Vegetarian
   dosageForm:
     Aerosol: Aerosol
     Bead: Bead
@@ -93,4 +81,7 @@ property_allowed_values:
     Tincture: Tincture
     Troche: Troche
     Wafer: Wafer
+property_allowed_values_suffixes:
+  suitableForDiet: Diet
+  hasHealthAspect: 'Health Aspect'
 

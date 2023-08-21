@@ -17,6 +17,8 @@ Features
 --------
 
 - Defines allowed values for Schema.org properties.
+- Removes allowed values suffix for Schema.org properties. 
+  (i.e. Removes 'Diet' suffix from https://schema.org/RestrictedDiet allowed values)
 - Defines range includes https://schema.org/Enumeration for Schema.org properties.
 - Convert https://schema.org/Enumeration into allowed values.
 - Auto assigns allowed value function for Schema.properties range includes.

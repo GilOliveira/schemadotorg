@@ -106,6 +106,16 @@ function schemadotorg_options_schemadotorg_property_field_alter(
       $allowed_values += $schema_type_manager->getTypeChildrenAsOptions($range_include);
     }
   }
+
+  // Remove allowed values suffixes based on the Schema.org property.
+  $property_allowed_values_suffix = \Drupal::config('schemadotorg_options.settings')
+    ->get("property_allowed_values_suffixes.$schema_property");
+  if ($property_allowed_values_suffix) {
+    foreach ($allowed_values as $value => $text) {
+      $allowed_values[$value] = str_replace(' ' . $property_allowed_values_suffix, '', $text);
+    }
+  }
+
   if (isset($allowed_values)) {
     $field_storage_values['settings'] = [
       'allowed_values' => $allowed_values,
@@ -130,6 +140,14 @@ function schemadotorg_options_form_schemadotorg_properties_settings_form_alter(a
     '#settings_format' => 'propertyName|option01:Option 1,option02:Options 2',
     '#title' => t('Schema.org property allowed values'),
     '#description' => t('Enter Schema.org properties with allowed values.'),
+    '#description_link' => 'properties',
+  ];
+  $form['schemadotorg_options']['property_allowed_values_suffix'] = [
+    '#type' => 'schemadotorg_settings',
+    '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
+    '#settings_format' => 'propertyName:suffix',
+    '#title' => t('Schema.org property allowed values suffixes'),
+    '#description' => t('Enter Schema.org properties with allowed values suffixes that should be removed..'),
     '#description_link' => 'properties',
   ];
 }
