@@ -63,9 +63,6 @@
       "drupal/inline_entity_form": {
         "Issue #3364996: Parent form entity builders run on IEF resulting in fatal errors": "https://www.drupal.org/files/issues/2023-07-18/3364996-7.patch"
       },
-      "drupal/inline_entity_form": {
-        "Issue #3364996: Parent form entity builders run on IEF resulting in fatal errors": "https://www.drupal.org/files/issues/2023-07-18/3364996-7.patch"
-      },
       "drupal/paragraphs": {
         "Issue #3067265: Paragraph templates: unable to access parent-node tokens from child-paragraphs in the default installed setup": "https://git.drupalcode.org/project/paragraphs/-/merge_requests/28.diff"
       }

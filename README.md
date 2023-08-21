@@ -60,6 +60,42 @@ Installation
 Install the Schema.org Blueprints module as you would normally
 [install a contributed Drupal module](https://www.drupal.org/node/1897420).
 
+Use the included composer.libraries.json file to quickly install ALL 
+sub-module dependencies.
+
+As your Schema.org Blueprints project evolves, you may want to copy and adjust
+the dependencies from the composer.libraries.json file into your project's
+root composer.json.
+
+Below is an example of what must be added to your projects composer.json file
+to include Schema.org Blueprints dependencies. Adjust it to match the location 
+of your contrib modules directory.
+
+
+```
+{
+    "minimum-stability": "dev",
+    "require": {
+        "schemadotorg/schemadotorg/": "~1.0",
+        "wikimedia/composer-merge-plugin": "^2.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "cweagans/composer-patches": true,
+            "wikimedia/composer-merge-plugin": true
+        },
+    },
+    "extra": {
+        "merge-plugin": {
+            "include": [
+                "web/modules/contrib/schemadotorg/composer.libraries.json",
+            ],
+            "merge-extra": true,
+            "merge-extra-deep": true
+        }
+    }
+}
+```
 
 Configuration
 -------------
