@@ -4,6 +4,7 @@ Table of contents
 * Introduction
 * Features
 * Configuration
+* References
 
 
 Introduction
@@ -25,6 +26,8 @@ Features
   and allowed values.
 - Adds custom 'subtype' mapping to Schema.org mapping properties.
 - Alters the Schema.org mapping list builder and adds a 'Subtype' column.
+- Replaces @type in JSON-LD for valid subtypes or uses the subtype value
+  as the https://schema.org/additionalType.
 
 
 Configuration
@@ -37,3 +40,9 @@ Configuration
 - Enter default label used for subtype fields.
 - Enter the default description used for subtype fields.
 - Enter Schema.org types that support subtyping by default.
+
+
+References
+----------
+
+- [How to use additionalType and sameAs to link to Wikipedia](https://support.schemaapp.com/support/solutions/articles/33000277321-how-to-use-additionaltype-and-sameas-to-link-to-wikipedia)

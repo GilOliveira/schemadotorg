@@ -756,7 +756,6 @@ schema_properties:
     - acquireLicensePage
     - actionableFeedbackPolicy
     - additionalProperty
-    - additionalType
     - answerCount
     - assesses
     - branchCode
@@ -867,6 +866,8 @@ schema_properties:
     actor:
       label: Actors
       unlimited: true
+    additionalType:
+      type: string
     affectedBy:
       unlimited: true
     affiliation:
