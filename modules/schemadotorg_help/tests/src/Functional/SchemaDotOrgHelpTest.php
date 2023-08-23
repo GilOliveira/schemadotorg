@@ -41,7 +41,7 @@ class SchemaDotOrgHelpTest extends SchemaDotOrgBrowserTestBase {
 
     // Check help topic navigation.
     $this->drupalGet('/admin/help/schemadotorg/schemadotorg_help');
-    $assert_session->responseContains('<div class="dropbutton-wrapper"><div class="dropbutton-widget"><ul class="dropbutton"><li><a href="' . $base_path . 'admin/help/schemadotorg/schemadotorg">Learn more about the Schema.org Blueprints modules</a></li><li><a href="' . $base_path . 'admin/help/schemadotorg/schemadotorg_diagram">Diagram</a></li><li><a href="' . $base_path . 'admin/help/schemadotorg/schemadotorg_help">Help</a></li></ul></div></div>');
+    $assert_session->responseContains('<div class="dropbutton-wrapper" data-drupal-ajax-container><div class="dropbutton-widget"><ul class="dropbutton"><li><a href="' . $base_path . 'admin/help/schemadotorg/schemadotorg">Learn more about the Schema.org Blueprints modules</a></li><li><a href="' . $base_path . 'admin/help/schemadotorg/schemadotorg_diagram">Diagram</a></li><li><a href="' . $base_path . 'admin/help/schemadotorg/schemadotorg_help">Help</a></li></ul></div></div>');
     $assert_session->responseContains('&nbsp; or &nbsp;');
     $assert_session->responseContains('<a href="' . $base_path . 'admin/help/schemadotorg/videos" class="use-ajax button button--small button--extrasmall" data-dialog-type="modal" data-dialog-options="{&quot;width&quot;:800}">► Watch videos</a>');
 

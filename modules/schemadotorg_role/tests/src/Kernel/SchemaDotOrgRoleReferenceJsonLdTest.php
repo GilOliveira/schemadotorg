@@ -24,7 +24,6 @@ class SchemaDotOrgRoleReferenceJsonLdTest extends SchemaDotOrgKernelEntityTestBa
   protected static $modules = [
     'schemadotorg_jsonld',
     'schemadotorg_role',
-    'entity_reference',
     'entity_reference_override',
   ];
 

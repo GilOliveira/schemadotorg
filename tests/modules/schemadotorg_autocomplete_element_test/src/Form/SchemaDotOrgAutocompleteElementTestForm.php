@@ -67,13 +67,13 @@ class SchemaDotOrgAutocompleteElementTestForm extends FormBase {
     $form['schemadotorg_autocomplete_action_path'] = [
       '#type' => 'schemadotorg_autocomplete',
       '#title' => $this->t('Schema.org action path'),
-      '#description' => 'https://schema.org/',
+      '#description' => $this->t('https://schema.org/'),
       '#action' => 'https://schema.org/',
     ];
     $form['schemadotorg_autocomplete_action_query'] = [
       '#type' => 'schemadotorg_autocomplete',
       '#title' => $this->t('Schema.org action query'),
-      '#description' => 'https://schema.org/docs/search_results.html?q=',
+      '#description' => $this->t('https://schema.org/docs/search_results.html?q='),
       '#action' => 'https://schema.org/docs/search_results.html?q=',
     ];
     $form['submit'] = [

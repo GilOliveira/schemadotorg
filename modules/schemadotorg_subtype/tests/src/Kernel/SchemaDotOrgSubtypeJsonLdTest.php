@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\Tests\schemadotorg_subtype\Kernel;
 
-use Drupal\filter\Entity\FilterFormat;
 use Drupal\node\Entity\Node;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 
@@ -70,7 +69,7 @@ class SchemaDotOrgSubtypeJsonLdTest extends SchemaDotOrgKernelEntityTestBase {
     $caregiver_node = Node::create([
       'type' => 'person',
       'title' => 'Caregiver',
-      'schema_person_subtype' =>  'Caregiver',
+      'schema_person_subtype' => 'Caregiver',
     ]);
     $caregiver_node->save();
 
@@ -78,7 +77,7 @@ class SchemaDotOrgSubtypeJsonLdTest extends SchemaDotOrgKernelEntityTestBase {
     $expected_result = [
       '@type' => 'Patient',
       '@url' => $patient_node->toUrl()->setAbsolute()->toString(),
-      'name' => 'Patient'
+      'name' => 'Patient',
     ];
     $this->assertEquals($expected_result, $this->builder->buildEntity($patient_node));
 
@@ -88,7 +87,7 @@ class SchemaDotOrgSubtypeJsonLdTest extends SchemaDotOrgKernelEntityTestBase {
       '@type' => 'Person',
       '@url' => $caregiver_node->toUrl()->setAbsolute()->toString(),
       'name' => 'Caregiver',
-      'additionalType' => 'Caregiver'
+      'additionalType' => 'Caregiver',
     ];
     $this->assertEquals($expected_result, $this->builder->buildEntity($caregiver_node));
 
