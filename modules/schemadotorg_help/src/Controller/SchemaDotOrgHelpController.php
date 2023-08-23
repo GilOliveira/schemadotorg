@@ -296,9 +296,6 @@ class SchemaDotOrgHelpController extends ControllerBase {
     ];
   }
 
-
-
-
   /**
    * Build a list of Schema.org Blueprints drush commands to enable sub-modules.
    *
@@ -338,8 +335,8 @@ class SchemaDotOrgHelpController extends ControllerBase {
         '#plain_text' => implode(PHP_EOL, $commands),
         '#prefix' => '<pre>',
         '#suffix' => '</pre>',
-        ],
-      ];
+      ],
+    ];
   }
 
   /**

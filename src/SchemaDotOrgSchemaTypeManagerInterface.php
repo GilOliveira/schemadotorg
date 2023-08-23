@@ -12,6 +12,16 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 interface SchemaDotOrgSchemaTypeManagerInterface {
 
   /**
+   * Schema.org type.
+   */
+  const SCHEMA_TYPES = 'types';
+
+  /**
+   * Schema.org property.
+   */
+  const SCHEMA_PROPERTIES = 'properties';
+
+  /**
    * The Schema.org base URI.
    */
   const URI = 'https://schema.org/';
