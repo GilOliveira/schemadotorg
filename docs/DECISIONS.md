@@ -56,6 +56,13 @@ Schema.org Blueprints Architecture Decisions Records (ADRs)
 
 0000 - Use contributed modules and configuration before writing custom code 
 
+0000 - During Alpha releases only support the latest stable release of Drupal core.
+- TBD What versions of Drupal core should be supported.
+
+0000 - Always use patch files uploaded to issues on Drupal.org. 
+- Do NOT use an MR's diff as a patch because contents may change.
+- @see https://www.drupal.org/docs/develop/git/using-gitlab-to-contribute-to-drupal/downloading-a-patch-file
+
 
 # 3000- Schema.org
 

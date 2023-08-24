@@ -955,6 +955,9 @@ schema_properties:
     contactPoint:
       label: 'Contact points'
       unlimited: true
+    containsPlace:
+      label: 'Contains places'
+      unlimited: true
     containsSeason:
       label: Seasons
       unlimited: true
