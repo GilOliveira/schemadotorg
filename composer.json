@@ -19,18 +19,17 @@
     "extra": {
         "drush": {
             "services": {
-                "drush.services.yml": "^10 || ^11"
+                "drush.services.yml": "^11"
             }
         }
     },
     "require": {
-        "drupal/core": "^9.4 || ^10.0",
-        "php": "^8.1"
+        "drupal/core": "^10.1"
     },
     "require-dev": {
         "drupal/address": "^1.0",
         "drupal/auto_entitylabel": "^3.0",
-        "drupal/allowed_formats": "^2.0",
+        "drupal/allowed_formats": "^3.0",
         "drupal/cer": "^5.0",
         "drupal/config_rewrite": "^1.0",
         "drupal/ckeditor": "^1.0",

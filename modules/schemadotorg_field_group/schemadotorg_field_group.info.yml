@@ -2,7 +2,7 @@ name: 'Schema.org Blueprints Field Group'
 type: module
 description: 'Creates field groups in entity view and form displays when Schema.org properties are mapping to a field.'
 package: Schema.org Blueprints Fields
-core_version_requirement: '^9.4 || ^10.0'
+core_version_requirement: '^10.1'
 configure: schemadotorg.settings.properties
 dependencies:
   - 'field_group:field_group'

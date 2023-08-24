@@ -2,7 +2,7 @@ name: 'Schema.org Blueprints Starter Kit: Test Dependency'
 type: module
 description: 'Support module for Schema.org Blueprints Start Kit dependency testing.'
 package: Schema.org Blueprints Test
-core_version_requirement: '^9.4 || ^10.0'
+core_version_requirement: '^10.1'
 hidden: true
 dependencies:
   - 'schemadotorg:schemadotorg_starterkit'

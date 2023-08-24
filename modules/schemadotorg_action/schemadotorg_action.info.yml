@@ -2,7 +2,7 @@ name: 'Schema.org Blueprints Action'
 type: module
 description: 'Provides support for https:://schema.org/Action using a call to action paragraph type.'
 package: Schema.org Blueprints Paragraphs
-core_version_requirement: '^9.4 || ^10.0'
+core_version_requirement: '^10.1'
 configure: schemadotorg.settings.types
 dependencies:
   - 'drupal:field'

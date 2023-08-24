@@ -2,7 +2,7 @@ name: 'Schema.org Blueprints Scheduler'
 type: module
 description: 'Automatically enables scheduling for Schema.org types as they are created.'
 package: Schema.org Blueprints Other
-core_version_requirement: '^9.4 || ^10.0'
+core_version_requirement: '^10.1'
 configure: schemadotorg.settings.types
 dependencies:
   - 'drupal:scheduler'

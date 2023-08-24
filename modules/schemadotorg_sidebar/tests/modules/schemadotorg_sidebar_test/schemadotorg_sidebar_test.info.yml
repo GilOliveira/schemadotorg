@@ -2,7 +2,7 @@ name: 'Schema.org Blueprints Sidebar test'
 type: module
 description: 'Support module for Schema.org Blueprints Sidebar testing.'
 package: Schema.org Blueprints Test
-core_version_requirement: '^9.4 || ^10.0'
+core_version_requirement: '^10.1'
 dependencies:
   - 'drupal:text'
   - 'config_rewrite:config_rewrite'

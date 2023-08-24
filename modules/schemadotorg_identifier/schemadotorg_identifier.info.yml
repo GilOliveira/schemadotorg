@@ -2,7 +2,7 @@ name: 'Schema.org Blueprints Identifier'
 type: module
 description: 'Manages identifiers (https://schema.org/identifier) for Schema.org types.'
 package: Schema.org Blueprints Core
-core_version_requirement: '^9.4 || ^10.0'
+core_version_requirement: '^10.1'
 configure: schemadotorg.settings.properties
 dependencies:
   - 'schemadotorg:schemadotorg'

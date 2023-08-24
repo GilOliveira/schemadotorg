@@ -2,7 +2,7 @@ name: 'Schema.org Blueprints Editorial'
 type: module
 description: 'Adds an ''Editorial information'' paragraph to the sidebar on node edit forms.'
 package: Schema.org Blueprints Other
-core_version_requirement: '^9.4 || ^10.0'
+core_version_requirement: '^10.1'
 dependencies:
   - 'drupal:datetime'
   - 'drupal:field'

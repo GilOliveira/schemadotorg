@@ -2,7 +2,7 @@ name: 'Schema.org Blueprints Corresponding Entity References'
 type: module
 description: 'Improves https://inverseOf support using the Corresponding Entity References module.'
 package: Schema.org Blueprints Fields
-core_version_requirement: '^9.4 || ^10.0'
+core_version_requirement: '^10.1'
 configure: schemadotorg.settings.properties
 dependencies:
   - 'cer:cer'

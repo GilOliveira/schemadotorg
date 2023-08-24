@@ -2,7 +2,7 @@ name: 'Schema.org Blueprints Taxonomy'
 type: module
 description: 'Assists with creating and mapping taxonomy vocabularies and terms.'
 package: Schema.org Blueprints Core
-core_version_requirement: '^9.4 || ^10.0'
+core_version_requirement: '^10.1'
 configure: schemadotorg.settings.properties
 dependencies:
   - 'drupal:taxonomy'

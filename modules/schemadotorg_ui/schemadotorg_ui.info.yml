@@ -2,7 +2,7 @@ name: Schema.org Blueprints UI
 type: module
 description: Allows administrators to attach custom Schema.org properties to fieldable types.
 package: Schema.org Blueprints Core
-core_version_requirement: '^9.4 || ^10.0'
+core_version_requirement: '^10.1'
 configure: entity.schemadotorg_mapping.collection
 dependencies:
   - 'drupal:field_ui'
