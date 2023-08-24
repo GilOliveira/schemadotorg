@@ -193,8 +193,9 @@ Schema.org Blueprints Architecture Decisions Records (ADRs)
 - [Dashboards with Layout Builder](https://www.drupal.org/project/dashboards) for providing customizable dashboards to users
 - [Environment Indicator](https://www.drupal.org/project/environment_indicator) for displaying the current environment to administrators
 - [Type Tray](https://www.drupal.org/project/type_tray) for improving the 'Add content' UI/UX
+- [Login Destination](https://www.drupal.org/project/login_destination) redirect authenticated users to the appropriate dashboard.
 
-0000 - For Demo: Use scheduling and content moderation modules as needed
+- 0000 - For Demo: Use scheduling and content moderation modules as needed
 - [Moderation Dashboard](https://www.drupal.org/project/moderation_dashboard) for providing a moderation state dashboard
 - [Moderation Sidebar](https://www.drupal.org/project/moderation_sidebar) for quick access to an entity's moderation state
 - [Revision Log Default](https://www.drupal.org/project/revision_log_default) for providing default log messages
