@@ -186,7 +186,7 @@ Schema.org Blueprints Architecture Decisions Records (ADRs)
 - [DropzoneJS](https://www.drupal.org/project/dropzonejs) for drag-n-drop file uploads
 - [Multiple Fields Remove Button](https://www.drupal.org/project/multiple_fields_remove_button) for removing multiple field values
 - [Node Edit Protection](https://www.drupal.org/project/node_edit_protection) for preventing editors from losing data
-- [Same Page Preview](https://www.drupal.org/project/same_page_preview) to allows editors to preview changes on the same page.
+- [Same Page Preview](https://www.drupal.org/project/same_page_preview) to allows editors to preview changes on the same page
 
 0000 - For Demo: Use administration improvement modules as needed.
 - [Admin Toolbar Language Switcher](https://www.drupal.org/project/toolbar_language_switcher) for switching languages via the Gin Admin theme
@@ -194,9 +194,9 @@ Schema.org Blueprints Architecture Decisions Records (ADRs)
 - [Dashboards with Layout Builder](https://www.drupal.org/project/dashboards) for providing customizable dashboards to users
 - [Environment Indicator](https://www.drupal.org/project/environment_indicator) for displaying the current environment to administrators
 - [Type Tray](https://www.drupal.org/project/type_tray) for improving the 'Add content' UI/UX
-- [Login Destination](https://www.drupal.org/project/login_destination) redirect authenticated users to the appropriate dashboard.
+- [Login Destination](https://www.drupal.org/project/login_destination) redirect authenticated users to the appropriate dashboard
 
-- 0000 - For Demo: Use scheduling and content moderation modules as needed
+0000 - For Demo: Use scheduling and content moderation modules as needed
 - [Moderation Dashboard](https://www.drupal.org/project/moderation_dashboard) for providing a moderation state dashboard
 - [Moderation Sidebar](https://www.drupal.org/project/moderation_sidebar) for quick access to an entity's moderation state
 - [Revision Log Default](https://www.drupal.org/project/revision_log_default) for providing default log messages

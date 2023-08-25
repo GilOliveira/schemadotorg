@@ -107,6 +107,12 @@ class SchemaDotOrgHelpController extends ControllerBase {
     if (class_exists('\Michelf\Markdown')) {
       // phpcs:ignore Drupal.Classes.FullyQualifiedNamespace.UseStatementMissing
       $markup = \Michelf\Markdown::defaultTransform($contents);
+
+      // Convert <p><code> to <pre> tag.
+      $markup = str_replace('<p><code>', '<pre>', $markup);
+      $markup = str_replace('</code></p>', '</pre>', $markup);
+
+      // Add base path to hrefs.
       $markup = preg_replace('#\(/(admin/.*?)\)#', '(<a href="' . $base_path . '$1">/$1</a>)', $markup);
 
       // Create fake filter object with settings.
