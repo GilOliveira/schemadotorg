@@ -186,6 +186,7 @@ Schema.org Blueprints Architecture Decisions Records (ADRs)
 - [DropzoneJS](https://www.drupal.org/project/dropzonejs) for drag-n-drop file uploads
 - [Multiple Fields Remove Button](https://www.drupal.org/project/multiple_fields_remove_button) for removing multiple field values
 - [Node Edit Protection](https://www.drupal.org/project/node_edit_protection) for preventing editors from losing data
+- [Same Page Preview](https://www.drupal.org/project/same_page_preview) to allows editors to preview changes on the same page.
 
 0000 - For Demo: Use administration improvement modules as needed.
 - [Admin Toolbar Language Switcher](https://www.drupal.org/project/toolbar_language_switcher) for switching languages via the Gin Admin theme
