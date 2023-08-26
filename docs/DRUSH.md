@@ -32,7 +32,6 @@ drush pm-list --format=list | grep schemadotorg | xargs drush install -y
 # Install Schema.org Blueprints Core modules.
 drush pm-list --format=list --package='Schema.org Blueprints Core' | xargs drush install -y
 
-
 # List JSON:API and JSON-LD modules.
 drush pm:list --package='Schema.org Blueprints API';
 

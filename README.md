@@ -96,6 +96,20 @@ of your contrib modules directory.
 }
 ```
 
+View a diff of the changes in [install/composer.example.json](install/composer.example.json)
+
+- [install/composer.example.json.txt](install/composer.example.json.txt)
+- [install/composer.example.json.html](install/composer.example.json.html)
+
+To understand and enable Schema.org Blueprints sub-mdoules
+enable the Schema.org Blueprints Help module and go to (/admin/help)
+
+Use the below Drush command to enable all sub-modules
+
+```
+drush pm-list --format=list | grep schemadotorg | xargs drush install -y
+```
+
 
 Configuration
 -------------
