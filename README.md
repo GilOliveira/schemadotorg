@@ -71,7 +71,6 @@ Below is an example of what must be added to your projects composer.json file
 to include Schema.org Blueprints dependencies. Adjust it to match the location 
 of your contrib modules directory.
 
-
 ```
 {
     "minimum-stability": "dev",
@@ -96,6 +95,7 @@ of your contrib modules directory.
     }
 }
 ```
+
 
 Configuration
 -------------
