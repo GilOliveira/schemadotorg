@@ -142,7 +142,7 @@ function schemadotorg_options_form_schemadotorg_properties_settings_form_alter(a
     '#description' => t('Enter Schema.org properties with allowed values.'),
     '#description_link' => 'properties',
   ];
-  $form['schemadotorg_options']['property_allowed_values_suffix'] = [
+  $form['schemadotorg_options']['property_allowed_values_suffixes'] = [
     '#type' => 'schemadotorg_settings',
     '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE,
     '#settings_format' => 'propertyName:suffix',

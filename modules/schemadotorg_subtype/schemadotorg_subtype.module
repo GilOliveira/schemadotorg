@@ -312,7 +312,7 @@ function schemadotorg_subtype_form_schemadotorg_types_settings_form_alter(array 
   $form['schemadotorg_subtype']['default_allowed_values'] = [
     '#type' => 'schemadotorg_settings',
     '#settings_type' => SchemaDotOrgSettings::ASSOCIATIVE_GROUPED,
-    '#settings_format' => 'SchemaType|prSchemaSubtype01:Subtype 01,SchemaSubtype02:Subtype 02,SchemaSubtype03:Subtype 03',
+    '#settings_format' => 'SchemaType|SchemaSubtype01:Subtype 01,SchemaSubtype02:Subtype 02,SchemaSubtype03:Subtype 03',
     '#title' => t('Schema.org default subtypes allowed values'),
     '#description' => t('Enter default subtype allowed values for Schema.org types.')
       . ' '
