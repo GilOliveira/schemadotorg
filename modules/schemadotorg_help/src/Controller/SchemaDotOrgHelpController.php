@@ -179,6 +179,11 @@ class SchemaDotOrgHelpController extends ControllerBase {
         'youtube_id' => 'Yo6Vw-s1FtM',
       ],
       [
+        'title' => $this->t('Schema.org Blueprints Installation & Setup'),
+        'content' => $this->t("This presentation walks-through installing and setting up the Schema.org Blueprints module."),
+        'youtube_id' => 'Dludw8Eomh4',
+      ],
+      [
         'title' => $this->t('Schema.org Blueprints module in 7 minutes'),
         'content' => $this->t('A presentation and demo of the Schema.org Blueprints for Drupal in 7 minutes.'),
         'youtube_id' => 'KzNFAEfbFNw',

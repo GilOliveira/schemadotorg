@@ -22,7 +22,7 @@ class SchemadotorgStarterkitController extends ControllerBase {
   protected $moduleList;
 
   /**
-   * The Schema.org starterkit manager service.
+   * The Schema.org starter kit manager service.
    *
    * @var \Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitManagerInterface
    */
@@ -151,21 +151,21 @@ class SchemadotorgStarterkitController extends ControllerBase {
   }
 
   /**
-   * Get a starterkit's operations based on its status.
+   * Get a starter kit's operations based on its status.
    *
    * @param string $module_name
-   *   The name of the starterkit.
+   *   The name of the starter kit.
    * @param array $options
    *   An array of route options.
    *
    * @return array
-   *   A starterkit's operations based on its status.
+   *   A starter kit's operations based on its status.
    */
   protected function getOperations(string $module_name, array $options = []): array {
     $operations = [];
     if (!$this->moduleHandler()->moduleExists($module_name)) {
       if ($this->currentUser()->hasPermission('administer modules')) {
-        $operations['install'] = $this->t('Install starterkit');
+        $operations['install'] = $this->t('Install starter kit');
       }
     }
     elseif ($this->moduleHandler()->moduleExists('devel_generate')) {

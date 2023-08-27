@@ -107,20 +107,20 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
   }
 
   /**
-   * Install a Schema.org starterkit.
+   * Install a Schema.org starter kit.
    *
    * @param string $module
-   *   A Schema.org starterkit module name.
+   *   A Schema.org starter kit module name.
    */
   public function install(string $module): void {
     $this->moduleInstaller->install([$module]);
   }
 
   /**
-   * Generate a Schema.org starterkit's content.
+   * Generate a Schema.org starter kit's content.
    *
    * @param string $module
-   *   A Schema.org starterkit module name.
+   *   A Schema.org starter kit module name.
    */
   public function generate(string $module): void {
     $settings = $this->getStarterkitSettings($module);
@@ -129,10 +129,10 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
   }
 
   /**
-   * Kill a Schema.org starterkit's content.
+   * Kill a Schema.org starter kit's content.
    *
    * @param string $module
-   *   A Schema.org starterkit module name.
+   *   A Schema.org starter kit module name.
    */
   public function kill(string $module): void {
     $settings = $this->getStarterkitSettings($module);
@@ -175,7 +175,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
       }
     }
 
-    // Repair configuration if the starterkit has written any
+    // Repair configuration if the starter kit has written any
     // schemadotorg* configuration.
     // @see https://www.drupal.org/project/config_rewrite/issues/3152228
     if ($has_schema_config_rewrite) {
@@ -232,7 +232,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
   }
 
   /**
-   * Set up a starterkit  module based on the module's settings.
+   * Set up a starter kit  module based on the module's settings.
    *
    * @param string $module
    *   A module.

@@ -9,7 +9,7 @@ schemadotorg_starterkit.overview:
 schemadotorg_starterkit.confirm_form:
   path: '/admin/config/search/schemadotorg/starterkits/{name}/{operation}'
   defaults:
-    _title: 'Schema.org starterkit confirm'
+    _title: 'Schema.org starter kit confirm'
     _form: 'Drupal\schemadotorg_starterkit\Form\SchemaDotOrgStarterkitConfirmForm'
   requirements:
     _permission: 'administer schemadotorg'

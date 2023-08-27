@@ -7,7 +7,7 @@ namespace Drupal\Tests\starterkit\Kernel;
 use Drupal\Tests\schemadotorg\Kernel\SchemaDotOrgKernelEntityTestBase;
 
 /**
- * Tests the functionality of the Schema.org starterkit manager.
+ * Tests the functionality of the Schema.org starter kit manager.
  *
  * @covers \Drupal\starterkit\SchemaDotOrgTaxonomyPropertyVocabularyManagerTest;
  * @group schemadotorg
@@ -33,7 +33,7 @@ class SchemaDotOrgStarterkitManagerTest extends SchemaDotOrgKernelEntityTestBase
   protected $entityTypeManager;
 
   /**
-   * The Schema.org starterkit manager service.
+   * The Schema.org starter kit manager service.
    *
    * @var \Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitManagerInterface
    */
@@ -53,7 +53,7 @@ class SchemaDotOrgStarterkitManagerTest extends SchemaDotOrgKernelEntityTestBase
   }
 
   /**
-   * Test Schema.org starterkit manager.
+   * Test Schema.org starter kit manager.
    */
   public function testManager(): void {
     // Check determining if a module is Schema.org Blueprints Starter Kit.
@@ -65,10 +65,10 @@ class SchemaDotOrgStarterkitManagerTest extends SchemaDotOrgKernelEntityTestBase
     $starterkits = $this->schemaStarterkitManager->getStarterkits();
     $this->assertArrayHasKey('schemadotorg_starterkit_test', $starterkits);
 
-    // Check getting a Schema.org starterkit's module info.
+    // Check getting a Schema.org starter kit's module info.
     $this->assertIsArray($this->schemaStarterkitManager->getStarterkit('schemadotorg_starterkit_test'));
 
-    // Check getting a module's Schema.org Blueprints starterkit settings.
+    // Check getting a module's Schema.org Blueprints starter kit settings.
     $settings = $this->schemaStarterkitManager->getStarterkitSettings('schemadotorg_starterkit_test');
     $this->assertEquals('Something', $settings['types']['node:Thing']['entity']['label']);
     $this->assertEquals('_add_', $settings['types']['node:Thing']['properties']['name']['name']);

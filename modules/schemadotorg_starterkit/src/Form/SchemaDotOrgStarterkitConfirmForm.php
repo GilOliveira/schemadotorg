@@ -61,7 +61,7 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
   protected $schemaMappingManager;
 
   /**
-   * The Schema.org starterkitmanager service.
+   * The Schema.org starter kitmanager service.
    *
    * @var \Drupal\schemadotorg_starterkit\SchemaDotOrgStarterkitManagerInterface
    */
@@ -97,7 +97,7 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
       '@action' => $this->getAction(),
       '%name' => $this->getLabel(),
     ];
-    return $this->t("Are you sure you want to @action the %name starterkit?", $t_args);
+    return $this->t("Are you sure you want to @action the %name starter kit?", $t_args);
   }
 
   /**
@@ -108,7 +108,7 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
       '@action' => $this->getAction(),
       '%name' => $this->getLabel(),
     ];
-    return $this->t('Please confirm that you want @action the %name starterkit.', $t_args);
+    return $this->t('Please confirm that you want @action the %name starter kit.', $t_args);
   }
 
   /**
@@ -119,14 +119,14 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
   }
 
   /**
-   * The starterkitname.
+   * The starter kitname.
    *
    * @var string
    */
   protected $name;
 
   /**
-   * The starterkitoperation to be performed.
+   * The starter kitoperation to be performed.
    *
    * @var string
    */
@@ -216,7 +216,7 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
         '@action' => $operations[$this->operation],
         '%name' => $this->getLabel(),
       ];
-      $this->messenger()->addStatus($this->t('The %name starterkit has been @action.', $t_args));
+      $this->messenger()->addStatus($this->t('The %name starter kit has been @action.', $t_args));
     }
     catch (\Exception $exception) {
       // Display a custom message.
@@ -224,19 +224,19 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
         '@action' => $operations[$this->operation],
         '%name' => $this->getLabel(),
       ];
-      $this->messenger()->addStatus($this->t('The %name starterkit has failed to be @action.', $t_args));
+      $this->messenger()->addStatus($this->t('The %name starter kit has failed to be @action.', $t_args));
       $this->messenger->addError($exception->getMessage());
     }
 
-    // Redirect to the starterkit manage page.
+    // Redirect to the starter kit manage page.
     $form_state->setRedirectUrl($this->getCancelUrl());
   }
 
   /**
-   * Get the current starterkit's label.
+   * Get the current starter kit's label.
    *
    * @return string
-   *   The current starterkit's label.
+   *   The current starter kit's label.
    */
   protected function getLabel(): string {
     $starterkit = $this->schemaStarterkitManager->getStarterkit($this->name);
@@ -247,10 +247,10 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
   }
 
   /**
-   * Get the current starterkit's action.
+   * Get the current starter kit's action.
    *
    * @return string
-   *   The current starterkit's action.
+   *   The current starter kit's action.
    */
   protected function getAction(): TranslatableMarkup {
     $is_installed = $this->moduleHandler->moduleExists($this->name);
@@ -271,20 +271,20 @@ class SchemaDotOrgStarterkitConfirmForm extends ConfirmFormBase {
   }
 
   /**
-   * Get the current starterkit's name.
+   * Get the current starter kit's name.
    *
    * @return string
-   *   the current starterkit's name.
+   *   the current starter kit's name.
    */
   public function getName(): string {
     return $this->name;
   }
 
   /**
-   * Get the current starterkit's operation.
+   * Get the current starter kit's operation.
    *
    * @return string
-   *   the current starterkit's operation.
+   *   the current starter kit's operation.
    */
   public function getOperation(): string {
     return $this->operation;

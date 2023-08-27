@@ -18,12 +18,12 @@ starterkits to create Schema.org types.
 Features
 --------
 
-- Allows a starterkit/module to change Schema.org configuration before any
+- Allows a starter kit/module to change Schema.org configuration before any
   Schema.org types are created.
-- Allows a starterkit/module to declare what Schema.org types are required
+- Allows a starter kit/module to declare what Schema.org types are required
   preinstallation.
 - Post module installation, re-imports optional configuration and rewrites 
-  configuration via the config_rewrite.module. This allows a starterkit
+  configuration via the config_rewrite.module. This allows a starter kit
   via `hook_install()` to create additional configuration settings.
 - Provide adminstrative page to install starter kits and generate/kill content. 
 
@@ -49,7 +49,7 @@ Notes
    Schema.org Blueprints module configuration._
 - Creates Schema.org types via *.schemadotorg_starterkit.yml
 - Rewrites existing and newly created configuration.
-- Imports starterkit's optional configuration.  
+- Imports starter kit's optional configuration.  
 
 ### Install
 

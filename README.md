@@ -67,6 +67,10 @@ As your Schema.org Blueprints project evolves, you may want to copy and adjust
 the dependencies from the composer.libraries.json file into your project's
 root composer.json.
 
+[Watch how to install and setup the Schema.org Blueprints module](https://www.youtube.com/watch?v=Dludw8Eomh4)
+
+---
+
 Below is an example of what must be added to your projects composer.json file
 to include Schema.org Blueprints dependencies. Adjust it to match the location 
 of your contrib modules directory.

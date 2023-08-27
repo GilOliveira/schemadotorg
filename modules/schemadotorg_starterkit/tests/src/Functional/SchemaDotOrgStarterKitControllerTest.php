@@ -21,13 +21,13 @@ class SchemaDotOrgStarterKitControllerTest extends SchemaDotOrgBrowserTestBase {
   protected static $modules = ['schemadotorg_starterkit'];
 
   /**
-   * Test Schema.org starterkit controller.
+   * Test Schema.org starter kit controller.
    */
   public function testController(): void {
     $assert_session = $this->assertSession();
     $this->drupalLogin($this->drupalCreateUser(['administer schemadotorg']));
 
-    // Check missing starterkit missing a dependency.
+    // Check missing starter kit missing a dependency.
     $this->drupalGet('/admin/config/search/schemadotorg/starterkits');
     $assert_session->responseContains(' <td><ul><li>missing_dependency <em>(Missing)</em></li></ul></td>');
   }
