@@ -63,7 +63,7 @@
       once('schemadotorg-details-toggle', 'body form', context)
         .forEach(() => {
           const helpRegion = document.querySelector('.region-help');
-          if (!helpRegion) {
+          if (!helpRegion || helpRegion.querySelector('.schemadotorg-details-toggle')) {
             return;
           }
 
