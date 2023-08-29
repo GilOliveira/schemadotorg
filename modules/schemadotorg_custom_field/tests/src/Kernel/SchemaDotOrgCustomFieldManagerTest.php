@@ -203,7 +203,7 @@ class SchemaDotOrgCustomFieldManagerTest extends SchemaDotOrgKernelEntityTestBas
           'suffix' => '',
         ],
       ],
-      'check_empty' => '1',
+      'check_empty' => FALSE,
       'weight' => 0,
     ];
     $this->assertEquals($expected_settings_serving_size, $settings['field_settings']['serving_size']);
@@ -222,7 +222,7 @@ class SchemaDotOrgCustomFieldManagerTest extends SchemaDotOrgKernelEntityTestBas
         ],
       ],
       'formatter_settings' => ['prefix_suffix' => TRUE],
-      'check_empty' => '1',
+      'check_empty' => FALSE,
       'weight' => 1,
     ];
     $this->assertEquals($expected_settings_calories, $settings['field_settings']['calories']);
@@ -251,7 +251,7 @@ class SchemaDotOrgCustomFieldManagerTest extends SchemaDotOrgKernelEntityTestBas
           'required' => FALSE,
         ],
       ],
-      'check_empty' => '1',
+      'check_empty' => FALSE,
       'weight' => 0,
     ];
     $this->assertEquals($expected_settings_serving_size, $settings['field_settings']['name']);

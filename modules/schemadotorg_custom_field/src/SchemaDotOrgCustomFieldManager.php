@@ -131,7 +131,7 @@ class SchemaDotOrgCustomFieldManager implements SchemaDotOrgCustomFieldManagerIn
             'description' => $description,
           ] + $default_widget_settings['settings'],
         ],
-        'check_empty' => '1',
+        'check_empty' => FALSE,
         'weight' => $weight,
       ];
       $unit = $this->schemaTypeManager->getPropertyUnit($schema_property);
