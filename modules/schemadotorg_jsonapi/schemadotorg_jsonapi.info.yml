@@ -4,6 +4,7 @@ description: 'Builds on top of the JSON:API and JSON:API extras modules to apply
 package: Schema.org Blueprints API
 core_version_requirement: '^10.1'
 configure: schemadotorg_jsonapi.settings
+schemadotorg_production: false
 dependencies:
   - 'jsonapi_extras:jsonapi_extras'
   - 'schemadotorg:schemadotorg'

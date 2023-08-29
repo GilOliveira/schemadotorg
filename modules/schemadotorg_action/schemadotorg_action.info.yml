@@ -4,6 +4,7 @@ description: 'Provides support for https:://schema.org/Action using a call to ac
 package: Schema.org Blueprints Paragraphs
 core_version_requirement: '^10.1'
 configure: schemadotorg.settings.types
+schemadotorg_production: true
 dependencies:
   - 'drupal:field'
   - 'drupal:image'

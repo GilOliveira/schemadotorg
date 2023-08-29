@@ -4,6 +4,7 @@ description: 'Automatically enables scheduling for Schema.org types as they are 
 package: Schema.org Blueprints Other
 core_version_requirement: '^10.1'
 configure: schemadotorg.settings.types
+schemadotorg_production: true
 dependencies:
   - 'drupal:scheduler'
   - 'schemadotorg:schemadotorg'

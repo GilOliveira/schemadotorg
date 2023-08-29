@@ -311,18 +311,40 @@ class SchemaDotOrgHelpController extends ControllerBase {
    * Build a list of Schema.org Blueprints drush commands to enable sub-modules.
    *
    * @return array
-   *   A renderable array containing a list of Schema.org Blueprints drush
-   *   commands to enable sub-modules.
+   *   A renderable array containing a list of Schema.org Blueprints
+   *   Drush commands to enable sub-modules.
    */
   protected function buildDrushCommand(): array {
-    // Get all Schema.org packages.
+    // Get all Schema.org Blueprint packages and modules.
     $packages = [];
-    foreach ($this->moduleExtensionList->getAllAvailableInfo() as $info) {
-      if (str_starts_with($info['package'], 'Schema.org Blueprints')) {
-        $packages[$info['package']] = $info['package'];
+    $production_modules = [];
+    $development_modules = [];
+    foreach ($this->moduleExtensionList->getAllAvailableInfo() as $module_name => $module_info) {
+      $package = $module_info['package'];
+
+      // Skip test modules and none schemadotorg modules.
+      if ($package === 'Schema.org Blueprints Test'
+        || str_starts_with($module_name, 'schemadotorg')) {
+        continue;
+      }
+
+      // Collect packages.
+      if (str_starts_with($package, 'Schema.org Blueprints')) {
+        $packages[$package] = $package;
+      }
+
+      // Collect production and development modules.
+      if (!empty($module_info['schemadotorg_production'])) {
+        $production_modules[$module_name] = $module_name;
+      }
+      else {
+        $development_modules[$module_name] = $module_name;
       }
     }
     ksort($packages);
+    ksort($production_modules);
+    ksort($development_modules);
+
     $packages = ['Schema.org Blueprints Core' => 'Schema.org Blueprints Core'] + $packages;
 
     $commands = [];
@@ -336,6 +358,15 @@ class SchemaDotOrgHelpController extends ControllerBase {
       $commands[] = "drush pm-list --format=list --package='$package' | xargs drush install -y";
       $commands[] = '';
     }
+    $commands[] = '------------------------------------------------------------------------------------------';
+    $commands[] = '';
+    $commands[] = "# Install Schema.org Blueprints production modules.";
+    $commands[] = "# The below modules should always be enabled on the production environment.";
+    $commands[] = "drush install -y " . implode('\\' . PHP_EOL . '  ', $production_modules) . ';';
+    $commands[] = '';
+    $commands[] = "# Install Schema.org Blueprints development modules.";
+    $commands[] = "# The below modules should generally be enabled on only development environments.";
+    $commands[] = "drush install -y " . implode('\\' . PHP_EOL . '  ', $development_modules) . ';';
 
     return [
       '#type' => 'details',
@@ -368,14 +399,19 @@ class SchemaDotOrgHelpController extends ControllerBase {
         'width' => '55%',
       ],
       'status' => [
-        'data' => $this->t('Status'),
+        'data' => $this->t('Module status'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
-        'width' => '15%',
+        'width' => '10%',
+      ],
+      'production' => [
+        'data' => $this->t('Recommended for production'),
+        'class' => [RESPONSIVE_PRIORITY_LOW],
+        'width' => '10%',
       ],
       'jsonld' => [
         'data' => $this->t('JSON-LD integration'),
         'class' => [RESPONSIVE_PRIORITY_LOW],
-        'width' => '15%',
+        'width' => '10%',
       ],
       'configuration' => [
         'data' => $this->t('Configuration'),
@@ -434,7 +470,9 @@ class SchemaDotOrgHelpController extends ControllerBase {
         ];
         $row['status'] = '';
       }
-
+      $row['production'] = (empty($module_info['schemadotorg_production']))
+        ? ''
+        : $this->t('Yes');
       $path = $this->moduleExtensionList->getPath($module_name);
       if (!str_contains($module_name, '_jsonld')
         && file_exists("$path/$module_name.module")

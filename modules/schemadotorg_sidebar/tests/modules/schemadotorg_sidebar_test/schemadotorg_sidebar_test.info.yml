@@ -3,6 +3,7 @@ type: module
 description: 'Support module for Schema.org Blueprints Sidebar testing.'
 package: Schema.org Blueprints Test
 core_version_requirement: '^10.1'
+schemadotorg_production: false
 dependencies:
   - 'drupal:text'
   - 'config_rewrite:config_rewrite'

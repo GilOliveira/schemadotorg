@@ -4,6 +4,7 @@ description: 'Creates automatic entity label settings for Schema.org types.'
 package: Schema.org Blueprints Fields
 core_version_requirement: '^10.1'
 configure: schemadotorg.settings.types
+schemadotorg_production: false
 dependencies:
   - 'auto_entitylabel:auto_entitylabel'
   - 'schemadotorg:schemadotorg'

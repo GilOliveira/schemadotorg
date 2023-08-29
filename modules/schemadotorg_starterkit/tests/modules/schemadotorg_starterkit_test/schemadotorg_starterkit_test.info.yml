@@ -4,6 +4,7 @@ description: 'Support module for Schema.org Blueprints Start Kit testing.'
 package: Schema.org Blueprints Test
 core_version_requirement: '^10.1'
 hidden: true
+schemadotorg_production: false
 dependencies:
   - 'drupal:user'
   - 'drupal:node'

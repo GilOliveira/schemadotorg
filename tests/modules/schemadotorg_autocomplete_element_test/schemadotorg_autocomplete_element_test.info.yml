@@ -3,5 +3,6 @@ type: module
 description: 'Support module for Schema.org Blueprints Settings element testing.'
 package: Schema.org Blueprints Test
 core_version_requirement: '^10.1'
+schemadotorg_production: false
 dependencies:
   - 'schemadotorg:schemadotorg'

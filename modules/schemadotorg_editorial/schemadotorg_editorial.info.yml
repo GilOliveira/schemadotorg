@@ -3,6 +3,7 @@ type: module
 description: 'Adds an ''Editorial information'' paragraph to the sidebar on node edit forms.'
 package: Schema.org Blueprints Other
 core_version_requirement: '^10.1'
+schemadotorg_production: false
 dependencies:
   - 'drupal:datetime'
   - 'drupal:field'

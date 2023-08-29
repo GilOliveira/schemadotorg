@@ -4,6 +4,7 @@ description: 'Integrates the Media and Media Library module with the Schema.org 
 package: Schema.org Blueprints Core
 core_version_requirement: '^10.1'
 configure: schemadotorg.settings
+schemadotorg_production: false
 dependencies:
   - 'drupal:media'
   - 'schemadotorg:schemadotorg'

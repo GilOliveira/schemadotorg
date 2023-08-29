@@ -4,6 +4,7 @@ description: 'Sets allowed format for Schema.org properties within an entity typ
 package: Schema.org Blueprints Fields
 core_version_requirement: '^10.1'
 configure: schemadotorg.settings.properties
+schemadotorg_production: false
 dependencies:
   - 'allowed_formats:allowed_formats'
   - 'schemadotorg:schemadotorg'

@@ -4,5 +4,6 @@ description: Lets users preview a web page's Schema.org JSON-LD.
 package: Schema.org Blueprints JSON-LD
 core_version_requirement: '^10.1'
 configure: schemadotorg_jsonld.settings
+schemadotorg_production: false
 dependencies:
   - 'schemadotorg:schemadotorg_jsonld'

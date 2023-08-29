@@ -4,5 +4,6 @@ description: Provides the ability to create a set of related Schema.org types vi
 package: Schema.org Blueprints Core
 core_version_requirement: '^10.1'
 configure: schemadotorg_mapping_set.overview
+schemadotorg_production: false
 dependencies:
   - 'schemadotorg:schemadotorg'

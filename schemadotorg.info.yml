@@ -4,6 +4,7 @@ description: 'Uses Schema.org as the blueprint for the content architecture and 
 package: Schema.org Blueprints Core
 core_version_requirement: '^10.1'
 configure: entity.schemadotorg_mapping.collection
+schemadotorg_production: true
 dependencies:
   - 'drupal:node'
   - 'drupal:user'

@@ -4,6 +4,7 @@ description: Allows administrators to attach custom Schema.org properties to fie
 package: Schema.org Blueprints Core
 core_version_requirement: '^10.1'
 configure: entity.schemadotorg_mapping.collection
+schemadotorg_production: false
 dependencies:
   - 'drupal:field_ui'
   - 'schemadotorg:schemadotorg'

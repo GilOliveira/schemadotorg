@@ -4,6 +4,7 @@ description: 'Automatically adds a metatag field to Schema.org types.'
 package: Schema.org Blueprints Other
 core_version_requirement: '^10.1'
 configure: schemadotorg.settings.types
+schemadotorg_production: false
 dependencies:
   - 'metatag:metatag'
   - 'schemadotorg:schemadotorg'

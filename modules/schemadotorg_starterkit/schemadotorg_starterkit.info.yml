@@ -3,5 +3,6 @@ type: module
 description: Provides an API for starter kits to create Schema.org types.
 package: Schema.org Blueprints Starter Kit
 core_version_requirement: '^10.1'
+schemadotorg_production: false
 dependencies:
   - 'schemadotorg:schemadotorg'

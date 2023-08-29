@@ -4,5 +4,6 @@ description: 'Subtypes allow more specificity without having to create dedicated
 package: Schema.org Blueprints Core
 core_version_requirement: '^10.1'
 configure: schemadotorg.settings
+schemadotorg_production: true
 dependencies:
   - 'schemadotorg:schemadotorg'

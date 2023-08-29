@@ -3,6 +3,7 @@ type: module
 description: 'Provides a dedicated help section for the Schema.org Blueprints module and submodules.'
 package: Schema.org Blueprints Core
 core_version_requirement: '^10.1'
+schemadotorg_production: false
 dependencies:
   - 'drupal:help'
   - 'schemadotorg:schemadotorg'

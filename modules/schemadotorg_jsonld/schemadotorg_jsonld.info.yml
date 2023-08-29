@@ -4,5 +4,6 @@ description: 'Builds and adds Schema.org structured data as JSON-LD in the head 
 package: Schema.org Blueprints JSON-LD
 core_version_requirement: '^10.1'
 configure: schemadotorg_jsonld.settings
+schemadotorg_production: true
 dependencies:
   - 'schemadotorg:schemadotorg'

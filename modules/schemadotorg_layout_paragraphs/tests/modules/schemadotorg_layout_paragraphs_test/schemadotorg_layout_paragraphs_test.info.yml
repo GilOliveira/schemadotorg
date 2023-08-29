@@ -2,6 +2,7 @@ name: 'Schema.org Blueprints Layout Paragraphs test'
 type: module
 description: 'Support module for the Schema.org Blueprints Layout Paragraphs module tests.'
 package: Testing
+schemadotorg_production: false
 dependencies:
  - 'drupal:file'
  - 'drupal:image'

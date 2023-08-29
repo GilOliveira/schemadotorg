@@ -4,5 +4,6 @@ description: 'Provides a report for browsing Schema.org types, properties, and n
 package: Schema.org Blueprints Core
 core_version_requirement: '^10.1'
 configure: schemadotorg_report
+schemadotorg_production: false
 dependencies:
   - 'schemadotorg:schemadotorg'

@@ -4,5 +4,6 @@ description: 'Sets entity type and field descriptions to their corresponding Sch
 package: Schema.org Blueprints Core
 core_version_requirement: '^10.1'
 configure: schemadotorg.settings.general
+schemadotorg_production: false
 dependencies:
   - 'schemadotorg:schemadotorg'

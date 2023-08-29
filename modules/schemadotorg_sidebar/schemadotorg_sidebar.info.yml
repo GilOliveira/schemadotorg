@@ -4,6 +4,7 @@ description: 'Adds paragraph types to the sidebar on node edit forms.'
 package: Schema.org Blueprints Other
 core_version_requirement: '^10.1'
 configure: schemadotorg.settings.types
+schemadotorg_production: false
 dependencies:
   - 'field_group:field_group'
   - 'inline_entity_form:inline_entity_form'

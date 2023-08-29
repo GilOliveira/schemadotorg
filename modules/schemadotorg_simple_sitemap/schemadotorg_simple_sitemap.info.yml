@@ -3,6 +3,7 @@ type: module
 description: 'Automatically adds Schema.org types to sitemap.xml.'
 package: Schema.org Blueprints Other
 core_version_requirement: '^10.1'
+schemadotorg_production: false
 dependencies:
   - 'simple_sitemap:simple_sitemap'
   - 'schemadotorg:schemadotorg'

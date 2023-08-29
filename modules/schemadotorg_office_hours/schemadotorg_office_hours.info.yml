@@ -3,6 +3,7 @@ type: module
 description: Allows an Office hours field to be used to create https://schema.org/OpeningHoursSpecification.
 package: Schema.org Blueprints Fields
 core_version_requirement: '^10.1'
+schemadotorg_production: true
 dependencies:
   - 'schemadotorg:schemadotorg'
   - 'office_hours:office_hours'
