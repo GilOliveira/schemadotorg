@@ -44,7 +44,7 @@ Notes
 
 - Generate focal point image styles assume that the front-end framework will
   further optimize the image.
-- Drupal with focal point is  only used for image cropping
+- Drupal with focal point is only used for image cropping
 - Original images should be horizontal with minimum width of 1600 pixels.
 
 

@@ -16,4 +16,4 @@ schemadotorg_options.settings:
       label: 'Schema.org property allowed values suffixes'
       sequence:
         type: text
-        label: 'Schema.org property  allowed values suffix'
+        label: 'Schema.org property allowed values suffix'

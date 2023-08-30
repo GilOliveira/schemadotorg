@@ -98,7 +98,7 @@ Tips
 
 - Explicitly include any Schema.org properties that are required.
 - Generally, you want to add include additional Schema.org properties 
-  and not excluded any  Schema.org properties. 
+  and not excluded any Schema.org properties. 
 
 
 Todo

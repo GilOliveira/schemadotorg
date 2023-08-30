@@ -96,7 +96,7 @@
             setButtonLabel();
           });
 
-          // Prepend the  toggle details button to the help region.
+          // Prepend the toggle details button to the help region.
           helpRegion.prepend(button);
 
           /**

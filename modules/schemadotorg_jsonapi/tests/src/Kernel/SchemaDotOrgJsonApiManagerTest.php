@@ -138,7 +138,7 @@ class SchemaDotOrgJsonApiManagerTest extends SchemaDotOrgJsonApiKernelTestBase {
       ->setSchemaPropertyMapping('schema_description', 'description')
       ->save();
 
-    // Check that new Schema.org field is now added to the  JSON:API resource.
+    // Check that new Schema.org field is now added to the JSON:API resource.
     $resource = $this->loadResource('node--thing');
     $resource_fields = $resource->get('resourceFields');
     $this->assertArrayHasKey('schema_description', $resource_fields);

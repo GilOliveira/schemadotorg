@@ -71,7 +71,7 @@ class SchemaDotOrgAllowedFormatsTest extends SchemaDotOrgKernelEntityTestBase {
     $text_field = FieldConfig::loadByName('node', 'page', 'body');
     $this->assertEquals(['full_html'], $text_field->getSetting('allowed_formats'));
 
-    // Checking setting  hide help and hide guidelines.
+    // Checking setting hide help and hide guidelines.
     $form_display = $this->entityDisplayRepository->getFormDisplay('node', 'page');
     $form_component = $form_display->getComponent('body');
     $expected_values = [

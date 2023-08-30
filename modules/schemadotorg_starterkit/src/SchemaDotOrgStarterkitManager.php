@@ -232,7 +232,7 @@ class SchemaDotOrgStarterkitManager implements SchemaDotOrgStarterkitManagerInte
   }
 
   /**
-   * Set up a starter kit  module based on the module's settings.
+   * Set up a starter kit module based on the module's settings.
    *
    * @param string $module
    *   A module.

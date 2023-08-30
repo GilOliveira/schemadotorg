@@ -10,7 +10,7 @@ namespace Drupal\schemadotorg_layout_paragraphs;
 interface SchemaDotOrgLayoutParagraphsInstallerInterface {
 
   /**
-   * Install and  generate paragraphs types.
+   * Install and generate paragraphs types.
    */
   public function install(): void;
 

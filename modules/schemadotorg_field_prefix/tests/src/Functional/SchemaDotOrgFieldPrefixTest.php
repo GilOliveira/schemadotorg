@@ -86,7 +86,7 @@ class SchemaDotOrgFieldPrefixTest extends SchemaDotOrgBrowserTestBase {
     $this->submitForm($edit, 'Save and continue');
     $assert_session->responseContains('There was a problem creating field <em class="placeholder">Test</em>: &#039;field_storage_config&#039; entity with ID &#039;node.schema_test&#039; already exists.');
 
-    // Check that clearing the field option remove the  field prefix select menu.
+    // Check that clearing the field option remove the field prefix select menu.
     $this->config('schemadotorg_field_prefix.settings')
       ->set('field_prefix_options', [])
       ->save();

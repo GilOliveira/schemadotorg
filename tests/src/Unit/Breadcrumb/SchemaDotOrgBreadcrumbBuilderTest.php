@@ -110,7 +110,7 @@ class SchemaDotOrgBreadcrumbBuilderTest extends UnitTestCase {
     // Check the breadcrumb cache max-age.
     $this->assertEquals(Cache::PERMANENT, $breadcrumb->getCacheMaxAge());
 
-    // Check the mapping  add breadcrumb links.
+    // Check the mapping add breadcrumb links.
     $route_match = $this->createMock('Drupal\Core\Routing\RouteMatchInterface');
     $route_match->method('getRouteName')->willReturn('entity.schemadotorg_mapping.add_form');
     $breadcrumb = $breadcrumb_builder->build($route_match);

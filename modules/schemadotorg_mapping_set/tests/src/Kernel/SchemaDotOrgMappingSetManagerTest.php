@@ -150,7 +150,7 @@ class SchemaDotOrgMappingSetManagerTest extends SchemaDotOrgKernelEntityTestBase
       'node.person' => 'node.person',
     ], $this->entityTypeManager->getStorage('schemadotorg_mapping')->getQuery()->accessCheck()->execute());
 
-    // Check each types mapping sets  as we are tearing mapping set.
+    // Check each types mapping sets as we are tearing mapping set.
     $mapping_sets = $this->schemaMappingSetManager->getMappingSets('node', 'Person');
     $this->assertCount(2, $mapping_sets);
     $mapping_sets = $this->schemaMappingSetManager->getMappingSets('node', 'Person', TRUE);
